@@ -42,8 +42,8 @@ The validator and `apex-sync` both depend on these rules. Every schema PR must d
 
 ## Anti-Cheating Rules
 
-1. **Adding a non-nullable column is MAJOR.** It breaks inserts from existing producers. If you want a non-nullable column in practice, do it in two steps: MINOR to add it as nullable with a default-populator, then MAJOR in a later release to tighten the constraint.
-2. **Renaming is MAJOR.** Never rename in place. The required pattern is: MINOR to add the new name with the same grain, MINOR to mark the old name `deprecated_in`, MAJOR in a later release to remove it.
+1. **Adding a non-nullable column is MAJOR** (see decision table). It breaks inserts from existing producers. The safer alternative pattern - which stays classified as MAJOR only at the final step - is two phases: MINOR to add the column as nullable with a default-populator, then MAJOR in a later release to tighten the NOT NULL constraint.
+2. **Renaming is MAJOR** (see decision table). Never rename in place. The required safer pattern is three phases: MINOR to add the new name with the same grain, MINOR to mark the old name `deprecated_in`, then MAJOR in a later release to remove the old name.
 3. **Grain refinements that change the grain are MAJOR.** Clarifying prose in the `grain` string without changing what the grain actually *is* is PATCH.
 4. **Core version compatibility.** If `core_version_required` increases by MAJOR, every schema in the edition manifest inherits a MAJOR on its next release.
 
