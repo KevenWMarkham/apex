@@ -1,0 +1,90 @@
+{
+  "edition_code": "RC",
+  "core_version_required": "1.2",
+  "manifest_version": "1.0.0",
+  "last_updated": "2026-04-17",
+  "schemas": [
+    {
+      "code": "MERML",
+      "version": "1.2.0",
+      "domain": "Merchandising",
+      "entity_count": 2,
+      "envelope_required": true,
+      "changelog": [
+        {
+          "version": "1.2.0",
+          "bump": "MINOR",
+          "gate": "ACK_ONLY",
+          "date": "2026-02-18",
+          "author": "rc-maintainers",
+          "rationale": "Dropped a legacy entity but mis-declared as MINOR.",
+          "changes": [
+            { "op": "remove_entity", "target": "LEGACY_PROMO", "detail": "deprecated since 1.0" }
+          ]
+        },
+        {
+          "version": "1.0.0",
+          "bump": "MAJOR",
+          "gate": "HITL",
+          "date": "2026-01-01",
+          "author": "rc-maintainers",
+          "rationale": "Initial GA.",
+          "changes": [
+            { "op": "metadata", "target": "schema", "detail": "initial release" }
+          ]
+        }
+      ],
+      "entities": [
+        { "name": "STORE_INVENTORY_POSITION", "layer": "Silver", "grain": "store x product x timestamp", "primary_key": ["store_id", "product_id", "event_ts"], "scd2": false, "pii_classes": [], "added_in": "1.0.0" },
+        { "name": "MARKDOWN_EVENT", "layer": "Silver", "grain": "product x store x markdown cycle", "primary_key": ["markdown_id"], "scd2": false, "pii_classes": [], "added_in": "1.2.0" }
+      ]
+    },
+    {
+      "code": "SCML",
+      "version": "1.0.0",
+      "domain": "Supply Chain",
+      "entity_count": 2,
+      "envelope_required": true,
+      "changelog": [
+        {
+          "version": "1.0.0",
+          "bump": "MAJOR",
+          "gate": "HITL",
+          "date": "2026-01-01",
+          "author": "rc-maintainers",
+          "rationale": "Initial GA.",
+          "changes": [
+            { "op": "metadata", "target": "schema", "detail": "initial release" }
+          ]
+        }
+      ],
+      "entities": [
+        { "name": "ASN", "layer": "Silver", "grain": "shipment notice", "primary_key": ["asn_id"], "scd2": false, "pii_classes": [], "added_in": "1.0.0" },
+        { "name": "LOT_TRACE", "layer": "Silver", "grain": "lot movement event", "primary_key": ["trace_id"], "scd2": false, "pii_classes": [], "added_in": "1.0.0" }
+      ]
+    },
+    {
+      "code": "CXML",
+      "version": "1.0.0",
+      "domain": "Customer Experience",
+      "entity_count": 1,
+      "envelope_required": true,
+      "changelog": [
+        {
+          "version": "1.0.0",
+          "bump": "MAJOR",
+          "gate": "HITL",
+          "date": "2026-01-01",
+          "author": "rc-maintainers",
+          "rationale": "Initial GA.",
+          "changes": [
+            { "op": "metadata", "target": "schema", "detail": "initial release" }
+          ]
+        }
+      ],
+      "entities": [
+        { "name": "CUSTOMER_TOUCHPOINT", "layer": "Silver", "grain": "customer x channel x timestamp", "primary_key": ["touchpoint_id"], "scd2": false, "pii_classes": ["PII-DIRECT"], "added_in": "1.0.0" }
+      ]
+    }
+  ]
+}
