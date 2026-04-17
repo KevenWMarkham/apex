@@ -5,7 +5,7 @@
   "type": "module",
   "engines": { "node": ">=20" },
   "scripts": {
-    "test": "node --test apex-core/tools/**/*.test.js",
+    "test": "node --test \"apex-core/tools/**/*.test.js\"",
     "validate": "node apex-core/tools/apex-validate.js",
     "sync": "node apex-core/tools/apex-sync.js"
   },

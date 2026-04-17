@@ -1,0 +1,51 @@
+{
+  "contract_version": "1.0",
+  "core_version": "1.2",
+  "last_updated": "2026-04-17",
+  "required_fields": {
+    "edition_code": { "type": "string", "pattern": "^[A-Z]{2,3}$" },
+    "core_version_required": { "type": "semver" },
+    "manifest_version": { "type": "semver" },
+    "schemas": { "type": "array", "min_items": 3, "max_items": 5 }
+  },
+  "schema_entry": {
+    "code":                { "type": "string", "pattern": "^[A-Z]{4,5}(ML|L)$" },
+    "version":             { "type": "semver", "required": true },
+    "domain":              { "type": "string", "required": true },
+    "entity_count":        { "type": "integer", "min": 1 },
+    "entities":            { "type": "array", "items": "entity_entry" },
+    "changelog":           { "type": "array", "items": "change_entry" },
+    "envelope_required":   { "type": "boolean", "default": true }
+  },
+  "entity_entry": {
+    "name":           { "type": "string", "pattern": "^[A-Z_]+$" },
+    "layer":          { "type": "enum", "values": ["Bronze", "Silver", "Gold"] },
+    "grain":          { "type": "string", "required": true },
+    "primary_key":    { "type": "array", "min_items": 1 },
+    "scd2":           { "type": "boolean" },
+    "pii_classes":    { "type": "array" },
+    "added_in":       { "type": "semver" },
+    "deprecated_in":  { "type": "semver", "optional": true }
+  },
+  "change_entry": {
+    "version":     { "type": "semver" },
+    "bump":        { "type": "enum", "values": ["MAJOR", "MINOR", "PATCH"] },
+    "gate":        { "type": "enum", "values": ["HITL", "ACK_ONLY", "ZERO_TOUCH"] },
+    "date":        { "type": "date" },
+    "author":      { "type": "string" },
+    "rationale":   { "type": "string" },
+    "changes":     { "type": "array", "items": "change_delta" }
+  },
+  "change_delta": {
+    "op": {
+      "type": "enum",
+      "values": [
+        "add_entity", "remove_entity", "rename_entity",
+        "add_column", "remove_column", "change_type",
+        "change_pk", "change_grain", "metadata"
+      ]
+    },
+    "target": { "type": "string" },
+    "detail": { "type": "string" }
+  }
+}
