@@ -16,7 +16,17 @@ export function classifyBump(changes) {
   let level = 'PATCH';
   for (const c of changes) {
     if (MAJOR_OPS.has(c.op)) return 'MAJOR';
-    if (MINOR_OPS.has(c.op)) level = 'MINOR';
+    if (c.op === 'add_column') {
+      // Anti-cheat rule 1: non-nullable additions are MAJOR.
+      if (isNonNullable(c.detail)) return 'MAJOR';
+      level = 'MINOR';
+    } else if (MINOR_OPS.has(c.op)) {
+      level = 'MINOR';
+    }
   }
   return level;
+}
+
+function isNonNullable(detail = '') {
+  return /\bNOT\s+NULL\b/i.test(detail);
 }
