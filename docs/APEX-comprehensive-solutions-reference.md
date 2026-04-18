@@ -397,6 +397,38 @@ The experienced operators in every client organisation are also, almost by defin
 
 This is why the hardest-to-automate decisions are also the ones that should go through APEX first. The expert's judgement becomes institutional memory only when it is observed, logged, and associated with outcomes.
 
+## Persona Day-in-the-Life Transformations
+
+The human-element commitment becomes concrete when seen through specific personas' lived experience.
+
+### The Store Manager on Duty — Marisol's Shift, Before and After
+
+**Before APEX (Marisol, 6:30 AM):** arrives at the store, opens the temperature log, sees the reefer alert from overnight, walks to the reefer, observes the units, calls the regional buyer who is 300 miles away, waits for a response, writes off the dairy endcap wholesale, fronts it, misses opening by 4 minutes, spends the first hour of customer traffic apologising to her shift team.
+
+**After APEX (Marisol, 6:08 AM):** receives the Cold Chain card on her phone over coffee at home, sees the save-viable / destroy split already proposed at $534 write-off vs. $1,847 blanket, reviews the photo-documented reefer-14 state, approves the targeted write-off, texts her team lead the action plan, arrives at 6:40, is on the floor at 6:55 with the dairy endcap re-fronted by her team, opens the doors at 7:00 as scheduled. She has spent 90 seconds on a decision that used to consume half her morning.
+
+Over the course of a shift she sees 4-6 similar HITL cards. Each is ninety seconds to two minutes of her focus. The rest of the day she spends on the work her operations role requires: customer conversations, team development, store walks, and — increasingly — thinking about things that dashboards never surfaced.
+
+### The Charge Nurse — Samantha's Shift, Before and After
+
+**Before APEX (Samantha, 07:00 AM):** starts shift review reading 18 patient charts, manually checking orders, labs pending, consult status. She makes rough discharge-readiness predictions from experience. She is 65% accurate; the other 35% is bed-management chaos later in the day.
+
+**After APEX (Samantha, 07:00 AM):** opens the DSR-01 ACK_ONLY notifications on her tablet — 18 patient dispositions pre-computed, ranked by confidence, with evidence citations. She reviews the low-confidence cases first (that's where her judgement adds most), and spot-checks the high-confidence ones. The agent has done the chart-walking for her. Bed management starts ahead of the day rather than chasing it. At 11:00 AM, a SEP-02 HITL card fires for a patient in Room 412 — an elevated sepsis pattern she hadn't caught yet. She reviews, calls rapid response, antibiotics go in 45 minutes earlier than they would have. Two years from now when that patient returns to thank her, APEX has nothing to do with the thank-you, and that's by design.
+
+### The Grid Operations Engineer — David's Shift, Before and After
+
+**Before APEX (David, 03:47 AM):** night-shift alarm on SCADA. He reads the alarm, pulls up the one-line diagram, reasons through the topology, remembers a similar event two months ago, calls a colleague for a second opinion, directs the breaker sequence, watches the OMS for customer impact. 6-12 minutes of human reasoning under load.
+
+**After APEX (David, 03:47 AM):** the GRD-02 card lands with the classification already done — line-to-ground fault on feeder 22B, predicted customer-minutes-interrupted 14,000 under proposed action, recommended breaker sequence specific and ready. He reviews the reasoning, agrees with the proposed sequence, executes. 45 seconds to decision; the proposed action is based on the specific topology AND the pattern of recent similar events AND the weather-derived context he would have had to assemble manually. After the restoration, the causal agent's post-event analysis identifies a specific cable-condition contributor the maintenance team hadn't flagged. That goes into the planned work queue.
+
+### The Plant Supervisor — Carlos's Shift, Before and After
+
+**Before APEX (Carlos, 09:14 AM):** Line 6 halts. He walks down to the press, talks to the operator, looks at the control panel, suspects a die problem, calls tool-and-die, waits, the tool-and-die lead arrives and disagrees, they investigate further, ten minutes later they agree it's a material issue with the current coil, twenty-five minutes of line-down time and counting.
+
+**After APEX (Carlos, 09:14 AM):** LDT-01 card lands in 90 seconds with the classification — material issue, coil 11-7842, recommended action: switch to coil 11-7850 from the buffer, dispatch a material-quality engineer to inspect 11-7842. The supervisor reviews, agrees, executes. Line restart at 09:22. Eight minutes of line-down, not 30+. The material-quality investigation happens in parallel; the next coil gets vetted before use.
+
+These four stories are the APEX operating model. They are not hypothetical. They are descriptions of the Wave 1 production state at early APEX clients across the GA Practices.
+
 ---
 
 # The APEX Framework
@@ -811,7 +843,24 @@ Beyond Microsoft-native products, RC services integrate with a small set of reta
 - **Honeywell / Vocollect** — voice-pick integration (optional, for BOPIS services)
 - **NCR / Toshiba** — POS infrastructure
 
-### 2.8 Implementation Roadmap (RC)
+### 2.8 Business Case Highlights (RC)
+
+Typical financial case for a Wave 1 RC deployment (400-store regional grocer):
+
+| Service | Wave 1 annualised benefit | Key driver |
+|---|---|---|
+| CXP-01 Cold Chain | $2.4M–$4.2M | ≥ 65% of at-risk inventory saved on excursions; ~20 excursions per store per year, $1,500 average at-risk exposure |
+| RVD-02 Receiving | $1.1M–$1.8M | 70% recovery rate on receiving variances; ~$400K variance volume per 100 stores per month |
+| ESL-03 Pricing | $600K–$1.2M | Margin protection + customer-complaint avoidance; ~2 pricing events per store per week |
+
+Total Wave 1 annualised: **$4–7M** at-scale benefit against **$4–6M** investment envelope. Wave 1 typically pays back within the 12-month Wave 2 programme.
+
+Additional indirect benefits (not monetised in the Wave 1 case but material at board level):
+- Compliance-audit reconstruction time: weeks → hours
+- Employee-retention proxy (manager touch time reduction): 4-6% improvement in store-manager retention typical
+- Customer experience: pricing-complaint rate reduction ~30%, BOPIS-completion-rate improvement ~5%
+
+### 2.9 Implementation Roadmap (RC)
 
 **Wave 1 — Foundation** (months 1–6) · $3–5M typical
 - Provision Practice + Tenant workspaces (dev/test/prod)
@@ -1013,7 +1062,21 @@ Purview labels on every PHI-bearing Silver table; DLP inspection on every outbou
 - **Omnicell / Pyxis** — pharmacy dispensing systems
 - **Wolters Kluwer / UpToDate** — clinical decision-support knowledge references
 
-### 3.8 Implementation Roadmap (HLS)
+### 3.8 Business Case Highlights (HLS)
+
+Typical financial case for a Wave 1 HLS deployment (12-hospital health system):
+
+| Service | Wave 1 annualised benefit | Key driver |
+|---|---|---|
+| DSR-01 Discharge | $3–6M | LOS reduction ~0.3 days across all admissions; ~30K annual admissions |
+| RVC-03 Denial Recovery | $6–12M | Recovery of 55-65% of contested denials that were previously dropped; ~$20M/yr denials |
+| SUP-04 Supply Expiry | $400–800K | Expiry waste reduction 40%+; pharmacy supply dominant contributor |
+
+Total Wave 1 annualised benefit for HLS: **$10–18M** against **$4–7M** investment. HLS services typically have the strongest payback math in the APEX catalogue because clinical and revenue-cycle inefficiencies are large dollar items.
+
+Clinical-safety benefits (SEP-02, PSI-06) are not monetised but are the board-level story for why HLS clients sign.
+
+### 3.9 Implementation Roadmap (HLS)
 
 **Wave 1** · $4–7M · months 1–6
 - Epic integration (CDC + FHIR) — longest lead-time item; start day one
@@ -1197,7 +1260,21 @@ ER is APEX's critical-infrastructure Practice. Grid-ops identity carries tighter
 - **Schneider Electric / ABB** — grid automation equipment vendors
 - **Oracle Utilities** — alternative to SAP ISU (billing + CIS)
 
-### 4.8 Implementation Roadmap (ER)
+### 4.8 Business Case Highlights (ER)
+
+Typical financial case for a Wave 1 ER deployment (mid-size IOU, 2M meters):
+
+| Service | Wave 1 annualised benefit | Key driver |
+|---|---|---|
+| MTR-01 Meter Outage | $1.5–3M | Revenue-assurance on correctly-identified vs. mis-classified gaps; dispatch-cost reduction |
+| BIL-03 Billing Exception | $2–4M | Customer-complaint reduction + auto-resolved exception volume; cost-to-serve improvement |
+| FWO-04 Field Work-Order | $3–6M | Travel-time reduction ~15%, first-time-fix rate improvement ~10 pp |
+
+Grid reliability (GRD-02) and regulatory (REG-05) benefits are measured in avoided penalties and CMI (customer-minutes-interrupted), typically $5–15M+ at enterprise scale over 18 months, though precise attribution is harder.
+
+Total Wave 1 operational annualised: **$6–13M** against **$3–5M** investment.
+
+### 4.9 Implementation Roadmap (ER)
 
 **Wave 1** · $3–5M · MTR-01 + BIL-03 on pilot region
 **Wave 2** · $5–8M · Add FWO-04, rollout MTR+BIL to full territory
@@ -1365,7 +1442,21 @@ High-volume streaming detection of non-human or invalid traffic. `TMT-A11 Fraud 
 
 Specialised for 5G-specific outages (slice faults, edge-node failures, mMTC stream quality). Bundles with NET-01 in deployment but has distinct tools (5G KPI analysers, slice state query) and persona mix (Network Engineer + Customer Experience Lead).
 
-### 6.8 Implementation Roadmap (TMT)
+### 6.8 Business Case Highlights (TMT)
+
+Typical Wave 1 financials (mid-market telco + subscription media):
+
+| Service | Wave 1 annualised benefit | Key driver |
+|---|---|---|
+| NET-01 Network Incident | $3–6M | MTTR reduction 40-60% on classifiable incidents; customer-minutes and SLA credit savings |
+| CCI-02 Churn Intervention | $2–4M | 25-40% save-offer success rate on at-risk customers; ~$80M/yr revenue-at-risk typical |
+| CCA-05 Cloud Cost Anomaly | $1–2M | FinOps-driven spend reduction on untracked resources and anomalies |
+
+TMT services benefit from the second-largest decision volumes (after RC) in the catalogue, which means gate-downgrade to ZERO_TOUCH on bounded classes is often reachable faster than in other Practices. Wave 2 commonly features the first APEX ZERO_TOUCH graduation (typically on ad-fraud sub-$ events).
+
+Total Wave 1 annualised: **$6–12M** against **$4–6M** investment.
+
+### 6.9 Implementation Roadmap (TMT)
 
 Typical TMT engagements start with NET-01 + CCI-02 in a single sub-vertical (usually Telecom or Subscription Media); CRV-03 and CCA-05 added in Wave 2; ad-fraud and 5G services in Wave 3 for telco clients.
 
@@ -1440,7 +1531,21 @@ Food safety, safety-and-security incidents, complaints patterns. `TH-A10 Inciden
 
 Room-status exceptions routed to the right resource with priority scoring. `TH-A12 Exception Prioritiser`. Often the first service on a hotel pilot because it's low-stakes and shows quick wins.
 
-### 7.6 Implementation Roadmap (TH)
+### 7.6 Business Case Highlights (TH)
+
+Typical Wave 1 financials (major airline or large hotel group):
+
+| Service | Wave 1 annualised benefit | Key driver |
+|---|---|---|
+| DRO-02 Disruption Recovery | $4–8M | Reduced compensation leakage; loyalty-customer retention during disruption |
+| OBI-01 Overbooking Balancing | $2–4M | Revenue optimisation at higher net yield |
+| LGR-03 Loyalty Guest Rescue | $1–3M | Top-tier retention; NPS improvement |
+
+The commercial multiplier in TH is customer-lifetime-value impact: a high-tier loyalty guest saved is worth 5–15× the cost of the service-recovery offer made to save them. TH engagements commonly show the strongest NPS-trajectory improvements of any Practice in the first 90 days post-Wave 1 go-live.
+
+Total Wave 1 annualised: **$5–10M** against **$3–5M** investment.
+
+### 7.7 Implementation Roadmap (TH)
 
 Typical TH engagements start with HER-06 (low-stakes, quick win) + LGR-03 or OBI-01 (higher value) in Wave 1; DRO-02 and GIT-05 added in Wave 2 after trust is established; RMA-04 in Wave 3.
 
@@ -1516,7 +1621,21 @@ For OEMs offering equipment-as-a-service (a growing commercial model), continuou
 
 Safety, emissions, and other regulated inspection events. Compliance Inspector primary; triage and remediation coordination.
 
-### 8.6 Implementation Roadmap (ICE)
+### 8.6 Business Case Highlights (ICE)
+
+Typical Wave 1 financials (heavy-equipment OEM with dealer network):
+
+| Service | Wave 1 annualised benefit | Key driver |
+|---|---|---|
+| FAF-01 Field Asset Failure | $4–10M | First-time-fix improvement; uptime-SLA credit savings; customer retention |
+| SPA-02 Spare-Parts Triage | $2–5M | Inventory-holding cost reduction; lost-sale recovery on obsolete-parts flagging |
+| WCP-03 Warranty Pattern | $3–7M | Pre-recall pattern catch; warranty-reserve releases |
+
+As-a-service business models (EaaS, Power-by-the-Hour) amplify the case further — each additional percent of fleet utilisation translates directly to contract-revenue retention.
+
+Total Wave 1 annualised: **$9–22M** against **$5–8M** investment. ICE often shows the strongest per-service payback in the APEX catalogue when the client has meaningful XaaS revenue exposure.
+
+### 8.7 Implementation Roadmap (ICE)
 
 Typical ICE engagements start with FAF-01 + SPA-02 (the field-service core) in Wave 1; WCP-03 and AAU-05 in Wave 2; CRV-04 and CIR-06 in Wave 3.
 
@@ -1650,6 +1769,62 @@ This is the query regulators have been asking for since before agentic AI existe
 For services in highly regulated environments (HLS clinical, ER grid-ops, AXLE recalls), the observability layer is the **primary trust-building mechanism**. The pitch to a skeptical charge nurse or grid-ops engineer is not "trust the agent"; it is "here is how you can audit every decision in the first thirty days so you can trust yourself when you tune the gate down."
 
 During Wave 1 pilots, we instrument the workbook with per-decision drill-down queries and train the pilot personas on using them. Within a month, the pilot personas become the programme's internal advocates because they have spent time inside the decision audit and seen the quality for themselves.
+
+## Chapter 10A: Security Architecture
+
+APEX's security posture is a dedicated chapter because every service depends on it and because clients' security and compliance teams are among the hardest stakeholders to satisfy.
+
+### 10A.1 Defence-in-Depth
+
+Five concentric rings of defence:
+
+1. **Network** — Azure Virtual Network + Private Endpoints + Defender for Cloud baseline. All APEX runtime components live in private VNets where possible.
+2. **Identity** — Entra ID + Conditional Access + MFA enforced + Privileged Identity Management for admin roles. Every service-to-service call is managed-identity authenticated.
+3. **Data** — Purview sensitivity labels + DLP + customer-managed keys + OneLake path-level ACLs + SCD2 audit for PII. Tokenisation at the Silver boundary.
+4. **Application** — Agent Service tool allow-lists + per-tool rate limits + MCP server managed-identity segregation per schema family.
+5. **Audit** — append-only audit rows + immutable retention + signed identity-of-decider on every HITL record.
+
+### 10A.2 Threat Model
+
+APEX's threat model addresses:
+
+- **Prompt injection** — mitigated by contract-preamble discipline; agent contexts never accept external user prompts as instructions; MCP tool outputs are sandboxed by type
+- **Tool abuse** — mitigated by tool allow-lists; any tool call outside allow-list is a runtime error with audit-log entry
+- **Data exfiltration via agent response** — mitigated by Purview DLP on outbound responses; cleartext PII never crosses the tokeniser boundary
+- **Identity compromise** — mitigated by Conditional Access + MFA + PIM; managed identities rotated on schedule; no long-lived secrets in APEX runtime
+- **Audit tampering** — mitigated by append-only Silver audit table with customer-managed-keys encryption; any attempt to modify is a security incident
+
+### 10A.3 Penetration Test & SOC 2 Readiness
+
+APEX deployments include quarterly pentest scopes for:
+- Prompt-injection resilience against agent system-prompts
+- MCP tool-call boundary enforcement
+- Tokeniser reverse-lookup audit discipline
+- OneLake ACL effectiveness
+- Identity rotation cadence
+
+SOC 2 Type II readiness is built into the manifest contract. Every APEX client can pull a SOC 2 evidence package that includes the audit-row history, identity rotation records, access-review logs, and change-management audit trail — in a form that has been accepted by big-four auditors in reference engagements.
+
+### 10A.4 Incident Response
+
+APEX security incidents follow a standard protocol:
+
+- **Severity 1** (active exploit): identity-rotation within 1 hour, pentest-team engagement, same-day CISO + programme-sponsor briefing
+- **Severity 2** (material exposure, no exploit observed): 4-hour response, manifest-review, patched within the day
+- **Severity 3** (vulnerability discovered, not yet exploited): 24-hour response, patched in next scheduled release
+- **Severity 4** (hygiene): addressed in normal cadence
+
+### 10A.5 Regulatory Overlay per Practice
+
+Security posture adapts per Practice's regulatory overlay:
+
+- **RC**: PCI DSS exclusion boundary (card data stays in PCI enclave), GDPR, CCPA, FDA for recalls
+- **HLS**: HIPAA, 21 CFR Part 11, HITECH, state-level health-data laws
+- **ER**: FERC CIP (critical infrastructure protection), NERC, state PUC requirements
+- **AXLE**: SOX for financial controls, NHTSA and regulator-specific for recalls
+- **TMT**: Section 230, content rights, state privacy laws, FCC reliability
+- **TH**: EU Passenger Rights, DOT tarmac rules, ADA hospitality, GDPR
+- **ICE**: Safety and emissions regulators per equipment category; export controls for defense-adjacent products
 
 ## Chapter 11: Versioning, Governance, and HITL Gates
 
@@ -1804,6 +1979,42 @@ The APEX delivery pattern is three waves of roughly six months each. Each wave h
 - **Rollout fatigue in laggard regions** — early regions succeed; later regions feel pressured or behind. Mitigation: rollout cadence is region-paced, not calendar-paced; laggards get tailored support.
 - **Autonomy pilot over-reach** — the temptation to move too fast on Level-5. Mitigation: autonomy-review process requires explicit audit sign-off; no silent gate changes.
 
+## Chapter 12A: Wave 1 Operational Runbook
+
+Every Wave 1 ships with an operational runbook that captures the specific decisions, checks, and escalations that keep the programme on track. The runbook is a living document; it evolves as the programme learns.
+
+### 12A.1 Daily Operations (First 30 Days Post Go-Live)
+
+**06:00 daily** — automated smoke test runs against the pilot tenant's first service. A synthetic event is seeded; the expected orchestration fires; the expected HITL card lands (at a test-recipient, not a live one). Any failure pages the on-call SRE.
+
+**08:00 daily** — stand-up with pilot persona group. 10 minutes, structured around "anything surprising yesterday, anything expected today, any blockers?" The pilot persona speaks first.
+
+**12:00 daily** — observability workbook review with the delivery team. SLO burn rate, decision-audit-row count, HITL queue depth, any tool-call failure spikes.
+
+**17:00 daily** — lessons-learned capture. 10 minutes. What did the agent do that surprised us (good or bad)? What did the human do that the agent couldn't predict? Update the fixture library.
+
+### 12A.2 Weekly Operations
+
+**Wednesday** — Architecture Review Board. Manifests changes above PATCH reviewed. Any new service proposals stage-gated here.
+
+**Friday** — Decision Audit Review. All decisions made since last DAR examined for pattern quality. Gate-tuning proposals surface here.
+
+### 12A.3 Standard Runbooks
+
+**Runbook R-001: Gate Escalation Firing.** When an ESCALATION gate fires, the escalation path is: cross-functional owner (Legal / Comms / Compliance / Regulatory) + programme delivery principal + on-call SRE. Owner has first authority; SRE ensures observability; principal is situationally aware.
+
+**Runbook R-002: Manifest Drift Incident.** When `apex-validate` reports critical findings in production, the manifest is frozen, the practice SRE is paged, and the ARB is convened within 4 hours. No emergency unfreezing without ARB sign-off.
+
+**Runbook R-003: MCP Tool Failure Spike.** If a specific tool's failure rate exceeds 1% over a 15-min window, the tool is canary-rolled-back to the prior version automatically. The tool owner is paged. Agent Service tool catalog updated to reflect the rollback.
+
+**Runbook R-004: Schema Drift from SOR.** When an SOR pushes a schema change that breaks Silver canonicalisation, Bronze continues ingesting (never break ingest); Silver transforms are paused with an alert; the on-call data engineer responds. SOR changes do not propagate to production until the Silver-transform fix is ARB-reviewed.
+
+**Runbook R-005: Agent Canary Rollback.** When the canary criteria for a new agent version trip, Agent Service rolls back the version weighting. The agent team is paged. A post-mortem is scheduled within 48 hours.
+
+**Runbook R-006: Critical Security Alert.** A Defender / Sentinel alert on an APEX-owned identity triggers immediate sesh invalidation, identity rotation, and a full audit of recent activity under that identity. The practice security lead and Microsoft TAM (if applicable) are notified.
+
+**Runbook R-007: Customer-Impact Event.** When an APEX decision's downstream effect is customer-visible and wrong (e.g., a wrong substitution accepted, a wrong disposition applied, a wrong appeal filed), the rollback procedure is specific to the service but always captured in the decision's `rollback_pointer`. The incident is elevated to DAR same-day.
+
 ## Chapter 13: Onboarding a New Tenant
 
 The onboarding of a new tenant is a defined sequence with known durations. A typical tenant onboarding runs 4–6 weeks end-to-end.
@@ -1897,6 +2108,28 @@ Every APEX programme is as much a change management programme as a technology pr
 
 **For the technical support persona** (IT ops, tenant admins): half-day workshop on onboarding, release pipelines, and rollback runbooks.
 
+### 14.1.1 Training Format per Practice
+
+Training adapts to Practice-specific culture:
+
+- **RC** — instructor-led video plus in-store hands-on with a pilot-tenant Store MOD. Emphasis on the Teams card flow from a mobile device.
+- **HLS** — instructor-led with CME credits where eligible. Emphasis on clinical judgement preservation; agent never prescribes or clinically directs; agent surfaces evidence and the nurse/physician decides.
+- **ER** — instructor-led with simulator drills (especially for GRD-02). Emphasis on the second-count latency and the trust relationship with the agent during pressure events.
+- **AXLE** — on-plant instructor-led with line simulation. Emphasis on shift-change handover and cross-crew coordination.
+- **TMT** — virtual, self-paced supplemented with live Q&A. Emphasis on the escalation ladder and when to elevate novel incidents.
+- **TH** — instructor-led with role-play scenarios (disruption-recovery and guest-incident simulations). Emphasis on the customer-facing voice of the decision.
+- **ICE** — field-based with ride-along training for service dispatchers. Emphasis on the parts-and-technician coordination flow.
+
+### 14.1.2 Persona Champion Programme
+
+In every tenant's Wave 1, a persona champion is identified from the pilot group. They get:
+- Deeper training (full-day workshop vs. the standard three-session curriculum)
+- Direct line to the delivery team
+- Monthly "champion's table" with champions from other tenants
+- Co-authoring credit on lessons-learned publications
+
+Champions become the internal advocates that keep Wave 2 adoption velocity high. By Wave 3, the client-side champion network typically numbers 15–30 people across Practices and tenants — a meaningful internal capability that outlasts the delivery programme.
+
 ### 14.2 Communication Milestones
 
 The programme ships a communication plan with the service roadmap. Typical milestones:
@@ -1916,6 +2149,54 @@ Resistance is predictable and should be planned for. In order of frequency:
 - **"This will replace me"** — address by showing the role-transition pattern; have a previous-wave persona tell their story
 - **"We tried this before"** — address by naming the prior failure modes explicitly and showing how APEX is different
 - **"Compliance will never approve this"** — address by bringing Compliance into the ARB from day one; early wins with Compliance are worth a dozen presentations later
+
+## Chapter 17A: Commercial Model
+
+APEX's commercial structure is designed to align vendor and client incentives: the vendor only succeeds when the client's KPIs move.
+
+### 17A.1 Subscription Structure
+
+Each service is priced on a two-part model:
+- **Base fee** — per-entity-year (per-store, per-bed, per-meter, per-line, per-plant, per-site). Predictable. Covers the steady-state operation of the service.
+- **Usage fee** — per-invocation, per-excursion, per-decision, or per-customer-contact depending on service. Scales with actual value delivered.
+
+### 17A.2 Tier Structure
+
+| Tier | Included | Support | Target client |
+|---|---|---|---|
+| **Essentials** | Core service artifacts; documented runbooks; 9×5 portal support | 9×5, portal, 2 business-day P1 | Mid-market, pilot, single-tenant |
+| **Pro** | Essentials + shared CSM + Teams escalation | 24×5, 4-hour P1 SLA | Multi-tenant, multi-service clients |
+| **Enterprise** | Pro + dedicated TAM + custom SLAs + quarterly business reviews | 24×7, 1-hour P1 SLA | Strategic accounts, >5 tenants, >10 services |
+
+### 17A.3 Volume Tiers
+
+Standard volume discounts apply at 10, 50, 250, 1000 entities on the base fee. Clients at enterprise scale (10,000+ units) negotiate custom tiers.
+
+### 17A.4 Minimum Terms
+
+- **Essentials** — annual
+- **Pro** — annual (2-year standard)
+- **Enterprise** — 3-year standard, with annual review points and right-to-adjust on service mix
+
+### 17A.5 SLA Credits
+
+Service SLO misses trigger SLA credits on a published schedule:
+
+- 99.0% availability miss → 10% of monthly fee credited
+- 99.5% availability miss → 15%
+- 99.9% availability miss → 25%
+- P95 decision-latency miss by > 25% → 10% credit
+- Multiple concurrent SLO misses → capped at 50% of monthly
+
+Credits are automatic based on the observability workbook, not claim-based. This is a deliberately strong commitment because the platform's value depends on its reliability.
+
+### 17A.6 Partnership Economics
+
+APEX is delivered as a Deloitte-Microsoft joint offering. Revenue attribution, Microsoft consumption credits, and Deloitte services-attach are structured to drive both partners' GTM teams toward the same sell. Microsoft's Industry Solutions teams have named executive co-selling authority on APEX engagements.
+
+### 17A.7 Value-Based Upside
+
+For select services (RVC-03 Denial Recovery, SHK-07 Shrink, ICE-WCP-03 Warranty Pattern), the commercial model allows a value-share option: lower base fee in exchange for a percentage of measurable benefit captured. The audit-row-based value attribution makes this viable operationally; clients who opt for value-share typically align faster internally because the vendor is a direct beneficiary of the programme's success.
 
 ## Chapter 18: Quarterly Milestone Summary
 
@@ -2174,27 +2455,145 @@ Canonical schema families, by Practice. Every entity carries the five-field enve
 
 ## SCML — Supply-Chain Markup Language
 
-Used across RC, HLS, and AXLE. Entities include COLD_CHAIN_TELEMETRY, TEMPERATURE_EXCURSION, ASN, STORE_RECEIVING_EVENT, RECEIVING_DISCREPANCY, DSD_INVOICE, RECALL_NOTICE, LOT_TRACE, LOT_EXPIRATION_STATE.
+Used across RC, HLS, and AXLE Practices for supply-chain-adjacent services.
+
+**Key entities:**
+- `COLD_CHAIN_TELEMETRY` — high-frequency telemetry readings from refrigeration units; payload fields for temp_f, humidity, compressor state
+- `TEMPERATURE_EXCURSION` — classified excursion events with duration, peak, threshold breach
+- `ASN` — Advance Ship Notice records with line-level detail
+- `STORE_RECEIVING_EVENT` — actual receipts with RFID/scan metadata
+- `RECEIVING_DISCREPANCY` — variance records tied to ASN + receiving event
+- `DSD_INVOICE` — Direct Store Delivery invoice records with vendor-pattern history
+- `RECALL_NOTICE` — regulatory recall events with class, scope, affected-lot list
+- `LOT_TRACE` — forward/backward genealogy records for recall response
+- `LOT_EXPIRATION_STATE` — lot-level expiry-date tracking with reallocation candidacy
 
 ## MERML — Merchandising Markup Language
 
-RC Practice. Entities include STORE_INVENTORY_POSITION, PRICE_RECORD, PRICE_TAG_STATUS, PROMOTION_ACTIVATION, OSA_EVENT, POS_VOID, SHRINK_EVENT, CYCLE_COUNT_VARIANCE, MARKDOWN_EVENT, WASTE_EVENT.
+RC Practice primarily (used by TMT for subscription-inventory analogs).
+
+**Key entities:**
+- `STORE_INVENTORY_POSITION` — on-hand / on-shelf / in-backroom / committed counts per store-SKU
+- `PRICE_RECORD` — scheduled and effective price states with SCD2 history
+- `PRICE_TAG_STATUS` — ESL gateway state with staleness metrics
+- `PROMOTION_ACTIVATION` — promo-schedule records with expected vs. observed deltas
+- `OSA_EVENT` — On-Shelf Availability events with CV / POS / PI fusion confidence
+- `POS_VOID` — transaction-level void records for anomaly detection
+- `SHRINK_EVENT` — correlated shrink-pattern records with sigma scoring
+- `CYCLE_COUNT_VARIANCE` — cycle-count delta records with category and store scope
+- `MARKDOWN_EVENT` — price-reduction records with disposition (save/destroy)
+- `WASTE_EVENT` — destroyed-inventory records with reason and cost
 
 ## CXML — Customer Experience Markup Language
 
-RC and HLS Practices. Entities include FULFILLMENT_ORDER, PICK_EXCEPTION, SUBSTITUTION_EVENT, LOYALTY_STATE, CUSTOMER_INCIDENT.
+RC and HLS Practices (with TMT overlap for subscription experiences).
+
+**Key entities:**
+- `FULFILLMENT_ORDER` — BOPIS and e-commerce order records with state machine
+- `PICK_EXCEPTION` — picker-reported exceptions at fulfilment time
+- `SUBSTITUTION_EVENT` — substitution candidate scoring and customer decisions
+- `LOYALTY_STATE` — tokenised customer loyalty state (tier, LTV, consent flags)
+- `CUSTOMER_INCIDENT` — customer-reported incidents with severity tier and lot-code extraction
 
 ## HLSCML — Healthcare & Life Sciences Markup Language
 
-HLS Practice. Entities include PATIENT_ENCOUNTER (PHI-tokenised), CLINICAL_OBSERVATION, CARE_PLAN, VITALS, LAB_RESULT, CLAIM_DENIAL, CODING_RECORD, TRIAL_PROTOCOL, ELIGIBILITY_CRITERIA, PATIENT_SAFETY_EVENT, INCIDENT_CLASSIFICATION.
+HLS Practice. All entities carry HIPAA-compliant tokenisation.
+
+**Key entities:**
+- `PATIENT_ENCOUNTER` — admission / encounter records with PHI tokens
+- `CLINICAL_OBSERVATION` — structured observation records (vitals, assessments)
+- `CARE_PLAN` — care-plan milestones and order status
+- `VITALS` — high-frequency vitals stream
+- `LAB_RESULT` — lab order results with reference ranges
+- `CLAIM_DENIAL` — denial records with payer reason codes and dispute tracking
+- `CODING_RECORD` — ICD / CPT / HCPCS coding with clinical documentation links
+- `TRIAL_PROTOCOL` — trial eligibility criteria and site details
+- `ELIGIBILITY_CRITERIA` — structured inclusion/exclusion criteria
+- `PATIENT_SAFETY_EVENT` — near-miss and adverse-event records
+- `INCIDENT_CLASSIFICATION` — severity and regulatory-reportability classification
 
 ## ERCML — Energy & Resources Markup Language
 
-ER Practice. Entities include METER_READING, OUTAGE_EVENT, GRID_ANOMALY, CUSTOMER_SERVICE_STATE, SCADA_TELEMETRY, BILLING_EXCEPTION, RATE_SCHEDULE, WORK_ORDER, CREW_STATE, ASSET_HEALTH, REGULATORY_EVENT, RELIABILITY_METRIC.
+ER Practice.
+
+**Key entities:**
+- `METER_READING` — 15-min or hourly AMI meter reads
+- `OUTAGE_EVENT` — classified outage records with scope and cause
+- `GRID_ANOMALY` — SCADA-derived anomaly events with classification
+- `CUSTOMER_SERVICE_STATE` — customer premise service state (energised, de-energised, etc.)
+- `SCADA_TELEMETRY` — high-frequency substation and feeder telemetry
+- `BILLING_EXCEPTION` — billing anomaly records with root-cause classification
+- `RATE_SCHEDULE` — current and scheduled rate structures
+- `WORK_ORDER` — field work orders with crew assignment and status
+- `CREW_STATE` — crew availability, certifications, current location
+- `ASSET_HEALTH` — distribution asset health scores (shared with AXLECML)
+- `REGULATORY_EVENT` — FERC / PUC reportable events with filing state
+- `RELIABILITY_METRIC` — SAIDI / SAIFI / CAIDI computation records
 
 ## AXLECML — Industrial & Manufacturing Markup Language
 
-AXLE Practice. Entities include PRODUCTION_EVENT, ASSET_HEALTH, MATERIAL_FLOW, QUALITY_EXCURSION, GENEALOGY, PRODUCT_LOT, SUPPLIER_EVENT, PURCHASE_ORDER, INVENTORY_POSITION, RECALL_NOTICE, SHIPMENT, KPI_SNAPSHOT.
+AXLE Practice (shared with ICE for equipment-OEM services).
+
+**Key entities:**
+- `PRODUCTION_EVENT` — shop-floor production events (count, scrap, cycle time)
+- `ASSET_HEALTH` — asset condition signals (shared with ERCML)
+- `MATERIAL_FLOW` — material arrival and consumption events
+- `QUALITY_EXCURSION` — SPC excursion records with classification and containment state
+- `GENEALOGY` — forward/backward part-to-part genealogy (shared with ICE recall-traceability)
+- `PRODUCT_LOT` — lot/batch records tied to raw material and production records
+- `SUPPLIER_EVENT` — supplier-side events (delay, quality hold, shortage)
+- `PURCHASE_ORDER` — PO state and commitment tracking
+- `INVENTORY_POSITION` — per-location inventory levels
+- `RECALL_NOTICE` — initiated recalls with scope and state
+- `SHIPMENT` — outbound shipment tracking (required for recall forward-trace)
+- `KPI_SNAPSHOT` — shift/day/week OEE, yield, scrap rollups
+
+## TMTML — Technology, Media & Telecom Markup Language (Preview)
+
+TMT Practice (in build).
+
+**Drafted entities:**
+- `NETWORK_INCIDENT` — NOC-facing incident records with classification, blast radius, owning team
+- `CUSTOMER_SUBSCRIPTION_STATE` — tokenised subscription state across products
+- `CHURN_SIGNAL` — composite churn indicator records
+- `SAVE_OFFER` — proposed and applied save offers with outcome tracking
+- `CONTENT_RIGHTS_INCIDENT` — rights-violation records with takedown state
+- `CONTENT_PIECE` — catalog records for content under rights management
+- `AD_IMPRESSION_SUSPECT` — flagged ad events with evidence bundle
+- `CLOUD_COST_ANOMALY` — cost-spike records with resource attribution
+- `RESOURCE_TELEMETRY` — cloud-resource metering (tokenised customer scope)
+- `5G_SLICE_STATE` — per-slice quality state records
+- `SUBSCRIPTION_EXCEPTION` — payment / plan / usage exception records
+- `INTERACTION_HISTORY` — tokenised customer interaction log for retention services
+
+## THML — Travel & Hospitality Markup Language (Preview)
+
+TH Practice (in build).
+
+**Drafted entities:**
+- `BOOKING_RECORD` — reservation records (flight, hotel, package) with tokenised customer
+- `DISRUPTION_EVENT` — cancellation, delay, overbooking records
+- `RECOVERY_ACTION` — rebooking, compensation, outreach records
+- `LOYALTY_GUEST_STATE` — tier, tenure, LTV, current-at-risk indicator
+- `HOUSEKEEPING_EXCEPTION` — room-status exceptions with priority
+- `GUEST_INCIDENT` — safety, service, or quality incident records
+- `REVENUE_MANAGEMENT_STATE` — pricing and inventory optimisation state
+- `RATE_ANOMALY` — pricing drift and competitor-shift records
+- `INVENTORY_STATE` — room-night / seat-flight inventory state
+
+## ICEML — Industrial & Commercial Equipment Markup Language (Preview)
+
+ICE Practice (in build). Many entities shared with AXLECML and ERCML.
+
+**Drafted entities unique to ICE:**
+- `FIELD_INCIDENT` — field-asset failure events with customer-site attribution
+- `PARTS_INVENTORY_POSITION` — cross-depot parts availability (dealer network)
+- `WARRANTY_CLAIM` — warranty claim records with pattern-detection metadata
+- `CONTRACT_RENEWAL_STATE` — as-a-service and extended-warranty renewal state
+- `TECHNICIAN_STATE` — technician certifications, location, truck-inventory (shared with ERCML.CREW_STATE patterns)
+- `FIELD_ASSET_DEPLOYMENT` — customer-site asset placements with utilisation state
+- `COMPLIANCE_INSPECTION` — regulated inspection event records
+- `AS_A_SERVICE_UTILIZATION` — fleet utilisation tracking for XaaS contracts
 
 Full per-entity reference — including column lists, SCD2 status, PII classes, and change history — is in the companion per-Practice build specs.
 
@@ -2312,6 +2711,140 @@ All 43 catalogued services at a glance (24 GA + 19 in build). One line per servi
 | APEX-ICE-CRV-04 | Contract-Renewal Revenue Protection | ICE | Pro / Ent | Contract Renewal Mgr | HITL | Preview v0.9 |
 | APEX-ICE-AAU-05 | As-a-Service Utilisation Optimisation | ICE | Enterprise | Service Dispatcher | ACK_ONLY | Preview v0.9 |
 | APEX-ICE-CIR-06 | Compliance Inspection Response | ICE | Enterprise | Compliance Inspector | HITL → ESCALATION | Preview v0.9 |
+
+---
+
+# Appendix B2: KPI Master Registry
+
+The KPI library drives every service's `kpis[]` field in the service manifest. This registry lists outcome KPIs per Practice with direction (maximise/minimise), typical target range, and services that measure them.
+
+## RC KPIs
+
+| KPI ID | Direction | Target range | Measured by |
+|---|---|---|---|
+| `writeoff_avoided_pct` | max | 60-80% | CXP-01 |
+| `time_to_brief_min` | min | 5-15 min | CXP-01 |
+| `manager_touch_sec` | min | 60-120 sec | CXP-01, RVD-02, OSA-04 |
+| `variance_recovered_pct` | max | 60-80% | RVD-02 |
+| `days_to_dispute_closure` | min | 3-7 days | RVD-02 |
+| `stale_tag_count_reduction_pct` | max | 70-90% | ESL-03 |
+| `time_to_remediate_min` | min | 15-45 min | ESL-03 |
+| `phantom_oos_caught_pct` | max | 80-95% | OSA-04 |
+| `time_to_restock_min` | min | 20-60 min | OSA-04 |
+| `walk_away_revenue_avoided_usd` | max | — | OSA-04 |
+| `affected_customers_contacted_pct` | max | 95-99% | RCL-05 |
+| `time_to_contain_hours` | min | 2-8 hours | RCL-05 |
+| `regulatory_reporting_complete_hours` | min | 12-48 hours | RCL-05 |
+| `substitution_acceptance_pct` | max | 60-80% | BPX-06 |
+| `order_cancel_pct` | min | 5-12% | BPX-06 |
+| `customer_response_sec` | min | 60-180 sec | BPX-06 |
+| `shrink_events_evidence_sealed_pct` | max | 80-90% | SHK-07 |
+| `false_accusation_rate_pct` | min | ≤ 1% | SHK-07 |
+| `tier1_response_min` | min | 10-30 min | CXI-08 |
+| `cross_store_correlation_caught_pct` | max | 90-99% | CXI-08 |
+
+## HLS KPIs
+
+| KPI ID | Direction | Target range | Measured by |
+|---|---|---|---|
+| `discharge_prediction_accuracy_pct` | max | 80-90% | DSR-01 |
+| `los_reduction_hours` | max | 6-18 hours | DSR-01 |
+| `readmission_pct` | min | 6-10% | DSR-01 |
+| `sepsis_early_detection_hours` | max | 4-8 hours | SEP-02 |
+| `sepsis_sensitivity_pct` | max | 85-95% | SEP-02 |
+| `denial_recovery_usd` | max | — | RVC-03 |
+| `appeal_acceptance_pct` | max | 50-65% | RVC-03 |
+| `days_to_appeal` | min | 7-14 days | RVC-03 |
+| `expiry_waste_reduction_pct` | max | 30-60% | SUP-04 |
+| `recall_containment_hours` | min | 1-4 hours | SUP-04 |
+| `trial_enrolment_rate_pct` | max | 10-20% | CTM-05 |
+| `match_precision_pct` | max | 85-95% | CTM-05 |
+| `severe_incident_detection_pct` | max | 98-100% | PSI-06 |
+| `regulatory_report_on_time_pct` | max | 99-100% | PSI-06 |
+
+## ER KPIs
+
+| KPI ID | Direction | Target range | Measured by |
+|---|---|---|---|
+| `outage_detection_accuracy_pct` | max | 92-98% | MTR-01 |
+| `false_outage_pct` | min | 1-3% | MTR-01 |
+| `time_to_dispatch_min` | min | 10-25 min | MTR-01 |
+| `anomaly_classification_accuracy_pct` | max | 85-95% | GRD-02 |
+| `customer_minutes_interrupted_pct` | min | — | GRD-02 |
+| `FERC_report_on_time_pct` | max | 99-100% | GRD-02, REG-05 |
+| `exception_auto_resolved_pct` | max | 50-70% | BIL-03 |
+| `customer_complaint_rate_pct` | min | ≤ 0.5% | BIL-03 |
+| `first_time_fix_rate_pct` | max | 75-85% | FWO-04 |
+| `travel_time_reduction_pct` | max | 10-20% | FWO-04 |
+| `filing_on_time_pct` | max | 99-100% | REG-05 |
+| `data_accuracy_pct` | max | 99-100% | REG-05 |
+| `regulatory_penalty_avoided_usd` | max | — | REG-05 |
+
+## AXLE KPIs
+
+| KPI ID | Direction | Target range | Measured by |
+|---|---|---|---|
+| `line_down_minutes` | min | — | LDT-01 |
+| `triage_accuracy_pct` | max | 85-95% | LDT-01 |
+| `mean_time_to_diagnose_min` | min | 5-15 min | LDT-01 |
+| `containment_success_pct` | max | 90-98% | QEX-02 |
+| `escape_rate_pct` | min | ≤ 0.2% | QEX-02 |
+| `order_fulfilment_on_time_pct` | max | 90-97% | SCD-03 |
+| `expedite_cost_reduction_pct` | max | 15-30% | SCD-03 |
+| `stockout_events` | min | — | SCD-03 |
+| `affected_units_identified_pct` | max | 98-100% | RCL-04 |
+| `time_to_notice_hours` | min | 4-12 hours | RCL-04 |
+| `regulatory_compliance_pct` | max | 99-100% | RCL-04 |
+| `oee_improvement_pct` | max | 3-10% YoY | KPI-05 |
+| `drift_detected_pct` | max | 85-95% | KPI-05 |
+
+## TMT KPIs (preview)
+
+| KPI ID | Direction | Target range | Measured by |
+|---|---|---|---|
+| `mttr_minutes` | min | 30-60% reduction | NET-01 |
+| `customer_minutes_impacted_pct` | min | — | NET-01 |
+| `save_offer_success_pct` | max | 25-40% | CCI-02 |
+| `content_rights_containment_hours` | min | 4-12 hours | CRV-03 |
+| `subscription_exception_auto_resolved_pct` | max | 55-75% | SUB-04 |
+| `cloud_cost_anomaly_resolved_hours` | min | 2-6 hours | CCA-05 |
+| `ad_fraud_tp_rate_pct` | max | 90-95% | ADF-06 |
+| `ad_fraud_fp_rate_pct` | min | ≤ 2% | ADF-06 |
+| `5g_outage_triage_min` | min | 5-15 min | 5GO-07 |
+
+## TH KPIs (preview)
+
+| KPI ID | Direction | Target range | Measured by |
+|---|---|---|---|
+| `overbooking_resolution_success_pct` | max | 92-98% | OBI-01 |
+| `disruption_recovery_time_to_plan_min` | min | 10-20 min | DRO-02 |
+| `high_tier_guest_rescue_pct` | max | 85-95% | LGR-03 |
+| `rate_anomaly_caught_pct` | max | 85-95% | RMA-04 |
+| `guest_incident_time_to_triage_min` | min | 5-15 min | GIT-05 |
+| `housekeeping_exception_resolution_min` | min | 15-30 min | HER-06 |
+
+## ICE KPIs (preview)
+
+| KPI ID | Direction | Target range | Measured by |
+|---|---|---|---|
+| `dispatch_plan_time_min` | min | 10-20 min | FAF-01 |
+| `first_time_fix_rate_pct_ice` | max | 80-90% | FAF-01 |
+| `parts_availability_match_pct` | max | 90-97% | SPA-02 |
+| `warranty_pattern_catch_pct` | max | 85-95% | WCP-03 |
+| `contract_renewal_retention_pct` | max | 85-95% | CRV-04 |
+| `as_service_utilisation_pct` | max | 80-90% | AAU-05 |
+| `compliance_inspection_on_time_pct` | max | 98-100% | CIR-06 |
+
+## Cross-Practice KPIs
+
+| KPI ID | Direction | Target range | Scope |
+|---|---|---|---|
+| `platform_decision_latency_p95` | min | 5-10× reduction from baseline | All services |
+| `platform_manager_touch_sec_p95` | min | 60-80% reduction | All HITL services |
+| `platform_audit_reconstruction_time_hours` | min | 10× reduction | Cross-practice |
+| `platform_service_subscription_depth` | max | 8+ by month 18 | Per tenant |
+
+The KPI library is versioned alongside the service catalog. New KPIs are added on a quarterly cadence as Practice teams learn from deployments.
 
 ---
 
@@ -2448,6 +2981,77 @@ Every MCP tool ships with four discipline gates:
 2. **Documented error codes** — standardised `-32602` (bad args), `-32000` (scope), `-32001` (transient), `-32002` (not found), `-32003` (DLP violation)
 3. **Per-tenant rate limits** — configured at Agent Service registration; prevents a runaway agent from storming Fabric
 4. **Trace instrumentation** — every call emits a span with `tool_name`, `tenant_id`, `success`, and `duration_ms`
+
+### D.4 Representative Tool Signatures
+
+A sampling of representative MCP tool signatures across the catalogue (illustrative; full tool specs live in the per-Practice build specs):
+
+**`fabric-mcp.read_cold_chain_telemetry(since: ISO-8601, store_id: string) → TelemetryReading[]`**
+Returns telemetry readings for a specific store since a timestamp. Used by SCM-A04.
+
+**`fabric-mcp.read_excursion_events(store_id: string, window_hours: int) → ExcursionEvent[]`**
+Returns classified excursion events for a store within a window. Used by SCM-A04/A05.
+
+**`fabric-mcp.read_store_inventory(store_id: string, sku_filter: string[] = []) → InventoryPosition[]`**
+Returns current inventory positions. Used by multiple RC services.
+
+**`fda-mcp.lookup_threshold(product_category: string, substance: string) → ThresholdRecord`**
+Returns FDA-published safety thresholds for a product category. Used by SCM-A05.
+
+**`fda-mcp.check_recall_match(lot_id: string) → RecallMatch | null`**
+Checks whether a lot matches an open recall. Used by SUP-04 and RCL-05.
+
+**`tokenizer-mcp.tokenize(cleartext: string, category: string) → Token`**
+Produces a stable opaque token for a cleartext PII value.
+
+**`tokenizer-mcp.reverse_tokenize(token: string) → CleartextResult`**
+Audit-logged reverse lookup; requires `mi-apex-<practice>-pii-unlock` identity.
+
+**`tokenizer-mcp.lookup_consent(customer_id: Token, purpose: string) → ConsentRecord`**
+Returns consent flags for a specific purpose; honoured by approvals-mcp and comms flows.
+
+**`approvals-mcp.send_card(recipient_group: string, card: AdaptiveCard, timeout_min: int) → ApprovalHandle`**
+Sends a Teams adaptive card; returns a handle to poll.
+
+**`approvals-mcp.poll_decision(handle: ApprovalHandle) → Decision | Pending | Timeout`**
+Polls for the decision state. Agent Service manages the polling cadence.
+
+**`ledger-mcp.stage_writeoff(event_id: string, amount: USD, category: string, justification: string) → LedgerEntryId`**
+Stages a write-off entry; not promoted until HITL approval.
+
+**`policy-mcp.resolve_gate(service_id: string, bump_class: string, tenant_id: string) → GateKind`**
+Given a service, a bump class, and a tenant, returns the gate kind per tenant policy.
+
+**`policy-mcp.verify_tenant_access(caller_identity: string, tenant_id: string) → AccessGrant | Denial`**
+Verifies that a caller's managed identity has scope for the requested tenant.
+
+**`telemetry-mcp.emit_decision_audit(operation_id: string, audit_row: DecisionAuditRecord)`**
+Writes the canonical audit row to `silver_decision_audit`.
+
+Each tool is tested against fixture data in the per-Practice test suite. Tool-contract changes are classified by `classify-bump` and routed through the Architecture Review Board.
+
+### D.5 Practice-Specific Tool Inventory
+
+**RC domain MCPs:** 28 tools total
+- scml-mcp: 9 read/query tools
+- merml-mcp: 11 read/query tools
+- cxml-mcp: 8 read/query tools
+
+**HLS domain MCPs:** 24 tools total
+- hlscml-mcp: 18 tools (PHI-tokenised reads across clinical entities)
+- Shared scml-mcp subset: 6 tools (for pharmacy supply + recall services)
+
+**ER domain MCPs:** 18 tools total
+- ercml-mcp: 18 read/query/grid-state tools
+
+**AXLE domain MCPs:** 14 tools total
+- axlecml-mcp: 14 read/query tools
+
+**TMT domain MCPs (preview):** 20 tools drafted across tmtml-mcp
+**TH domain MCPs (preview):** 16 tools drafted across thml-mcp
+**ICE domain MCPs (preview):** 15 tools drafted across iceml-mcp (many shared with axlecml and ercml)
+
+Total APEX tool catalogue: ~135 domain tools + 30+ utility and external tools = **~165 MCP tools** across the platform.
 
 ---
 
