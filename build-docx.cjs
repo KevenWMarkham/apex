@@ -383,6 +383,23 @@ children.push(
   bullet([bold("Supply Chain (8 agents)"), plain(" — DSD reconciliation, vendor pattern detection, claim assembly, cold-chain telemetry, disposition classification, write-off pre-approval, FDA feed listening, lot trace resolution.")]),
   bullet([bold("Customer Experience (8 agents)"), plain(" — pick exception handling, substitution ranking, customer confirm gateway, OCR lot extraction, incident pattern detection, stakeholder routing, returns disposition, lifecycle signals.")]),
   bullet([bold("Marketing (6 agents)"), plain(" — audience building, creative variant generation, campaign orchestration, attribution, LTV forecasting, journey state.")]),
+  new Paragraph({
+    spacing: { before: 200, after: 200, line: 300 },
+    indent: { left: 280 },
+    shading: { fill: "F4EFE3", type: ShadingType.CLEAR, color: "auto" },
+    border: {
+      left: { style: BorderStyle.SINGLE, size: 18, color: "2DD4BF", space: 10 },
+      top: { style: BorderStyle.SINGLE, size: 2, color: "DBD1B9" },
+      bottom: { style: BorderStyle.SINGLE, size: 2, color: "DBD1B9" },
+      right: { style: BorderStyle.SINGLE, size: 2, color: "DBD1B9" }
+    },
+    children: [
+      new TextRun({ text: "Deep-dive reference: ", bold: true, color: "0D7D70" }),
+      plain("Each of the 34 RC agents is documented on its own card (purpose, primary ORCH, primary schema, inputs, outputs, decomposition, HITL gate, wave availability) in the companion catalog "),
+      new TextRun({ text: "docs/APEX-RC-agent-catalog.docx", font: "Consolas", size: 20 }),
+      plain(". That catalog also includes the full Agent × ORCH cross-reference matrix and a decision-cadence summary.")
+    ]
+  }),
   h2("7.1 Decomposition philosophy"),
   p("Every agent has typed sub-agent contracts backtested in isolation before the orchestrator connects them. The decomposition_note field in each agent declaration records this: e.g., MER-A01 Dynamic Pricing = \u201Celasticity learner, competitive signal, margin guardrail.\u201D The decomposition matters because agents are expensive to debug end-to-end; sub-agent contracts let each piece be tested against a fixed distribution before integration."),
   h2("7.2 Binding to ORCHs"),

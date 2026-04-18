@@ -233,6 +233,8 @@ Each edition defines 30–34 agents grouped into 4 domain buckets. RC's 34 agent
 - **Customer Experience (8 agents)** — pick exception handling, substitution ranking, customer confirm gateway, OCR lot extraction, incident pattern detection, stakeholder routing, returns disposition, lifecycle signals.
 - **Marketing (6 agents)** — audience building, creative variant generation, campaign orchestration, attribution, LTV forecasting, journey state.
 
+> **Deep-dive reference:** Each of the 34 RC agents is documented on its own card (purpose, primary ORCH, primary schema, inputs, outputs, decomposition, HITL gate, wave availability) in the companion catalog `docs/APEX-RC-agent-catalog.docx`. That document also includes the full Agent × ORCH cross-reference matrix and a decision-cadence summary.
+
 ### 7.1 Decomposition philosophy
 
 Every agent has typed sub-agent contracts backtested in isolation before the orchestrator connects them. The `decomposition_note` field in each agent declaration records this: e.g., MER-A01 Dynamic Pricing = "elasticity learner, competitive signal, margin guardrail." The decomposition matters because agents are expensive to debug end-to-end; sub-agent contracts let each piece be tested against a fixed distribution before integration.
