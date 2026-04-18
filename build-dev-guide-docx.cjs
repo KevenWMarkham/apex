@@ -107,18 +107,19 @@ function mermaidParagraph(source) {
   const rendered = renderMermaidToPng(source);
   if (!rendered) return null;
 
-  // Target width ≈ 6 inches (page is 8.5" × 11" with 0.75" margins = 7" content,
-  // pad a little for safety). Scale height proportionally.
-  const pageWidthPx = 900; // logical scaling target in px
+  // docx ImageRun.transformation takes values in PIXELS and interprets them
+  // at 96 DPI when laying out the image. Our page is 8.5" × 11" with 0.75"
+  // margins (1080 twips), so the content area is 7" × 9.5". At 96 DPI that
+  // is 672 × 912 px. Leave a safety cushion so wide diagrams don't hug the
+  // right edge.
+  const pageWidthPx  = 640;   // ≈ 6.67"  — well inside the 7" content area
+  const maxHeightPx  = 880;   // ≈ 9.17"  — leaves room for caption + margin
+
   let { widthPx, heightPx, buffer } = rendered;
-  let displayW = widthPx;
-  let displayH = heightPx;
-  if (widthPx > pageWidthPx) {
-    displayW = pageWidthPx;
-    displayH = Math.round((heightPx / widthPx) * pageWidthPx);
-  }
-  // Clamp extremely tall diagrams so they fit on a page (max ~8.5" tall)
-  const maxHeightPx = 1100;
+  // Always scale to fit width first
+  let displayW = Math.min(widthPx, pageWidthPx);
+  let displayH = Math.round((heightPx / widthPx) * displayW);
+  // Then clamp height if diagram is tall (landscape-long mermaids)
   if (displayH > maxHeightPx) {
     displayW = Math.round((displayW / displayH) * maxHeightPx);
     displayH = maxHeightPx;
