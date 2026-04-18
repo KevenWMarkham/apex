@@ -1,0 +1,15 @@
+{
+  "account_id": "acct-alpha-001",
+  "edition_code": "RC",
+  "core_version_deployed": "1.2",
+  "last_applied_utc": "2026-04-17T03:14:22Z",
+  "applied_by": "fabric-pipeline://apex-sync-nightly",
+  "deployed_schemas": [
+    { "code": "MERML", "version": "1.3.0", "applied_utc": "2026-04-17T03:14:15Z", "gate": "ACK_ONLY" },
+    { "code": "SCML", "version": "1.0.0", "applied_utc": "2026-01-05T02:30:00Z", "gate": "HITL", "approved_by": "ticket://CHG-4411" },
+    { "code": "CXML", "version": "1.1.0", "applied_utc": "2026-03-02T02:30:00Z", "gate": "ACK_ONLY" },
+    { "code": "MKTL", "version": "1.0.0", "applied_utc": "2026-01-05T02:30:00Z", "gate": "HITL", "approved_by": "ticket://CHG-4411" }
+  ],
+  "pending_upgrades": [],
+  "manifest_hash": "sha256:ab12cd34ef56ab12cd34ef56ab12cd34ef56ab12cd34ef56ab12cd34ef56"
+}

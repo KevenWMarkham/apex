@@ -1,0 +1,64 @@
+{
+  "account_id": "acct-alpha-001",
+  "edition_code": "RC",
+  "core_version_required": "1.2",
+  "auto_upgrade_policy": {
+    "PATCH": "ZERO_TOUCH",
+    "MINOR": "ACK_ONLY",
+    "MAJOR": "HITL"
+  },
+  "pinned_schemas": [
+    {
+      "code": "MERML",
+      "version": "1.3.0",
+      "latest_changelog_entry": {
+        "version": "1.3.0",
+        "bump": "MINOR",
+        "gate": "ACK_ONLY",
+        "date": "2026-04-10",
+        "rationale": "Added planogram compliance telemetry.",
+        "changes": [
+          { "op": "add_entity", "target": "PLANOGRAM_COMPLIANCE_EVENT", "detail": "Silver; grain=per shelf audit" }
+        ]
+      }
+    },
+    {
+      "code": "SCML",
+      "version": "1.0.0",
+      "latest_changelog_entry": {
+        "version": "1.0.0",
+        "bump": "MAJOR",
+        "gate": "HITL",
+        "date": "2026-01-01",
+        "rationale": "Initial GA.",
+        "changes": [{ "op": "metadata", "target": "schema", "detail": "initial release" }]
+      }
+    },
+    {
+      "code": "CXML",
+      "version": "2.0.0",
+      "latest_changelog_entry": {
+        "version": "2.0.0",
+        "bump": "MAJOR",
+        "gate": "HITL",
+        "date": "2026-04-15",
+        "rationale": "CUSTOMER_INCIDENT grain changed to one row per incident per affected customer.",
+        "changes": [
+          { "op": "change_grain", "target": "CUSTOMER_INCIDENT", "detail": "new grain: incident x customer" }
+        ]
+      }
+    },
+    {
+      "code": "MKTL",
+      "version": "1.0.0",
+      "latest_changelog_entry": {
+        "version": "1.0.0",
+        "bump": "MAJOR",
+        "gate": "HITL",
+        "date": "2026-01-01",
+        "rationale": "Initial GA.",
+        "changes": [{ "op": "metadata", "target": "schema", "detail": "initial release" }]
+      }
+    }
+  ]
+}
