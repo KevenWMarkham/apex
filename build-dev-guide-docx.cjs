@@ -1,6 +1,7 @@
-// Render the APEX Developer Guide markdown sources to .docx.
-// Processes the spine (docs/APEX-developer-guide.md) and the 7 companions
-// under docs/dev-guide/. Alongside each .md, writes the corresponding .docx.
+// Render the APEX Developer Guide markdown sources to a SINGLE combined .docx.
+// Concatenates the spine (docs/APEX-developer-guide.md) followed by the 7
+// companions (docs/dev-guide/01..07) with a title page and page breaks
+// between sections. Output: docs/APEX-developer-implementation-guide.docx
 //
 // Run:   node build-dev-guide-docx.cjs
 //
@@ -19,22 +20,25 @@ const path = require('path');
 const {
   Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell,
   Header, Footer, AlignmentType, HeadingLevel, BorderStyle, WidthType,
-  ShadingType, PageNumber, ExternalHyperlink
+  ShadingType, PageNumber, ExternalHyperlink, PageBreak
 } = require('docx');
 
 // ------------------------------------------------------------------
-// Config — which files to render
+// Config — files to combine, in order
 // ------------------------------------------------------------------
 const FILES = [
-  { md: 'docs/APEX-developer-guide.md',       title: 'APEX Developer Implementation Guide' },
-  { md: 'docs/dev-guide/01-fabric-layering.md',      title: 'Companion 01 — Fabric Layering' },
-  { md: 'docs/dev-guide/02-medallion-sor.md',        title: 'Companion 02 — Medallion & SOR Integration' },
-  { md: 'docs/dev-guide/03-mcp-servers.md',          title: 'Companion 03 — MCP Servers & Tooling' },
-  { md: 'docs/dev-guide/04-agent-lifecycle.md',      title: 'Companion 04 — Agent & Orchestration Lifecycle + HITL' },
-  { md: 'docs/dev-guide/05-observability-security.md', title: 'Companion 05 — Observability & Security' },
-  { md: 'docs/dev-guide/06-testing-topology.md',     title: 'Companion 06 — Testing & Environment Topology' },
-  { md: 'docs/dev-guide/07-service-catalog.md',      title: 'Companion 07 — Service Catalog' },
+  { md: 'docs/APEX-developer-guide.md',                sectionTitle: 'Part I — Spine' },
+  { md: 'docs/dev-guide/01-fabric-layering.md',        sectionTitle: 'Part II — Companion 01: Fabric Layering' },
+  { md: 'docs/dev-guide/02-medallion-sor.md',          sectionTitle: 'Part III — Companion 02: Medallion & SOR Integration' },
+  { md: 'docs/dev-guide/03-mcp-servers.md',            sectionTitle: 'Part IV — Companion 03: MCP Servers & Tooling' },
+  { md: 'docs/dev-guide/04-agent-lifecycle.md',        sectionTitle: 'Part V — Companion 04: Agent & Orchestration Lifecycle + HITL' },
+  { md: 'docs/dev-guide/05-observability-security.md', sectionTitle: 'Part VI — Companion 05: Observability & Security' },
+  { md: 'docs/dev-guide/06-testing-topology.md',       sectionTitle: 'Part VII — Companion 06: Testing & Environment Topology' },
+  { md: 'docs/dev-guide/07-service-catalog.md',        sectionTitle: 'Part VIII — Companion 07: Service Catalog' },
 ];
+
+const OUTPUT_DOCX = 'docs/APEX-developer-implementation-guide.docx';
+const GUIDE_TITLE = 'APEX Developer Implementation Guide';
 
 // ------------------------------------------------------------------
 // Styling
@@ -350,18 +354,109 @@ function stripInlineMarkers(text) {
 }
 
 // ------------------------------------------------------------------
-// Document assembly
+// Title page + section divider helpers
 // ------------------------------------------------------------------
-async function renderOne(entry) {
-  const mdPath = path.join(__dirname, entry.md);
-  const docxPath = mdPath.replace(/\.md$/, '.docx');
-  const md = fs.readFileSync(mdPath, 'utf8');
-  const elements = parseMarkdown(md);
+function pageBreak() {
+  return new Paragraph({ children: [new TextRun({ children: [new PageBreak()] })] });
+}
+
+function titlePageElements() {
+  return [
+    new Paragraph({ spacing: { before: 2400, after: 120 },
+      alignment: AlignmentType.CENTER,
+      children: [new TextRun({ text: GUIDE_TITLE, bold: true, size: 64, color: NAVY })] }),
+    new Paragraph({ spacing: { after: 240 },
+      alignment: AlignmentType.CENTER,
+      children: [new TextRun({ text: 'Spine + 7 Companions · Combined Edition', size: 28, color: TEAL, italics: true })] }),
+    new Paragraph({ spacing: { after: 3200 },
+      alignment: AlignmentType.CENTER,
+      children: [new TextRun({ text: 'APEX Core v1.2 · Developer Guide v1.0 · 2026-04-18', size: 22, color: DIM })] }),
+    new Paragraph({ spacing: { after: 120 },
+      alignment: AlignmentType.CENTER,
+      children: [new TextRun({ text: 'Audience: Executives · Architects · Developers', size: 22, color: '1F2937' })] }),
+    new Paragraph({ spacing: { after: 120 },
+      alignment: AlignmentType.CENTER,
+      children: [new TextRun({ text: 'For Microsoft Fabric SaaS and Azure AI', size: 22, color: '1F2937' })] }),
+    pageBreak(),
+  ];
+}
+
+function tableOfContentsElements() {
+  const items = FILES.map(f => ({
+    title: f.sectionTitle,
+    body: (() => {
+      const md = fs.readFileSync(path.join(__dirname, f.md), 'utf8');
+      // Pull the first H1 title from the md (first "# " line) for the TOC entry
+      const m = md.match(/^#\s+(.+)$/m);
+      return m ? m[1].trim() : '';
+    })(),
+  }));
+  const els = [];
+  els.push(new Paragraph({ spacing: { before: 400, after: 300 },
+    alignment: AlignmentType.LEFT,
+    children: [new TextRun({ text: 'Contents', bold: true, size: 44, color: NAVY })] }));
+  items.forEach((it, idx) => {
+    els.push(new Paragraph({ spacing: { after: 60 },
+      children: [
+        new TextRun({ text: `${it.title}`, bold: true, size: 22, color: '1F2937' }),
+      ] }));
+    if (it.body) {
+      els.push(new Paragraph({ spacing: { after: 160 },
+        indent: { left: 360 },
+        children: [new TextRun({ text: it.body, size: 20, color: DIM, italics: true })] }));
+    }
+  });
+  els.push(pageBreak());
+  return els;
+}
+
+function sectionDivider(title) {
+  return [
+    new Paragraph({ spacing: { before: 600, after: 120 },
+      alignment: AlignmentType.LEFT,
+      children: [new TextRun({ text: title, bold: true, size: 40, color: TEAL })] }),
+    new Paragraph({ spacing: { after: 360 },
+      alignment: AlignmentType.LEFT,
+      border: { bottom: { style: BorderStyle.SINGLE, size: 18, color: NAVY, space: 12 } },
+      children: [new TextRun({ text: '' })] }),
+  ];
+}
+
+// ------------------------------------------------------------------
+// Combined-document assembly
+// ------------------------------------------------------------------
+async function renderCombined() {
+  const allElements = [];
+
+  // 1. Title page
+  allElements.push(...titlePageElements());
+
+  // 2. Table of contents
+  allElements.push(...tableOfContentsElements());
+
+  // 3. Each source file, with a section-divider before it and a page break after
+  for (let idx = 0; idx < FILES.length; idx++) {
+    const entry = FILES[idx];
+    const mdPath = path.join(__dirname, entry.md);
+    const md = fs.readFileSync(mdPath, 'utf8');
+
+    // Section divider (skip for the very first one to avoid double title)
+    allElements.push(...sectionDivider(entry.sectionTitle));
+
+    // Parse and append
+    const parsed = parseMarkdown(md);
+    allElements.push(...parsed);
+
+    // Page break between parts (skip after the last)
+    if (idx < FILES.length - 1) {
+      allElements.push(pageBreak());
+    }
+  }
 
   const doc = new Document({
     creator: 'APEX Core',
-    title: entry.title,
-    description: 'APEX Developer Implementation Guide — generated from markdown',
+    title: GUIDE_TITLE,
+    description: 'APEX Developer Implementation Guide — spine + 7 companions, combined edition',
     styles: {
       paragraphStyles: [
         { id: 'Hyperlink', name: 'Hyperlink', basedOn: 'Normal', run: { color: '0563C1', underline: {} } },
@@ -373,7 +468,7 @@ async function renderOne(entry) {
         default: new Header({
           children: [new Paragraph({
             alignment: AlignmentType.RIGHT,
-            children: [new TextRun({ text: entry.title, size: 16, color: DIM, italics: true })],
+            children: [new TextRun({ text: GUIDE_TITLE, size: 16, color: DIM, italics: true })],
           })],
         }),
       },
@@ -388,25 +483,26 @@ async function renderOne(entry) {
           })],
         }),
       },
-      children: elements,
+      children: allElements,
     }],
   });
 
   const buf = await Packer.toBuffer(doc);
-  fs.writeFileSync(docxPath, buf);
-  return { docxPath, sizeKb: Math.round(buf.length / 1024) };
+  const outPath = path.join(__dirname, OUTPUT_DOCX);
+  fs.writeFileSync(outPath, buf);
+  return { outPath, sizeKb: Math.round(buf.length / 1024), elementCount: allElements.length };
 }
 
 (async () => {
-  console.log('Rendering APEX Developer Guide to .docx ...\n');
-  for (const entry of FILES) {
-    try {
-      const { docxPath, sizeKb } = await renderOne(entry);
-      console.log(`  ✓ ${path.basename(docxPath)} (${sizeKb} KB)`);
-    } catch (err) {
-      console.error(`  ✗ ${entry.md} — ${err.message}`);
-      process.exitCode = 1;
-    }
+  console.log('Rendering combined APEX Developer Guide to single .docx ...\n');
+  try {
+    const { outPath, sizeKb, elementCount } = await renderCombined();
+    console.log(`  ✓ ${path.relative(__dirname, outPath)}`);
+    console.log(`    ${sizeKb} KB  ·  ${elementCount} elements  ·  ${FILES.length} source files combined`);
+  } catch (err) {
+    console.error(`  ✗ failed — ${err.message}`);
+    console.error(err.stack);
+    process.exitCode = 1;
   }
   console.log('\nDone.');
 })();
