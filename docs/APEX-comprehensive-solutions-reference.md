@@ -2848,7 +2848,214 @@ The KPI library is versioned alongside the service catalog. New KPIs are added o
 
 ---
 
-# Appendix C: Persona Catalog
+# Appendix C: Orchestration Catalog
+
+Every APEX service is driven by an orchestration — a DAG of agent calls, MCP tool invocations, and at least one HITL gate — identified as `ORCH-nn`. This appendix catalogues all 43 orchestrations in the platform (24 GA + 19 preview), with their agent chain, gate kind, runtime, duration class, and the services each one powers.
+
+## C.1 Orchestration Anatomy
+
+Every orchestration in APEX carries the same structure:
+
+| Field | Purpose |
+|---|---|
+| **ID** | `ORCH-nn` identifier, unique within the platform |
+| **Name** | Human-readable purpose |
+| **Primary service(s)** | The service SKU(s) this orchestration powers |
+| **Trigger** | Event stream (Eventstream), CDC (Mirrored DB), schedule (Data Pipeline), REST (Dataflow Gen2), external webhook, or on-demand |
+| **Agent chain** | Sequential DAG of `A1 → A2 → A3` or fan-out `A1 → {A2a, A2b, A2c} → A3` |
+| **HITL gate** | `HITL`, `ACK_ONLY`, `ZERO_TOUCH`, or `ESCALATION` |
+| **Runtime** | Logic Apps (declarative DAG, < 5 min) or Durable Functions (stateful, long-running) |
+| **Duration class** | Fast (< 5 min), Extended (minutes–hours), or Long-running (hours–days) |
+| **Audit row** | Always writes to `silver_decision_audit` at completion |
+
+## C.2 Trigger-Type Taxonomy
+
+| Trigger class | Typical latency | APEX examples |
+|---|---|---|
+| **Real-time event stream** | < 60s to Bronze | Cold chain telemetry, POS rings, SCADA, ADT stream, production events |
+| **CDC (Mirrored DB)** | 60–180s | Manhattan WMS, SAP ISU, Epic Clarity, Cerner |
+| **Scheduled batch** | hourly / nightly | DSD invoices, meter reading files, ADT batches |
+| **REST pull** | 15 min+ | FDA recall feed, trials registry, FERC notices |
+| **Webhook / external push** | immediate | Customer incident portal, external alert feeds |
+| **On-demand** | synchronous | HITL-initiated lookups, manual triggers |
+
+## C.3 Runtime Selection Guide
+
+**Logic Apps (declarative DAG).** Use when:
+- Orchestration completes in < 5 minutes
+- Topology is linear or has limited fan-out
+- Visual workflow visibility in Azure Portal is valuable
+- State fits in a single workflow instance
+
+**Durable Functions (stateful orchestrator).** Use when:
+- Orchestration spans minutes to days
+- Complex fan-out / fan-in / wait-for-event patterns
+- Custom compensation / rollback logic required
+- Needs to survive infrastructure restarts
+
+Roughly 70% of APEX orchestrations use Logic Apps; the remaining 30% (long-running — recall trace, trial matching, patient safety incident, grid regulatory response, cross-practice orchestrations) use Durable Functions.
+
+---
+
+## C.4 RC Practice Orchestrations (8)
+
+| ORCH | Name | Service(s) | Agent chain | Gate | Runtime | Duration |
+|---|---|---|---|---|---|---|
+| `ORCH-02` | Receiving Variance Dispute | APEX-RC-RVD-02 | SCM-A01 → SCM-A02 → MER-A01 | ACK_ONLY | Logic Apps | Fast |
+| `ORCH-03` | Cold Chain Excursion Response | APEX-RC-CXP-01 | SCM-A04 → SCM-A05 → SCM-A06 | HITL | Logic Apps | Fast |
+| `ORCH-04` | ESL Pricing Integrity | APEX-RC-ESL-03 | MER-A02 → MER-A03 | ACK_ONLY | Logic Apps | Fast |
+| `ORCH-05` | Phantom-OOS Detection | APEX-RC-OSA-04 | MER-A04 → MER-A05 | ACK_ONLY | Logic Apps | Fast |
+| `ORCH-06` | BOPIS Exception Handling | APEX-RC-BPX-06 | CX-A03 → CX-A04 | HITL (customer) | Logic Apps | Fast |
+| `ORCH-07` | Recall Response | APEX-RC-RCL-05 | SCM-A01 → SCM-A02 → {MER-A11, MER-A12} → CX-A01 | ESCALATION | Durable | Extended |
+| `ORCH-08` | Shrink & Void Anomaly | APEX-RC-SHK-07 | MER-A10 → MER-A11 → MER-A12 | ESCALATION | Durable | Extended |
+| `ORCH-09` | Customer Incident Triage | APEX-RC-CXI-08 | CX-A01 → CX-A02 → SCM-A02 | HITL → ESCALATION | Logic Apps | Fast |
+
+**RC orchestration notes:**
+- ORCH-03 (Cold Chain) is the flagship RC orchestration, completing detection → disposition → write-off staging in typically under 8 minutes with 90 seconds of HITL attention.
+- ORCH-07 (Recall) is the most complex RC orchestration — Durable Functions because it coordinates FDA-feed-driven downstream effects across hundreds of stores over hours.
+- ORCH-08 (Shrink) uses a reasoning-tier agent (MER-A12) and routes evidence — never accusations — to Loss Prevention.
+
+---
+
+## C.5 HLS Practice Orchestrations (6)
+
+| ORCH | Name | Service(s) | Agent chain | Gate | Runtime | Duration |
+|---|---|---|---|---|---|---|
+| `ORCH-10` | Discharge Ready Surveillance | APEX-HLS-DSR-01 | HLS-A01 → HLS-A02 | ACK_ONLY | Logic Apps | Fast |
+| `ORCH-11` | Sepsis Early Warning | APEX-HLS-SEP-02 | HLS-A03 → HLS-A04 | HITL | Logic Apps | Fast |
+| `ORCH-12` | Revenue-Cycle Denial Recovery | APEX-HLS-RVC-03 | HLS-A05 → HLS-A06 | HITL | Logic Apps | Fast |
+| `ORCH-13` | Supply Expiry Management | APEX-HLS-SUP-04 | SCM-A07 → SCM-A08 | ACK_ONLY (HITL on recall) | Logic Apps | Fast |
+| `ORCH-14` | Clinical Trial Matching | APEX-HLS-CTM-05 | HLS-A07 | HITL | Durable | Extended |
+| `ORCH-15` | Patient Safety Incident | APEX-HLS-PSI-06 | HLS-A08 → HLS-A09 | ESCALATION | Durable | Extended |
+
+**HLS orchestration notes:**
+- ORCH-11 (Sepsis) HITL gate stays HITL indefinitely across gate-tuning cycles — this is not a service where autonomy is a design target.
+- ORCH-15 (Patient Safety) uses Durable because regulatory packages take hours to compile and involve multi-stakeholder approvals.
+- Every HLS orchestration writes to PHI-tokenised Silver; audit rows encrypted with customer-managed keys and retained 7 years.
+
+---
+
+## C.6 ER Practice Orchestrations (5)
+
+| ORCH | Name | Service(s) | Agent chain | Gate | Runtime | Duration |
+|---|---|---|---|---|---|---|
+| `ORCH-16` | Meter Outage Detection | APEX-ER-MTR-01 | ER-A01 → ER-A02 | ACK_ONLY | Logic Apps | Fast |
+| `ORCH-17` | Grid Anomaly Response | APEX-ER-GRD-02 | ER-A03 → ER-A04 | HITL (ESCALATION on large events) | Logic Apps | Fast |
+| `ORCH-18` | Billing Exception Handling | APEX-ER-BIL-03 | ER-A05 → ER-A06 | ACK_ONLY | Logic Apps | Fast |
+| `ORCH-19` | Field Work-Order Optimisation | APEX-ER-FWO-04 | ER-A07 → ER-A08 | ACK_ONLY | Logic Apps | Fast |
+| `ORCH-20` | Regulatory Event Response | APEX-ER-REG-05 | ER-A09 → ER-A10 | ESCALATION | Durable | Extended |
+
+**ER orchestration notes:**
+- ORCH-17 (Grid Anomaly) has the tightest SLO in the platform: detection p95 ≤ 30 seconds, decision p95 ≤ 5 minutes. Availability 99.99%.
+- ORCH-20 (Regulatory) uses Durable because FERC package assembly spans hours and requires human content review at multiple points.
+
+---
+
+## C.7 AXLE Practice Orchestrations (5)
+
+| ORCH | Name | Service(s) | Agent chain | Gate | Runtime | Duration |
+|---|---|---|---|---|---|---|
+| `ORCH-21` | Line-Down Triage | APEX-AXLE-LDT-01 | AXLE-A01 → AXLE-A02 | HITL | Logic Apps | Fast |
+| `ORCH-22` | Quality Excursion Response | APEX-AXLE-QEX-02 | AXLE-A03 → AXLE-A04 | HITL (ESCALATION for recall) | Logic Apps | Fast |
+| `ORCH-23` | Supply-Chain Disruption | APEX-AXLE-SCD-03 | AXLE-A05 → AXLE-A06 | ACK_ONLY | Logic Apps | Fast |
+| `ORCH-24` | Recall Traceability | APEX-AXLE-RCL-04 | AXLE-A07 → AXLE-A08 | ESCALATION | Durable | Long-running |
+| `ORCH-25` | Plant KPI Drift | APEX-AXLE-KPI-05 | AXLE-A09 → AXLE-A10 | ACK_ONLY | Logic Apps | Extended |
+
+**AXLE orchestration notes:**
+- ORCH-21 (Line-Down) targets 60-second classification so the plant supervisor acts on the agent's triage rather than manual investigation.
+- ORCH-24 (Recall) is the longest-running orchestration in the AXLE Practice; VIN trace and customer notification span days in full-recall scenarios. Complementary to (but not the same as) the full AXLE Comprehensive Reference programme's recall workflows.
+
+---
+
+## C.8 TMT Practice Orchestrations (7 · Preview)
+
+| ORCH | Name | Service(s) | Agent chain | Gate | Runtime | Duration |
+|---|---|---|---|---|---|---|
+| `ORCH-30` | Network Incident Response | APEX-TMT-NET-01 | TMT-A01 → TMT-A02 | HITL (ESCALATION for P1/P2) | Logic Apps | Fast |
+| `ORCH-31` | Customer Churn Intervention | APEX-TMT-CCI-02 | TMT-A03 → TMT-A04 | ACK_ONLY | Logic Apps | Fast |
+| `ORCH-32` | Content Rights Violation Triage | APEX-TMT-CRV-03 | TMT-A05 → TMT-A06 | HITL → ESCALATION | Logic Apps | Extended |
+| `ORCH-33` | Subscription Exception Handling | APEX-TMT-SUB-04 | TMT-A07 → TMT-A08 | ACK_ONLY | Logic Apps | Fast |
+| `ORCH-34` | Cloud Cost Anomaly Response | APEX-TMT-CCA-05 | TMT-A09 → TMT-A10 | ACK_ONLY (ZERO_TOUCH on bounded classes) | Logic Apps | Fast |
+| `ORCH-35` | Ad Fraud Detection | APEX-TMT-ADF-06 | TMT-A11 → TMT-A12 | ZERO_TOUCH sub-$, HITL above | Logic Apps | Fast |
+| `ORCH-36` | 5G Service Outage Triage | APEX-TMT-5GO-07 | TMT-A13 → TMT-A14 | HITL | Logic Apps | Fast |
+
+**TMT orchestration notes:**
+- ORCH-34 (Cloud Cost Anomaly) is the leading APEX candidate for Level-5 autonomy on bounded classes (untagged dev resources, known-safe remediations) — ZERO_TOUCH pilot expected in Wave 2.
+- ORCH-35 (Ad Fraud) is APEX's other leading autonomy candidate; sub-dollar detected events go ZERO_TOUCH after Wave 2 with audit review at 6-month intervals.
+
+---
+
+## C.9 TH Practice Orchestrations (6 · Preview)
+
+| ORCH | Name | Service(s) | Agent chain | Gate | Runtime | Duration |
+|---|---|---|---|---|---|---|
+| `ORCH-40` | Disruption Recovery Orchestration | APEX-TH-DRO-02 | TH-A01 → {TH-A02, TH-A03, TH-A04} | HITL | Durable | Extended |
+| `ORCH-41` | Overbooking & Inventory Balancing | APEX-TH-OBI-01 | TH-A05 → TH-A06 | HITL day-of, ACK forward | Logic Apps | Fast |
+| `ORCH-42` | Loyalty Guest Rescue | APEX-TH-LGR-03 | TH-A07 | HITL | Logic Apps | Fast |
+| `ORCH-43` | Revenue-Management Anomaly | APEX-TH-RMA-04 | TH-A08 → TH-A09 | ACK_ONLY | Logic Apps | Fast |
+| `ORCH-44` | Guest Incident Triage | APEX-TH-GIT-05 | TH-A10 → TH-A11 | HITL → ESCALATION | Logic Apps | Fast |
+| `ORCH-45` | Housekeeping-Exception Routing | APEX-TH-HER-06 | TH-A12 | ACK_ONLY | Logic Apps | Fast |
+
+**TH orchestration notes:**
+- ORCH-40 (Disruption Recovery) is TMT-style fan-out at scale: scope assessment, rebooking optimisation, communications drafting, and hotel/ground coordination all run in parallel. Durable is used because the recovery spans hours of execution after the OCC dispatcher approves the plan.
+
+---
+
+## C.10 ICE Practice Orchestrations (6 · Preview)
+
+| ORCH | Name | Service(s) | Agent chain | Gate | Runtime | Duration |
+|---|---|---|---|---|---|---|
+| `ORCH-50` | Field Asset Failure Response | APEX-ICE-FAF-01 | ICE-A01 → ICE-A02 → ICE-A03 | HITL | Logic Apps | Fast |
+| `ORCH-51` | Spare-Parts Availability Triage | APEX-ICE-SPA-02 | ICE-A04 → ICE-A05 | ACK_ONLY | Logic Apps | Fast |
+| `ORCH-52` | Warranty Claim Pattern Analysis | APEX-ICE-WCP-03 | ICE-A06 → ICE-A07 | HITL → ESCALATION | Durable | Extended |
+| `ORCH-53` | Contract-Renewal Revenue Protection | APEX-ICE-CRV-04 | ICE-A08 → ICE-A09 | HITL | Logic Apps | Fast |
+| `ORCH-54` | As-a-Service Utilisation Optimisation | APEX-ICE-AAU-05 | ICE-A10 → ICE-A11 | ACK_ONLY | Logic Apps | Extended |
+| `ORCH-55` | Compliance Inspection Response | APEX-ICE-CIR-06 | ICE-A12 → ICE-A13 | HITL → ESCALATION | Logic Apps | Fast |
+
+**ICE orchestration notes:**
+- ORCH-50 (Field Asset Failure) shares agent-chain patterns with `ORCH-19 (ER Field Work-Order)` because both services coordinate crews, parts, and routes. A shared sub-agent library (`apex-shared/dispatch-agents/`) is planned.
+- ORCH-52 (Warranty Pattern) is the earliest-warning service in the ICE Practice — the pre-recall indicator that gives Engineering a head start on quality remediation.
+
+---
+
+## C.11 Cross-Practice Orchestrations (Future State · Part V Tier 3)
+
+Orchestrations that span Practices, introduced in Wave 3+ or later for clients with multi-Practice deployments:
+
+| ORCH | Name | Practices | Purpose |
+|---|---|---|---|
+| `ORCH-90` | Cross-Recall Coordination | RC + HLS + AXLE | A recall in one Practice triggers lot-trace evaluation in the others (e.g., a medical-device recall ripples into AXLE's supplier investigation and RC's retail distribution check) |
+| `ORCH-91` | Cross-Supply-Chain Disruption | AXLE + ICE + RC | A supplier disruption detected in AXLE triggers inventory-state reassessment in ICE parts-availability and RC receiving expectations |
+| `ORCH-92` | Cross-Customer-Incident Correlation | RC + HLS + TH | A customer incident in one Practice that cross-correlates to another (e.g., a retail customer's food-safety incident that overlaps with a healthcare system admission) |
+| `ORCH-93` | Cross-Grid-and-Telco Event Response | ER + TMT | A grid event causing cascading telecom-infrastructure impact; coordinated operator response |
+
+These orchestrations carry ESCALATION gates by default because they involve multi-stakeholder, multi-Practice decisions where single-owner authority is inappropriate.
+
+---
+
+## C.12 Orchestration Summary Statistics
+
+| Class | Count |
+|---|---|
+| Total orchestrations catalogued | 43 GA + Preview + 4 cross-practice = **47** |
+| Logic Apps runtime | 33 (70%) |
+| Durable Functions runtime | 10 (21%) |
+| Mixed / either runtime | 4 (9%, cross-practice) |
+| HITL as default gate | 16 |
+| ACK_ONLY as default gate | 17 |
+| ESCALATION as default gate | 9 |
+| ZERO_TOUCH as default gate | 1 (partial; ORCH-34, ORCH-35 bounded classes) |
+| Fast duration (< 5 min) | 32 |
+| Extended duration (minutes–hours) | 11 |
+| Long-running duration (hours–days) | 4 |
+
+## C.13 Orchestration Versioning
+
+Each orchestration carries its own SemVer. Changes to an orchestration's DAG topology (adding/removing an agent step) are MAJOR; changes to step parameters (e.g., timeout, retry policy) are MINOR; changes to step labels or metadata are PATCH. Gate-kind changes (e.g., HITL → ACK_ONLY as part of a tuning cycle) are MAJOR and flow through the DAR (Decision Audit Review) discipline described in Chapter 16.
+
+---
+
+# Appendix D: Persona Catalog
 
 The 22 personas defined in `persona-catalog.json`. Each service's `personas.primary` and `.secondary` references these IDs.
 
@@ -2917,7 +3124,7 @@ Each service's `personas.primary` is typically an R; `secondary` mixes C and G; 
 
 ---
 
-# Appendix D: MCP Tool Catalog
+# Appendix E: MCP Tool Catalog
 
 MCP servers organised by class. Each server exposes one or more tools; only representative tool names shown.
 
@@ -3055,7 +3262,7 @@ Total APEX tool catalogue: ~135 domain tools + 30+ utility and external tools = 
 
 ---
 
-# Appendix E: Microsoft Product & SKU Reference
+# Appendix F: Microsoft Product & SKU Reference
 
 APEX consumes the following Microsoft products. Each client deployment is sized based on the services subscribed.
 
@@ -3125,7 +3332,7 @@ Teams is the HITL card delivery mechanism. Power Automate flows handle more comp
 
 ---
 
-# Appendix F: Partner Ecosystem
+# Appendix G: Partner Ecosystem
 
 APEX is delivered as a Deloitte-Microsoft joint offering. Third-party partners extend specific Practices:
 
@@ -3195,7 +3402,7 @@ Microsoft is the platform vendor, not just a product vendor. Deloitte-Microsoft 
 
 ---
 
-# Appendix G: Glossary
+# Appendix H: Glossary
 
 **Agent.** A reasoning component that runs in Azure AI Agent Service. Has a system prompt, tool allow-list, model, and manifest.
 
