@@ -17,15 +17,15 @@ This is the strategic reference for APEX — the Agentic Platform for Enterprise
 
 APEX is a **multi-industry platform**. It defines seven Practices that span the enterprise economy, where a companion framework like AXLE goes deep on one vertical (automotive), APEX goes broad across verticals while keeping one contract, one data plane, and one intelligence plane:
 
-- **RC — Retail & Consumer** (GA v1.2 · 8 services · Store 100 exemplar tenant)
+- **RC — Retail & Consumer** (GA v1.2 · 9 services · Store 100 exemplar tenant)
 - **HLS — Healthcare & Life Sciences** (GA v1.2 · 6 services)
 - **ER — Energy & Resources** (GA v1.2 · 5 services)
 - **AXLE — Automotive** (GA v1.2 · 5 services · complementary to the AXLE programme)
 - **TMT — Technology, Media & Telecom** (Active-build · 7 services drafted · GA target Q3 2026)
-- **TH — Travel & Hospitality** (Active-build · 6 services drafted · GA target Q2 2026)
+- **TH — Travel & Hospitality** (Active-build · 7 services drafted · GA target Q2 2026)
 - **ICE — Industrial & Commercial Equipment** (Active-build · 6 services drafted · GA target Q3 2026)
 
-Current catalog: **24 GA services + 19 in build = 43 catalogued services**. AXLE is one of these seven Practices; for clients who commit to deep automotive transformation, the full AXLE Comprehensive Reference programme is available alongside. The two are complementary: APEX is the cross-industry platform; AXLE is an automotive-depth programme that a client can adopt alongside (or inside) their APEX footprint.
+Current catalog: **25 GA services + 20 in build = 45 catalogued services**. AXLE is one of these seven Practices; for clients who commit to deep automotive transformation, the full AXLE Comprehensive Reference programme is available alongside. The two are complementary: APEX is the cross-industry platform; AXLE is an automotive-depth programme that a client can adopt alongside (or inside) their APEX footprint.
 
 This document sets out **what APEX is, why it matters now, what it ships with, and how clients land it**. The structure mirrors the reference document pattern Deloitte uses for flagship platform offerings: forces of change, AI journey, maturity model, human element, platform architecture, industry-practice chapters, implementation roadmap, appendices.
 
@@ -145,11 +145,11 @@ Investment envelope per Practice: **$3–8M in Wave 1**, **$5–12M in Wave 2**,
 
 ## Service Portfolio at a Glance
 
-APEX has **43 catalogued services** across seven Practices. 24 are GA today; 19 are in active or planned build, with GA targets through 2026.
+APEX has **45 catalogued services** across seven Practices. 25 are GA today; 20 are in active or planned build, with GA targets through 2026.
 
-**GA Practices (24 services):**
+**GA Practices (25 services):**
 
-- **Retail & Consumer (RC): 8 services** — Cold Chain Excursion Response, Receiving Variance Dispute, ESL Pricing Integrity, Phantom-OOS Detection, Recall Response, BOPIS Exception Handling, Shrink & Void Anomaly, Customer Incident Triage.
+- **Retail & Consumer (RC): 9 services** — Cold Chain Excursion Response, Receiving Variance Dispute, ESL Pricing Integrity, Phantom-OOS Detection, Recall Response, BOPIS Exception Handling, Shrink & Void Anomaly, Customer Incident Triage, Product End-to-End Tracking.
 - **Healthcare & Life Sciences (HLS): 6 services** — Discharge Ready Surveillance, Sepsis Early Warning, Revenue-Cycle Denial Recovery, Supply Expiry Management, Clinical Trial Matching, Patient Safety Incident.
 - **Energy & Resources (ER): 5 services** — Meter Outage Detection, Grid Anomaly Response, Billing Exception Handling, Field Work-Order Optimisation, Regulatory Event Response.
 - **Automotive (AXLE): 5 services** — Line-Down Triage, Quality Excursion Response, Supply-Chain Disruption, Recall Traceability, Plant KPI Drift.
@@ -157,7 +157,7 @@ APEX has **43 catalogued services** across seven Practices. 24 are GA today; 19 
 **Build-and-Preview Practices (19 services drafted, GA 2026):**
 
 - **Technology, Media & Telecom (TMT): 7 services** — Network Incident Response, Customer Churn Intervention, Content Rights Violation Triage, Subscription Exception Handling, Cloud Cost Anomaly Response, Ad Fraud Detection, 5G Service Outage Triage.
-- **Travel & Hospitality (TH): 6 services** — Overbooking & Inventory Balancing, Disruption Recovery Orchestration, Loyalty Guest Rescue, Revenue-Management Anomaly, Guest Incident Triage, Housekeeping-Exception Routing.
+- **Travel & Hospitality (TH): 7 services** — Overbooking & Inventory Balancing, Disruption Recovery Orchestration, Loyalty Guest Rescue, Revenue-Management Anomaly, Guest Incident Triage, Housekeeping-Exception Routing, Traveler / Profile / Preferences Tracking.
 - **Industrial & Commercial Equipment (ICE): 6 services** — Field Asset Failure Response, Spare-Parts Availability Triage, Warranty Claim Pattern Analysis, Contract-Renewal Revenue Protection, As-a-Service Utilization Optimization, Compliance Inspection Response.
 
 Each service is one subscribable SKU: scenario + personas + KPIs + SLOs + artifact bundle + prerequisites + commercial terms. Clients subscribe to services, not to "APEX". A client may start with two services and grow to a portfolio of twelve or more across two or three Practices.
@@ -797,6 +797,18 @@ CXI-08 treats the incident as time-sensitive. `CX-A01 Incident Intake Agent` cap
 
 KPI impact: `tier1_response_min ≤ 15` · `cross_store_correlation_caught_pct ≥ 95%` · `regulatory_escalation_accuracy_pct ≥ 99%`. Artifacts: CXML.CUSTOMER_INCIDENT + SCML.LOT_TRACE + CXML.LOYALTY_STATE. Prereqs: incident portal + POS + CCTV metadata + F16 + `customer-care-agent` group.
 
+#### Product End-to-End Tracking — `APEX-RC-E2E-09`
+
+**Tier:** Enterprise · **Status:** GA v1.2 · **Gate:** ACK_ONLY (read-path) · HITL when traces surface remediation actions
+
+Every other RC service produces decisions about a product at one point in its journey — receipt, shelf, register, customer hand. `APEX-RC-E2E-09` is the service that stitches the whole journey into a single queryable timeline: supplier purchase order, advance ship notice, DC handling, inbound receipt, lot-level inventory assignment, store shelf placement, POS ring, loyalty customer attribution, return, or disposal. It is the product's biography, queryable from any direction in seconds.
+
+Without E2E tracking, a recall, a customer incident, or a shrink investigation sets off a week of manual correlation work across five systems. With it, the same question — *"every customer who bought any unit from recalled lot L24-A718X across all stores in the last 21 days"* — returns in under 15 seconds as a tokenised, consent-filtered, auditable result set.
+
+The service is primarily a **read-path capability** — it doesn't make decisions, it answers questions. Decisions that follow traces (initiate a recall outreach, stage a dispute, open a shrink case) are made by the downstream services (RCL-05, RVD-02, SHK-07, CXI-08) the trace feeds into.
+
+KPI impact: `trace_query_p95_sec ≤ 15` · `forward_trace_completeness_pct ≥ 99%` · `cross_store_coverage_pct ≥ 100%` · `recall_answer_time_hours ≤ 2` (baseline 40–80 h manual). Artifacts: SCML.ASN/STORE_RECEIVING_EVENT/LOT_TRACE + MERML.STORE_INVENTORY_POSITION + CXML.FULFILLMENT_ORDER/LOYALTY_STATE/CUSTOMER_INCIDENT + the new cross-schema joined view `gold_product_timeline_v1`; agents TRACE-A01 Forward Trace Composer, TRACE-A02 Backward Trace Composer, TRACE-A03 Lateral Trace Composer; tools `fabric-mcp.trace_forward`, `fabric-mcp.trace_backward`, `fabric-mcp.trace_lateral`, `fabric-mcp.trace_point_in_time`; orchestration ORCH-26. Prereqs: all upstream RC services either live or backfilled; F16 for the materialised timeline view; `compliance-officer` + `loss-prevention-lead` + `customer-care-agent` identity groups.
+
 ### Architecture Components (RC)
 
 #### Canonical Silver Schemas
@@ -879,6 +891,316 @@ Additional indirect benefits (not monetised in the Wave 1 case but material at b
 - National rollout
 - SHK-07 and RCL-05 (highest-consequence services) added
 - Pilot Level-5 autonomous on OSA-04 for low-$ thresholds
+
+---
+
+## Chapter 2A: Implementation Deep-Dive — Product End-to-End Tracking
+
+This chapter is the implementation reference for `APEX-RC-E2E-09 Product End-to-End Tracking`. It is intentionally deeper than the other service entries because E2E tracking is a cross-cutting capability that every other RC service leans on, and because clients frequently ask for detailed technical evidence before they commit to the Enterprise-tier commercial envelope.
+
+Developers implementing the service should read this chapter alongside Companion 02 (Medallion + SOR) and Companion 03 (MCP Servers) in the *APEX Developer Implementation Guide*.
+
+### 2A.1 The Business Problem
+
+A recalled infant-formula lot ships Friday. By Monday morning, the chain has to answer four questions for the FDA:
+
+- Which stores received units from the affected lot?
+- How many units remain on shelves or in backrooms?
+- How many units have been sold (and to which loyalty customers, consent-permitting)?
+- What other lots from the same supplier / production window may be at risk?
+
+In the pre-APEX state, these four questions take 40–80 staff-hours spread across supply-chain, merchandising, customer-service, and compliance teams, each reading their own system. The reconstruction is error-prone; the delay is measurable in regulatory exposure and media cycles. In the APEX steady state with E2E-09 live, the answers return in **under 15 seconds** as a queryable, audit-rowed, tokenised, consent-filtered result set.
+
+The product's journey crosses six APEX canonical entities and three schema families:
+
+```
+Supplier PO      → SCML.ASN
+Inbound receipt  → SCML.STORE_RECEIVING_EVENT
+Lot assignment   → SCML.LOT_TRACE
+Store inventory  → MERML.STORE_INVENTORY_POSITION
+POS ring         → MERML._transaction (tokenised)
+Customer         → CXML.LOYALTY_STATE (tokenised, consent-gated)
+Return/incident  → CXML.CUSTOMER_INCIDENT (optional)
+Fulfilment       → CXML.FULFILLMENT_ORDER (BOPIS / e-comm)
+```
+
+E2E-09 stitches these into one unified, time-indexed timeline — the *Product Timeline* — and provides four query modes over it.
+
+### 2A.2 What "End-to-End" Means in RC
+
+Four trace modes the service supports, each answering a different operational question:
+
+| Mode | Direction | Input | Output | Primary use |
+|---|---|---|---|---|
+| **Forward trace** | Past → Future | Supplier lot / PO | Every store-SKU-unit derived from it, through to customer | Recall response, quality containment |
+| **Backward trace** | Future → Past | Customer complaint / unit ID | Full provenance to supplier lot | Customer incident, root-cause investigation |
+| **Lateral trace** | Peer | One lot / shipment | Every sibling lot from same supplier within window | Pattern detection across shipments |
+| **Point-in-time** | Temporal | Timestamp | Product state at that moment | Audit reconstruction, regulatory filings |
+
+All four modes share the same underlying join graph and the same Trace Key (§2A.3). Only the query shape differs.
+
+### 2A.3 The Canonical Trace Key
+
+E2E-09's single hardest design decision was the Trace Key — the identifier that uniquely threads a product instance from supplier to customer. After reviewing twelve client-SOR permutations, the APEX Core team settled on a **composite Trace Key** of the form:
+
+```
+trace_key = {
+  supplier_id,          // normalised supplier identifier from SCML.ASN
+  supplier_lot_id,      // supplier's lot code (normalised)
+  sku,                  // canonical SKU (cross-store, not store-local)
+  case_rfid_id?,        // UHF-RFID case tag, when present
+  unit_serial_id?       // per-unit serial, for serialised categories
+}
+```
+
+Only `supplier_id + supplier_lot_id + sku` is mandatory. `case_rfid_id` is present when the lot was received through a UHF-RFID portal (increasingly common but not universal). `unit_serial_id` is present only for serialised categories (baby formula, infant medicine, Rx-adjacent).
+
+The Trace Key is the **join key** for the cross-schema Product Timeline. Every RC Silver entity that participates in tracking carries these fields as a foreign-key tuple.
+
+### 2A.4 Architecture
+
+```mermaid
+flowchart TB
+  subgraph Ingest["RC Silver Ingest (per-entity, existing)"]
+    ASN[SCML.ASN]
+    REC[SCML.STORE_RECEIVING_EVENT]
+    LOT[SCML.LOT_TRACE]
+    INV[MERML.STORE_INVENTORY_POSITION]
+    POS[MERML POS records]
+    FUL[CXML.FULFILLMENT_ORDER]
+    LOY[CXML.LOYALTY_STATE]
+    INC[CXML.CUSTOMER_INCIDENT]
+  end
+  subgraph Timeline["Gold · Product Timeline"]
+    PT[gold_product_timeline_v1<br/>cross-schema join on Trace Key<br/>materialised · refresh 5 min]
+  end
+  subgraph Tools["Trace MCP Tools · fabric-mcp"]
+    T1[trace_forward]
+    T2[trace_backward]
+    T3[trace_lateral]
+    T4[trace_point_in_time]
+  end
+  subgraph Agents["Trace Agents"]
+    A1[TRACE-A01<br/>Forward Composer]
+    A2[TRACE-A02<br/>Backward Composer]
+    A3[TRACE-A03<br/>Lateral Composer]
+  end
+  subgraph Consumers["Downstream Consumers"]
+    RCL[RCL-05 Recall Response]
+    CXI[CXI-08 Customer Incident]
+    SHK[SHK-07 Shrink]
+    Console[Trace Console · Power BI]
+    Ad-hoc[Compliance ad-hoc query]
+  end
+  Ingest -->|"joined on trace_key"| PT
+  PT --> T1
+  PT --> T2
+  PT --> T3
+  PT --> T4
+  T1 --> A1
+  T2 --> A2
+  T3 --> A3
+  A1 --> RCL
+  A2 --> CXI
+  A2 --> SHK
+  A1 --> Console
+  A2 --> Console
+  A3 --> Console
+  T4 --> Ad-hoc
+```
+
+**Runtime:** `fabric-mcp` trace tools run in Azure Container Apps (same as other fabric-mcp tools) under `mi-apex-rc-mcp`. The Product Timeline materialised view lives in the tenant's Fabric Warehouse. Trace orchestration (ORCH-26) uses Logic Apps because forward/backward trace completes in < 15 s; point-in-time reconstruction uses Durable Functions for the rare deep-history cases.
+
+### 2A.5 The `gold_product_timeline_v1` View
+
+The centrepiece is a materialised cross-schema Gold view that pre-joins the six participating Silver tables on the Trace Key composite. The view is refreshed every 5 minutes (Warehouse scheduled refresh) so that the freshness SLO is "any event less than 5 minutes old may not yet appear in trace."
+
+Schema (abbreviated):
+
+```sql
+CREATE VIEW gold_product_timeline_v1 AS
+SELECT
+  -- trace key
+  supplier_id, supplier_lot_id, sku,
+  case_rfid_id, unit_serial_id,
+
+  -- provenance timeline
+  asn_id,                   asn_ship_ts,
+  receiving_event_id,       received_ts,         receiving_store_id,
+  inventory_assigned_ts,    inventory_store_id,  inventory_position,
+  shelf_placement_ts,       shelf_location,
+  pos_transaction_id,       ring_ts,             ring_store_id,
+  ring_register_id,
+  fulfillment_order_id,     fulfillment_type,    fulfillment_ts,
+  customer_id_tkn,          loyalty_tier,        consent_contact_flag,
+
+  -- incident / return (nullable)
+  incident_id,              incident_ts,         incident_tier,
+  return_event_id,          return_ts,
+
+  -- recall overlay (nullable, joined from SCML.RECALL_NOTICE)
+  recall_notice_id,         recall_class,       recall_posted_ts
+
+FROM   SCML.ASN                         a
+LEFT JOIN SCML.STORE_RECEIVING_EVENT    r   USING (supplier_id, supplier_lot_id, sku, case_rfid_id)
+LEFT JOIN SCML.LOT_TRACE                l   USING (supplier_id, supplier_lot_id)
+LEFT JOIN MERML.STORE_INVENTORY_POSITION i  USING (sku, store_id)
+LEFT JOIN MERML_pos_ring                p   USING (sku, store_id)
+LEFT JOIN CXML.FULFILLMENT_ORDER        f   USING (sku, pos_transaction_id)
+LEFT JOIN CXML.LOYALTY_STATE            ly  USING (customer_id_tkn)
+LEFT JOIN CXML.CUSTOMER_INCIDENT        inc USING (customer_id_tkn, sku)
+LEFT JOIN SCML.RECALL_NOTICE            rn  USING (supplier_id, supplier_lot_id)
+WHERE COALESCE(asn_ship_ts, received_ts, ring_ts) > DATEADD(day, -730, SYSUTCDATETIME());
+```
+
+Retention: 730 days (2 years) rolling. Longer retention sits in Silver; the Gold timeline is a tuned-for-read materialised subset.
+
+### 2A.6 The Trace MCP Tools
+
+Four tools expose the timeline. All are tenant-scoped (require `X-APEX-Tenant-Id`), managed-identity-authenticated, and emit operation_Id trace spans per call.
+
+**`fabric-mcp.trace_forward(supplier_lot_id, window_days = 30) → TraceResult`**
+Returns every timeline row where `supplier_lot_id` matches, up to `window_days`. Typical response time ≤ 2 s for < 10,000 rows.
+
+**`fabric-mcp.trace_backward(unit_id | pos_transaction_id | customer_incident_id) → TraceResult`**
+Returns the full supplier-to-customer provenance of one specific unit or incident. Typical response time ≤ 1 s.
+
+**`fabric-mcp.trace_lateral(supplier_id, time_window_days = 90) → TraceResult`**
+Returns every lot from `supplier_id` within the window. Enables "show me every recent shipment from Vendor X" for pattern analysis.
+
+**`fabric-mcp.trace_point_in_time(trace_key, timestamp) → ProductState`**
+Reconstructs the product's state at a specific historical moment. Uses SCD2 lookups on the underlying Silver tables. Response time 5–15 s for deep history.
+
+### 2A.7 The Trace Agents
+
+Three agents compose the human-readable narrative from raw timeline data.
+
+**`TRACE-A01 · Forward Trace Composer`** — Takes the forward-trace rowset and composes a structured summary: affected store count, remaining inventory units, sold-and-shipped units, identified loyalty customers (tokenised, consent-filtered), per-store breakdown, timeline density. Output feeds `RCL-05 Recall Response` or can be rendered as a standalone compliance report.
+
+**`TRACE-A02 · Backward Trace Composer`** — Given a customer incident or unit complaint, reconstructs the full provenance: supplier lot, manufacturing window, warehouse handling, receiving event, shelf days, ring, fulfilment path. Output feeds `CXI-08 Customer Incident Triage` or `SHK-07 Shrink & Void Anomaly` depending on incident type.
+
+**`TRACE-A03 · Lateral Trace Composer`** — Reasoning-tier agent (because the output requires nuanced judgement): given a supplier lot under investigation, identifies sibling lots worth flagging as "also at risk" based on shared production window, ingredient common-mode, or quality-pattern correlation.
+
+### 2A.8 Forward Trace Implementation
+
+The canonical forward-trace flow:
+
+1. **Trigger.** An external event (FDA recall posted, Compliance request, RCL-05 activation) invokes `fabric-mcp.trace_forward(supplier_lot_id)`.
+2. **Query.** The tool runs a single SQL query against `gold_product_timeline_v1` filtered on the supplier_lot_id. Typical rowset: 200–5,000 rows per lot.
+3. **Enrich.** TRACE-A01 receives the rowset and composes:
+   - Store breakdown: `{store_id, units_received, units_on_shelf, units_in_backroom, units_sold}`
+   - Customer reach: tokenised customer list with consent flags
+   - Timeline density: first and last event timestamps per stage
+4. **Gate.** If the trace is part of an active recall orchestration, RCL-05 takes the composed output and proceeds to its own HITL escalation. Standalone compliance queries receive the composed output directly.
+5. **Audit.** Every trace invocation writes an `apex_audit_log` row: who queried, what lot, what time, what rowset size.
+
+End-to-end latency: 1–10 seconds depending on lot scope. The hardest tuning challenge is not query speed — it's **tokenisation throughput** when the trace touches tens of thousands of customer records.
+
+### 2A.9 Backward Trace Implementation
+
+A customer walks into a store with a product complaint: *"I bought this muffin here yesterday; there's a plastic fragment in it."* The frontline Customer Care Agent opens CXI-08 (Customer Incident Triage) which fires ORCH-09. Within that orchestration, E2E-09's backward-trace tool is invoked:
+
+1. **Input.** Either the POS transaction ID from the customer's receipt or the scanned unit code.
+2. **Query.** `trace_backward(pos_transaction_id)` retrieves the full product provenance — one row with all the stages the unit passed through.
+3. **Enrich.** TRACE-A02 composes the backward narrative: "Supplier X, lot L-xxxxx, shipped Nov 3, received Nov 5 store #100, placed on shelf Nov 6, rung Nov 8 13:47."
+4. **Cross-reference.** TRACE-A02 automatically runs a lateral query: *"Are there similar complaints on other units from the same lot, either at this store or elsewhere in the last 14 days?"*
+5. **Decision.** The Customer Care Agent receives the composed backward trace plus the cross-reference result. If cross-store matches exceed threshold, CXI-08's gate elevates to ESCALATION.
+
+The backward trace is often the **triggering signal** for a proactive recall-response conversation with the supplier, even before the FDA is involved.
+
+### 2A.10 Lateral Trace Implementation
+
+Lateral trace answers "what else should we worry about?" given a specific trigger. Use cases:
+
+- A supplier reports a production-line issue → trace_lateral returns all lots from that supplier in the affected window
+- A quality pattern emerges in one lot → trace_lateral identifies sibling lots from the same production week / same material batch / same supplier plant
+- A customer incident surfaces → after backward trace identifies the lot, trace_lateral identifies other lots worth reviewing preventively
+
+TRACE-A03 (reasoning tier) makes the judgement call about which sibling lots are *truly* at risk vs. which are merely temporally adjacent. Without this judgement, lateral trace produces unactionably large result sets.
+
+### 2A.11 Point-in-Time Reconstruction
+
+The rare but critical use case: a regulator asks, *"On Nov 15, 2024 at 14:00 UTC, what was the inventory state of SKU X at Store 100, and where had each unit come from?"* — a question that requires SCD2 lookups against every participating Silver table as of that timestamp.
+
+Implementation is a dedicated Durable Function orchestration (one of the few APEX services that uses Durable over Logic Apps) because the SCD2 lookups run against multiple tables in parallel and merge asynchronously. Point-in-time reconstruction typically runs at query time (not cached), with expected latency 5–15 seconds.
+
+### 2A.12 Performance & SLO
+
+| SLO | Target | Measurement |
+|---|---|---|
+| Trace freshness | ≤ 5 min (5-min view refresh) | Warehouse scheduled refresh latency |
+| Forward trace p95 | ≤ 10 s (10k rows) | operation span in App Insights |
+| Backward trace p95 | ≤ 2 s (1 row + cross-ref) | operation span |
+| Lateral trace p95 | ≤ 15 s | operation span |
+| Point-in-time p95 | ≤ 30 s | operation span |
+| Forward trace completeness | ≥ 99% (rows match truth set) | Monthly sampling against SOR truth |
+| Cross-store coverage | 100% | Query must match across every store, not just pilot region |
+
+The most common SLO violation in early deployments is forward-trace completeness dropping below 99% because one upstream silver table has backfill gaps. The fix is always upstream — E2E-09 inherits the quality of its inputs.
+
+### 2A.13 Integration with Other RC Services
+
+E2E-09 is the read-path backbone for four downstream decision services:
+
+- **RCL-05 (Recall Response)** — Forward trace drives customer-reach math and regulatory-reporting rows. Without E2E-09, RCL-05's recall-outreach coverage is partial.
+- **CXI-08 (Customer Incident Triage)** — Backward + lateral trace enriches the incident workflow. Without E2E-09, CXI-08 relies on manual cross-reference that misses ~30% of multi-store patterns.
+- **SHK-07 (Shrink & Void Anomaly)** — Backward trace from void-level signals to unit-level provenance strengthens case-file evidence. Without E2E-09, shrink investigations rely on CCTV-timestamp indices alone.
+- **RVD-02 (Receiving Variance Dispute)** — Lateral trace across vendor shipments supports the `DSD_INVOICE.vendor_90d_variance_count` pattern detection that drives RECURRING classification.
+
+An RC deployment without E2E-09 still ships these four services — but the services operate with degraded cross-reference quality. E2E-09 is the amplifier that makes the portfolio substantially more valuable than the sum of its parts.
+
+### 2A.14 Rollout Roadmap
+
+**Phase 1 (Week 1–4): Trace Key normalisation.** Audit every RC Silver entity to confirm the trace-key composite fields are present, populated, and conformant to the canonical format. Backfill any gaps. This is typically the longest phase because SOR variation surfaces here.
+
+**Phase 2 (Week 5–8): Gold view materialisation.** Author `gold_product_timeline_v1` and its refresh schedule. Tune for the client's data-volume profile. Validate against a sample recall-scenario query set.
+
+**Phase 3 (Week 9–12): Trace MCP tools + first trace agent (TRACE-A01).** Ship forward-trace first because it is the highest-$-impact capability (recall math).
+
+**Phase 4 (Week 13–16): Remaining trace agents + Power BI Trace Console.** Ship backward, lateral, and point-in-time. Stand up the human-facing Trace Console for ad-hoc queries from Compliance.
+
+**Phase 5 (Week 17–20): Integration with downstream services.** Wire RCL-05, CXI-08, SHK-07, RVD-02 to consume E2E-09 outputs instead of their current manual cross-reference paths. Retire the manual scripts.
+
+Total: 20 weeks to full integration, typical cost $2–4M depending on SOR backfill scope and the state of the RC portfolio at integration time.
+
+### 2A.15 Testing Strategy
+
+**Unit tests.** MCP tool logic (query shape, parameter validation, error codes) — `fabric-mcp/test/trace_*.spec.js` in the APEX dev repo.
+
+**Integration tests.** Against a fixture dataset modelling a known recall scenario. Expected: trace_forward returns the known affected-unit set with ≥ 99% precision/recall.
+
+**Regression tests.** Every week, replay a canonical "hard" trace query (a 18-month-old lot from a multi-store recall) against the current view. Alert if completeness drops below 99%.
+
+**Shadow validation.** For the first 30 days post-go-live, every trace query also runs against the pre-APEX manual reconciliation process and both results are compared. Divergence over 1% pages the practice SRE.
+
+### 2A.16 Data Retention & Privacy
+
+All customer identifiers are tokenised at the Silver boundary; E2E-09 reads only tokens. A trace result that lists "500 affected loyalty customers" means 500 tokens — actual customer identity is only reverse-resolved through `tokenizer-mcp.reverse_tokenize` during an active outreach workflow, and that reverse resolution is audit-logged.
+
+Consent flags (`loyalty_state.consent_contact`) gate downstream communications. A customer with consent-withdrawn cannot be contacted for recall outreach; the trace result surfaces the count but not the actionable contact path. This is a compliance requirement (GDPR, CCPA), not a commercial choice.
+
+Retention of the timeline view is 730 days rolling; full historical Silver retention is 7+ years. Point-in-time reconstruction can reach into the longer history but at higher latency.
+
+### 2A.17 Implementation Checklist
+
+Before go-live:
+
+- [ ] Trace Key composite fields present and conformant on all 6 participating Silver entities
+- [ ] `gold_product_timeline_v1` view materialised with 5-min refresh
+- [ ] Four `fabric-mcp.trace_*` tools deployed and registered with Agent Service
+- [ ] Three TRACE-A0x agents registered with manifests + tool allow-lists
+- [ ] ORCH-26 Product Trace orchestration deployed (Logic Apps)
+- [ ] Power BI Trace Console published to the `compliance-officer` identity group
+- [ ] SLO panels added to the Azure Monitor workbook
+- [ ] `apex_audit_log` instrumented for every trace invocation
+- [ ] Shadow-validation process running for 30-day go-live window
+- [ ] RCL-05 / CXI-08 / SHK-07 / RVD-02 integration tickets scheduled for Phase 5
+
+Post go-live:
+
+- [ ] Monthly trace-completeness audit
+- [ ] Quarterly re-tokenisation drill
+- [ ] Annual retention-window review with Compliance
 
 ---
 
@@ -1531,6 +1853,23 @@ Food safety, safety-and-security incidents, complaints patterns. `TH-A10 Inciden
 
 Room-status exceptions routed to the right resource with priority scoring. `TH-A12 Exception Prioritiser`. Often the first service on a hotel pilot because it's low-stakes and shows quick wins.
 
+#### Traveler, Profile & Preferences Tracking — `APEX-TH-TTP-07`
+
+**Tier:** Enterprise · **Status:** Preview v1.0 (GA target Q2 2026) · **Gate:** ACK_ONLY (read-path) · HITL on any action that consumes profile or preference data · ESCALATION on consent-violation detection
+
+TH's analogue to RC's E2E product tracking: an end-to-end traveler timeline stitched across every TH service touchpoint. Unlike RC E2E-09 (where the subject is a *product lot*), the subject here is a *person* — which makes privacy, consent, and anonymity **first-class design concerns rather than afterthoughts**.
+
+The Traveler Timeline spans: search → booking → ancillary purchases → check-in → journey (flight/stay) → disruption events → rebooking → guest interactions (incidents, comms) → loyalty accrual → departure/checkout → post-trip surveys and follow-ups. Every touchpoint is attributable; every attribution is consent-gated; every profile-data read is audit-logged.
+
+The service operates in two privacy modes simultaneously, selectable per trace query:
+
+- **Anonymous mode** (default for ops, revenue, and disruption-recovery analytics) — the traveler's identity is a stable opaque token; no cleartext PII is returned; aggregate trace results work fine for bed-capacity, load-factor, and disruption-reach math.
+- **Shared mode** (requires per-data-class consent evaluation before each call) — returns identifiable data only for the data classes the traveler has explicitly consented to share, and only for the purpose declared in the query call. Every reverse-tokenisation is audit-logged and inspectable by the traveler on request.
+
+Preferences are a separately-tokenised class of data with their own consent overlay — a traveler may consent to *preferences being used to personalise service* without consenting to *preferences being shared with partner operators*. The service respects this granularity natively.
+
+KPI impact: `trace_query_p95_sec ≤ 15` · `consent_violation_rate_pct ≤ 0` (hard zero — any non-zero is a regulatory incident) · `personalisation_opt_in_rate_pct` maximise · `disruption_recovery_traveler_context_coverage_pct ≥ 99%`. Artifacts: THML.BOOKING_RECORD + THML.DISRUPTION_EVENT + THML.RECOVERY_ACTION + THML.LOYALTY_GUEST_STATE + THML.GUEST_INCIDENT + THML.HOUSEKEEPING_EXCEPTION + new THML entities `TRAVELER_PROFILE` and `TRAVELER_PREFERENCES` + new `gold_traveler_timeline_v1` view; agents TTP-A01 Traveler Timeline Composer, TTP-A02 Profile Assembler (consent-gated), TTP-A03 Preferences Resolver, TTP-A04 Consent Auditor; tools `fabric-mcp.traveler_trace`, `fabric-mcp.profile_fetch_anonymous`, `fabric-mcp.profile_fetch_shared`, `fabric-mcp.preferences_resolve`, `tokenizer-mcp.consent_check`; orchestration ORCH-46. Prereqs: booking, loyalty, incident, and disruption data in Silver; tokeniser with consent-flag support; Purview DLP configured for outbound PII blocking; `guest-service-agent` + `loyalty-experience-mgr` + `compliance-officer` identity groups.
+
 ### 7.6 Business Case Highlights (TH)
 
 Typical Wave 1 financials (major airline or large hotel group):
@@ -1548,6 +1887,408 @@ Total Wave 1 annualised: **$5–10M** against **$3–5M** investment.
 ### 7.7 Implementation Roadmap (TH)
 
 Typical TH engagements start with HER-06 (low-stakes, quick win) + LGR-03 or OBI-01 (higher value) in Wave 1; DRO-02 and GIT-05 added in Wave 2 after trust is established; RMA-04 in Wave 3.
+
+---
+
+## Chapter 7A: Implementation Deep-Dive — Traveler, Profile & Preferences Tracking
+
+Parallel to Chapter 2A (RC Product E2E Tracking), this chapter is the implementation reference for `APEX-TH-TTP-07 Traveler, Profile & Preferences Tracking`. Where the RC deep-dive can treat the subject (a product lot) as effectively non-sensitive, this chapter's subject is a *person*. Privacy, consent, and anonymity define the architecture rather than decorate it.
+
+Developers implementing the service should read this chapter alongside **Companion 02** (Medallion + SOR) and **Companion 05** (Observability & Security) in the *APEX Developer Implementation Guide*, because the PII handling discipline here is the strictest in the APEX platform.
+
+### 7A.1 The Business Problem
+
+A major airline's disruption-recovery scenario: a weather event cancels 87 flights; 14,000 passengers need to be rebooked and communicated with in the next three hours. The operations control center needs to know, for each affected traveler:
+
+- What is the traveler's loyalty tier, and do they qualify for tier-based rebooking priority?
+- Does the traveler have onward connections, hotel bookings, or ground transport that compound the disruption?
+- Does the traveler have accessibility needs, dietary restrictions, or travel-with-companions settings the rebook must honour?
+- Does the traveler have communication-channel consent preferences — voice call OK, SMS OK, email only, or "do not contact except for safety"?
+- Is this an anonymous booking, a known loyalty guest, or a corporate-travel guest with a shared profile?
+
+Without TTP-07, the answers are distributed across six systems (PSS, loyalty, CRM, ancillary booking, accessibility portal, consent registry) and assembled manually per-traveler. In the 14,000-passenger disruption above, manual assembly is impossible; the recovery defaults to tier-only prioritisation, ignoring the individual context. Travellers are recovered *as cohorts*, not *as people*.
+
+With TTP-07 live, every rebook decision within `DRO-02 Disruption Recovery Orchestration` has the full consent-aware traveler context available in under 200 milliseconds per lookup. The recovery is personal at scale.
+
+### 7A.2 What "End-to-End" Means for a Traveler
+
+The Traveler Timeline crosses seven THML entities and optionally overlays with CXML for shared-data cross-practice use cases:
+
+```
+Pre-trip
+  Search                → (search-event telemetry, 90-day retention)
+  Booking               → THML.BOOKING_RECORD
+  Ancillaries           → THML.BOOKING_RECORD.ancillaries[]
+  Profile lookup        → THML.TRAVELER_PROFILE (consent-gated)
+  Preferences lookup    → THML.TRAVELER_PREFERENCES (consent-gated per class)
+
+Trip
+  Check-in              → THML.BOOKING_RECORD.check_in_event
+  Flight / stay         → THML.BOOKING_RECORD.segment_events
+  Disruption            → THML.DISRUPTION_EVENT
+  Recovery action       → THML.RECOVERY_ACTION
+  Guest incident        → THML.GUEST_INCIDENT
+  Housekeeping event    → THML.HOUSEKEEPING_EXCEPTION (hotel stays)
+
+Post-trip
+  Loyalty accrual       → THML.LOYALTY_GUEST_STATE
+  Departure / checkout  → THML.BOOKING_RECORD.close_event
+  Surveys / follow-up   → THML.INTERACTION_HISTORY (shared with CXML pattern)
+```
+
+TTP-07 stitches these into the **Traveler Timeline** — a time-indexed view keyed on a stable, tokenised `traveler_id_tkn`. The profile and preferences are stored separately from the timeline (different retention policies, different consent scopes) and resolved against the timeline only when consented.
+
+### 7A.3 The Three-Tier Privacy Architecture
+
+TTP-07's foundational design choice is a three-tier privacy architecture. Every data access falls into exactly one tier:
+
+#### Tier A — Anonymous Operational
+
+No reverse-identifiable data. Traveler is a stable opaque token `traveler_id_tkn`; bookings, disruption events, service interactions are associated with the token but contain no cleartext PII. Anonymous Operational trace works for: bed-capacity math, load-factor analytics, disruption-reach math, revenue-management decisions, housekeeping routing, and all aggregate ops use cases.
+
+Rule: **~85% of TTP-07 queries run in Tier A** and should. Only elevate when the use case genuinely requires identity.
+
+#### Tier B — Shared Profile (Consent-Scoped)
+
+Reversible to cleartext identity, but only under two constraints:
+
+1. The traveler has granted consent for the specific **data class** (name, contact, accessibility, dietary, companions, payment, address)
+2. The query declares the specific **purpose** (disruption recovery, personalisation, safety event, regulatory, legal)
+
+Consent × Purpose creates a 7×5 matrix that `tokenizer-mcp.consent_check` evaluates before every Tier-B lookup. A consent-mismatch returns a sanitised result (aggregate indication, no cleartext), never an error that reveals the underlying data exists.
+
+Rule: **~13% of TTP-07 queries** are Tier B. Most legitimate Tier-B uses are disruption recovery (consent class: contact; purpose: disruption recovery), loyalty rescue (consent class: contact; purpose: service recovery), and guest incident triage (consent class: contact + accessibility; purpose: safety).
+
+#### Tier C — Legal / Regulatory Hold
+
+Reserved for law-enforcement requests, regulatory investigations, safety incidents requiring full identity disclosure, or audits by the traveler themselves. Every Tier-C access requires a specific incident or audit identifier to be present on the call; every access writes a customer-visible audit row that surfaces in the traveler's own data-access log if they request it.
+
+Rule: **~2% of queries** in mature deployments. If Tier-C volume rises, it is usually a compliance incident in progress or a misconfigured service elevating unnecessarily — both get investigated.
+
+### 7A.4 The Traveler Trace Key
+
+A composite key that supports anonymous-by-default tracking:
+
+```
+traveler_trace_key = {
+  traveler_id_tkn,            // always present · stable tokenised ID
+  booking_locator_tkn?,       // tokenised PNR / reservation code
+  loyalty_tier_token?,        // tokenised loyalty state for tier-based decisions
+  trip_instance_id?           // unique per-trip ID within this traveler's history
+}
+```
+
+Only `traveler_id_tkn` is mandatory. Anonymous bookings still get a `traveler_id_tkn` generated at booking creation from a stable hash of the payment instrument + outbound itinerary, so that the same anonymous traveler appearing across multiple bookings is still recognisable as the same token — but the token is not reversible to cleartext identity without explicit consent (anonymous bookings don't have shared-profile consent by default).
+
+### 7A.5 Architecture
+
+```mermaid
+flowchart TB
+  subgraph SORs["Travel SORs"]
+    PSS[PSS / Reservation]
+    Loy[Loyalty Program]
+    PMS[Hotel PMS]
+    CRM[CRM / Interaction]
+    Consent[Consent Registry]
+    Access[Accessibility Portal]
+  end
+  subgraph Silver["THML Silver Entities"]
+    BOOK[THML.BOOKING_RECORD]
+    DISR[THML.DISRUPTION_EVENT]
+    RECO[THML.RECOVERY_ACTION]
+    LGS[THML.LOYALTY_GUEST_STATE]
+    GI[THML.GUEST_INCIDENT]
+    HE[THML.HOUSEKEEPING_EXCEPTION]
+    PROF[THML.TRAVELER_PROFILE]
+    PREF[THML.TRAVELER_PREFERENCES]
+    INT[THML.INTERACTION_HISTORY]
+  end
+  subgraph Gold["Gold Views"]
+    TT[gold_traveler_timeline_v1<br/>anonymous keys only<br/>5-min refresh]
+    PP[gold_profile_catalog_v1<br/>consent-gated read<br/>5-min refresh]
+    PR[gold_preferences_catalog_v1<br/>class-level consent-gated<br/>5-min refresh]
+  end
+  subgraph Tools["TTP-07 Tools · fabric-mcp + tokenizer-mcp"]
+    T1[traveler_trace<br/>Tier A only]
+    T2[profile_fetch_anonymous<br/>Tier A + tokens]
+    T3[profile_fetch_shared<br/>Tier B · consent-gated]
+    T4[preferences_resolve<br/>Tier B · class-gated]
+    CK[tokenizer-mcp.consent_check]
+    AUD[telemetry-mcp.emit_access_audit]
+  end
+  subgraph Agents["Agents"]
+    A1[TTP-A01 Timeline Composer]
+    A2[TTP-A02 Profile Assembler]
+    A3[TTP-A03 Preferences Resolver]
+    A4[TTP-A04 Consent Auditor]
+  end
+  subgraph Consumers["TH Service Consumers"]
+    DRO[DRO-02 Disruption Recovery]
+    LGR[LGR-03 Loyalty Rescue]
+    GIT[GIT-05 Guest Incident]
+    HER[HER-06 Housekeeping]
+    OBI[OBI-01 Overbooking]
+  end
+  SORs --> Silver
+  Silver --> TT
+  Silver --> PP
+  Silver --> PR
+  Consent -.-> CK
+  TT --> T1
+  PP --> T2
+  PP --> T3
+  PR --> T4
+  T3 --> CK
+  T4 --> CK
+  T1 --> A1
+  T2 --> A2
+  T3 --> A2
+  T4 --> A3
+  A1 --> DRO
+  A2 --> DRO
+  A2 --> LGR
+  A2 --> GIT
+  A3 --> LGR
+  A3 --> HER
+  A1 --> OBI
+  CK -.-> AUD
+  T3 -.-> AUD
+  T4 -.-> AUD
+```
+
+Note the dotted audit paths: every Tier-B and Tier-C access writes an audit event. Tier-A accesses don't require per-call auditing because no reverse-identifiable data is returned.
+
+### 7A.6 THML.TRAVELER_PROFILE
+
+A new THML entity introduced by TTP-07. Split into an anonymous core and a consent-gated extension:
+
+```sql
+-- Anonymous core (retained 7+ years; no reverse-identifiable fields)
+CREATE TABLE silver_traveler_profile (
+  traveler_id_tkn       STRING,
+  profile_created_ts    TIMESTAMP,
+  profile_last_seen_ts  TIMESTAMP,
+  trip_count_90d        INT,
+  trip_count_365d       INT,
+  loyalty_tier_token    STRING,
+  disruption_impact_90d DECIMAL,
+  pii_tokenized         BOOLEAN,     -- always TRUE
+  scd2_current          BOOLEAN,
+  event_id              STRING,
+  source_system         STRING
+) USING DELTA;
+
+-- Consent-gated extension (separate table, separate ACL, reversible tokens)
+CREATE TABLE silver_traveler_profile_pii (
+  traveler_id_tkn       STRING,
+  name_tkn              STRING,     -- tokenised with `name` category
+  email_tkn             STRING,     -- tokenised with `contact.email` category
+  phone_tkn             STRING,     -- tokenised with `contact.phone` category
+  postal_address_tkn    STRING,     -- tokenised with `contact.postal` category
+  payment_hash          STRING,     -- SHA of tokenised payment instrument; not reversible
+  accessibility_tkn     STRING,     -- tokenised with `accessibility` category
+  companion_tkns        ARRAY<STRING>,  -- tokenised companion traveler IDs
+  event_id              STRING,
+  scd2_current          BOOLEAN
+) USING DELTA;
+```
+
+The split is architectural, not cosmetic. `silver_traveler_profile_pii` is readable only by `mi-apex-th-pii-unlock` and only after `tokenizer-mcp.consent_check` has returned an allow. The anonymous core is readable by the normal `mi-apex-th-mcp` identity.
+
+### 7A.7 THML.TRAVELER_PREFERENCES
+
+Preferences are a separate entity with a class-level consent model:
+
+```sql
+CREATE TABLE silver_traveler_preferences (
+  traveler_id_tkn       STRING,
+  preference_class      STRING,  -- dietary, seating, room, accessibility, comms, loyalty, partner
+  preference_value      STRING,  -- class-specific encoded value
+  consent_personalize   BOOLEAN, -- consent to use for personalisation
+  consent_share_partner BOOLEAN, -- consent to share with partner operators
+  consent_expiry_ts     TIMESTAMP,
+  last_updated_ts       TIMESTAMP,
+  event_id              STRING
+) USING DELTA;
+```
+
+Consent is **per class per purpose**. A traveler can consent to using dietary preferences for in-flight meal selection (personalisation) without consenting to sharing dietary preferences with the partner hotel chain. TTP-07 never collapses consent across classes or purposes.
+
+### 7A.8 The `gold_traveler_timeline_v1` View
+
+A materialised cross-entity view keyed on `traveler_id_tkn`:
+
+```sql
+CREATE VIEW gold_traveler_timeline_v1 AS
+SELECT
+  traveler_id_tkn, trip_instance_id,
+  booking_locator_tkn,   booked_ts,      booking_segment_count,
+  checkin_ts,            boarding_ts,    completion_ts,
+  ancillary_count,       ancillary_tkns_array,
+  disruption_event_id,   disruption_ts,  disruption_classification,
+  recovery_action_id,    recovery_ts,    recovery_type,
+  loyalty_tier_token,    tier_at_booking,
+  guest_incident_id,     incident_ts,
+  housekeeping_exception_id, hxe_ts,
+  interaction_count_trip, last_interaction_ts
+FROM   THML.BOOKING_RECORD b
+LEFT JOIN THML.DISRUPTION_EVENT      d  USING (booking_locator_tkn)
+LEFT JOIN THML.RECOVERY_ACTION       r  USING (disruption_event_id)
+LEFT JOIN THML.LOYALTY_GUEST_STATE   l  USING (traveler_id_tkn)
+LEFT JOIN THML.GUEST_INCIDENT        g  USING (booking_locator_tkn)
+LEFT JOIN THML.HOUSEKEEPING_EXCEPTION h  USING (booking_locator_tkn)
+LEFT JOIN THML.INTERACTION_HISTORY   i  USING (traveler_id_tkn, trip_instance_id)
+WHERE   booked_ts > DATEADD(day, -1095, SYSUTCDATETIME());    -- 3-year rolling
+```
+
+The view deliberately holds **no cleartext-reversible fields**. It is the Tier-A surface.
+
+### 7A.9 The TTP-07 MCP Tools
+
+Five tools, each carrying explicit privacy-tier behaviour:
+
+**`fabric-mcp.traveler_trace(traveler_id_tkn, window_days = 90) → TravelerTimeline`**
+Returns the traveler's timeline for the window. **Tier A only** — no cleartext is ever returned from this call, regardless of caller identity. Typical p95 ≤ 2 s.
+
+**`fabric-mcp.profile_fetch_anonymous(traveler_id_tkn) → AnonymousProfile`**
+Returns the anonymous core profile. **Tier A**. No consent check needed because no reverse-identifiable data is returned.
+
+**`fabric-mcp.profile_fetch_shared(traveler_id_tkn, data_classes[], purpose) → SharedProfile`**
+Returns reverse-tokenised cleartext data, but **only for consented data classes and declared purpose**. Calls `tokenizer-mcp.consent_check` before reverse-resolution; returns a sanitised "consent-denied" marker per data-class if consent is absent. Every call writes a Tier-B audit row to `apex_audit_log` including the declaring purpose.
+
+**`fabric-mcp.preferences_resolve(traveler_id_tkn, preference_classes[], usage_purpose) → PreferenceSet`**
+Returns preferences for the consented classes. Usage purposes: `personalize_service`, `share_with_partner`, `safety_event`, `regulatory`. Declarative purpose binds the returned result to an observable downstream use.
+
+**`tokenizer-mcp.consent_check(traveler_id_tkn, data_class, purpose) → ConsentResult`**
+The universal consent arbiter. Returns one of `ALLOW` / `DENY` / `EXPIRED` / `UNKNOWN`. An UNKNOWN result triggers a DENY (consent must be affirmative; absence of record is not consent).
+
+### 7A.10 The Four TTP Agents
+
+**`TTP-A01 · Traveler Timeline Composer`** — Given a `traveler_id_tkn`, composes the timeline narrative at the tier appropriate to the caller. For DRO-02 disruption recovery, composes a *contextual pre-rebook briefing*: "Traveler T-tkn-xxxxx, Diamond tier, 14 trips in 365 days, 2 disruption events in 90 days, accessibility flag present with consent, connecting-flight in 3 h 17 min, hotel booking at destination." All at Tier A until specific identity is needed.
+
+**`TTP-A02 · Profile Assembler`** — The Tier-B bridge agent. Takes a caller's request (data classes + purpose) and either returns the consent-allowed cleartext or a structured explanation of what was denied and why. TTP-A02 never silently omits — if consent is denied, it says so explicitly.
+
+**`TTP-A03 · Preferences Resolver`** — Resolves preferences at the right granularity for the use case. DRO-02 asks for `[seating, dietary, accessibility]` for purpose `safety_event`; LGR-03 asks for `[seating, room, comms]` for purpose `personalize_service`. The same traveler may consent to one combination but not the other.
+
+**`TTP-A04 · Consent Auditor`** — A reasoning-tier agent that runs continuously in the background, not triggered by individual trace calls. Weekly, it scans Tier-B and Tier-C access logs to detect patterns of concern: repeated consent-denied responses (may indicate a service misconfigured to request data it doesn't legitimately need), declared purposes that don't match the calling service's documented purposes, traveler self-access requests. Output feeds the Decision Audit Review (DAR) monthly.
+
+### 7A.11 Consent Model Deep Detail
+
+Consent in TTP-07 is **affirmative, granular, time-bounded, and revocable**. Four dimensions:
+
+| Dimension | Values |
+|---|---|
+| **Data class** | name · contact.email · contact.phone · contact.postal · payment · accessibility · companions · dietary · seating · room · comms_channel · loyalty · partner_share |
+| **Purpose** | service_delivery · personalize_service · disruption_recovery · safety_event · loyalty_engagement · share_with_partner · regulatory · legal |
+| **Temporal** | always · trip-scoped · session-scoped · consent_expiry_ts |
+| **Scope** | operator-only · partner-included · affiliate-included |
+
+Example: a traveler consents to using `dietary` for `personalize_service` at the operator level, trip-scoped. This allows DRO-02 rebooking to book a compatible meal on a substituted flight but does NOT allow the operator to share dietary data with the partner hotel chain.
+
+The consent registry is a first-class entity (`silver_traveler_consent`) with full SCD2 history. Every consent change is auditable with timestamp and attribution (did the traveler change the consent? did the operator re-solicit?). Consent revocation propagates to Tier-B access within 15 minutes (the view-refresh cycle).
+
+### 7A.12 Right-to-Erasure and Right-to-Access
+
+Under GDPR and CCPA, travellers have legal rights to:
+
+- **Access** — "show me everything you have about me"
+- **Erasure** — "delete everything"
+- **Rectification** — "correct this field"
+- **Portability** — "export my data in a machine-readable format"
+
+TTP-07 implements all four natively:
+
+- **Access request** — the traveler's Tier-B data is returned via a dedicated agent (`TTP-A02 Profile Assembler` in "self-access" mode), with a full Tier-B audit log showing every prior access. Response time: ≤ 48 hours from request receipt.
+- **Erasure request** — the traveler's `traveler_id_tkn` is pseudonymised-forward: a new opaque token is generated, and every cleartext field in `silver_traveler_profile_pii` is set to `null` with a tombstone row. The anonymous timeline (no reverse-identifiable data) is retained for operational analytics. Response: 30 days (GDPR window).
+- **Rectification** — direct update via consented-channel; audit row written.
+- **Portability** — JSON export of Tier-B consented data classes; XML available for corporate-travel use cases.
+
+### 7A.13 Integration with TH Services
+
+TTP-07 is consumed by every other TH service in different ways:
+
+| Service | Consumption pattern | Typical tier | Purpose declared |
+|---|---|---|---|
+| **DRO-02 Disruption Recovery** | Per-traveler traveler_trace + profile_fetch_shared + preferences_resolve | Tier A → B (on-demand) | `disruption_recovery` |
+| **LGR-03 Loyalty Guest Rescue** | profile_fetch_shared + preferences_resolve | Tier B | `service_recovery` / `personalize_service` |
+| **GIT-05 Guest Incident** | traveler_trace + profile_fetch_shared | Tier A → B (for safety) | `safety_event` |
+| **HER-06 Housekeeping** | traveler_trace + preferences_resolve (room class) | Tier A | `personalize_service` (preferences only) |
+| **OBI-01 Overbooking** | traveler_trace (for tier prioritisation) | Tier A only | n/a — aggregate decisions only |
+| **RMA-04 Revenue-Mgmt Anomaly** | traveler_trace (aggregate) | Tier A | n/a |
+
+OBI-01 is a deliberate Tier-A-only consumer. Overbooking decisions must not be influenced by individual-identity considerations (doing so creates discrimination risk). The service sees loyalty-tier tokens but not identifiable travelers.
+
+### 7A.14 Rollout Roadmap
+
+**Phase 1 (Weeks 1–6):** Consent registry standup; TRAVELER_PROFILE / TRAVELER_PREFERENCES / silver_traveler_consent tables; backfill from legacy CRM + loyalty systems with careful consent-defaulting rules (never default-to-opt-in on new data classes).
+
+**Phase 2 (Weeks 7–10):** Tier A — `gold_traveler_timeline_v1` materialised; `traveler_trace` + `profile_fetch_anonymous` tools deployed; TTP-A01 agent shipped. OBI-01, HER-06, RMA-04 integrate first (Tier-A-only consumers).
+
+**Phase 3 (Weeks 11–14):** Tier B — `profile_fetch_shared`, `preferences_resolve`, `tokenizer-mcp.consent_check` deployed; TTP-A02, TTP-A03 shipped. DRO-02, LGR-03, GIT-05 integrate.
+
+**Phase 4 (Weeks 15–18):** Right-to-erasure workflow live; Right-to-access self-service portal available; TTP-A04 Consent Auditor shipped and running weekly.
+
+**Phase 5 (Weeks 19–22):** Tier C rails for legal/regulatory access; independent audit of the full service with a big-four privacy practice; residual findings remediated.
+
+Total: 22 weeks to full go-live. Typical investment envelope: $4–7M, higher than RC E2E-09's $2–4M because of the PII discipline depth and the legal/regulatory workstream.
+
+### 7A.15 Regulatory Posture
+
+TTP-07 is designed for GDPR, CCPA, EU Passenger Rights, DOT US privacy framework, and ADA-adjacent accessibility requirements. The specific obligations met:
+
+- **Lawful basis** — consent for Tier B; contract/legitimate-interest for Tier A operational; legal-obligation for Tier C
+- **Data minimisation** — the consent check rejects purpose-class combinations that are broader than necessary
+- **Storage limitation** — anonymous timeline 3 years, Tier-B PII tied to consent-expiry or trip-scope, Tier-C tied to retention-hold identifier
+- **Integrity and confidentiality** — tokeniser with customer-managed keys; DLP on outbound agent responses; audit on every Tier-B and Tier-C access
+- **Accountability** — TTP-A04 Consent Auditor produces the monthly compliance evidence; DAR includes privacy review as a standing agenda item
+- **Rights of the data subject** — first-party Access, Erasure, Rectification, Portability (§7A.12)
+
+An annual independent privacy audit is a condition of Enterprise-tier TTP-07 operation; the audit report is shared with Compliance and with the traveller-representative body where one exists (works councils, consumer-advocacy bodies, etc.).
+
+### 7A.16 Performance & SLO
+
+| SLO | Target |
+|---|---|
+| Tier A traveler_trace p95 | ≤ 2 s |
+| Tier B profile_fetch_shared p95 | ≤ 200 ms (tokeniser hot path) |
+| Preference resolve p95 | ≤ 150 ms |
+| Consent check p95 | ≤ 50 ms (cached hot path) |
+| Consent-denial sanitised-response rate | 100% (no leak via timing or error shape) |
+| Consent revocation propagation | ≤ 15 min |
+| Right-to-access response | ≤ 48 h |
+| Right-to-erasure response | ≤ 30 d |
+| Consent-violation rate | 0 (hard zero; any non-zero is a compliance incident) |
+
+### 7A.17 Testing Strategy
+
+- **Consent-matrix fuzz test** — automated test that generates random consent-class / purpose combinations and verifies the tokeniser returns the correct ALLOW/DENY response
+- **Sanitised-response uniformity** — timing and response-shape tests confirming a consent-denied response is indistinguishable from a "data exists but not consented" response and from a "data does not exist" response. Preventing information leakage through error behaviour is a specific test class here.
+- **Re-tokenisation drill** — quarterly process where a sample traveler's tokens are rotated and every downstream integration is verified to handle the rotation transparently
+- **Revocation propagation test** — weekly synthetic revocation with verification that Tier-B access is denied within the 15-min SLO
+
+### 7A.18 Implementation Checklist
+
+Before go-live:
+
+- [ ] Consent registry populated with affirmative-only entries; no default-opt-in
+- [ ] TRAVELER_PROFILE / TRAVELER_PREFERENCES entities in Silver with proper ACL segregation
+- [ ] `gold_traveler_timeline_v1` materialised with 5-min refresh and no reverse-identifiable columns
+- [ ] Tokeniser extended with consent-flag category support
+- [ ] All five TTP tools deployed under `mi-apex-th-mcp`; Tier-B tools have separate `mi-apex-th-pii-unlock` grant
+- [ ] Four TTP agents registered with manifests and tool allow-lists
+- [ ] ORCH-46 deployed (Logic Apps for fast paths, Durable for right-to-access and right-to-erasure flows)
+- [ ] Purview DLP policies on every outbound agent response from TH agents
+- [ ] Right-to-access and right-to-erasure self-service portals integrated with the consent registry
+- [ ] Privacy audit scheduled (annual minimum for Enterprise tier)
+- [ ] Compliance Officer trained on TTP-A04 Consent Auditor reports
+
+Post go-live:
+
+- [ ] Weekly TTP-A04 audit review
+- [ ] Monthly DAR with privacy review as standing item
+- [ ] Quarterly re-tokenisation drill
+- [ ] Annual privacy audit with external firm
+- [ ] Semi-annual consent-matrix scope review (are we still requesting only what we need?)
 
 ---
 
@@ -3457,6 +4198,7 @@ All 43 catalogued services at a glance (24 GA + 19 in build). One line per servi
 | APEX-RC-BPX-06 | BOPIS Exception Handling | RC | Pro / Ent | Customer Care Agent | HITL | 1.2.0 GA |
 | APEX-RC-SHK-07 | Shrink & Void Anomaly | RC | Enterprise | Loss Prevention Lead | ESCALATION | 1.2.0 GA |
 | APEX-RC-CXI-08 | Customer Incident Triage | RC | Pro / Ent | Customer Care Agent | HITL | 1.2.0 GA |
+| APEX-RC-E2E-09 | Product End-to-End Tracking | RC | Enterprise | Compliance Officer | ACK_ONLY (read-path) | 1.2.0 GA |
 | APEX-HLS-DSR-01 | Discharge Ready Surveillance | HLS | Pro / Ent | Charge Nurse | ACK_ONLY | 1.2.0 GA |
 | APEX-HLS-SEP-02 | Sepsis Early Warning | HLS | Enterprise | Charge Nurse | HITL | 1.2.0 GA |
 | APEX-HLS-RVC-03 | Revenue-Cycle Denial Recovery | HLS | Pro / Ent | Rev-Cycle Analyst | HITL | 1.2.0 GA |
@@ -3491,6 +4233,7 @@ All 43 catalogued services at a glance (24 GA + 19 in build). One line per servi
 | APEX-TH-RMA-04 | Revenue-Management Anomaly | TH | Pro / Ent | Revenue Manager | ACK_ONLY | Preview v0.9 |
 | APEX-TH-GIT-05 | Guest Incident Triage | TH | Pro / Ent | Guest Service Agent | HITL → ESCALATION | Preview v0.9 |
 | APEX-TH-HER-06 | Housekeeping-Exception Routing | TH | Ess / Pro | Hotel GM | ACK_ONLY | Preview v0.9 |
+| APEX-TH-TTP-07 | Traveler, Profile & Preferences Tracking | TH | Enterprise | Compliance Officer | ACK_ONLY (Tier A) / HITL (Tier B) / ESCALATION on violation | Preview v1.0 |
 | APEX-ICE-FAF-01 | Field Asset Failure Response | ICE | Enterprise | Service Dispatcher | HITL | Preview v0.9 |
 | APEX-ICE-SPA-02 | Spare-Parts Availability Triage | ICE | Pro / Ent | Parts Planner | ACK_ONLY | Preview v0.9 |
 | APEX-ICE-WCP-03 | Warranty Claim Pattern Analysis | ICE | Pro / Ent | Warranty Analyst | HITL → ESCALATION | Preview v0.9 |
@@ -3695,6 +4438,7 @@ Roughly 70% of APEX orchestrations use Logic Apps; the remaining 30% (long-runni
 | `ORCH-07` | Recall Response | APEX-RC-RCL-05 | SCM-A01 → SCM-A02 → {MER-A11, MER-A12} → CX-A01 | ESCALATION | Durable | Extended |
 | `ORCH-08` | Shrink & Void Anomaly | APEX-RC-SHK-07 | MER-A10 → MER-A11 → MER-A12 | ESCALATION | Durable | Extended |
 | `ORCH-09` | Customer Incident Triage | APEX-RC-CXI-08 | CX-A01 → CX-A02 → SCM-A02 | HITL → ESCALATION | Logic Apps | Fast |
+| `ORCH-26` | Product End-to-End Tracking | APEX-RC-E2E-09 | TRACE-A01 / TRACE-A02 / TRACE-A03 (branched by trace mode) | ACK_ONLY (read-path; elevates to HITL when feeding RCL-05/CXI-08/SHK-07) | Logic Apps (point-in-time mode uses Durable) | Fast (deep-history point-in-time = Extended) |
 
 **RC orchestration notes:**
 - ORCH-03 (Cold Chain) is the flagship RC orchestration, completing detection → disposition → write-off staging in typically under 8 minutes with 90 seconds of HITL attention.
@@ -3781,6 +4525,7 @@ Roughly 70% of APEX orchestrations use Logic Apps; the remaining 30% (long-runni
 | `ORCH-43` | Revenue-Management Anomaly | APEX-TH-RMA-04 | TH-A08 → TH-A09 | ACK_ONLY | Logic Apps | Fast |
 | `ORCH-44` | Guest Incident Triage | APEX-TH-GIT-05 | TH-A10 → TH-A11 | HITL → ESCALATION | Logic Apps | Fast |
 | `ORCH-45` | Housekeeping-Exception Routing | APEX-TH-HER-06 | TH-A12 | ACK_ONLY | Logic Apps | Fast |
+| `ORCH-46` | Traveler, Profile & Preferences Tracking | APEX-TH-TTP-07 | TTP-A01 / TTP-A02 / TTP-A03 (branched by tier) + TTP-A04 (background) | ACK_ONLY Tier A / HITL Tier B / ESCALATION on violation | Logic Apps (fast paths) + Durable (right-to-access, right-to-erasure) | Fast + Long-running |
 
 **TH orchestration notes:**
 - ORCH-40 (Disruption Recovery) is TMT-style fan-out at scale: scope assessment, rebooking optimisation, communications drafting, and hotel/ground coordination all run in parallel. Durable is used because the recovery spans hours of execution after the OCC dispatcher approves the plan.
