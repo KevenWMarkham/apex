@@ -6,44 +6,76 @@
   "schemas": [
     {
       "code": "MERML",
-      "version": "1.2.0",
+      "version": "1.0.0",
       "domain": "Merchandising",
-      "entity_count": 2,
+      "entity_count": 5,
       "envelope_required": true,
       "changelog": [
-        {
-          "version": "1.2.0",
-          "bump": "MINOR",
-          "gate": "ACK_ONLY",
-          "date": "2026-02-18",
-          "author": "rc-maintainers",
-          "rationale": "Added markdown lifecycle instrumentation.",
-          "changes": [
-            { "op": "add_entity", "target": "MARKDOWN_EVENT", "detail": "Silver; markdown lifecycle" }
-          ]
-        },
         {
           "version": "1.0.0",
           "bump": "MAJOR",
           "gate": "HITL",
           "date": "2026-01-01",
           "author": "rc-maintainers",
-          "rationale": "Initial GA.",
+          "rationale": "Initial GA release of the Merchandising schema covering inventory, pricing, planogram compliance, and loss-prevention events.",
           "changes": [
             { "op": "metadata", "target": "schema", "detail": "initial release" }
           ]
         }
       ],
       "entities": [
-        { "name": "STORE_INVENTORY_POSITION", "layer": "Silver", "grain": "store x product x timestamp", "primary_key": ["store_id", "product_id", "event_ts"], "scd2": false, "pii_classes": [], "added_in": "1.0.0" },
-        { "name": "MARKDOWN_EVENT", "layer": "Silver", "grain": "product x store x markdown cycle", "primary_key": ["markdown_id"], "scd2": false, "pii_classes": [], "added_in": "1.2.0" }
+        {
+          "name": "STORE_INVENTORY_POSITION",
+          "layer": "Silver",
+          "grain": "store x product x timestamp",
+          "primary_key": ["store_id", "product_id", "event_ts"],
+          "scd2": false,
+          "pii_classes": [],
+          "added_in": "1.0.0"
+        },
+        {
+          "name": "SHELF_FACING",
+          "layer": "Silver",
+          "grain": "store x aisle x bay x facing slot",
+          "primary_key": ["store_id", "bay_id", "facing_slot"],
+          "scd2": true,
+          "pii_classes": [],
+          "added_in": "1.0.0"
+        },
+        {
+          "name": "OSA_EVENT",
+          "layer": "Silver",
+          "grain": "on-shelf availability observation",
+          "primary_key": ["osa_event_id"],
+          "scd2": false,
+          "pii_classes": [],
+          "added_in": "1.0.0"
+        },
+        {
+          "name": "PRICE_RECORD",
+          "layer": "Silver",
+          "grain": "store x product x effective interval",
+          "primary_key": ["store_id", "product_id", "effective_from"],
+          "scd2": true,
+          "pii_classes": [],
+          "added_in": "1.0.0"
+        },
+        {
+          "name": "SHRINK_EVENT",
+          "layer": "Silver",
+          "grain": "shrink incident",
+          "primary_key": ["shrink_event_id"],
+          "scd2": false,
+          "pii_classes": [],
+          "added_in": "1.0.0"
+        }
       ]
     },
     {
       "code": "SCML",
       "version": "1.0.0",
       "domain": "Supply Chain",
-      "entity_count": 2,
+      "entity_count": 5,
       "envelope_required": true,
       "changelog": [
         {
@@ -52,22 +84,65 @@
           "gate": "HITL",
           "date": "2026-01-01",
           "author": "rc-maintainers",
-          "rationale": "Initial GA.",
+          "rationale": "Initial GA release of the Supply Chain schema covering inbound logistics, cold chain, and recall traceability.",
           "changes": [
             { "op": "metadata", "target": "schema", "detail": "initial release" }
           ]
         }
       ],
       "entities": [
-        { "name": "ASN", "layer": "Silver", "grain": "shipment notice", "primary_key": ["asn_id"], "scd2": false, "pii_classes": [], "added_in": "1.0.0" },
-        { "name": "LOT_TRACE", "layer": "Silver", "grain": "lot movement event", "primary_key": ["trace_id"], "scd2": false, "pii_classes": [], "added_in": "1.0.0" }
+        {
+          "name": "ASN",
+          "layer": "Silver",
+          "grain": "advance shipment notice per PO",
+          "primary_key": ["asn_id"],
+          "scd2": false,
+          "pii_classes": [],
+          "added_in": "1.0.0"
+        },
+        {
+          "name": "STORE_RECEIVING_EVENT",
+          "layer": "Silver",
+          "grain": "receiving dock event",
+          "primary_key": ["receiving_event_id"],
+          "scd2": false,
+          "pii_classes": [],
+          "added_in": "1.0.0"
+        },
+        {
+          "name": "COLD_CHAIN_TELEMETRY",
+          "layer": "Bronze",
+          "grain": "sensor reading per lot per minute",
+          "primary_key": ["lot_id", "sensor_id", "reading_ts"],
+          "scd2": false,
+          "pii_classes": [],
+          "added_in": "1.0.0"
+        },
+        {
+          "name": "RECALL_NOTICE",
+          "layer": "Silver",
+          "grain": "regulatory recall notice",
+          "primary_key": ["recall_id"],
+          "scd2": false,
+          "pii_classes": [],
+          "added_in": "1.0.0"
+        },
+        {
+          "name": "LOT_TRACE",
+          "layer": "Silver",
+          "grain": "lot movement event",
+          "primary_key": ["trace_id"],
+          "scd2": false,
+          "pii_classes": [],
+          "added_in": "1.0.0"
+        }
       ]
     },
     {
       "code": "CXML",
       "version": "1.0.0",
       "domain": "Customer Experience",
-      "entity_count": 1,
+      "entity_count": 5,
       "envelope_required": true,
       "changelog": [
         {
@@ -76,14 +151,125 @@
           "gate": "HITL",
           "date": "2026-01-01",
           "author": "rc-maintainers",
-          "rationale": "Initial GA.",
+          "rationale": "Initial GA release of the Customer Experience schema covering fulfillment, returns, and incident signals.",
           "changes": [
             { "op": "metadata", "target": "schema", "detail": "initial release" }
           ]
         }
       ],
       "entities": [
-        { "name": "CUSTOMER_TOUCHPOINT", "layer": "Silver", "grain": "customer x channel x timestamp", "primary_key": ["touchpoint_id"], "scd2": false, "pii_classes": ["PII-DIRECT"], "added_in": "1.0.0" }
+        {
+          "name": "FULFILLMENT_ORDER",
+          "layer": "Silver",
+          "grain": "customer order fulfillment lifecycle",
+          "primary_key": ["order_id"],
+          "scd2": false,
+          "pii_classes": ["CUSTOMER_ID"],
+          "added_in": "1.0.0"
+        },
+        {
+          "name": "PICK_EXCEPTION",
+          "layer": "Silver",
+          "grain": "pick exception incident",
+          "primary_key": ["pick_exception_id"],
+          "scd2": false,
+          "pii_classes": [],
+          "added_in": "1.0.0"
+        },
+        {
+          "name": "RETURN_TRANSACTION",
+          "layer": "Silver",
+          "grain": "return transaction at POS or online",
+          "primary_key": ["return_txn_id"],
+          "scd2": false,
+          "pii_classes": ["CUSTOMER_ID"],
+          "added_in": "1.0.0"
+        },
+        {
+          "name": "CUSTOMER_INCIDENT",
+          "layer": "Silver",
+          "grain": "customer incident report",
+          "primary_key": ["incident_id"],
+          "scd2": false,
+          "pii_classes": ["CUSTOMER_ID", "CONTACT"],
+          "added_in": "1.0.0"
+        },
+        {
+          "name": "LOYALTY_STATE",
+          "layer": "Gold",
+          "grain": "customer x loyalty state snapshot",
+          "primary_key": ["customer_id", "snapshot_ts"],
+          "scd2": true,
+          "pii_classes": ["CUSTOMER_ID"],
+          "added_in": "1.0.0"
+        }
+      ]
+    },
+    {
+      "code": "MKTL",
+      "version": "1.0.0",
+      "domain": "Marketing",
+      "entity_count": 5,
+      "envelope_required": true,
+      "changelog": [
+        {
+          "version": "1.0.0",
+          "bump": "MAJOR",
+          "gate": "HITL",
+          "date": "2026-01-01",
+          "author": "rc-maintainers",
+          "rationale": "Initial GA release of the Marketing schema covering campaigns, audience state, and attribution signals.",
+          "changes": [
+            { "op": "metadata", "target": "schema", "detail": "initial release" }
+          ]
+        }
+      ],
+      "entities": [
+        {
+          "name": "CAMPAIGN",
+          "layer": "Silver",
+          "grain": "marketing campaign definition",
+          "primary_key": ["campaign_id"],
+          "scd2": true,
+          "pii_classes": [],
+          "added_in": "1.0.0"
+        },
+        {
+          "name": "AUDIENCE",
+          "layer": "Silver",
+          "grain": "audience segment definition",
+          "primary_key": ["audience_id"],
+          "scd2": true,
+          "pii_classes": [],
+          "added_in": "1.0.0"
+        },
+        {
+          "name": "JOURNEY_STATE",
+          "layer": "Gold",
+          "grain": "customer x journey state snapshot",
+          "primary_key": ["customer_id", "snapshot_ts"],
+          "scd2": true,
+          "pii_classes": ["CUSTOMER_ID"],
+          "added_in": "1.0.0"
+        },
+        {
+          "name": "ATTRIBUTION_EVENT",
+          "layer": "Silver",
+          "grain": "attribution touchpoint event",
+          "primary_key": ["attribution_event_id"],
+          "scd2": false,
+          "pii_classes": ["CUSTOMER_ID"],
+          "added_in": "1.0.0"
+        },
+        {
+          "name": "SEGMENT_MEMBERSHIP",
+          "layer": "Silver",
+          "grain": "customer x segment x effective interval",
+          "primary_key": ["customer_id", "segment_id", "effective_from"],
+          "scd2": true,
+          "pii_classes": ["CUSTOMER_ID"],
+          "added_in": "1.0.0"
+        }
       ]
     }
   ]
