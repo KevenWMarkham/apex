@@ -494,36 +494,131 @@ Four KPIs every RC client tracks:
 
 Eight services in the RC Practice. Each service entry below names the scenario, the primary persona, the core KPIs, the included artifacts, and the tier.
 
-**APEX-RC-CXP-01 — Cold Chain Excursion Response** (Pro / Enterprise · GA v1.2)
-Scenario: refrigeration unit breaches threshold > 2h. Persona: Store MOD. KPIs: writeoff avoided ≥ 65%, time-to-brief ≤ 10 min, manager touch ≤ 90 sec. Bundles SCM-A04/A05/A06 + SCML.COLD_CHAIN_TELEMETRY + ORCH-03. Gate: HITL. Prereqs: Monnit IoT + Manhattan WMS + F8. Onboarding 14 days.
+#### Cold Chain Excursion Response — `APEX-RC-CXP-01`
 
-**APEX-RC-RVD-02 — Receiving Variance Dispute** (Essentials / Pro / Enterprise · GA v1.2)
-Scenario: RFID portal reads short of ASN. Persona: Store MOD. KPIs: variance recovered ≥ 70%, days-to-closure ≤ 5. Bundles SCM-A01/A02 + MER-A01 + ORCH-02. Gate: ACK_ONLY. Prereqs: Manhattan WMS + EDI-856 + F8.
+**Tier:** Pro / Enterprise · **Status:** GA v1.2 · **Gate:** HITL
 
-**APEX-RC-ESL-03 — ESL Pricing Integrity** (Pro / Enterprise · GA v1.2)
-Scenario: ESL stale vs. ERP schedule. Persona: Merchandising Analyst. KPIs: stale tag count reduction ≥ 80%, time-to-remediate ≤ 30 min. Bundles MER-A02/A03 + ORCH-04. Gate: ACK_ONLY.
+A dairy reefer drifts above 41°F for four hours overnight. The compressor soft-start failed. 412 units of product are now on the wrong side of the FDA food-safety threshold — some save-viable, some destroy-only, and the distinction matters because the write-off is the difference between $534 and $1,847.
 
-**APEX-RC-OSA-04 — Phantom-OOS Detection** (Pro / Enterprise · GA v1.2)
-Scenario: shelves empty while perpetual shows stock. Persona: Store MOD. KPIs: phantom-OOS caught ≥ 90%, time-to-restock ≤ 35 min. Bundles MER-A04/A05 + ORCH-05. Gate: ACK_ONLY.
+CXP-01 runs continuously against the Monnit IoT telemetry stream. When an excursion opens, `SCM-A04 Cold Chain Telemetry Monitor` classifies the breach by duration, peak temperature, product category, and FDA risk class. `SCM-A05 Disposition Classifier` splits the inventory using lot-level data from Manhattan WMS: units sealed and pre-threshold are save-viable; dairy after the threshold is destroy-only. `SCM-A06 Write-Off Pre-Approver` stages the targeted write-off in the ledger with rollback pointer. By the time the Store MOD arrives at 06:08, the HITL card is waiting — she approves, modifies, or rejects in ninety seconds, and is on the floor ahead of schedule with 71% of the inventory saved.
 
-**APEX-RC-RCL-05 — Recall Response** (Enterprise · GA v1.2)
-Scenario: FDA / USDA / vendor recall issued. Persona: Compliance Officer. KPIs: affected customers contacted ≥ 98%, time-to-contain ≤ 4 h. Bundles SCM-A01/A02 + MER-A11/A12 + CX-A01 + ORCH-07. Gate: ESCALATION.
+KPI impact: `writeoff_avoided_pct ≥ 65%` · `time_to_brief_min ≤ 10` · `manager_touch_sec ≤ 90`. SLOs: detection p95 ≤ 60s · decision p95 ≤ 8 min · FPR ≤ 3% · availability 99.5%. Artifacts: SCML.COLD_CHAIN_TELEMETRY + SCML.TEMPERATURE_EXCURSION + MERML.STORE_INVENTORY_POSITION; agents SCM-A04/A05/A06; tools `fabric-mcp.read_cold_chain_telemetry`, `fda-mcp.lookup_threshold`, `ledger-mcp.stage_writeoff`; orchestration ORCH-03. Prereqs: Monnit IoT stream + Manhattan WMS integration + F8 capacity + `store-mod` AAD group. Onboarding: 14 days typical.
 
-**APEX-RC-BPX-06 — BOPIS Exception Handling** (Pro / Enterprise · GA v1.2)
-Scenario: BOPIS item OOS at pick. Persona: Customer Care Agent. KPIs: substitution acceptance ≥ 70%, customer response ≤ 120 sec. Bundles CX-A03/A04 + ORCH-06. Gate: HITL.
+#### Receiving Variance Dispute — `APEX-RC-RVD-02`
 
-**APEX-RC-SHK-07 — Shrink & Void Anomaly** (Enterprise · GA v1.2)
-Scenario: correlated void / return / CCTV patterns. Persona: Loss Prevention Lead. KPIs: evidence sealed ≥ 85%, false accusation ≤ 1%. Bundles MER-A10/A11/A12 + ORCH-08. Gate: ESCALATION.
+**Tier:** Essentials / Pro / Enterprise · **Status:** GA v1.2 · **Gate:** ACK_ONLY
 
-**APEX-RC-CXI-08 — Customer Incident Triage** (Pro / Enterprise · GA v1.2)
-Scenario: customer-reported food-safety incident. Persona: Customer Care Agent. KPIs: Tier-1 response ≤ 15 min, cross-store correlation ≥ 95%. Bundles CX-A01/A02 + SCM-A02 + ORCH-09. Gate: HITL → ESCALATION.
+A vendor ships 44 cases against an ASN of 48. The UHF RFID portal catches it at the dock; the short-ship is worth $142.56; and the vendor has shorted this same SKU three times in the last 90 days. Before RVD-02, the store absorbs the first dispute, a regional buyer investigates the second a month later, and the pattern is caught only on the third or fourth occurrence — often too late to recover.
+
+RVD-02 closes the gap to minutes. `SCM-A01 Inbound Discrepancy Analyst` compares actual to expected at line level. `SCM-A02 Vendor Pattern Detector` correlates against the 90-day vendor history from DSD_INVOICE records and flags the RECURRING pattern. `MER-A01 Dispute Packaging Agent` assembles the dispute packet — line-level variance, unit cost, photo evidence if available, and the pattern history — and stages it in the auto-debit queue. Because this is an ACK_ONLY gate, the dispute is filed automatically; the Store MOD sees the notification and can intervene if they have context the agent didn't.
+
+KPI impact: `variance_recovered_pct ≥ 70%` · `days_to_dispute_closure ≤ 5` · `manager_touch_sec ≤ 60`. SLOs: detection p95 ≤ 120s · decision p95 ≤ 5 min · FPR ≤ 2% · availability 99.5%. Artifacts: SCML.ASN/STORE_RECEIVING_EVENT/RECEIVING_DISCREPANCY/DSD_INVOICE; agents SCM-A01/A02 + MER-A01; tools `fabric-mcp.read_asn`, `edi-mcp.send_dispute`, `ledger-mcp.stage_credit`; orchestration ORCH-02. Prereqs: Manhattan WMS + EDI-856 + F8.
+
+#### ESL Pricing Integrity — `APEX-RC-ESL-03`
+
+**Tier:** Pro / Enterprise · **Status:** GA v1.2 · **Gate:** ACK_ONLY
+
+Electronic shelf labels are the weakest link in retail price execution. A gateway goes stale at 03:00; the ERP pushes the regular-price transition at 06:00; 127 tags still show the prior promotional price; at 08:34 the fourth customer rings up the stale promo at the register. Every ring is a trust event. Four of them is a pattern that legal will hear about by week's end.
+
+ESL-03 watches three streams at once: the ERP price schedule, the ESL gateway sync state, and the POS ring stream. `MER-A02 Pricing Integrity Monitor` detects the state mismatch in real time. `MER-A03 Stale-Tag Remediation Agent` identifies the exact gateway and tag set, stages a force-refresh, and notifies the merchandising analyst. Because the customer-visible price was indeed the promo, the ring is honoured; the agent also stages a corrective promo-honour credit for the next ring at-register if the analyst approves.
+
+KPI impact: `stale_tag_count_reduction_pct ≥ 80%` · `pricing_complaints_pct ≤ 0.1%` · `time_to_remediate_min ≤ 30`. SLOs: detection p95 ≤ 120s · decision p95 ≤ 3 min · FPR ≤ 1%. Artifacts: MERML.PRICE_RECORD/PRICE_TAG_STATUS/PROMOTION_ACTIVATION; agents MER-A02/A03; tools `fabric-mcp.read_price_record`, `esl-mcp.force_refresh`; orchestration ORCH-04. Prereqs: ESL gateway + POS + ERP-Price + F16 + `merchandising-analyst` group.
+
+#### Phantom-OOS Detection — `APEX-RC-OSA-04`
+
+**Tier:** Pro / Enterprise · **Status:** GA v1.2 · **Gate:** ACK_ONLY
+
+The paradox of perpetual inventory: the system says 47 units on hand, the shelf is empty, and neither the computer nor the customer is lying. It's called phantom OOS — inventory that exists in the backroom but hasn't been pushed to the floor, or that was moved to the back by an overnight team who didn't record the move. Walk-away revenue is the name of the loss.
+
+OSA-04 fuses three independent signals: computer-vision shelf monitoring, POS ring absence (a best-seller SKU not ringing for 45 minutes on a Wednesday is an anomaly), and perpetual inventory. `MER-A04 CV×POS×PI Fusion Agent` triangulates; if all three agree, the confidence is 94%+, classification is PHANTOM_OOS, and an alert is staged. `MER-A05 Restock Dispatcher` creates a replenishment task with the specific SKU, last-known backroom location, and urgency score. A stocker gets the task on their handheld within minutes.
+
+KPI impact: `phantom_oos_caught_pct ≥ 90%` · `walk_away_revenue_avoided_usd` maximise · `time_to_restock_min ≤ 35`. Artifacts: MERML.OSA_EVENT + MERML.STORE_INVENTORY_POSITION; agents MER-A04/A05; tools `fabric-mcp.read_osa_event`, `cv-mcp.get_shelf_state`; orchestration ORCH-05. Prereqs: POS + manhattan-wms + CV pipeline + F16 + `store-mod` group.
+
+#### Recall Response — `APEX-RC-RCL-05`
+
+**Tier:** Enterprise · **Status:** GA v1.2 · **Gate:** ESCALATION
+
+A Class II FDA recall drops at 11:43 AM for an infant formula lot. Two lots are affected. The chain has 412 stores carrying the product; the question is which specific stores hold specific cases, which specific customers (via loyalty card) purchased them in the last 21 days, and how fast outbound communication can go out the door. Regulators expect a written containment plan within hours.
+
+RCL-05 is the most coordinated orchestration in the RC catalog. `SCM-A01` and `SCM-A02` do the forward trace — recall notice to specific lots to specific store receipts to specific transactions. `MER-A11 Case File Builder` assembles the case: affected store-SKU pairs, affected customers by tokenised loyalty ID, affected transaction window. `MER-A12 Cross-Store Correlator` checks whether the same lot was shipped to other divisions (critical for multi-banner retailers). `CX-A01 Outbound Communication Agent` drafts the customer outreach — tokenised contact lists, respecting consent flags, in multiple channels. Because this is ESCALATION, it routes to a cross-functional owner — Legal owns the regulatory filing, Compliance owns the FDA communications, Comms owns press, and Store Ops runs the recovery. Every action is audit-logged to Silver with 21 CFR Part 11-ready evidence.
+
+KPI impact: `affected_customers_contacted_pct ≥ 98%` · `time_to_contain_hours ≤ 4` · `regulatory_reporting_complete_hours ≤ 24`. SLOs: detection p95 ≤ 300s · decision p95 ≤ 20 min · FPR ≤ 0.5% · availability 99.9%. Artifacts: SCML.RECALL_NOTICE/LOT_TRACE + CXML.LOYALTY_STATE. Prereqs: FDA recall feed + Manhattan WMS + POS + F32 + `compliance-officer` group.
+
+#### BOPIS Exception Handling — `APEX-RC-BPX-06`
+
+**Tier:** Pro / Enterprise · **Status:** GA v1.2 · **Gate:** HITL
+
+A customer placed a BOPIS order at 12:15; pickup window 13:00-13:30. The picker starts the order at 12:32; halfway through, the third SKU — organic baby spinach — is not on the shelf. Historically this means the picker phones a store associate, who walks the department, who reports back, who phones the customer, who decides; the order is late, the customer is unhappy, and the loyalty metric takes a visible hit.
+
+BPX-06 does the coordination in seconds. `CX-A03 Pick Exception Classifier` determines the item is genuinely OOS (not misshelved). `CX-A04 Substitution Candidate Scorer` ranks alternate SKUs by historical acceptance rate for this customer segment: branded baby spinach 78% likely to accept, bagged general spinach 32%. The HITL card is sent to the customer as an SMS with a Teams/Power Automate-delivered choice: accept the first substitute, accept the second, or decline; a 47-second response means the picker substitutes and keeps going. The full order is still ready by 13:15.
+
+KPI impact: `substitution_acceptance_pct ≥ 70%` · `order_cancel_pct ≤ 8%` · `customer_response_sec ≤ 120`. Artifacts: CXML.FULFILLMENT_ORDER/PICK_EXCEPTION/SUBSTITUTION_EVENT. Prereqs: OMS + POS + F16 + `customer-care-agent` group.
+
+#### Shrink & Void Anomaly — `APEX-RC-SHK-07`
+
+**Tier:** Enterprise · **Status:** GA v1.2 · **Gate:** ESCALATION
+
+Shrink is the slowest-moving crime in retail. A cashier at Register 7 is voiding spirits at 4.2× the baseline rate for their shift; their voids cluster in the ten minutes after 21:00 on Shift 2; the cycle-count variance for spirits was -$624 last month; the CCTV timestamps show them interacting with a known associate on the aisle side of the register during void events. Each individual signal is ambiguous. The combination is 4.2-sigma and a 96% correlation confidence.
+
+SHK-07 is APEX's most sensitive orchestration — it flags internal shrink with potential HR consequences. `MER-A10 Void Pattern Detector` identifies the void anomaly against a 30-day baseline. `MER-A11 Correlation Agent` fuses POS voids, cycle-count variances, and CCTV timestamp indices (CCTV footage itself is not stored in Fabric; only timestamp references that Loss Prevention can manually retrieve if they decide the case warrants it). `MER-A12 Case File Builder` (reasoning-tier) stitches timeline, voids, cycle counts, and CCTV references into an evidence bundle. The ESCALATION gate routes to Loss Prevention, not to the store — Store MOD and the shift supervisor are not told at this stage. False-accusation discipline: the case file contains evidence, not conclusions; HR receives it for their own adjudication.
+
+KPI impact: `shrink_events_evidence_sealed_pct ≥ 85%` · `false_accusation_rate_pct ≤ 1%` · `time_to_case_file_hours ≤ 24`. Artifacts: MERML.POS_VOID/SHRINK_EVENT/CYCLE_COUNT_VARIANCE. Prereqs: POS + CCTV metadata + cycle-count export + F32 + `loss-prevention-lead` group.
+
+#### Customer Incident Triage — `APEX-RC-CXI-08`
+
+**Tier:** Pro / Enterprise · **Status:** GA v1.2 · **Gate:** HITL (→ ESCALATION for Tier-1)
+
+A customer walks into a store at 14:32 with a muffin containing a plastic fragment. She has a photograph; she has the packaging; she remembers the lot code stamped on the wrapper. She is upset. The bakery team is apologetic but not equipped to investigate. Historically this incident sits in a spreadsheet until someone reads it a week later — and by then the same lot has sold at four other stores.
+
+CXI-08 treats the incident as time-sensitive. `CX-A01 Incident Intake Agent` captures the report, OCR-extracts the lot code from the photograph, and triages it against the Tier-1/Tier-2/Tier-3 severity matrix (plastic fragment in bakery = Tier-2). `SCM-A02 Lot Trace Agent` queries the lot master and finds four other stores received shipments from the same lot in the last 14 days. `CX-A02 Cross-Store Correlator` checks whether any of those stores has a similar recent complaint. If cross-store matches exist (they do, in this story: three other stores), the incident is immediately escalated to Compliance as a potential Tier-1 regulatory event. The customer at the bakery is served at the service desk with an immediate recovery offer (within minutes of the walk-in), while the back-office orchestration is preparing the regulatory filing and the multi-store containment.
+
+KPI impact: `tier1_response_min ≤ 15` · `cross_store_correlation_caught_pct ≥ 95%` · `regulatory_escalation_accuracy_pct ≥ 99%`. Artifacts: CXML.CUSTOMER_INCIDENT + SCML.LOT_TRACE + CXML.LOYALTY_STATE. Prereqs: incident portal + POS + CCTV metadata + F16 + `customer-care-agent` group.
 
 ### Architecture Components (RC)
 
-- Canonical Silver schemas: SCML, MERML, CXML (subsets)
-- Primary SORs: Monnit IoT, Manhattan WMS, POS, ESL Gateway, FDA Recall Feed, Customer Incident Portal
-- Capacity: F8 entry-level, F16 recommended for > 25 stores, F32 for > 250 stores
-- Identity groups: `store-mod`, `regional-ops-director`, `merchandising-analyst`, `loss-prevention-lead`, `customer-care-agent`, `compliance-officer`
+#### Canonical Silver Schemas
+
+RC Practice uses three schema families in overlapping subsets per service: **SCML** (supply-chain) for Cold Chain, Receiving, Recall, and Customer Incident services; **MERML** (merchandising) for ESL, OSA, Shrink, and Variance services; **CXML** (customer experience) for BOPIS, Customer Incident, and Loyalty services. See Appendix A for the entity catalog.
+
+#### Primary Systems of Record
+
+- **Monnit IoT** — refrigeration telemetry (primary source for CXP-01)
+- **Manhattan WMS** — warehouse & store inventory (primary source for CXP-01, RVD-02, OSA-04, BPX-06)
+- **POS (NCR / Toshiba / Oracle Retail / etc.)** — ring stream (ESL-03, OSA-04, SHK-07)
+- **ESL Gateway (Hanshow, SES-imagotag)** — electronic shelf-label state (ESL-03)
+- **FDA Recall Feed** — public regulatory feed (RCL-05, CXI-08)
+- **Customer Incident Portal** — customer-side intake (CXI-08)
+
+Integration depth varies: Mirrored Database for Manhattan (CDC-based), Eventstream for Monnit and POS, Dataflow Gen2 for ESL and FDA.
+
+#### Fabric Capacity Planning (RC)
+
+- **F8** entry-level — up to 25 stores running 2-3 services
+- **F16** standard — 25-250 stores running full RC catalog
+- **F32** large-scale — 250+ stores with burst tolerance
+- **F64** enterprise — multi-banner retailers with cross-banner services
+
+#### Identity Groups
+
+Every RC tenant provisions these Entra ID groups, populated with the relevant employees:
+
+- `store-mod` — store managers on duty; HITL approvers for CXP-01, RVD-02, BPX-06, OSA-04
+- `regional-ops-director` — consumers of multi-store patterns
+- `merchandising-analyst` — primary for ESL-03; secondary for OSA-04
+- `loss-prevention-lead` — primary for SHK-07
+- `customer-care-agent` — primary for BPX-06, CXI-08
+- `compliance-officer` — primary for RCL-05; secondary for SHK-07 and CXI-08
+
+### ISV Ecosystem (RC)
+
+Beyond Microsoft-native products, RC services integrate with a small set of retail-industry ISVs. All integrations land at the Bronze boundary; none influence the Silver canonical contract.
+
+- **Manhattan Associates** — WMS, Order Management, Supply Chain Planning modules
+- **Coca-Cola / major DSD vendors** — reference integration patterns for direct-store-delivery and dispute workflows
+- **Hanshow / SES-imagotag** — ESL gateway vendors
+- **Monnit** — industrial IoT platform
+- **Honeywell / Vocollect** — voice-pick integration (optional, for BOPIS services)
+- **NCR / Toshiba** — POS infrastructure
 
 ### 2.8 Implementation Roadmap (RC)
 
@@ -589,30 +684,103 @@ HLS is the Practice where gate policy matters most. Default gate posture on clin
 
 Six services in the HLS Practice.
 
-**APEX-HLS-DSR-01 — Discharge Ready Surveillance** (Pro / Enterprise · GA v1.2)
-Scenario: predict discharge readiness 24h ahead. Persona: Charge Nurse. Bundles HLS-A01/A02 + HLSCML.PATIENT_ENCOUNTER + ORCH-10. Gate: ACK_ONLY. Prereqs: Epic EHR (CDC + ADT) + F32 + HIPAA.
+#### Discharge Ready Surveillance — `APEX-HLS-DSR-01`
 
-**APEX-HLS-SEP-02 — Sepsis Early Warning** (Enterprise · GA v1.2)
-Scenario: vitals + labs triangulation. Persona: Charge Nurse. Bundles HLS-A03/A04 (reasoning-tier) + ORCH-11. Gate: HITL. Prereqs: Epic ADT + FHIR + labs + HIPAA + 21 CFR Part 11.
+**Tier:** Pro / Enterprise · **Status:** GA v1.2 · **Gate:** ACK_ONLY
 
-**APEX-HLS-RVC-03 — Revenue-Cycle Denial Recovery** (Pro / Enterprise · GA v1.2)
-Scenario: denial received; root cause + appeal draft. Persona: Revenue Cycle Analyst. Bundles HLS-A05/A06 + ORCH-12. Gate: HITL. Prereqs: 837/835 feed + EHR coding + HIPAA + SOX.
+On a 30-bed medical unit, the charge nurse spends the first hour of every shift doing bed-management arithmetic: which patients will discharge today, which will tomorrow, which need transport coordination, which are waiting on consults. The data exists in Epic but it's scattered across orders, notes, labs, and care plans. Predictions are mental — and the good charge nurses are 70% accurate, which still leaves three wrong calls per shift.
 
-**APEX-HLS-SUP-04 — Supply Expiry Management** (Pro / Enterprise · GA v1.2)
-Scenario: medications approaching expiry. Persona: Pharmacy Supply Lead. Bundles SCM-A07/A08 + ORCH-13. Gate: ACK_ONLY (HITL if recall). Prereqs: pharmacy inventory + FDA/pharma recall feeds + HIPAA.
+DSR-01 predicts discharge readiness 24 hours ahead, as a rolling model. `HLS-A01 Discharge Pattern Analyst` fuses the encounter record, open orders, outstanding consults, pending labs, and care-plan milestones. `HLS-A02 Disposition Planner` produces per-patient dispositions with confidence scores: "Room 412 likely discharge tomorrow AM pending cardiology consult; Room 418 discharge today PM; Room 404 tomorrow mid-day pending ambulation clearance." The ACK_ONLY card lands on the charge nurse's device at shift start — she sees the agent's predictions alongside her own notes and redirects bed management to what's actually going to happen rather than what she has to guess at.
 
-**APEX-HLS-CTM-05 — Clinical Trial Matching** (Pro / Enterprise · GA v1.2)
-Scenario: patient-to-trial matching. Persona: Clinical Trial Coordinator. Bundles HLS-A07 (reasoning) + ORCH-14. Gate: HITL. Prereqs: EHR + trials registry + HIPAA.
+KPI impact: `discharge_prediction_accuracy_pct ≥ 85%` · `los_reduction_hours` maximise · `readmission_pct ≤ 8%`. Artifacts: HLSCML.PATIENT_ENCOUNTER/CLINICAL_OBSERVATION/CARE_PLAN; agents HLS-A01/A02; tools `hlscml-mcp.read_encounter`, `fhir-mcp.query_orders`; orchestration ORCH-10. Prereqs: Epic EHR (CDC + ADT) + F32 + HIPAA + `charge-nurse` group. Clinical governance: predictions are advisory; the charge nurse's judgement prevails at every step.
 
-**APEX-HLS-PSI-06 — Patient Safety Incident** (Enterprise · GA v1.2)
-Scenario: near-miss / incident triage. Persona: Patient Safety Officer. Bundles HLS-A08/A09 + ORCH-15. Gate: ESCALATION. Prereqs: incident reporting system + EHR + HIPAA + 21 CFR Part 11.
+#### Sepsis Early Warning — `APEX-HLS-SEP-02`
+
+**Tier:** Enterprise · **Status:** GA v1.2 · **Gate:** HITL
+
+Sepsis kills 270,000 Americans a year; survival is strongly inversely correlated with time-to-antibiotic. The clinical literature consistently finds that sepsis signs are visible in vitals and labs four to six hours before clinical recognition — but busy clinicians can't triangulate eight signals across three systems while rounding on fifteen other patients.
+
+SEP-02 uses reasoning-tier models on the full vitals+labs+encounter+notes triangulation. `HLS-A03 Sepsis Pattern Detector` is a high-precision classifier on SIRS/qSOFA-adjacent signals combined with trend analysis. `HLS-A04 Clinical Reasoner` (reasoning tier) evaluates the whole picture — not just scores, but the clinical narrative — and produces a risk classification with specific evidence citations. The HITL card goes to the charge nurse or rapid-response team with the specific signals (e.g., "lactate rising 2.1→3.4 over 2h; MAP trending down; temp now 38.9; WBC was normal but trending; antibiotic not yet ordered"). Default gate is HITL and stays HITL indefinitely — this is not a service where gate downgrade is contemplated. The win is not autonomy; the win is earlier detection.
+
+KPI impact: `sepsis_early_detection_hours` maximise (target 4+) · `FPR ≤ 8%` · `sensitivity_pct ≥ 90%`. SLOs: detection p95 ≤ 180s · decision p95 ≤ 5 min · availability 99.95%. Artifacts: HLSCML.VITALS/LAB_RESULT/PATIENT_ENCOUNTER. Prereqs: Epic ADT + FHIR + labs feeds + F32 + HIPAA + 21 CFR Part 11 + `charge-nurse` group.
+
+#### Revenue-Cycle Denial Recovery — `APEX-HLS-RVC-03`
+
+**Tier:** Pro / Enterprise · **Status:** GA v1.2 · **Gate:** HITL
+
+Insurance denials are the largest recoverable leak in every health system's revenue cycle. Typical recovery rates are 30-45% simply because analyst time doesn't scale to the denial volume. Each denial requires reading the payer's reason code, finding the relevant clinical documentation, matching it to the coding record, drafting the appeal — 60-120 minutes per denial for experienced analysts.
+
+RVC-03 prepares the appeal before the analyst opens it. `HLS-A05 Denial Classifier` categorises by payer reason code and predicts recovery probability. `HLS-A06 Appeal Drafter` (reasoning tier) pulls the clinical documentation, coding record, and historical appeal outcomes for this payer/denial-type combination and drafts the appeal narrative with specific chart-citations. The analyst reviews the draft and either approves-to-file, modifies, or rejects. Empirically the first-pass quality is high enough that approval rates run 80%+ and analyst touch drops from 60-120 minutes to 10-15.
+
+KPI impact: `denial_recovery_usd` maximise · `appeal_acceptance_pct ≥ 55%` · `days_to_appeal ≤ 10`. Artifacts: HLSCML.CLAIM_DENIAL/PATIENT_ENCOUNTER/CODING_RECORD. Prereqs: 837/835 feed + EHR coding + F16 + HIPAA + SOX + `revenue-cycle-analyst` group.
+
+#### Supply Expiry Management — `APEX-HLS-SUP-04`
+
+**Tier:** Pro / Enterprise · **Status:** GA v1.2 · **Gate:** ACK_ONLY (HITL on recall intersections)
+
+Pharmacy and central-supply inventory has two adversaries: expiry and recall. Expiring medications can sometimes be redistributed across the system; recalled medications must be sequestered within hours. Both require end-to-end lot tracking that very few health systems do well at steady state.
+
+SUP-04 watches expiry curves against both product catalog and FDA+pharma-recall feeds. `SCM-A07 Expiry Curve Monitor` produces 30-day, 14-day, 7-day rolling expiry reports with reallocation candidates (units that could be moved to a sister facility with higher turn). `SCM-A08 Recall Intersection Agent` continuously joins lot-level inventory against incoming recall notices; any intersection elevates the gate to HITL immediately and pages the pharmacy supply lead.
+
+KPI impact: `expiry_waste_reduction_pct ≥ 40%` · `supply_unavailability_events` minimise · `recall_containment_hours ≤ 2`. Artifacts: SCML.LOT_EXPIRATION_STATE/RECALL_NOTICE/STORE_INVENTORY_POSITION. Prereqs: pharmacy inventory + FDA/pharma recall feeds + F16 + HIPAA + `supply-chain-pharm` group.
+
+#### Clinical Trial Matching — `APEX-HLS-CTM-05`
+
+**Tier:** Pro / Enterprise · **Status:** GA v1.2 · **Gate:** HITL
+
+Academic medical centres and large community systems participate in dozens of active clinical trials. Patients with matching diagnoses arrive daily — and the match-rate from current workflows (typically CRC review of EHR lists) is painfully low, often under 5% of eligible patients ever contacted.
+
+CTM-05 matches continuously. `HLS-A07 Trial Eligibility Reasoner` (reasoning tier) evaluates each new patient or diagnosis-change event against the eligibility criteria of open trials at the institution. Matches above a confidence threshold produce a HITL card for the trial coordinator with the specific patient, the candidate trial(s), and the eligibility reasoning. The coordinator reviews, decides whether to initiate outreach, and the decision is captured — both as outreach action and as training data for future match quality.
+
+KPI impact: `trial_enrolment_rate_pct ≥ 15%` · `match_precision_pct ≥ 90%` · `time_to_outreach_hours ≤ 48`. Artifacts: HLSCML.PATIENT_ENCOUNTER/TRIAL_PROTOCOL/ELIGIBILITY_CRITERIA. Prereqs: EHR + trials registry (ClinicalTrials.gov and institutional) + F32 + HIPAA.
+
+#### Patient Safety Incident — `APEX-HLS-PSI-06`
+
+**Tier:** Enterprise · **Status:** GA v1.2 · **Gate:** ESCALATION
+
+Near-miss and adverse-event reporting is the backbone of patient-safety governance, and it is almost universally incomplete. Reports come in through multiple channels; triage is slow; severity assessment is inconsistent; regulatory reporting windows are missed because severity got mis-classified on intake.
+
+PSI-06 classifies, triages, and packages. `HLS-A08 Severity Classifier` assigns NCC MERP-adjacent severity levels on intake. `HLS-A09 Regulatory Reporting Agent` assembles the regulator-specific packet (CMS, state health department, sentinel-event frameworks as applicable) when severity warrants it. The ESCALATION gate routes to the Patient Safety Officer, and the package is ready for them — not a blank form and a queue of unread emails.
+
+KPI impact: `severe_incident_detection_pct ≥ 99%` · `regulatory_report_on_time_pct ≥ 100%` · `time_to_classification_hours ≤ 4`. Artifacts: HLSCML.PATIENT_SAFETY_EVENT/INCIDENT_CLASSIFICATION. Prereqs: incident reporting system + EHR + F16 + HIPAA + 21 CFR Part 11.
 
 ### Architecture Components (HLS)
 
-- Canonical Silver schemas: HLSCML (full family)
-- Primary SORs: Epic EHR (CDC + ADT + FHIR + labs), pharmacy inventory, trials registry, denial/claim feeds
-- Capacity: F32 baseline (reasoning-tier models raise token spend)
-- Identity: clinical identity groups per role with segregated PHI-unlock managed identity; Purview labels on all silver_* PHI tables
+#### Canonical Silver Schemas
+
+HLS Practice uses **HLSCML** as the primary canonical schema family, with 18 entities spanning encounters, observations, care plans, vitals, labs, claims, coding, trials, and patient-safety events. SCML is used selectively for pharmacy-supply lot tracking and pharma recall intersection.
+
+#### Primary Systems of Record
+
+- **Epic EHR** (via Clarity/Caboodle CDC + ADT stream + FHIR API) — primary source for all clinical services
+- **Oracle Health (Cerner)** — alternative EHR with equivalent Silver mapping
+- **Pharmacy inventory (Omnicell / Pyxis / institutional)** — SUP-04 source
+- **Trials registry (ClinicalTrials.gov + institutional CRIS)** — CTM-05 source
+- **Denial/claim feeds (837/835 X12)** — RVC-03 source
+- **Incident reporting system** — PSI-06 source
+
+Integration patterns: Mirrored Database for Clarity/Caboodle (CDC), Eventstream for ADT (real-time), Dataflow Gen2 for FHIR (pull-based), SFTP+Pipeline for denial feeds.
+
+#### Fabric Capacity Planning (HLS)
+
+- **F32** baseline — reasoning-tier models (SEP-02 HLS-A04, RVC-03 HLS-A06, CTM-05 HLS-A07) raise token spend substantially
+- **F64** standard for > 1,000-bed health systems
+- **F128** enterprise — multi-hospital IDNs with SEP-02 at scale
+
+#### Identity and PHI Segregation
+
+HLS is APEX's strictest identity regime. Every clinical service reads through `hlscml-mcp` under `mi-apex-hls-mcp`, which holds PHI-read grants only against the tokenised Silver layer. Cleartext PHI lookup is possible only through `tokenizer-mcp.reverse_tokenize` under `mi-apex-hls-pii-unlock`, which carries audit-before-call discipline. Clinical identity groups (`charge-nurse`, `clinical-informaticist`, etc.) have per-unit scoping enforced through AAD group membership.
+
+Purview labels on every PHI-bearing Silver table; DLP inspection on every outbound agent response for PHI leak. The `-32003 DLP_VIOLATION` error returns when an agent attempts to include cleartext PHI in an output — which should be rare, because agents read tokens, not cleartext.
+
+### ISV Ecosystem (HLS)
+
+- **Epic** — electronic health record; primary integration path
+- **Oracle Health (Cerner)** — alternative EHR
+- **Infor Lawson** — revenue-cycle and ERP integration
+- **IQVIA** — clinical trials registry and site management
+- **Omnicell / Pyxis** — pharmacy dispensing systems
+- **Wolters Kluwer / UpToDate** — clinical decision-support knowledge references
 
 ### 3.8 Implementation Roadmap (HLS)
 
@@ -672,27 +840,94 @@ ER is where the SLO discipline matters most. Grid anomaly detection p95 ≤ 30 s
 
 Five services in the ER Practice.
 
-**APEX-ER-MTR-01 — Meter Outage Detection** (Pro / Enterprise · GA v1.2)
-Scenario: AMI meter reads missing. Persona: Meter Ops Lead. Bundles ER-A01/A02 + ORCH-16. Gate: ACK_ONLY. Prereqs: SAP ISU + AMI head-end + SOX.
+#### Meter Outage Detection — `APEX-ER-MTR-01`
 
-**APEX-ER-GRD-02 — Grid Anomaly Response** (Enterprise · GA v1.2)
-Scenario: SCADA anomaly classification + operator action. Persona: Grid Ops Engineer. Bundles ER-A03/A04 (reasoning) + ORCH-17. Gate: HITL (ESCALATION on large events). Prereqs: SCADA + OMS + DMS + SOX + FERC.
+**Tier:** Pro / Enterprise · **Status:** GA v1.2 · **Gate:** ACK_ONLY
 
-**APEX-ER-BIL-03 — Billing Exception Handling** (Pro / Enterprise · GA v1.2)
-Scenario: billing anomaly classification + routing. Persona: Billing Ops Analyst. Bundles ER-A05/A06 + ORCH-18. Gate: ACK_ONLY. Prereqs: SAP ISU + CIS + SOX.
+AMI meters produce reads every fifteen minutes. Missing reads can mean power outage, meter fault, communication glitch, or tampering. Distinguishing them at scale — when a single head-end covers a million meters — requires fusing multiple signals: neighbouring meters' reads, weather, planned work, known communication infrastructure incidents.
 
-**APEX-ER-FWO-04 — Field Work-Order Optimisation** (Pro / Enterprise · GA v1.2)
-Scenario: crew dispatch optimisation. Persona: Field Dispatcher. Bundles ER-A07/A08 + ORCH-19. Gate: ACK_ONLY. Prereqs: MS Field Service + GIS + SAP PM.
+MTR-01 watches the read stream and classifies gaps. `ER-A01 Outage Classifier` evaluates each gap against the surrounding-meter readings, known network events, and weather data. `ER-A02 Dispatch Recommender` determines whether to dispatch a crew, wait for self-heal, or escalate to OMS. Because most gaps are benign (communication glitch recovers in one cycle), the ACK_ONLY gate reflects that: dispatchers see the recommendations rather than approving every one.
 
-**APEX-ER-REG-05 — Regulatory Event Response** (Enterprise · GA v1.2)
-Scenario: FERC / PUC regulatory event. Persona: Regulatory Affairs. Bundles ER-A09/A10 + ORCH-20. Gate: ESCALATION. Prereqs: FERC + state PUC portals + SOX.
+KPI impact: `outage_detection_accuracy_pct ≥ 95%` · `false_outage_pct ≤ 2%` · `time_to_dispatch_min ≤ 15`. Artifacts: ERCML.METER_READING/OUTAGE_EVENT. Prereqs: SAP ISU + AMI head-end + F16 + SOX + `meter-ops-lead` group.
+
+#### Grid Anomaly Response — `APEX-ER-GRD-02`
+
+**Tier:** Enterprise · **Status:** GA v1.2 · **Gate:** HITL (ESCALATION for large events)
+
+This is APEX's tightest-SLO service. Grid anomalies — line-to-ground faults, frequency deviations, equipment overloads — must be classified and action-staged in seconds. Human operators under load can take minutes for ambiguous events; minutes translate to customer minutes interrupted and potential regulatory exposure.
+
+GRD-02 runs a reasoning-tier model continuously against the SCADA stream, OMS state, and DMS topology. `ER-A03 SCADA Pattern Classifier` identifies the signal shape. `ER-A04 Action Reasoner` (reasoning tier) evaluates the broader state — what other signals have been changing, what planned work is active, what the grid's posture would be after a proposed operator action — and stages a specific breaker sequence or switchgear action with predicted customer-impact math. The HITL card goes to the grid-ops engineer with the classification, the reasoning, and the recommended action. Total time from SCADA event to operator-facing recommendation: typically under 30 seconds. For anomalies that exceed thresholds (e.g., predicted affected customers over a million), the gate auto-elevates to ESCALATION and notifies additional stakeholders including Regulatory Affairs.
+
+KPI impact: `anomaly_classification_accuracy_pct ≥ 90%` · `customer_minutes_interrupted_pct` minimise · `FERC_report_on_time_pct ≥ 100%`. SLOs: detection p95 ≤ 30s · decision p95 ≤ 5 min · availability 99.99%. Artifacts: ERCML.GRID_ANOMALY/CUSTOMER_SERVICE_STATE/SCADA_TELEMETRY. Prereqs: SCADA + OMS + DMS + F32 + SOX + FERC + `grid-ops-engineer` group.
+
+#### Billing Exception Handling — `APEX-ER-BIL-03`
+
+**Tier:** Pro / Enterprise · **Status:** GA v1.2 · **Gate:** ACK_ONLY
+
+Usage spikes, negative reads, rate-class mismatches, tamper-suggestive patterns, estimate-vs-actual drift — utility billing generates exceptions by the thousand daily. Many are benign (vacation mode, seasonal pattern). Many require human attention. Triaging them manually is expensive; deferring them generates customer complaints.
+
+BIL-03 classifies and routes. `ER-A05 Exception Classifier` labels each exception by likely cause. `ER-A06 Auto-Resolution Agent` handles the clear-cut cases (e.g., confirmed vacation-mode usage pattern → no action, confirmed meter-read-error → re-read request scheduled). Complex cases go to the billing analyst with context already assembled (customer history, rate class, prior exception patterns).
+
+KPI impact: `exception_auto_resolved_pct ≥ 60%` · `customer_complaint_rate_pct ≤ 0.5%` · `time_to_resolution_days ≤ 3`. Artifacts: ERCML.BILLING_EXCEPTION/METER_READING/RATE_SCHEDULE. Prereqs: SAP ISU + CIS + F16 + SOX.
+
+#### Field Work-Order Optimisation — `APEX-ER-FWO-04`
+
+**Tier:** Pro / Enterprise · **Status:** GA v1.2 · **Gate:** ACK_ONLY
+
+Crews in the field are the most expensive resource a utility operates. Dispatching them efficiently — with the right skills, the right parts on the truck, the right sequence — is a complex optimisation that traditional schedule-editors handle approximately and reactively.
+
+FWO-04 runs continuous re-optimisation. `ER-A07 Crew-Skills Matcher` pairs work orders to crews with matching certifications, tools, and part inventories. `ER-A08 Route Optimiser` sequences the day's orders to minimise travel, respect outage-restoration priorities, and honour planned-work commitments. Dispatchers see the optimiser's proposed schedule and can override any specific assignment; the model learns from overrides and adjusts recommendation patterns.
+
+KPI impact: `first_time_fix_rate_pct ≥ 80%` · `travel_time_reduction_pct ≥ 15%` · `same_day_completion_pct ≥ 70%`. Artifacts: ERCML.WORK_ORDER/CREW_STATE/ASSET_HEALTH. Prereqs: MS Field Service + GIS + SAP PM + F16 + `field-dispatcher` group.
+
+#### Regulatory Event Response — `APEX-ER-REG-05`
+
+**Tier:** Enterprise · **Status:** GA v1.2 · **Gate:** ESCALATION
+
+FERC reliability events, state PUC rate-case filings, reportable incidents — each has its own format, its own timeline, its own evidence requirement. Reconstructing the data after the fact is painful and error-prone. Regulators have responded by shortening windows and increasing audit scrutiny.
+
+REG-05 assembles regulatory packages continuously. `ER-A09 Regulatory Event Classifier` identifies when an operational event crosses a reportable threshold (some FERC requirements key off specific MW impact, duration, or affected-customer counts). `ER-A10 Package Assembler` pulls the canonical data the regulator requires — operational telemetry, customer impact, timeline, remediation actions, communications — into the regulator-specific format. The package goes to Regulatory Affairs with time-to-file estimate and is filed once they approve.
+
+KPI impact: `filing_on_time_pct ≥ 100%` · `data_accuracy_pct ≥ 99.9%` · `regulatory_penalty_avoided_usd` maximise. Artifacts: ERCML.REGULATORY_EVENT/RELIABILITY_METRIC. Prereqs: FERC feed + state PUC portals + internal reliability data + F16 + SOX + FERC + `regulatory-affairs` group.
 
 ### Architecture Components (ER)
 
-- Canonical Silver schemas: ERCML (full family)
-- Primary SORs: SAP ISU, AMI head-end, SCADA, OMS, DMS, CIS, MS Field Service, FERC feed
-- Capacity: F32 baseline for grid telemetry volume
-- Identity: grid-ops-engineer, meter-ops-lead, field-dispatcher, billing-ops-analyst, regulatory-affairs
+#### Canonical Silver Schemas
+
+ER Practice uses **ERCML** as its primary schema family: 14 entities covering meter reading, outage, grid anomaly, customer service state, SCADA telemetry, billing exception, rate schedule, work order, crew state, asset health, regulatory event, and reliability metric.
+
+#### Primary Systems of Record
+
+- **SAP ISU** — utility billing/CIS (MTR-01, BIL-03)
+- **AMI head-end (Itron / Landis+Gyr / Sensus)** — advanced meter infrastructure (MTR-01)
+- **SCADA** — grid telemetry (GRD-02)
+- **OMS (Outage Management)** — outage workflow
+- **DMS (Distribution Management)** — grid topology and state
+- **MS Field Service** — crew dispatch (FWO-04)
+- **GIS** — geospatial data for dispatch and grid mapping
+- **FERC feed + state PUC portals** — regulatory events (REG-05)
+
+#### Fabric Capacity Planning (ER)
+
+- **F16** baseline for 250,000-meter deployments
+- **F32** standard for 1M-2M meter + SCADA fusion
+- **F64** enterprise with full real-time grid telemetry
+- **F128** investor-owned utilities at continental scale
+
+Grid telemetry is the largest data-volume driver in ER. Plan capacity accordingly.
+
+#### Identity and Critical-Infrastructure Posture
+
+ER is APEX's critical-infrastructure Practice. Grid-ops identity carries tighter controls (conditional access, MFA-on-every-read); audit logs retained under FERC-aligned retention policies; decision audit encrypted with customer-managed keys.
+
+### ISV Ecosystem (ER)
+
+- **SAP ISU** — customer information and billing
+- **OSIsoft PI** — historian for grid and asset telemetry
+- **GE GridOS** — advanced distribution management
+- **Itron / Landis+Gyr / Sensus** — AMI vendors
+- **Schneider Electric / ABB** — grid automation equipment vendors
+- **Oracle Utilities** — alternative to SAP ISU (billing + CIS)
 
 ### 4.8 Implementation Roadmap (ER)
 
@@ -722,13 +957,45 @@ Baseline typically **Level 2**. Wave 1 targets Level 3 on LDT-01 and KPI-05. Str
 
 ### 5.4 Solution Portfolio (AXLE in APEX)
 
-Five services summarised; full AXLE programme in the separate AXLE Comprehensive Reference:
+#### Line-Down Triage — `APEX-AXLE-LDT-01`
 
-- **APEX-AXLE-LDT-01 — Line-Down Triage** · HITL gate · Plant Supervisor primary
-- **APEX-AXLE-QEX-02 — Quality Excursion Response** · HITL gate · Quality Engineer primary
-- **APEX-AXLE-SCD-03 — Supply-Chain Disruption** · ACK_ONLY · Supply Planner primary
-- **APEX-AXLE-RCL-04 — Recall Traceability** · ESCALATION · Recall Coordinator primary
-- **APEX-AXLE-KPI-05 — Plant KPI Drift** · ACK_ONLY · Plant Manager primary
+**Tier:** Pro / Enterprise · **Status:** GA v1.2 · **Gate:** HITL
+
+A press halts at 09:14. Every minute is $3,000-$8,000. The plant supervisor's first question is always the same: mechanical, material, quality, or operator? Answering it takes ten-to-twenty minutes of walking, looking, and talking. LDT-01 classifies in under sixty seconds using the combined signals from Plex MES, asset health telemetry, and the shift's production event stream. `AXLE-A01 Halt Classifier` produces the four-way split; `AXLE-A02 Root-Cause Hypothesiser` produces ranked root-cause candidates with specific diagnostic next-steps. The HITL card lands on the supervisor's device and they proceed with the informed first action. Typical line-down-minutes reduction: 20-40%.
+
+KPI impact: `line_down_minutes` minimise · `triage_accuracy_pct ≥ 90%` · `mean_time_to_diagnose_min ≤ 10`. Artifacts: AXLECML.PRODUCTION_EVENT/ASSET_HEALTH/MATERIAL_FLOW. Prereqs: Plex MES + SAP PM + F32 + SOX + `plant-supervisor` group.
+
+#### Quality Excursion Response — `APEX-AXLE-QEX-02`
+
+**Tier:** Enterprise · **Status:** GA v1.2 · **Gate:** HITL (ESCALATION for recalls)
+
+SPC chart excursions trigger containment decisions — sort, rework, quarantine, scrap. Decisions that wait cost; decisions made without genealogy information cost more (over-scrap from lack of traceability, under-scrap from missed affected parts). QEX-02 fuses SPC signals with full product genealogy from shop-floor data to give the quality engineer a bounded scope in minutes rather than hours. `AXLE-A03 Excursion Classifier` sets severity; `AXLE-A04 Genealogy Traversal Agent` produces the complete affected-part list — by process, by shift, by material lot. When the excursion's scope crosses a threshold (customer-delivered units affected, warranty exposure calculated), the gate elevates from HITL to ESCALATION and the recall coordinator is notified.
+
+KPI impact: `containment_success_pct ≥ 95%` · `escape_rate_pct ≤ 0.1%` · `time_to_containment_min ≤ 60`. Artifacts: AXLECML.QUALITY_EXCURSION/GENEALOGY/PRODUCT_LOT. Prereqs: Plex + SAP QM + LIMS + F32 + SOX + `quality-engineer` group.
+
+#### Supply-Chain Disruption — `APEX-AXLE-SCD-03`
+
+**Tier:** Pro / Enterprise · **Status:** GA v1.2 · **Gate:** ACK_ONLY
+
+Supplier delays, quality holds, shortages — each translates to scheduling, expediting, and inventory-rebalancing decisions. SCD-03 watches inbound supplier events and translates them into specific action recommendations for the planner. `AXLE-A05 Supplier Event Classifier` categorises the disruption. `AXLE-A06 Re-plan Recommender` proposes a revised schedule considering safety stock, alternate sources, customer commitments. The planner reviews the proposal and approves — most recommendations are accepted; the model learns from overrides.
+
+KPI impact: `order_fulfilment_on_time_pct ≥ 95%` · `expedite_cost_reduction_pct ≥ 20%` · `stockout_events` minimise. Artifacts: AXLECML.SUPPLIER_EVENT/PURCHASE_ORDER/INVENTORY_POSITION. Prereqs: SAP SCM + supplier portals + EDI + F16 + `supply-chain-planner` group.
+
+#### Recall Traceability — `APEX-AXLE-RCL-04`
+
+**Tier:** Enterprise · **Status:** GA v1.2 · **Gate:** ESCALATION
+
+A field quality issue requires recall. Traditional traceability from build to customer takes days or weeks; the regulator wants hours. RCL-04 maintains the full forward-and-backward genealogy continuously, so when a recall is initiated the affected-units list exists in minutes. `AXLE-A07 Recall Scope Agent` produces the affected-VINs/affected-units list; `AXLE-A08 Impact Assessor` (reasoning tier) evaluates the broader scope — connected-vehicle fleet data, warranty claim patterns, supplier involvement — and produces the regulator-ready package. ESCALATION routes to the Recall Coordinator with Legal, Comms, and Engineering notified.
+
+KPI impact: `affected_units_identified_pct ≥ 99%` · `time_to_notice_hours ≤ 8` · `regulatory_compliance_pct ≥ 100%`. Artifacts: AXLECML.RECALL_NOTICE/GENEALOGY/SHIPMENT. Prereqs: Plex + SAP QM + shipment tracking + NHTSA/regulator feeds + F32 + SOX + FDA (if food/pharma) + `recall-coordinator` group.
+
+#### Plant KPI Drift — `APEX-AXLE-KPI-05`
+
+**Tier:** Pro / Enterprise · **Status:** GA v1.2 · **Gate:** ACK_ONLY
+
+OEE, yield, scrap, and downtime KPIs have target ranges. When they drift, the causes are usually subtle and multi-factor; by the time the monthly review catches them, the drift has cost real money. KPI-05 runs continuous drift detection on the key KPIs and produces root-cause hypotheses. `AXLE-A09 Drift Detector` identifies statistical drift against baselines. `AXLE-A10 Root-Cause Reasoner` (reasoning tier) considers asset health, shift patterns, material lots, and recent changes to produce ranked cause hypotheses for the plant manager to investigate.
+
+KPI impact: `oee_improvement_pct` maximise · `drift_detected_pct ≥ 90%` · `false_alarm_rate_pct ≤ 5%`. Artifacts: AXLECML.PRODUCTION_EVENT/KPI_SNAPSHOT/ASSET_HEALTH. Prereqs: Plex + SAP + historian + F16 + `plant-manager` group.
 
 ### 5.5 Implementation Roadmap (AXLE Practice)
 
@@ -740,9 +1007,9 @@ Typical Wave 3 · $4–6M · RCL-04 enterprise-wide; consider graduating into th
 
 # Part III — Cross-Practice Capabilities
 
-Every APEX deployment uses a shared set of capabilities that cut across Practices. These are not optional add-ons; they are the platform spine.
+Every APEX deployment uses a shared set of capabilities that cut across Practices. These are not optional add-ons; they are the platform spine. Part III expands each of them into its own chapter, because a failure in any one of them is a failure of the entire platform.
 
-## Chapter 6: Shared Services
+## Chapter 6: Shared Services — The Utility MCP Layer
 
 Six utility MCP servers ship with every APEX deployment, regardless of which Practices are subscribed. They are the seam between Practice-specific content and the platform's governance, identity, and audit machinery.
 
@@ -759,6 +1026,52 @@ Six utility MCP servers ship with every APEX deployment, regardless of which Pra
 **`ledger-mcp` — Staging for write-offs, corrections, adjustments.** Every write-back to an SOR or internal ledger goes through here first, staged and audit-logged before execution.
 
 Together these six servers are the **platform contract**. A Practice that bypasses them is out of compliance with Core.
+
+### 6.1 The Platform Contract Principle
+
+The utility MCPs are not a menu of optional extras. Every APEX service uses all six, either directly or transitively. When a Practice team proposes a new service, the Core review board checks that:
+
+- Data reads go through `fabric-mcp` or a domain MCP (never direct Fabric SQL from agent code)
+- The HITL gate resolution goes through `policy-mcp` (never hard-coded in the orchestration)
+- Telemetry is emitted through `telemetry-mcp` (ensuring proper operation_Id threading)
+- Approvals go through `approvals-mcp` (ensuring Teams/Power Automate consistency)
+- PII crossing tokenisation goes through `tokenizer-mcp` (no inline cleartext handling)
+- Write-backs to SORs or internal ledgers go through `ledger-mcp` (always audit-logged)
+
+Shortcuts past any of these servers are blocked at review. This is why the platform can promise cross-service audit consistency and single-pane-of-glass observability.
+
+### 6.2 Tokenizer Deep-Dive
+
+`tokenizer-mcp` is the most sensitive utility server in the APEX platform. It sits at the PII boundary; its failure modes are compliance events.
+
+**Tokenisation rules:**
+- Stable tokens (same cleartext → same token across invocations, over time)
+- Audit-logged reverse-lookup with `mi-apex-<practice>-pii-unlock` as the only identity authorised
+- Per-field consent honouring (if `consent_contact = false` on a customer record, the token still resolves but outbound communication is blocked by the `approvals-mcp` policy layer)
+- Category-scoped salts (customer_id token ≠ employee_id token, even for the same underlying value)
+
+**Implementation:**
+The tokeniser is a Fabric-adjacent stateful service holding the token-to-cleartext map in a customer-managed-keys-encrypted Delta table. Reverse lookups hit the store with an audit row written to `apex_audit_log` first, then the reverse call. The audit write is strict-ordering-before — if the audit row write fails, the reverse-lookup fails. This is deliberately conservative.
+
+### 6.3 Approvals Deep-Dive
+
+`approvals-mcp` is the seam between APEX and the human organisation. It sends Teams adaptive cards, escalates to Power Automate flows, polls for decision, applies timeouts, and returns the canonical result.
+
+**Card lifecycle:**
+1. `approvals-mcp.send_card(recipient, card_json, timeout_min)` — called by the orchestration's HITL gate step
+2. Card is delivered via Graph API to the recipient's Teams
+3. Recipient interacts; submit action hits the APEX Function handler
+4. Decision arrives via `raise_event(orchestration_id, 'hitl_decision', payload)`
+5. If timeout expires, escalation path fires — a second card to a secondary recipient or an ESCALATION-flavoured card to a cross-functional owner
+6. Final decision is written to `silver_decision_audit` by the orchestration; the approvals-mcp trace span closes
+
+**Why it's a shared service:** every Practice needs the same contract. A decision card for a Cold Chain excursion and a decision card for a Sepsis alert share the same submit-handler, the same audit path, the same escalation semantics. Build it once.
+
+### 6.4 Ledger-MCP Deep-Dive
+
+Every write-back to a SOR or internal system goes through staging. `ledger-mcp` is the staging service. It writes to `silver_ledger_staging` (append-only, audit-referenced) before the downstream system sees the action, so the action can be audited at the APEX boundary before it commits downstream.
+
+Typical usage: a cold-chain write-off stages the ledger entry; the HITL approval promotes it; the downstream ERP finance adapter picks up the promoted entry and posts it. If the ERP post fails, the failure is captured in the staging table alongside the original stage, and the orchestration's rollback path can un-stage.
 
 ## Chapter 7: Observability & Trust
 
@@ -787,6 +1100,39 @@ APEX's audit trail is not an afterthought. `silver_decision_audit` is a first-cl
 - Exportable in a form that regulators have accepted in engagements to date
 
 This is the single biggest differentiator in conversations with compliance officers. It is not an advantage measurable in ROI; it is a **floor**.
+
+### 7.1 Alert-to-Action Philosophy
+
+Every APEX alert is paired with a runbook. Alerting without actionable runbook is just noise. The convention: alerts carry a link to the runbook-of-record in the observability wiki; the runbook names the owner, the diagnosis steps, the rollback steps, and the escalation tree. No alert ships without a runbook review.
+
+**Alert severity matrix:**
+
+| Severity | Response time | Recipient |
+|---|---|---|
+| P1 — SLO burn critical | 15 min | On-call engineer + practice SRE lead |
+| P2 — SLO burn warning | 1 hour | Practice SRE |
+| P3 — Contract/schema drift | 4 hours | Practice team + Core team |
+| P4 — Informational | End of day | Dashboard only |
+
+### 7.2 The Decision-Lineage Query
+
+Every APEX decision is queryable by a single identifier: the `operation_Id`. Given that ID, any authorised user can reconstruct:
+
+- The triggering event (source, timestamp, entity)
+- Every Bronze/Silver/Gold transform that fed the decision
+- Every agent invocation with prompt, tool calls, and output
+- Every MCP tool call with inputs and outputs
+- The HITL card sent, the approver, the rationale
+- The final decision written to audit
+- Downstream effects (ledger entries, SOR write-backs, communications sent)
+
+This is the query regulators have been asking for since before agentic AI existed; APEX is architected to answer it as a first-class concern.
+
+### 7.3 Trust-Building with Clinical and Regulated Personas
+
+For services in highly regulated environments (HLS clinical, ER grid-ops, AXLE recalls), the observability layer is the **primary trust-building mechanism**. The pitch to a skeptical charge nurse or grid-ops engineer is not "trust the agent"; it is "here is how you can audit every decision in the first thirty days so you can trust yourself when you tune the gate down."
+
+During Wave 1 pilots, we instrument the workbook with per-decision drill-down queries and train the pilot personas on using them. Within a month, the pilot personas become the programme's internal advocates because they have spent time inside the decision audit and seen the quality for themselves.
 
 ## Chapter 8: Versioning, Governance, and HITL Gates
 
@@ -823,19 +1169,46 @@ The APEX delivery pattern is three waves of roughly six months each. Each wave h
 
 **Investment envelope:** $3–8M per Practice, typically $4–6M for the first Practice.
 
-**Deliverables:**
-- Fabric workspace topology stood up (Dev/Test/Prod × Practice/Tenant)
-- Identity groups and managed identities provisioned
-- First Practice's canonical schemas deployed; `validate-practice` green
-- 2–3 services from the first Practice live in one pilot tenant
-- First HITL decisions flowing; decision audit rows accumulating
-- Azure Monitor workbook operational
+#### Wave 1 Month-by-Month Milestones
 
-**Exit criteria (all must hold):**
-- ≥ 30 days continuous HITL decision flow at pilot
-- SLOs met for ≥ 21 consecutive days
-- ≥ 3 KPIs trending on or above target
-- Stakeholder sign-off for Wave 2 scope
+**Months 1–2: Provisioning.**
+- Kickoff workshop with programme sponsor, CIO, and three Practice-specific stakeholders
+- Fabric capacity procured (typical: F16 dev/test shared, F16+F8-burst prod)
+- Dev / Test / Prod workspaces created under APEX naming convention
+- Identity groups provisioned in Entra ID; managed identities created
+- Bronze ingest connectors for the first two SORs stood up; ten days of historical data landed
+- Developer team onboarded with apex-core / apex-&lt;practice&gt; repos
+
+**Months 3–4: Canonicalisation.**
+- Silver transform notebooks for first-service entities written and reviewed
+- PII tokenisation wired to `tokenizer-mcp`; Purview labels applied
+- Gold feature views for first-service agent reads materialised
+- `apex-validate` green across schema, practice, and first services
+- First MCP servers (`fabric-mcp`, `policy-mcp`, one domain MCP) deployed to Container Apps in test
+- Agent authoring begins in Azure AI Foundry; system prompts go through ARB review
+
+**Months 5–6: Go-Live and Proof.**
+- Services enter shadow mode at pilot tenant; decisions logged but not acted on
+- Threshold calibration against shadow-mode data; gate-configuration decisions made
+- Go-live: first live HITL decisions arrive on the pilot persona's device
+- Three-day hyper-care window with intensive observability and on-call
+- Weekly persona office hours; decision-audit review with pilot group
+- Wave 1 exit review with steering committee
+
+#### Wave 1 Exit Criteria (All Must Hold)
+
+1. **Decision-flow proof** — ≥ 30 consecutive days of HITL decisions without critical operational incident
+2. **SLO discipline** — SLOs met on the live services for ≥ 21 consecutive days
+3. **KPI trend** — ≥ 3 of the service's KPIs trending on or above target at 30-day mark
+4. **Compliance acceptance** — practice Compliance Officer (or equivalent) has reviewed the audit-row stream and accepted the evidence quality
+5. **Persona buy-in** — the pilot personas (Store MOD, Charge Nurse, Grid Engineer, etc.) have signed off that they want Wave 2 to expand
+6. **Steering committee approval** — Wave 2 scope, budget, and timeline formally approved
+
+#### Wave 1 Risks and Mitigations
+
+- **SOR integration drags** — the most common Wave 1 risk. Mitigation: SOR integration starts day one; contracts are signed before kickoff; alternate data paths (historical-extract + light CDC) staged as fallback.
+- **Persona resistance** — mitigation: early persona involvement; pilot persona selected from volunteers, not assigned; first month's decisions reviewed jointly.
+- **Prompt quality** — mitigation: fixture-replay regression testing from day one; ARB review of every system prompt change; reasoning-tier models deployed only where proven needed.
 
 ### Wave 2 — Intelligence (months 7–12)
 
@@ -889,11 +1262,229 @@ Once Wave 1 is live, adding services to an existing tenant follows a much shorte
 
 The cost envelope for adding a service to a running tenant is **$200K–$600K** depending on SOR connections required. This is the math that makes the catalogue's growth pattern realistic: clients don't add services one a year; they add them two or three a quarter once the platform is live.
 
+### 11.1 The Service Catalog Growth Curve
+
+A typical client trajectory:
+
+- **End of Wave 1 (month 6):** 2–3 services live in one tenant. First KPIs proving out.
+- **End of Wave 2 (month 12):** 5–8 services live. Pattern for adding is well-understood; the dev team can deliver a new service in 3–4 weeks.
+- **End of Wave 3 (month 18):** 10–14 services live in the first Practice. Possibly first service from a second Practice.
+- **Month 24:** 15–20 services across 1–2 Practices. Cross-practice orchestrations piloted.
+- **Month 36:** Full catalog of the adopted Practices; third Practice in Wave 1.
+
+## Chapter 12: Resource Model
+
+The APEX delivery model balances three skill types: data engineering, agent/orchestration engineering, and change management. A typical Wave 1 team looks like this:
+
+| Role | Count | Allocation |
+|---|---|---|
+| Delivery principal | 1 | 50% — executive steward, client-facing |
+| Platform architect | 1 | 100% — Fabric + Azure AI + MCP design |
+| Data engineer | 2–3 | 100% — Medallion transforms, SOR integration |
+| Agent engineer | 2 | 100% — agent prompts, orchestrations, gates |
+| SRE | 1 | 50% — observability, release discipline |
+| Change-management lead | 1 | 50% — persona training, comms |
+| Client-side programme sponsor | 1 | 25% — authority, escalation |
+| Client-side technical lead | 1 | 75% — IT continuity, identity, infra |
+
+Total Deloitte-side headcount for a first-Practice Wave 1: roughly **5.5 FTE**. This scales sub-linearly with Wave 2 because the patterns are repeatable; Wave 2 typically runs with 4–5 FTE while shipping more services.
+
+### 12.1 Why Agent Engineering Is a Named Role
+
+"Agent engineer" is not a rebrand of "data scientist" or "prompt engineer." It is the specialist who understands the full agent lifecycle: writing the system prompt's contract preamble, defining the tool allow-list, selecting the model tier (cost vs. quality), authoring the DAG, wiring the HITL gate, and running the fixture-replay discipline on every change. This role did not exist four years ago. Building a pipeline of agent engineers is part of the programme's own success — a mature APEX practice graduates a couple of them each quarter from the client's own staff.
+
+## Chapter 13: Governance Model
+
+Every APEX programme stands up a three-layer governance structure on day one.
+
+**Steering committee** — meets monthly. Quorum: programme sponsor, CIO or delegate, practice lead, Deloitte delivery principal. Agenda: KPI review, service roadmap, investment checkpoints, risk & escalation.
+
+**Architecture review board (ARB)** — meets weekly in Wave 1, biweekly thereafter. Quorum: platform architect, data engineering lead, agent engineering lead, SRE, security representative. Agenda: manifest changes above MINOR, new service proposals, cross-practice integration decisions, Core edition pins.
+
+**Decision audit review (DAR)** — meets monthly. Quorum: compliance officer or delegate, practice lead, SRE, a rotating persona champion. Agenda: decision-quality review, false-positive patterns, gate-tuning recommendations, audit-exception follow-ups.
+
+### 13.1 ARB Discipline
+
+The Architecture Review Board is the most consequential of the three bodies. It owns the manifest. Its decisions ripple through every tenant.
+
+ARB discipline checklist:
+- Every MAJOR bump requires ARB approval before merge
+- Every new service proposal goes through an ARB checkpoint before engineering commits
+- Every cross-practice integration pattern is reviewed and patterned (so that the second and third clients get the benefit of the first)
+- Every Core edition pin has an ARB record citing the evidence behind the pin
+
+### 13.2 DAR Discipline and Gate-Tuning
+
+Decision audit review is how the programme earns the right to tune gates down. A typical trajectory: service ships at HITL, runs four weeks, DAR reviews the decision log, sees 97% unanimous approval with low-variance rationale, proposes tuning to ACK_ONLY for decisions below a specific dollar threshold. Steering approves, ARB ratifies, the gate change ships with a 72-hour canary.
+
+This discipline is how APEX avoids both perpetual-HITL-fatigue (everything stays HITL forever, approval queues back up, organisation pushes back) and dangerous over-automation (too-early gate-tuning on services where decision quality isn't proven).
+
+## Chapter 14: Change Management
+
+Every APEX programme is as much a change management programme as a technology programme. A service that works technically but that the persona doesn't trust is a failed service.
+
+### 14.1 Training Curriculum
+
+**For the frontline persona** (Store MOD, Charge Nurse, Plant Supervisor, Grid Engineer, etc.): three 45-minute live sessions plus office hours during Wave 1.
+
+- Session 1 — What APEX does and why (30 min framing + 15 min Q&A)
+- Session 2 — How the HITL card works (25 min demo + 20 min practice)
+- Session 3 — How the decision audit works (25 min demo + 20 min practice)
+
+**For the secondary persona** (Regional Director, Compliance Officer, Patient Safety Officer): two 60-minute sessions covering the observability workbook and the audit query patterns.
+
+**For the technical support persona** (IT ops, tenant admins): half-day workshop on onboarding, release pipelines, and rollback runbooks.
+
+### 14.2 Communication Milestones
+
+The programme ships a communication plan with the service roadmap. Typical milestones:
+
+- **T-8 weeks (before Wave 1 go-live):** All-hands announcement from the programme sponsor; town-hall Q&A
+- **T-4 weeks:** Persona training sessions
+- **T-2 weeks:** Dry-run with the pilot persona group
+- **T-0 (go-live):** Go-live day reinforcement; first-three-days hyper-care
+- **T+30 days:** Decision-audit review with the pilot persona group; first lessons-learned distribution
+- **T+90 days:** KPI review with programme sponsor; Wave 2 scope confirmation
+
+### 14.3 Addressing Resistance
+
+Resistance is predictable and should be planned for. In order of frequency:
+
+- **"I don't trust the AI"** — address by showing the decision audit; invite them to review any case where they disagree
+- **"This will replace me"** — address by showing the role-transition pattern; have a previous-wave persona tell their story
+- **"We tried this before"** — address by naming the prior failure modes explicitly and showing how APEX is different
+- **"Compliance will never approve this"** — address by bringing Compliance into the ARB from day one; early wins with Compliance are worth a dozen presentations later
+
+## Chapter 15: Quarterly Milestone Summary
+
+A typical 18-month APEX programme, quarter by quarter:
+
+| Quarter | Programme milestone | KPI target |
+|---|---|---|
+| Q1 (months 1–3) | Workspace topology live; first SOR connected; Silver canonical for first service | 0 decisions yet; SLOs green on ingest |
+| Q2 (months 4–6) | First 2 services in pilot tenant; first HITL decisions; 30-day proof cycle | Pilot KPI ≥ 50% of target; first board-level update |
+| Q3 (months 7–9) | Full practice catalog at pilot scale; first gate-tuning | KPI ≥ 70% of target; cross-functional sign-off |
+| Q4 (months 10–12) | Regional rollout begins; cross-practice shared services instrumented | KPI ≥ 85% of target; Wave 2 complete |
+| Q5 (months 13–15) | National/enterprise rollout; second Practice proposed | KPI ≥ 100% of target in pilot region |
+| Q6 (months 16–18) | Enterprise-scale steady-state; second Practice Wave 1 underway | Portfolio KPI dashboard live; Wave 3 complete |
+
 ---
 
 # Part V — Future State
 
-## Chapter 12: The Autonomous Enterprise
+## Chapter 16: The Four-Tier Innovation Model
+
+APEX's forward-looking solution catalog organises post-Wave-3 capabilities into four tiers of increasing sophistication. Tiers are not linear; a client can adopt Tier 3 solutions while still operating at Tier 1 or Tier 2 on other services. The tier denotes the **pattern**, not the maturity of a specific deployment.
+
+## Chapter 17: Tier 1 — Predictive & Causal Intelligence
+
+Tier 1 adds predictive and causal-inference capabilities to services that currently operate on reactive signals.
+
+### 17.1 Causal AI for Decisions
+
+Reactive service: "An excursion has occurred; recommend the disposition."
+Predictive/causal service: "These conditions tend to precede excursions; here is a preventive action with predicted impact."
+
+APEX Tier 1 adds causal-inference agents that reason about **why** a pattern is occurring, not just that it is. Example: the Cold Chain service augments its disposition agent with a causal-analysis agent that connects the current excursion to prior compressor maintenance cycles, identifying a service-hours threshold beyond which soft-start failures cluster. The causal conclusion feeds a preventive maintenance recommendation — now maintenance acts before the excursion rather than after.
+
+### 17.2 Predictive KPI Services
+
+- **Predictive Phantom-OOS** — RC — predicts phantom-OOS risk 24h ahead based on incoming promo schedules, shift patterns, and historical stock behaviour
+- **Predictive Sepsis** — HLS — extends SEP-02 with 12h-ahead prediction using trend-pattern recognition (already operational at pilot sites)
+- **Predictive Outage** — ER — extends MTR-01 with predictive weather+asset-health fusion
+- **Predictive Line-Down** — AXLE — asset-health-based line-down prediction hours before the halt
+
+### 17.3 Demand-Sensing Services
+
+Agents that sense and respond to demand shifts at the Practice-appropriate granularity: retail (store-SKU-day), healthcare (bed capacity forecast), energy (load-shape forecast), manufacturing (schedule adherence).
+
+## Chapter 18: Tier 2 — Self-Healing Operations
+
+Tier 2 services close the loop — they detect, decide, and act with reduced or zero HITL, producing measurable improvement on their own metrics over time.
+
+### 18.1 Self-Healing Services Portfolio
+
+**Self-Healing Cold Chain** — beyond the excursion response, the service manages reefer health continuously: when a unit's telemetry drifts, predictive maintenance ticket is raised; when maintenance is done, the healing confirmation closes the loop.
+
+**Self-Healing Pricing** — the ESL service combines with the POS ring stream to automatically detect, remediate, and close pricing anomalies; it also learns from each cycle to reduce future occurrence.
+
+**Self-Healing Production Line** — AXLE LDT-01 combined with predictive maintenance produces a system that recommends preventive action ahead of predicted halts and closes its own loop on outcome.
+
+**Self-Healing Denial Recovery** — HLS RVC-03 plus a closed-loop quality agent that, for denials where appeals fail, identifies the documentation-quality gap and routes a remediation to the relevant clinical service.
+
+### 18.2 The Closed-Loop Discipline
+
+Self-healing services require additional discipline:
+- **Outcome attribution** — the service must be able to attribute improvement to its own action, not just to time passing
+- **Dampening** — the service must avoid over-correcting on noise
+- **Drift detection** — the service must notice when its own model of effectiveness is wrong
+
+APEX's audit-row architecture makes attribution possible because every action is tied to a specific agent decision with a measurable downstream effect. Self-healing is not just a technical concept — it is an audit-backed one.
+
+## Chapter 19: Tier 3 — Agentic Contact & Service-to-Service
+
+Tier 3 extends APEX's decision surface to **customer-facing** and **agent-to-agent** interaction patterns.
+
+### 19.1 Agentic Contact Center
+
+Voice, chat, and text interactions handled by agents with escalation to human when confidence drops below threshold. APEX's contribution is the **contract backing** — the contact-center agent queries APEX services to give customer-specific, up-to-the-second answers rather than generic knowledge-base responses.
+
+### 19.2 Agent-to-Agent (A2A) Protocols
+
+APEX agents across practices talk to each other through typed MCP surfaces. Example: a retail recall (RCL-05) queries the HLS pharma-recall service for cross-industry context if the recalled lot has pharmaceutical components; a manufacturing recall (AXLE-RCL-04) queries the retail recall service when the product was distributed via retail channels.
+
+### 19.3 Service-to-Service (S2S)
+
+APEX services trigger other APEX services in the same tenant. Example: an RC Customer Incident at Tier-2 that correlates cross-store triggers an RC Recall Response service activation; the two services share data through the canonical CXML+SCML schemas rather than through point-to-point integration.
+
+### 19.4 Proactive Customer Outreach
+
+Services that reach out before the customer reaches in. Example: a BOPIS substitution service that, when a predicted substitution has high acceptance probability for a loyalty customer, proactively offers an in-store pickup upgrade.
+
+## Chapter 20: Tier 4 — Autonomous Operations (North Star)
+
+Tier 4 is the aspirational end-state: bounded autonomy with continuous audit. No APEX deployment reaches Tier 4 in full; selected services reach it for selected decision classes.
+
+### 20.1 Bounded Autonomy
+
+Level 5 on selected services — services where the cost-benefit of a gate has been measurably negative (false-positive rate low, human-approval rate near-unanimous, per-decision consequence low) and where removing the gate produces measurable latency and capacity benefit.
+
+### 20.2 Cross-Practice Orchestration
+
+Orchestrations that span Practices — a supply-disruption event in AXLE that invalidates assumptions in the HLS supply-expiry service; a recall event in RC that must be reflected in the AXLE recall-traceability service. Cross-practice orchestrations are rare, expensive to build, and high-value.
+
+### 20.3 Single Pane of Glass
+
+A client with APEX at Tier 4 maturity has one workbook that answers operational questions across every Practice and every service. Single sign-on, single trace ID format, single audit schema, single alerting posture.
+
+### 20.4 Digital Thread from Event to Customer
+
+The Tier 4 vision: a consequential event — a reefer excursion, a sepsis warning, a grid anomaly, a line-down — traces end-to-end from sensor to decision to action to customer-visible outcome, with no broken seams, no lost context, no manual handoff. APEX is the contract that makes this possible. The patterns to deliver it on each Practice exist; they just need the investment discipline to ship them service by service.
+
+### 20.5 The Innovation Dependency Chain
+
+Tier 4 depends on everything prior:
+
+- Tier 4 autonomy requires Tier 3 A2A and S2S for cross-service coordination
+- Tier 3 requires Tier 2 self-healing for in-service confidence
+- Tier 2 self-healing requires Tier 1 predictive signals
+- Tier 1 requires mature Wave-3 steady-state on the reactive services
+
+No shortcuts.
+
+## Chapter 21: Innovation Timeline
+
+A realistic trajectory for a client committing to APEX's full arc:
+
+- **Year 1 (Waves 1–2):** Reactive services live, Wave 3 complete on first Practice
+- **Year 2:** Tier 1 predictive services piloted on proven reactive services; second Practice Wave 1
+- **Year 3:** Tier 2 self-healing services ship on mature Tier 1 services; third Practice considered
+- **Year 4:** Tier 3 A2A and S2S across multiple Practices; contact center agents in production
+- **Year 5+:** Tier 4 bounded autonomy on selected services; single-pane-of-glass operational
+
+This is a multi-year commitment. The programme business case is structured so that each wave's ROI funds the next one's investment.
+
+## Chapter 22: The Autonomous Enterprise
 
 By the end of Wave 3, a client's APEX deployment looks like this:
 
@@ -906,6 +1497,14 @@ By the end of Wave 3, a client's APEX deployment looks like this:
 What comes next is incremental. Level 5 is not a step-change; it is a graduated trust reallocation where specific services, on the evidence of 6–12 months of Level 4 quality, have their gates removed with audit approval. No dramatic product launch. Just continued, disciplined movement up the maturity ladder.
 
 The autonomous enterprise is not "no humans in the loop." It is **humans in the loop on the decisions that warrant them**, with everything else running silently, audibly, and correctly.
+
+## Chapter 23: From One Tenant to Every Tenant
+
+APEX's multi-tenant model is the commercial arc. The first tenant absorbs the programme cost. The second and third tenants' onboarding costs drop 60-80% because the patterns, SOR connectors, and training curriculum are reusable. By the time a client has ten tenants on the same Practice, each new tenant adds less than a week's onboarding effort.
+
+This matters at scale. A retail chain with 400 stores doesn't onboard one store at a time; it onboards one tenant (the chain) and scales services within that tenant. A health system with 15 hospitals onboards one per region initially and propagates learnings laterally.
+
+The platform thesis becomes real when the 20th service at the 3rd tenant ships in a week and produces the same decision-quality as the 1st service at the 1st tenant. APEX's architecture is designed to deliver on that promise.
 
 ---
 
@@ -938,6 +1537,54 @@ ER Practice. Entities include METER_READING, OUTAGE_EVENT, GRID_ANOMALY, CUSTOME
 AXLE Practice. Entities include PRODUCTION_EVENT, ASSET_HEALTH, MATERIAL_FLOW, QUALITY_EXCURSION, GENEALOGY, PRODUCT_LOT, SUPPLIER_EVENT, PURCHASE_ORDER, INVENTORY_POSITION, RECALL_NOTICE, SHIPMENT, KPI_SNAPSHOT.
 
 Full per-entity reference — including column lists, SCD2 status, PII classes, and change history — is in the companion per-Practice build specs.
+
+### A.1 The Canonical Envelope
+
+Every Silver row (excluding pure lookup/reference tables) carries these five fields, validated by `schema-manifest-contract.json`:
+
+| Field | Type | Purpose |
+|---|---|---|
+| `event_id` | string (UUID or opaque) | Globally unique; idempotency key |
+| `event_ts` | timestamp (UTC) | When the logical event happened |
+| `entity_id` | string | The primary entity the event is about |
+| `source_system` | enum string | Which SOR this came from |
+| `source_system_ts` | timestamp (UTC) | When the SOR stamped it |
+
+Plus optional:
+- `pii_tokenized` (boolean) — true iff any PII column in this row was tokenised
+- `scd2_current` (boolean) — true iff this is the current row in a SCD2 history
+
+### A.2 Schema Evolution Rules
+
+Schema changes are classified deterministically by `apex-core/tools/classify-bump.js`:
+
+| Change | Bump |
+|---|---|
+| Add nullable column | MINOR |
+| Rename column | MAJOR |
+| Remove column | MAJOR |
+| Widen type (INT→BIGINT) | MINOR |
+| Narrow type (DECIMAL(10,2)→DECIMAL(8,2)) | MAJOR |
+| Add enum value | MINOR |
+| Remove enum value | MAJOR |
+| Change primary key | MAJOR |
+| Add new entity | MINOR |
+| Remove entity | MAJOR |
+| Change PII classification | MAJOR |
+| Metadata only (comment, description) | PATCH |
+
+Bump classification maps to default HITL gate kind per the Core matrix (Chapter 8).
+
+### A.3 Per-Practice Schema Counts
+
+- **SCML (RC/HLS/AXLE):** 15 entities in GA v1.2
+- **MERML (RC):** 12 entities
+- **CXML (RC/HLS):** 8 entities
+- **HLSCML (HLS):** 18 entities including full clinical coverage
+- **ERCML (ER):** 14 entities including SCADA telemetry family
+- **AXLECML (AXLE):** 12 entities
+
+Total: **79 canonical entities** across the catalog.
 
 ---
 
@@ -1003,6 +1650,27 @@ The 22 personas defined in `persona-catalog.json`. Each service's `personas.prim
 | plant-manager | Plant Manager | AXLE | Plant-wide KPIs, executive escalation |
 | recall-coordinator | Recall Coordinator | AXLE / RC / HLS | Traceability and customer notification for recalls |
 
+### C.1 Cross-Persona Patterns
+
+Several personas appear in multiple Practices. These are intentional cross-cuts, not duplicates:
+
+- **Compliance Officer** — same role, different regulatory lens per Practice (FDA in RC, HIPAA in HLS, FERC/NERC in ER)
+- **Customer Care Agent** — appears anywhere customer-facing resolution is needed (RC substitution, HLS incident, ER billing-complaint adjacent)
+- **Supply Chain Planner** — appears in AXLE primarily and in RC for supply-side decisions
+- **Recall Coordinator** — appears in any Practice with product-recall scope
+
+Cross-Practice personas carry the same identity across tenant workspaces. When a compliance officer works across RC and HLS, they have a single AAD identity with access to both Practices' `compliance-officer` group.
+
+### C.2 Persona Responsibility Matrix
+
+Three responsibility flavours recur across personas:
+
+- **R (Resolver)** — persona approves/acts on decisions at HITL gate
+- **C (Consumer)** — persona receives outcomes and escalations
+- **G (Governor)** — persona owns policy and gate-tuning decisions
+
+Each service's `personas.primary` is typically an R; `secondary` mixes C and G; `consumer` is strictly C.
+
 ---
 
 # Appendix D: MCP Tool Catalog
@@ -1038,6 +1706,38 @@ MCP servers organised by class. Each server exposes one or more tools; only repr
 - **scada-mcp** — SCADA telemetry adapters (ER GRD-02)
 - **sap-qm-mcp** — SAP Quality Management integration (AXLE QEX-02, RCL-04)
 
+### D.1 MCP Server Characteristics
+
+| Server class | Typical host | Identity | PII exposure |
+|---|---|---|---|
+| Domain | Azure Container Apps | `mi-apex-<practice>-<domain>-mcp` | Scoped to practice's tokenised Silver |
+| Utility | Azure Container Apps | `mi-apex-<practice>-utility-mcp` | Varies (tokenizer handles cleartext only via audit) |
+| External | Azure Functions or Container Apps | `mi-apex-<practice>-external-mcp` | None inbound; may send tokenised data outbound |
+
+### D.2 Tool Discovery and Allow-List
+
+Every agent's manifest names the MCP tools it is authorised to call. Tools outside the allow-list return `-32000` (tenant/auth error). Allow-lists are validated against the practice manifest at deploy time and cannot be silently expanded at runtime.
+
+Example agent manifest allow-list for `SCM-A04 Cold Chain Telemetry Monitor`:
+
+```
+mcp_tools_allowed:
+  - fabric-mcp.read_cold_chain_telemetry
+  - fabric-mcp.read_excursion_events
+  - fda-mcp.lookup_threshold
+```
+
+Any attempt by the agent to call a tool outside this list is a runtime error with an App Insights trace attribute `apex.policy.violation = tool_not_allowlisted`.
+
+### D.3 MCP Tool Contract Discipline
+
+Every MCP tool ships with four discipline gates:
+
+1. **Typed input and output schemas** — agents rely on contract; untyped tools are rejected at ARB review
+2. **Documented error codes** — standardised `-32602` (bad args), `-32000` (scope), `-32001` (transient), `-32002` (not found), `-32003` (DLP violation)
+3. **Per-tenant rate limits** — configured at Agent Service registration; prevents a runaway agent from storming Fabric
+4. **Trace instrumentation** — every call emits a span with `tool_name`, `tenant_id`, `success`, and `duration_ms`
+
 ---
 
 # Appendix E: Microsoft Product & SKU Reference
@@ -1063,6 +1763,51 @@ APEX consumes the following Microsoft products. Each client deployment is sized 
 
 Most clients can map APEX consumption onto an existing Microsoft EA without net-new licensing beyond the Fabric capacity and the pay-as-you-go AI spend.
 
+### E.1 Microsoft Fabric — Detailed Role
+
+**Fabric Capacity.** APEX sizes capacity on concurrent agent invocations and data volume, not on user count. A 25-store RC deployment with Cold Chain + Receiving services active typically needs F8 (continuous) with F16 bursting during morning shift-change. A 250-hospital HLS system with four services active needs F32 baseline with F64 bursting.
+
+**OneLake Shortcuts.** APEX uses shortcuts extensively — both to cross-reference between a Practice's reference tables and its tenants, and to enable cross-practice data views without duplication. Shortcut discipline is an ARB-reviewed concern: shortcuts across trust boundaries require explicit RLS or tenant-scoping enforcement.
+
+**Lakehouse vs. Warehouse.** APEX's Bronze and Silver live in Lakehouses (Delta tables, PySpark-readable). APEX's Gold lives in Warehouses (T-SQL-readable, tuned for agent-read latency). Agents reach Gold through the SQL endpoint via `fabric-mcp`. The separation is pragmatic — PySpark notebooks for transforms, T-SQL views for agent reads.
+
+**Eventstream.** Real-time ingest for telemetry-heavy services (Cold Chain, Grid Anomaly, Line-Down). The eventstream sinks to Bronze Delta with ~30s floor latency. For sub-30s requirements APEX has experimental Kafka-direct ingestion to Delta via Fabric's streaming endpoints.
+
+**Mirrored Databases.** The preferred CDC path for transactional SORs (Manhattan WMS, SAP ISU, Epic Clarity). Latency typically 60-180 seconds; very low engineering cost because Fabric manages the mirroring.
+
+### E.2 Azure AI Agent Service — Detailed Role
+
+**Agent registration.** Every APEX agent is registered in Agent Service with its manifest, MCP tool allow-list, and model pin. Agent Service handles token budgeting, rate limiting, and canary weighting.
+
+**Model selection.** APEX runs a three-tier model strategy:
+- **Standard (gpt-4.1 family)** — the default for monitors, classifiers, structured-output generators (~85% of agents)
+- **Reasoning (o-family)** — used for agents that evaluate causality, cross-system correlation, or build case files (~10% of agents)
+- **Lightweight (gpt-4o-mini)** — used for high-volume narrow binary classifiers (~5%)
+
+Each tier has different pricing. Cost forecasting is a service-level discipline; the ARB reviews token-cost envelopes per service at GA review.
+
+**Canary.** 5% / 72h canary standard, with automatic rollback on SLO burn. Deeper detail in Chapter 4 of the companion Developer Implementation Guide.
+
+### E.3 Logic Apps and Durable Functions — Detailed Role
+
+**Logic Apps Standard** is the default for orchestrations that complete in under five minutes and have linear-or-simple-fan-out topology. Visual designer; declarative JSON definitions; good for operational visibility.
+
+**Durable Functions** handles long-running orchestrations (recall traceability, trial matching, patient-safety-incident workflows) where state must survive minutes to days and where complex compensation logic is needed. Python and C# flavours both supported; APEX includes templates for both.
+
+**Choice criteria.** The ARB reviews every new orchestration against the choice criteria — if it can fit in Logic Apps cleanly, it goes there; Durable is the fallback when state or duration requires it.
+
+### E.4 Microsoft Purview — Detailed Role
+
+**Data lineage.** Purview captures lineage from SOR through Bronze → Silver → Gold → MCP tool → agent. This is essential for the decision-audit reconstruction story.
+
+**Sensitivity labels.** Applied at Silver write-time via the `apex_purview.label_table` helper. Labels drive DLP policy on outbound agent responses.
+
+**DLP on outbound.** When an agent produces an output that includes sensitivity-labelled fields, Purview DLP inspects the output and either permits, redacts, or blocks. APEX's cleanest pattern is to tokenise upstream and include only tokens in agent output — cleartext never touches the agent's reasoning context.
+
+### E.5 Microsoft Teams + Power Automate — HITL Surface
+
+Teams is the HITL card delivery mechanism. Power Automate flows handle more complex approval routing (e.g., multi-approver scenarios, sequential approvers, escalation-after-timeout trees). The `approvals-mcp` utility server wraps both so the orchestration doesn't care which one delivers the card.
+
 ---
 
 # Appendix F: Partner Ecosystem
@@ -1075,6 +1820,63 @@ APEX is delivered as a Deloitte-Microsoft joint offering. Third-party partners e
 - **AXLE**: Rockwell FactoryTalk, PTC ThingWorx, Siemens Opcenter, Plex MES
 
 Partner integrations land at the Bronze ingest layer via the matching Mirrored Database, Eventstream, or Pipeline pattern. None of them influence the Silver canonical contract.
+
+### F.1 RC Partner Ecosystem Detail
+
+**Manhattan Associates WMS.** APEX's primary retail WMS integration. Bronze ingest via Mirrored Database (SQL Server CDC on Manhattan's warehousing tables). Silver mapping transforms Manhattan's warehouse-inventory model into MERML.STORE_INVENTORY_POSITION and SCML.STORE_RECEIVING_EVENT. Covers nearly all of the RC services' inventory and receiving signals.
+
+**Monnit IoT.** Retail refrigeration telemetry. Eventstream ingest from Monnit's cloud gateway. Silver mapping to SCML.COLD_CHAIN_TELEMETRY. Single primary source for CXP-01.
+
+**POS systems.** APEX is POS-vendor-agnostic at Silver level. Bronze ingest varies (NCR, Toshiba, Oracle Retail); Silver targets MERML.POS_VOID and related entities. All major POS vendors supported via SDK adapters maintained in `apex-rc/mcp/pos-adapters/`.
+
+**ESL Gateway.** Electronic shelf label integrations (Hanshow, SES-imagotag). Bronze ingest via vendor-specific REST pulls; Silver targets MERML.PRICE_TAG_STATUS.
+
+**FDA recall feed.** Public data; scheduled pull via Dataflow Gen2 to Bronze. Silver targets SCML.RECALL_NOTICE.
+
+### F.2 HLS Partner Ecosystem Detail
+
+**Epic EHR.** APEX's primary HLS integration. Two paths:
+- Clarity / Caboodle CDC via Mirrored Database → Bronze — covers encounter, diagnosis, orders, coding, claims
+- ADT real-time stream → Bronze (Eventstream) — for near-real-time encounter state (admit/discharge/transfer)
+- FHIR API pull for vitals and labs — Dataflow Gen2
+
+**Oracle Health (Cerner).** Analogous to Epic; APEX ships per-vendor Silver transforms that land at the same HLSCML canonical schema.
+
+**Denial/837/835 feed.** Payer-side claim feeds in standard X12 format. Bronze ingest via SFTP + Data Pipeline; Silver targets HLSCML.CLAIM_DENIAL.
+
+**ClinicalTrials.gov + institutional trials registry.** Scheduled pull + institutional CRIS integration. Silver targets HLSCML.TRIAL_PROTOCOL and ELIGIBILITY_CRITERIA.
+
+**Pharmacy inventory systems (Omnicell, Pyxis, institutional).** Bronze via SFTP or native API depending on vendor.
+
+### F.3 ER Partner Ecosystem Detail
+
+**SAP ISU.** Primary utility billing/CIS SOR. Bronze via Mirrored Database; Silver targets ERCML.METER_READING and BILLING_EXCEPTION.
+
+**SCADA systems.** Real-time grid telemetry. Bronze via Eventstream; Silver targets ERCML.SCADA_TELEMETRY and GRID_ANOMALY.
+
+**AMI head-end (Itron, Landis+Gyr).** Advanced metering infrastructure. Bronze via SFTP or native API.
+
+**OMS/DMS (GE, Oracle, Schneider).** Outage management and distribution management systems. Bronze via native API integration.
+
+**FERC feed + state PUC portals.** Regulatory feeds. Scheduled Dataflow Gen2 pulls.
+
+**MS Field Service.** Dynamics 365 Field Service for crew dispatch. Native Dataverse integration into Bronze.
+
+### F.4 AXLE Partner Ecosystem Detail
+
+**Plex MES.** Cloud MES for production events. Bronze via Eventstream (Plex publishes events); Silver targets AXLECML.PRODUCTION_EVENT.
+
+**SAP QM.** Quality management. Bronze via Mirrored Database; Silver targets AXLECML.QUALITY_EXCURSION and GENEALOGY.
+
+**SAP SCM + Supplier portals + EDI.** Supply-chain SORs. Bronze via EDI gateway + vendor portal APIs.
+
+**Rockwell FactoryTalk, PTC ThingWorx, Siemens Opcenter.** Shop-floor asset integrations. Bronze via OPC UA adapters maintained in `apex-axle/mcp/shopfloor-adapters/`.
+
+**NHTSA / regulator feeds.** Scheduled pull; Silver targets AXLECML.RECALL_NOTICE.
+
+### F.5 Microsoft as a Partner
+
+Microsoft is the platform vendor, not just a product vendor. Deloitte-Microsoft joint GTM for APEX includes co-selling, co-delivery patterns, and shared case studies. Microsoft's Industry Solutions team has cross-referenceability on APEX engagements for Industry Solution Accelerators (ISAs) — existing Microsoft industry content that APEX subsumes or complements.
 
 ---
 
@@ -1153,6 +1955,136 @@ Partner integrations land at the Bronze ingest layer via the matching Mirrored D
 **Workspace.** A Fabric organisational unit. APEX uses per-Practice and per-Tenant workspaces.
 
 **ZERO_TOUCH.** A HITL gate kind meaning "apply silently." Default for PATCH bumps.
+
+### G.1 APEX-Specific Terms (Extended)
+
+**Agent manifest.** JSON describing an agent's id, name, version, schemas_read, mcp_tools_allowed, model selection, orchestration role, HITL gate, telemetry context, and list of services it ships in.
+
+**Agentic AI.** AI systems where a language model acts as a reasoning engine with tool-use, memory, and bounded autonomy. Distinguished from generative AI (which produces text without action) and predictive ML (which classifies or forecasts without reasoning).
+
+**APEX Core.** The normative specification at `apex-core/`, including JSON contracts for every manifest type, validation tooling, and the prose build specs.
+
+**Blast radius.** In APEX context, the scope of consumers (schemas, services, tenants) affected by a specific change. Measured programmatically by `classify-bump` and the dependency graph.
+
+**Bronze/Silver/Gold.** The three-layer Medallion data architecture. Bronze = SOR-native landed data; Silver = canonicalised, tokenised; Gold = materialised agent-read views.
+
+**Canary release.** A staged release where a new version takes a small percentage of traffic (APEX default 5%) for a fixed duration (APEX default 72 hours) before full cutover. SLO-burn auto-rollback.
+
+**Canonical envelope.** The five universal fields every Silver row carries. See Appendix A.1.
+
+**Contract preamble.** The fixed opening sections of every APEX agent's system prompt: CONTRACT, REASONING STYLE, SCENARIO CONTEXT, INSTRUCTIONS. The preamble defines the boundary; the body is task-specific.
+
+**CXML / MERML / SCML / HLSCML / ERCML / AXLECML.** Canonical schema family names. See Appendix A.
+
+**Decision audit row.** An append-only row in `silver_decision_audit` capturing every HITL decision with operation_Id, input_hash, output_hash, decider_oid, rationale, and rollback pointer. The platform's single source of truth for regulatory reconstruction.
+
+**Decision latency.** Time from triggering event to decision committed. Measured per-service with p50/p95/p99 percentiles.
+
+**Edition (L2).** A versioned release of APEX Core — e.g., Core v1.2.0. Downstream manifests pin the edition they require.
+
+**Fixture replay.** A test discipline where a set of canonical anonymised events is replayed through a candidate agent/orchestration change; outputs are compared to the prior-version outputs. Used for prompt-change regression testing.
+
+**HITL.** Human-in-the-Loop. The gate kind requiring human approval. Also used colloquially to describe the entire APEX interaction pattern.
+
+**L1 / L2 / L3 / L4.** The four APEX lifecycle layers: Contract, Edition, Practice, Tenant.
+
+**Manifest-driven.** APEX's governing discipline: every change is expressed as a manifest diff; every manifest is validated by contract; every diff is classified by SemVer bump rules; every classification maps to a gate.
+
+**MCP.** Model Context Protocol. Open standard for typed agent-tool contracts. See Companion 03 of the Developer Implementation Guide for deep detail.
+
+**Operation_Id.** App Insights identifier that threads every child span of a single logical operation. In APEX, a single triggering event yields one operation_Id that covers all downstream processing.
+
+**Operator.** Colloquial term for the human persona operating on APEX decisions — store MOD, charge nurse, grid-ops engineer, plant supervisor, etc. Sometimes "resolver."
+
+**Practice (L3).** An industry-specific bundle of schemas + agents + MCP tools + orchestrations + gates + services + personas + KPIs. Renamed from "Fleet" in Core v1.2.1. APEX ships four Practices today: RC, HLS, ER, AXLE.
+
+**Practice pin.** The version of a Practice that a Tenant is running. Expressed as `practice_pinned_version` in the tenant manifest.
+
+**Rollback pointer.** A reference in `silver_decision_audit` that points to the compensating orchestration which, if executed, would reverse the effect of the original decision. Not every decision has a non-trivial rollback; those that do (ledger writes, outbound communications) record it.
+
+**Service.** A subscribable SKU. Bundles schemas + agents + MCP tools + orchestration + HITL gate + prerequisites + commercial terms. One service = one measurable business outcome.
+
+**Service-manifest.** The JSON description of a service, validated by `service-manifest-contract.json`.
+
+**Shadow mode.** Running a service with decisions generated and logged but not actually acted on. Used during onboarding (week 5 of 6) to calibrate thresholds before go-live.
+
+**Silver canonical contract.** The contract enforced at the Bronze→Silver boundary. Every Silver row matches its schema manifest; PII is tokenised; envelope fields are present; SCD2 state is maintained where applicable.
+
+**Shim (the fleet shim).** `apex-core/tools/validate-fleet.js`. A backward-compat wrapper retained through Core v1.2.x.
+
+**SLO burn.** The rate at which a service is consuming its error budget. Measured against rolling windows.
+
+**System prompt.** The fixed text supplied to an agent's model at every invocation. In APEX, composed of the contract preamble plus task-specific instructions.
+
+**Tenant (L4).** A client's APEX instance. One client may have multiple tenants (e.g., different banners of a retailer, different health systems in an IDN).
+
+**Tokenisation.** Replacement of PII values with stable opaque tokens at the Silver boundary. Reversible only via `tokenizer-mcp.reverse_tokenize` with audit-row-before-call discipline.
+
+**Tool allow-list.** The specific MCP tools an agent's manifest permits. Enforced at runtime by Agent Service.
+
+### G.2 Microsoft Platform Terms
+
+**App Insights.** Application Performance Monitoring service within Azure Monitor. APEX threads every agent invocation through App Insights operation_Ids.
+
+**Azure AI Agent Service.** The runtime where APEX agents live. Handles agent registration, tool catalog binding, token budgeting, canary weighting.
+
+**Azure AI Foundry.** Agent authoring experience. Playground for iteration; code-first SDK for committing.
+
+**Cascadia Mono.** Microsoft's open-source monospace font. Used by APEX documents including this one.
+
+**Copilot Studio.** Low-code Copilot authoring. APEX optionally surfaces agent interactions through Copilot Studio front-ends for conversational personas.
+
+**Dataflow Gen2.** Fabric's pull-based ingest tool. Used for REST-API-sourced Bronze ingestion.
+
+**Dataverse.** Power Platform's data service. APEX uses it selectively for Power Apps/Automate-facing state.
+
+**Durable Functions.** Azure's stateful serverless orchestrator. APEX's long-running orchestration runtime.
+
+**Entra ID.** Microsoft's identity platform (formerly Azure AD). The identity substrate for everything APEX does.
+
+**Eventstream.** Fabric's real-time ingest item. Used for telemetry and event-streaming SORs.
+
+**Fabric.** Microsoft's unified SaaS data platform. APEX's data plane.
+
+**Lakehouse.** Fabric item unifying Delta storage with a T-SQL endpoint. APEX's Bronze and Silver live here.
+
+**Logic Apps.** Azure's declarative workflow runtime. APEX's short-running orchestration runtime.
+
+**Managed identity.** Azure's identity mechanism where a resource (function, container app) is issued a token tied to its own identity, used for secret-less service-to-service auth.
+
+**Mirrored Database.** Fabric's CDC ingestion item. Covers SQL Server, Cosmos DB, Snowflake, soon more.
+
+**OneLake.** Fabric's unified storage substrate.
+
+**Purview.** Microsoft's data governance product. APEX uses it for lineage, labels, DLP.
+
+**Warehouse.** Fabric item with T-SQL endpoint. APEX's Gold views live here for agent-read-latency purposes.
+
+### G.3 Regulatory Terms
+
+**21 CFR Part 11.** FDA rule governing electronic records and signatures. Required for HLS clinical applications and recall-adjacent services in RC.
+
+**CCPA.** California Consumer Privacy Act. APEX's right-to-erasure and consent-gate pattern are designed for CCPA alignment.
+
+**FDA recall classes.** Class I (likely to cause serious harm), Class II (temporary or reversible harm), Class III (unlikely to cause harm). APEX recall orchestration's timeline scales with class.
+
+**FERC.** Federal Energy Regulatory Commission. U.S. regulator of interstate electric transmission. APEX ER-GRD-02 and ER-REG-05 are designed around FERC reliability standards.
+
+**GDPR.** European General Data Protection Regulation. Every APEX Practice supports GDPR via tokenisation, consent, and right-to-erasure.
+
+**HIPAA.** Health Insurance Portability and Accountability Act. APEX HLS Practice's default posture.
+
+**ISO 27001.** Information security management standard. APEX's default security posture is ISO 27001-aligned.
+
+**NERC.** North American Electric Reliability Corporation. Complement to FERC for reliability standards.
+
+**PCI DSS.** Payment Card Industry Data Security Standard. APEX forbids card data from entering any Practice's canonical schema; card data stays in a PCI enclave at the client.
+
+**Purdue Model.** Reference architecture for operational-technology network segmentation. AXLE Practice's shop-floor connections are Purdue-aware.
+
+**SOC 2 Type II.** American Institute of CPAs controls standard. Relevant for B2B trust representations.
+
+**SOX.** Sarbanes-Oxley Act. APEX HLS revenue-cycle and ER billing services carry SOX audit discipline.
 
 ---
 
