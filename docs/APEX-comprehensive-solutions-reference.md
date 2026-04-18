@@ -2652,6 +2652,210 @@ A typical 18-month APEX programme, quarter by quarter:
 
 APEX's forward-looking solution catalog organises post-Wave-3 capabilities into four tiers of increasing sophistication. Tiers are not linear; a client can adopt Tier 3 solutions while still operating at Tier 1 or Tier 2 on other services. The tier denotes the **pattern**, not the maturity of a specific deployment.
 
+## Chapter 19A: Flagship Named Solutions Portfolio
+
+This chapter is APEX's forward-looking solutions catalogue: named flagship solutions across all four tiers, each with a scope, target Practices, investment envelope, expected payback horizon, and dependency prerequisites. These are the "what does Year 2 look like?" conversations with an executive sponsor once the Wave-1 reactive services are proving out.
+
+The investment envelopes below are **programme-level** — they cover multi-quarter builds, typically 9–18 months from greenfield to flagship-ready. They assume a mature APEX platform underneath (Wave 1–3 of the affected Practices already live); they do not include the underlying Wave 1–3 costs which are covered in Chapter 12.
+
+Dollar ranges reflect the engagement variability seen in reference work: low end is single-site / single-tenant / mid-market; high end is enterprise-scale / multi-region / multi-tenant deployments. Every envelope assumes the prerequisites listed are met.
+
+### 19A.1 Portfolio at a Glance
+
+| Flagship | Tier | Practices | Investment | Payback |
+|---|---|---|---|---|
+| Causal AI for Cold Chain | Tier 1 | RC | $4–8M | 12–18 mo |
+| Causal AI for Quality | Tier 1 | AXLE | $5–9M | 12–18 mo |
+| Predictive Sepsis Surveillance | Tier 1 | HLS | $6–10M | Non-monetised — safety |
+| Predictive Readmission | Tier 1 | HLS | $4–7M | 12–18 mo |
+| Predictive Grid Stability | Tier 1 | ER | $8–14M | Non-monetised — reliability |
+| Predictive Line-Down | Tier 1 | AXLE | $5–9M | 9–15 mo |
+| Predictive Network Congestion | Tier 1 | TMT | $4–8M | 9–15 mo |
+| Predictive Equipment Failure | Tier 1 | ICE | $6–10M | 12–18 mo |
+| Demand-Sensing Retail | Tier 1 | RC | $5–9M | 12–18 mo |
+| Self-Healing Cold Chain | Tier 2 | RC | $3–6M | 12–18 mo |
+| Self-Healing Denial Recovery | Tier 2 | HLS | $4–7M | 12–15 mo |
+| Self-Healing Grid | Tier 2 | ER | $10–18M | Non-monetised — reliability |
+| Self-Healing Production Line | Tier 2 | AXLE | $6–11M | 12–18 mo |
+| Zero-Scrap Closed Loop | Tier 2 | AXLE | $7–12M | 18–24 mo |
+| Self-Healing Subscription Ops | Tier 2 | TMT | $3–5M | 9–12 mo |
+| Self-Healing Revenue Management | Tier 2 | TH | $3–5M | 9–12 mo |
+| Self-Healing Field Service | Tier 2 | ICE | $5–8M | 12–18 mo |
+| Agentic Contact Center | Tier 3 | Cross-practice | $8–15M | 12–18 mo |
+| Voice Agent-to-Agent (A2A) | Tier 3 | TMT + TH | $6–12M | 18–24 mo |
+| Service-to-Service (S2S) Orchestrator | Tier 3 | Any multi-Practice | $4–8M | 12–18 mo |
+| Cross-Practice Recall Coordinator | Tier 3 | RC + HLS + AXLE + ICE | $5–9M | Non-monetised — compliance |
+| Proactive Customer Outreach | Tier 3 | RC / TMT / TH | $5–9M | 12–18 mo |
+| Field-to-Factory Feedback Loop | Tier 3 | AXLE + ICE | $6–10M | 18–24 mo |
+| Single Pane of Glass | Tier 4 | All | $10–20M | Non-monetised — operational |
+| Digital Thread from Event to Customer | Tier 4 | Cross-practice | $12–22M | 24–36 mo |
+| Autonomous Practice Operations | Tier 4 | Single Practice at a time | $15–25M | 24–36 mo |
+| The Enterprise Decision OS | Tier 4 | All 7 Practices | $25–40M+ | Strategic — generational |
+
+**Total portfolio envelope (a hypothetical client committing to every flagship across all seven Practices over five years): $180–330M.** This is a North Star number, not a prescription. Real clients pick 4–8 flagships aligned to their strategy.
+
+### 19A.2 Tier 1 Flagships — Predictive & Causal
+
+#### Causal AI for Cold Chain · $4–8M
+**Practices:** RC. **Services augmented:** CXP-01.
+
+Extends `CXP-01` with a causal-analysis agent that connects current excursions to upstream compressor maintenance cycles, ambient temperature patterns, and store-level staffing patterns. The output is preventive maintenance recommendations before excursions occur, not after. Typical client result: a 40–60% reduction in excursion volume within 12 months, compounding write-off-avoided and manager-touch-time benefits. Prerequisites: CXP-01 live for ≥ 6 months; Monnit IoT telemetry with ≥ 18 months of history; maintenance-system integration for action feedback.
+
+#### Causal AI for Quality · $5–9M
+**Practices:** AXLE, ICE. **Services augmented:** QEX-02, WCP-03.
+
+Extends quality excursion response with a causal-inference agent that connects excursions to upstream process parameters (material lot, operator shift, tool wear cycle, ambient conditions). Outputs are specific process-tuning recommendations. Payback through escape-rate reduction and first-pass-yield lift. Prerequisites: QEX-02 at enterprise scale; SPC history ≥ 18 months; shop-floor data with operator and tool-identifier granularity.
+
+#### Predictive Sepsis Surveillance · $6–10M
+**Practices:** HLS. **Services augmented:** SEP-02.
+
+Extends SEP-02 from current-state (4–6h-ahead detection) to 12–18h-ahead. Uses deeper pattern-recognition on vitals / labs / orders / documentation trends. Clinically non-monetisable but programmatically the flagship HLS initiative — every sepsis programme that ships draws peer-institution attention and drives the next wave of APEX HLS subscriptions. Prerequisites: SEP-02 at ≥ 2 units; ≥ 12 months of audit history; clinical-informatics sponsor commitment.
+
+#### Predictive Readmission · $4–7M
+**Practices:** HLS. **Services augmented:** DSR-01.
+
+Extends discharge-readiness with 30-day-readmission-risk prediction at discharge. Drives post-acute care coordination decisions. Strong ROI when combined with DSR-01 because it leverages the same encounter data and clinical documentation. Prerequisites: DSR-01 live; post-acute care integration (SNF, home-health partners); at least one quarter of outcome data for model tuning.
+
+#### Predictive Grid Stability · $8–14M
+**Practices:** ER. **Services augmented:** GRD-02.
+
+Pre-emptive grid instability detection. Seeds load-shedding plans before oscillations propagate. Non-monetised directly but prevents the kind of cascading events that get regulators' attention. Prerequisites: GRD-02 operational across primary substations; SCADA coverage of ≥ 90% of distribution feeders; mature DMS integration.
+
+#### Predictive Line-Down · $5–9M
+**Practices:** AXLE, ICE. **Services augmented:** LDT-01, FAF-01.
+
+Asset-health-based line-down prediction hours before halt. Drives preventive maintenance cycles. The key win is not failure prediction (which most plants already claim) — it is the direct hand-off into the LDT-01 orchestration so the plant's maintenance team acts on the prediction before line-down-minutes accumulate. Prerequisites: LDT-01 live; historian integration; ≥ 12 months of production-event history.
+
+#### Predictive Network Congestion · $4–8M
+**Practices:** TMT. **Services augmented:** NET-01.
+
+Proactive capacity and traffic-shaping decisions ahead of events (sports, product launches, holiday spikes). Lower envelope than grid-stability because the TMT telemetry surface is better structured. Fast payback. Prerequisites: NET-01 operational; customer-experience-impact feedback loop; capacity-management system integration.
+
+#### Predictive Equipment Failure · $6–10M
+**Practices:** ICE. **Services augmented:** FAF-01.
+
+Pre-emptive field dispatch based on predicted failures. Drives "technician arrives before the customer knows there's a problem" as a direct commercial promise — particularly powerful for XaaS contracts where uptime is contractually billed. Prerequisites: FAF-01 operational; telematics or IoT coverage on served-equipment fleet; warranty / claim-history integration.
+
+#### Demand-Sensing Retail · $5–9M
+**Practices:** RC. **Services augmented:** OSA-04, new ordering-adjacent services.
+
+Store-SKU-day demand forecasting with promo / weather / local-event signals. Feeds replenishment optimisation and phantom-OOS prevention. Payback through inventory-cost reduction and walk-away-revenue capture. Prerequisites: OSA-04 live; POS + weather + event-calendar feeds; replenishment system able to consume model outputs.
+
+### 19A.3 Tier 2 Flagships — Self-Healing Operations
+
+#### Self-Healing Cold Chain · $3–6M
+**Practices:** RC. **Builds on:** CXP-01 + Causal AI for Cold Chain.
+
+Beyond excursion response and causal prevention, self-healing manages reefer health end-to-end: telemetry-drift triggers predictive maintenance; maintenance-done confirmation closes the loop; service fingerprint improves over time. Stores increasingly never have excursions because compressors never fail. Prerequisites: CXP-01 + Causal AI for Cold Chain operational; field-service workflow integration.
+
+#### Self-Healing Denial Recovery · $4–7M
+**Practices:** HLS. **Builds on:** RVC-03.
+
+RVC-03 plus a closed-loop quality agent that, for denials where appeals fail, identifies the documentation-quality gap and routes a remediation to the relevant clinical service or coding team. Future denials of the same class fall. Prerequisites: RVC-03 live for ≥ 12 months; coder + clinician engagement for the remediation cycle.
+
+#### Self-Healing Grid · $10–18M
+**Practices:** ER. **Builds on:** GRD-02 + Predictive Grid Stability.
+
+Not full autonomy — rather, continuous systemic-fragility detection and routing of remediation into the maintenance planning cycle. Grid reliability improves year over year without discrete capital projects. The envelope is high because the feedback loop touches asset-management, capital-planning, and regulator-filing cycles. Prerequisites: GRD-02 + Predictive Grid Stability; CIP-compliant integration with asset-management and EAM systems.
+
+#### Self-Healing Production Line · $6–11M
+**Practices:** AXLE. **Builds on:** LDT-01 + Predictive Line-Down + Causal AI for Quality.
+
+LDT-01 + predictive + causal = a system that recommends preventive action ahead of halts and closes its own loop on outcome. Line-down-minutes fall while first-time-fix rises. Prerequisites: prior three live; shop-floor action-execution integration (manual approval gate remains).
+
+#### Zero-Scrap Closed Loop · $7–12M
+**Practices:** AXLE. **Builds on:** QEX-02 + Causal AI for Quality.
+
+QEX-02 plus a causal analyst that adjusts upstream process parameters within configured bounds to reduce recurrence. First-pass-yield lifts without human intervention in normal bounds; out-of-bounds still HITL. The commercial promise is the flagship name — and conservative AXLE clients reach it in ~18 months. Prerequisites: QEX-02 + Causal AI for Quality live; SPC control-limit authority granted within bounds; quality leadership sponsorship for the parameter-adjustment policy.
+
+#### Self-Healing Subscription Ops · $3–5M
+**Practices:** TMT. **Builds on:** SUB-04.
+
+SUB-04 plus recovery-execution — autonomously retries payments, offers plan-rightsizing, manages household-account consolidation within configured bounds. Retention improves without manual intervention on the routine cases. Prerequisites: SUB-04 live; billing-system integration for automated actions.
+
+#### Self-Healing Revenue Management · $3–5M
+**Practices:** TH. **Builds on:** RMA-04.
+
+RMA-04 plus correction-execution within approved guardrails. Rate leakage closes; revenue management becomes proactive instead of reactive. Prerequisites: RMA-04 live; revenue-management-system integration with bounded automated-adjustment authority.
+
+#### Self-Healing Field Service · $5–8M
+**Practices:** ICE. **Builds on:** FAF-01 + Predictive Equipment Failure.
+
+Proactive dispatch based on predicted failures, with self-loop on outcome quality. Technician arrives before the customer knows — a direct XaaS-contract differentiator. Prerequisites: prior two live; dealer-network coordination for cross-depot dispatch.
+
+### 19A.4 Tier 3 Flagships — Agentic Contact, A2A, S2S
+
+#### Agentic Contact Center · $8–15M
+**Practices:** Cross-practice — starts in RC or TMT, extends everywhere.
+
+Voice, chat, and text interactions handled by agents with HITL escalation below a configurable confidence threshold. APEX's contribution is the **contract-backed context** — the contact-center agent queries APEX domain MCPs for up-to-the-second tenant-specific data, rather than generic knowledge-base answers. Prerequisites: at least one Practice at full-catalogue maturity; voice platform (Azure Communication Services or equivalent); trained escalation hierarchy.
+
+#### Voice Agent-to-Agent (A2A) · $6–12M
+**Practices:** TMT, TH primarily.
+
+Agent-to-agent voice interactions for rebooking, dispute resolution, service-recovery workflows where a customer's call can be handled end-to-end by agent interaction including an outbound voice call to a third party (partner hotel, ground-transport operator, secondary airline). Deeply differentiating for travel disruption recovery. Prerequisites: mature contact-center agentic; third-party voice-channel interoperability agreements.
+
+#### Service-to-Service (S2S) Orchestrator · $4–8M
+**Practices:** Any multi-Practice client.
+
+APEX services triggering other APEX services in the same tenant through typed MCP surfaces. Example: an RC Customer Incident that cross-correlates triggers an RC Recall Response; an HLS Supply Expiry service that queries AXLE Recall Traceability for cross-industry lot overlaps. Prerequisites: at least two Practices live; cross-Practice ARB.
+
+#### Cross-Practice Recall Coordinator · $5–9M
+**Practices:** RC + HLS + AXLE + ICE (any subset that's live).
+
+A recall in one Practice triggers lot-trace evaluation and containment workflows in the others — medical-device recalls ripple into AXLE supplier investigations and RC retail distribution checks automatically. Compliance-primary ROI. Prerequisites: at least two recall-capable Practices (RC-RCL-05, HLS-SUP-04, AXLE-RCL-04, ICE-WCP-03) live.
+
+#### Proactive Customer Outreach · $5–9M
+**Practices:** RC / TMT / TH.
+
+Services that reach out before the customer reaches in — BOPIS substitution predicted for a loyalty guest, disruption-recovery reaching passengers before the announcement, service-quality credit extended before the complaint. Strong retention ROI. Prerequisites: tokenised customer state; consent-management maturity; outbound-channel capability.
+
+#### Field-to-Factory Feedback Loop · $6–10M
+**Practices:** AXLE + ICE.
+
+Field-service failures reported by ICE field-asset telematics feed back into AXLE production quality as leading indicators. Particularly powerful for OEMs whose field-service data has never previously been routed back into production engineering at this cadence. Prerequisites: FAF-01 + QEX-02 both live; OEM–dealer data-sharing agreement.
+
+### 19A.5 Tier 4 Flagships — Autonomous / North Star
+
+#### Single Pane of Glass · $10–20M
+**Practices:** All subscribed Practices at the tenant.
+
+One workbook, one operation_Id format, one audit schema, one identity plane across every service in every Practice the tenant runs. Executive operational awareness across seven-Practice portfolios becomes the default. Non-monetised but the programmatic north star that sets APEX apart from single-Practice competitors. Prerequisites: three or more Practices at Wave-3 scale; cross-Practice observability workbook operational.
+
+#### Digital Thread from Event to Customer · $12–22M
+**Practices:** Cross-practice — starts with RC + HLS + AXLE.
+
+A consequential event — a reefer excursion, a sepsis warning, a grid anomaly, a line-down — traces end-to-end from sensor to decision to action to customer-visible outcome with no broken seams, no lost context, no manual handoff. APEX's contract is what makes this possible; the Tier-4 solution ships the tooling and playbooks. Prerequisites: Single Pane of Glass live; S2S orchestrator operational; cross-Practice data-lineage discipline.
+
+#### Autonomous Practice Operations · $15–25M
+**Practices:** One Practice at a time.
+
+Level-5 autonomy on the subset of the Practice's services where the cost-benefit of HITL is measurably negative (bounded-consequence, high-volume, low-FPR services). Not "all services autonomous" — "the right services autonomous." Shipped per-Practice: autonomous RC first, then HLS (narrow scope), then ER (specific services), etc. Prerequisites: the Practice at Wave-3 maturity for ≥ 12 months; DAR (Decision Audit Review) proof of 97%+ unanimous approval on the candidate services; audit-function sign-off.
+
+#### The Enterprise Decision OS · $25–40M+
+**Practices:** All 7 Practices together.
+
+The flagship of flagships. A client-wide decision operating system where every consequential enterprise event flows through APEX, auditable, reversible, continuously improving, and delivering bounded autonomy on the services where autonomy is proven safe. This is the 5+ year destination, pursued by a small number of reference clients who use APEX as strategic competitive infrastructure. Prerequisites: all seven Practices at Wave-3 maturity; cross-Practice orchestrations operational; board-level commitment to the decision-OS thesis.
+
+### 19A.6 Investment Envelope Discipline
+
+Every flagship envelope in this chapter is presented as a range. Three factors explain the range:
+
+1. **Scale** — single-site vs. enterprise (largest factor)
+2. **SOR integration maturity** — a client with mature, well-instrumented source systems lands flagships cheaper than one with fragmented SOR landscapes
+3. **Regulatory overlay** — regulated Practices (HLS, ER) carry a ~20–30% premium for compliance workstreams
+
+An experienced APEX account team produces a quote within the cited range ±10% after a two-week solution-discovery workshop. A client who has not gone through this workshop should treat these ranges as Class-C estimates only.
+
+### 19A.7 ROI Attribution Discipline
+
+The "Payback" column in §19A.1 distinguishes:
+
+- **Monetised** payback — direct $ benefit attributable to the flagship, with audit-row evidence
+- **Non-monetised** payback — safety, compliance, reliability, or strategic-positioning benefits where dollar attribution is contested but board-level value is real
+
+APEX's audit discipline lets clients make clean monetised attributions because every agent decision's downstream effect is captured in the audit row. This is one of APEX's quieter commercial differentiators in flagship-investment conversations.
+
 ## Chapter 20: Tier 1 — Predictive & Causal Intelligence
 
 Tier 1 adds predictive and causal-inference capabilities to services that currently operate on reactive signals.
@@ -2816,6 +3020,155 @@ Tier 4 depends on everything prior:
 - Tier 1 requires mature Wave-3 steady-state on the reactive services
 
 No shortcuts.
+
+## Chapter 23A: The Innovation Dependency Chain
+
+Tiers are not a pick-list. They are a dependency chain. Shipping a Tier-3 flagship requires the Tier-2 foundations under it; shipping Tier 2 requires mature Tier 1; Tier 1 requires the Wave-1-through-Wave-3 reactive services producing clean, audit-rich decision data. This chapter makes the dependency chain explicit so that investment conversations don't jump the chain.
+
+The chain exists because each tier's confidence signal is earned from the prior tier's track record. Self-healing is only trustworthy when the underlying predictive model has been proven. Cross-service orchestration is only trustworthy when the individual services have been proven. Autonomy is only trustworthy when its supervised equivalent has been proven.
+
+### 23A.1 The Chain in One Diagram
+
+```mermaid
+flowchart TB
+  subgraph W1["Waves 1-3 · Reactive Foundation"]
+    W1a[Services at Level 3 HITL<br/>high-touch approval rate]
+    W1b[Services at Level 4 HITL + ACK_ONLY<br/>gate-tuning proven]
+    W1a --> W1b
+  end
+  subgraph T1["Tier 1 · Predictive &amp; Causal"]
+    T1a[Predictive augmentation<br/>of proven reactive services]
+    T1b[Causal inference<br/>on proven predictive signals]
+    T1a --> T1b
+  end
+  subgraph T2["Tier 2 · Self-Healing"]
+    T2a[Self-healing on services<br/>with mature Tier-1 augmentation]
+    T2b[Closed-loop outcome attribution<br/>via audit-row discipline]
+    T2a --> T2b
+  end
+  subgraph T3["Tier 3 · Agentic / A2A / S2S"]
+    T3a[Agentic contact center<br/>requires T2 services to talk to]
+    T3b[Cross-Practice orchestration<br/>requires multiple Practices at T2]
+    T3a --> T3b
+  end
+  subgraph T4["Tier 4 · Autonomous / North Star"]
+    T4a[Bounded autonomy<br/>on specific T2+T3 services]
+    T4b[Single Pane of Glass<br/>requires full-catalogue T3]
+    T4c[Digital Thread<br/>requires multi-Practice T3]
+    T4d[Enterprise Decision OS<br/>requires T4a-c across all Practices]
+    T4a --> T4b
+    T4b --> T4c
+    T4c --> T4d
+  end
+  W1 --> T1
+  T1 --> T2
+  T2 --> T3
+  T3 --> T4
+```
+
+### 23A.2 Chain Discipline — Seven Rules
+
+Each rule captures a dependency that cannot be skipped without the programme failing.
+
+**Rule 1 — You cannot start at Tier 1.** A predictive service that augments a non-existent reactive service has no downstream decision path. Predictive Cold Chain requires CXP-01 already delivering decisions with outcomes.
+
+**Rule 2 — You cannot start at Tier 2.** Self-healing requires outcome attribution. Outcome attribution requires audit-row evidence. Audit-row evidence requires reactive services in production for months. Self-healing proposed on green-field data is model-fitting, not decision-automation.
+
+**Rule 3 — Tier 3 requires at least two services in Tier 2.** An Agentic Contact Center with only one mature back-end service to call is a dashboard, not a contact center. The contact-center agent needs multiple service surfaces to reach into.
+
+**Rule 4 — Cross-Practice S2S requires two Practices at Tier 2.** Single-Practice S2S is not S2S. Tier-3 cross-practice orchestrations demand that both Practices have audit-row discipline and gate-tuning maturity; without them, the cross-Practice handoff is unsafe.
+
+**Rule 5 — Voice A2A requires mature contact-center agentic.** Outbound voice interactions with third parties are the hardest-to-repair failure class — you cannot retract a bad outbound call. Voice A2A must follow chat/text-agentic maturity, not precede it.
+
+**Rule 6 — Tier 4 requires explicit audit-function approval.** Autonomy cannot be shipped on engineering sign-off alone. A Tier-4 deployment requires the audit-function and Compliance formally signing off on the DAR-proven track record. Shipping Tier 4 without audit sign-off is a governance failure that will be rolled back under scrutiny.
+
+**Rule 7 — The Enterprise Decision OS is the last mile, not a starting destination.** Clients with early-stage APEX commitment sometimes ask whether they can "just start with the Decision OS." The answer is no. The Decision OS is the aggregation of everything prior. Attempting to ship it before the components mature is a five-year programme that fails in year two.
+
+### 23A.3 Practice-Specific Chain Examples
+
+#### RC Chain
+
+```
+CXP-01 HITL (Wave 1)
+  → CXP-01 ACK_ONLY for non-Critical (Wave 2 gate tuning)
+  → Predictive Cold Chain (Tier 1, Year 2)
+  → Causal AI for Cold Chain (Tier 1, Year 2-3)
+  → Self-Healing Cold Chain (Tier 2, Year 3)
+  → Cross-Practice Recall Coordinator via shared SCML (Tier 3, Year 3-4)
+  → Autonomous RC operations on sub-$ thresholds (Tier 4, Year 4+)
+```
+
+Total arc: 4–5 years from first service to bounded autonomy on that service, assuming budget and client commitment.
+
+#### HLS Chain
+
+```
+DSR-01 ACK_ONLY (Wave 1)
+  → Predictive Readmission (Tier 1, Year 2)
+  → Self-Healing Denial Recovery (Tier 2, Year 3, different service
+    but same audit-discipline graduation)
+  → Cross-Practice Recall Coordinator for medical-device context
+    (Tier 3, Year 3-4, requires AXLE + HLS)
+```
+
+HLS does NOT chain to Tier 4 autonomous operations for clinical services — default gate posture remains HITL indefinitely for SEP-02, RVC-03, PSI-06. HLS Tier 4 is limited to supply-expiry management and administrative services.
+
+#### ER Chain
+
+```
+MTR-01 ACK_ONLY + BIL-03 ACK_ONLY (Wave 1)
+  → Predictive Outage (Tier 1, Year 2)
+  → Self-Healing Meter Ops (Tier 2, Year 2-3)
+  → GRD-02 HITL introduced (Wave 2-3, not Wave 1 due to SLO intensity)
+  → Predictive Grid Stability (Tier 1, Year 3)
+  → Self-Healing Grid (Tier 2, Year 3-4)
+```
+
+ER chain is unusual because GRD-02 doesn't start at Wave 1 — its SLO demands earn its introduction only after the ER Practice has proven itself on less-critical services.
+
+#### AXLE Chain
+
+```
+LDT-01 HITL + KPI-05 ACK_ONLY (Wave 1)
+  → Predictive Line-Down (Tier 1, Year 2)
+  → Causal AI for Quality (Tier 1, Year 2-3, separate service)
+  → Self-Healing Production Line (Tier 2, Year 3)
+  → Zero-Scrap Closed Loop (Tier 2, Year 3-4)
+  → Field-to-Factory Feedback with ICE (Tier 3, Year 3-4, requires ICE live)
+```
+
+AXLE chains to the "Zero-Scrap" flagship which is the high-profile Tier-2 commitment that AXLE clients use as their strategic narrative.
+
+### 23A.4 Dependency Shortcuts That Look Tempting But Aren't
+
+Several patterns surface in client conversations that appear to skip dependencies. Each is a false shortcut:
+
+**"We've done RPA, so we're already at Tier 2."** RPA automates tasks; Tier 2 requires outcome-attributed closed loops with audit discipline. Task automation without agent reasoning and audit rows is not Tier 2.
+
+**"Our predictive model already exists, so we can jump to Tier 1."** Existing predictive models are input to Tier 1 — but the chain requires the PREDICTIVE augmentation of a PROVEN REACTIVE APEX service. Running an independent predictive model doesn't make the APEX service at Tier 1.
+
+**"We'll build the Digital Thread while Wave 1 runs."** The Digital Thread is the *artefact* of end-to-end maturity across Practices; attempting to build it in parallel with Wave 1 produces a seven-Practice proof-of-concept with nothing in production.
+
+**"Autonomous operations will let us skip the HITL phase."** The HITL phase is where trust is earned. Autonomy without the HITL phase has no evidence base; the audit function will refuse to sign off.
+
+### 23A.5 Dependency Chain as Commercial Conversation Structure
+
+This dependency chain is also the structure for multi-year commercial conversations. An executive sponsor asking "show me where you take me in five years" gets a roadmap structured as:
+
+- **Year 1 (Waves 1–2):** Reactive services across one or two Practices. Earn the audit-discipline track record.
+- **Year 2 (Wave 3 + Tier 1):** Enterprise scale on first Practice; first Tier-1 predictive/causal flagship.
+- **Year 3 (Tier 1 + Tier 2):** First Tier-2 self-healing flagship; second Practice entering Waves 2–3.
+- **Year 4 (Tier 2 + Tier 3):** Self-healing at scale; first Tier-3 cross-service or cross-Practice flagship.
+- **Year 5 (Tier 3 + Tier 4):** Agentic contact center live; first Tier-4 bounded-autonomy pilot.
+- **Year 6+:** Enterprise Decision OS territory for reference clients.
+
+Each year's investment is funded by the prior year's payback. No year requires a leap of faith; every year builds on a proven floor.
+
+### 23A.6 Why Respecting the Chain Is Non-Optional
+
+Clients who respect the dependency chain ship flagships successfully at ~80% on-budget / on-time. Clients who skip links ship at ~20% and usually cancel the programme in year two or three. The difference is not technology; the difference is programmatic discipline.
+
+APEX's commercial posture is to decline flagship engagements that require chain-skipping. Saying no to a misaligned engagement is the most respectful thing the platform's delivery partners can do — for the client, for future clients who will consume the reference work, and for APEX's own credibility.
 
 ## Chapter 24: Innovation Timeline
 
