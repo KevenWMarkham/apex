@@ -50,6 +50,14 @@ const FAINT_BORDER = { style: BorderStyle.SINGLE, size: 4, color: 'B8B8B8' };
 const HEADER_SHADING = { fill: NAVY, type: ShadingType.CLEAR, color: 'auto' };
 const CELL_MARGINS = { top: 100, bottom: 100, left: 140, right: 140 };
 
+// Font stack — Aptos is Microsoft 365's default as of 2023 (replaces Calibri).
+// It renders cleanly, looks modern/humanist like popular Google Fonts (Inter /
+// Source Sans / Roboto), and ships with any recent Office install. On older
+// Office, Word substitutes to Calibri automatically.
+const FONT_BODY = 'Aptos';
+const FONT_DISPLAY = 'Aptos Display';     // heavier cut, used for big headings/titles
+const FONT_CODE = 'Cascadia Mono';         // modern Microsoft monospace (Windows 11 default)
+
 // ------------------------------------------------------------------
 // Inline parser — returns an array of TextRun | ExternalHyperlink
 // Handles: **bold**, *italic*, `code`, [text](url)
@@ -74,7 +82,7 @@ function parseInline(text) {
         }));
       }
     } else if (tok.startsWith('`')) {
-      runs.push(new TextRun({ text: tok.slice(1, -1), font: 'Consolas', size: 18, color: '2B2B2B' }));
+      runs.push(new TextRun({ text: tok.slice(1, -1), font: FONT_CODE, size: 18, color: '2B2B2B' }));
     } else if (tok.startsWith('**')) {
       runs.push(new TextRun({ text: tok.slice(2, -2), bold: true }));
     } else if (tok.startsWith('*')) {
@@ -99,13 +107,14 @@ function heading(text, level) {
     HeadingLevel.HEADING_1, HeadingLevel.HEADING_2,
     HeadingLevel.HEADING_3, HeadingLevel.HEADING_4,
   ];
-  const sizes = [36, 28, 22, 18];
+  const sizes = [40, 30, 24, 20]; // slightly larger so Aptos reads with authority
   return new Paragraph({
     heading: headingLevels[Math.min(level - 1, 3)],
-    spacing: { before: 320 - (level - 1) * 40, after: 160 - (level - 1) * 20 },
+    spacing: { before: 340 - (level - 1) * 40, after: 160 - (level - 1) * 20 },
     children: [new TextRun({
       text,
       bold: true,
+      font: level <= 2 ? FONT_DISPLAY : FONT_BODY,
       size: sizes[Math.min(level - 1, 3)],
       color: level === 1 ? NAVY : '0B111E',
     })],
@@ -148,7 +157,7 @@ function codeBlock(lines, lang) {
     spacing: { after: 0, line: 240 },
     children: [new TextRun({
       text: l.length === 0 ? ' ' : l,
-      font: 'Consolas',
+      font: FONT_CODE,
       size: 18,
       color: '1F2937',
     })],
@@ -159,7 +168,7 @@ function codeBlock(lines, lang) {
       spacing: { after: 40 },
       children: [new TextRun({
         text: lang.toUpperCase(),
-        font: 'Consolas',
+        font: FONT_CODE,
         size: 14,
         color: DIM,
         bold: true,
@@ -364,19 +373,19 @@ function titlePageElements() {
   return [
     new Paragraph({ spacing: { before: 2400, after: 120 },
       alignment: AlignmentType.CENTER,
-      children: [new TextRun({ text: GUIDE_TITLE, bold: true, size: 64, color: NAVY })] }),
+      children: [new TextRun({ text: GUIDE_TITLE, bold: true, font: FONT_DISPLAY, size: 72, color: NAVY })] }),
     new Paragraph({ spacing: { after: 240 },
       alignment: AlignmentType.CENTER,
-      children: [new TextRun({ text: 'Spine + 7 Companions · Combined Edition', size: 28, color: TEAL, italics: true })] }),
+      children: [new TextRun({ text: 'Spine + 7 Companions · Combined Edition', font: FONT_DISPLAY, size: 30, color: TEAL, italics: true })] }),
     new Paragraph({ spacing: { after: 3200 },
       alignment: AlignmentType.CENTER,
-      children: [new TextRun({ text: 'APEX Core v1.2 · Developer Guide v1.0 · 2026-04-18', size: 22, color: DIM })] }),
+      children: [new TextRun({ text: 'APEX Core v1.2 · Developer Guide v1.0 · 2026-04-18', font: FONT_BODY, size: 22, color: DIM })] }),
     new Paragraph({ spacing: { after: 120 },
       alignment: AlignmentType.CENTER,
-      children: [new TextRun({ text: 'Audience: Executives · Architects · Developers', size: 22, color: '1F2937' })] }),
+      children: [new TextRun({ text: 'Audience: Executives · Architects · Developers', font: FONT_BODY, size: 22, color: '1F2937' })] }),
     new Paragraph({ spacing: { after: 120 },
       alignment: AlignmentType.CENTER,
-      children: [new TextRun({ text: 'For Microsoft Fabric SaaS and Azure AI', size: 22, color: '1F2937' })] }),
+      children: [new TextRun({ text: 'For Microsoft Fabric SaaS and Azure AI', font: FONT_BODY, size: 22, color: '1F2937' })] }),
     pageBreak(),
   ];
 }
@@ -394,7 +403,7 @@ function tableOfContentsElements() {
   const els = [];
   els.push(new Paragraph({ spacing: { before: 400, after: 300 },
     alignment: AlignmentType.LEFT,
-    children: [new TextRun({ text: 'Contents', bold: true, size: 44, color: NAVY })] }));
+    children: [new TextRun({ text: 'Contents', bold: true, font: FONT_DISPLAY, size: 48, color: NAVY })] }));
   items.forEach((it, idx) => {
     els.push(new Paragraph({ spacing: { after: 60 },
       children: [
@@ -414,7 +423,7 @@ function sectionDivider(title) {
   return [
     new Paragraph({ spacing: { before: 600, after: 120 },
       alignment: AlignmentType.LEFT,
-      children: [new TextRun({ text: title, bold: true, size: 40, color: TEAL })] }),
+      children: [new TextRun({ text: title, bold: true, font: FONT_DISPLAY, size: 44, color: TEAL })] }),
     new Paragraph({ spacing: { after: 360 },
       alignment: AlignmentType.LEFT,
       border: { bottom: { style: BorderStyle.SINGLE, size: 18, color: NAVY, space: 12 } },
@@ -458,8 +467,14 @@ async function renderCombined() {
     title: GUIDE_TITLE,
     description: 'APEX Developer Implementation Guide — spine + 7 companions, combined edition',
     styles: {
+      default: {
+        document: {
+          run: { font: FONT_BODY, size: 22 }, // 11pt Aptos, document-wide default
+        },
+      },
       paragraphStyles: [
-        { id: 'Hyperlink', name: 'Hyperlink', basedOn: 'Normal', run: { color: '0563C1', underline: {} } },
+        { id: 'Hyperlink', name: 'Hyperlink', basedOn: 'Normal',
+          run: { font: FONT_BODY, color: '0563C1', underline: {} } },
       ],
     },
     sections: [{
