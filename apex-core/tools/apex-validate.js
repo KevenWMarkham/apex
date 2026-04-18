@@ -16,6 +16,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve, basename } from 'node:path';
 import { validateManifest } from './validate-manifest.js';
 import { buildReport } from './report.js';
+import { renderHtml } from './render-html.js';
 
 function main(argv) {
   const args = argv.slice(2);
@@ -49,6 +50,10 @@ function main(argv) {
   writeFileSync(
     resolve(editionFolder, 'data/report.json'),
     JSON.stringify(report, null, 2)
+  );
+  writeFileSync(
+    resolve(editionFolder, 'data/report.html'),
+    renderHtml(report)
   );
 
   if (ci) {
