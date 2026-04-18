@@ -17,10 +17,13 @@
 
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
+const { execFileSync } = require('child_process');
+const os = require('os');
 const {
   Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell,
   Header, Footer, AlignmentType, HeadingLevel, BorderStyle, WidthType,
-  ShadingType, PageNumber, ExternalHyperlink, PageBreak
+  ShadingType, PageNumber, ExternalHyperlink, PageBreak, ImageRun
 } = require('docx');
 
 // ------------------------------------------------------------------
@@ -39,6 +42,98 @@ const FILES = [
 
 const OUTPUT_DOCX = 'docs/APEX-developer-implementation-guide.docx';
 const GUIDE_TITLE = 'APEX Developer Implementation Guide';
+
+// Mermaid rendering — diagrams are rendered to PNG via @mermaid-js/mermaid-cli
+// and cached by content-hash so rebuilds are fast.
+const MERMAID_CACHE = path.join(__dirname, '.cache', 'mermaid');
+fs.mkdirSync(MERMAID_CACHE, { recursive: true });
+// Invoke mmdc's underlying JS via `node` so we avoid the .cmd-wrapper on
+// Windows (execFileSync returns EINVAL trying to spawn a .cmd directly).
+const MMDC_JS = path.join(__dirname, 'node_modules', '@mermaid-js', 'mermaid-cli', 'src', 'cli.js');
+const MAX_DIAGRAM_WIDTH_TWIPS = 9000; // max image width in twentieths of a point (~6.25")
+
+/**
+ * Render a mermaid diagram source to PNG, cached by SHA-256 of the source.
+ * Returns { buffer, widthPx, heightPx } on success, null on failure.
+ */
+function renderMermaidToPng(source) {
+  const hash = crypto.createHash('sha256').update(source).digest('hex').slice(0, 16);
+  const cachePath = path.join(MERMAID_CACHE, `${hash}.png`);
+
+  if (!fs.existsSync(cachePath)) {
+    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'apex-mmd-'));
+    const mmdPath = path.join(tmpDir, 'd.mmd');
+    const cfgPath = path.join(tmpDir, 'cfg.json');
+    fs.writeFileSync(mmdPath, source, 'utf8');
+    // Larger canvas + bump up theme so text stays legible when scaled down in Word
+    fs.writeFileSync(cfgPath, JSON.stringify({
+      theme: 'default',
+      themeVariables: { fontFamily: 'Aptos, Segoe UI, Arial, sans-serif', fontSize: '14px' },
+      flowchart: { useMaxWidth: false, htmlLabels: true },
+      sequence:  { useMaxWidth: false },
+      stateDiagram: { useMaxWidth: false },
+    }));
+    try {
+      execFileSync(process.execPath, [
+        MMDC_JS,
+        '-i', mmdPath, '-o', cachePath,
+        '-c', cfgPath,
+        '-b', 'white',
+        '-w', '1600', '-H', '1200',
+        '--scale', '2',   // retina-ish
+      ], { stdio: ['ignore', 'ignore', 'pipe'] });
+    } catch (err) {
+      const stderr = err.stderr ? err.stderr.toString().split('\n').slice(0, 3).join(' | ') : err.message.split('\n')[0];
+      console.warn(`    ! mermaid render failed for diagram ${hash} (${stderr})`);
+      return null;
+    } finally {
+      try { fs.rmSync(tmpDir, { recursive: true, force: true }); } catch (_) {}
+    }
+  }
+  if (!fs.existsSync(cachePath)) return null;
+
+  // Parse PNG dimensions from the IHDR chunk (bytes 16–23)
+  const buf = fs.readFileSync(cachePath);
+  const width  = buf.readUInt32BE(16);
+  const height = buf.readUInt32BE(20);
+  return { buffer: buf, widthPx: width, heightPx: height };
+}
+
+/**
+ * Build a Paragraph containing an embedded PNG for a mermaid diagram,
+ * sized to fit on the page. Falls back to null on render failure.
+ */
+function mermaidParagraph(source) {
+  const rendered = renderMermaidToPng(source);
+  if (!rendered) return null;
+
+  // Target width ≈ 6 inches (page is 8.5" × 11" with 0.75" margins = 7" content,
+  // pad a little for safety). Scale height proportionally.
+  const pageWidthPx = 900; // logical scaling target in px
+  let { widthPx, heightPx, buffer } = rendered;
+  let displayW = widthPx;
+  let displayH = heightPx;
+  if (widthPx > pageWidthPx) {
+    displayW = pageWidthPx;
+    displayH = Math.round((heightPx / widthPx) * pageWidthPx);
+  }
+  // Clamp extremely tall diagrams so they fit on a page (max ~8.5" tall)
+  const maxHeightPx = 1100;
+  if (displayH > maxHeightPx) {
+    displayW = Math.round((displayW / displayH) * maxHeightPx);
+    displayH = maxHeightPx;
+  }
+
+  return new Paragraph({
+    alignment: AlignmentType.CENTER,
+    spacing: { before: 120, after: 160 },
+    children: [new ImageRun({
+      data: buffer,
+      type: 'png',
+      transformation: { width: displayW, height: displayH },
+    })],
+  });
+}
 
 // ------------------------------------------------------------------
 // Styling
@@ -151,6 +246,16 @@ function bulletItem(text) {
 }
 
 function codeBlock(lines, lang) {
+  // Mermaid diagrams get rendered to a PNG and embedded as an image.
+  // If mmdc is unavailable or rendering fails, fall back to the code-block
+  // presentation below so the source is still visible.
+  if (lang === 'mermaid') {
+    const source = lines.join('\n');
+    const rendered = mermaidParagraph(source);
+    if (rendered) return rendered;
+    // fall through to source rendering if diagram couldn't be generated
+  }
+
   // Render as a bordered single-cell table to emulate a monospace code block
   const body = lines.length === 0 ? [''] : lines;
   const para = body.map(l => new Paragraph({
@@ -172,17 +277,6 @@ function codeBlock(lines, lang) {
         size: 14,
         color: DIM,
         bold: true,
-      })],
-    }));
-  }
-  if (lang === 'mermaid') {
-    para.push(new Paragraph({
-      spacing: { before: 40 },
-      children: [new TextRun({
-        text: '(Mermaid diagram — see markdown source for rendered version)',
-        italics: true,
-        size: 16,
-        color: DIM,
       })],
     }));
   }
@@ -504,7 +598,33 @@ async function renderCombined() {
 
   const buf = await Packer.toBuffer(doc);
   const outPath = path.join(__dirname, OUTPUT_DOCX);
-  fs.writeFileSync(outPath, buf);
+  // If Word has the doc open, fs.writeFileSync throws EBUSY. Retry a few
+  // times so the user doesn't have to close Word mid-build in a tight loop.
+  let writeErr = null;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      fs.writeFileSync(outPath, buf);
+      writeErr = null;
+      break;
+    } catch (err) {
+      writeErr = err;
+      if (err.code === 'EBUSY' || err.code === 'EPERM') {
+        if (attempt === 0) {
+          console.warn(`    ! ${path.basename(outPath)} appears to be open (close Word to save). Retrying...`);
+        }
+        await new Promise(r => setTimeout(r, 1200));
+        continue;
+      }
+      throw err;
+    }
+  }
+  if (writeErr) {
+    // Last resort: write to a timestamped sibling so the user doesn't lose the render
+    const fallback = outPath.replace(/\.docx$/, `-${Date.now()}.docx`);
+    fs.writeFileSync(fallback, buf);
+    console.warn(`    ! Wrote fallback copy to ${path.basename(fallback)} (close Word and re-run to overwrite the main file)`);
+    return { outPath: fallback, sizeKb: Math.round(buf.length / 1024), elementCount: allElements.length };
+  }
   return { outPath, sizeKb: Math.round(buf.length / 1024), elementCount: allElements.length };
 }
 
