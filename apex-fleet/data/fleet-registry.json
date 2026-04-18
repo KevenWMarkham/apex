@@ -1,0 +1,50 @@
+{
+  "registry_version": "1.0.0",
+  "last_updated": "2026-04-17",
+  "accounts": [
+    {
+      "account_id": "acct-alpha-001",
+      "account_alias": "Alpha Retail",
+      "edition_code": "RC",
+      "core_version": "1.2",
+      "wave_stage": "W2",
+      "quiet_window_hours_local": "02:00-04:00",
+      "heartbeat_sla_hours": 48,
+      "auto_upgrade_policy": {
+        "PATCH": "ZERO_TOUCH",
+        "MINOR": "ACK_ONLY",
+        "MAJOR": "HITL"
+      },
+      "pinned_schemas": [
+        { "code": "MERML", "version": "1.0.0" },
+        { "code": "SCML", "version": "1.0.0" },
+        { "code": "CXML", "version": "1.0.0" },
+        { "code": "MKTL", "version": "1.0.0" }
+      ],
+      "last_heartbeat_utc": "2026-04-17T03:12:00Z",
+      "last_heartbeat_manifest_hash": "sha256:ab12cd34ef56ab12cd34ef56ab12cd34ef56ab12cd34ef56ab12cd34ef56"
+    },
+    {
+      "account_id": "acct-bravo-002",
+      "account_alias": "Bravo Retail",
+      "edition_code": "RC",
+      "core_version": "1.2",
+      "wave_stage": "W1",
+      "quiet_window_hours_local": "03:00-05:00",
+      "heartbeat_sla_hours": 48,
+      "auto_upgrade_policy": {
+        "PATCH": "ZERO_TOUCH",
+        "MINOR": "ACK_ONLY",
+        "MAJOR": "HITL"
+      },
+      "pinned_schemas": [
+        { "code": "MERML", "version": "1.0.0" },
+        { "code": "SCML", "version": "1.0.0" },
+        { "code": "CXML", "version": "1.0.0" },
+        { "code": "MKTL", "version": "1.0.0" }
+      ],
+      "last_heartbeat_utc": "2026-04-17T04:05:00Z",
+      "last_heartbeat_manifest_hash": "sha256:cd34ef56ab12cd34ef56ab12cd34ef56ab12cd34ef56ab12cd34ef56ab12"
+    }
+  ]
+}
