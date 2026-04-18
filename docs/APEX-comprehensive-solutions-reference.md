@@ -2382,6 +2382,565 @@ Typical ICE engagements start with FAF-01 + SPA-02 (the field-service core) in W
 
 ---
 
+## Chapter 8A: SOR Integration & Data Flow Atlas
+
+Every APEX service's quality is bounded by the quality of its upstream data. This chapter is the platform-level atlas of Systems of Record — what they are, how their data shape looks at the source, which Fabric integration pattern APEX uses for each, how the data lands in Bronze, how it canonicalises into Silver, how it materialises into Gold, and which agents ultimately consume it. It is the single most-referenced chapter for Practice-delivery teams during the first six weeks of any new engagement.
+
+The atlas is organised in four layers: the **integration pattern taxonomy** (§8A.1 – 8A.4) common to all SORs, the **per-Practice SOR atlas** (§8A.5 – 8A.11) covering each Practice's specific sources, **cross-Practice SOR patterns** (§8A.12) where one SOR class serves multiple Practices, and the **agent read-path** architecture (§8A.13 – 8A.15) that shows how integration decisions ripple forward into agent latency and quality.
+
+### 8A.1 Fabric Integration Pattern Taxonomy
+
+APEX uses five distinct Fabric integration patterns, each suited to a specific SOR emission profile. A sixth mechanism — OneLake shortcuts — is not an integration pattern but a cross-workspace reuse mechanism that overlays the other five.
+
+#### Pattern 1 — Mirrored Database (CDC)
+
+**What it is.** Fabric's change-data-capture mirror into OneLake. Supported sources: SQL Server (on-prem or Azure SQL), Cosmos DB, Snowflake, PostgreSQL (preview), and Azure Databricks. Fabric manages the CDC pipeline; changes land as Delta in Bronze automatically.
+
+**When to use.** Transactional SORs with native CDC capability. No custom integration code; no ETL job authoring. The preferred path for Manhattan WMS, SAP ISU, Epic Clarity/Caboodle, and any other enterprise SOR backed by SQL Server or equivalent.
+
+**Latency.** Typically 60–180 seconds from source commit to Bronze Delta row. Under heavy load, up to 10 minutes. SLO-committable for decision services tolerating ~3-minute decision latency.
+
+**Cost model.** Billed against Fabric capacity. One mirror per source database; scaling is automatic within the capacity envelope.
+
+**Gotchas.** Schema changes on the source require re-mirroring; the Bronze table briefly drifts while the mirror reconciles. Plan for 30-minute change-window after any source DDL.
+
+#### Pattern 2 — Eventstream (Real-Time)
+
+**What it is.** Fabric's streaming-ingest surface. Event sources: Azure Event Hubs, Kafka (Confluent, MSK, self-managed), Azure IoT Hub, Custom Endpoint (HTTP/WebSocket), Azure Service Bus, and AMQP-compatible brokers. Sinks include Bronze Delta tables and live KQL databases.
+
+**When to use.** SORs that natively emit event streams — telemetry (Monnit IoT, SCADA, production events), POS ring streams, Epic ADT HL7 FHIR feeds, Plex MES production events. Also the preferred path for webhook-style pushes from SaaS SORs.
+
+**Latency.** 30-second floor to Bronze Delta (the minimum Delta-sink cadence). For sub-30-second requirements, Eventstream sinks to a KQL database instead, with sub-second latency.
+
+**Cost model.** Billed against Fabric capacity + Event Hubs/Kafka consumption on the source side.
+
+**Gotchas.** Delta-sink throughput is bounded; for >100K events/sec, parallel eventstreams are required. Schema-change handling is less forgiving than Mirrored DB — plan for schema registry discipline on the source.
+
+#### Pattern 3 — Data Pipeline (Scheduled Batch)
+
+**What it is.** Fabric's scheduled ETL runner. Think Azure Data Factory inside Fabric. Runs Copy Activities, notebook activities, and orchestrated flows on cron or trigger.
+
+**When to use.** Batch-only SORs — nightly exports, EDI interchange (856, 850, 810), SFTP landings, CSV drops on blob storage, legacy mainframe extracts. Also used for scheduled refresh of Gold views.
+
+**Latency.** Bounded by the schedule. Typical patterns: hourly (for near-real-time analogs), daily (for reporting-adjacent data), weekly (for reference data). Minimum cadence 15 minutes.
+
+**Cost model.** Per-activity + compute; generally the cheapest pattern for low-volume data.
+
+**Gotchas.** Late-arriving data handling needs explicit design. If a nightly export drops late, downstream Silver transforms should not silently miss the window.
+
+#### Pattern 4 — Dataflow Gen2 (REST Pull)
+
+**What it is.** Fabric's low-code pull-style data integration. Supports REST APIs, OData, SaaS connectors (Salesforce, ServiceNow, Coupa, Workday), and file-based sources.
+
+**When to use.** SaaS SORs that expose REST endpoints rather than CDC — ServiceNow incident data, Coupa procurement, public feeds (FDA, FERC, ClinicalTrials.gov), ESL-gateway vendor APIs.
+
+**Latency.** Bounded by scheduled refresh; typical cadence 15 minutes to hourly. Very rarely sub-5-minute.
+
+**Cost model.** Per-refresh + compute; moderate cost.
+
+**Gotchas.** Rate-limited APIs need backoff-aware implementations. Pagination handling for large pulls is a per-connector concern.
+
+#### Pattern 5 — Webhook / Custom Endpoint (Push Ingest)
+
+**What it is.** A Fabric Custom Endpoint (HTTPS) that receives pushed payloads from SORs that only support outbound webhooks. Sinks to Eventstream or Delta directly.
+
+**When to use.** Incident portals (customer incident reporting), consent-management systems, third-party alert feeds, SaaS webhooks (e.g., GitHub, Salesforce push notifications).
+
+**Latency.** Sub-second to Bronze when paired with Eventstream.
+
+**Cost model.** Per-invocation; scales with webhook volume.
+
+**Gotchas.** Webhook endpoint must be hardened against replay attacks and source-spoofing. APEX convention: every webhook endpoint requires a shared-secret header or mutual-TLS auth, validated at ingest time.
+
+#### Overlay — OneLake Shortcuts
+
+Not an integration pattern per se. OneLake shortcuts allow a tenant workspace to reference a Practice workspace's reference tables or a sister tenant's shared data without copying. Used extensively for cross-Practice schema sharing (ASSET_HEALTH shared between AXLE and ER; LOT_TRACE shared between RC and HLS pharmacy services).
+
+### 8A.2 Pattern Selection Decision Guide
+
+```mermaid
+flowchart TD
+  Q1{How does the SOR emit data?}
+  Q1 -->|Event stream / telemetry| P2[Pattern 2: Eventstream]
+  Q1 -->|Transactional DB with CDC| P1[Pattern 1: Mirrored Database]
+  Q1 -->|SaaS REST API| P4[Pattern 4: Dataflow Gen2]
+  Q1 -->|Scheduled file / EDI / SFTP| P3[Pattern 3: Data Pipeline]
+  Q1 -->|Outbound webhook| P5[Pattern 5: Custom Endpoint]
+  Q1 -->|Transactional DB without CDC| Q2{Throughput > 1K rows/min?}
+  Q2 -->|Yes| P3
+  Q2 -->|No| P4
+```
+
+A one-line rule: **match the pattern to how the SOR wants to talk, not to how you wish it would talk**. Fighting a batch-only SOR into streaming shape is almost always more expensive than accepting the batch cadence and designing the service's SLO around it.
+
+### 8A.3 Latency Budget by Pattern
+
+End-to-end latency (SOR event → Bronze row → Silver row → Gold view → agent-readable) by integration pattern:
+
+| Pattern | Bronze latency p95 | Silver latency p95 | Gold latency p95 | Total p95 |
+|---|---|---|---|---|
+| Mirrored Database | 60–180 s | 30 s | 5-min refresh cycle | ~4 min |
+| Eventstream (Delta sink) | 30–60 s | 30 s | 5-min refresh | ~4 min |
+| Eventstream (KQL sink) | < 1 s | instant | KQL queryable inline | < 10 s |
+| Data Pipeline (hourly) | ≤ 60 min | 1–5 min | next refresh | ~1 h |
+| Data Pipeline (nightly) | ≤ 24 h | 5 min | next morning | ~24 h |
+| Dataflow Gen2 (15-min refresh) | ≤ 15 min | 1–3 min | next refresh | ~20 min |
+| Webhook / Custom Endpoint | < 5 s | 30 s | 5-min refresh | ~5 min |
+
+Services with sub-minute SLOs (GRD-02 Grid Anomaly with 30-second detection, SEP-02 Sepsis with 3-minute decision) can only be served by Eventstream (KQL sink) or Webhook. Services with 5-minute decisions (CXP-01 Cold Chain, LDT-01 Line-Down) work comfortably with Mirrored Database or Eventstream (Delta sink). Services with hour-scale decisions (RVC-03 Denial Recovery, KPI-05 Plant KPI Drift) tolerate Data Pipeline cadence.
+
+### 8A.4 Fabric-to-Medallion Integration Reference
+
+Every SOR integration lands at Bronze. The Bronze row preserves the SOR's native shape; Silver canonicalises; Gold materialises for agent reads.
+
+```mermaid
+flowchart LR
+  subgraph SOR_Side["SOR Side"]
+    SOR[System of Record]
+  end
+  subgraph Fabric["Fabric Integration"]
+    P1M[Mirrored DB]
+    P2E[Eventstream]
+    P3D[Data Pipeline]
+    P4F[Dataflow Gen2]
+    P5W[Custom Endpoint]
+  end
+  subgraph Bronze_Layer["Bronze · SOR-native shape"]
+    BR[bronze_* tables<br/>Delta · 30-90d retention]
+  end
+  subgraph Silver_Layer["Silver · canonical APEX schema"]
+    SV[silver_* tables<br/>Delta · tokenised · 7y retention]
+  end
+  subgraph Gold_Layer["Gold · agent feature views"]
+    GD[gold_*_v1 views<br/>Warehouse · 5-min refresh]
+  end
+  subgraph Agents["Agents via MCP"]
+    AG[Agent invocations]
+  end
+  SOR --> P1M
+  SOR --> P2E
+  SOR --> P3D
+  SOR --> P4F
+  SOR --> P5W
+  P1M --> BR
+  P2E --> BR
+  P3D --> BR
+  P4F --> BR
+  P5W --> BR
+  BR -->|"PySpark transform<br/>+ tokenizer-mcp"| SV
+  SV -->|"scheduled materialise<br/>+ T-SQL view"| GD
+  GD -->|"fabric-mcp.read_*<br/>managed identity"| AG
+```
+
+### 8A.5 RC Practice SOR Atlas
+
+#### Monnit IoT · Refrigeration Telemetry
+
+**What it is.** Wireless sensor platform that publishes temperature, humidity, and compressor-state telemetry from commercial refrigeration units. Most large retail chains have Monnit or an equivalent deployed across every reefer.
+
+**Downstream schema (SOR-native).** JSON payloads over MQTT or HTTPS. Fields: `sensor_id`, `temp_f`, `humidity_pct`, `battery_pct`, `signal_strength`, `timestamp_utc`, plus device metadata (store_id, asset_id, reefer_number).
+
+**Integration pattern.** Pattern 2 — Eventstream from Monnit's cloud gateway to Fabric Eventstream. Delta sink for SLO-forgiving services (CXP-01 tolerates 30-second latency); KQL sink for real-time dashboards.
+
+**Bronze landing.** `bronze_monnit_telemetry` — preserves JSON payload + ingestion timestamp. ~1 row per sensor per minute; 5 million rows/day typical for a 500-store chain.
+
+**Silver transform.** PySpark notebook maps to `silver_cold_chain_telemetry` (SCML family) applying the five-field envelope, joining sensor-to-store-to-asset reference data, and deriving threshold-breach flags.
+
+**Gold view.** `gold_cold_chain_state_v1` materialises current state per (store_id, sensor_id) with join to `silver_store_inventory_position` for units-at-risk math. Refresh every 5 minutes.
+
+**Agents consuming.** SCM-A04 Cold Chain Telemetry Monitor (primary); SCM-A05 Disposition Classifier (reads derived excursion state); TRACE-A01 Forward Trace Composer (when a cold-chain-originated recall trace runs).
+
+**Typical engagement effort.** 2–3 weeks end-to-end for a greenfield Monnit integration. The easiest of the RC SORs.
+
+#### Manhattan WMS · Warehouse & Inventory
+
+**What it is.** Manhattan Associates' warehouse management system — the de-facto standard for large North American retail. Holds purchase orders, advance-ship notices, receiving events, inventory positions, and movement history.
+
+**Downstream schema (SOR-native).** SQL Server tables. Key tables: `PURCHASE_ORDER_HEADER`, `PURCHASE_ORDER_LINE`, `ASN_HEADER`, `ASN_LINE`, `RECEIVING_EVENT`, `INVENTORY_SNAPSHOT` (daily), `ITEM_MOVEMENT` (transactional). Joins run deep — Manhattan's model is normalised to about 50 tables for the core flow.
+
+**Integration pattern.** Pattern 1 — Mirrored Database on SQL Server CDC. Fabric manages the mirror; all relevant tables land in Bronze automatically.
+
+**Bronze landing.** `bronze_manhattan_*` — one table per mirrored source table. ~200K–2M rows/day for a mid-market retailer.
+
+**Silver transform.** Multi-step PySpark notebook chain: normalises Manhattan's SKU references to canonical SKU, joins receiving events to ASNs and POs, derives `SCML.ASN` / `SCML.STORE_RECEIVING_EVENT` / `SCML.RECEIVING_DISCREPANCY` / `MERML.STORE_INVENTORY_POSITION`. This is the largest Silver transform in the RC Practice.
+
+**Gold views.** `gold_store_inventory_current_v1` (on-hand by store-SKU), `gold_receiving_reconciliation_v1` (ASN vs. actual per receipt), `gold_vendor_pattern_v1` (90-day variance history).
+
+**Agents consuming.** SCM-A01 Inbound Discrepancy Analyst, SCM-A02 Vendor Pattern Detector, SCM-A05 Disposition Classifier, MER-A01 Dispute Packaging Agent, MER-A04 CV×POS×PI Fusion Agent, TRACE-A01/A02/A03.
+
+**Typical engagement effort.** 4–6 weeks; Manhattan's normalisation depth means the Silver transform is non-trivial.
+
+#### POS Systems (NCR / Toshiba / Oracle Retail)
+
+**What it is.** The cash-register transaction platform. Publishes ring events, void events, and basket records in real time.
+
+**Downstream schema.** Vendor-specific — each POS vendor has its own transaction schema. NCR and Toshiba emit JSON-over-Kafka natively; Oracle Retail requires extraction from its data warehouse layer.
+
+**Integration pattern.** Pattern 2 — Eventstream when the POS publishes to Kafka/Event Hubs natively. Pattern 1 — Mirrored Database when working from an Oracle POS data warehouse.
+
+**Bronze landing.** `bronze_pos_ring`, `bronze_pos_void`, `bronze_pos_basket`. Per-vendor adapters normalise field names at ingest.
+
+**Silver transform.** PySpark notebook maps to `silver_pos_transaction` (tokenises cashier_id and customer_id immediately; retail compliance demands this) and `MERML.POS_VOID` for void events.
+
+**Gold views.** `gold_ring_stream_v1` (rolling 24h ring activity per store); `gold_void_anomaly_v1` (cashier-void-rate deviation from baseline).
+
+**Agents consuming.** MER-A02 Pricing Integrity Monitor, MER-A04 CV×POS×PI Fusion Agent, MER-A10 Void Pattern Detector, TRACE-A01/A02 (for POS-origin traces).
+
+**Typical engagement effort.** 3–5 weeks. The vendor-adapter layer adds ~1 week beyond the base pattern.
+
+#### ESL Gateway (Hanshow / SES-imagotag)
+
+**What it is.** Electronic shelf-label gateway — the central controller that pushes price updates to physical ESLs on the store shelf. Holds tag-sync state per store.
+
+**Downstream schema.** REST API (vendor-specific). Endpoints: `/gateways/{id}/status`, `/tags/{id}/status`, `/tags/{id}/sync-history`. No native push; APEX pulls on 5-minute cadence.
+
+**Integration pattern.** Pattern 4 — Dataflow Gen2 REST pull.
+
+**Bronze landing.** `bronze_esl_gateway_status`, `bronze_esl_tag_status`.
+
+**Silver transform.** Maps to `MERML.PRICE_TAG_STATUS` joining tag-to-SKU reference. Derives staleness-minutes and battery-remaining fields.
+
+**Gold view.** `gold_esl_health_v1` — current gateway and per-tag state; drives ESL-03 decisions.
+
+**Agents consuming.** MER-A02 Pricing Integrity Monitor, MER-A03 Stale-Tag Remediation Agent.
+
+**Typical engagement effort.** 2–3 weeks.
+
+#### FDA Recall Feed · Public Regulatory Data
+
+**What it is.** FDA's public recall announcement feed at `openfda.fda.gov`. JSON API covering food, drug, device recalls.
+
+**Integration pattern.** Pattern 4 — Dataflow Gen2 scheduled pull (every 15 minutes during business hours, hourly off-hours).
+
+**Bronze landing.** `bronze_fda_recall_feed` — raw JSON preserved.
+
+**Silver transform.** Maps to `SCML.RECALL_NOTICE` with lot-id extraction and class-taxonomy normalisation.
+
+**Gold view.** `gold_active_recalls_v1` — all recalls with at least one affected lot still in inventory in the client's tenant. Computed by join against `silver_store_inventory_position` on lot_id.
+
+**Agents consuming.** SCM-A01 (for intersection with receiving history), SCM-A02 (for lot-trace forward), CX-A01 (for customer outreach on recall-affected purchases).
+
+**Typical engagement effort.** 1–2 weeks. Well-documented public feed with stable schema.
+
+#### Customer Incident Portal
+
+**What it is.** The client's internal portal where customer-service representatives capture incident reports. Typically a ServiceNow / Salesforce / custom system.
+
+**Integration pattern.** Pattern 5 — Webhook (Custom Endpoint) if the portal supports outbound webhooks. Pattern 4 — Dataflow Gen2 REST pull as fallback.
+
+**Bronze landing.** `bronze_customer_incident` — raw incident payloads including free-text narrative, photo references, lot-code OCR results.
+
+**Silver transform.** Tokenises customer_id immediately (RC privacy discipline); maps to `CXML.CUSTOMER_INCIDENT` with severity-tier classification from the NLP-assisted classifier (which runs as part of the Silver transform, not at agent read time).
+
+**Gold view.** `gold_active_incidents_v1` — triaged incidents in open state.
+
+**Agents consuming.** CX-A01 Incident Intake Agent, CX-A02 Cross-Store Correlator, TRACE-A02 (for backward-trace from customer complaint).
+
+**Typical engagement effort.** 3–4 weeks; the free-text classifier tuning is the main effort beyond the base integration.
+
+#### DSD / EDI Gateway
+
+**What it is.** Direct-store-delivery vendor interchange via EDI 856 (ASN), 850 (PO), and 810 (invoice). Backend is typically an EDI VAN or client-hosted gateway.
+
+**Integration pattern.** Pattern 3 — Data Pipeline scheduled SFTP pull with EDI parser activity.
+
+**Bronze landing.** `bronze_edi_856`, `bronze_edi_850`, `bronze_edi_810`.
+
+**Silver transform.** Normalises to `SCML.DSD_INVOICE` joining with Manhattan ASN records for match/no-match detection.
+
+**Gold view.** `gold_vendor_reconciliation_v1` — per-vendor 90-day pattern metrics.
+
+**Agents consuming.** SCM-A02 Vendor Pattern Detector, MER-A01 Dispute Packaging Agent.
+
+**Typical engagement effort.** 4–6 weeks; EDI variance across trading partners is the cost driver.
+
+### 8A.6 HLS Practice SOR Atlas
+
+#### Epic Clarity / Caboodle · EHR Data Warehouse
+
+**What it is.** Epic's reporting-layer data warehouses. Clarity is transaction-oriented SQL Server; Caboodle is a dimensional star-schema warehouse. Together they hold encounter, order, lab, coding, claim, and clinical-documentation history.
+
+**Downstream schema.** SQL Server with ~2,000 tables across Clarity; ~200 dimensional tables in Caboodle. Key Clarity tables: `HSP_ADMIT`, `HSP_ACCT`, `ORDER_PROC`, `ORDER_MED`, `CLARITY_EAP`, `CLARITY_MED_INFO`, `CL_DX_MAP`. Caboodle: `EncounterFact`, `OrderFact`, `LabFact`, `ClaimFact`.
+
+**Integration pattern.** Pattern 1 — Mirrored Database on Clarity (CDC via SQL Server) for near-real-time. Caboodle mirror is slower-cadence and used for dimensional lookups.
+
+**Bronze landing.** `bronze_epic_clarity_*` and `bronze_epic_caboodle_*` — per-table mirrors. Volume: ~50–200 GB/day for a multi-hospital IDN.
+
+**Silver transform.** The most complex Silver transform in the APEX catalogue. Multi-phase PySpark chain normalises Epic's encounter model to `HLSCML.PATIENT_ENCOUNTER`, maps orders to appropriate canonical entities, joins diagnosis codes through Clarity's translation tables. PHI tokenisation happens at each step; cleartext PHI never crosses into Silver.
+
+**Gold views.** `gold_active_admissions_v1`, `gold_discharge_ready_signals_v1`, `gold_denial_patterns_v1`.
+
+**Agents consuming.** HLS-A01 Discharge Pattern Analyst, HLS-A02 Disposition Planner, HLS-A05 Denial Classifier, HLS-A06 Appeal Drafter, HLS-A07 Trial Eligibility Reasoner.
+
+**Typical engagement effort.** 10–14 weeks. Epic integration is the critical path on every HLS engagement.
+
+#### Epic ADT Stream · Real-Time Encounter Events
+
+**What it is.** Epic's real-time admission-discharge-transfer HL7 v2.5 / FHIR R4 event stream. Emitted from Epic's Bridges interface engine.
+
+**Downstream schema.** HL7 v2 messages (A01 admit, A03 discharge, A04 registration, A08 update, etc.) or FHIR Encounter resources.
+
+**Integration pattern.** Pattern 2 — Eventstream with HL7/FHIR parser activity on the way in.
+
+**Bronze landing.** `bronze_epic_adt` — parsed structured events.
+
+**Silver transform.** Near-real-time augmentation of `HLSCML.PATIENT_ENCOUNTER` state. Critical path for SEP-02 Sepsis Early Warning (which needs sub-5-minute currency on patient state).
+
+**Gold view.** `gold_active_patient_state_v1` — real-time encounter state per unit.
+
+**Agents consuming.** HLS-A01, HLS-A03 Sepsis Pattern Detector (latency-critical).
+
+**Typical engagement effort.** 4–6 weeks; the HL7 parser development is the key work.
+
+#### Epic FHIR API · Vitals & Labs
+
+**What it is.** Epic's FHIR R4 API endpoints for Observation (vitals), DiagnosticReport (lab results), and MedicationRequest.
+
+**Integration pattern.** Pattern 4 — Dataflow Gen2 pull on 5-minute cadence for monitored units; near-real-time streaming for ICU via Pattern 2 with dedicated FHIR Eventstream.
+
+**Bronze landing.** `bronze_epic_fhir_observation`, `bronze_epic_fhir_lab`.
+
+**Silver transform.** Maps to `HLSCML.VITALS`, `HLSCML.LAB_RESULT`. Tokenises patient_id at ingest.
+
+**Agents consuming.** HLS-A03 Sepsis Pattern Detector, HLS-A04 Clinical Reasoner.
+
+**Typical engagement effort.** 5–8 weeks due to FHIR endpoint variance across Epic versions and client-specific customisations.
+
+#### Pharmacy Inventory (Omnicell / Pyxis / institutional)
+
+**What it is.** Automated dispensing cabinets and pharmacy inventory systems. Track drug-lot-level inventory at cabinet granularity.
+
+**Integration pattern.** Pattern 3 — Data Pipeline (SFTP) or Pattern 1 — Mirrored Database depending on vendor.
+
+**Bronze landing.** `bronze_pharmacy_inventory`, `bronze_pharmacy_movements`.
+
+**Silver transform.** Maps to `SCML.LOT_EXPIRATION_STATE` (pharmacy subset) and `SCML.RECALL_NOTICE` intersection views.
+
+**Agents consuming.** SCM-A07 Expiry Curve Monitor, SCM-A08 Recall Intersection Agent.
+
+**Typical engagement effort.** 4–6 weeks; vendor variance is the main cost.
+
+#### Claim / Denial Feeds (X12 837 / 835)
+
+**Integration pattern.** Pattern 3 — Data Pipeline (SFTP + EDI parser). Typically daily batch from the clearinghouse.
+
+**Silver transform.** Maps to `HLSCML.CLAIM_DENIAL` with denial-code enrichment via reference tables.
+
+**Agents consuming.** HLS-A05 Denial Classifier, HLS-A06 Appeal Drafter.
+
+**Typical engagement effort.** 3–4 weeks.
+
+#### Clinical Trials Registries
+
+**Integration pattern.** Pattern 4 — Dataflow Gen2 (ClinicalTrials.gov REST); Pattern 1 — Mirrored DB for institutional CRIS.
+
+**Silver transform.** Maps to `HLSCML.TRIAL_PROTOCOL` and `HLSCML.ELIGIBILITY_CRITERIA`.
+
+**Agents consuming.** HLS-A07 Trial Eligibility Reasoner.
+
+#### Incident Reporting System
+
+**Integration pattern.** Pattern 5 — Webhook + Pattern 4 — Dataflow Gen2.
+
+**Silver transform.** Maps to `HLSCML.PATIENT_SAFETY_EVENT`, `HLSCML.INCIDENT_CLASSIFICATION`.
+
+### 8A.7 ER Practice SOR Atlas
+
+#### SAP ISU · Utility Customer Information & Billing
+
+**What it is.** SAP Industry Solution for Utilities. The CIS and billing backbone for most investor-owned utilities. Holds accounts, meters, rate plans, reads, and invoices.
+
+**Integration pattern.** Pattern 1 — Mirrored Database on SAP HANA (if source is HANA-backed) or Pattern 3 — Data Pipeline (if extracting via IDoc-to-SFTP).
+
+**Silver transform.** Maps to `ERCML.METER_READING`, `ERCML.BILLING_EXCEPTION`, `ERCML.RATE_SCHEDULE`.
+
+**Agents consuming.** ER-A01 Outage Classifier, ER-A05 Exception Classifier, ER-A06 Auto-Resolution Agent.
+
+**Typical engagement effort.** 10–14 weeks. SAP ISU data-model complexity rivals Epic.
+
+#### AMI Head-End (Itron / Landis+Gyr / Sensus)
+
+**What it is.** Advanced Metering Infrastructure vendor platforms. Collect and aggregate meter reads from thousands to millions of meters.
+
+**Integration pattern.** Pattern 2 — Eventstream (for vendors with Kafka/AMQP outbound) or Pattern 3 — Data Pipeline (SFTP-only vendors).
+
+**Silver transform.** Maps to `ERCML.METER_READING` (the high-volume entity — can be 10M+ rows/hour for a 2M-meter utility).
+
+**Agents consuming.** ER-A01 Outage Classifier, ER-A02 Dispatch Recommender.
+
+#### SCADA · Grid Telemetry
+
+**What it is.** The supervisory control and data acquisition platform monitoring substations, feeders, and transmission assets. Historians (OSIsoft PI, GE Historian) hold the data.
+
+**Integration pattern.** Pattern 2 — Eventstream with KQL sink (for GRD-02's 30-second SLO). For historian access beyond the real-time stream, Pattern 3 — Data Pipeline against the historian's archive API.
+
+**Silver transform.** Maps to `ERCML.SCADA_TELEMETRY`, `ERCML.GRID_ANOMALY`.
+
+**Agents consuming.** ER-A03 SCADA Pattern Classifier, ER-A04 Action Reasoner (reasoning tier).
+
+**Typical engagement effort.** 8–10 weeks. SCADA/historian complexity + critical-infrastructure security posture.
+
+#### OMS / DMS (GE GridOS, Oracle, Schneider)
+
+**Integration pattern.** Pattern 1 — Mirrored Database or Pattern 4 — Dataflow Gen2 via native API.
+
+**Silver transform.** Maps to `ERCML.OUTAGE_EVENT`, `ERCML.CUSTOMER_SERVICE_STATE`.
+
+#### MS Field Service (Dynamics 365)
+
+**Integration pattern.** Native Dataverse integration into OneLake. Zero-effort mirror through Fabric-Dynamics link.
+
+**Silver transform.** Maps to `ERCML.WORK_ORDER`, `ERCML.CREW_STATE`.
+
+**Agents consuming.** ER-A07 Crew-Skills Matcher, ER-A08 Route Optimiser.
+
+#### FERC / PUC Regulatory Feeds
+
+**Integration pattern.** Pattern 4 — Dataflow Gen2.
+
+**Silver transform.** Maps to `ERCML.REGULATORY_EVENT`.
+
+### 8A.8 AXLE Practice SOR Atlas
+
+#### Plex MES · Shop-Floor Execution
+
+**What it is.** Cloud MES for discrete manufacturing. Publishes production events in real time.
+
+**Integration pattern.** Pattern 2 — Eventstream from Plex's event-publication API.
+
+**Silver transform.** Maps to `AXLECML.PRODUCTION_EVENT`.
+
+**Agents consuming.** AXLE-A01 Halt Classifier, AXLE-A09 Drift Detector.
+
+#### SAP QM · Quality Management
+
+**Integration pattern.** Pattern 1 — Mirrored Database.
+
+**Silver transform.** Maps to `AXLECML.QUALITY_EXCURSION`, `AXLECML.GENEALOGY`, `AXLECML.PRODUCT_LOT`.
+
+**Agents consuming.** AXLE-A03 Excursion Classifier, AXLE-A04 Genealogy Traversal Agent, AXLE-A07 Recall Scope Agent.
+
+#### SAP SCM + Supplier Portals + EDI
+
+**Integration pattern.** Pattern 1 (SAP SCM) + Pattern 4 (supplier portals) + Pattern 3 (EDI).
+
+**Silver transform.** Maps to `AXLECML.SUPPLIER_EVENT`, `AXLECML.PURCHASE_ORDER`, `AXLECML.INVENTORY_POSITION`.
+
+#### Shop-Floor Asset Integrations (Rockwell, PTC, Siemens)
+
+**Integration pattern.** Pattern 2 — Eventstream via OPC UA adapters maintained in `apex-axle/mcp/shopfloor-adapters/`.
+
+**Silver transform.** Maps to `AXLECML.ASSET_HEALTH`, `AXLECML.MATERIAL_FLOW`.
+
+#### NHTSA / Regulator Feeds
+
+**Integration pattern.** Pattern 4 — Dataflow Gen2.
+
+### 8A.9 TMT Practice SOR Atlas (Preview)
+
+- **NMS / OSS** — Network management systems. Pattern 2 Eventstream.
+- **CRM (Salesforce / ServiceNow)** — Pattern 4 Dataflow Gen2.
+- **Billing / CIS** — Pattern 1 Mirrored DB (SQL Server / Oracle / HANA).
+- **Subscription management** — Pattern 1 or 4 depending on vendor.
+- **Content rights DB** — Pattern 1 Mirrored DB.
+- **Ad-server logs** — Pattern 2 Eventstream (high-volume Kafka).
+- **Cloud-provider APIs (Azure, AWS, GCP)** — Pattern 4 Dataflow Gen2 for cost data; native integration where available.
+- **5G core telemetry** — Pattern 2 Eventstream (KQL sink for sub-second telemetry).
+
+### 8A.10 TH Practice SOR Atlas (Preview)
+
+- **PSS (Sabre, Amadeus, Navitaire)** — Pattern 1 Mirrored DB for reservation history; Pattern 2 Eventstream for booking events.
+- **Loyalty program platform** — Pattern 1 Mirrored DB.
+- **Hotel PMS (Opera, Protel)** — Pattern 1 Mirrored DB or Pattern 4 API pull.
+- **GDS (Travelport, Sabre, Amadeus)** — Pattern 4 API pull.
+- **Consent registry** — Pattern 5 Webhook for consent-change events + Pattern 1 Mirrored DB for current state.
+- **Accessibility portal** — Pattern 4 API pull.
+- **Guest incident portal** — Pattern 5 Webhook.
+- **Housekeeping management (Opera, Alice, Quore)** — Pattern 4 API pull.
+
+The TH SOR landscape is the most fragmented in the APEX catalogue because hotel and airline SOR adoption is less concentrated than retail WMS or healthcare EHR.
+
+### 8A.11 ICE Practice SOR Atlas (Preview)
+
+- **Field Service (MS Field Service, ServiceMax, IFS)** — native Dataverse or Pattern 1 Mirrored DB.
+- **Telematics (vendor-specific)** — Pattern 2 Eventstream.
+- **Warranty claim system** — Pattern 1 Mirrored DB.
+- **Parts catalog / inventory** — Pattern 1 Mirrored DB across dealer-network instances; complex due to multi-tenancy.
+- **Contract/renewal system** — Pattern 1 or 4 depending on vendor.
+- **Compliance inspection platform** — Pattern 4 API pull.
+
+### 8A.12 Cross-Practice Shared SOR Patterns
+
+Some SOR classes serve multiple Practices. Integration is done once per Practice but the patterns and tooling are shared:
+
+| SOR class | Practices served | Shared integration artifact |
+|---|---|---|
+| **SAP (any module)** | RC (SAP ERP Retail), HLS (SAP Health), ER (SAP ISU), AXLE (SAP QM/SCM), ICE (SAP service) | Shared SAP mirror-connector templates in `apex-shared/sap/` |
+| **Microsoft Dynamics 365** | ER (Field Service), AXLE (Supply Chain), ICE (Field Service), TH (Loyalty) | Native Dataverse integration; shared Silver-mapping library |
+| **ServiceNow** | RC (incident), HLS (incident), ER (field), TMT (incident) | Shared ServiceNow Dataflow Gen2 template |
+| **EDI (any variant)** | RC (856/850/810 vendor interchange), HLS (837/835 payer interchange), AXLE (EDI supplier interchange) | Shared EDI parser pipeline templates |
+| **CCTV Video Management Systems** | RC (shrink investigations), TH (guest incidents) | Shared VMS metadata adapter (video never lands in Fabric; only timestamp indices) |
+| **IoT platforms (Monnit, Itron, generic OPC UA)** | RC (refrigeration), ER (meter reads), AXLE (shop floor) | Shared IoT-platform Eventstream templates |
+
+Cross-Practice SOR tooling is maintained by the APEX Core team in the `apex-shared/` directory. New Practice builds inherit these templates and customise where needed.
+
+### 8A.13 Medallion Positioning Rationale
+
+Why Bronze / Silver / Gold are structured as they are, specifically for how agents consume data:
+
+**Bronze** is the buffer between SOR and decision-making. It never mutates; it is append-only; it is the replay surface. If a Silver transform has a bug, the fix is re-run over Bronze. If Fabric capacity is constrained, Bronze can be aged out (30-90 days) without losing the canonical truth, which lives in Silver. **Agents never read Bronze.** This is enforced by ACL — `mi-apex-*-agent` identities have no grant on `bronze_*` paths.
+
+**Silver** is the canonical truth. Every Silver row is envelope-conformant, contract-validated, and tokenised at write time. Silver retention is long (7+ years where regulations permit) because Silver is also the **audit evidence surface**. **Agents rarely read Silver.** The exception is cross-entity lookups that don't fit a pre-materialised Gold view — those are run through specific MCP tools (`fabric-mcp.silver_read_with_scope`) that emit additional audit telemetry.
+
+**Gold** is the performance-tuned read surface. Pre-joined, pre-aggregated, pre-filtered for the specific queries agents run. Refresh cadence is 5 minutes for most services (acceptable staleness) or inline KQL queries for sub-second needs. **Agents primarily read Gold via MCP tools.** This is the hot path; Gold queries p95 is held to ≤ 500 ms.
+
+The three layers are not a performance optimisation — they are a **trust-and-accountability architecture**. Bronze is "we have it." Silver is "we have it correctly and auditably." Gold is "we can serve it fast enough for agents to reason over it at the SLO the service committed to."
+
+### 8A.14 Agent Read-Path Architecture
+
+```mermaid
+sequenceDiagram
+  participant Agent as APEX Agent
+  participant MCP as fabric-mcp
+  participant MI as Managed Identity
+  participant Gold as Fabric Warehouse · Gold View
+  participant Silver as Fabric Lakehouse · Silver
+  participant Tel as telemetry-mcp
+  Agent->>MCP: tool call (e.g., read_cold_chain_state)
+  MCP->>MI: get_token(fabric.default)
+  MI-->>MCP: token
+  MCP->>Gold: SELECT ... FROM gold_cold_chain_state_v1<br/>WHERE tenant_id = @ctx + rls
+  Gold-->>MCP: rowset
+  MCP->>Agent: typed response
+  MCP->>Tel: emit span<br/>(operation_Id, tool, tenant, rows, latency)
+```
+
+Canonical read path, every time. The discipline is:
+
+1. **Agent never authenticates directly to Fabric.** The MCP server does it under its own managed identity.
+2. **Tenant scoping is explicit**, provided in the tool call's context and enforced both in the MCP tool's SQL and in the Warehouse's RLS policy. Belt and suspenders.
+3. **Every call is traced** before returning to the agent. No silent reads.
+4. **No Silver writes from the agent path.** Decision-outcome writes to `silver_decision_audit` go through `telemetry-mcp.emit_decision_audit`, never direct.
+
+This discipline makes every agent invocation auditable and reproducible. It is the foundational trust artefact that justifies the HITL gate-tuning down-shifts in Waves 2 and 3 — if the reads can't be reconstructed, the decisions can't be trusted, and the gates can't be relaxed.
+
+### 8A.15 SOR Integration SLOs
+
+| SLO dimension | Target | Source |
+|---|---|---|
+| SOR availability detection | ≤ 5 min | Heartbeat or missing-event detector |
+| Bronze-ingest freshness p95 | ≤ 1× integration pattern's nominal cadence | Appropriate to pattern |
+| Silver-transform success rate | ≥ 99.5% daily | App Insights per-transform span |
+| Gold-view freshness | ≤ 5 min (standard) or ≤ 30s (KQL sink) | Warehouse refresh monitoring |
+| Silver schema-conformance | 100% | `apex-validate` daily run |
+| PII tokenisation at Silver | 100% for every PII field | DLP scan on Silver paths |
+| Cross-tenant data leak incidents | 0 | RLS + OneLake ACL + audit |
+| SOR-caused agent-decision-quality regression | None undetected beyond 24h | DAR monthly review |
+
+SLO misses on integration paths route to the practice SRE with the same paging discipline as service-level SLOs. SOR integration is a first-class operational concern, not a one-time project.
+
+---
+
 # Part III — Cross-Practice Capabilities
 
 Every APEX deployment uses a shared set of capabilities that cut across Practices. These are not optional add-ons; they are the platform spine. Part III expands each of them into its own chapter, because a failure in any one of them is a failure of the entire platform.
@@ -4790,6 +5349,214 @@ Each tool is tested against fixture data in the per-Practice test suite. Tool-co
 **ICE domain MCPs (preview):** 15 tools drafted across iceml-mcp (many shared with axlecml and ercml)
 
 Total APEX tool catalogue: ~135 domain tools + 30+ utility and external tools = **~165 MCP tools** across the platform.
+
+### E.6 Exhaustive Tool Catalog — Domain MCP Servers
+
+This section enumerates every tool exposed by each domain MCP server, with input parameters, output shape, typical latency, and key error codes. The catalog is the normative reference consulted during agent-manifest authoring (determining `mcp_tools_allowed`) and during security reviews (scoping permission grants).
+
+#### `scml-mcp` Tool Inventory
+
+| Tool | Purpose | Inputs | Output | p95 latency | Key errors |
+|---|---|---|---|---|---|
+| `read_cold_chain_telemetry` | Readings since timestamp for a store | since: ISO-8601, store_id: str | TelemetryReading[] | 120 ms | `-32602` bad store_id · `-32001` fabric transient |
+| `read_excursion_events` | Classified excursions within window | store_id: str, window_hours: int | ExcursionEvent[] | 80 ms | `-32602` |
+| `read_lot_trace` | Forward/backward trace for a lot | lot_id: str, direction: enum | TraceResult | 200 ms | `-32002` lot not found |
+| `read_asn` | ASN record by id or PO | asn_id?: str, po_number?: str | AdvanceShipNotice | 60 ms | `-32602` |
+| `read_receiving_variance` | Variance records for store/window | store_id: str, window_days: int | ReceivingDiscrepancy[] | 100 ms | `-32602` |
+| `read_recall_notice` | Active recall by lot or FDA ref | lot_id?: str, fda_ref?: str | RecallNotice? | 80 ms | `-32002` |
+| `read_dsd_invoice` | DSD invoice records + vendor pattern | vendor_id: str, window_days: int | DsdInvoiceRecord[] | 120 ms | `-32602` |
+| `read_lot_expiration` | Expiry candidates per store | store_id: str, days_ahead: int | LotExpirationState[] | 90 ms | `-32602` |
+| `trace_forward` | Product trace forward (E2E) | supplier_lot_id: str, window_days: int | ProductTimelineRows[] | 1–5 s | `-32602` · `-32001` |
+| `trace_backward` | Product trace backward from unit | unit_id?, pos_txn_id?, incident_id? | ProductTimeline | 500 ms | `-32602` · `-32002` |
+| `trace_lateral` | Sibling lots from supplier | supplier_id: str, window_days: int | LotGroup[] | 2 s | `-32602` |
+| `trace_point_in_time` | Product state at historical moment | trace_key: obj, timestamp: ISO-8601 | ProductState | 5–15 s | `-32602` |
+
+#### `merml-mcp` Tool Inventory
+
+| Tool | Purpose | Inputs | Output | p95 latency | Key errors |
+|---|---|---|---|---|---|
+| `read_store_inventory` | Current inventory per SKU | store_id: str, sku_filter?: str[] | InventoryPosition[] | 150 ms | `-32602` |
+| `read_price_record` | Scheduled + effective price state | store_id: str, sku?: str | PriceRecord[] | 80 ms | `-32602` |
+| `read_tag_status` | ESL gateway + per-tag state | store_id: str, gateway_id?: str | TagStatus[] | 100 ms | `-32602` |
+| `read_promotion_activation` | Promo schedule vs observed | promo_id?: str, store_id?: str | PromotionState[] | 80 ms | `-32602` |
+| `read_osa_event` | Phantom-OOS detections | store_id: str, window_hours: int | OsaEvent[] | 120 ms | `-32602` |
+| `read_pos_void` | Void records with anomaly scoring | store_id: str, window_days: int | PosVoidRecord[] | 150 ms | `-32602` |
+| `read_shrink_event` | Correlated shrink patterns | store_id: str, category?: str | ShrinkEvent[] | 200 ms | `-32602` |
+| `read_cycle_count_variance` | Variance records | store_id: str, category?: str | CycleCountVariance[] | 100 ms | `-32602` |
+| `read_markdown_event` | Markdown records with disposition | store_id: str, window_days: int | MarkdownEvent[] | 80 ms | `-32602` |
+| `read_waste_event` | Destroyed/expired inventory | store_id: str, window_days: int | WasteEvent[] | 80 ms | `-32602` |
+| `read_vendor_pattern` | 90-day vendor variance score | vendor_id: str | VendorPatternScore | 100 ms | `-32002` |
+
+#### `cxml-mcp` Tool Inventory
+
+| Tool | Purpose | Inputs | Output | p95 latency | Key errors |
+|---|---|---|---|---|---|
+| `read_fulfillment_order` | Order state | order_id: str | FulfillmentOrder | 60 ms | `-32002` |
+| `read_pick_exception` | Pick exception records | store_id: str, window_hours: int | PickException[] | 100 ms | `-32602` |
+| `read_substitution_event` | Substitution candidates + outcomes | order_id?: str, window_days?: int | SubstitutionEvent[] | 100 ms | `-32602` |
+| `read_loyalty_state` | Tokenised customer loyalty state | customer_id_tkn: str | LoyaltyState | 50 ms | `-32000` scope · `-32002` |
+| `read_customer_incident` | Active incidents | store_id?: str, tier?: enum | CustomerIncident[] | 150 ms | `-32602` |
+| `read_interaction_history` | Interaction log (tokenised) | customer_id_tkn: str, window_days: int | InteractionRecord[] | 200 ms | `-32000` |
+| `search_cross_store_pattern` | Cross-store lot-level pattern | lot_id: str, window_days: int | CrossStoreMatch[] | 500 ms | `-32602` |
+| `read_substitution_candidates` | Scored substitutes for SKU | sku: str, customer_segment?: str | SubstitutionCandidate[] | 200 ms | `-32602` |
+
+#### `hlscml-mcp` Tool Inventory
+
+| Tool | Purpose | Inputs | Output | p95 latency | Key errors |
+|---|---|---|---|---|---|
+| `read_patient_encounter` | Encounter record (PHI-tokenised) | patient_id_tkn: str, encounter_id?: str | PatientEncounter | 80 ms | `-32000` scope · `-32002` |
+| `read_clinical_observation` | Structured observations | encounter_id: str, obs_type?: enum | ClinicalObservation[] | 120 ms | `-32002` |
+| `read_care_plan` | Care-plan milestones + orders | encounter_id: str | CarePlanRecord | 100 ms | `-32002` |
+| `read_vitals` | Vitals stream (latest/window) | encounter_id: str, window_hours: int | VitalsSeries | 150 ms | `-32602` |
+| `read_lab_result` | Lab results for encounter | encounter_id: str, window_hours?: int | LabResult[] | 100 ms | `-32602` |
+| `read_claim_denial` | Denial records with payer reason | provider_id: str, window_days: int | ClaimDenial[] | 200 ms | `-32602` |
+| `read_coding_record` | ICD/CPT/HCPCS coding | encounter_id: str | CodingRecord | 80 ms | `-32002` |
+| `search_denial_pattern` | Payer denial-type pattern detection | payer_id: str, denial_class: enum, window_days: int | DenialPattern | 400 ms | `-32602` |
+| `read_trial_protocol` | Trial eligibility details | trial_id: str | TrialProtocol | 80 ms | `-32002` |
+| `read_eligibility_criteria` | Structured inclusion/exclusion | trial_id: str | EligibilityCriteria[] | 100 ms | `-32002` |
+| `match_patient_to_trials` | Reasoning-tier eligibility scoring | patient_id_tkn: str | TrialMatch[] | 1–3 s | `-32000` |
+| `read_patient_safety_event` | Safety events with severity tier | unit?: str, window_days: int | PatientSafetyEvent[] | 150 ms | `-32602` |
+| `read_incident_classification` | Regulatory-reportability classification | incident_id: str | IncidentClassification | 80 ms | `-32002` |
+| `read_lot_expiration_pharmacy` | Pharmacy expiry candidates | facility_id: str, days_ahead: int | LotExpirationState[] | 100 ms | `-32602` |
+| `check_recall_intersection_pharmacy` | Pharmacy recall intersection | recall_id: str | InventoryIntersection | 300 ms | `-32602` |
+
+#### `ercml-mcp` Tool Inventory
+
+| Tool | Purpose | Inputs | Output | p95 latency | Key errors |
+|---|---|---|---|---|---|
+| `read_meter_reading` | AMI reads for meter/window | meter_id: str, window_hours: int | MeterReading[] | 100 ms | `-32602` |
+| `read_outage_event` | Outage records | region_id: str, window_hours: int | OutageEvent[] | 120 ms | `-32602` |
+| `read_grid_anomaly` | SCADA-derived anomalies | substation_id?: str, window_hours: int | GridAnomaly[] | 150 ms | `-32602` |
+| `read_scada_telemetry` | Real-time substation telemetry | substation_id: str, since: ISO-8601 | ScadaTelemetry[] | 50 ms (KQL) | `-32602` |
+| `read_customer_service_state` | Customer energisation state | customer_id_tkn: str | ServiceState | 50 ms | `-32000` |
+| `read_billing_exception` | Billing anomalies | account_id_tkn?: str, class?: enum | BillingException[] | 120 ms | `-32602` |
+| `read_rate_schedule` | Current + scheduled rate structures | rate_class: str | RateSchedule[] | 80 ms | `-32002` |
+| `read_work_order` | Field work orders | crew_id?: str, status?: enum | WorkOrder[] | 100 ms | `-32602` |
+| `read_crew_state` | Crew location + certifications | region_id: str | CrewState[] | 80 ms | `-32602` |
+| `read_asset_health` | Distribution asset condition | asset_id?: str, feeder_id?: str | AssetHealthSignal[] | 120 ms | `-32602` |
+| `read_regulatory_event` | FERC/PUC reportable events | window_days: int | RegulatoryEvent[] | 100 ms | `-32602` |
+| `read_reliability_metric` | SAIDI/SAIFI/CAIDI records | period: enum | ReliabilityMetric[] | 100 ms | `-32602` |
+| `match_crew_to_workorder` | Crew-skills optimisation | work_order_id: str | CrewRecommendation[] | 500 ms | `-32602` |
+| `forecast_load_shape` | Load-shape predictions | feeder_id: str, horizon_hours: int | LoadShapeForecast | 300 ms | `-32602` |
+
+#### `axlecml-mcp` Tool Inventory
+
+| Tool | Purpose | Inputs | Output | p95 latency | Key errors |
+|---|---|---|---|---|---|
+| `read_production_event` | Production events for line/window | line_id: str, window_hours: int | ProductionEvent[] | 100 ms | `-32602` |
+| `read_asset_health` | Equipment health signals | line_id?: str, asset_id?: str | AssetHealthSignal[] | 120 ms | `-32602` |
+| `read_material_flow` | Material arrival/consumption | line_id: str, window_hours: int | MaterialFlowEvent[] | 100 ms | `-32602` |
+| `read_quality_excursion` | SPC excursions | line_id: str, window_hours: int | QualityExcursion[] | 120 ms | `-32602` |
+| `read_genealogy` | Forward/backward part genealogy | unit_id: str, direction: enum | GenealogyRecord | 200 ms | `-32002` |
+| `read_product_lot` | Lot records + material traceability | lot_id: str | ProductLot | 100 ms | `-32002` |
+| `read_supplier_event` | Supplier disruption records | supplier_id?: str, window_days: int | SupplierEvent[] | 100 ms | `-32602` |
+| `read_purchase_order` | PO state | po_id?: str, supplier_id?: str | PurchaseOrder[] | 80 ms | `-32602` |
+| `read_inventory_position` | Per-location inventory | location_id: str | InventoryPosition[] | 100 ms | `-32602` |
+| `read_recall_notice` | Active recalls | recall_id?: str, status?: enum | RecallNotice[] | 80 ms | `-32602` |
+| `read_shipment` | Outbound shipment tracking | shipment_id?: str, lot_id?: str | Shipment[] | 100 ms | `-32602` |
+| `read_kpi_snapshot` | OEE/yield/scrap rollups | period: enum, line_id?: str | KpiSnapshot[] | 80 ms | `-32602` |
+
+### E.7 Exhaustive Tool Catalog — Utility MCP Servers
+
+#### `fabric-mcp` — Gold-View Gateway
+
+Beyond the domain-specific tools above (which all route through fabric-mcp physically), this server also exposes cross-schema utility tools:
+
+| Tool | Purpose | Inputs | Output |
+|---|---|---|---|
+| `gold_view_read` | Direct Gold view read with RLS | view_name: str, predicate?: SqlFilter | RowSet |
+| `silver_read_with_scope` | Rare Silver direct read (audit-flagged) | table: str, key_filter: obj | RowSet |
+| `schema_inventory` | List available Gold views + columns | practice?: enum | SchemaInventory |
+
+#### `policy-mcp` — Gate Resolution & Access Policy
+
+| Tool | Purpose | Inputs | Output |
+|---|---|---|---|
+| `resolve_gate` | Bump-class → gate kind per tenant | service_id, bump_class, tenant_id | GateKind |
+| `get_upgrade_policy` | Tenant's upgrade policy | tenant_id | UpgradePolicy |
+| `verify_tenant_access` | Managed-identity scope check | caller_identity, tenant_id | AccessGrant/Denial |
+| `check_persona_authority` | Is persona authorised for this gate? | persona_id, gate_kind, service_id | AuthorityResult |
+
+#### `telemetry-mcp` — Trace & Audit Emission
+
+| Tool | Purpose | Inputs | Output |
+|---|---|---|---|
+| `emit_trace_event` | Span under agent operation_Id | operation_id, event_type, attrs | Ack |
+| `emit_decision_audit` | Canonical audit row write | operation_id, audit_row: DecisionAuditRecord | Ack |
+| `emit_drift_alert` | Flag manifest or data drift | practice, manifest_version, drift_detail | Ack |
+| `emit_security_event` | Security-relevant event | severity, event_type, detail | Ack |
+
+#### `approvals-mcp` — Human Approval Orchestration
+
+| Tool | Purpose | Inputs | Output |
+|---|---|---|---|
+| `send_card` | Teams adaptive card | recipient_group, card: AdaptiveCard, timeout_min | ApprovalHandle |
+| `poll_decision` | Poll decision state | handle: ApprovalHandle | Decision/Pending/Timeout |
+| `escalate` | Elevate to escalation path | handle, escalation_reason | Ack |
+| `send_ack_notification` | Non-blocking ACK_ONLY notify | recipient_group, summary: str | Ack |
+| `get_decision_history` | Historical decisions for operator | operator_oid, window_days: int | DecisionHistoryRecord[] |
+
+#### `tokenizer-mcp` — PII Tokenisation
+
+| Tool | Purpose | Inputs | Output |
+|---|---|---|---|
+| `tokenize` | Cleartext → token | cleartext: str, category: str | Token |
+| `reverse_tokenize` | Token → cleartext (audit-logged) | token: str, purpose: str | CleartextResult |
+| `lookup_consent` | Consent flags for customer | customer_id_tkn, purpose | ConsentRecord |
+| `consent_check` | ALLOW/DENY decision | customer_id_tkn, data_class, purpose | ConsentResult |
+| `bulk_tokenize` | Batch tokenisation for Silver transforms | cleartext_batch: str[], category: str | Token[] |
+| `rotate_tokens` | Token rotation for right-to-erasure | customer_id_tkn, new_scope_spec | RotationResult |
+
+#### `ledger-mcp` — Write-Back Staging
+
+| Tool | Purpose | Inputs | Output |
+|---|---|---|---|
+| `stage_writeoff` | Stage inventory write-off | event_id, amount_usd, category, justification | LedgerEntryId |
+| `stage_credit` | Stage customer credit | customer_id_tkn, amount_usd, reason | LedgerEntryId |
+| `stage_correction` | Stage price/inventory correction | correction: CorrectionSpec | LedgerEntryId |
+| `stage_dispute` | Stage vendor dispute | vendor_id, dispute: DisputeSpec | LedgerEntryId |
+| `promote_staged_entry` | Promote post-HITL approval | ledger_entry_id | PromotionResult |
+| `unstage_entry` | Cancel staged entry | ledger_entry_id, reason | Ack |
+
+### E.8 Exhaustive Tool Catalog — External MCP Servers
+
+External MCPs wrap third-party / regulatory / partner systems. Each exposes a small focused tool-set.
+
+**`fda-mcp`:** `lookup_threshold`, `check_recall_match`, `search_active_recalls`, `get_recall_details`, `subscribe_recall_feed`.
+
+**`ferc-mcp`:** `lookup_reporting_obligation`, `get_filing_template`, `submit_filing_draft`, `get_filing_status`.
+
+**`edi-mcp`:** `parse_856`, `parse_850`, `parse_810`, `send_dispute_812`, `get_interchange_status`.
+
+**`pharma-recall-mcp`:** `lookup_pharma_recall`, `check_lot_match`, `subscribe_pharma_feed`.
+
+**`trials-registry-mcp`:** `search_open_trials`, `get_trial_detail`, `get_site_activation_status`.
+
+**`nhtsa-mcp`:** `lookup_safety_recall`, `submit_recall_notification`, `get_investigation_status`.
+
+**`scada-mcp`:** `subscribe_feeder_telemetry`, `issue_operator_command`, `get_topology_snapshot`.
+
+**`sap-qm-mcp`:** `read_quality_notification`, `read_inspection_lot`, `create_capa`.
+
+**`vendor-portal-mcp`:** `get_supplier_status`, `send_asn_query`, `read_po_acknowledgment`.
+
+**`comms-mcp`:** `send_sms`, `send_email`, `send_voice_callout`, `get_delivery_status` (all consent-gated).
+
+### E.9 Per-Tool SLO Reference
+
+Every tool ships with a defined SLO. Bucket targets:
+
+| Tool class | Target p95 | Target availability |
+|---|---|---|
+| Domain reads (hot path, Gold-backed) | ≤ 200 ms | 99.9% |
+| Domain reads (warm path, Silver with scope) | ≤ 500 ms | 99.5% |
+| Reasoning-tier queries | 1–5 s | 99.5% |
+| Utility: policy / telemetry / approvals | ≤ 100 ms | 99.95% |
+| Utility: tokeniser | ≤ 50 ms (cached) / ≤ 500 ms (cold) | 99.99% |
+| External: public feed pulls | ≤ 2 s | 99% |
+| External: regulatory filings | ≤ 30 s | 99% |
+
+Availability targets above 99.9% are only achieved in Enterprise-tier deployments with redundant Container App replicas and cross-region failover; Essentials/Pro tiers target 99.5% with single-region deployment.
 
 ---
 
