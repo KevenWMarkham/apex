@@ -2198,6 +2198,439 @@ APEX is delivered as a Deloitte-Microsoft joint offering. Revenue attribution, M
 
 For select services (RVC-03 Denial Recovery, SHK-07 Shrink, ICE-WCP-03 Warranty Pattern), the commercial model allows a value-share option: lower base fee in exchange for a percentage of measurable benefit captured. The audit-row-based value attribution makes this viable operationally; clients who opt for value-share typically align faster internally because the vendor is a direct beneficiary of the programme's success.
 
+## Chapter 17B: Entity Priority & Build Sequencing
+
+APEX's schema catalogue has **112 canonical entities** across six GA schema families (SCML, MERML, CXML, HLSCML, ERCML, AXLECML) and three preview families (TMTML, THML, ICEML). Delivery teams who try to land all of them in Wave 1 fail. Delivery teams who land the right 4–8 entities per Practice in Wave 1 succeed. This chapter is the deep-dive on which entities to land first, and why.
+
+The priority guidance here is the single most-consulted operational chapter of the APEX reference after a kickoff workshop. It is also the chapter most-revised between Core editions because the priority calculus evolves as Practices mature and as service demand shifts.
+
+### 17B.1 Why Entity Priority Matters
+
+Entities are the atomic unit of build effort in APEX. Each entity carries cost in five dimensions:
+
+1. **SOR integration cost.** A Bronze ingest path must exist (Eventstream / Mirrored Database / Data Pipeline / Dataflow Gen2) and be tested, monitored, and SLO-committed.
+2. **Silver transform cost.** A PySpark notebook (or equivalent) must canonicalise the SOR payload into the entity's envelope-compliant shape, tokenising any PII at the boundary.
+3. **Gold view cost.** A materialised view with agent-latency-appropriate structure must be defined, refresh-scheduled, and tuned.
+4. **MCP tool exposure cost.** At least one MCP tool must expose the entity's Gold view to agents with a typed contract.
+5. **Observability cost.** Every layer (Bronze → Silver → Gold → tool) must emit SLO-relevant telemetry and be panel-represented in the Azure Monitor workbook.
+
+A single entity end-to-end is typically **2–4 weeks of elapsed time** for an experienced APEX delivery team once the first entity in a Practice has been landed (the first entity in a Practice carries additional overhead — identity groups, reference tables, tokeniser wiring — amortised across all subsequent entities).
+
+**Multiply this by 18 entities in HLSCML and the math is clear: you cannot land a full Practice catalogue in Wave 1. You must pick.**
+
+### 17B.2 The Prioritization Framework
+
+APEX's prioritization framework scores each entity on six dimensions, each 1–5:
+
+| Dimension | What it captures | 5 = highest |
+|---|---|---|
+| **Service dependency count** | How many Wave-1 services require this entity? | Entity anchors 3+ services |
+| **Tier weight** | Is this entity needed for Essentials/Pro/Enterprise-tier services? | Required for Enterprise-tier |
+| **SOR availability** | Is the SOR data accessible with acceptable latency? | SOR already integrated or trivial |
+| **Decision-latency demand** | Does a downstream service have sub-minute SLOs? | Sub-30-second SLO |
+| **PII / regulatory sensitivity** | Does the entity require tokenisation or special compliance? | HIPAA / PHI / 21 CFR |
+| **Cross-practice reuse** | Is the entity shared with other Practices? | Shared with 2+ Practices |
+
+Total score = sum of the six dimensions, range 6–30. Scoring buckets:
+
+- **Score 24–30** → **Wave 1 (must-have)** — cannot ship the Practice's Wave 1 services without these
+- **Score 18–23** → **Wave 2 (should-have)** — required for the full Practice catalogue
+- **Score 12–17** → **Wave 3 (optional)** — optimisation and expansion
+- **Score < 12** → **Deferred** — not needed until demand materialises
+
+This is a deliberately mechanical framework. It removes the "let's land them all because completeness" instinct that kills timelines.
+
+### 17B.3 Universal Foundation Entities (All Practices)
+
+Before any Practice-specific entity lands, every APEX deployment needs the foundational entities. These are built once per tenant and shared across every Practice the tenant subscribes to.
+
+| Foundation entity | Purpose | When to land |
+|---|---|---|
+| `silver_decision_audit` | Append-only decision audit log; customer-managed keys | Week 1–2 of Wave 1 |
+| `silver_ledger_staging` | Staging for write-backs via `ledger-mcp` | Week 3–4 of Wave 1 |
+| `apex_drift_log` | Drift-detection log (tenant divergence from pinned Practice) | Week 4 of Wave 1 |
+| `apex_audit_log` | Security-adjacent audit events (reverse-tokenise, PII unlock) | Week 1–2 of Wave 1 |
+| `consent_flag_registry` | Per-customer consent state (any Practice with tokenised customers) | Week 4–6 of Wave 1 |
+| `ref_practice_registry` | Pinned-version reference for the tenant | Week 1 of Wave 1 |
+| Practice master (store / patient / meter / plant / asset / etc.) | SCD2 dimension table for the primary entity identifier of the Practice | Week 2–3 of Wave 1 |
+
+Foundation entities are **never** deferred. They are what makes every downstream service auditable, governable, and rollback-ready. A Wave-1 programme that runs short on budget still ships these.
+
+### 17B.4 RC Practice Entity Priority
+
+The RC Practice has 27 entities across SCML, MERML, and CXML. Wave-1 guidance for a typical RC engagement (Cold Chain + Receiving Variance as the first two services):
+
+#### Wave 1 (Must-Have)
+
+| Entity | Schema | Score | Rationale |
+|---|---|---|---|
+| `SCML.COLD_CHAIN_TELEMETRY` | SCML | 28 | Anchors CXP-01; sub-minute SLO; Monnit SOR already common |
+| `SCML.TEMPERATURE_EXCURSION` | SCML | 27 | Derived from telemetry; required for disposition classifier |
+| `MERML.STORE_INVENTORY_POSITION` | MERML | 29 | Shared across CXP-01, RVD-02, OSA-04; anchors inventory services |
+| `SCML.ASN` | SCML | 24 | Anchors RVD-02; EDI-856 integration well-understood |
+| `SCML.STORE_RECEIVING_EVENT` | SCML | 25 | Required for receiving-variance decisions |
+| `SCML.RECEIVING_DISCREPANCY` | SCML | 24 | Derived entity; ships alongside STORE_RECEIVING_EVENT |
+
+#### Wave 2 (Should-Have)
+
+| Entity | Schema | Score | Services enabled |
+|---|---|---|---|
+| `MERML.PRICE_RECORD` | MERML | 22 | ESL-03 |
+| `MERML.PRICE_TAG_STATUS` | MERML | 22 | ESL-03 |
+| `MERML.PROMOTION_ACTIVATION` | MERML | 20 | ESL-03 |
+| `MERML.OSA_EVENT` | MERML | 21 | OSA-04 |
+| `CXML.FULFILLMENT_ORDER` | CXML | 20 | BPX-06 |
+| `CXML.PICK_EXCEPTION` | CXML | 20 | BPX-06 |
+| `CXML.SUBSTITUTION_EVENT` | CXML | 19 | BPX-06 |
+| `CXML.LOYALTY_STATE` | CXML | 21 | BPX-06, RCL-05, CXI-08 |
+| `SCML.DSD_INVOICE` | SCML | 19 | RVD-02 vendor-pattern detection (retrofit after Wave 1 proof) |
+
+#### Wave 3 (Optional)
+
+| Entity | Schema | Score | Services enabled |
+|---|---|---|---|
+| `SCML.RECALL_NOTICE` | SCML | 17 | RCL-05 (Enterprise tier; not all tenants) |
+| `SCML.LOT_TRACE` | SCML | 17 | RCL-05, CXI-08 |
+| `MERML.POS_VOID` | MERML | 16 | SHK-07 (Enterprise only) |
+| `MERML.SHRINK_EVENT` | MERML | 15 | SHK-07 |
+| `MERML.CYCLE_COUNT_VARIANCE` | MERML | 15 | SHK-07 |
+| `MERML.MARKDOWN_EVENT` | MERML | 14 | Optimization; not anchor for any service |
+| `MERML.WASTE_EVENT` | MERML | 13 | Reporting-only |
+| `CXML.CUSTOMER_INCIDENT` | CXML | 16 | CXI-08 |
+
+### 17B.5 HLS Practice Entity Priority
+
+HLS carries 18 HLSCML entities plus a pharmacy-supply subset of SCML. PHI tokenisation adds about 30% to the per-entity build cost, making priority discipline even more important here.
+
+#### Wave 1 (Must-Have)
+
+| Entity | Schema | Score | Rationale |
+|---|---|---|---|
+| `HLSCML.PATIENT_ENCOUNTER` | HLSCML | 30 | Anchors DSR-01, SEP-02, CTM-05, PSI-06. The hardest Wave-1 entity; Epic integration is the critical path |
+| `HLSCML.VITALS` | HLSCML | 26 | Required for SEP-02; FHIR real-time integration |
+| `HLSCML.LAB_RESULT` | HLSCML | 25 | Required for SEP-02 |
+| `HLSCML.CARE_PLAN` | HLSCML | 23 | Anchors DSR-01 discharge prediction |
+| `HLSCML.CLAIM_DENIAL` | HLSCML | 24 | Anchors RVC-03 (different SOR path — X12 feeds) |
+
+Note: a common HLS Wave-1 pattern lands `PATIENT_ENCOUNTER` + `CARE_PLAN` for DSR-01 first, **then** adds `VITALS` + `LAB_RESULT` in Wave 1.5 as SEP-02 is piloted. DSR-01 ships at week 18–20; SEP-02 at week 24–26.
+
+#### Wave 2 (Should-Have)
+
+| Entity | Schema | Score | Services enabled |
+|---|---|---|---|
+| `HLSCML.CLINICAL_OBSERVATION` | HLSCML | 22 | DSR-01 enrichment; cross-service |
+| `HLSCML.CODING_RECORD` | HLSCML | 22 | RVC-03 |
+| `SCML.LOT_EXPIRATION_STATE` | SCML (pharmacy subset) | 20 | SUP-04 |
+| `SCML.RECALL_NOTICE` | SCML (pharmacy subset) | 20 | SUP-04 recall intersection |
+| `HLSCML.PATIENT_SAFETY_EVENT` | HLSCML | 19 | PSI-06 |
+| `HLSCML.INCIDENT_CLASSIFICATION` | HLSCML | 19 | PSI-06 |
+
+#### Wave 3 (Optional)
+
+| Entity | Schema | Score | Services enabled |
+|---|---|---|---|
+| `HLSCML.TRIAL_PROTOCOL` | HLSCML | 16 | CTM-05 (not every health system runs trials) |
+| `HLSCML.ELIGIBILITY_CRITERIA` | HLSCML | 16 | CTM-05 |
+
+### 17B.6 ER Practice Entity Priority
+
+#### Wave 1 (Must-Have)
+
+| Entity | Schema | Score | Rationale |
+|---|---|---|---|
+| `ERCML.METER_READING` | ERCML | 28 | Anchors MTR-01; high-volume entity |
+| `ERCML.BILLING_EXCEPTION` | ERCML | 25 | Anchors BIL-03 |
+| `ERCML.OUTAGE_EVENT` | ERCML | 24 | Required for MTR-01 dispatch logic |
+
+#### Wave 2 (Should-Have)
+
+| Entity | Schema | Score | Services enabled |
+|---|---|---|---|
+| `ERCML.WORK_ORDER` | ERCML | 23 | FWO-04 |
+| `ERCML.CREW_STATE` | ERCML | 22 | FWO-04 |
+| `ERCML.ASSET_HEALTH` | ERCML | 22 | FWO-04; cross-Practice with AXLECML |
+| `ERCML.SCADA_TELEMETRY` | ERCML | 20 | GRD-02 (wait to Wave 2 unless client requires early grid focus) |
+| `ERCML.GRID_ANOMALY` | ERCML | 20 | GRD-02 |
+| `ERCML.CUSTOMER_SERVICE_STATE` | ERCML | 19 | GRD-02 customer-impact math |
+| `ERCML.RATE_SCHEDULE` | ERCML | 19 | BIL-03 |
+
+#### Wave 3 (Optional)
+
+| Entity | Schema | Score | Services enabled |
+|---|---|---|---|
+| `ERCML.REGULATORY_EVENT` | ERCML | 17 | REG-05 (Enterprise only) |
+| `ERCML.RELIABILITY_METRIC` | ERCML | 16 | REG-05 |
+
+### 17B.7 AXLE Practice Entity Priority
+
+#### Wave 1 (Must-Have)
+
+| Entity | Schema | Score | Rationale |
+|---|---|---|---|
+| `AXLECML.PRODUCTION_EVENT` | AXLECML | 28 | Anchors LDT-01, KPI-05 |
+| `AXLECML.ASSET_HEALTH` | AXLECML | 27 | Anchors LDT-01; shared with ERCML |
+| `AXLECML.KPI_SNAPSHOT` | AXLECML | 23 | KPI-05 |
+
+#### Wave 2 (Should-Have)
+
+| Entity | Schema | Score | Services enabled |
+|---|---|---|---|
+| `AXLECML.QUALITY_EXCURSION` | AXLECML | 22 | QEX-02 |
+| `AXLECML.GENEALOGY` | AXLECML | 22 | QEX-02, RCL-04; shared with ICE |
+| `AXLECML.MATERIAL_FLOW` | AXLECML | 20 | LDT-01 enrichment |
+| `AXLECML.PRODUCT_LOT` | AXLECML | 19 | QEX-02 |
+| `AXLECML.SUPPLIER_EVENT` | AXLECML | 19 | SCD-03 |
+| `AXLECML.PURCHASE_ORDER` | AXLECML | 18 | SCD-03 |
+| `AXLECML.INVENTORY_POSITION` | AXLECML | 18 | SCD-03 |
+
+#### Wave 3 (Optional)
+
+| Entity | Schema | Score | Services enabled |
+|---|---|---|---|
+| `AXLECML.RECALL_NOTICE` | AXLECML | 16 | RCL-04 |
+| `AXLECML.SHIPMENT` | AXLECML | 16 | RCL-04 forward trace |
+
+### 17B.8 TMT Practice Entity Priority (Preview)
+
+TMT entities are in build; priority scores are provisional and will be re-validated at GA.
+
+#### Wave 1 (Must-Have)
+
+| Entity | Schema | Score | Rationale |
+|---|---|---|---|
+| `TMTML.NETWORK_INCIDENT` | TMTML | 27 | Anchors NET-01 |
+| `TMTML.CUSTOMER_SUBSCRIPTION_STATE` | TMTML | 26 | Anchors CCI-02; cross-service |
+| `TMTML.INTERACTION_HISTORY` | TMTML | 23 | Required for churn-risk scoring in CCI-02 |
+
+#### Wave 2 (Should-Have)
+
+| Entity | Schema | Score | Services enabled |
+|---|---|---|---|
+| `TMTML.CHURN_SIGNAL` | TMTML | 22 | CCI-02 enrichment |
+| `TMTML.SAVE_OFFER` | TMTML | 21 | CCI-02 outcome tracking |
+| `TMTML.SUBSCRIPTION_EXCEPTION` | TMTML | 20 | SUB-04 |
+| `TMTML.CLOUD_COST_ANOMALY` | TMTML | 20 | CCA-05 |
+| `TMTML.RESOURCE_TELEMETRY` | TMTML | 19 | CCA-05 |
+
+#### Wave 3 (Optional)
+
+| Entity | Schema | Score | Services enabled |
+|---|---|---|---|
+| `TMTML.CONTENT_RIGHTS_INCIDENT` | TMTML | 17 | CRV-03 (Media sub-variant only) |
+| `TMTML.CONTENT_PIECE` | TMTML | 16 | CRV-03 |
+| `TMTML.AD_IMPRESSION_SUSPECT` | TMTML | 16 | ADF-06 (Media sub-variant only) |
+| `TMTML.5G_SLICE_STATE` | TMTML | 15 | 5GO-07 (Telco sub-variant only) |
+
+### 17B.9 TH Practice Entity Priority (Preview)
+
+#### Wave 1 (Must-Have)
+
+| Entity | Schema | Score | Rationale |
+|---|---|---|---|
+| `THML.BOOKING_RECORD` | THML | 26 | Anchors OBI-01; cross-service |
+| `THML.DISRUPTION_EVENT` | THML | 26 | Anchors DRO-02 |
+| `THML.HOUSEKEEPING_EXCEPTION` | THML | 22 | Anchors HER-06 — common first-service for hotel pilots |
+
+#### Wave 2 (Should-Have)
+
+| Entity | Schema | Score | Services enabled |
+|---|---|---|---|
+| `THML.LOYALTY_GUEST_STATE` | THML | 21 | LGR-03, DRO-02 rebooking prioritisation |
+| `THML.RECOVERY_ACTION` | THML | 21 | DRO-02 outcome tracking |
+| `THML.REVENUE_MANAGEMENT_STATE` | THML | 20 | RMA-04 |
+| `THML.INVENTORY_STATE` | THML | 19 | OBI-01 |
+| `THML.GUEST_INCIDENT` | THML | 19 | GIT-05 |
+
+#### Wave 3 (Optional)
+
+| Entity | Schema | Score | Services enabled |
+|---|---|---|---|
+| `THML.RATE_ANOMALY` | THML | 17 | RMA-04 enrichment |
+
+### 17B.10 ICE Practice Entity Priority (Preview)
+
+ICE leverages shared entities from AXLECML (ASSET_HEALTH, GENEALOGY) and ERCML (WORK_ORDER-analog). Shared entities carry a scoring boost because they've been built once for another Practice.
+
+#### Wave 1 (Must-Have)
+
+| Entity | Schema | Score | Rationale |
+|---|---|---|---|
+| `ICEML.FIELD_INCIDENT` | ICEML | 26 | Anchors FAF-01 |
+| `ICEML.PARTS_INVENTORY_POSITION` | ICEML | 24 | Anchors SPA-02; required by FAF-01 |
+| `ICEML.TECHNICIAN_STATE` | ICEML | 23 | Required for dispatch in FAF-01 |
+| `ICEML.FIELD_ASSET_DEPLOYMENT` | ICEML | 23 | Anchors FAF-01 customer-site attribution |
+
+#### Wave 2 (Should-Have)
+
+| Entity | Schema | Score | Services enabled |
+|---|---|---|---|
+| `ICEML.WARRANTY_CLAIM` | ICEML | 22 | WCP-03 |
+| `ICEML.CONTRACT_RENEWAL_STATE` | ICEML | 20 | CRV-04 |
+| `ICEML.AS_A_SERVICE_UTILIZATION` | ICEML | 20 | AAU-05 (required for XaaS clients) |
+
+#### Wave 3 (Optional)
+
+| Entity | Schema | Score | Services enabled |
+|---|---|---|---|
+| `ICEML.COMPLIANCE_INSPECTION` | ICEML | 17 | CIR-06 (regulated-equipment clients only) |
+
+### 17B.11 Shared Entities Across Practices
+
+Shared entities are a delivery accelerator: build once in Practice A, reuse (via OneLake shortcut) in Practice B. The shared entities in the APEX catalogue:
+
+| Shared entity | Primary Practice | Secondary Practices | Use pattern |
+|---|---|---|---|
+| `AXLECML.ASSET_HEALTH` / `ERCML.ASSET_HEALTH` | AXLE + ER | ICE | Unified asset-condition model across industrial equipment |
+| `AXLECML.GENEALOGY` | AXLE | ICE, HLS (medical-device lot trace) | Forward/backward lot tracing |
+| `SCML.RECALL_NOTICE` | RC | HLS (pharmacy), AXLE (manufactured goods), ICE (equipment) | Regulatory recall signal across industries |
+| `SCML.LOT_TRACE` | RC | HLS, AXLE, ICE | Lot genealogy for recall response |
+| `CXML.LOYALTY_STATE` | RC | HLS (patient tokens), TMT (subscriber state), TH (loyalty guest) | Tokenised customer state |
+| `ERCML.WORK_ORDER` / `ICEML.WORK_ORDER` | ER + ICE | AXLE (plant maintenance WO) | Shared dispatch/work-order model |
+
+Shared entities save roughly **40-60% of the second-Practice build effort** when a client subscribes to multi-Practice. This is the commercial argument for multi-Practice clients — the second Practice is materially cheaper than the first because the shared entities are already built.
+
+### 17B.12 Entity Dependency Graph
+
+```mermaid
+flowchart TB
+  subgraph Foundation["Foundation (Week 1-4 of Wave 1)"]
+    F1[silver_decision_audit]
+    F2[silver_ledger_staging]
+    F3[apex_audit_log]
+    F4[ref_practice_registry]
+    F5[Practice master SCD2]
+  end
+  subgraph RC_W1["RC Wave 1 Anchors"]
+    RC1[SCML.COLD_CHAIN_TELEMETRY]
+    RC2[SCML.TEMPERATURE_EXCURSION]
+    RC3[MERML.STORE_INVENTORY_POSITION]
+    RC4[SCML.ASN + STORE_RECEIVING_EVENT]
+  end
+  subgraph HLS_W1["HLS Wave 1 Anchors"]
+    H1[HLSCML.PATIENT_ENCOUNTER]
+    H2[HLSCML.CARE_PLAN]
+    H3[HLSCML.CLAIM_DENIAL]
+  end
+  subgraph ER_W1["ER Wave 1 Anchors"]
+    E1[ERCML.METER_READING]
+    E2[ERCML.BILLING_EXCEPTION]
+  end
+  subgraph Shared["Shared Entities"]
+    S1[ASSET_HEALTH]
+    S2[GENEALOGY]
+    S3[RECALL_NOTICE]
+    S4[LOYALTY_STATE]
+  end
+  Foundation --> RC_W1
+  Foundation --> HLS_W1
+  Foundation --> ER_W1
+  RC_W1 -.-> Shared
+  HLS_W1 -.-> Shared
+  ER_W1 -.-> Shared
+  Shared -.-> AXLE[AXLE Practice]
+  Shared -.-> ICE[ICE Practice]
+  Shared -.-> TMT[TMT Practice]
+  Shared -.-> TH[TH Practice]
+```
+
+### 17B.13 Build Sequencing Patterns
+
+Three patterns work in practice; two anti-patterns reliably fail.
+
+#### The "Foundation-First" Pattern (recommended)
+
+1. Stand up tenant workspace topology (week 1)
+2. Land all 7 foundation entities (weeks 1–4)
+3. Land the first Practice's Wave-1 anchor entities (weeks 4–12)
+4. Ship first 2 services (weeks 12–20)
+5. Add Wave-2 entities in parallel with Wave-2 service authoring
+
+**Why it works:** Audit and ledger are in place before the first decision is made; downstream entities benefit from mature patterns; delivery team builds rhythm.
+
+#### The "Anchor-Service-First" Pattern (acceptable for aggressive timelines)
+
+1. Stand up tenant workspace topology (week 1)
+2. Identify the single most-valuable service for the client
+3. Land only the foundation entities and the entities that specific service needs (weeks 1–8)
+4. Ship that one service (weeks 8–14)
+5. Expand entity catalogue based on proven Wave-1 value
+
+**Why it works (sometimes):** Delivers a single-service ROI proof in ~14 weeks; funds the rest of Wave 1. **Risk:** if the chosen service has an SOR integration surprise, the whole Wave 1 is at risk.
+
+#### The "Shared-Entity-First" Pattern (multi-Practice clients)
+
+1. Stand up foundation + first Practice's Wave-1 anchors
+2. Deliberately build shared entities (ASSET_HEALTH, GENEALOGY, etc.) in the first Practice's Wave-2
+3. Second Practice Wave-1 then inherits those shared entities at near-zero cost
+4. Results in 40-60% faster second-Practice Wave 1
+
+**When to use:** clients who have signalled multi-Practice intent from the start.
+
+#### Anti-Pattern 1: "Land All SCML Entities First"
+
+Trying to ship a complete schema family before moving to another family. Fails because the slower entities in SCML delay RC services that depend on MERML and CXML.
+
+#### Anti-Pattern 2: "The Reference-Architecture Tour"
+
+Landing entities because they're in the reference architecture rather than because services need them. Produces an impressive Bronze/Silver/Gold view with no live services, and the programme gets cancelled for "no value delivered."
+
+### 17B.14 Wave 1 Minimum Viable Entity Set Per Practice
+
+The absolute minimum to ship Wave 1. Below these counts, no Practice's Wave-1 services can go live.
+
+| Practice | Minimum entities | Anchor services | Typical Wave-1 timeline |
+|---|---|---|---|
+| RC | 6 (3 SCML + 1 MERML + 2 audit) | CXP-01 + RVD-02 | 18–22 weeks |
+| HLS | 5 (3 HLSCML + 2 audit) | DSR-01 + RVC-03 | 22–26 weeks |
+| ER | 4 (3 ERCML + 1 audit) | MTR-01 + BIL-03 | 18–22 weeks |
+| AXLE | 4 (3 AXLECML + 1 audit) | LDT-01 + KPI-05 | 20–24 weeks |
+| TMT | 4 (3 TMTML + 1 audit) | NET-01 + CCI-02 | 20–24 weeks |
+| TH | 4 (3 THML + 1 audit) | DRO-02 + HER-06 | 16–20 weeks |
+| ICE | 5 (4 ICEML + 1 audit) | FAF-01 + SPA-02 | 18–22 weeks |
+
+Note: "audit" in the minimum count is shorthand for the foundation entities, which are shared across all Practices at a tenant.
+
+### 17B.15 Entity Build Effort Estimates
+
+A first-time-at-client entity typically requires:
+
+| Phase | Effort | Owner |
+|---|---|---|
+| SOR connector design | 0.5–1 week | Data engineer + SOR SME |
+| SOR Bronze landing + smoke test | 0.5–1 week | Data engineer |
+| Silver transform + tokenisation | 1–2 weeks | Data engineer + tokeniser owner |
+| Gold view definition + performance tuning | 0.5–1 week | Data engineer |
+| MCP tool wiring | 0.5–1 week | Agent engineer |
+| Observability + SLO panels | 0.5 week | SRE |
+| Fixture generation + integration test | 0.5–1 week | Full-stack |
+| **Total (first entity in Practice)** | **4–8 weeks elapsed** | — |
+| **Total (subsequent entities in same Practice)** | **2–3 weeks elapsed** | — |
+
+Effort decreases after the first entity because identity patterns, tokeniser wiring, capacity sizing, and monitoring dashboards are reusable across the Practice's entities.
+
+### 17B.16 Entity Priority in the Wave-1 Budget Model
+
+Entity counts drive Wave-1 budgets. A rule-of-thumb conversion:
+
+- **Per-entity cost (first entity in Practice):** ~$150K–$300K full-stack
+- **Per-entity cost (subsequent entities in same Practice):** ~$60K–$120K
+- **Per-entity cost (shared entity landing in second Practice):** ~$20K–$40K
+
+For an RC Wave-1 with 6 must-have entities: first entity $250K + 5 × $90K ≈ $700K of the Wave-1 budget is entity-landing cost. The remaining ~$3–5M goes to agent authoring, orchestration DAGs, HITL-gate wiring, observability buildout, and change management.
+
+This is the math that makes "land everything" infeasible and "pick the right six" essential.
+
+### 17B.17 Priority Re-Scoring Cadence
+
+The framework is not static. Priority is re-scored at:
+
+- **Wave exits.** Actual delivery data replaces estimates; the framework is updated for the next engagement.
+- **Practice GA events.** Preview-practice entities (TMT, TH, ICE) re-score when they go GA.
+- **Core edition upgrades.** New entities introduced by schema bumps enter the framework at publication.
+- **Client demand shifts.** If three consecutive clients ask for a service that was Wave-3, that service (and its anchor entity) re-scores into Wave-2.
+
+The Core team publishes a versioned Priority Framework twice per year alongside Core edition releases.
+
 ## Chapter 18: Quarterly Milestone Summary
 
 A typical 18-month APEX programme, quarter by quarter:
