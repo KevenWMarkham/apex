@@ -15,7 +15,17 @@
 
 This is the strategic reference for APEX — the Agentic Platform for Enterprise eXecution. It is written for executives who approve the investment, architects who design the implementation, and delivery leads who run the programme. If you are a developer looking for code-level detail, open the companion *APEX Developer Implementation Guide* alongside this document.
 
-APEX is a **multi-industry platform**. It ships today as four Practices — Retail & Consumer, Healthcare & Life Sciences, Energy & Resources, and Industrial & Manufacturing — with 24 subscribable services across them. Where a companion framework like AXLE goes deep on one vertical, APEX goes broad across verticals while keeping one contract, one data plane, and one intelligence plane. The two are complementary: APEX is the platform; AXLE is an industry-deep programme that a client can adopt alongside (or inside) their APEX footprint.
+APEX is a **multi-industry platform**. It defines seven Practices that span the enterprise economy, where a companion framework like AXLE goes deep on one vertical (automotive), APEX goes broad across verticals while keeping one contract, one data plane, and one intelligence plane:
+
+- **RC — Retail & Consumer** (GA v1.2 · 8 services · Store 100 exemplar tenant)
+- **HLS — Healthcare & Life Sciences** (GA v1.2 · 6 services)
+- **ER — Energy & Resources** (GA v1.2 · 5 services)
+- **AXLE — Automotive** (GA v1.2 · 5 services · complementary to the AXLE programme)
+- **TMT — Technology, Media & Telecom** (Active-build · 7 services drafted · GA target Q3 2026)
+- **TH — Travel & Hospitality** (Active-build · 6 services drafted · GA target Q2 2026)
+- **ICE — Industrial & Commercial Equipment** (Active-build · 6 services drafted · GA target Q3 2026)
+
+Current catalog: **24 GA services + 19 in build = 43 catalogued services**. AXLE is one of these seven Practices; for clients who commit to deep automotive transformation, the full AXLE Comprehensive Reference programme is available alongside. The two are complementary: APEX is the cross-industry platform; AXLE is an automotive-depth programme that a client can adopt alongside (or inside) their APEX footprint.
 
 This document sets out **what APEX is, why it matters now, what it ships with, and how clients land it**. The structure mirrors the reference document pattern Deloitte uses for flagship platform offerings: forces of change, AI journey, maturity model, human element, platform architecture, industry-practice chapters, implementation roadmap, appendices.
 
@@ -41,13 +51,13 @@ This document sets out **what APEX is, why it matters now, what it ships with, a
 
 **Part I — Foundation** (chapter 1, strategic overview)
 
-**Part II — Industry Practices** (chapters 2–5: RC, HLS, ER, AXLE)
+**Part II — Industry Practices** (chapters 2–8: RC, HLS, ER, AXLE, TMT, TH, ICE)
 
-**Part III — Cross-Practice Capabilities** (chapters 6–8: shared services, observability, governance)
+**Part III — Cross-Practice Capabilities** (chapters 9–11: shared services, observability, governance)
 
-**Part IV — Implementation & Delivery** (chapters 9–11: waves, onboarding, scaling)
+**Part IV — Implementation & Delivery** (chapters 12–18: waves, onboarding, scaling, resource model, governance, change management, milestones)
 
-**Part V — Future State** (chapter 12: the autonomous enterprise)
+**Part V — Future State** (chapters 19–26: four-tier innovation model, autonomous enterprise, multi-tenant scaling)
 
 **Appendices** — Schema Reference · Service Registry · Personas · MCP Tools · Microsoft SKUs · Partner Ecosystem · Glossary
 
@@ -66,6 +76,52 @@ Where traditional analytics answers *"what happened?"*, APEX answers three harde
 3. **What audit trail does the decision leave?** — every reasoning chain, tool call, and human approval is stitched into one traceable operation with append-only logs
 
 An APEX deployment is not "a data platform with AI features bolted on." It is a **contract between data and decisions**, enforced in code and auditable end-to-end.
+
+### APEX on Microsoft in One Picture
+
+```mermaid
+flowchart TB
+  subgraph SOR["Systems of Record"]
+    sor1[POS · WMS · Monnit IoT · ESL]
+    sor2[Epic EHR · Pharmacy · Trials]
+    sor3[SAP ISU · SCADA · AMI]
+    sor4[Plex MES · SAP QM · EDI]
+  end
+  subgraph Fabric["Microsoft Fabric (data plane)"]
+    Bronze[(Bronze · SOR-native)]
+    Silver[(Silver · canonical · tokenised)]
+    Gold[(Gold · agent-read views)]
+    Bronze --> Silver --> Gold
+  end
+  subgraph Azure["Azure AI + Orchestration (intelligence plane)"]
+    Foundry[Azure AI Foundry]
+    Agents[Agent Service]
+    LA[Logic Apps / Durable Functions]
+    MCP[MCP Servers]
+    Foundry --> Agents
+    Agents --> LA
+    Agents <-. tool calls .-> MCP
+    MCP -. reads .-> Gold
+  end
+  subgraph Human["Human Decision Surface"]
+    Teams[Teams · HITL cards]
+    Apps[Power Apps / Automate]
+  end
+  subgraph Trust["Trust & Compliance"]
+    Audit[Decision Audit · append-only]
+    Monitor[App Insights · Azure Monitor]
+    Purview[Purview · DLP · Lineage]
+    Entra[Entra ID · Managed Identity]
+  end
+  SOR --> Bronze
+  LA --> Teams
+  Teams --> Audit
+  Audit --> Silver
+  Azure -.-> Monitor
+  Fabric -.-> Purview
+  Azure -.-> Entra
+  Fabric -.-> Entra
+```
 
 ## The Value Proposition
 
@@ -89,14 +145,24 @@ Investment envelope per Practice: **$3–8M in Wave 1**, **$5–12M in Wave 2**,
 
 ## Service Portfolio at a Glance
 
-APEX ships today with **24 subscribable services** across four Practices:
+APEX has **43 catalogued services** across seven Practices. 24 are GA today; 19 are in active or planned build, with GA targets through 2026.
+
+**GA Practices (24 services):**
 
 - **Retail & Consumer (RC): 8 services** — Cold Chain Excursion Response, Receiving Variance Dispute, ESL Pricing Integrity, Phantom-OOS Detection, Recall Response, BOPIS Exception Handling, Shrink & Void Anomaly, Customer Incident Triage.
 - **Healthcare & Life Sciences (HLS): 6 services** — Discharge Ready Surveillance, Sepsis Early Warning, Revenue-Cycle Denial Recovery, Supply Expiry Management, Clinical Trial Matching, Patient Safety Incident.
 - **Energy & Resources (ER): 5 services** — Meter Outage Detection, Grid Anomaly Response, Billing Exception Handling, Field Work-Order Optimisation, Regulatory Event Response.
-- **Industrial & Manufacturing (AXLE): 5 services** — Line-Down Triage, Quality Excursion Response, Supply-Chain Disruption, Recall Traceability, Plant KPI Drift.
+- **Automotive (AXLE): 5 services** — Line-Down Triage, Quality Excursion Response, Supply-Chain Disruption, Recall Traceability, Plant KPI Drift.
 
-Each service is one subscribable SKU: scenario + personas + KPIs + SLOs + artifact bundle + prerequisites + commercial terms. Clients subscribe to services, not to "APEX". A client may start with two services and grow to a portfolio of twelve across two Practices.
+**Build-and-Preview Practices (19 services drafted, GA 2026):**
+
+- **Technology, Media & Telecom (TMT): 7 services** — Network Incident Response, Customer Churn Intervention, Content Rights Violation Triage, Subscription Exception Handling, Cloud Cost Anomaly Response, Ad Fraud Detection, 5G Service Outage Triage.
+- **Travel & Hospitality (TH): 6 services** — Overbooking & Inventory Balancing, Disruption Recovery Orchestration, Loyalty Guest Rescue, Revenue-Management Anomaly, Guest Incident Triage, Housekeeping-Exception Routing.
+- **Industrial & Commercial Equipment (ICE): 6 services** — Field Asset Failure Response, Spare-Parts Availability Triage, Warranty Claim Pattern Analysis, Contract-Renewal Revenue Protection, As-a-Service Utilization Optimization, Compliance Inspection Response.
+
+Each service is one subscribable SKU: scenario + personas + KPIs + SLOs + artifact bundle + prerequisites + commercial terms. Clients subscribe to services, not to "APEX". A client may start with two services and grow to a portfolio of twelve or more across two or three Practices.
+
+The catalogue's multi-industry span is a deliberate commercial choice. A Deloitte account team working a diversified conglomerate — a retailer with a pharmacy subsidiary and a trucking fleet, a media company with a cloud-product line, a healthcare system with a real-estate & hospitality arm — can subscribe that client to services across four or five Practices without buying four or five separate platforms. The canonical schemas, the shared MCPs, the unified audit, and the single identity plane are the reason this works.
 
 ---
 
@@ -143,6 +209,22 @@ APEX's HITL gate model is designed to **preserve and encode** the judgement of t
 | Data sovereignty / PII | Regulators require contracted data flows | Canonical Silver + Purview + tokenisation |
 | Regulatory acceleration | Windows shortened; evidence demanded | Decision audit rows as regulatory evidence |
 | Knowledge-worker shortage | Experts retire; handoff is unfinished | HITL captures rationale; seeds narrower agents |
+
+## How the Forces Manifest by Practice
+
+Each force has a Practice-specific shape:
+
+| Practice | Most acute force | Manifestation |
+|---|---|---|
+| RC | Decision-velocity gap | 500+ decision candidates per store per shift; human triage reaches < 20% |
+| HLS | Regulatory + knowledge shortage | 21 CFR Part 11 evidence requirements + nursing workforce crisis |
+| ER | Regulatory + velocity | FERC reliability windows + second-level SLO demands |
+| AXLE | Velocity + knowledge shortage | Line-down $/minute + retirement of experienced tool-and-die experts |
+| TMT | Velocity + AI inflection | Network events at millisecond cadence + subscription churn elasticity |
+| TH | Velocity + customer-experience | Minutes-to-plan on disruption; social-media amplification |
+| ICE | Knowledge shortage + customer-experience | Field-service workforce ageing; uptime-as-commercial-promise |
+
+The cross-industry scope is APEX's asymmetric commercial advantage: a diversified client whose CEO sits at the intersection of three of these force profiles can subscribe to services across three Practices and get one governance model, one audit framework, and one identity plane.
 
 ---
 
@@ -385,6 +467,68 @@ The mapping from SemVer bump to gate kind is **deterministic by default** and **
 
 Agents never read Bronze. Agents rarely read Silver. Agents primarily read Gold, via an MCP tool, under managed identity, with trace instrumentation and tenant-scoped RLS.
 
+### Medallion Data Flow
+
+```mermaid
+flowchart LR
+  SOR[SOR<br/>POS / WMS / Epic / SCADA / Plex]
+  subgraph B["Bronze (30-90 day retention)"]
+    BT[Delta tables<br/>SOR-native shape<br/>no transform]
+  end
+  subgraph S["Silver (7+ year retention)"]
+    ST[Delta tables<br/>canonical schema<br/>PII tokenised<br/>SCD2 where applicable]
+    Aud[silver_decision_audit<br/>append-only<br/>customer-managed keys]
+  end
+  subgraph G["Gold (90 day rolling)"]
+    GV[T-SQL views<br/>pre-joined<br/>agent-latency-tuned]
+  end
+  SOR -->|"stream / batch /<br/>CDC / REST"| BT
+  BT -->|"PySpark notebook<br/>+ tokenizer-mcp"| ST
+  ST -->|"scheduled refresh"| GV
+  GV -.->|"fabric-mcp.read_*"| Agent[APEX Agent]
+  Agent -->|"decision"| Aud
+  Aud -.->|"regulatory evidence"| Compliance[Compliance · Audit]
+```
+
+### The HITL Gate Decision Model
+
+```mermaid
+flowchart TB
+  Event[Triggering Event] --> Classify{classify-bump}
+  Classify -->|"PATCH"| ZT[ZERO_TOUCH]
+  Classify -->|"MINOR"| AO[ACK_ONLY]
+  Classify -->|"MAJOR"| HI[HITL]
+  Classify -->|"cross-functional"| ES[ESCALATION]
+  ZT -->|"apply silently · log"| Audit
+  AO -->|"apply · notify persona"| Audit
+  HI -->|"present · wait for approver"| Decision{Approver}
+  Decision -->|"approve"| Apply[Apply decision]
+  Decision -->|"modify"| Applym[Apply modified]
+  Decision -->|"reject"| Reject[Log reject · no action]
+  ES -->|"route to cross-functional owner"| Owner[Legal · Comms · Regulatory]
+  Owner --> Decision
+  Apply --> Audit[silver_decision_audit]
+  Applym --> Audit
+  Reject --> Audit
+  Audit -->|"policy-mcp: tenant policy can override default gate"| Gate[Per-tenant gate policy]
+```
+
+### The Platform in Numbers
+
+| Dimension | Current |
+|---|---|
+| Practices shipped | 4 (RC · HLS · ER · AXLE) |
+| Services catalogued | 24 |
+| Canonical schema families | 6 (SCML · MERML · CXML · HLSCML · ERCML · AXLECML) |
+| Canonical entities | 79 |
+| Domain MCP servers | 6 |
+| Utility MCP servers | 6 |
+| External MCP servers | 10+ |
+| Personas catalogued | 22 |
+| Core edition | v1.2.1 (current) |
+
+By the end of 2026 this roadmap grows to: 5 Practices (TMT added), 30+ services, 10+ domain MCPs.
+
 ---
 
 # How to Read This Document
@@ -493,6 +637,53 @@ Four KPIs every RC client tracks:
 ### 2.7 Solution Portfolio & Architecture
 
 Eight services in the RC Practice. Each service entry below names the scenario, the primary persona, the core KPIs, the included artifacts, and the tier.
+
+#### RC Practice Architecture
+
+```mermaid
+flowchart TB
+  subgraph SORs["Systems of Record"]
+    Monnit[Monnit IoT]
+    WMS[Manhattan WMS]
+    POS[POS System]
+    ESL[ESL Gateway]
+    FDA[FDA Recall Feed]
+    Portal[Incident Portal]
+  end
+  subgraph Silver_RC["Silver canonical (RC)"]
+    SCML[SCML entities]
+    MERML[MERML entities]
+    CXML[CXML entities]
+  end
+  subgraph Services["RC Services"]
+    CXP[CXP-01 Cold Chain]
+    RVD[RVD-02 Receiving]
+    ESL3[ESL-03 Pricing]
+    OSA[OSA-04 Phantom-OOS]
+    RCL[RCL-05 Recall]
+    BPX[BPX-06 BOPIS]
+    SHK[SHK-07 Shrink]
+    CXI[CXI-08 Incident]
+  end
+  Monnit --> SCML
+  WMS --> SCML
+  WMS --> MERML
+  POS --> MERML
+  POS --> CXML
+  ESL --> MERML
+  FDA --> SCML
+  Portal --> CXML
+  SCML --> CXP
+  SCML --> RVD
+  SCML --> RCL
+  MERML --> ESL3
+  MERML --> OSA
+  MERML --> SHK
+  CXML --> BPX
+  CXML --> CXI
+  SCML --> CXI
+  CXML --> RCL
+```
 
 #### Cold Chain Excursion Response — `APEX-RC-CXP-01`
 
@@ -684,6 +875,46 @@ HLS is the Practice where gate policy matters most. Default gate posture on clin
 
 Six services in the HLS Practice.
 
+#### HLS Practice Architecture
+
+```mermaid
+flowchart TB
+  subgraph SORs["Systems of Record"]
+    EpicC[Epic Clarity / Caboodle]
+    EpicADT[Epic ADT Stream]
+    EpicFHIR[Epic FHIR / Labs]
+    Pharm[Pharmacy Inventory]
+    Trials[Trials Registry]
+    Denials[837 / 835 Feeds]
+    Incident[Incident System]
+  end
+  subgraph Silver_HLS["Silver canonical (HLS)"]
+    HLSCML[HLSCML · PHI tokenised<br/>encounters · vitals · labs ·<br/>care plans · claims · trials]
+    SCML_pharm[SCML · pharmacy subset]
+  end
+  subgraph Services["HLS Services"]
+    DSR[DSR-01 Discharge]
+    SEP[SEP-02 Sepsis]
+    RVC[RVC-03 Rev-Cycle]
+    SUP[SUP-04 Supply Expiry]
+    CTM[CTM-05 Trials]
+    PSI[PSI-06 Incident]
+  end
+  EpicC --> HLSCML
+  EpicADT --> HLSCML
+  EpicFHIR --> HLSCML
+  Pharm --> SCML_pharm
+  Trials --> HLSCML
+  Denials --> HLSCML
+  Incident --> HLSCML
+  HLSCML --> DSR
+  HLSCML --> SEP
+  HLSCML --> RVC
+  SCML_pharm --> SUP
+  HLSCML --> CTM
+  HLSCML --> PSI
+```
+
 #### Discharge Ready Surveillance — `APEX-HLS-DSR-01`
 
 **Tier:** Pro / Enterprise · **Status:** GA v1.2 · **Gate:** ACK_ONLY
@@ -839,6 +1070,43 @@ ER is where the SLO discipline matters most. Grid anomaly detection p95 ≤ 30 s
 ### 4.7 Solution Portfolio & Architecture
 
 Five services in the ER Practice.
+
+#### ER Practice Architecture
+
+```mermaid
+flowchart TB
+  subgraph SORs["Systems of Record"]
+    ISU[SAP ISU]
+    AMI[AMI Head-End]
+    SCADA[SCADA]
+    OMS[OMS]
+    DMS[DMS]
+    FS[MS Field Service + GIS]
+    FERC[FERC / State PUC Feeds]
+  end
+  subgraph Silver_ER["Silver canonical (ER)"]
+    ERCML[ERCML · meter reading<br/>grid anomaly · outage · billing<br/>work order · asset health]
+  end
+  subgraph Services["ER Services"]
+    MTR[MTR-01 Meter Outage]
+    GRD[GRD-02 Grid Anomaly]
+    BIL[BIL-03 Billing]
+    FWO[FWO-04 Field Work]
+    REG[REG-05 Regulatory]
+  end
+  ISU --> ERCML
+  AMI --> ERCML
+  SCADA --> ERCML
+  OMS --> ERCML
+  DMS --> ERCML
+  FS --> ERCML
+  FERC --> ERCML
+  ERCML --> MTR
+  ERCML --> GRD
+  ERCML --> BIL
+  ERCML --> FWO
+  ERCML --> REG
+```
 
 #### Meter Outage Detection — `APEX-ER-MTR-01`
 
@@ -1005,11 +1273,260 @@ Typical Wave 3 · $4–6M · RCL-04 enterprise-wide; consider graduating into th
 
 ---
 
+## Chapter 6: Technology, Media & Telecom (TMT) Practice
+
+### 6.1 The Story
+
+At 02:17 on a Saturday morning, a telco network operations centre lights up. A regional 5G core experiences elevated packet loss; customer-facing symptoms are beginning to manifest as dropped calls and slow data sessions. Traditional NOC workflows spend the first thirty minutes classifying the incident: is it RAN, core, transport, backhaul, or a cloud provider problem? Each answer has a different on-call page, and the wrong first page wastes critical minutes.
+
+With `APEX-TMT-NET-01 Network Incident Response` running, the first classification lands in ninety seconds. `TMT-A01 Incident Classifier` fuses streams from the NMS, alarm correlator, and customer-impact signal. `TMT-A02 Remediation Recommender` proposes the specific action — a specific element-manager reset, a BGP re-announce, a cloud-provider ticket. The HITL card lands on the on-call NOC engineer with pre-assembled context: engineering already halfway done. Mean-time-to-recovery on classifiable incidents drops 40-60% in pilot.
+
+TMT is APEX's broadest Practice. It serves three sub-verticals (Technology, Media & Entertainment, Telecom) with a set of services that individually overlap the others only lightly but collectively represent the most dynamic enterprise category in the APEX catalogue. Sub-variant codes: `TMT-TEC`, `TMT-MED`, `TMT-TEL`.
+
+### 6.2 Forces Driving Change
+
+TMT has every one of the five forces operating at once, but three dominate:
+
+- **Decision-velocity gap** — exponentially. Telecom network events and ad-fraud signals land at millisecond cadence; the human-capable cadence has not moved. Agentic platforms are the only viable close.
+- **Regulatory acceleration** — digital-services regulations (EU DSA, state-level privacy laws, FCC reliability standards) are multiplying; media rights compliance is a perpetual fire drill.
+- **Customer-experience expectations** — subscription churn is elastic to micro-experiences; one bad disruption propagates across social channels in hours.
+
+### 6.3 The Human Reality
+
+TMT personas span three sub-verticals:
+
+- **NOC Engineer** (Telecom) — primary for network incidents; owns first-hour classification and remediation decisions
+- **Customer Retention Analyst** (Telecom / Subscription Media) — primary for churn intervention; owns save-offer decisions
+- **Rights Ops Analyst** (Media) — primary for content-rights incidents; owns takedown and syndication remediation
+- **Subscription Ops Analyst** (SaaS / Media) — primary for subscription exceptions (payment failures, plan drift, usage anomalies)
+- **Cloud FinOps Engineer** (Technology) — primary for cost-anomaly response
+- **Ad-Ops Investigator** (Media) — primary for ad-fraud triage
+- **Field Network Engineer** (Telecom) — secondary for 5G outage dispatch
+
+### 6.4 AI Integration Maturity
+
+TMT baseline ranges widely. Hyperscaler-adjacent tech companies often start at **Level 3** (they've already built recommendation systems). Traditional telcos often start at **Level 1-2** (heavy NOC-and-dashboard culture). Media companies vary by size. Wave 1 targets Level 3 uniformly.
+
+### 6.5 Decision-Automation Positioning
+
+TMT is the Practice where Level 5 pilots reach viability fastest — for specific narrow services (ad-fraud decisions under a cost threshold, cloud-cost anomaly auto-remediation on owned resources). Because the per-decision consequence is often bounded and the decision volume is high, the math favours removing the HITL gate on narrow-scope services earlier than in HLS or ER.
+
+### 6.6 KPI Dashboard
+
+- **MTTR on network incidents, min** — target 40-60% reduction from baseline
+- **Churn save-offer success rate, %** — target 25-40% on targeted customers
+- **Ad fraud caught, %** — target ≥ 92% true-positive with ≤ 2% false-positive
+- **Cloud cost anomaly ticket-to-resolution, h** — target ≤ 4h on class-1
+- **Content rights incident time-to-containment, h** — target ≤ 6h
+
+### 6.7 Solution Portfolio & Architecture
+
+Seven services in the TMT Practice (active build; GA target Q3 2026).
+
+#### Network Incident Response — `APEX-TMT-NET-01`
+
+**Tier:** Enterprise · **Status:** Preview v0.9 · **Gate:** HITL (ESCALATION for P1/P2)
+
+Described above. Scenarios: 5G core incidents, RAN outages, transport / backhaul failures, cloud-provider incidents. Personas: primary NOC Engineer, secondary Field Network Engineer, Regulatory Affairs (on large-customer-impact events). Integrates with NMS, alarm correlator, customer-impact feed, cloud-provider status APIs. Bundles TMT-A01/A02 + ORCH-30.
+
+#### Customer Churn Intervention — `APEX-TMT-CCI-02`
+
+**Tier:** Pro / Enterprise · **Status:** Preview v0.9 · **Gate:** ACK_ONLY
+
+Predictive-and-proactive churn save. `TMT-A03 Churn Risk Scorer` fuses billing, usage, support interactions, and NPS signals into per-customer risk scores. `TMT-A04 Save-Offer Orchestrator` generates personalised offer candidates — plan upgrades, bill credits, technician visits for service-quality issues — and routes to the Customer Retention Analyst for ACK_ONLY approval at an offer-value threshold. Bundles TMT-A03/A04 + CXML.SUBSCRIPTION_STATE + CXML.INTERACTION_HISTORY + ORCH-31.
+
+#### Content Rights Violation Triage — `APEX-TMT-CRV-03`
+
+**Tier:** Enterprise · **Status:** Preview v0.9 · **Gate:** HITL → ESCALATION
+
+Content appears on a platform or partner where rights do not permit. `TMT-A05 Rights Matcher` cross-references content fingerprints against the rights database and geographic restrictions. `TMT-A06 Takedown Coordinator` drafts takedown notices and syndication corrections. Escalates to Legal for disputes or multi-party entanglements. KPIs: `time_to_containment_hours ≤ 6` · `false_takedown_rate_pct ≤ 0.5`.
+
+#### Subscription Exception Handling — `APEX-TMT-SUB-04`
+
+**Tier:** Pro / Enterprise · **Status:** Preview v0.9 · **Gate:** ACK_ONLY
+
+Payment failures, plan downgrades, usage drift, account-share detection. `TMT-A07 Subscription Anomaly Classifier` categorises; `TMT-A08 Recovery Action Generator` proposes the specific recovery (retry payment, offer downgrade, prompt household account consolidation). Subscription Ops Analyst reviews.
+
+#### Cloud Cost Anomaly Response — `APEX-TMT-CCA-05`
+
+**Tier:** Pro / Enterprise · **Status:** Preview v0.9 · **Gate:** ACK_ONLY (ZERO_TOUCH on bounded classes)
+
+Cloud spend spike detection at resource-group level; root-cause decomposition; automated remediation on approved classes (e.g., scale-down untagged dev resources) with HITL on larger actions. `TMT-A09 Cost Pattern Detector` + `TMT-A10 Remediation Executor`. Primary persona: Cloud FinOps Engineer.
+
+#### Ad Fraud Detection — `APEX-TMT-ADF-06`
+
+**Tier:** Enterprise · **Status:** Preview v0.9 · **Gate:** ZERO_TOUCH on low-$ events, HITL above threshold
+
+High-volume streaming detection of non-human or invalid traffic. `TMT-A11 Fraud Signal Fuser` classifies against known patterns; `TMT-A12 Investigation Packager` assembles evidence for disputes with ad networks. Gate starts HITL for all events; after Wave 2 maturity, sub-$ events transition to ZERO_TOUCH.
+
+#### 5G Service Outage Triage — `APEX-TMT-5GO-07`
+
+**Tier:** Enterprise · **Status:** Planned v0.5 · **Gate:** HITL
+
+Specialised for 5G-specific outages (slice faults, edge-node failures, mMTC stream quality). Bundles with NET-01 in deployment but has distinct tools (5G KPI analysers, slice state query) and persona mix (Network Engineer + Customer Experience Lead).
+
+### 6.8 Implementation Roadmap (TMT)
+
+Typical TMT engagements start with NET-01 + CCI-02 in a single sub-vertical (usually Telecom or Subscription Media); CRV-03 and CCA-05 added in Wave 2; ad-fraud and 5G services in Wave 3 for telco clients.
+
+---
+
+## Chapter 7: Travel & Hospitality (TH) Practice
+
+### 7.1 The Story
+
+At 14:22 on a Friday afternoon before a long weekend, a flight from a major US hub cancels. 187 passengers are stranded. The legacy disruption-recovery process — rebooking, hotel vouchers, transportation coordination, loyalty-customer prioritisation — runs sequentially through four different teams and takes hours. Meanwhile, Twitter is lighting up and the customer satisfaction hit to the airline is real.
+
+With `APEX-TH-DRO-02 Disruption Recovery Orchestration` running, the four workstreams run in parallel. `TH-A01 Disruption Scope Assessor` produces the affected-passenger list with their tier, connecting flights, baggage status, and downline commitments. `TH-A02 Rebooking Optimiser` proposes rebook itineraries prioritised by tier and connection feasibility. `TH-A03 Recovery Comms Agent` drafts personalised outbound communications. `TH-A04 Hotel & Ground Coordinator` pre-books inventory at nearby partner hotels. All four streams produce HITL-ready packages for the Operations Control Center within twelve minutes. The recovery ships at a quality the legacy sequence simply cannot match.
+
+### 7.2 Forces Driving Change
+
+TH is a high-customer-interaction, high-operational-complexity, low-margin Practice. Every force lands with force:
+
+- **Decision-velocity gap** — disruption recovery and overbooking decisions have narrow windows; rebooking a high-tier loyalty guest within minutes vs. hours is the difference between retention and churn
+- **Knowledge-worker shortage** — frontline hospitality workforce turnover is acute post-pandemic; institutional knowledge about disruption recovery walks out constantly
+- **Regulatory acceleration** — EU Passenger Rights, DOT tarmac rules, ADA compliance in hospitality all tightening
+- **Customer-experience expectations** — social-media amplification of bad experiences; one viral complaint equals thousands of impressions
+
+### 7.3 The Human Reality
+
+TH personas include the Operations Control Center dispatcher (airlines), the Hotel General Manager (hospitality), the Loyalty Experience Manager (both), the Revenue Manager (both), and the Frontline Guest Service Agent. Different personas for different services; the common thread is time-pressured customer-facing judgement.
+
+### 7.4 KPI Dashboard
+
+- **Disruption recovery time-to-plan, min** — target ≤ 15
+- **High-tier guest rescue rate, %** — target ≥ 90 on top-tier members affected
+- **Overbooking resolution success, %** — target ≥ 95% satisfactory rebook without compensation bleed
+- **Guest incident time-to-triage, min** — target ≤ 10
+- **Housekeeping exception time-to-resolution, min** — target ≤ 20 on critical path
+
+### 7.5 Solution Portfolio & Architecture
+
+Six services in the TH Practice (active build; GA target Q2 2026).
+
+#### Overbooking & Inventory Balancing — `APEX-TH-OBI-01`
+
+**Tier:** Pro / Enterprise · **Status:** Preview v1.0 · **Gate:** HITL on overbooked day-of, ACK_ONLY on forward-looking
+
+Continuous overbooking optimisation for airlines and hotels. `TH-A05 Demand Sensor` + `TH-A06 Revenue-Aware Rebook Recommender`. Integrates with GDS (airlines) or PMS (hotels).
+
+#### Disruption Recovery Orchestration — `APEX-TH-DRO-02`
+
+**Tier:** Enterprise · **Status:** Preview v1.0 · **Gate:** HITL
+
+Described above. Bundles TH-A01/A02/A03/A04 + CXML + ORCH-40.
+
+#### Loyalty Guest Rescue — `APEX-TH-LGR-03`
+
+**Tier:** Pro / Enterprise · **Status:** Preview v0.9 · **Gate:** HITL
+
+Top-tier loyalty guest at risk: bad experience indicator fired, or an algorithmic service-recovery opportunity. `TH-A07 Recovery Offer Generator` proposes tier-appropriate recovery (upgrade, credit, personalised outreach). Loyalty Experience Manager approves.
+
+#### Revenue-Management Anomaly — `APEX-TH-RMA-04`
+
+**Tier:** Pro / Enterprise · **Status:** Preview v0.9 · **Gate:** ACK_ONLY
+
+Pricing drift, competitor-shift anomalies, distribution-channel misalignments. `TH-A08 Rate Anomaly Detector` + `TH-A09 Correction Proposer`. Revenue Manager reviews.
+
+#### Guest Incident Triage — `APEX-TH-GIT-05`
+
+**Tier:** Pro / Enterprise · **Status:** Preview v0.9 · **Gate:** HITL → ESCALATION
+
+Food safety, safety-and-security incidents, complaints patterns. `TH-A10 Incident Classifier` + `TH-A11 Response Coordinator`. Similar pattern to RC-CXI-08 with hospitality-specific taxonomy.
+
+#### Housekeeping-Exception Routing — `APEX-TH-HER-06`
+
+**Tier:** Essentials / Pro · **Status:** Preview v0.9 · **Gate:** ACK_ONLY
+
+Room-status exceptions routed to the right resource with priority scoring. `TH-A12 Exception Prioritiser`. Often the first service on a hotel pilot because it's low-stakes and shows quick wins.
+
+### 7.6 Implementation Roadmap (TH)
+
+Typical TH engagements start with HER-06 (low-stakes, quick win) + LGR-03 or OBI-01 (higher value) in Wave 1; DRO-02 and GIT-05 added in Wave 2 after trust is established; RMA-04 in Wave 3.
+
+---
+
+## Chapter 8: Industrial & Commercial Equipment (ICE) Practice
+
+### 8.1 The Story
+
+At 09:03 on a Tuesday, an agricultural OEM's telematics feed shows an engine failure on a harvesting combine in the field at a customer farm. Harvest is time-critical; every hour of downtime during the window costs the farmer tens of thousands in yield risk. The dealer is 120 miles away; the nearest certified technician is at a neighbouring dealer 45 miles the other direction. The right part may or may not be on the technician's truck.
+
+`APEX-ICE-FAF-01 Field Asset Failure Response` runs the end-to-end coordination. `ICE-A01 Fault Classifier` identifies the engine-fault code and its typical root causes. `ICE-A02 Parts Availability Matcher` queries the parts inventory of every dealer within a 200-mile radius. `ICE-A03 Technician Dispatch Recommender` pairs the fault with the closest certified technician who has (or can carry) the right part. The HITL card goes to the Service Dispatcher at the OEM with a complete plan: technician, parts, route, ETA, customer communication draft. Dispatch time drops from hours to minutes; first-time-fix rate improves materially.
+
+ICE covers the broader industrial & commercial equipment space: heavy equipment (agriculture, construction, mining), aerospace & defense equipment, and industrial-product manufacturers whose customers are enterprises rather than end consumers. ICE sub-variants include `ICE-HVY` Heavy Equipment, `ICE-AD` Aerospace & Defense, and `ICE-AUT` Automotive (for equipment OEMs whose customers are auto manufacturers; complementary to the AXLE Practice which serves auto OEMs themselves).
+
+### 8.2 Forces Driving Change
+
+- **Knowledge-worker shortage** — the field-service workforce is ageing; customer-site technicians carry institutional knowledge that is not documented
+- **Customer-experience expectations** — uptime has become an explicit commercial promise; "as-a-service" business models (Equipment-as-a-Service, Power-by-the-Hour) make uptime a directly-billed outcome
+- **Regulatory acceleration** — safety and emissions regulations on industrial equipment; warranty-and-recall compliance
+- **Decision-velocity gap** — field-asset failures have narrow time-to-repair windows that human coordination cannot meet at scale
+
+### 8.3 The Human Reality
+
+ICE personas: Service Dispatcher (primary), Field Service Technician (secondary operator + primary knowledge-source), Parts Planner, Warranty Analyst, Contract Renewal Manager (for as-a-service contracts), Safety & Compliance Inspector.
+
+### 8.4 KPI Dashboard
+
+- **Dispatch plan time, min** — target ≤ 15 from incident to plan
+- **First-time-fix rate, %** — target ≥ 85
+- **Parts availability match rate, %** — target ≥ 95 within 24h window
+- **Warranty claim pattern catch rate, %** — target ≥ 90 on material patterns
+- **As-a-service utilisation, %** — target maintain ≥ 85 across fleet
+- **Contract renewal rate, %** — target proactively intervene on 100% of at-risk
+
+### 8.5 Solution Portfolio & Architecture
+
+Six services in the ICE Practice (active build; GA target Q3 2026).
+
+#### Field Asset Failure Response — `APEX-ICE-FAF-01`
+
+**Tier:** Enterprise · **Status:** Preview v0.9 · **Gate:** HITL
+
+Described above. Bundles ICE-A01/A02/A03 + AXLECML.ASSET_HEALTH (shared) + ERCML.WORK_ORDER (shared) + ORCH-50.
+
+#### Spare-Parts Availability Triage — `APEX-ICE-SPA-02`
+
+**Tier:** Pro / Enterprise · **Status:** Preview v0.9 · **Gate:** ACK_ONLY
+
+Continuous cross-depot parts availability optimisation. Proactive transfers, safety-stock rebalancing, obsolete-parts flagging. Parts Planner primary.
+
+#### Warranty Claim Pattern Analysis — `APEX-ICE-WCP-03`
+
+**Tier:** Pro / Enterprise · **Status:** Preview v0.9 · **Gate:** HITL → ESCALATION
+
+Cross-product warranty-pattern detection: defect clusters surfaced before they become recall-events. Warranty Analyst primary; escalates to Engineering when a pattern crosses the material threshold.
+
+#### Contract-Renewal Revenue Protection — `APEX-ICE-CRV-04`
+
+**Tier:** Pro / Enterprise · **Status:** Preview v0.9 · **Gate:** HITL
+
+As-a-service and extended-warranty contract renewal prediction; proactive intervention for at-risk renewals. Contract Renewal Manager primary.
+
+#### As-a-Service Utilisation Optimisation — `APEX-ICE-AAU-05`
+
+**Tier:** Enterprise · **Status:** Preview v0.9 · **Gate:** ACK_ONLY
+
+For OEMs offering equipment-as-a-service (a growing commercial model), continuous fleet utilisation optimisation across customer sites. Balances customer experience with cost recovery.
+
+#### Compliance Inspection Response — `APEX-ICE-CIR-06`
+
+**Tier:** Enterprise · **Status:** Preview v0.9 · **Gate:** HITL → ESCALATION
+
+Safety, emissions, and other regulated inspection events. Compliance Inspector primary; triage and remediation coordination.
+
+### 8.6 Implementation Roadmap (ICE)
+
+Typical ICE engagements start with FAF-01 + SPA-02 (the field-service core) in Wave 1; WCP-03 and AAU-05 in Wave 2; CRV-04 and CIR-06 in Wave 3.
+
+---
+
 # Part III — Cross-Practice Capabilities
 
 Every APEX deployment uses a shared set of capabilities that cut across Practices. These are not optional add-ons; they are the platform spine. Part III expands each of them into its own chapter, because a failure in any one of them is a failure of the entire platform.
 
-## Chapter 6: Shared Services — The Utility MCP Layer
+## Chapter 9: Shared Services — The Utility MCP Layer
 
 Six utility MCP servers ship with every APEX deployment, regardless of which Practices are subscribed. They are the seam between Practice-specific content and the platform's governance, identity, and audit machinery.
 
@@ -1073,7 +1590,7 @@ Every write-back to a SOR or internal system goes through staging. `ledger-mcp` 
 
 Typical usage: a cold-chain write-off stages the ledger entry; the HITL approval promotes it; the downstream ERP finance adapter picks up the promoted entry and posts it. If the ERP post fails, the failure is captured in the staging table alongside the original stage, and the orchestration's rollback path can un-stage.
 
-## Chapter 7: Observability & Trust
+## Chapter 10: Observability & Trust
 
 APEX's observability is designed around a single principle: **every consequential event gets one operation_Id that stitches the end-to-end story**. From SOR event to Bronze write to Silver transform to EventGrid publish to orchestration start to agent invocation to MCP tool calls to HITL wait to decision audit row to rollback pointer — one trace, one ID, one queryable history.
 
@@ -1134,7 +1651,7 @@ For services in highly regulated environments (HLS clinical, ER grid-ops, AXLE r
 
 During Wave 1 pilots, we instrument the workbook with per-decision drill-down queries and train the pilot personas on using them. Within a month, the pilot personas become the programme's internal advocates because they have spent time inside the decision audit and seen the quality for themselves.
 
-## Chapter 8: Versioning, Governance, and HITL Gates
+## Chapter 11: Versioning, Governance, and HITL Gates
 
 ### The Manifest Lifecycle
 
@@ -1161,7 +1678,7 @@ Every agent version reaching Prod takes **5% of traffic for 72 hours** before fu
 
 # Part IV — Implementation & Delivery
 
-## Chapter 9: The Three-Wave Deployment
+## Chapter 12: The Three-Wave Deployment
 
 The APEX delivery pattern is three waves of roughly six months each. Each wave has crisp exit criteria tied to measurable outcomes, not tooling milestones.
 
@@ -1214,35 +1731,80 @@ The APEX delivery pattern is three waves of roughly six months each. Each wave h
 
 **Investment envelope:** $5–12M per Practice.
 
-**Deliverables:**
-- Full service catalogue of the first Practice live at pilot scale
-- Gate-tuning on mature services (HITL → ACK_ONLY where proven)
-- Second tenant onboarded (or pilot → production rollout)
-- Cross-practice shared services fully instrumented
-- Compliance evidence pack reviewed with the client's audit function
+#### Wave 2 Month-by-Month Milestones
 
-**Exit criteria:**
-- Full Practice catalogue at pilot scale
-- Gate-tuning approved for at least one service
-- Compliance pack accepted
-- Manager-touch-time KPI ≥ 60% improvement from baseline on at least two services
+**Months 7–8: Catalogue Expansion.**
+- Ship 3–5 additional services beyond the Wave 1 pilot set
+- Each new service onboarded in 3–4 weeks (the pattern from Wave 1 makes this tractable)
+- SOR connectors for additional sources provisioned in parallel
+- Fixture-replay regression tests extended to cover new service-agent combinations
+- Observability workbook extended with per-service panels
+
+**Months 9–10: Gate-Tuning and Trust-Building.**
+- First gate downgrades: HITL → ACK_ONLY on the Wave 1 services with proven track records
+- Decision-Audit Review (DAR) runs monthly; empirical data drives tuning proposals
+- Second tenant onboarded (or scale-out of the pilot region within the first tenant)
+- Cross-practice shared services fully instrumented (tokenizer, approvals, audit — all Practices using them consistently)
+- First compliance-pack review with the client's audit function
+
+**Months 11–12: Scale and Proof.**
+- Full practice catalogue live at pilot-region scale
+- Steady-state KPI trend data accumulating across the full service set
+- Formal Wave 2 exit review with steering committee
+- Wave 3 scope proposed and preliminary budget approved
+
+#### Wave 2 Exit Criteria
+
+1. Full practice catalogue live at pilot scale
+2. Gate-tuning approved and running on ≥ 1 service for ≥ 30 days
+3. Compliance evidence pack accepted by the client's audit function
+4. Manager-touch-time KPI ≥ 60% improvement from baseline on at least two services
+5. Second tenant (or scaled region) operational
+6. Cross-practice observability workbook operational
+
+#### Wave 2 Risks and Mitigations
+
+- **Gate-tuning backlash** — a premature downgrade can erode trust. Mitigation: conservative DAR-gated proposals; rollback-ready manifests.
+- **Catalogue-expansion fatigue** — shipping 3–5 new services in a quarter is aggressive. Mitigation: template reuse; Wave-1 patterns codified; clear Wave-2 scope contract.
 
 ### Wave 3 — Optimisation (months 13–18)
 
 **Investment envelope:** $3–6M per Practice.
 
-**Deliverables:**
-- Full rollout of the first Practice at enterprise scale
-- Optional: add a second Practice at Wave-1 level, running Waves 1 and 2 in parallel
-- Cross-practice orchestrations piloted (e.g., a supply-expiry event in HLS that triggers a recall trace in AXLE)
-- Level-5 autonomous pilot on one or two narrowly bounded services
+#### Wave 3 Month-by-Month Milestones
 
-**Exit criteria:**
-- Enterprise-scale KPI trends on-target
-- Second Practice subscribed (if client path includes multi-Practice)
-- Autonomous pilot cleared by audit review
+**Months 13–14: Enterprise Rollout.**
+- Rollout plan finalised for the first Practice across the enterprise (all tenants / all regions)
+- Region-by-region go-live sequence executed with 2-4 weeks between regions for risk containment
+- Rollout workbook tracks KPI trajectory per region; laggard regions receive targeted attention
+- Communication cadence ramped up — weekly steering updates, biweekly all-hands
 
-## Chapter 10: Onboarding a New Tenant
+**Months 15–16: Cross-Practice and Autonomous Pilots.**
+- Second Practice Wave 1 begins (if multi-Practice path)
+- Cross-practice orchestrations piloted on selected integration points (e.g., HLS supply-expiry → AXLE recall-traceability for manufactured medical devices)
+- Level-5 autonomous pilot initiated on one or two narrow services with strong track records (typically OSA-04 for sub-$ decisions, CCA-05 for pre-approved cloud-cost actions)
+- Formal autonomy-review process established; audit function involved from the start
+
+**Months 17–18: Steady-State Transition.**
+- Enterprise KPI trends on or above target across the first Practice
+- Autonomous pilots either graduated to production or deferred with documented lessons
+- Steady-state operations handover: Deloitte team transitions from daily delivery to advisory cadence; client-side run teams own day-to-day
+- Wave 3 exit review; multi-year roadmap (Year 2 and beyond) drafted
+
+#### Wave 3 Exit Criteria
+
+1. Enterprise-scale KPI trends on-target across the first Practice
+2. Second Practice subscribed (if client path includes multi-Practice)
+3. Autonomous pilot cleared by audit review and either in production or formally deferred
+4. Steady-state handover signed off by client run function
+5. Multi-year roadmap drafted and approved
+
+#### Wave 3 Risks and Mitigations
+
+- **Rollout fatigue in laggard regions** — early regions succeed; later regions feel pressured or behind. Mitigation: rollout cadence is region-paced, not calendar-paced; laggards get tailored support.
+- **Autonomy pilot over-reach** — the temptation to move too fast on Level-5. Mitigation: autonomy-review process requires explicit audit sign-off; no silent gate changes.
+
+## Chapter 13: Onboarding a New Tenant
 
 The onboarding of a new tenant is a defined sequence with known durations. A typical tenant onboarding runs 4–6 weeks end-to-end.
 
@@ -1256,7 +1818,7 @@ The onboarding of a new tenant is a defined sequence with known durations. A typ
 
 **Week 6 — Go live.** First live HITL decisions. Monitor hourly for three days, daily for three weeks. Hand over to steady-state operations.
 
-## Chapter 11: Scaling the Service Portfolio
+## Chapter 14: Scaling the Service Portfolio
 
 Once Wave 1 is live, adding services to an existing tenant follows a much shorter cadence — typically 2–4 weeks per service, because the workspace topology, identity, and monitoring are reusable.
 
@@ -1272,7 +1834,7 @@ A typical client trajectory:
 - **Month 24:** 15–20 services across 1–2 Practices. Cross-practice orchestrations piloted.
 - **Month 36:** Full catalog of the adopted Practices; third Practice in Wave 1.
 
-## Chapter 12: Resource Model
+## Chapter 15: Resource Model
 
 The APEX delivery model balances three skill types: data engineering, agent/orchestration engineering, and change management. A typical Wave 1 team looks like this:
 
@@ -1293,7 +1855,7 @@ Total Deloitte-side headcount for a first-Practice Wave 1: roughly **5.5 FTE**. 
 
 "Agent engineer" is not a rebrand of "data scientist" or "prompt engineer." It is the specialist who understands the full agent lifecycle: writing the system prompt's contract preamble, defining the tool allow-list, selecting the model tier (cost vs. quality), authoring the DAG, wiring the HITL gate, and running the fixture-replay discipline on every change. This role did not exist four years ago. Building a pipeline of agent engineers is part of the programme's own success — a mature APEX practice graduates a couple of them each quarter from the client's own staff.
 
-## Chapter 13: Governance Model
+## Chapter 16: Governance Model
 
 Every APEX programme stands up a three-layer governance structure on day one.
 
@@ -1319,7 +1881,7 @@ Decision audit review is how the programme earns the right to tune gates down. A
 
 This discipline is how APEX avoids both perpetual-HITL-fatigue (everything stays HITL forever, approval queues back up, organisation pushes back) and dangerous over-automation (too-early gate-tuning on services where decision quality isn't proven).
 
-## Chapter 14: Change Management
+## Chapter 17: Change Management
 
 Every APEX programme is as much a change management programme as a technology programme. A service that works technically but that the persona doesn't trust is a failed service.
 
@@ -1355,7 +1917,7 @@ Resistance is predictable and should be planned for. In order of frequency:
 - **"We tried this before"** — address by naming the prior failure modes explicitly and showing how APEX is different
 - **"Compliance will never approve this"** — address by bringing Compliance into the ARB from day one; early wins with Compliance are worth a dozen presentations later
 
-## Chapter 15: Quarterly Milestone Summary
+## Chapter 18: Quarterly Milestone Summary
 
 A typical 18-month APEX programme, quarter by quarter:
 
@@ -1372,11 +1934,11 @@ A typical 18-month APEX programme, quarter by quarter:
 
 # Part V — Future State
 
-## Chapter 16: The Four-Tier Innovation Model
+## Chapter 19: The Four-Tier Innovation Model
 
 APEX's forward-looking solution catalog organises post-Wave-3 capabilities into four tiers of increasing sophistication. Tiers are not linear; a client can adopt Tier 3 solutions while still operating at Tier 1 or Tier 2 on other services. The tier denotes the **pattern**, not the maturity of a specific deployment.
 
-## Chapter 17: Tier 1 — Predictive & Causal Intelligence
+## Chapter 20: Tier 1 — Predictive & Causal Intelligence
 
 Tier 1 adds predictive and causal-inference capabilities to services that currently operate on reactive signals.
 
@@ -1389,28 +1951,79 @@ APEX Tier 1 adds causal-inference agents that reason about **why** a pattern is 
 
 ### 17.2 Predictive KPI Services
 
-- **Predictive Phantom-OOS** — RC — predicts phantom-OOS risk 24h ahead based on incoming promo schedules, shift patterns, and historical stock behaviour
-- **Predictive Sepsis** — HLS — extends SEP-02 with 12h-ahead prediction using trend-pattern recognition (already operational at pilot sites)
-- **Predictive Outage** — ER — extends MTR-01 with predictive weather+asset-health fusion
-- **Predictive Line-Down** — AXLE — asset-health-based line-down prediction hours before the halt
+Every Practice gets at least one predictive/causal augmentation in Tier 1:
 
-### 17.3 Demand-Sensing Services
+- **Predictive Phantom-OOS** — RC — predicts phantom-OOS risk 24h ahead based on incoming promo schedules, shift patterns, and historical stock behaviour. Reduces walk-away revenue by 30-50% beyond OSA-04's reactive capture.
+- **Predictive Cold-Chain Failure** — RC — extends CXP-01 with compressor-failure prediction based on service-hour accumulation, duty cycles, and ambient-temp patterns. Moves disposition from reactive to preventive.
+- **Predictive Sepsis** — HLS — extends SEP-02 with 12h-ahead prediction using trend-pattern recognition (already operational at pilot sites; clinical publications in peer review).
+- **Predictive Readmission** — HLS — extends DSR-01 to predict 30-day readmission risk at discharge; drives discharge-planning and post-acute-care coordination decisions.
+- **Predictive Outage** — ER — extends MTR-01 with predictive weather+asset-health fusion. Identifies likely outage-zones 6-24h ahead of storms.
+- **Predictive Grid Instability** — ER — pre-emptive GRD-02 augmentation. Seeds load-shedding plans before oscillations propagate.
+- **Predictive Line-Down** — AXLE — asset-health-based line-down prediction hours before the halt. The key win is that the plant's maintenance team acts on the prediction, not on the halt.
+- **Predictive Quality Escape** — AXLE — extends QEX-02 to predict future quality excursions from upstream genealogy data.
+- **Predictive Network Congestion** — TMT — proactive capacity and traffic-shaping decisions ahead of events (sports, product launches, holiday spikes).
+- **Predictive Churn** — TMT — extends CCI-02 with 90-day horizon rather than 30-day.
+- **Predictive Disruption Recovery** — TH — begins preparing recovery plans when disruption likelihood crosses threshold (weather alerts, cascading cancellations), shortening the minutes-to-plan on actual disruptions.
+- **Predictive Equipment Failure** — ICE — extends FAF-01 with preventive-maintenance recommendations before the field failure.
 
-Agents that sense and respond to demand shifts at the Practice-appropriate granularity: retail (store-SKU-day), healthcare (bed capacity forecast), energy (load-shape forecast), manufacturing (schedule adherence).
+### 17.3 Causal Inference Services
 
-## Chapter 18: Tier 2 — Self-Healing Operations
+Beyond prediction, causal agents answer "why" not just "what":
+
+- **Cold-Chain Causal Analyst** — RC — connects current excursions to upstream maintenance cycles, ambient conditions, staffing patterns. Output: preventive recommendations with predicted impact.
+- **Denial Causal Analyst** — HLS — connects denial patterns to upstream coding, documentation, or payer-policy changes. Drives targeted training or process change.
+- **Outage Causal Analyst** — ER — root-cause-chains across grid events; identifies systemic fragilities beyond the individual incident.
+- **Quality Causal Analyst** — AXLE — connects excursions to upstream changes (material lot, operator, shift, tool wear).
+- **Churn Causal Analyst** — TMT — identifies which product changes or service incidents are driving cohort churn.
+- **Disruption Causal Analyst** — TH — identifies patterns in what disruptions cascade into customer-impact events.
+
+### 17.4 Demand-Sensing Services
+
+Agents that sense and respond to demand shifts at the Practice-appropriate granularity:
+
+- **RC:** store-SKU-day demand forecasting with promo and weather signals
+- **HLS:** bed capacity forecasting and inter-facility patient-flow
+- **ER:** load-shape forecasting and renewable-integration modelling
+- **AXLE:** schedule-adherence forecasting and supplier-lead-time prediction
+- **TMT:** subscription-demand forecasting and capacity-plan anticipation
+- **TH:** booking-curve forecasting with event-and-weather overlays
+- **ICE:** field-service demand and parts-consumption forecasting
+
+## Chapter 21: Tier 2 — Self-Healing Operations
 
 Tier 2 services close the loop — they detect, decide, and act with reduced or zero HITL, producing measurable improvement on their own metrics over time.
 
 ### 18.1 Self-Healing Services Portfolio
 
-**Self-Healing Cold Chain** — beyond the excursion response, the service manages reefer health continuously: when a unit's telemetry drifts, predictive maintenance ticket is raised; when maintenance is done, the healing confirmation closes the loop.
+**Self-Healing Cold Chain (RC).** Beyond excursion response, the service manages reefer health continuously: when a unit's telemetry drifts, predictive maintenance ticket is raised; when maintenance is done, the healing confirmation closes the loop. The store never has an excursion because the compressor never failed.
 
-**Self-Healing Pricing** — the ESL service combines with the POS ring stream to automatically detect, remediate, and close pricing anomalies; it also learns from each cycle to reduce future occurrence.
+**Self-Healing Pricing (RC).** The ESL service combines with the POS ring stream to automatically detect, remediate, and close pricing anomalies; it also learns from each cycle to reduce future occurrence. Stale-tag rate drops quarter-over-quarter without intervention.
 
-**Self-Healing Production Line** — AXLE LDT-01 combined with predictive maintenance produces a system that recommends preventive action ahead of predicted halts and closes its own loop on outcome.
+**Self-Healing Denial Recovery (HLS).** RVC-03 plus a closed-loop quality agent that, for denials where appeals fail, identifies the documentation-quality gap and routes a remediation to the relevant clinical service. Future denials of the same type fall.
 
-**Self-Healing Denial Recovery** — HLS RVC-03 plus a closed-loop quality agent that, for denials where appeals fail, identifies the documentation-quality gap and routes a remediation to the relevant clinical service.
+**Self-Healing Supply Expiry (HLS).** SUP-04 plus a cross-facility reallocation agent that moves stock autonomously at the system level before expiry, using consumption-pattern predictions. Expiry waste drops by 60%+ in steady state.
+
+**Self-Healing Grid (ER).** GRD-02 plus a post-event root-cause agent that identifies systemic fragilities and routes them into the maintenance planning cycle. Grid reliability improves YoY without discrete projects.
+
+**Self-Healing Meter Ops (ER).** MTR-01 plus a self-healing network remediator for communication-path issues. True outages go to dispatch; false-outages self-resolve.
+
+**Self-Healing Production Line (AXLE).** LDT-01 combined with predictive maintenance produces a system that recommends preventive action ahead of predicted halts and closes its own loop on outcome. Line-down-minutes fall while first-time-fix rate rises.
+
+**Self-Healing Quality (AXLE).** QEX-02 plus a causal analyst that adjusts upstream process parameters within limits to reduce recurrence. The first-pass-yield curve lifts without human intervention.
+
+**Self-Healing Network Incident (TMT).** NET-01 plus a remediation-executor that autonomously applies known-safe fixes for recurring incident classes (well-understood BGP hiccups, common element-manager hiccups). Escalates to HITL for novel patterns.
+
+**Self-Healing Subscription Ops (TMT).** SUB-04 plus a recovery-execution agent that autonomously retries payments, offers downgrades, and manages account-share detection within configured bounds. Retention improves without manual intervention on the routine cases.
+
+**Self-Healing Revenue Management (TH).** RMA-04 plus a correction-execution agent that adjusts pricing and inventory within approved guardrails. Rate leakage closes; revenue management becomes proactive.
+
+**Self-Healing Housekeeping (TH).** HER-06 plus an autonomous-routing refinement agent that learns from overrides and improves routing logic. Service levels improve over time.
+
+**Self-Healing Field Service (ICE).** FAF-01 plus proactive dispatch — sends a technician before the customer knows there's a problem, based on predicted failures.
+
+**Self-Healing As-a-Service Utilisation (ICE).** AAU-05 plus automatic rebalancing of fleet resources to maintain utilisation targets while respecting customer commitments.
+
+### 18.2 The Closed-Loop Discipline
 
 ### 18.2 The Closed-Loop Discipline
 
@@ -1421,7 +2034,7 @@ Self-healing services require additional discipline:
 
 APEX's audit-row architecture makes attribution possible because every action is tied to a specific agent decision with a measurable downstream effect. Self-healing is not just a technical concept — it is an audit-backed one.
 
-## Chapter 19: Tier 3 — Agentic Contact & Service-to-Service
+## Chapter 22: Tier 3 — Agentic Contact & Service-to-Service
 
 Tier 3 extends APEX's decision surface to **customer-facing** and **agent-to-agent** interaction patterns.
 
@@ -1439,9 +2052,27 @@ APEX services trigger other APEX services in the same tenant. Example: an RC Cus
 
 ### 19.4 Proactive Customer Outreach
 
-Services that reach out before the customer reaches in. Example: a BOPIS substitution service that, when a predicted substitution has high acceptance probability for a loyalty customer, proactively offers an in-store pickup upgrade.
+Services that reach out before the customer reaches in. Examples by Practice:
 
-## Chapter 20: Tier 4 — Autonomous Operations (North Star)
+- **RC:** a BOPIS substitution service that, when a predicted substitution has high acceptance probability for a loyalty customer, proactively offers an in-store pickup upgrade
+- **HLS:** a follow-up-appointment service that reaches patients at risk of appointment no-show and confirms or reschedules proactively
+- **ER:** a billing-surprise prevention service that alerts customers to unusual usage before the bill arrives
+- **AXLE:** a warranty-proactive service that contacts customers when their vehicle matches a warranty-pattern even if they haven't reported the issue
+- **TMT:** a service-quality outreach that reaches customers after a detected service-quality event with proactive credit or next-step information
+- **TH:** a disruption-recovery outreach that contacts passengers with rebooking options before they know the flight is affected
+- **ICE:** a maintenance-proactive outreach that alerts equipment owners to upcoming service needs during the optimal service window
+
+### 19.5 Cross-Practice Agent Coordination
+
+The most novel Tier 3 pattern is **cross-practice A2A**: agents in one Practice calling services in another.
+
+- HLS Supply Expiry (SUP-04) querying AXLE Recall Traceability (RCL-04) for cross-industry lot overlaps
+- RC Recall Response (RCL-05) querying TMT ad-fraud for cross-industry fraud-pattern correlation
+- ER Regulatory Response (REG-05) querying TH Disruption Recovery for cross-industry incident coordination during major weather events
+
+These cross-practice flows are Tier 3's commercial differentiator. A client with multiple Practices subscribed gets capabilities that no single-Practice vendor can match.
+
+## Chapter 23: Tier 4 — Autonomous Operations (North Star)
 
 Tier 4 is the aspirational end-state: bounded autonomy with continuous audit. No APEX deployment reaches Tier 4 in full; selected services reach it for selected decision classes.
 
@@ -1472,7 +2103,7 @@ Tier 4 depends on everything prior:
 
 No shortcuts.
 
-## Chapter 21: Innovation Timeline
+## Chapter 24: Innovation Timeline
 
 A realistic trajectory for a client committing to APEX's full arc:
 
@@ -1484,7 +2115,7 @@ A realistic trajectory for a client committing to APEX's full arc:
 
 This is a multi-year commitment. The programme business case is structured so that each wave's ROI funds the next one's investment.
 
-## Chapter 22: The Autonomous Enterprise
+## Chapter 25: The Autonomous Enterprise
 
 By the end of Wave 3, a client's APEX deployment looks like this:
 
@@ -1498,7 +2129,36 @@ What comes next is incremental. Level 5 is not a step-change; it is a graduated 
 
 The autonomous enterprise is not "no humans in the loop." It is **humans in the loop on the decisions that warrant them**, with everything else running silently, audibly, and correctly.
 
-## Chapter 23: From One Tenant to Every Tenant
+## Chapter 25: Platform Roadmap (2026–2028)
+
+APEX's multi-year roadmap is published and reviewed quarterly. Key items by year:
+
+### 25.1 2026 — Completing the Core Seven
+
+- Q2: TH Practice GA (6 services), TMT Preview services graduate to GA one by one
+- Q3: TMT Practice GA (7 services), ICE Practice GA (6 services)
+- Q4: First cross-practice orchestrations in production
+- Target: all seven Practices in GA with ≥ 30 clients across them by year-end
+
+### 25.2 2027 — Platform Deepening
+
+- Tier 1 (predictive/causal) services shipped across all Practices
+- Level-5 autonomous pilots in production on 4–6 services
+- Multi-industry joint reference architectures published for diversified conglomerates
+- Cross-practice orchestration patterns library — a codified set of common A2A flows
+
+### 25.3 2028 — Autonomy at Scale
+
+- Tier 2 (self-healing) the default deployment pattern for mature services
+- Tier 3 (A2A, S2S, Agentic Contact Center) in production for at least 10 named clients
+- Industry benchmarks published for APEX KPIs versus non-APEX baselines
+- Next-generation reasoning models integrated as they reach production viability
+
+### 25.4 Beyond 2028 — The Autonomous Frontier
+
+Tier 4 (autonomous, cross-practice, single-pane-of-glass) reaches flagship-client status. APEX becomes the operational backbone of decision-making for 50+ Fortune-500-class enterprises across every industry the Practices cover. The market question shifts from "why APEX?" to "what's your APEX maturity?"
+
+## Chapter 26: From One Tenant to Every Tenant
 
 APEX's multi-tenant model is the commercial arc. The first tenant absorbs the programme cost. The second and third tenants' onboarding costs drop 60-80% because the patterns, SOR connectors, and training curriculum are reusable. By the time a client has ten tenants on the same Practice, each new tenant adds less than a week's onboarding effort.
 
@@ -1577,20 +2237,30 @@ Bump classification maps to default HITL gate kind per the Core matrix (Chapter 
 
 ### A.3 Per-Practice Schema Counts
 
-- **SCML (RC/HLS/AXLE):** 15 entities in GA v1.2
+**GA Practices:**
+- **SCML (RC / HLS / AXLE):** 15 entities in GA v1.2
 - **MERML (RC):** 12 entities
-- **CXML (RC/HLS):** 8 entities
+- **CXML (RC / HLS / TMT):** 8 entities
 - **HLSCML (HLS):** 18 entities including full clinical coverage
 - **ERCML (ER):** 14 entities including SCADA telemetry family
-- **AXLECML (AXLE):** 12 entities
+- **AXLECML (AXLE / ICE):** 12 entities
 
-Total: **79 canonical entities** across the catalog.
+**Build Practices (draft entity counts):**
+- **TMTML (TMT):** 14 entities drafted — network events, subscription state, rights records, ad-impression fraud signals, cloud resource telemetry
+- **THML (TH):** 10 entities drafted — booking/reservation, disruption event, loyalty state, housekeeping exception, guest incident
+- **ICEML (ICE):** 9 entities drafted — asset health (shared with AXLECML), field incident, parts inventory, warranty claim, contract renewal state
+
+Total GA + Build: **112 canonical entities** across the catalogue, with 79 in GA and 33 in build.
+
+Shared entities (used across multiple Practices) appear once in the catalog but are referenced by all the practices that use them. AXLECML.ASSET_HEALTH, for example, is shared between AXLE and ICE; ERCML.WORK_ORDER is shared between ER and ICE field-service services.
 
 ---
 
 # Appendix B: Service Catalog Master Registry
 
-All 24 services at a glance. One line per service: ID, name, Practice, tier, primary persona, gate, Core version.
+All 43 catalogued services at a glance (24 GA + 19 in build). One line per service: ID, name, Practice, tier, primary persona, gate, Core version.
+
+### B.1 GA Services (24)
 
 | ID | Name | Practice | Tier | Primary persona | Gate | Version |
 |---|---|---|---|---|---|---|
@@ -1618,6 +2288,30 @@ All 24 services at a glance. One line per service: ID, name, Practice, tier, pri
 | APEX-AXLE-SCD-03 | Supply-Chain Disruption | AXLE | Pro / Ent | Supply Planner | ACK_ONLY | 1.2.0 GA |
 | APEX-AXLE-RCL-04 | Recall Traceability | AXLE | Enterprise | Recall Coordinator | ESCALATION | 1.2.0 GA |
 | APEX-AXLE-KPI-05 | Plant KPI Drift | AXLE | Pro / Ent | Plant Manager | ACK_ONLY | 1.2.0 GA |
+
+### B.2 Preview / Active-Build Services (19)
+
+| ID | Name | Practice | Tier | Primary persona | Gate | Status |
+|---|---|---|---|---|---|---|
+| APEX-TMT-NET-01 | Network Incident Response | TMT | Enterprise | NOC Engineer | HITL | Preview v0.9 |
+| APEX-TMT-CCI-02 | Customer Churn Intervention | TMT | Pro / Ent | Customer Retention Analyst | ACK_ONLY | Preview v0.9 |
+| APEX-TMT-CRV-03 | Content Rights Violation Triage | TMT | Enterprise | Rights Ops Analyst | HITL | Preview v0.9 |
+| APEX-TMT-SUB-04 | Subscription Exception Handling | TMT | Pro / Ent | Subscription Ops Analyst | ACK_ONLY | Preview v0.9 |
+| APEX-TMT-CCA-05 | Cloud Cost Anomaly Response | TMT | Pro / Ent | Cloud FinOps Engineer | ACK_ONLY | Preview v0.9 |
+| APEX-TMT-ADF-06 | Ad Fraud Detection | TMT | Enterprise | Ad-Ops Investigator | HITL → ZERO_TOUCH | Preview v0.9 |
+| APEX-TMT-5GO-07 | 5G Service Outage Triage | TMT | Enterprise | Field Network Engineer | HITL | Planned v0.5 |
+| APEX-TH-OBI-01 | Overbooking & Inventory Balancing | TH | Pro / Ent | Revenue Manager | HITL / ACK_ONLY | Preview v1.0 |
+| APEX-TH-DRO-02 | Disruption Recovery Orchestration | TH | Enterprise | OCC Dispatcher | HITL | Preview v1.0 |
+| APEX-TH-LGR-03 | Loyalty Guest Rescue | TH | Pro / Ent | Loyalty Experience Mgr | HITL | Preview v0.9 |
+| APEX-TH-RMA-04 | Revenue-Management Anomaly | TH | Pro / Ent | Revenue Manager | ACK_ONLY | Preview v0.9 |
+| APEX-TH-GIT-05 | Guest Incident Triage | TH | Pro / Ent | Guest Service Agent | HITL → ESCALATION | Preview v0.9 |
+| APEX-TH-HER-06 | Housekeeping-Exception Routing | TH | Ess / Pro | Hotel GM | ACK_ONLY | Preview v0.9 |
+| APEX-ICE-FAF-01 | Field Asset Failure Response | ICE | Enterprise | Service Dispatcher | HITL | Preview v0.9 |
+| APEX-ICE-SPA-02 | Spare-Parts Availability Triage | ICE | Pro / Ent | Parts Planner | ACK_ONLY | Preview v0.9 |
+| APEX-ICE-WCP-03 | Warranty Claim Pattern Analysis | ICE | Pro / Ent | Warranty Analyst | HITL → ESCALATION | Preview v0.9 |
+| APEX-ICE-CRV-04 | Contract-Renewal Revenue Protection | ICE | Pro / Ent | Contract Renewal Mgr | HITL | Preview v0.9 |
+| APEX-ICE-AAU-05 | As-a-Service Utilisation Optimisation | ICE | Enterprise | Service Dispatcher | ACK_ONLY | Preview v0.9 |
+| APEX-ICE-CIR-06 | Compliance Inspection Response | ICE | Enterprise | Compliance Inspector | HITL → ESCALATION | Preview v0.9 |
 
 ---
 
@@ -1649,6 +2343,23 @@ The 22 personas defined in `persona-catalog.json`. Each service's `personas.prim
 | supply-chain-planner | Supply Chain Planner | AXLE / RC | Supply-disruption triage and expediting |
 | plant-manager | Plant Manager | AXLE | Plant-wide KPIs, executive escalation |
 | recall-coordinator | Recall Coordinator | AXLE / RC / HLS | Traceability and customer notification for recalls |
+| noc-engineer | NOC Engineer | TMT | Telco network incident classification and remediation |
+| customer-retention-analyst | Customer Retention Analyst | TMT | Churn intervention, save-offer decisions |
+| rights-ops-analyst | Rights Ops Analyst | TMT | Content rights compliance and takedown coordination |
+| subscription-ops-analyst | Subscription Ops Analyst | TMT | Payment and plan exception handling |
+| cloud-finops-engineer | Cloud FinOps Engineer | TMT | Cloud cost anomaly response and remediation |
+| adops-investigator | Ad-Ops Investigator | TMT | Ad-fraud triage and investigation |
+| field-network-engineer | Field Network Engineer | TMT | Telecom field dispatch for outages and 5G issues |
+| occ-dispatcher | OCC Dispatcher | TH | Airline operations control — disruption recovery orchestration |
+| hotel-gm | Hotel General Manager | TH | Hotel-level operations, escalations, guest recovery |
+| loyalty-experience-mgr | Loyalty Experience Manager | TH | High-tier guest rescue and personalised interventions |
+| revenue-manager | Revenue Manager | TH | Pricing, inventory, and revenue-management anomalies |
+| guest-service-agent | Guest Service Agent | TH | Front-line guest incident triage |
+| service-dispatcher | Service Dispatcher | ICE | Field-asset failure response; technician + parts orchestration |
+| parts-planner | Parts Planner | ICE | Cross-depot parts availability and rebalancing |
+| warranty-analyst | Warranty Analyst | ICE | Warranty claim pattern analysis |
+| contract-renewal-mgr | Contract Renewal Manager | ICE | As-a-service and extended-warranty renewals |
+| compliance-inspector | Compliance Inspector | ICE | Safety, emissions, regulated inspection events |
 
 ### C.1 Cross-Persona Patterns
 
