@@ -49,3 +49,40 @@ test('add_column without detail is critical', () => {
   const result = validateManifest(m);
   assert.ok(result.findings.some((f) => f.rule === 'DETAIL-MISSING'));
 });
+
+test('null manifest returns a SHAPE-ROOT critical', () => {
+  const result = validateManifest(null);
+  assert.equal(result.findings.length, 1);
+  assert.equal(result.findings[0].rule, 'SHAPE-ROOT');
+});
+
+test('findings include a precise JSONPath for the offending field', () => {
+  const m = loadFixture('valid-rc.manifest.json');
+  m.schemas[0].entities[0].primary_key = [];
+  const result = validateManifest(m);
+  const pkFinding = result.findings.find((f) => f.rule === 'PK-EMPTY');
+  assert.ok(pkFinding);
+  assert.equal(pkFinding.path, '$.schemas[0].entities[0].primary_key');
+  assert.equal(pkFinding.severity, 'critical');
+});
+
+test('entity with invalid layer is critical (ENUM-LAYER)', () => {
+  const m = loadFixture('valid-rc.manifest.json');
+  m.schemas[0].entities[0].layer = 'silver';
+  const result = validateManifest(m);
+  assert.ok(result.findings.some((f) => f.rule === 'ENUM-LAYER'));
+});
+
+test('changelog entry with invalid bump is critical (ENUM-BUMP)', () => {
+  const m = loadFixture('valid-rc.manifest.json');
+  m.schemas[0].changelog[0].bump = 'MIN0R';
+  const result = validateManifest(m);
+  assert.ok(result.findings.some((f) => f.rule === 'ENUM-BUMP'));
+});
+
+test('changelog entry with invalid gate is critical (ENUM-GATE)', () => {
+  const m = loadFixture('valid-rc.manifest.json');
+  m.schemas[0].changelog[0].gate = 'HUMAN';
+  const result = validateManifest(m);
+  assert.ok(result.findings.some((f) => f.rule === 'ENUM-GATE'));
+});

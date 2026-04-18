@@ -8,6 +8,10 @@ const EDITION_CODE_RE = /^[A-Z]{2,3}$/;
 // letters of domain code followed by an `ML` or `L` suffix, total 3-6 chars.
 const SCHEMA_CODE_RE = /^[A-Z]{2,4}(ML|L)$/;
 
+const VALID_LAYERS = ['Bronze', 'Silver', 'Gold'];
+const VALID_BUMPS = ['MAJOR', 'MINOR', 'PATCH'];
+const VALID_GATES = ['HITL', 'ACK_ONLY', 'ZERO_TOUCH', 'ESCALATION'];
+
 /**
  * Validate an L2 edition manifest against the L1 contract shape and
  * semver / bump-classification rules.
@@ -19,6 +23,20 @@ const SCHEMA_CODE_RE = /^[A-Z]{2,4}(ML|L)$/;
  * @returns {{ findings: Array<{severity: string, rule: string, path: string, message: string}> }}
  */
 export function validateManifest(manifest) {
+  // SHAPE-ROOT: bail out cleanly on completely malformed input rather than
+  // crashing downstream. Returning a single critical preserves the CLI's
+  // ability to report a usable error.
+  if (!manifest || typeof manifest !== 'object' || Array.isArray(manifest)) {
+    return {
+      findings: [{
+        severity: 'critical',
+        rule: 'SHAPE-ROOT',
+        path: '$',
+        message: 'manifest must be a JSON object'
+      }]
+    };
+  }
+
   const findings = [];
 
   // REQ-01 through REQ-04: top-level required fields.
@@ -56,7 +74,19 @@ export function validateManifest(manifest) {
     });
   }
 
-  const schemas = manifest.schemas ?? [];
+  // SHAPE-SCHEMAS: coerce non-array schemas field to empty with a finding
+  // rather than throwing on `.entries()`.
+  let schemas = manifest.schemas;
+  if (schemas !== undefined && !Array.isArray(schemas)) {
+    findings.push({
+      severity: 'critical',
+      rule: 'SHAPE-SCHEMAS',
+      path: '$.schemas',
+      message: 'schemas must be an array'
+    });
+    schemas = [];
+  }
+  schemas = Array.isArray(schemas) ? schemas : [];
   if (schemas.length < 3 || schemas.length > 5) {
     findings.push({
       severity: 'critical',
@@ -86,8 +116,17 @@ export function validateManifest(manifest) {
       });
     }
 
-    // Entity checks: primary_key non-empty, grain present.
-    for (const [j, e] of (s.entities || []).entries()) {
+    // Entity checks: primary_key non-empty, grain present, layer in enum.
+    const entities = Array.isArray(s.entities) ? s.entities : [];
+    if (s.entities !== undefined && !Array.isArray(s.entities)) {
+      findings.push({
+        severity: 'critical',
+        rule: 'SHAPE-ENTITIES',
+        path: `${sPath}.entities`,
+        message: 'entities must be an array'
+      });
+    }
+    for (const [j, e] of entities.entries()) {
       const ePath = `${sPath}.entities[${j}]`;
       if (!e.primary_key || e.primary_key.length === 0) {
         findings.push({
@@ -105,10 +144,26 @@ export function validateManifest(manifest) {
           message: 'grain is required'
         });
       }
+      if (e.layer !== undefined && !VALID_LAYERS.includes(e.layer)) {
+        findings.push({
+          severity: 'critical',
+          rule: 'ENUM-LAYER',
+          path: `${ePath}.layer`,
+          message: `layer must be Bronze, Silver, or Gold; got ${e.layer}`
+        });
+      }
     }
 
     // Changelog checks.
-    const changelog = s.changelog || [];
+    const changelog = Array.isArray(s.changelog) ? s.changelog : [];
+    if (s.changelog !== undefined && !Array.isArray(s.changelog)) {
+      findings.push({
+        severity: 'critical',
+        rule: 'SHAPE-CHANGELOG',
+        path: `${sPath}.changelog`,
+        message: 'changelog must be an array'
+      });
+    }
     if (changelog.length > 0) {
       const latest = changelog[0];
       if (latest.version !== s.version) {
@@ -123,6 +178,25 @@ export function validateManifest(manifest) {
       for (const [k, entry] of changelog.entries()) {
         const cPath = `${sPath}.changelog[${k}]`;
         const changes = entry.changes || [];
+
+        // ENUM-BUMP and ENUM-GATE: lock the vocabulary down so typos like
+        // "MIN0R" or "HUMAN" don't propagate silently through the fleet.
+        if (entry.bump !== undefined && !VALID_BUMPS.includes(entry.bump)) {
+          findings.push({
+            severity: 'critical',
+            rule: 'ENUM-BUMP',
+            path: `${cPath}.bump`,
+            message: `bump must be MAJOR, MINOR, or PATCH; got ${entry.bump}`
+          });
+        }
+        if (entry.gate !== undefined && !VALID_GATES.includes(entry.gate)) {
+          findings.push({
+            severity: 'critical',
+            rule: 'ENUM-GATE',
+            path: `${cPath}.gate`,
+            message: `gate must be HITL, ACK_ONLY, ZERO_TOUCH, or ESCALATION; got ${entry.gate}`
+          });
+        }
 
         // DETAIL-MISSING: add_column must carry a non-empty detail so the
         // classifier can detect `NOT NULL` (anti-cheat rule 1). An empty
