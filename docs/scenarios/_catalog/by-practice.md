@@ -1,12 +1,14 @@
 # Scenario library summary
 
-| Practice | Featured | Catalog |
-|---|---|---|
-| **RC** — Retail & Consumer | 5 | 102 |
-| **HLS** — Health, Life Sciences | 5 | 105 |
-| **ER** — Energy & Resources | 5 | 103 |
-| **AXLE** — Automotive & Manufacturing | 5 | 105 |
-| **TMT** — Technology, Media, Telecom | 5 | 105 |
-| **TH** — Travel & Hospitality | 5 | 103 |
-| **ICE** — Industrial, Construction, Equipment | 5 | 100 |
-| **Total** | **35** | **723** |
+## Per practice × domain pivot
+
+| Practice | Clinical | Network | Engineering | Supply Chain | Asset | Quality | Risk/Fraud | Pricing | CX | Marketing | Operations | Channel | Other | **TOTAL** |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| **RC** | 2 | 1 | 2 | 32 |  | 10 | 4 | 7 | 20 | 14 | 5 |  | 8 | **105** |
+| **HLS** | 65 | 1 | 5 | 1 | 1 | 13 | 3 | 3 | 3 | 2 | 2 | 1 | 7 | **107** |
+| **ER** | 2 | 21 | 1 | 11 | 14 | 17 | 4 |  | 5 | 2 | 10 |  | 17 | **104** |
+| **AXLE** | 4 | 3 | 14 | 19 | 12 | 23 | 1 |  | 1 |  | 16 | 1 | 13 | **107** |
+| **TMT** | 6 | 17 | 4 | 3 | 1 | 6 | 12 | 5 | 20 | 15 | 5 |  | 15 | **109** |
+| **TH** | 8 | 2 |  | 4 | 5 | 6 | 1 | 19 | 29 | 6 | 14 | 3 | 7 | **104** |
+| **ICE** | 5 | 1 | 5 | 13 | 22 | 7 | 2 | 6 | 5 |  | 11 | 9 | 14 | **100** |
+| **Total** | **92** | **46** | **31** | **83** | **55** | **82** | **27** | **40** | **83** | **39** | **63** | **14** | **81** | **736** |

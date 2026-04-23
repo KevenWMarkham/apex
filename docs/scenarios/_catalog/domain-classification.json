@@ -1,0 +1,5890 @@
+[
+  {
+    "practice": "RC",
+    "kind": "featured",
+    "title": "Cold-chain excursion — store cooler",
+    "service": "RC-E2E-03",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "RC",
+    "kind": "featured",
+    "title": "Dynamic markdown optimization",
+    "service": "RC-E2E-03",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "RC",
+    "kind": "featured",
+    "title": "On-shelf availability / OOS reduction",
+    "service": "RC-E2E-05",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "RC",
+    "kind": "featured",
+    "title": "Returns fraud detection",
+    "service": "RC-E2E-07",
+    "domain_slug": "risk-fraud-security",
+    "domain_name": "Risk, Fraud & Security"
+  },
+  {
+    "practice": "RC",
+    "kind": "featured",
+    "title": "Loyalty churn prediction & winback",
+    "service": "RC-E2E-04",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "HLS",
+    "kind": "featured",
+    "title": "Claims denial prevention",
+    "service": "HLS-E2E-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "featured",
+    "title": "Prior authorization automation",
+    "service": "HLS-E2E-04",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "featured",
+    "title": "Clinical decision support — oncology",
+    "service": "HLS-E2E-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "featured",
+    "title": "Care gap closure — population health",
+    "service": "HLS-E2E-06",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "featured",
+    "title": "Clinical trial patient matching",
+    "service": "HLS-LS-03",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "ER",
+    "kind": "featured",
+    "title": "Distribution outage triage",
+    "service": "ER-PU-04",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "ER",
+    "kind": "featured",
+    "title": "Predictive wellhead maintenance — upstream O&G",
+    "service": "ER-OG-03",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "ER",
+    "kind": "featured",
+    "title": "Refinery yield optimization",
+    "service": "ER-OG-05",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "ER",
+    "kind": "featured",
+    "title": "Environmental compliance monitoring",
+    "service": "ER-MN-02",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "ER",
+    "kind": "featured",
+    "title": "Pipeline integrity & leak detection",
+    "service": "ER-OG-07",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "featured",
+    "title": "Predictive maintenance — stamping press OEE",
+    "service": "AXLE-Connected-Factory-01",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "featured",
+    "title": "Quality escape detection & root-cause",
+    "service": "AXLE-QMS-02",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "featured",
+    "title": "Supply chain disruption response",
+    "service": "AXLE-Supply-04",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "featured",
+    "title": "Production scheduling optimization",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "featured",
+    "title": "Supplier risk & dual-sourcing decisioning",
+    "service": "AXLE-Supply-07",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "TMT",
+    "kind": "featured",
+    "title": "Contact center intelligence",
+    "service": "TMT-TEL-CC-03",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TMT",
+    "kind": "featured",
+    "title": "Network fault prediction — telecom",
+    "service": "TMT-TEL-NET-02",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "TMT",
+    "kind": "featured",
+    "title": "Content recommendation & churn — media",
+    "service": "TMT-MED-01",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TMT",
+    "kind": "featured",
+    "title": "Ad fraud detection",
+    "service": "TMT-MED-03",
+    "domain_slug": "risk-fraud-security",
+    "domain_name": "Risk, Fraud & Security"
+  },
+  {
+    "practice": "TMT",
+    "kind": "featured",
+    "title": "SaaS expansion & consumption — tech",
+    "service": "TMT-TEC-04",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "TH",
+    "kind": "featured",
+    "title": "IROPS re-accommodation",
+    "service": "TH-AIR-02",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TH",
+    "kind": "featured",
+    "title": "Dynamic pricing & revenue management — hotel",
+    "service": "TH-HOT-03",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "TH",
+    "kind": "featured",
+    "title": "Guest sentiment & proactive recovery",
+    "service": "TH-HOT-05",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TH",
+    "kind": "featured",
+    "title": "Baggage proactive resolution",
+    "service": "TH-AIR-04",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TH",
+    "kind": "featured",
+    "title": "Crew scheduling optimization",
+    "service": "TH-AIR-06",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "ICE",
+    "kind": "featured",
+    "title": "Warranty intake with fraud detection",
+    "service": "ICE-Aftermarket-03",
+    "domain_slug": "risk-fraud-security",
+    "domain_name": "Risk, Fraud & Security"
+  },
+  {
+    "practice": "ICE",
+    "kind": "featured",
+    "title": "Predictive parts replenishment",
+    "service": "ICE-Aftermarket-05",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "ICE",
+    "kind": "featured",
+    "title": "Field service dispatch optimization",
+    "service": "ICE-Aftermarket-01",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "ICE",
+    "kind": "featured",
+    "title": "Equipment-as-a-service uptime management",
+    "service": "ICE-EaaS-04",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ICE",
+    "kind": "featured",
+    "title": "Dealer performance & forecasting",
+    "service": "ICE-Connected-06",
+    "domain_slug": "channel-partner-dealer",
+    "domain_name": "Channel, Partner & Dealer"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Assortment rationalization",
+    "service": "RC-E2E-03",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Attribution modeling",
+    "service": "RC-E2E-04",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Backhaul-truck loading optimization",
+    "service": "RC-E2E-06",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Brand-equity social-signal tracking",
+    "service": "RC-E2E-04",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Brand-health sentiment tracking",
+    "service": "RC-E2E-04",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Bundle pricing optimization",
+    "service": "RC-E2E-03",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Buy-online-pickup-in-store orchestration",
+    "service": "RC-E2E-06",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Cart-abandonment recovery",
+    "service": "RC-E2E-04",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Category role-clustering",
+    "service": "RC-E2E-04",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Chatbot deflection from call center",
+    "service": "RC-E2E-04",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Cleaning-crew routing optimization",
+    "service": "RC-E2E-05",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Cold-chain excursion mid-shift",
+    "service": "RC-E2E-03",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Competitive price-response",
+    "service": "RC-E2E-03",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Competitive-opening impact analysis",
+    "service": "RC-E2E-03",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Creative-effectiveness analysis",
+    "service": "RC-E2E-04",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Cross-channel identity resolution",
+    "service": "RC-E2E-04",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Cross-dock opportunity identification",
+    "service": "RC-E2E-06",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Customer-acquisition-cost optimization",
+    "service": "RC-E2E-04",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Customer-lifetime-value modeling",
+    "service": "RC-E2E-04",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Customer-service sentiment analysis",
+    "service": "RC-E2E-04",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Customer-wait-time prediction at checkout",
+    "service": "RC-E2E-05",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "DC-inventory-position optimization",
+    "service": "RC-E2E-06",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Delivery-slot optimization",
+    "service": "RC-E2E-06",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Direct-to-consumer churn analytics",
+    "service": "RC-E2E-04",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Dock-scheduling optimization",
+    "service": "RC-E2E-06",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Dressing-room throughput optimization",
+    "service": "RC-E2E-05",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Dynamic shipping-cost calculation",
+    "service": "RC-E2E-06",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "E-commerce fraud detection",
+    "service": "RC-E2E-07",
+    "domain_slug": "risk-fraud-security",
+    "domain_name": "Risk, Fraud & Security"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Email subject-line optimization",
+    "service": "RC-E2E-04",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "End-cap / display ROI",
+    "service": "RC-E2E-03",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "End-cap display ROI tracking",
+    "service": "RC-E2E-03",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Facing-count optimization",
+    "service": "RC-E2E-03",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Feedback-survey-analysis automation",
+    "service": "RC-E2E-04",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Food-safety temperature-log automation",
+    "service": "RC-E2E-05",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Gift-card-fraud detection",
+    "service": "RC-E2E-07",
+    "domain_slug": "risk-fraud-security",
+    "domain_name": "Risk, Fraud & Security"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Grab-and-go demand forecasting",
+    "service": "RC-E2E-09",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Grocery-produce waste prediction",
+    "service": "RC-E2E-09",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Hiring-funnel optimization",
+    "service": "RC-E2E-08",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "In-store advertising impact",
+    "service": "RC-E2E-04",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "In-store food-prep scheduling",
+    "service": "RC-E2E-09",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "In-store signage compliance scoring",
+    "service": "RC-E2E-05",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Inbound-freight consolidation",
+    "service": "RC-E2E-06",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Influencer-campaign analysis",
+    "service": "RC-E2E-04",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Lapsed-customer reactivation",
+    "service": "RC-E2E-04",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Last-mile-delivery routing",
+    "service": "RC-E2E-06",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Loyalty-churn prediction & winback",
+    "service": "RC-E2E-04",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Loyalty-tier-migration prediction",
+    "service": "RC-E2E-04",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Manufacturer-cost-variance detection",
+    "service": "RC-E2E-03",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Manufacturer-demand planning",
+    "service": "RC-E2E-06",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Manufacturing-yield improvement (CPG)",
+    "service": "RC-E2E-06",
+    "domain_slug": "engineering-rd",
+    "domain_name": "Engineering & R&D"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Market-cannibalization analysis",
+    "service": "RC-E2E-03",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Media-mix modeling",
+    "service": "RC-E2E-04",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Mobile-app conversion optimization",
+    "service": "RC-E2E-04",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "New-item shelving decisions",
+    "service": "RC-E2E-03",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "New-market-entry assessment",
+    "service": "RC-E2E-04",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "New-product-introduction forecast",
+    "service": "RC-E2E-03",
+    "domain_slug": "engineering-rd",
+    "domain_name": "Engineering & R&D"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Overtime-cost containment",
+    "service": "RC-E2E-05",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Pack-size optimization",
+    "service": "RC-E2E-03",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Parking-lot capacity management",
+    "service": "RC-E2E-05",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Perishable waste reduction",
+    "service": "RC-E2E-09",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Personalized-offer targeting",
+    "service": "RC-E2E-04",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Planogram-compliance scoring",
+    "service": "RC-E2E-03",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Pricing-decision audit trail",
+    "service": "RC-E2E-03",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Private-label-penetration analysis",
+    "service": "RC-E2E-03",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Product-complaint triage",
+    "service": "RC-E2E-04",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Product-review-summary generation",
+    "service": "RC-E2E-04",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Product-search relevance",
+    "service": "RC-E2E-04",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Promotional-lift measurement",
+    "service": "RC-E2E-03",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Regional-assortment-variance analysis",
+    "service": "RC-E2E-03",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Remodel-ROI forecasting",
+    "service": "RC-E2E-03",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Restroom-maintenance dispatch",
+    "service": "RC-E2E-05",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Retailer-scorecard analysis",
+    "service": "RC-E2E-03",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Returns-fraud detection",
+    "service": "RC-E2E-07",
+    "domain_slug": "risk-fraud-security",
+    "domain_name": "Risk, Fraud & Security"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Returns-to-vendor processing",
+    "service": "RC-E2E-07",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Safety-stock optimization",
+    "service": "RC-E2E-06",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Safety-training compliance tracking",
+    "service": "RC-E2E-08",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Seasonal-transition planning",
+    "service": "RC-E2E-03",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Self-checkout shrink detection",
+    "service": "RC-E2E-07",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Share-of-wallet estimation",
+    "service": "RC-E2E-04",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Shelf-price-label compliance audit",
+    "service": "RC-E2E-03",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Shift-swap automation",
+    "service": "RC-E2E-05",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Shrink root-cause analysis",
+    "service": "RC-E2E-07",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Site-personalization",
+    "service": "RC-E2E-04",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Site-selection scoring",
+    "service": "RC-E2E-03",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Size/fit recommendation",
+    "service": "RC-E2E-04",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Slip-and-fall incident prediction",
+    "service": "RC-E2E-05",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Space-to-sales optimization",
+    "service": "RC-E2E-03",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Store-app-engagement optimization",
+    "service": "RC-E2E-04",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Store-cleanliness-compliance scoring",
+    "service": "RC-E2E-05",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Store-display-compliance verification",
+    "service": "RC-E2E-05",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Store-energy-consumption optimization",
+    "service": "RC-E2E-05",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Store-labor scheduling optimization",
+    "service": "RC-E2E-05",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Store-opening-readiness checklist",
+    "service": "RC-E2E-05",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Store-P&L variance analysis",
+    "service": "RC-E2E-03",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Store-replenishment frequency",
+    "service": "RC-E2E-06",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Supplier-OTIF monitoring",
+    "service": "RC-E2E-06",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Trade-promotion ROI",
+    "service": "RC-E2E-03",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Transportation-carrier selection",
+    "service": "RC-E2E-06",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Turnover prediction",
+    "service": "RC-E2E-08",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "RC",
+    "kind": "compact",
+    "title": "Warehouse-slotting optimization",
+    "service": "RC-E2E-06",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Accreditation-survey readiness",
+    "service": "HLS-E2E-02",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "ACO quality-measure closure",
+    "service": "HLS-E2E-06",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Adverse drug event (ADE) prediction",
+    "service": "HLS-E2E-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Adverse-event classification",
+    "service": "HLS-LS-03",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Anesthesia case-prep assistant",
+    "service": "HLS-E2E-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Appeals-and-grievances triage",
+    "service": "HLS-E2E-06",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Authorization-decisioning support",
+    "service": "HLS-E2E-04",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Bad-debt prediction",
+    "service": "HLS-E2E-06",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Benefit-plan-design analytics",
+    "service": "HLS-E2E-06",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Biomarker-discovery ranking",
+    "service": "HLS-LS-03",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Biospecimen tracking",
+    "service": "HLS-LS-03",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Bundled-payment analytics",
+    "service": "HLS-E2E-06",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Care-manager caseload optimization",
+    "service": "HLS-E2E-06",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Charge-capture gap analysis",
+    "service": "HLS-E2E-06",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Chatbot symptom-checker",
+    "service": "HLS-E2E-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Chronic-condition risk stratification",
+    "service": "HLS-E2E-06",
+    "domain_slug": "risk-fraud-security",
+    "domain_name": "Risk, Fraud & Security"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Claim-scrubbing pre-submission",
+    "service": "HLS-E2E-06",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Claims-fraud detection",
+    "service": "HLS-E2E-06",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Clinical-documentation improvement",
+    "service": "HLS-E2E-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Clinical-trial patient matching",
+    "service": "HLS-LS-03",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Coding-accuracy review",
+    "service": "HLS-E2E-06",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Community-resource referral matching",
+    "service": "HLS-E2E-06",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Competitive-intelligence synthesis",
+    "service": "HLS-LS-03",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Complaint-resolution triage",
+    "service": "HLS-E2E-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Contact-center co-pilot (payer)",
+    "service": "HLS-E2E-06",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Contract-negotiation analytics",
+    "service": "HLS-E2E-06",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Credentialing expiration tracking",
+    "service": "HLS-E2E-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Delirium screening",
+    "service": "HLS-E2E-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Device-complaint classification",
+    "service": "HLS-LS-03",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Device-utilization analytics",
+    "service": "HLS-LS-03",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Direct-contracting performance",
+    "service": "HLS-E2E-06",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Discharge-education comprehension",
+    "service": "HLS-E2E-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Discharge-readiness prediction",
+    "service": "HLS-E2E-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Drug-safety signal detection",
+    "service": "HLS-LS-03",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "ED throughput optimization",
+    "service": "HLS-E2E-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Equipment-utilization (clinical)",
+    "service": "HLS-E2E-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Fall-risk assessment",
+    "service": "HLS-E2E-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Field-safety-notice drafting",
+    "service": "HLS-LS-03",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Financial-counseling targeting",
+    "service": "HLS-E2E-06",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Formulary-access analysis",
+    "service": "HLS-LS-03",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Hand-hygiene compliance monitoring",
+    "service": "HLS-E2E-02",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "HEDIS care-gap closure",
+    "service": "HLS-E2E-06",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "High-cost-claimant identification",
+    "service": "HLS-E2E-06",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "HIPAA violation risk scoring",
+    "service": "HLS-E2E-02",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Hub-services orchestration",
+    "service": "HLS-LS-03",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "ICU risk scoring",
+    "service": "HLS-E2E-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Infection-surveillance",
+    "service": "HLS-E2E-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "IRB-submission triage",
+    "service": "HLS-LS-03",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Key-opinion-leader mapping",
+    "service": "HLS-LS-03",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Launch-readiness scoring",
+    "service": "HLS-LS-03",
+    "domain_slug": "engineering-rd",
+    "domain_name": "Engineering & R&D"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Length-of-stay prediction",
+    "service": "HLS-E2E-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Literature-review automation",
+    "service": "HLS-LS-03",
+    "domain_slug": "engineering-rd",
+    "domain_name": "Engineering & R&D"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Market-access scenario modeling",
+    "service": "HLS-LS-03",
+    "domain_slug": "channel-partner-dealer",
+    "domain_name": "Channel, Partner & Dealer"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Medical-information response",
+    "service": "HLS-LS-03",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Medication reconciliation",
+    "service": "HLS-E2E-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Medication-adherence prediction",
+    "service": "HLS-E2E-06",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Member-churn prediction (payer)",
+    "service": "HLS-E2E-06",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Never-event prevention",
+    "service": "HLS-E2E-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "NPS-driver analysis",
+    "service": "HLS-E2E-02",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Nurse-staffing forecasting",
+    "service": "HLS-E2E-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Opioid-prescribing risk flag",
+    "service": "HLS-E2E-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "OR scheduling optimization",
+    "service": "HLS-E2E-02",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "OR-kit inventory optimization",
+    "service": "HLS-E2E-02",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Patient-outreach scheduling",
+    "service": "HLS-E2E-06",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Patient-payment propensity",
+    "service": "HLS-E2E-06",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Patient-support-program analytics",
+    "service": "HLS-LS-03",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Payer-contract-variance tracking",
+    "service": "HLS-E2E-06",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "PDMP-integration workflow",
+    "service": "HLS-E2E-02",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Pharmacy-inventory optimization",
+    "service": "HLS-E2E-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Post-market-surveillance",
+    "service": "HLS-LS-03",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "PPE-demand forecasting",
+    "service": "HLS-E2E-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Premium-pricing analysis",
+    "service": "HLS-E2E-06",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Pressure-injury prediction",
+    "service": "HLS-E2E-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Preventive-screening outreach",
+    "service": "HLS-E2E-06",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Price-estimate accuracy",
+    "service": "HLS-E2E-06",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Privacy-breach detection",
+    "service": "HLS-E2E-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Promotional-compliance monitoring",
+    "service": "HLS-LS-03",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Protocol-deviation prediction",
+    "service": "HLS-LS-03",
+    "domain_slug": "risk-fraud-security",
+    "domain_name": "Risk, Fraud & Security"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Provider-credentialing automation",
+    "service": "HLS-E2E-06",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Provider-network-adequacy analysis",
+    "service": "HLS-E2E-06",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Publication-impact tracking",
+    "service": "HLS-LS-03",
+    "domain_slug": "engineering-rd",
+    "domain_name": "Engineering & R&D"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Readmission-risk prediction",
+    "service": "HLS-E2E-02",
+    "domain_slug": "risk-fraud-security",
+    "domain_name": "Risk, Fraud & Security"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Regulatory-submission drafting",
+    "service": "HLS-LS-03",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Remote-monitoring alert triage",
+    "service": "HLS-E2E-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Research-grant matching",
+    "service": "HLS-LS-03",
+    "domain_slug": "engineering-rd",
+    "domain_name": "Engineering & R&D"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Sales-rep next-best-action",
+    "service": "HLS-LS-03",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Sentinel-event root-cause analysis",
+    "service": "HLS-E2E-02",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Sepsis early warning",
+    "service": "HLS-E2E-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Site-feasibility scoring",
+    "service": "HLS-LS-03",
+    "domain_slug": "engineering-rd",
+    "domain_name": "Engineering & R&D"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Social-determinants mapping",
+    "service": "HLS-E2E-06",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Specialty-pharmacy performance",
+    "service": "HLS-LS-03",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Star-rating improvement",
+    "service": "HLS-E2E-06",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Supply-chain-variance analytics",
+    "service": "HLS-E2E-06",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Surgical case-type classification",
+    "service": "HLS-E2E-02",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Surgical-instrument tracking",
+    "service": "HLS-E2E-02",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Target identification",
+    "service": "HLS-LS-03",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Transfer-of-care handoff",
+    "service": "HLS-E2E-02",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Transitions-of-care orchestration",
+    "service": "HLS-E2E-06",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Underpayment-recovery analytics",
+    "service": "HLS-E2E-06",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Virtual-visit triage",
+    "service": "HLS-E2E-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Wearable-data integration",
+    "service": "HLS-E2E-02",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "HLS",
+    "kind": "compact",
+    "title": "Wellness-program enrollment targeting",
+    "service": "HLS-E2E-06",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "AMI-data-quality management",
+    "service": "ER-PU-04",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Artificial-lift optimization",
+    "service": "ER-OG-03",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Asset-transfer reconciliation",
+    "service": "ER-OG-03",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Battery-storage dispatch",
+    "service": "ER-PU-04",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Bill-anomaly detection",
+    "service": "ER-PU-04",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Blast-fragmentation analysis",
+    "service": "ER-MN-02",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Blending optimization",
+    "service": "ER-OG-05",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Boiler-tube-failure prediction",
+    "service": "ER-PU-04",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Carbon-accounting and reporting",
+    "service": "ER-OG-03",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Carbon-credit verification",
+    "service": "ER-PU-04",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Catalyst-performance prediction",
+    "service": "ER-OG-05",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Cathodic-protection anomaly detection",
+    "service": "ER-OG-07",
+    "domain_slug": "risk-fraud-security",
+    "domain_name": "Risk, Fraud & Security"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Compressor-performance optimization",
+    "service": "ER-OG-07",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Compressor-station uptime",
+    "service": "ER-OG-07",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Confined-space-entry compliance",
+    "service": "ER-OG-03",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Contract-compliance monitoring",
+    "service": "ER-OG-03",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Contractor-safety performance",
+    "service": "ER-OG-03",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Cooling-water intake monitoring",
+    "service": "ER-PU-04",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Crude-selection optimization",
+    "service": "ER-OG-05",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Customer-churn prediction (utility)",
+    "service": "ER-PU-04",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Customer-service contact-center (utility)",
+    "service": "ER-PU-04",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "DER (distributed energy resource) integration",
+    "service": "ER-PU-04",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Drill-and-blast productivity",
+    "service": "ER-MN-02",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Drilling-rig performance optimization",
+    "service": "ER-OG-02",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Emergency-response readiness",
+    "service": "ER-OG-03",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Emissions-compliance continuous monitoring",
+    "service": "ER-PU-04",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Energy-efficiency-program enrollment",
+    "service": "ER-PU-04",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Equipment-utilization (mining fleet)",
+    "service": "ER-MN-02",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "ESP (electric submersible pump) failure prediction",
+    "service": "ER-OG-03",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Flare-gas recovery",
+    "service": "ER-OG-05",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Flaring-reduction analytics",
+    "service": "ER-OG-03",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Frac-completion performance",
+    "service": "ER-OG-02",
+    "domain_slug": "engineering-rd",
+    "domain_name": "Engineering & R&D"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Fuel-inventory optimization",
+    "service": "ER-PU-04",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Gas-composition-analysis compliance",
+    "service": "ER-OG-07",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Gas-lift compressor monitoring",
+    "service": "ER-OG-03",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Generation-unit dispatch",
+    "service": "ER-PU-04",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Grid-frequency stability",
+    "service": "ER-PU-04",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Haul-truck-route optimization",
+    "service": "ER-MN-02",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Heat-exchanger fouling prediction",
+    "service": "ER-OG-05",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Hot-work-permit management",
+    "service": "ER-OG-03",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Hydroelectric reservoir management",
+    "service": "ER-PU-04",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Lease-operator route optimization",
+    "service": "ER-OG-03",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Line-loss reduction",
+    "service": "ER-PU-04",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Load-forecast accuracy improvement",
+    "service": "ER-PU-04",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Loading-rack scheduling",
+    "service": "ER-OG-07",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Logistics-provider performance",
+    "service": "ER-OG-03",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Lone-worker safety",
+    "service": "ER-OG-03",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Loss-of-primary-containment prediction",
+    "service": "ER-OG-03",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "M&A target-screening",
+    "service": "ER-OG-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Mill-throughput optimization",
+    "service": "ER-MN-02",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Near-miss-trend analysis",
+    "service": "ER-OG-03",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Net-metering reconciliation",
+    "service": "ER-PU-04",
+    "domain_slug": "risk-fraud-security",
+    "domain_name": "Risk, Fraud & Security"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Offshore-wind-maintenance routing",
+    "service": "ER-PU-04",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Ore-grade control",
+    "service": "ER-MN-02",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Outage-restoration sequencing",
+    "service": "ER-PU-04",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Payment-arrangement optimization",
+    "service": "ER-PU-04",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Permit-to-work compliance",
+    "service": "ER-OG-03",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Pipeline leak detection",
+    "service": "ER-OG-07",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Pipeline-integrity inspection routing",
+    "service": "ER-OG-07",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Pipeline-odorant-injection monitoring",
+    "service": "ER-OG-07",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Pipeline-throughput capacity planning",
+    "service": "ER-OG-07",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Plant-performance benchmarking",
+    "service": "ER-PU-04",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Process-safety-management leading indicators",
+    "service": "ER-OG-03",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Processing-plant recovery optimization",
+    "service": "ER-MN-02",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Procurement-spend analytics",
+    "service": "ER-OG-03",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Production-allocation",
+    "service": "ER-OG-03",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Production-chemical optimization",
+    "service": "ER-OG-03",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Program-enrollment targeting",
+    "service": "ER-PU-04",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Pump-station optimization",
+    "service": "ER-OG-07",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Renewable-PPA pricing analytics",
+    "service": "ER-PU-04",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Reservoir-production forecasting",
+    "service": "ER-OG-02",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Revenue-protection (theft detection)",
+    "service": "ER-PU-04",
+    "domain_slug": "risk-fraud-security",
+    "domain_name": "Risk, Fraud & Security"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Solar-farm yield optimization",
+    "service": "ER-PU-04",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Solar-panel soiling detection",
+    "service": "ER-PU-04",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Spare-parts-inventory optimization",
+    "service": "ER-OG-03",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Steam-balance optimization",
+    "service": "ER-OG-05",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Storage-terminal inventory",
+    "service": "ER-OG-07",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Storm-prep crew staging",
+    "service": "ER-PU-04",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Substation-asset health",
+    "service": "ER-PU-04",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Tailings-dam monitoring",
+    "service": "ER-MN-02",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Tanker-scheduling optimization",
+    "service": "ER-OG-07",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Thermal-plant heat-rate optimization",
+    "service": "ER-PU-04",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Time-of-use rate-plan analysis",
+    "service": "ER-PU-04",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Tower-overhead-corrosion prediction",
+    "service": "ER-OG-05",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Transformer-load forecasting",
+    "service": "ER-PU-04",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Turbine-blade-wear assessment",
+    "service": "ER-PU-04",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Turnaround-planning optimization",
+    "service": "ER-OG-05",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Valve-station remote monitoring",
+    "service": "ER-OG-07",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Vegetation-management prioritization",
+    "service": "ER-PU-04",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Ventilation-system optimization",
+    "service": "ER-MN-02",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Venting-emission detection",
+    "service": "ER-OG-03",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Voltage-regulation optimization",
+    "service": "ER-PU-04",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Wastewater-treatment optimization",
+    "service": "ER-OG-05",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Water-handling optimization",
+    "service": "ER-OG-03",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Well-spacing optimization",
+    "service": "ER-OG-02",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Wildfire-ignition risk prediction",
+    "service": "ER-PU-04",
+    "domain_slug": "risk-fraud-security",
+    "domain_name": "Risk, Fraud & Security"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Wind-power forecasting",
+    "service": "ER-PU-04",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Wind-turbine-blade inspection",
+    "service": "ER-PU-04",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ER",
+    "kind": "compact",
+    "title": "Worker-fatigue monitoring",
+    "service": "ER-OG-03",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "8D-report drafting",
+    "service": "AXLE-QMS-02",
+    "domain_slug": "engineering-rd",
+    "domain_name": "Engineering & R&D"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "AD/SB compliance tracking",
+    "service": "AXLE-QMS-02",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Air-emission monitoring",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Aircraft-part serialization",
+    "service": "AXLE-QMS-02",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Andon-signal root-cause analysis",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Assembly-sequence optimization",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Bill-of-material rationalization",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "engineering-rd",
+    "domain_name": "Engineering & R&D"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "CAD-file metadata tagging",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "engineering-rd",
+    "domain_name": "Engineering & R&D"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "CAPA tracking and effectiveness",
+    "service": "AXLE-QMS-02",
+    "domain_slug": "engineering-rd",
+    "domain_name": "Engineering & R&D"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Capital-project-ROI tracking",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Changeover-time reduction",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Chemical-exposure tracking",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "CNC-spindle failure prediction",
+    "service": "AXLE-Connected-Factory-01",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Compressed-air-leak detection",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Condition-based-maintenance calibration",
+    "service": "AXLE-Connected-Factory-01",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Conveyor-system uptime",
+    "service": "AXLE-Connected-Factory-01",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Country-of-origin documentation",
+    "service": "AXLE-Supply-04",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Customer-complaint classification",
+    "service": "AXLE-QMS-02",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Cycle-time-variance analysis",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Dealer-inventory visibility",
+    "service": "AXLE-Supply-04",
+    "domain_slug": "channel-partner-dealer",
+    "domain_name": "Channel, Partner & Dealer"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Design-for-manufacturability scoring",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "engineering-rd",
+    "domain_name": "Engineering & R&D"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Digital-twin parameter calibration",
+    "service": "AXLE-Connected-Factory-01",
+    "domain_slug": "engineering-rd",
+    "domain_name": "Engineering & R&D"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Electrical-arc-flash analysis",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "engineering-rd",
+    "domain_name": "Engineering & R&D"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Energy-management ISO 50001 reporting",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Engineering-change-order impact",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "engineering-rd",
+    "domain_name": "Engineering & R&D"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Engineering-release-cycle time",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Ergonomic-risk assessment",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "engineering-rd",
+    "domain_name": "Engineering & R&D"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Field-service dispatch optimization",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "First-pass-yield (FPY) improvement",
+    "service": "AXLE-QMS-02",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Fleet-fatigue tracking",
+    "service": "AXLE-QMS-02",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Forklift-utilization analytics",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Gauge-R&R study automation",
+    "service": "AXLE-QMS-02",
+    "domain_slug": "engineering-rd",
+    "domain_name": "Engineering & R&D"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Hydraulic-system leak detection",
+    "service": "AXLE-Connected-Factory-01",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "In-process SPC alerting",
+    "service": "AXLE-QMS-02",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Inbound-logistics tracking",
+    "service": "AXLE-Supply-04",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Inbound-quality inspection",
+    "service": "AXLE-Supply-04",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Industrial-IoT alarm suppression",
+    "service": "AXLE-Connected-Factory-01",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Inspection-station routing",
+    "service": "AXLE-QMS-02",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Installed-base health scoring",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "ISO-audit-readiness tracking",
+    "service": "AXLE-QMS-02",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Kanban-signal optimization",
+    "service": "AXLE-Supply-04",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Line-balancing optimization",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Line-stoppage-root-cause detection",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Load-consolidation optimization",
+    "service": "AXLE-Supply-04",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Lockout-tagout compliance",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Logistics-carrier scoring",
+    "service": "AXLE-Supply-04",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Lubrication-schedule adherence",
+    "service": "AXLE-Connected-Factory-01",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Machine-guarding inspection",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Maintenance-tech dispatch",
+    "service": "AXLE-Connected-Factory-01",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Material-shortage prediction",
+    "service": "AXLE-Supply-04",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Mean-time-between-failure forecasting",
+    "service": "AXLE-Connected-Factory-01",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Measurement-system-drift detection",
+    "service": "AXLE-QMS-02",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Motor-bearing-failure prediction",
+    "service": "AXLE-Connected-Factory-01",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Near-miss classification",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "New-product-launch readiness",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "engineering-rd",
+    "domain_name": "Engineering & R&D"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Noise-exposure monitoring",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "OEE reporting automation",
+    "service": "AXLE-Connected-Factory-01",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Operator-skill matching",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Order-picking optimization",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Packaging-material optimization",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "engineering-rd",
+    "domain_name": "Engineering & R&D"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Paint-booth throughput",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Pallet-exchange tracking",
+    "service": "AXLE-Supply-04",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Parts-replenishment forecast",
+    "service": "AXLE-Supply-04",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Plant-capacity-planning",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Plant-commissioning support",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "engineering-rd",
+    "domain_name": "Engineering & R&D"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Plant-level-P&L variance",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "PPAP automation",
+    "service": "AXLE-QMS-02",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Predictive-tool-life monitoring",
+    "service": "AXLE-Connected-Factory-01",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Put-away-route optimization",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Quality escape detection & RCA",
+    "service": "AXLE-QMS-02",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Remote-diagnostics triage",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Robot-axis-wear detection",
+    "service": "AXLE-Connected-Factory-01",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Safety-training refresher targeting",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Scrap-root-cause analysis",
+    "service": "AXLE-QMS-02",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Sequenced-parts delivery",
+    "service": "AXLE-Supply-04",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Service-contract renewal",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Shift-handover note automation",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Shipping-dock scheduling",
+    "service": "AXLE-Supply-04",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Spare-parts-kit optimization",
+    "service": "AXLE-Connected-Factory-01",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Supplier-collaboration portal",
+    "service": "AXLE-Supply-04",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Supplier-drawing-revision tracking",
+    "service": "AXLE-Supply-04",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Supplier-quality-alert triage",
+    "service": "AXLE-QMS-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Supply disruption response",
+    "service": "AXLE-Supply-04",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Takt-time adherence monitoring",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Tariff-impact modeling",
+    "service": "AXLE-Supply-04",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Technical-document chat assistant",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Technical-manual update automation",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Technician-knowledge-base search",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Throughput-bottleneck identification",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Trade-compliance classification",
+    "service": "AXLE-Supply-04",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Utility-consumption optimization",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Variant-proliferation-complexity reduction",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Vehicle line-build sequencing",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Visual-inspection computer vision",
+    "service": "AXLE-QMS-02",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Warehouse-slotting optimization",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Warranty fraud detection",
+    "service": "AXLE-QMS-02",
+    "domain_slug": "risk-fraud-security",
+    "domain_name": "Risk, Fraud & Security"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Warranty-claim-pattern → recall risk",
+    "service": "AXLE-QMS-02",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Warranty-return-to-engineering feedback",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "engineering-rd",
+    "domain_name": "Engineering & R&D"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Wastewater-discharge compliance",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Work-in-process tracking",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Worker-skill-gap analysis",
+    "service": "AXLE-Ops-03",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "AXLE",
+    "kind": "compact",
+    "title": "Yard-management optimization",
+    "service": "AXLE-Supply-04",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "5G-slice-performance monitoring",
+    "service": "TMT-TEL-NET-02",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "AB-test-result interpretation",
+    "service": "TMT-TEC-04",
+    "domain_slug": "engineering-rd",
+    "domain_name": "Engineering & R&D"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Account-based-marketing targeting",
+    "service": "TMT-TEC-04",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Account-sharing detection",
+    "service": "TMT-MED-01",
+    "domain_slug": "risk-fraud-security",
+    "domain_name": "Risk, Fraud & Security"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Ad-copy generation",
+    "service": "TMT-MED-03",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Ad-fraud detection",
+    "service": "TMT-MED-03",
+    "domain_slug": "risk-fraud-security",
+    "domain_name": "Risk, Fraud & Security"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Advertiser-pipeline scoring",
+    "service": "TMT-MED-03",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "App-store-review triage",
+    "service": "TMT-MED-01",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Audience-segment expansion",
+    "service": "TMT-MED-03",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Bill-shock prevention",
+    "service": "TMT-TEL-CC-03",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Brand-safety content classification",
+    "service": "TMT-MED-03",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Build-pipeline optimization",
+    "service": "TMT-TEC-04",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Candidate-screening assistance",
+    "service": "TMT-TEC-04",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Capacity-planning for 5G buildout",
+    "service": "TMT-TEL-NET-02",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "CDN-performance optimization",
+    "service": "TMT-MED-01",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Cell-site energy optimization",
+    "service": "TMT-TEL-NET-02",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Churn-intervention playbooks",
+    "service": "TMT-TEC-04",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Churn-survey sentiment analysis",
+    "service": "TMT-TEC-04",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Cloud-cost anomaly detection",
+    "service": "TMT-TEC-04",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Code-review assistant",
+    "service": "TMT-TEC-04",
+    "domain_slug": "risk-fraud-security",
+    "domain_name": "Risk, Fraud & Security"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Community-content moderation",
+    "service": "TMT-TEC-04",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Competitor-mention tracking",
+    "service": "TMT-TEC-04",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Compliance-evidence collection",
+    "service": "TMT-TEC-04",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Contact-center intelligence",
+    "service": "TMT-TEL-CC-03",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Content-catalog rationalization",
+    "service": "TMT-MED-01",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Content-cold-start optimization",
+    "service": "TMT-MED-01",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Content-metadata enrichment",
+    "service": "TMT-MED-01",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Content-recommendation personalization",
+    "service": "TMT-MED-01",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Core-network anomaly detection",
+    "service": "TMT-TEL-NET-02",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Creative-performance prediction",
+    "service": "TMT-MED-03",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Cross-screen-attribution modeling",
+    "service": "TMT-MED-03",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "CTV inventory forecasting",
+    "service": "TMT-MED-03",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Customer-health scoring",
+    "service": "TMT-TEC-04",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Customer-success playbook generation",
+    "service": "TMT-TEC-04",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Data-exfiltration detection",
+    "service": "TMT-TEC-04",
+    "domain_slug": "risk-fraud-security",
+    "domain_name": "Risk, Fraud & Security"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Deal-forecast confidence",
+    "service": "TMT-TEC-04",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Deployment-risk scoring",
+    "service": "TMT-TEC-04",
+    "domain_slug": "risk-fraud-security",
+    "domain_name": "Risk, Fraud & Security"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Developer-relations engagement",
+    "service": "TMT-TEC-04",
+    "domain_slug": "engineering-rd",
+    "domain_name": "Engineering & R&D"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Device-upgrade next-best-action",
+    "service": "TMT-TEL-CC-03",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Digital-workplace analytics",
+    "service": "TMT-TEC-04",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Employee-help-desk deflection",
+    "service": "TMT-TEC-04",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Enterprise-account customer success",
+    "service": "TMT-TEL-CC-03",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Enterprise-customer-service triage",
+    "service": "TMT-TEL-CC-03",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Executive-briefing-document generation",
+    "service": "TMT-TEC-04",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Family-plan-optimization outreach",
+    "service": "TMT-TEL-CC-03",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Feature-adoption analysis",
+    "service": "TMT-TEC-04",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Feature-flag-rollout analysis",
+    "service": "TMT-TEC-04",
+    "domain_slug": "engineering-rd",
+    "domain_name": "Engineering & R&D"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Fiber-deployment routing",
+    "service": "TMT-TEL-NET-02",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "First-bill-complaint prevention",
+    "service": "TMT-TEL-CC-03",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Identity-access-review automation",
+    "service": "TMT-TEC-04",
+    "domain_slug": "engineering-rd",
+    "domain_name": "Engineering & R&D"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Insider-threat detection",
+    "service": "TMT-TEC-04",
+    "domain_slug": "risk-fraud-security",
+    "domain_name": "Risk, Fraud & Security"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Investor-relations-communication drafting",
+    "service": "TMT-TEC-04",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "IoT-connectivity monitoring",
+    "service": "TMT-TEL-NET-02",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Knowledge-base-search relevance",
+    "service": "TMT-TEC-04",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Lead-scoring optimization",
+    "service": "TMT-TEC-04",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Licensing-rights-expiry tracking",
+    "service": "TMT-MED-01",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Live-commerce performance",
+    "service": "TMT-MED-03",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Live-event capacity-scaling",
+    "service": "TMT-MED-01",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Managed-service-contract renewal",
+    "service": "TMT-TEL-CC-03",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Mobile-churn prediction",
+    "service": "TMT-TEL-CC-03",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Mobile-handoff-failure root cause",
+    "service": "TMT-TEL-NET-02",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "MPLS-to-SD-WAN migration planning",
+    "service": "TMT-TEL-CC-03",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Network-fault prediction",
+    "service": "TMT-TEL-NET-02",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "NFV orchestration",
+    "service": "TMT-TEL-NET-02",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Onboarding-friction detection",
+    "service": "TMT-TEC-04",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Open-role-description optimization",
+    "service": "TMT-TEC-04",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Optical-network-fault prediction",
+    "service": "TMT-TEL-NET-02",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Payment-decline recovery",
+    "service": "TMT-TEL-CC-03",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Performance-regression detection",
+    "service": "TMT-TEC-04",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Phishing-email classification",
+    "service": "TMT-TEC-04",
+    "domain_slug": "risk-fraud-security",
+    "domain_name": "Risk, Fraud & Security"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Piracy-detection and takedown",
+    "service": "TMT-MED-01",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Private-5G-network sizing",
+    "service": "TMT-TEL-NET-02",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Product-led-growth scoring",
+    "service": "TMT-TEC-04",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Product-marketing briefing auto-generation",
+    "service": "TMT-TEC-04",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Production-incident root cause",
+    "service": "TMT-TEC-04",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Production-log-anomaly detection",
+    "service": "TMT-TEC-04",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Programmatic-bid optimization",
+    "service": "TMT-MED-03",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Regulatory-filing automation",
+    "service": "TMT-TEC-04",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Release-window optimization",
+    "service": "TMT-MED-01",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Renewal-negotiation intel",
+    "service": "TMT-TEC-04",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Retention-offer personalization",
+    "service": "TMT-TEL-CC-03",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Roadmap-dependency detection",
+    "service": "TMT-TEC-04",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Roaming-fraud detection",
+    "service": "TMT-TEL-CC-03",
+    "domain_slug": "risk-fraud-security",
+    "domain_name": "Risk, Fraud & Security"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Sales-rep-productivity analytics",
+    "service": "TMT-TEC-04",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Satellite-backhaul-performance monitoring",
+    "service": "TMT-TEL-NET-02",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "SD-WAN performance analytics",
+    "service": "TMT-TEL-NET-02",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "SD-WAN sales-opportunity scoring",
+    "service": "TMT-TEL-CC-03",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Security-incident-response triage",
+    "service": "TMT-TEC-04",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "SIM-swap-fraud detection",
+    "service": "TMT-TEL-CC-03",
+    "domain_slug": "risk-fraud-security",
+    "domain_name": "Risk, Fraud & Security"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "SLO-burn-rate alerting",
+    "service": "TMT-TEC-04",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "SOC-alert triage",
+    "service": "TMT-TEC-04",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Spectrum-license portfolio optimization",
+    "service": "TMT-TEL-NET-02",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Sports-highlight auto-generation",
+    "service": "TMT-MED-01",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Streaming-quality-of-experience",
+    "service": "TMT-MED-01",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Subscription-churn prediction",
+    "service": "TMT-MED-01",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Subtitle / closed-caption accuracy",
+    "service": "TMT-MED-01",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Support-ticket deflection",
+    "service": "TMT-TEC-04",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Third-party-risk-assessment",
+    "service": "TMT-TEC-04",
+    "domain_slug": "risk-fraud-security",
+    "domain_name": "Risk, Fraud & Security"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Translation and localization",
+    "service": "TMT-MED-01",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Transport-network-fault isolation",
+    "service": "TMT-TEL-NET-02",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Trial-to-paid conversion",
+    "service": "TMT-TEC-04",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Usage-based-pricing analytics",
+    "service": "TMT-TEC-04",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Video-encoding optimization",
+    "service": "TMT-MED-01",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "TMT",
+    "kind": "compact",
+    "title": "Vulnerability-prioritization",
+    "service": "TMT-TEC-04",
+    "domain_slug": "risk-fraud-security",
+    "domain_name": "Risk, Fraud & Security"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "ACARS message triage",
+    "service": "TH-AIR-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Accessibility-compliance verification",
+    "service": "TH-AIR-02",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Aircraft-routing optimization",
+    "service": "TH-AIR-06",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Airport-retail cross-sell",
+    "service": "TH-AIR-02",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Ancillary-product attach rate",
+    "service": "TH-AIR-02",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Baggage-carousel assignment",
+    "service": "TH-AIR-04",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Bookings-pace monitoring",
+    "service": "TH-AIR-02",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Breakage analysis",
+    "service": "TH-AIR-02",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Cabin-upgrade targeting",
+    "service": "TH-AIR-02",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Catering-plan optimization",
+    "service": "TH-AIR-02",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Channel-mix optimization",
+    "service": "TH-HOT-03",
+    "domain_slug": "channel-partner-dealer",
+    "domain_name": "Channel, Partner & Dealer"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Check-in / check-out throughput",
+    "service": "TH-HOT-03",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Co-brand-credit-card targeting",
+    "service": "TH-AIR-02",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Codeshare-partner performance",
+    "service": "TH-AIR-06",
+    "domain_slug": "channel-partner-dealer",
+    "domain_name": "Channel, Partner & Dealer"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Compensation-policy adherence",
+    "service": "TH-AIR-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Competitor-rate-shop analysis",
+    "service": "TH-HOT-03",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Complaint-resolution triage",
+    "service": "TH-AIR-02",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Concessionaire revenue optimization",
+    "service": "TH-AIR-02",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Content-accuracy audit (OTA)",
+    "service": "TH-AIR-02",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Content-partnership ROI",
+    "service": "TH-AIR-02",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Corporate-contract performance",
+    "service": "TH-AIR-02",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Crew-fatigue-risk monitoring",
+    "service": "TH-AIR-06",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Crew-rotation optimization",
+    "service": "TH-AIR-06",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Crisis-response communication",
+    "service": "TH-AIR-02",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Customer-lifetime-value modeling (travel)",
+    "service": "TH-AIR-02",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Customer-retention intervention",
+    "service": "TH-AIR-02",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Customer-service chatbot (airline)",
+    "service": "TH-AIR-02",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Damage-inspection computer vision",
+    "service": "TH-AIR-02",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "De-icing queue management",
+    "service": "TH-AIR-02",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Destination-marketing attribution",
+    "service": "TH-AIR-02",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Disruption-communication personalization",
+    "service": "TH-AIR-02",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Distribution-channel mix",
+    "service": "TH-AIR-02",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Dynamic fare optimization",
+    "service": "TH-AIR-02",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Elite-requalification nudges",
+    "service": "TH-AIR-02",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Embarkation-flow optimization",
+    "service": "TH-AIR-02",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Engine-maintenance predictive (cruise)",
+    "service": "TH-AIR-06",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Engineering-work-order triage",
+    "service": "TH-HOT-03",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "F&B banquet-event planning",
+    "service": "TH-HOT-03",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Fleet-utilization optimization",
+    "service": "TH-AIR-06",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Flight-safety-report triage",
+    "service": "TH-AIR-06",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Food-safety-audit readiness",
+    "service": "TH-HOT-03",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Fraud-transaction detection (OTA)",
+    "service": "TH-AIR-02",
+    "domain_slug": "risk-fraud-security",
+    "domain_name": "Risk, Fraud & Security"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Fuel-burn optimization",
+    "service": "TH-AIR-06",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Gate-assignment optimization",
+    "service": "TH-AIR-02",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Ground-handling coordination",
+    "service": "TH-AIR-02",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Group-booking pricing",
+    "service": "TH-HOT-03",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Group-sales pricing",
+    "service": "TH-AIR-02",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Guest-request routing",
+    "service": "TH-HOT-03",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Housekeeping-task routing",
+    "service": "TH-HOT-03",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "In-flight entertainment availability",
+    "service": "TH-AIR-02",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "In-stay-issue resolution",
+    "service": "TH-HOT-03",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Insurance-claims triage (rental)",
+    "service": "TH-AIR-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Inventory-par-level optimization",
+    "service": "TH-HOT-03",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Laundry-operations optimization",
+    "service": "TH-HOT-03",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Length-of-stay optimization",
+    "service": "TH-HOT-03",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Location-demand forecasting",
+    "service": "TH-AIR-02",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Lounge-capacity management",
+    "service": "TH-AIR-02",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Loyalty-tier-escalation predictor",
+    "service": "TH-HOT-03",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Maintenance-schedule optimization",
+    "service": "TH-AIR-06",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Maintenance-schedule optimization (rental)",
+    "service": "TH-AIR-06",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Medical-event triage (cruise)",
+    "service": "TH-AIR-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Meeting-space yield",
+    "service": "TH-HOT-03",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "MEL decision support",
+    "service": "TH-AIR-02",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Onboard-spend prediction",
+    "service": "TH-AIR-02",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Overbooking strategy",
+    "service": "TH-HOT-03",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Package-bundling optimization",
+    "service": "TH-HOT-03",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Package-holiday bundling",
+    "service": "TH-AIR-02",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Paid-search-bid optimization (travel)",
+    "service": "TH-AIR-02",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Partner-redemption optimization",
+    "service": "TH-AIR-02",
+    "domain_slug": "channel-partner-dealer",
+    "domain_name": "Channel, Partner & Dealer"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Personalized-amenity offer",
+    "service": "TH-HOT-03",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Points-redemption prediction",
+    "service": "TH-AIR-02",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Port-of-call-itinerary personalization",
+    "service": "TH-AIR-02",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Post-stay NPS analysis",
+    "service": "TH-HOT-05",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Pre-arrival upsell",
+    "service": "TH-HOT-03",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Premium-cabin yield",
+    "service": "TH-AIR-02",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Proactive baggage resolution",
+    "service": "TH-AIR-04",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Review-response automation",
+    "service": "TH-HOT-05",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Review-spam detection",
+    "service": "TH-HOT-05",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Room-assignment optimization",
+    "service": "TH-HOT-03",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Room-status reconciliation",
+    "service": "TH-HOT-03",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Route-profitability analysis",
+    "service": "TH-AIR-06",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Search-intent understanding",
+    "service": "TH-AIR-02",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Seat-assignment preference",
+    "service": "TH-AIR-02",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Security-incident triage",
+    "service": "TH-HOT-03",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Self-service-kiosk optimization",
+    "service": "TH-AIR-02",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Shore-excursion-dynamic pricing",
+    "service": "TH-AIR-02",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Social-influencer-campaign analytics",
+    "service": "TH-AIR-02",
+    "domain_slug": "marketing-growth",
+    "domain_name": "Marketing & Growth"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Social-media-escalation triage",
+    "service": "TH-AIR-02",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Spa / F&B recommendation",
+    "service": "TH-HOT-03",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Special-assistance coordination",
+    "service": "TH-AIR-02",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Staff-scheduling optimization (hotel)",
+    "service": "TH-HOT-03",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Supplier-commission reconciliation",
+    "service": "TH-AIR-02",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Sustainable-aviation-fuel tracking",
+    "service": "TH-AIR-06",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Tier-matching migration analysis",
+    "service": "TH-AIR-02",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Trip-experience sentiment",
+    "service": "TH-AIR-02",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "TSA-wait-time communication",
+    "service": "TH-AIR-02",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Upsell-offer personalization",
+    "service": "TH-AIR-02",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Vehicle-return-location balancing",
+    "service": "TH-AIR-06",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "TH",
+    "kind": "compact",
+    "title": "Voice-booking channel assistant",
+    "service": "TH-AIR-02",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Assembly-line-balancing (ICE)",
+    "service": "ICE-Connected-06",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Asset-rotation strategy",
+    "service": "ICE-EaaS-04",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Attachment-utilization tracking",
+    "service": "ICE-Connected-06",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Autonomous-haulage analytics",
+    "service": "ICE-Connected-06",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Backup-power-reliability scoring",
+    "service": "ICE-Connected-06",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Battery-management optimization",
+    "service": "ICE-Connected-06",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Bid-proposal generation",
+    "service": "ICE-Connected-06",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Cold-room-temperature compliance",
+    "service": "ICE-Connected-06",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Cold-storage equipment derating",
+    "service": "ICE-Connected-06",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Commercial-HVAC efficiency",
+    "service": "ICE-Connected-06",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Commercial-ice-machine uptime",
+    "service": "ICE-Connected-06",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Component-commonality analysis",
+    "service": "ICE-Connected-06",
+    "domain_slug": "engineering-rd",
+    "domain_name": "Engineering & R&D"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Configurator order-validation",
+    "service": "ICE-Connected-06",
+    "domain_slug": "engineering-rd",
+    "domain_name": "Engineering & R&D"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Configurator-and-quote assistant",
+    "service": "ICE-Connected-06",
+    "domain_slug": "engineering-rd",
+    "domain_name": "Engineering & R&D"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Contract-profitability analytics",
+    "service": "ICE-EaaS-04",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Customer-concentration-risk",
+    "service": "ICE-EaaS-04",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Customer-pay-work capture",
+    "service": "ICE-Aftermarket-01",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Customer-use-pattern feedback to engineering",
+    "service": "ICE-Connected-06",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Damage-claim triage (rental)",
+    "service": "ICE-Connected-06",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Dealer-certification readiness",
+    "service": "ICE-Connected-06",
+    "domain_slug": "channel-partner-dealer",
+    "domain_name": "Channel, Partner & Dealer"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Dealer-channel-conflict detection",
+    "service": "ICE-Connected-06",
+    "domain_slug": "channel-partner-dealer",
+    "domain_name": "Channel, Partner & Dealer"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Dealer-co-op funding allocation",
+    "service": "ICE-Connected-06",
+    "domain_slug": "channel-partner-dealer",
+    "domain_name": "Channel, Partner & Dealer"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Dealer-CSAT analysis",
+    "service": "ICE-Connected-06",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Dealer-financing-season timing",
+    "service": "ICE-Connected-06",
+    "domain_slug": "channel-partner-dealer",
+    "domain_name": "Channel, Partner & Dealer"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Dealer-inventory rebalancing",
+    "service": "ICE-Aftermarket-05",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Dealer-leads distribution",
+    "service": "ICE-Connected-06",
+    "domain_slug": "channel-partner-dealer",
+    "domain_name": "Channel, Partner & Dealer"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Dealer-margin-leakage detection",
+    "service": "ICE-Connected-06",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Dealer-prospecting analytics",
+    "service": "ICE-Connected-06",
+    "domain_slug": "channel-partner-dealer",
+    "domain_name": "Channel, Partner & Dealer"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Dealer-training-completion tracking",
+    "service": "ICE-Connected-06",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Diagnostic-code interpretation",
+    "service": "ICE-Aftermarket-01",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Dispatch-integration (mining)",
+    "service": "ICE-Connected-06",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Drill-and-blast equipment utilization",
+    "service": "ICE-Connected-06",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "EaaS renewal prediction",
+    "service": "ICE-EaaS-04",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Emissions-compliance monitoring (equipment)",
+    "service": "ICE-Connected-06",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Engineering-change impact (ICE)",
+    "service": "ICE-Connected-06",
+    "domain_slug": "engineering-rd",
+    "domain_name": "Engineering & R&D"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Engineering-spec matching",
+    "service": "ICE-Connected-06",
+    "domain_slug": "engineering-rd",
+    "domain_name": "Engineering & R&D"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Equipment-health monitoring",
+    "service": "ICE-Connected-06",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Equipment-location tracking",
+    "service": "ICE-Connected-06",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Equipment-ready-for-season analytics",
+    "service": "ICE-Connected-06",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Equipment-sharing optimization",
+    "service": "ICE-Connected-06",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Field-variable-rate-application",
+    "service": "ICE-Connected-06",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Final-test optimization",
+    "service": "ICE-Connected-06",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Financing-offer personalization",
+    "service": "ICE-Connected-06",
+    "domain_slug": "customer-experience",
+    "domain_name": "Customer Experience & Loyalty"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "First-time-fix improvement",
+    "service": "ICE-Aftermarket-01",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Fleet-utilization analytics",
+    "service": "ICE-Connected-06",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Forklift-utilization",
+    "service": "ICE-Connected-06",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Fuel-consumption optimization",
+    "service": "ICE-Connected-06",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Fuel-tank-level management",
+    "service": "ICE-Connected-06",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Genset-fleet-utilization",
+    "service": "ICE-Connected-06",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Geofence-compliance alerting",
+    "service": "ICE-Connected-06",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Government / municipal bid tracking",
+    "service": "ICE-Connected-06",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Harvest-yield correlation",
+    "service": "ICE-Connected-06",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Haul-truck-cycle optimization",
+    "service": "ICE-Connected-06",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Idle-time reduction",
+    "service": "ICE-Connected-06",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Jobsite-productivity tracking",
+    "service": "ICE-Connected-06",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Lead-scoring (OEM + dealer)",
+    "service": "ICE-Connected-06",
+    "domain_slug": "channel-partner-dealer",
+    "domain_name": "Channel, Partner & Dealer"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Load-bank-test scheduling",
+    "service": "ICE-Connected-06",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Machine-data-quality monitoring",
+    "service": "ICE-Connected-06",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "On-rent-to-off-rent-turnaround",
+    "service": "ICE-Connected-06",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Operator-behavior scoring",
+    "service": "ICE-Connected-06",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Operator-impact detection",
+    "service": "ICE-Connected-06",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Operator-training-completion tracking",
+    "service": "ICE-Connected-06",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Paint-shop throughput (ICE)",
+    "service": "ICE-Connected-06",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Parts-catalog-search relevance",
+    "service": "ICE-Aftermarket-05",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Pedestrian-safety monitoring",
+    "service": "ICE-Connected-06",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Plant-energy optimization (ICE)",
+    "service": "ICE-Connected-06",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Production scheduling (heavy equipment)",
+    "service": "ICE-Connected-06",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Productivity benchmarking",
+    "service": "ICE-Connected-06",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Project-equipment-kit optimization",
+    "service": "ICE-Connected-06",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Quality inspection (end-of-line)",
+    "service": "ICE-Connected-06",
+    "domain_slug": "quality-compliance",
+    "domain_name": "Quality, Compliance & Regulatory"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Raw-material-price hedging analytics",
+    "service": "ICE-Connected-06",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Refrigerant-leak detection",
+    "service": "ICE-Connected-06",
+    "domain_slug": "network-infrastructure",
+    "domain_name": "Network & Infrastructure"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Remote-diagnostic triage",
+    "service": "ICE-Aftermarket-01",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Rental-demand forecasting (genset)",
+    "service": "ICE-Connected-06",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Rental-rate-yield management",
+    "service": "ICE-Connected-06",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Rental-utilization forecasting",
+    "service": "ICE-Connected-06",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Repair-time estimation",
+    "service": "ICE-Aftermarket-01",
+    "domain_slug": "clinical-care",
+    "domain_name": "Clinical & Care"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Seasonal-demand forecasting (ag)",
+    "service": "ICE-Connected-06",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Service-advisor co-pilot",
+    "service": "ICE-Aftermarket-01",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Service-contract renewal likelihood",
+    "service": "ICE-Aftermarket-01",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Service-level-agreement risk scoring",
+    "service": "ICE-EaaS-04",
+    "domain_slug": "risk-fraud-security",
+    "domain_name": "Risk, Fraud & Security"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Supplier-delivery variance",
+    "service": "ICE-Connected-06",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Supplier-parts staging",
+    "service": "ICE-Connected-06",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Swap-unit-deployment optimization",
+    "service": "ICE-EaaS-04",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Tariff-cost modeling",
+    "service": "ICE-Connected-06",
+    "domain_slug": "supply-chain",
+    "domain_name": "Supply Chain & Inventory"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Technical-publication search",
+    "service": "ICE-Aftermarket-01",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Technician-skill routing",
+    "service": "ICE-Aftermarket-01",
+    "domain_slug": "operations-workforce",
+    "domain_name": "Operations & Workforce"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Territory-realignment modeling",
+    "service": "ICE-Connected-06",
+    "domain_slug": "channel-partner-dealer",
+    "domain_name": "Channel, Partner & Dealer"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Tire-wear prediction",
+    "service": "ICE-Connected-06",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Total-cost-of-ownership modeling",
+    "service": "ICE-Connected-06",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Trade-in valuation",
+    "service": "ICE-Connected-06",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Usage-based-billing reconciliation",
+    "service": "ICE-EaaS-04",
+    "domain_slug": "pricing-revenue",
+    "domain_name": "Pricing, Revenue & Margin"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Used-equipment pricing",
+    "service": "ICE-Connected-06",
+    "domain_slug": "asset-maintenance",
+    "domain_name": "Asset, Maintenance & Reliability"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Warranty-claim feedback to engineering",
+    "service": "ICE-Aftermarket-03",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  },
+  {
+    "practice": "ICE",
+    "kind": "compact",
+    "title": "Weather-impact schedule adjustment",
+    "service": "ICE-Connected-06",
+    "domain_slug": "other",
+    "domain_name": "Other / Cross-cutting"
+  }
+]
