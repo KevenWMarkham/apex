@@ -1,0 +1,5077 @@
+{
+  "RC": [
+    {
+      "t": "Assortment rationalization",
+      "s": "RC-E2E-03",
+      "b": "SKU-level contribution-margin analysis with delist candidate recommendations.",
+      "k": "+2.4pp GM",
+      "kk": "up"
+    },
+    {
+      "t": "Attribution modeling",
+      "s": "RC-E2E-04",
+      "b": "Multi-touch attribution across paid, owned, earned channels.",
+      "k": "+22% marketing ROI",
+      "kk": "up"
+    },
+    {
+      "t": "Backhaul-truck loading optimization",
+      "s": "RC-E2E-06",
+      "b": "Route-aware backhaul load planning to reduce empty miles.",
+      "k": "+12% backhaul utilization",
+      "kk": "up"
+    },
+    {
+      "t": "Brand-equity social-signal tracking",
+      "s": "RC-E2E-04",
+      "b": "Cross-platform brand-sentiment and share-of-voice tracking.",
+      "k": "+6pt brand score",
+      "kk": "up"
+    },
+    {
+      "t": "Brand-health sentiment tracking",
+      "s": "RC-E2E-04",
+      "b": "Cross-channel brand-health and competitive sentiment tracking.",
+      "k": "+7pt NPS",
+      "kk": "up"
+    },
+    {
+      "t": "Bundle pricing optimization",
+      "s": "RC-E2E-03",
+      "b": "Dynamic bundling propositions based on basket-affinity and margin targets.",
+      "k": "+8% attach rate",
+      "kk": "up"
+    },
+    {
+      "t": "Buy-online-pickup-in-store orchestration",
+      "s": "RC-E2E-06",
+      "b": "BOPIS order batching, staging, and customer-communication timing.",
+      "k": "−42% wait time",
+      "kk": "down"
+    },
+    {
+      "t": "Cart-abandonment recovery",
+      "s": "RC-E2E-04",
+      "b": "Triggered recovery with dynamic incentive depth.",
+      "k": "+18% recovery rate",
+      "kk": "up"
+    },
+    {
+      "t": "Category role-clustering",
+      "s": "RC-E2E-04",
+      "b": "Traffic-builder vs destination-category classification per store archetype.",
+      "k": "+3pp category share",
+      "kk": "up"
+    },
+    {
+      "t": "Chatbot deflection from call center",
+      "s": "RC-E2E-04",
+      "b": "Intent-classification chatbot reducing low-complexity call volume.",
+      "k": "−34% call volume",
+      "kk": "down"
+    },
+    {
+      "t": "Cleaning-crew routing optimization",
+      "s": "RC-E2E-05",
+      "b": "Dynamic cleaning-task routing based on traffic patterns and incident history.",
+      "k": "−24% labor hours",
+      "kk": "down"
+    },
+    {
+      "t": "Cold-chain excursion mid-shift",
+      "s": "RC-E2E-03",
+      "b": "Refrigerated case exceeds temp threshold; operator must decide sell-through, mark down, or destroy.",
+      "k": "−18% shrink",
+      "kk": "down"
+    },
+    {
+      "t": "Competitive price-response",
+      "s": "RC-E2E-03",
+      "b": "Monitored competitor moves with rule-based and elasticity-aware response.",
+      "k": "+1.9pp GM",
+      "kk": "up"
+    },
+    {
+      "t": "Competitive-opening impact analysis",
+      "s": "RC-E2E-03",
+      "b": "Cannibalization and market-defense planning for competitor new stores.",
+      "k": "−41% comp-store loss",
+      "kk": "down"
+    },
+    {
+      "t": "Creative-effectiveness analysis",
+      "s": "RC-E2E-04",
+      "b": "Pre-flight creative-performance prediction using historical analogs.",
+      "k": "+14% campaign lift",
+      "kk": "up"
+    },
+    {
+      "t": "Cross-channel identity resolution",
+      "s": "RC-E2E-04",
+      "b": "Unified customer profile across POS, e-comm, app, service.",
+      "k": "+24% match rate",
+      "kk": "up"
+    },
+    {
+      "t": "Cross-dock opportunity identification",
+      "s": "RC-E2E-06",
+      "b": "Freight-profile classification for direct-to-store bypass opportunities.",
+      "k": "−8% DC touches",
+      "kk": "down"
+    },
+    {
+      "t": "Customer-acquisition-cost optimization",
+      "s": "RC-E2E-04",
+      "b": "Channel-level CAC with LTV-adjusted allocation.",
+      "k": "−18% CAC",
+      "kk": "down"
+    },
+    {
+      "t": "Customer-lifetime-value modeling",
+      "s": "RC-E2E-04",
+      "b": "Predictive LTV with churn-adjusted retention economics.",
+      "k": "+14% marketing ROAS",
+      "kk": "up"
+    },
+    {
+      "t": "Customer-service sentiment analysis",
+      "s": "RC-E2E-04",
+      "b": "Multi-channel sentiment with escalation-risk scoring.",
+      "k": "−22% escalations",
+      "kk": "down"
+    },
+    {
+      "t": "Customer-wait-time prediction at checkout",
+      "s": "RC-E2E-05",
+      "b": "Open-register decisioning based on queue-length prediction 15 minutes ahead.",
+      "k": "−41% wait time",
+      "kk": "down"
+    },
+    {
+      "t": "DC-inventory-position optimization",
+      "s": "RC-E2E-06",
+      "b": "Network-level inventory rebalance across DCs and forward stocking locations.",
+      "k": "−12% safety stock",
+      "kk": "down"
+    },
+    {
+      "t": "Delivery-slot optimization",
+      "s": "RC-E2E-06",
+      "b": "Dynamic delivery-slot pricing and capacity management.",
+      "k": "+22% slot utilization",
+      "kk": "up"
+    },
+    {
+      "t": "Direct-to-consumer churn analytics",
+      "s": "RC-E2E-04",
+      "b": "DTC subscription churn and winback for manufacturer brands.",
+      "k": "−19% DTC churn",
+      "kk": "down"
+    },
+    {
+      "t": "Dock-scheduling optimization",
+      "s": "RC-E2E-06",
+      "b": "Appointment-aware yard and dock door scheduling.",
+      "k": "+22% dock throughput",
+      "kk": "up"
+    },
+    {
+      "t": "Dressing-room throughput optimization",
+      "s": "RC-E2E-05",
+      "b": "Staff allocation based on fitting-room occupancy and conversion signals.",
+      "k": "+12% conversion",
+      "kk": "up"
+    },
+    {
+      "t": "Dynamic markdown optimization",
+      "s": "RC-E2E-03",
+      "b": "Per-SKU-per-store markdown cadence balancing margin and aged-stock cost.",
+      "k": "+3.2pp GM",
+      "kk": "up"
+    },
+    {
+      "t": "Dynamic shipping-cost calculation",
+      "s": "RC-E2E-06",
+      "b": "Zone-and-product-aware real-time shipping economics.",
+      "k": "+2.1pp margin",
+      "kk": "up"
+    },
+    {
+      "t": "E-commerce fraud detection",
+      "s": "RC-E2E-07",
+      "b": "Graph-based first-party and promo fraud detection.",
+      "k": "−52% e-comm fraud",
+      "kk": "down"
+    },
+    {
+      "t": "Email subject-line optimization",
+      "s": "RC-E2E-04",
+      "b": "Generative subject-line variants with predicted open-rate scoring.",
+      "k": "+14% open rate",
+      "kk": "up"
+    },
+    {
+      "t": "End-cap / display ROI",
+      "s": "RC-E2E-03",
+      "b": "Post-hoc attribution of display-driven sales lift with halo adjustment.",
+      "k": "+22% display ROI",
+      "kk": "up"
+    },
+    {
+      "t": "End-cap display ROI tracking",
+      "s": "RC-E2E-03",
+      "b": "Real-time effectiveness scoring for end-cap promotional displays.",
+      "k": "+22% end-cap lift",
+      "kk": "up"
+    },
+    {
+      "t": "Facing-count optimization",
+      "s": "RC-E2E-03",
+      "b": "Per-SKU facing recommendations based on velocity and margin.",
+      "k": "+4% category sales",
+      "kk": "up"
+    },
+    {
+      "t": "Feedback-survey-analysis automation",
+      "s": "RC-E2E-04",
+      "b": "Thematic clustering of verbatim survey responses.",
+      "k": "−82% analyst time",
+      "kk": "down"
+    },
+    {
+      "t": "Food-safety temperature-log automation",
+      "s": "RC-E2E-05",
+      "b": "Continuous temp monitoring for regulatory compliance; exception-based HACCP logging.",
+      "k": "100% audit trail",
+      "kk": "up"
+    },
+    {
+      "t": "Gift-card-fraud detection",
+      "s": "RC-E2E-07",
+      "b": "Graph-based fraud detection on gift-card purchase and redemption.",
+      "k": "+$2.8M/yr recovery",
+      "kk": "money"
+    },
+    {
+      "t": "Grab-and-go demand forecasting",
+      "s": "RC-E2E-09",
+      "b": "Intraday demand forecasting for grab-and-go prepared food.",
+      "k": "−28% food waste",
+      "kk": "down"
+    },
+    {
+      "t": "Grocery-produce waste prediction",
+      "s": "RC-E2E-09",
+      "b": "Shrink forecast per SKU per store with proactive markdown or donation playbooks.",
+      "k": "−34% produce waste",
+      "kk": "down"
+    },
+    {
+      "t": "Hiring-funnel optimization",
+      "s": "RC-E2E-08",
+      "b": "Application-to-hire funnel-drop diagnosis.",
+      "k": "+14% hire rate",
+      "kk": "up"
+    },
+    {
+      "t": "In-store advertising impact",
+      "s": "RC-E2E-04",
+      "b": "In-store digital-signage and audio-ad attribution.",
+      "k": "+9% trip-conversion",
+      "kk": "up"
+    },
+    {
+      "t": "In-store food-prep scheduling",
+      "s": "RC-E2E-09",
+      "b": "Demand-aware prep scheduling reducing waste and stockouts.",
+      "k": "−32% waste",
+      "kk": "down"
+    },
+    {
+      "t": "In-store signage compliance scoring",
+      "s": "RC-E2E-05",
+      "b": "Computer-vision verification of promotional-signage placement vs plan-o-gram.",
+      "k": "+18pp compliance",
+      "kk": "up"
+    },
+    {
+      "t": "Inbound-freight consolidation",
+      "s": "RC-E2E-06",
+      "b": "Supplier-order consolidation opportunity scoring.",
+      "k": "−11% inbound cost",
+      "kk": "down"
+    },
+    {
+      "t": "Influencer-campaign analysis",
+      "s": "RC-E2E-04",
+      "b": "Influencer-ROI measurement with bot-detection adjustment.",
+      "k": "+22% influencer efficiency",
+      "kk": "up"
+    },
+    {
+      "t": "Lapsed-customer reactivation",
+      "s": "RC-E2E-04",
+      "b": "Segment-specific reactivation offers with churn-window targeting.",
+      "k": "+17pp response",
+      "kk": "up"
+    },
+    {
+      "t": "Last-mile-delivery routing",
+      "s": "RC-E2E-06",
+      "b": "Dynamic same-day routing for home delivery and curbside.",
+      "k": "+14% stops/route",
+      "kk": "up"
+    },
+    {
+      "t": "Loyalty-churn prediction & winback",
+      "s": "RC-E2E-04",
+      "b": "Top-tier-member silent-churn detection with personalized winback.",
+      "k": "−22% churn",
+      "kk": "down"
+    },
+    {
+      "t": "Loyalty-tier-migration prediction",
+      "s": "RC-E2E-04",
+      "b": "Forecasts customer movement up/down tiers to inform proactive nudges.",
+      "k": "+9pp tier retention",
+      "kk": "up"
+    },
+    {
+      "t": "Manufacturer-cost-variance detection",
+      "s": "RC-E2E-03",
+      "b": "Vendor cost-increase pattern detection with negotiation evidence.",
+      "k": "−$4.6M/yr cost avoidance",
+      "kk": "money"
+    },
+    {
+      "t": "Manufacturer-demand planning",
+      "s": "RC-E2E-06",
+      "b": "Consensus demand forecasting across retailer POS and manufacturer internal.",
+      "k": "+11pp forecast accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "Manufacturing-yield improvement (CPG)",
+      "s": "RC-E2E-06",
+      "b": "Line-yield improvement for CPG manufacturing.",
+      "k": "+2.4pp yield",
+      "kk": "up"
+    },
+    {
+      "t": "Market-cannibalization analysis",
+      "s": "RC-E2E-03",
+      "b": "Pre-build cannibalization modeling for new site evaluation.",
+      "k": "+14% NPV capture",
+      "kk": "up"
+    },
+    {
+      "t": "Media-mix modeling",
+      "s": "RC-E2E-04",
+      "b": "Cross-channel spend reallocation with saturation-curve modeling.",
+      "k": "+18% ROAS",
+      "kk": "up"
+    },
+    {
+      "t": "Mobile-app conversion optimization",
+      "s": "RC-E2E-04",
+      "b": "Journey-friction detection and A/B-test recommendations.",
+      "k": "+14% app conversion",
+      "kk": "up"
+    },
+    {
+      "t": "New-item shelving decisions",
+      "s": "RC-E2E-03",
+      "b": "Shelf-assignment recommendation for new-item introductions.",
+      "k": "+9% NPI velocity",
+      "kk": "up"
+    },
+    {
+      "t": "New-market-entry assessment",
+      "s": "RC-E2E-04",
+      "b": "Market-entry scoring across geography, channel, and segment dimensions.",
+      "k": "+24% launch success",
+      "kk": "up"
+    },
+    {
+      "t": "New-product-introduction forecast",
+      "s": "RC-E2E-03",
+      "b": "Forecast demand curve for NPI with analog-product matching.",
+      "k": "+14% forecast accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "On-shelf availability / OOS reduction",
+      "s": "RC-E2E-05",
+      "b": "Shelf-level OOS detection fusing POS velocity, inventory, and computer vision.",
+      "k": "−34% OOS",
+      "kk": "down"
+    },
+    {
+      "t": "Overtime-cost containment",
+      "s": "RC-E2E-05",
+      "b": "Predictive overtime alerting with schedule-adjustment suggestions.",
+      "k": "−22% overtime",
+      "kk": "down"
+    },
+    {
+      "t": "Pack-size optimization",
+      "s": "RC-E2E-03",
+      "b": "Demand-cluster analysis for optimal pack-size offering.",
+      "k": "+4% category revenue",
+      "kk": "up"
+    },
+    {
+      "t": "Parking-lot capacity management",
+      "s": "RC-E2E-05",
+      "b": "Live parking utilization for greeter staffing and security dispatch.",
+      "k": "+8% peak conversion",
+      "kk": "up"
+    },
+    {
+      "t": "Perishable waste reduction",
+      "s": "RC-E2E-09",
+      "b": "SKU-level markdown timing to minimize shrink while protecting margin.",
+      "k": "−28% perishable loss",
+      "kk": "down"
+    },
+    {
+      "t": "Personalized-offer targeting",
+      "s": "RC-E2E-04",
+      "b": "1:1 offer selection balancing propensity, margin, and fatigue.",
+      "k": "+24% redemption",
+      "kk": "up"
+    },
+    {
+      "t": "Planogram-compliance scoring",
+      "s": "RC-E2E-03",
+      "b": "Store-level planogram-vs-actual with prioritized corrective action.",
+      "k": "+8% category sales",
+      "kk": "up"
+    },
+    {
+      "t": "Pricing-decision audit trail",
+      "s": "RC-E2E-03",
+      "b": "Full audit trail for regulatory and fair-pricing governance.",
+      "k": "100% audit coverage",
+      "kk": "up"
+    },
+    {
+      "t": "Private-label-penetration analysis",
+      "s": "RC-E2E-03",
+      "b": "Cross-category private-label substitution opportunity scoring.",
+      "k": "+2.2pp GM",
+      "kk": "up"
+    },
+    {
+      "t": "Product-complaint triage",
+      "s": "RC-E2E-04",
+      "b": "Consumer-complaint classification and prioritization.",
+      "k": "−34% response time",
+      "kk": "down"
+    },
+    {
+      "t": "Product-review-summary generation",
+      "s": "RC-E2E-04",
+      "b": "LLM-powered review summarization with sentiment and feature-level breakdown.",
+      "k": "+8% PDP conversion",
+      "kk": "up"
+    },
+    {
+      "t": "Product-search relevance",
+      "s": "RC-E2E-04",
+      "b": "Semantic search with personalization and inventory awareness.",
+      "k": "+19% search conversion",
+      "kk": "up"
+    },
+    {
+      "t": "Promotional-lift measurement",
+      "s": "RC-E2E-03",
+      "b": "Halo and cannibalization-aware lift measurement for trade promotions.",
+      "k": "+22% promo ROI",
+      "kk": "up"
+    },
+    {
+      "t": "Regional-assortment-variance analysis",
+      "s": "RC-E2E-03",
+      "b": "Geo-demographic-based assortment tailoring vs national plan.",
+      "k": "+4% cluster-store revenue",
+      "kk": "up"
+    },
+    {
+      "t": "Remodel-ROI forecasting",
+      "s": "RC-E2E-03",
+      "b": "Remodel-specific lift prediction and capex prioritization.",
+      "k": "+18% remodel ROI",
+      "kk": "up"
+    },
+    {
+      "t": "Restroom-maintenance dispatch",
+      "s": "RC-E2E-05",
+      "b": "Occupancy + feedback-driven cleaning dispatch instead of fixed schedule.",
+      "k": "+14pt guest NPS",
+      "kk": "up"
+    },
+    {
+      "t": "Retailer-scorecard analysis",
+      "s": "RC-E2E-03",
+      "b": "Automated retailer-compliance and execution scorecard.",
+      "k": "+9pp retailer score",
+      "kk": "up"
+    },
+    {
+      "t": "Returns-fraud detection",
+      "s": "RC-E2E-07",
+      "b": "Graph-based serial-returner and wardrobing detection.",
+      "k": "+$8.6M recovery",
+      "kk": "money"
+    },
+    {
+      "t": "Returns-to-vendor processing",
+      "s": "RC-E2E-07",
+      "b": "RTV disposition automation with dock-level advance recognition.",
+      "k": "−$4M/yr RTV cost",
+      "kk": "money"
+    },
+    {
+      "t": "Safety-stock optimization",
+      "s": "RC-E2E-06",
+      "b": "Service-level-aware safety stock per SKU per node.",
+      "k": "−$18M inventory",
+      "kk": "money"
+    },
+    {
+      "t": "Safety-training compliance tracking",
+      "s": "RC-E2E-08",
+      "b": "Completion-tracking and targeted-refresher assignment.",
+      "k": "+18pp compliance",
+      "kk": "up"
+    },
+    {
+      "t": "Seasonal-transition planning",
+      "s": "RC-E2E-03",
+      "b": "Sell-through-aware transition cadence with markdown/carry-over decisions.",
+      "k": "−24% aged stock",
+      "kk": "down"
+    },
+    {
+      "t": "Self-checkout shrink detection",
+      "s": "RC-E2E-07",
+      "b": "Computer-vision validation of SKU-to-scan mismatch at SCO lanes.",
+      "k": "−48% SCO shrink",
+      "kk": "down"
+    },
+    {
+      "t": "Share-of-wallet estimation",
+      "s": "RC-E2E-04",
+      "b": "Category-level SOW from basket data and panel signals.",
+      "k": "+11pp SOW growth",
+      "kk": "up"
+    },
+    {
+      "t": "Shelf-price-label compliance audit",
+      "s": "RC-E2E-03",
+      "b": "Computer-vision SPL audit vs pricing master; flags mis-priced SKUs in real time.",
+      "k": "−92% SPL errors",
+      "kk": "down"
+    },
+    {
+      "t": "Shift-swap automation",
+      "s": "RC-E2E-05",
+      "b": "Marketplace-based shift-swap with compliance guardrails.",
+      "k": "−37% manual approvals",
+      "kk": "down"
+    },
+    {
+      "t": "Shrink root-cause analysis",
+      "s": "RC-E2E-07",
+      "b": "Store-level shrink pattern detection beyond returns-fraud.",
+      "k": "−14% total shrink",
+      "kk": "down"
+    },
+    {
+      "t": "Site-personalization",
+      "s": "RC-E2E-04",
+      "b": "Homepage and PLP personalization per customer segment.",
+      "k": "+12% conversion",
+      "kk": "up"
+    },
+    {
+      "t": "Site-selection scoring",
+      "s": "RC-E2E-03",
+      "b": "Trade-area scoring with demographic and competitive overlay.",
+      "k": "+22% new-store NPV",
+      "kk": "up"
+    },
+    {
+      "t": "Size/fit recommendation",
+      "s": "RC-E2E-04",
+      "b": "Return-history-aware size guidance reducing fit-related returns.",
+      "k": "−22% fit returns",
+      "kk": "down"
+    },
+    {
+      "t": "Slip-and-fall incident prediction",
+      "s": "RC-E2E-05",
+      "b": "Pattern detection of high-risk moments (weather, spills, customer traffic).",
+      "k": "−37% incidents",
+      "kk": "down"
+    },
+    {
+      "t": "Space-to-sales optimization",
+      "s": "RC-E2E-03",
+      "b": "Square-footage reallocation driven by sales-per-sqft analytics.",
+      "k": "+6% total comp",
+      "kk": "up"
+    },
+    {
+      "t": "Store-app-engagement optimization",
+      "s": "RC-E2E-04",
+      "b": "Push-notification timing, frequency, and content personalization.",
+      "k": "+31% app MAU",
+      "kk": "up"
+    },
+    {
+      "t": "Store-cleanliness-compliance scoring",
+      "s": "RC-E2E-05",
+      "b": "Computer-vision scoring vs cleanliness standard with targeted dispatches.",
+      "k": "+11pt guest NPS",
+      "kk": "up"
+    },
+    {
+      "t": "Store-display-compliance verification",
+      "s": "RC-E2E-05",
+      "b": "End-cap, feature, and planogram compliance via store-walk computer vision.",
+      "k": "+18pp execution",
+      "kk": "up"
+    },
+    {
+      "t": "Store-energy-consumption optimization",
+      "s": "RC-E2E-05",
+      "b": "HVAC + refrigeration + lighting optimization driven by occupancy and weather.",
+      "k": "−14% energy cost",
+      "kk": "down"
+    },
+    {
+      "t": "Store-labor scheduling optimization",
+      "s": "RC-E2E-05",
+      "b": "Demand-driven shift scheduling with associate-preference respect.",
+      "k": "−9% labor cost",
+      "kk": "down"
+    },
+    {
+      "t": "Store-opening-readiness checklist",
+      "s": "RC-E2E-05",
+      "b": "Automated readiness verification before doors open; escalates gaps.",
+      "k": "+7% morning sales",
+      "kk": "up"
+    },
+    {
+      "t": "Store-P&L variance analysis",
+      "s": "RC-E2E-03",
+      "b": "Deviation flagging on store-level P&L with root-cause hypotheses.",
+      "k": "+2.2pp store profit",
+      "kk": "up"
+    },
+    {
+      "t": "Store-replenishment frequency",
+      "s": "RC-E2E-06",
+      "b": "Store-cluster replenishment cadence optimization.",
+      "k": "−7% DC-to-store cost",
+      "kk": "down"
+    },
+    {
+      "t": "Supplier-OTIF monitoring",
+      "s": "RC-E2E-06",
+      "b": "Supplier on-time-in-full scoring with automated scorecards.",
+      "k": "+11pp supplier OTIF",
+      "kk": "up"
+    },
+    {
+      "t": "Trade-promotion ROI",
+      "s": "RC-E2E-03",
+      "b": "CPG trade-promo lift, halo, cannibalization modeling.",
+      "k": "+22% trade-promo ROI",
+      "kk": "up"
+    },
+    {
+      "t": "Transportation-carrier selection",
+      "s": "RC-E2E-06",
+      "b": "Lane-level carrier performance and cost scoring.",
+      "k": "−6% transport cost",
+      "kk": "down"
+    },
+    {
+      "t": "Turnover prediction",
+      "s": "RC-E2E-08",
+      "b": "Employee-churn prediction with retention-intervention playbooks.",
+      "k": "−14pp turnover",
+      "kk": "down"
+    },
+    {
+      "t": "Warehouse-slotting optimization",
+      "s": "RC-E2E-06",
+      "b": "Velocity-based slotting with pick-path minimization.",
+      "k": "+18% pick rate",
+      "kk": "up"
+    }
+  ],
+  "HLS": [
+    {
+      "t": "Accreditation-survey readiness",
+      "s": "HLS-E2E-02",
+      "b": "Joint Commission and similar survey-readiness tracking.",
+      "k": "+18pp readiness",
+      "kk": "up"
+    },
+    {
+      "t": "ACO quality-measure closure",
+      "s": "HLS-E2E-06",
+      "b": "ACO-specific quality measure tracking and closure playbooks.",
+      "k": "+18pp measure closure",
+      "kk": "up"
+    },
+    {
+      "t": "Adverse drug event (ADE) prediction",
+      "s": "HLS-E2E-02",
+      "b": "Predictive model flagging medication combinations and patient-context ADE risk.",
+      "k": "−37% ADEs",
+      "kk": "down"
+    },
+    {
+      "t": "Adverse-event classification",
+      "s": "HLS-LS-03",
+      "b": "Case-narrative classification and seriousness-coding automation.",
+      "k": "−62% case-processing time",
+      "kk": "down"
+    },
+    {
+      "t": "Anesthesia case-prep assistant",
+      "s": "HLS-E2E-02",
+      "b": "Pre-operative summary drafting from clinical record.",
+      "k": "−18% case delays",
+      "kk": "down"
+    },
+    {
+      "t": "Appeals-and-grievances triage",
+      "s": "HLS-E2E-06",
+      "b": "Classification and prioritization of member appeals.",
+      "k": "−42% cycle time",
+      "kk": "down"
+    },
+    {
+      "t": "Authorization-decisioning support",
+      "s": "HLS-E2E-04",
+      "b": "Medical-necessity review drafting with clinical-evidence retrieval.",
+      "k": "−44% review time",
+      "kk": "down"
+    },
+    {
+      "t": "Bad-debt prediction",
+      "s": "HLS-E2E-06",
+      "b": "Patient bad-debt risk scoring with financial-counseling routing.",
+      "k": "−14% bad debt",
+      "kk": "down"
+    },
+    {
+      "t": "Benefit-plan-design analytics",
+      "s": "HLS-E2E-06",
+      "b": "Benefit-configuration cost and utilization modeling.",
+      "k": "+2.2% MLR improvement",
+      "kk": "up"
+    },
+    {
+      "t": "Biomarker-discovery ranking",
+      "s": "HLS-LS-03",
+      "b": "Evidence-ranked biomarker candidates from literature and real-world data.",
+      "k": "+22% candidate-hit rate",
+      "kk": "up"
+    },
+    {
+      "t": "Biospecimen tracking",
+      "s": "HLS-LS-03",
+      "b": "Biospecimen chain-of-custody and consent-scope tracking.",
+      "k": "100% consent audit",
+      "kk": "up"
+    },
+    {
+      "t": "Bundled-payment analytics",
+      "s": "HLS-E2E-06",
+      "b": "Bundled-payment episode tracking and variance analytics.",
+      "k": "+$2.8M episode savings",
+      "kk": "money"
+    },
+    {
+      "t": "Care-manager caseload optimization",
+      "s": "HLS-E2E-06",
+      "b": "Risk-weighted caseload balancing across care-management team.",
+      "k": "+18% engagement",
+      "kk": "up"
+    },
+    {
+      "t": "Charge-capture gap analysis",
+      "s": "HLS-E2E-06",
+      "b": "Pattern-based charge-capture gap detection.",
+      "k": "+$4.2M capture",
+      "kk": "money"
+    },
+    {
+      "t": "Chatbot symptom-checker",
+      "s": "HLS-E2E-02",
+      "b": "Patient-facing symptom-triage chatbot with escalation routing.",
+      "k": "−22% unnecessary visits",
+      "kk": "down"
+    },
+    {
+      "t": "Chronic-condition risk stratification",
+      "s": "HLS-E2E-06",
+      "b": "Multi-condition risk scoring with care-pathway recommendations.",
+      "k": "−14% total cost of care",
+      "kk": "down"
+    },
+    {
+      "t": "Claim-scrubbing pre-submission",
+      "s": "HLS-E2E-06",
+      "b": "Pre-submission claim editing with payer-specific rules.",
+      "k": "+19pp clean-claim rate",
+      "kk": "up"
+    },
+    {
+      "t": "Claims denial prevention",
+      "s": "HLS-E2E-02",
+      "b": "Pre-submission denial-risk scoring with remediation playbook.",
+      "k": "−34% first-pass denial",
+      "kk": "down"
+    },
+    {
+      "t": "Claims-fraud detection",
+      "s": "HLS-E2E-06",
+      "b": "Provider- and member-level fraud pattern detection.",
+      "k": "+$14M recovery",
+      "kk": "money"
+    },
+    {
+      "t": "Clinical decision support — oncology",
+      "s": "HLS-E2E-02",
+      "b": "NCCN-guideline-and-trial-eligibility-aware treatment plan drafting.",
+      "k": "+14pp adherence",
+      "kk": "up"
+    },
+    {
+      "t": "Clinical-documentation improvement",
+      "s": "HLS-E2E-02",
+      "b": "Concurrent CDI suggestions reducing query volume and DRG leakage.",
+      "k": "+$6.8M case-mix capture",
+      "kk": "money"
+    },
+    {
+      "t": "Clinical-trial patient matching",
+      "s": "HLS-LS-03",
+      "b": "I/E-criteria matching at EMR scale for ranked enrollment lists.",
+      "k": "+47% enrollment",
+      "kk": "up"
+    },
+    {
+      "t": "Coding-accuracy review",
+      "s": "HLS-E2E-06",
+      "b": "Automated coding review with DRG and HCC-accuracy checks.",
+      "k": "+$8.4M case-mix accuracy",
+      "kk": "money"
+    },
+    {
+      "t": "Community-resource referral matching",
+      "s": "HLS-E2E-06",
+      "b": "SDOH needs-to-community-resource matching with closed-loop referral.",
+      "k": "+22% referral completion",
+      "kk": "up"
+    },
+    {
+      "t": "Competitive-intelligence synthesis",
+      "s": "HLS-LS-03",
+      "b": "Pipeline, publication, and conference intel synthesis.",
+      "k": "−74% analyst time",
+      "kk": "down"
+    },
+    {
+      "t": "Complaint-resolution triage",
+      "s": "HLS-E2E-02",
+      "b": "Complaint classification, routing, and resolution-cycle tracking.",
+      "k": "−34% cycle time",
+      "kk": "down"
+    },
+    {
+      "t": "Contact-center co-pilot (payer)",
+      "s": "HLS-E2E-06",
+      "b": "Real-time call agent co-pilot with benefit-and-policy retrieval.",
+      "k": "−24% AHT",
+      "kk": "down"
+    },
+    {
+      "t": "Contract-negotiation analytics",
+      "s": "HLS-E2E-06",
+      "b": "Payer-contract performance and renegotiation-opportunity modeling.",
+      "k": "+3.2% reimbursement",
+      "kk": "up"
+    },
+    {
+      "t": "Credentialing expiration tracking",
+      "s": "HLS-E2E-02",
+      "b": "License and credentialing expiration tracking with proactive outreach.",
+      "k": "−92% expired credentials",
+      "kk": "down"
+    },
+    {
+      "t": "Delirium screening",
+      "s": "HLS-E2E-02",
+      "b": "ICU-delirium risk scoring from nursing-flowsheet signals.",
+      "k": "−22% delirium rate",
+      "kk": "down"
+    },
+    {
+      "t": "Device-complaint classification",
+      "s": "HLS-LS-03",
+      "b": "Complaint narrative classification and malfunction categorization.",
+      "k": "−58% classification time",
+      "kk": "down"
+    },
+    {
+      "t": "Device-utilization analytics",
+      "s": "HLS-LS-03",
+      "b": "Hospital-level device utilization and rep-intervention targeting.",
+      "k": "+14% device utilization",
+      "kk": "up"
+    },
+    {
+      "t": "Direct-contracting performance",
+      "s": "HLS-E2E-06",
+      "b": "Direct-contracting performance with intervention analytics.",
+      "k": "+3.1% cost-of-care reduction",
+      "kk": "up"
+    },
+    {
+      "t": "Discharge-education comprehension",
+      "s": "HLS-E2E-02",
+      "b": "Health-literacy-adjusted discharge instructions with comprehension check.",
+      "k": "+24% comprehension",
+      "kk": "up"
+    },
+    {
+      "t": "Discharge-readiness prediction",
+      "s": "HLS-E2E-02",
+      "b": "Predicted discharge-window forecast supporting bed turnover planning.",
+      "k": "−12% LOS",
+      "kk": "down"
+    },
+    {
+      "t": "Drug-safety signal detection",
+      "s": "HLS-LS-03",
+      "b": "Signal detection across safety databases with priority scoring.",
+      "k": "+28% earlier detection",
+      "kk": "up"
+    },
+    {
+      "t": "ED throughput optimization",
+      "s": "HLS-E2E-02",
+      "b": "Real-time ED flow-optimization with triage and disposition prediction.",
+      "k": "−28% door-to-disposition",
+      "kk": "down"
+    },
+    {
+      "t": "Equipment-utilization (clinical)",
+      "s": "HLS-E2E-02",
+      "b": "Clinical-equipment utilization and allocation optimization.",
+      "k": "+18% utilization",
+      "kk": "up"
+    },
+    {
+      "t": "Fall-risk assessment",
+      "s": "HLS-E2E-02",
+      "b": "In-patient fall-risk scoring with intervention prompts.",
+      "k": "−34% inpatient falls",
+      "kk": "down"
+    },
+    {
+      "t": "Field-safety-notice drafting",
+      "s": "HLS-LS-03",
+      "b": "FSN drafting with historical-analog retrieval.",
+      "k": "−42% FSN cycle",
+      "kk": "down"
+    },
+    {
+      "t": "Financial-counseling targeting",
+      "s": "HLS-E2E-06",
+      "b": "Risk-based targeting for financial-counseling outreach.",
+      "k": "+22% counseling conversion",
+      "kk": "up"
+    },
+    {
+      "t": "Formulary-access analysis",
+      "s": "HLS-LS-03",
+      "b": "Payer-formulary position tracking with access-gap identification.",
+      "k": "+9pp access",
+      "kk": "up"
+    },
+    {
+      "t": "Hand-hygiene compliance monitoring",
+      "s": "HLS-E2E-02",
+      "b": "Opportunity-denominator-accurate hand-hygiene scoring.",
+      "k": "+24pp compliance",
+      "kk": "up"
+    },
+    {
+      "t": "HEDIS care-gap closure",
+      "s": "HLS-E2E-06",
+      "b": "Multi-measure gap identification with closure outreach and tracking.",
+      "k": "+24pp HEDIS closure",
+      "kk": "up"
+    },
+    {
+      "t": "High-cost-claimant identification",
+      "s": "HLS-E2E-06",
+      "b": "Early identification of emerging high-cost members.",
+      "k": "−$6.2M PMPM trend",
+      "kk": "money"
+    },
+    {
+      "t": "HIPAA violation risk scoring",
+      "s": "HLS-E2E-02",
+      "b": "PHI-access pattern analysis for risk detection.",
+      "k": "−58% breach risk",
+      "kk": "down"
+    },
+    {
+      "t": "Hub-services orchestration",
+      "s": "HLS-LS-03",
+      "b": "Specialty-hub case workflow and adherence orchestration.",
+      "k": "+18pp therapy persistence",
+      "kk": "up"
+    },
+    {
+      "t": "ICU risk scoring",
+      "s": "HLS-E2E-02",
+      "b": "Composite patient-deterioration risk with alerting thresholds.",
+      "k": "−18% unplanned ICU admits",
+      "kk": "down"
+    },
+    {
+      "t": "Infection-surveillance",
+      "s": "HLS-E2E-02",
+      "b": "Early infection-cluster detection from admission and lab signals.",
+      "k": "−28% HAI rate",
+      "kk": "down"
+    },
+    {
+      "t": "IRB-submission triage",
+      "s": "HLS-LS-03",
+      "b": "IRB-submission triage with similar-protocol retrieval.",
+      "k": "−44% review time",
+      "kk": "down"
+    },
+    {
+      "t": "Key-opinion-leader mapping",
+      "s": "HLS-LS-03",
+      "b": "KOL identification and engagement scoring from publications and activity.",
+      "k": "+22% engagement quality",
+      "kk": "up"
+    },
+    {
+      "t": "Launch-readiness scoring",
+      "s": "HLS-LS-03",
+      "b": "Cross-functional launch-readiness scoring per geography.",
+      "k": "+14% launch-KPI attainment",
+      "kk": "up"
+    },
+    {
+      "t": "Length-of-stay prediction",
+      "s": "HLS-E2E-02",
+      "b": "Predicted LOS with clinical-barrier identification and discharge planning.",
+      "k": "−9% avg LOS",
+      "kk": "down"
+    },
+    {
+      "t": "Literature-review automation",
+      "s": "HLS-LS-03",
+      "b": "Systematic-review drafting with citation extraction.",
+      "k": "−62% review time",
+      "kk": "down"
+    },
+    {
+      "t": "Market-access scenario modeling",
+      "s": "HLS-LS-03",
+      "b": "Scenario modeling for coverage, rebate, and contracting decisions.",
+      "k": "+11% access capture",
+      "kk": "up"
+    },
+    {
+      "t": "Medical-information response",
+      "s": "HLS-LS-03",
+      "b": "Med-info response drafting with regulatory-compliant source retrieval.",
+      "k": "−52% response time",
+      "kk": "down"
+    },
+    {
+      "t": "Medication reconciliation",
+      "s": "HLS-E2E-02",
+      "b": "Cross-source medication reconciliation at admission, transfer, discharge.",
+      "k": "−28% med errors",
+      "kk": "down"
+    },
+    {
+      "t": "Medication-adherence prediction",
+      "s": "HLS-E2E-06",
+      "b": "Non-adherence risk prediction with pharmacist-outreach triggers.",
+      "k": "+14pp MPR",
+      "kk": "up"
+    },
+    {
+      "t": "Member-churn prediction (payer)",
+      "s": "HLS-E2E-06",
+      "b": "Employer-group and individual-member churn risk scoring.",
+      "k": "−11% churn",
+      "kk": "down"
+    },
+    {
+      "t": "Never-event prevention",
+      "s": "HLS-E2E-02",
+      "b": "Wrong-site, wrong-procedure, wrong-patient risk flagging.",
+      "k": "−82% never-events",
+      "kk": "down"
+    },
+    {
+      "t": "NPS-driver analysis",
+      "s": "HLS-E2E-02",
+      "b": "NPS-survey verbatim analysis with driver-specific action.",
+      "k": "+18pt NPS",
+      "kk": "up"
+    },
+    {
+      "t": "Nurse-staffing forecasting",
+      "s": "HLS-E2E-02",
+      "b": "Unit-level staffing forecast with acuity-based adjustment.",
+      "k": "+11% staffing accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "Opioid-prescribing risk flag",
+      "s": "HLS-E2E-02",
+      "b": "CDC-guideline and MME risk flagging at point of prescribing.",
+      "k": "−34% high-risk scripts",
+      "kk": "down"
+    },
+    {
+      "t": "OR scheduling optimization",
+      "s": "HLS-E2E-02",
+      "b": "Block-time optimization with surgeon preference and historical overruns.",
+      "k": "+14% OR utilization",
+      "kk": "up"
+    },
+    {
+      "t": "OR-kit inventory optimization",
+      "s": "HLS-E2E-02",
+      "b": "Per-procedure OR-kit usage and par-level optimization.",
+      "k": "−22% OR kit cost",
+      "kk": "down"
+    },
+    {
+      "t": "Patient-outreach scheduling",
+      "s": "HLS-E2E-06",
+      "b": "Multi-channel outreach-scheduling optimization.",
+      "k": "+14pp engagement",
+      "kk": "up"
+    },
+    {
+      "t": "Patient-payment propensity",
+      "s": "HLS-E2E-06",
+      "b": "Payment-likelihood scoring for collection-strategy routing.",
+      "k": "+14% collections",
+      "kk": "up"
+    },
+    {
+      "t": "Patient-support-program analytics",
+      "s": "HLS-LS-03",
+      "b": "PSP-touchpoint effectiveness and enrollment optimization.",
+      "k": "+18pp adherence",
+      "kk": "up"
+    },
+    {
+      "t": "Payer-contract-variance tracking",
+      "s": "HLS-E2E-06",
+      "b": "Real-time detection of payer underpayment vs contracted rate.",
+      "k": "+$6.1M recovery",
+      "kk": "money"
+    },
+    {
+      "t": "PDMP-integration workflow",
+      "s": "HLS-E2E-02",
+      "b": "Automated PDMP check and documentation at prescribing.",
+      "k": "−82% manual lookup",
+      "kk": "down"
+    },
+    {
+      "t": "Pharmacy-inventory optimization",
+      "s": "HLS-E2E-02",
+      "b": "Drug-specific inventory and shortage-prediction analytics.",
+      "k": "−14% carrying cost",
+      "kk": "down"
+    },
+    {
+      "t": "Post-market-surveillance",
+      "s": "HLS-LS-03",
+      "b": "Real-world-evidence synthesis for ongoing device safety surveillance.",
+      "k": "+24% signal-detection speed",
+      "kk": "up"
+    },
+    {
+      "t": "PPE-demand forecasting",
+      "s": "HLS-E2E-02",
+      "b": "PPE demand modeling with surge-event triggers.",
+      "k": "+22% forecast accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "Premium-pricing analysis",
+      "s": "HLS-E2E-06",
+      "b": "Actuarial premium-pricing support with utilization modeling.",
+      "k": "+1.8pp margin",
+      "kk": "up"
+    },
+    {
+      "t": "Pressure-injury prediction",
+      "s": "HLS-E2E-02",
+      "b": "Predictive pressure-injury scoring with preventive-protocol triggers.",
+      "k": "−31% pressure injuries",
+      "kk": "down"
+    },
+    {
+      "t": "Preventive-screening outreach",
+      "s": "HLS-E2E-06",
+      "b": "Gap-based preventive-screening outreach with channel personalization.",
+      "k": "+24pp screening",
+      "kk": "up"
+    },
+    {
+      "t": "Price-estimate accuracy",
+      "s": "HLS-E2E-06",
+      "b": "Good-faith-estimate accuracy for transparency-in-coverage compliance.",
+      "k": "100% GFE compliance",
+      "kk": "up"
+    },
+    {
+      "t": "Prior authorization automation",
+      "s": "HLS-E2E-04",
+      "b": "Evidence-assembly and criteria-mapping for specialty prior auths.",
+      "k": "−58% cycle time",
+      "kk": "down"
+    },
+    {
+      "t": "Privacy-breach detection",
+      "s": "HLS-E2E-02",
+      "b": "EHR-access anomaly detection for privacy-breach identification.",
+      "k": "+24% earlier detection",
+      "kk": "up"
+    },
+    {
+      "t": "Promotional-compliance monitoring",
+      "s": "HLS-LS-03",
+      "b": "Rep-material and channel-compliance monitoring.",
+      "k": "−82% violations",
+      "kk": "down"
+    },
+    {
+      "t": "Protocol-deviation prediction",
+      "s": "HLS-LS-03",
+      "b": "Site- and subject-level deviation-risk scoring.",
+      "k": "−34% deviations",
+      "kk": "down"
+    },
+    {
+      "t": "Provider-credentialing automation",
+      "s": "HLS-E2E-06",
+      "b": "Credentialing-packet automation and expiration tracking.",
+      "k": "−58% cycle time",
+      "kk": "down"
+    },
+    {
+      "t": "Provider-network-adequacy analysis",
+      "s": "HLS-E2E-06",
+      "b": "Gap-analysis for regulatory and member-experience adequacy.",
+      "k": "100% adequacy coverage",
+      "kk": "up"
+    },
+    {
+      "t": "Publication-impact tracking",
+      "s": "HLS-LS-03",
+      "b": "Publication and citation tracking for institutional research impact.",
+      "k": "+24% impact visibility",
+      "kk": "up"
+    },
+    {
+      "t": "Readmission-risk prediction",
+      "s": "HLS-E2E-02",
+      "b": "30-day readmission risk scoring with transitional-care triggers.",
+      "k": "−21% readmits",
+      "kk": "down"
+    },
+    {
+      "t": "Regulatory-submission drafting",
+      "s": "HLS-LS-03",
+      "b": "Module-2 summary drafting with source-document traceability.",
+      "k": "−41% submission time",
+      "kk": "down"
+    },
+    {
+      "t": "Remote-monitoring alert triage",
+      "s": "HLS-E2E-02",
+      "b": "RPM-alert triage reducing clinician alert fatigue.",
+      "k": "−62% false-positive alerts",
+      "kk": "down"
+    },
+    {
+      "t": "Research-grant matching",
+      "s": "HLS-LS-03",
+      "b": "Investigator-to-grant matching across funding opportunities.",
+      "k": "+18% grant hit rate",
+      "kk": "up"
+    },
+    {
+      "t": "Sales-rep next-best-action",
+      "s": "HLS-LS-03",
+      "b": "HCP-level rep suggestion balancing reach, frequency, and message.",
+      "k": "+14% call effectiveness",
+      "kk": "up"
+    },
+    {
+      "t": "Sentinel-event root-cause analysis",
+      "s": "HLS-E2E-02",
+      "b": "Structured RCA with similar-event retrieval.",
+      "k": "−42% recurrence",
+      "kk": "down"
+    },
+    {
+      "t": "Sepsis early warning",
+      "s": "HLS-E2E-02",
+      "b": "Deterioration model detecting sepsis 4+ hours pre-clinical recognition.",
+      "k": "−18% sepsis mortality",
+      "kk": "down"
+    },
+    {
+      "t": "Site-feasibility scoring",
+      "s": "HLS-LS-03",
+      "b": "Multi-factor site scoring for trial placement.",
+      "k": "+18% enrollment rate",
+      "kk": "up"
+    },
+    {
+      "t": "Social-determinants mapping",
+      "s": "HLS-E2E-06",
+      "b": "Geo-demographic and claims-signal SDOH risk surfacing.",
+      "k": "+18% referral relevance",
+      "kk": "up"
+    },
+    {
+      "t": "Specialty-pharmacy performance",
+      "s": "HLS-LS-03",
+      "b": "SP-network performance tracking with adherence interventions.",
+      "k": "+11pp fill rate",
+      "kk": "up"
+    },
+    {
+      "t": "Star-rating improvement",
+      "s": "HLS-E2E-06",
+      "b": "MA Star-measure gap identification with closure prioritization.",
+      "k": "+0.4 star improvement",
+      "kk": "up"
+    },
+    {
+      "t": "Supply-chain-variance analytics",
+      "s": "HLS-E2E-06",
+      "b": "Clinical-supply variance detection with root-cause hypotheses.",
+      "k": "−$4M/yr variance",
+      "kk": "money"
+    },
+    {
+      "t": "Surgical case-type classification",
+      "s": "HLS-E2E-02",
+      "b": "Automated case-type classification for coding and equipment prep.",
+      "k": "+14% OR prep accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "Surgical-instrument tracking",
+      "s": "HLS-E2E-02",
+      "b": "Instrument-tracking with sterilization-lifecycle monitoring.",
+      "k": "−34% tray turnover time",
+      "kk": "down"
+    },
+    {
+      "t": "Target identification",
+      "s": "HLS-LS-03",
+      "b": "Target-evidence synthesis from genomics and literature.",
+      "k": "+14% candidate yield",
+      "kk": "up"
+    },
+    {
+      "t": "Transfer-of-care handoff",
+      "s": "HLS-E2E-02",
+      "b": "Structured handoff summaries across care transitions.",
+      "k": "−34% handoff errors",
+      "kk": "down"
+    },
+    {
+      "t": "Transitions-of-care orchestration",
+      "s": "HLS-E2E-06",
+      "b": "Post-acute transition coordination reducing readmission risk.",
+      "k": "−18% readmits",
+      "kk": "down"
+    },
+    {
+      "t": "Underpayment-recovery analytics",
+      "s": "HLS-E2E-06",
+      "b": "Automated detection and recovery of payer-underpayment patterns.",
+      "k": "+$4.8M recovery",
+      "kk": "money"
+    },
+    {
+      "t": "Virtual-visit triage",
+      "s": "HLS-E2E-02",
+      "b": "Pre-visit triage routing between virtual, in-person, or self-care.",
+      "k": "+14% virtual-visit utilization",
+      "kk": "up"
+    },
+    {
+      "t": "Wearable-data integration",
+      "s": "HLS-E2E-02",
+      "b": "Consented-wearable data integration into care plan monitoring.",
+      "k": "+18% engagement",
+      "kk": "up"
+    },
+    {
+      "t": "Wellness-program enrollment targeting",
+      "s": "HLS-E2E-06",
+      "b": "Propensity-based wellness-program enrollment outreach.",
+      "k": "+22pp enrollment",
+      "kk": "up"
+    }
+  ],
+  "ER": [
+    {
+      "t": "AMI-data-quality management",
+      "s": "ER-PU-04",
+      "b": "Smart-meter data-quality detection and reconciliation.",
+      "k": "+14pp data quality",
+      "kk": "up"
+    },
+    {
+      "t": "Artificial-lift optimization",
+      "s": "ER-OG-03",
+      "b": "Multi-pump artificial-lift performance and switch-trigger optimization.",
+      "k": "+9% production",
+      "kk": "up"
+    },
+    {
+      "t": "Asset-transfer reconciliation",
+      "s": "ER-OG-03",
+      "b": "Inter-company and field-to-field asset-transfer reconciliation.",
+      "k": "−$1.8M variance",
+      "kk": "money"
+    },
+    {
+      "t": "Battery-storage dispatch",
+      "s": "ER-PU-04",
+      "b": "Grid-storage dispatch optimization for arbitrage and reliability.",
+      "k": "+22% storage revenue",
+      "kk": "up"
+    },
+    {
+      "t": "Bill-anomaly detection",
+      "s": "ER-PU-04",
+      "b": "Customer-bill anomaly flagging for proactive inquiry.",
+      "k": "−41% billing complaints",
+      "kk": "down"
+    },
+    {
+      "t": "Blast-fragmentation analysis",
+      "s": "ER-MN-02",
+      "b": "Post-blast fragmentation analysis for drill-and-blast optimization.",
+      "k": "+7% mill throughput",
+      "kk": "up"
+    },
+    {
+      "t": "Blending optimization",
+      "s": "ER-OG-05",
+      "b": "Multi-grade blend optimization with spec-quality constraint.",
+      "k": "+$8M/yr giveaway",
+      "kk": "money"
+    },
+    {
+      "t": "Boiler-tube-failure prediction",
+      "s": "ER-PU-04",
+      "b": "Predictive detection of boiler-tube failures from operating data.",
+      "k": "+18% uptime",
+      "kk": "up"
+    },
+    {
+      "t": "Carbon-accounting and reporting",
+      "s": "ER-OG-03",
+      "b": "Automated Scope 1/2/3 carbon accounting with regulatory reporting.",
+      "k": "100% audit-ready",
+      "kk": "up"
+    },
+    {
+      "t": "Carbon-credit verification",
+      "s": "ER-PU-04",
+      "b": "Automated carbon-credit MRV (measurement, reporting, verification).",
+      "k": "+18% verification speed",
+      "kk": "up"
+    },
+    {
+      "t": "Catalyst-performance prediction",
+      "s": "ER-OG-05",
+      "b": "Catalyst-activity forecasting for changeout-timing optimization.",
+      "k": "+6% cycle length",
+      "kk": "up"
+    },
+    {
+      "t": "Cathodic-protection anomaly detection",
+      "s": "ER-OG-07",
+      "b": "CP-system anomaly detection with corrosion-risk scoring.",
+      "k": "−28% corrosion events",
+      "kk": "down"
+    },
+    {
+      "t": "Compressor-performance optimization",
+      "s": "ER-OG-07",
+      "b": "Compressor-performance optimization for fuel-efficiency.",
+      "k": "−6% fuel cost",
+      "kk": "down"
+    },
+    {
+      "t": "Compressor-station uptime",
+      "s": "ER-OG-07",
+      "b": "Predictive maintenance for compressor stations.",
+      "k": "+14% uptime",
+      "kk": "up"
+    },
+    {
+      "t": "Confined-space-entry compliance",
+      "s": "ER-OG-03",
+      "b": "Permit-and-monitoring compliance for confined-space operations.",
+      "k": "100% compliance",
+      "kk": "up"
+    },
+    {
+      "t": "Contract-compliance monitoring",
+      "s": "ER-OG-03",
+      "b": "Automated contract-term compliance monitoring.",
+      "k": "+22% compliance",
+      "kk": "up"
+    },
+    {
+      "t": "Contractor-safety performance",
+      "s": "ER-OG-03",
+      "b": "Contractor SSHE performance tracking.",
+      "k": "−28% incidents",
+      "kk": "down"
+    },
+    {
+      "t": "Cooling-water intake monitoring",
+      "s": "ER-PU-04",
+      "b": "Biological-intrusion and thermal-compliance intake monitoring.",
+      "k": "100% compliance",
+      "kk": "up"
+    },
+    {
+      "t": "Crude-selection optimization",
+      "s": "ER-OG-05",
+      "b": "Market-spread and unit-constraint-aware crude selection.",
+      "k": "+$11M/yr margin",
+      "kk": "money"
+    },
+    {
+      "t": "Customer-churn prediction (utility)",
+      "s": "ER-PU-04",
+      "b": "Retail-energy customer churn prediction.",
+      "k": "−14% churn",
+      "kk": "down"
+    },
+    {
+      "t": "Customer-service contact-center (utility)",
+      "s": "ER-PU-04",
+      "b": "Agent co-pilot for utility contact center.",
+      "k": "−22% AHT",
+      "kk": "down"
+    },
+    {
+      "t": "DER (distributed energy resource) integration",
+      "s": "ER-PU-04",
+      "b": "DER-aware grid operation with hosting-capacity analysis.",
+      "k": "+24% DER hosting",
+      "kk": "up"
+    },
+    {
+      "t": "Distribution outage triage",
+      "s": "ER-PU-04",
+      "b": "Storm-mode restoration triage with CMI optimization.",
+      "k": "−22% MTTR",
+      "kk": "down"
+    },
+    {
+      "t": "Drill-and-blast productivity",
+      "s": "ER-MN-02",
+      "b": "Drill-and-blast productivity analytics.",
+      "k": "+11% productivity",
+      "kk": "up"
+    },
+    {
+      "t": "Drilling-rig performance optimization",
+      "s": "ER-OG-02",
+      "b": "ROP and downhole tool optimization across rig fleet.",
+      "k": "−14% drill-cycle time",
+      "kk": "down"
+    },
+    {
+      "t": "Emergency-response readiness",
+      "s": "ER-OG-03",
+      "b": "Drill, training, and resource-readiness tracking.",
+      "k": "+22pp readiness",
+      "kk": "up"
+    },
+    {
+      "t": "Emissions-compliance continuous monitoring",
+      "s": "ER-PU-04",
+      "b": "CEMS data integrity and regulatory-reporting automation.",
+      "k": "100% CEMS uptime",
+      "kk": "up"
+    },
+    {
+      "t": "Energy-efficiency-program enrollment",
+      "s": "ER-PU-04",
+      "b": "Propensity-based enrollment targeting for EE programs.",
+      "k": "+24pp enrollment",
+      "kk": "up"
+    },
+    {
+      "t": "Environmental compliance monitoring",
+      "s": "ER-MN-02",
+      "b": "Permit-condition real-time compliance monitoring.",
+      "k": "−67% violations",
+      "kk": "down"
+    },
+    {
+      "t": "Equipment-utilization (mining fleet)",
+      "s": "ER-MN-02",
+      "b": "Haul-truck and loader utilization analytics.",
+      "k": "+14% utilization",
+      "kk": "up"
+    },
+    {
+      "t": "ESP (electric submersible pump) failure prediction",
+      "s": "ER-OG-03",
+      "b": "Motor-current signature-based ESP failure prediction.",
+      "k": "+22% ESP runlife",
+      "kk": "up"
+    },
+    {
+      "t": "Flare-gas recovery",
+      "s": "ER-OG-05",
+      "b": "Flare-gas recovery optimization with economic routing.",
+      "k": "−28% flaring",
+      "kk": "down"
+    },
+    {
+      "t": "Flaring-reduction analytics",
+      "s": "ER-OG-03",
+      "b": "Flare-gas reduction with routing, compression, and gas-capture analytics.",
+      "k": "−34% flaring volume",
+      "kk": "down"
+    },
+    {
+      "t": "Frac-completion performance",
+      "s": "ER-OG-02",
+      "b": "Multi-well completion design optimization from post-frac performance.",
+      "k": "+7% EUR",
+      "kk": "up"
+    },
+    {
+      "t": "Fuel-inventory optimization",
+      "s": "ER-PU-04",
+      "b": "Coal and gas fuel-inventory optimization with delivery-schedule alignment.",
+      "k": "−$4M/yr carrying cost",
+      "kk": "money"
+    },
+    {
+      "t": "Gas-composition-analysis compliance",
+      "s": "ER-OG-07",
+      "b": "Gas composition analysis for tariff and spec compliance.",
+      "k": "100% spec compliance",
+      "kk": "up"
+    },
+    {
+      "t": "Gas-lift compressor monitoring",
+      "s": "ER-OG-03",
+      "b": "Compressor-health monitoring with predictive failure alerts.",
+      "k": "+11% uptime",
+      "kk": "up"
+    },
+    {
+      "t": "Generation-unit dispatch",
+      "s": "ER-PU-04",
+      "b": "Unit-commitment optimization across fleet with market signals.",
+      "k": "+2.4% dispatch margin",
+      "kk": "up"
+    },
+    {
+      "t": "Grid-frequency stability",
+      "s": "ER-PU-04",
+      "b": "Real-time frequency-stability monitoring with control action triggers.",
+      "k": "−34% frequency events",
+      "kk": "down"
+    },
+    {
+      "t": "Haul-truck-route optimization",
+      "s": "ER-MN-02",
+      "b": "Haul-cycle-time optimization with fleet-balancing.",
+      "k": "+8% production",
+      "kk": "up"
+    },
+    {
+      "t": "Heat-exchanger fouling prediction",
+      "s": "ER-OG-05",
+      "b": "Fouling-prediction with cleaning-window optimization.",
+      "k": "+2.1% thermal efficiency",
+      "kk": "up"
+    },
+    {
+      "t": "Hot-work-permit management",
+      "s": "ER-OG-03",
+      "b": "Digital hot-work permit with conflict-detection.",
+      "k": "−42% incidents",
+      "kk": "down"
+    },
+    {
+      "t": "Hydroelectric reservoir management",
+      "s": "ER-PU-04",
+      "b": "Multi-objective hydro dispatch with water-balance constraints.",
+      "k": "+2.4% dispatch revenue",
+      "kk": "up"
+    },
+    {
+      "t": "Lease-operator route optimization",
+      "s": "ER-OG-03",
+      "b": "Multi-well route optimization with priority and risk weighting.",
+      "k": "+14% well visits/day",
+      "kk": "up"
+    },
+    {
+      "t": "Line-loss reduction",
+      "s": "ER-PU-04",
+      "b": "Distribution loss analytics with intervention targeting.",
+      "k": "−1.2% line loss",
+      "kk": "down"
+    },
+    {
+      "t": "Load-forecast accuracy improvement",
+      "s": "ER-PU-04",
+      "b": "Weather and behind-the-meter-aware load forecasting.",
+      "k": "+14pp forecast accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "Loading-rack scheduling",
+      "s": "ER-OG-07",
+      "b": "Truck and rail loading-rack scheduling optimization.",
+      "k": "+22% throughput",
+      "kk": "up"
+    },
+    {
+      "t": "Logistics-provider performance",
+      "s": "ER-OG-03",
+      "b": "3PL and transport-provider scorecard analytics.",
+      "k": "+14% on-time",
+      "kk": "up"
+    },
+    {
+      "t": "Lone-worker safety",
+      "s": "ER-OG-03",
+      "b": "Lone-worker location and check-in automation.",
+      "k": "+38% response speed",
+      "kk": "up"
+    },
+    {
+      "t": "Loss-of-primary-containment prediction",
+      "s": "ER-OG-03",
+      "b": "LOPC risk-factor scoring with preventive-maintenance targeting.",
+      "k": "−34% LOPC events",
+      "kk": "down"
+    },
+    {
+      "t": "M&A target-screening",
+      "s": "ER-OG-02",
+      "b": "Geologic, technical, and financial M&A target screening.",
+      "k": "+14% hit rate",
+      "kk": "up"
+    },
+    {
+      "t": "Mill-throughput optimization",
+      "s": "ER-MN-02",
+      "b": "Comminution-circuit throughput optimization.",
+      "k": "+6% mill throughput",
+      "kk": "up"
+    },
+    {
+      "t": "Near-miss-trend analysis",
+      "s": "ER-OG-03",
+      "b": "Near-miss pattern detection for leading-indicator insight.",
+      "k": "−24% incidents",
+      "kk": "down"
+    },
+    {
+      "t": "Net-metering reconciliation",
+      "s": "ER-PU-04",
+      "b": "Automated net-metering reconciliation and dispute resolution.",
+      "k": "−62% disputes",
+      "kk": "down"
+    },
+    {
+      "t": "Offshore-wind-maintenance routing",
+      "s": "ER-PU-04",
+      "b": "Weather-aware vessel and technician routing for offshore wind.",
+      "k": "+18% maintenance windows",
+      "kk": "up"
+    },
+    {
+      "t": "Ore-grade control",
+      "s": "ER-MN-02",
+      "b": "Real-time ore-grade control and blending decisions.",
+      "k": "+4.2% grade recovery",
+      "kk": "up"
+    },
+    {
+      "t": "Outage-restoration sequencing",
+      "s": "ER-PU-04",
+      "b": "Multi-crew restoration sequencing for CMI minimization.",
+      "k": "−18% CMI",
+      "kk": "down"
+    },
+    {
+      "t": "Payment-arrangement optimization",
+      "s": "ER-PU-04",
+      "b": "Payment-plan personalization with arrears-reduction targeting.",
+      "k": "+18% arrears recovery",
+      "kk": "up"
+    },
+    {
+      "t": "Permit-to-work compliance",
+      "s": "ER-OG-03",
+      "b": "Automated P-t-W workflow with conflict and JSA verification.",
+      "k": "+18pp compliance",
+      "kk": "up"
+    },
+    {
+      "t": "Pipeline leak detection",
+      "s": "ER-OG-07",
+      "b": "Fiber-optic DAS and SCADA fusion for sub-percent leak detection.",
+      "k": "−41% unplanned shutdowns",
+      "kk": "down"
+    },
+    {
+      "t": "Pipeline-integrity inspection routing",
+      "s": "ER-OG-07",
+      "b": "Risk-based inline-inspection routing and prioritization.",
+      "k": "+28% risk-adjusted coverage",
+      "kk": "up"
+    },
+    {
+      "t": "Pipeline-odorant-injection monitoring",
+      "s": "ER-OG-07",
+      "b": "Odorant injection monitoring for LDC compliance.",
+      "k": "100% regulatory compliance",
+      "kk": "up"
+    },
+    {
+      "t": "Pipeline-throughput capacity planning",
+      "s": "ER-OG-07",
+      "b": "Network-capacity planning with nomination and flow-constraint modeling.",
+      "k": "+8% throughput capacity",
+      "kk": "up"
+    },
+    {
+      "t": "Plant-performance benchmarking",
+      "s": "ER-PU-04",
+      "b": "Peer and historical plant performance benchmarking.",
+      "k": "+1.8% heat rate",
+      "kk": "up"
+    },
+    {
+      "t": "Predictive wellhead maintenance",
+      "s": "ER-OG-03",
+      "b": "Rod-pump predictive maintenance from SCADA and dyno cards.",
+      "k": "+18% uptime",
+      "kk": "up"
+    },
+    {
+      "t": "Process-safety-management leading indicators",
+      "s": "ER-OG-03",
+      "b": "PSM-leading-indicator aggregation and trend analysis.",
+      "k": "+24% preventive interventions",
+      "kk": "up"
+    },
+    {
+      "t": "Processing-plant recovery optimization",
+      "s": "ER-MN-02",
+      "b": "Recovery-circuit optimization across comminution, flotation, and dewatering.",
+      "k": "+2.8pp recovery",
+      "kk": "up"
+    },
+    {
+      "t": "Procurement-spend analytics",
+      "s": "ER-OG-03",
+      "b": "Spend classification and category-level savings identification.",
+      "k": "−8% indirect spend",
+      "kk": "down"
+    },
+    {
+      "t": "Production-allocation",
+      "s": "ER-OG-03",
+      "b": "Multi-well production allocation with constraint-aware optimization.",
+      "k": "+2.4% allocated production",
+      "kk": "up"
+    },
+    {
+      "t": "Production-chemical optimization",
+      "s": "ER-OG-03",
+      "b": "Dosage optimization for scale, corrosion, and paraffin chemicals.",
+      "k": "−14% chemical cost",
+      "kk": "down"
+    },
+    {
+      "t": "Program-enrollment targeting",
+      "s": "ER-PU-04",
+      "b": "Multi-program enrollment-propensity scoring.",
+      "k": "+14pp participation",
+      "kk": "up"
+    },
+    {
+      "t": "Pump-station optimization",
+      "s": "ER-OG-07",
+      "b": "Pump-scheduling optimization for throughput and energy cost.",
+      "k": "−11% energy cost",
+      "kk": "down"
+    },
+    {
+      "t": "Refinery yield optimization",
+      "s": "ER-OG-05",
+      "b": "APC-assisted yield optimization with real-time setpoint recommendations.",
+      "k": "+1.8% yield",
+      "kk": "up"
+    },
+    {
+      "t": "Renewable-PPA pricing analytics",
+      "s": "ER-PU-04",
+      "b": "PPA-structure optimization with price-risk modeling.",
+      "k": "+1.8% PPA revenue",
+      "kk": "up"
+    },
+    {
+      "t": "Reservoir-production forecasting",
+      "s": "ER-OG-02",
+      "b": "Multi-scenario reservoir production forecasting.",
+      "k": "+11pp forecast accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "Revenue-protection (theft detection)",
+      "s": "ER-PU-04",
+      "b": "AMI-based energy-theft detection.",
+      "k": "+$6M/yr recovery",
+      "kk": "money"
+    },
+    {
+      "t": "Solar-farm yield optimization",
+      "s": "ER-PU-04",
+      "b": "Soiling, shading, and inverter-performance analytics.",
+      "k": "+3.1% energy yield",
+      "kk": "up"
+    },
+    {
+      "t": "Solar-panel soiling detection",
+      "s": "ER-PU-04",
+      "b": "Soiling detection and cleaning-schedule optimization.",
+      "k": "+2.2% yield",
+      "kk": "up"
+    },
+    {
+      "t": "Spare-parts-inventory optimization",
+      "s": "ER-OG-03",
+      "b": "Critical-spare inventory with criticality-based pooling.",
+      "k": "−22% carrying cost",
+      "kk": "down"
+    },
+    {
+      "t": "Steam-balance optimization",
+      "s": "ER-OG-05",
+      "b": "Site-wide steam-balance optimization.",
+      "k": "−8% steam cost",
+      "kk": "down"
+    },
+    {
+      "t": "Storage-terminal inventory",
+      "s": "ER-OG-07",
+      "b": "Terminal-inventory reconciliation with movement-anomaly detection.",
+      "k": "−$2.4M variance",
+      "kk": "money"
+    },
+    {
+      "t": "Storm-prep crew staging",
+      "s": "ER-PU-04",
+      "b": "Pre-event crew and material staging optimization.",
+      "k": "−24% restoration time",
+      "kk": "down"
+    },
+    {
+      "t": "Substation-asset health",
+      "s": "ER-PU-04",
+      "b": "Transformer and substation asset health monitoring.",
+      "k": "+22% asset life",
+      "kk": "up"
+    },
+    {
+      "t": "Tailings-dam monitoring",
+      "s": "ER-MN-02",
+      "b": "Geotech and piezometer monitoring for tailings-dam stability.",
+      "k": "−82% failure risk",
+      "kk": "down"
+    },
+    {
+      "t": "Tanker-scheduling optimization",
+      "s": "ER-OG-07",
+      "b": "Tanker berthing and scheduling optimization at marine terminals.",
+      "k": "−14% demurrage",
+      "kk": "down"
+    },
+    {
+      "t": "Thermal-plant heat-rate optimization",
+      "s": "ER-PU-04",
+      "b": "Heat-rate optimization from operating-data fusion.",
+      "k": "−1.4% heat rate",
+      "kk": "down"
+    },
+    {
+      "t": "Time-of-use rate-plan analysis",
+      "s": "ER-PU-04",
+      "b": "Customer-specific TOU rate-plan recommendation.",
+      "k": "+8% bill-optimization",
+      "kk": "up"
+    },
+    {
+      "t": "Tower-overhead-corrosion prediction",
+      "s": "ER-OG-05",
+      "b": "Corrosion-rate prediction with neutralizer-dosing optimization.",
+      "k": "+14% equipment life",
+      "kk": "up"
+    },
+    {
+      "t": "Transformer-load forecasting",
+      "s": "ER-PU-04",
+      "b": "Transformer-level load forecasting for capacity-planning.",
+      "k": "+18% capacity utilization",
+      "kk": "up"
+    },
+    {
+      "t": "Turbine-blade-wear assessment",
+      "s": "ER-PU-04",
+      "b": "Turbine-condition monitoring for inspection-window optimization.",
+      "k": "+22% inspection efficiency",
+      "kk": "up"
+    },
+    {
+      "t": "Turnaround-planning optimization",
+      "s": "ER-OG-05",
+      "b": "Turnaround-scope optimization with risk-based prioritization.",
+      "k": "−$18M turnaround cost",
+      "kk": "money"
+    },
+    {
+      "t": "Valve-station remote monitoring",
+      "s": "ER-OG-07",
+      "b": "Remote-station anomaly detection and response.",
+      "k": "−38% unplanned responses",
+      "kk": "down"
+    },
+    {
+      "t": "Vegetation-management prioritization",
+      "s": "ER-PU-04",
+      "b": "LiDAR and outage-history-based vegetation-management scheduling.",
+      "k": "−34% vegetation outages",
+      "kk": "down"
+    },
+    {
+      "t": "Ventilation-system optimization",
+      "s": "ER-MN-02",
+      "b": "Mine-ventilation optimization for safety and energy efficiency.",
+      "k": "−14% ventilation energy",
+      "kk": "down"
+    },
+    {
+      "t": "Venting-emission detection",
+      "s": "ER-OG-03",
+      "b": "Fugitive emission detection from sensor networks and satellite.",
+      "k": "−42% methane emissions",
+      "kk": "down"
+    },
+    {
+      "t": "Voltage-regulation optimization",
+      "s": "ER-PU-04",
+      "b": "Volt/VAR optimization across distribution network.",
+      "k": "−2.1% distribution loss",
+      "kk": "down"
+    },
+    {
+      "t": "Wastewater-treatment optimization",
+      "s": "ER-OG-05",
+      "b": "WWT-plant operation optimization with compliance buffers.",
+      "k": "−22% treatment cost",
+      "kk": "down"
+    },
+    {
+      "t": "Water-handling optimization",
+      "s": "ER-OG-03",
+      "b": "Produced-water handling and disposal-cost optimization.",
+      "k": "−18% water cost",
+      "kk": "down"
+    },
+    {
+      "t": "Well-spacing optimization",
+      "s": "ER-OG-02",
+      "b": "Geology and production-history-aware spacing decisions.",
+      "k": "+6% EUR/well",
+      "kk": "up"
+    },
+    {
+      "t": "Wildfire-ignition risk prediction",
+      "s": "ER-PU-04",
+      "b": "Asset- and weather-aware wildfire-ignition risk scoring.",
+      "k": "−52% ignition risk",
+      "kk": "down"
+    },
+    {
+      "t": "Wind-power forecasting",
+      "s": "ER-PU-04",
+      "b": "High-resolution wind-power forecasting.",
+      "k": "+14pp forecast accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "Wind-turbine-blade inspection",
+      "s": "ER-PU-04",
+      "b": "Drone and IR imagery-based turbine-blade condition analytics.",
+      "k": "+11% availability",
+      "kk": "up"
+    },
+    {
+      "t": "Worker-fatigue monitoring",
+      "s": "ER-OG-03",
+      "b": "Shift-pattern and biometric fatigue-risk monitoring.",
+      "k": "−41% fatigue incidents",
+      "kk": "down"
+    }
+  ],
+  "AXLE": [
+    {
+      "t": "8D-report drafting",
+      "s": "AXLE-QMS-02",
+      "b": "Automated 8D-report drafting from incident data and prior reports.",
+      "k": "−62% report time",
+      "kk": "down"
+    },
+    {
+      "t": "AD/SB compliance tracking",
+      "s": "AXLE-QMS-02",
+      "b": "Airworthiness-directive compliance tracking.",
+      "k": "100% compliance",
+      "kk": "up"
+    },
+    {
+      "t": "Air-emission monitoring",
+      "s": "AXLE-Ops-03",
+      "b": "Stack-emission monitoring and regulatory reporting.",
+      "k": "100% regulatory compliance",
+      "kk": "up"
+    },
+    {
+      "t": "Aircraft-part serialization",
+      "s": "AXLE-QMS-02",
+      "b": "Serialized-part-lifecycle tracking.",
+      "k": "100% traceability",
+      "kk": "up"
+    },
+    {
+      "t": "Andon-signal root-cause analysis",
+      "s": "AXLE-Ops-03",
+      "b": "Andon-signal pattern analysis with root-cause hypothesis.",
+      "k": "−28% recurrence",
+      "kk": "down"
+    },
+    {
+      "t": "Assembly-sequence optimization",
+      "s": "AXLE-Ops-03",
+      "b": "Assembly-line sequence optimization minimizing variance and rework.",
+      "k": "+8% throughput",
+      "kk": "up"
+    },
+    {
+      "t": "Bill-of-material rationalization",
+      "s": "AXLE-Ops-03",
+      "b": "BoM complexity-reduction through commonality analysis.",
+      "k": "−$6.8M material cost",
+      "kk": "money"
+    },
+    {
+      "t": "CAD-file metadata tagging",
+      "s": "AXLE-Ops-03",
+      "b": "Automated CAD-file metadata and classification.",
+      "k": "+28% search accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "CAPA tracking and effectiveness",
+      "s": "AXLE-QMS-02",
+      "b": "CAPA closure tracking with effectiveness-verification.",
+      "k": "+22% effectiveness",
+      "kk": "up"
+    },
+    {
+      "t": "Capital-project-ROI tracking",
+      "s": "AXLE-Ops-03",
+      "b": "Capital-project post-audit and ROI tracking.",
+      "k": "+14% ROI capture",
+      "kk": "up"
+    },
+    {
+      "t": "Changeover-time reduction",
+      "s": "AXLE-Ops-03",
+      "b": "SMED-aware changeover optimization from historical analysis.",
+      "k": "−24% changeover",
+      "kk": "down"
+    },
+    {
+      "t": "Chemical-exposure tracking",
+      "s": "AXLE-Ops-03",
+      "b": "Employee chemical-exposure tracking and TLV compliance.",
+      "k": "+24pp compliance",
+      "kk": "up"
+    },
+    {
+      "t": "CNC-spindle failure prediction",
+      "s": "AXLE-Connected-Factory-01",
+      "b": "Spindle-vibration-based failure prediction.",
+      "k": "+22% runlife",
+      "kk": "up"
+    },
+    {
+      "t": "Compressed-air-leak detection",
+      "s": "AXLE-Ops-03",
+      "b": "Ultrasonic and pressure-signature leak detection.",
+      "k": "−22% compressed-air cost",
+      "kk": "down"
+    },
+    {
+      "t": "Condition-based-maintenance calibration",
+      "s": "AXLE-Connected-Factory-01",
+      "b": "CBM threshold calibration from historical failure signatures.",
+      "k": "+14% predictive accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "Conveyor-system uptime",
+      "s": "AXLE-Connected-Factory-01",
+      "b": "Conveyor motor-and-bearing health monitoring.",
+      "k": "+11% uptime",
+      "kk": "up"
+    },
+    {
+      "t": "Country-of-origin documentation",
+      "s": "AXLE-Supply-04",
+      "b": "Automated country-of-origin documentation for trade compliance.",
+      "k": "−82% documentation time",
+      "kk": "down"
+    },
+    {
+      "t": "Customer-complaint classification",
+      "s": "AXLE-QMS-02",
+      "b": "Multi-lingual complaint classification and severity-scoring.",
+      "k": "−41% triage time",
+      "kk": "down"
+    },
+    {
+      "t": "Cycle-time-variance analysis",
+      "s": "AXLE-Ops-03",
+      "b": "Station-level cycle-time variance detection and improvement targeting.",
+      "k": "+6% throughput",
+      "kk": "up"
+    },
+    {
+      "t": "Dealer-inventory visibility",
+      "s": "AXLE-Supply-04",
+      "b": "Real-time dealer-inventory visibility for OEM planning.",
+      "k": "+14pp forecast accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "Design-for-manufacturability scoring",
+      "s": "AXLE-Ops-03",
+      "b": "DfM scoring for new designs with cost-implications.",
+      "k": "−14% NPI cost",
+      "kk": "down"
+    },
+    {
+      "t": "Digital-twin parameter calibration",
+      "s": "AXLE-Connected-Factory-01",
+      "b": "Digital-twin parameter calibration from production data.",
+      "k": "+24% simulation accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "Electrical-arc-flash analysis",
+      "s": "AXLE-Ops-03",
+      "b": "Arc-flash-study automation and PPE matching.",
+      "k": "−42% incidents",
+      "kk": "down"
+    },
+    {
+      "t": "Energy-management ISO 50001 reporting",
+      "s": "AXLE-Ops-03",
+      "b": "ISO 50001 energy-management reporting automation.",
+      "k": "100% audit-ready",
+      "kk": "up"
+    },
+    {
+      "t": "Engineering-change-order impact",
+      "s": "AXLE-Ops-03",
+      "b": "ECO impact analysis across BoM, manufacturing, supply, and service.",
+      "k": "−42% ECO cycle",
+      "kk": "down"
+    },
+    {
+      "t": "Engineering-release-cycle time",
+      "s": "AXLE-Ops-03",
+      "b": "Release-process bottleneck detection and cycle-time reduction.",
+      "k": "−34% cycle time",
+      "kk": "down"
+    },
+    {
+      "t": "Ergonomic-risk assessment",
+      "s": "AXLE-Ops-03",
+      "b": "CV-based ergonomic-risk detection at workstations.",
+      "k": "−32% ergonomic incidents",
+      "kk": "down"
+    },
+    {
+      "t": "Field-service dispatch optimization",
+      "s": "AXLE-Ops-03",
+      "b": "Field-tech dispatch with skill and parts-matching.",
+      "k": "+22% first-time-fix",
+      "kk": "up"
+    },
+    {
+      "t": "First-pass-yield (FPY) improvement",
+      "s": "AXLE-QMS-02",
+      "b": "FPY pattern analysis and root-cause identification.",
+      "k": "+8pp FPY",
+      "kk": "up"
+    },
+    {
+      "t": "Fleet-fatigue tracking",
+      "s": "AXLE-QMS-02",
+      "b": "Airframe-fatigue-life tracking across fleet.",
+      "k": "+14% asset life",
+      "kk": "up"
+    },
+    {
+      "t": "Forklift-utilization analytics",
+      "s": "AXLE-Ops-03",
+      "b": "Forklift-fleet utilization with right-sizing analytics.",
+      "k": "−18% fleet cost",
+      "kk": "down"
+    },
+    {
+      "t": "Gauge-R&R study automation",
+      "s": "AXLE-QMS-02",
+      "b": "Measurement-system-analysis automation with drift detection.",
+      "k": "+22% study speed",
+      "kk": "up"
+    },
+    {
+      "t": "Hydraulic-system leak detection",
+      "s": "AXLE-Connected-Factory-01",
+      "b": "Hydraulic-system anomaly detection.",
+      "k": "−37% unplanned downtime",
+      "kk": "down"
+    },
+    {
+      "t": "In-process SPC alerting",
+      "s": "AXLE-QMS-02",
+      "b": "Real-time SPC monitoring with out-of-control action playbooks.",
+      "k": "−34% scrap",
+      "kk": "down"
+    },
+    {
+      "t": "Inbound-logistics tracking",
+      "s": "AXLE-Supply-04",
+      "b": "Inbound-shipment visibility and ETA accuracy.",
+      "k": "+18pp ETA accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "Inbound-quality inspection",
+      "s": "AXLE-Supply-04",
+      "b": "Automated inbound-inspection with supplier-history awareness.",
+      "k": "−34% incoming defects",
+      "kk": "down"
+    },
+    {
+      "t": "Industrial-IoT alarm suppression",
+      "s": "AXLE-Connected-Factory-01",
+      "b": "Alarm suppression and prioritization for operator workload.",
+      "k": "−58% alarm flood",
+      "kk": "down"
+    },
+    {
+      "t": "Inspection-station routing",
+      "s": "AXLE-QMS-02",
+      "b": "Risk-based inspection-station routing.",
+      "k": "+14% detection",
+      "kk": "up"
+    },
+    {
+      "t": "Installed-base health scoring",
+      "s": "AXLE-Ops-03",
+      "b": "Equipment-health scoring across installed base.",
+      "k": "+18% service capture",
+      "kk": "up"
+    },
+    {
+      "t": "ISO-audit-readiness tracking",
+      "s": "AXLE-QMS-02",
+      "b": "ISO 9001 / 14001 / 45001 audit-readiness tracking.",
+      "k": "+22pp audit-readiness",
+      "kk": "up"
+    },
+    {
+      "t": "Kanban-signal optimization",
+      "s": "AXLE-Supply-04",
+      "b": "Kanban sizing based on demand-volatility.",
+      "k": "−18% line-side inventory",
+      "kk": "down"
+    },
+    {
+      "t": "Line-balancing optimization",
+      "s": "AXLE-Ops-03",
+      "b": "Station-level line-balancing with skill and constraint awareness.",
+      "k": "+11% line efficiency",
+      "kk": "up"
+    },
+    {
+      "t": "Line-stoppage-root-cause detection",
+      "s": "AXLE-Ops-03",
+      "b": "Line-stoppage pattern detection with root cause.",
+      "k": "−22% stoppage time",
+      "kk": "down"
+    },
+    {
+      "t": "Load-consolidation optimization",
+      "s": "AXLE-Supply-04",
+      "b": "Outbound-shipment consolidation optimization.",
+      "k": "−12% outbound cost",
+      "kk": "down"
+    },
+    {
+      "t": "Lockout-tagout compliance",
+      "s": "AXLE-Ops-03",
+      "b": "Digital LOTO with multi-source-energy verification.",
+      "k": "+28pp compliance",
+      "kk": "up"
+    },
+    {
+      "t": "Logistics-carrier scoring",
+      "s": "AXLE-Supply-04",
+      "b": "Carrier-scorecard analytics with lane-level insights.",
+      "k": "+11% on-time delivery",
+      "kk": "up"
+    },
+    {
+      "t": "Lubrication-schedule adherence",
+      "s": "AXLE-Connected-Factory-01",
+      "b": "Condition-based lubrication scheduling.",
+      "k": "−24% premature failures",
+      "kk": "down"
+    },
+    {
+      "t": "Machine-guarding inspection",
+      "s": "AXLE-Ops-03",
+      "b": "Machine-guarding compliance via walk-through CV.",
+      "k": "−38% exposure",
+      "kk": "down"
+    },
+    {
+      "t": "Maintenance-tech dispatch",
+      "s": "AXLE-Connected-Factory-01",
+      "b": "Skill-and-proximity-based maintenance-tech dispatch.",
+      "k": "+18% first-call-fix",
+      "kk": "up"
+    },
+    {
+      "t": "Material-shortage prediction",
+      "s": "AXLE-Supply-04",
+      "b": "Multi-tier shortage prediction from supplier signals.",
+      "k": "+28% lead time",
+      "kk": "up"
+    },
+    {
+      "t": "Mean-time-between-failure forecasting",
+      "s": "AXLE-Connected-Factory-01",
+      "b": "MTBF forecasting per equipment class.",
+      "k": "+22% planning accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "Measurement-system-drift detection",
+      "s": "AXLE-QMS-02",
+      "b": "Gauge-drift detection with recalibration triggers.",
+      "k": "+11pp accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "Motor-bearing-failure prediction",
+      "s": "AXLE-Connected-Factory-01",
+      "b": "Motor-current signature analysis for bearing-failure prediction.",
+      "k": "+24% uptime",
+      "kk": "up"
+    },
+    {
+      "t": "Near-miss classification",
+      "s": "AXLE-Ops-03",
+      "b": "Near-miss text classification for trend analysis.",
+      "k": "+14% leading indicators",
+      "kk": "up"
+    },
+    {
+      "t": "New-product-launch readiness",
+      "s": "AXLE-Ops-03",
+      "b": "NPI launch-readiness tracking with gate-review automation.",
+      "k": "+24% on-time launches",
+      "kk": "up"
+    },
+    {
+      "t": "Noise-exposure monitoring",
+      "s": "AXLE-Ops-03",
+      "b": "Area and dosimetry-based noise-exposure monitoring.",
+      "k": "−22% OSHA recordables",
+      "kk": "down"
+    },
+    {
+      "t": "OEE reporting automation",
+      "s": "AXLE-Connected-Factory-01",
+      "b": "Real-time OEE calculation and visualization.",
+      "k": "+22% visibility",
+      "kk": "up"
+    },
+    {
+      "t": "Operator-skill matching",
+      "s": "AXLE-Ops-03",
+      "b": "Operator-to-workstation matching from skill and cycle-time data.",
+      "k": "+4% first-pass-yield",
+      "kk": "up"
+    },
+    {
+      "t": "Order-picking optimization",
+      "s": "AXLE-Ops-03",
+      "b": "Pick-path and batching optimization.",
+      "k": "+22% pick rate",
+      "kk": "up"
+    },
+    {
+      "t": "Packaging-material optimization",
+      "s": "AXLE-Ops-03",
+      "b": "Package-design optimization balancing cost and damage.",
+      "k": "−18% damage claims",
+      "kk": "down"
+    },
+    {
+      "t": "Paint-booth throughput",
+      "s": "AXLE-Ops-03",
+      "b": "Paint-booth throughput with cure-time optimization.",
+      "k": "+14% throughput",
+      "kk": "up"
+    },
+    {
+      "t": "Pallet-exchange tracking",
+      "s": "AXLE-Supply-04",
+      "b": "Pallet-flow accounting across network.",
+      "k": "−$2.2M loss",
+      "kk": "money"
+    },
+    {
+      "t": "Parts-replenishment forecast",
+      "s": "AXLE-Supply-04",
+      "b": "Dealer and customer-site parts-replenishment forecast.",
+      "k": "−28% stockouts",
+      "kk": "down"
+    },
+    {
+      "t": "Plant-capacity-planning",
+      "s": "AXLE-Ops-03",
+      "b": "Plant-capacity modeling with scenario analysis.",
+      "k": "+18% utilization",
+      "kk": "up"
+    },
+    {
+      "t": "Plant-commissioning support",
+      "s": "AXLE-Ops-03",
+      "b": "New-plant commissioning work-package tracking.",
+      "k": "−18% commissioning time",
+      "kk": "down"
+    },
+    {
+      "t": "Plant-level-P&L variance",
+      "s": "AXLE-Ops-03",
+      "b": "Plant P&L variance with hypothesis-ranked root causes.",
+      "k": "+2.2pp plant margin",
+      "kk": "up"
+    },
+    {
+      "t": "PPAP automation",
+      "s": "AXLE-QMS-02",
+      "b": "Production part approval process documentation automation.",
+      "k": "−58% cycle time",
+      "kk": "down"
+    },
+    {
+      "t": "Predictive maintenance — stamping press",
+      "s": "AXLE-Connected-Factory-01",
+      "b": "Multi-signal PdM for stamping presses with OEE impact.",
+      "k": "+6-9pp OEE",
+      "kk": "up"
+    },
+    {
+      "t": "Predictive-tool-life monitoring",
+      "s": "AXLE-Connected-Factory-01",
+      "b": "Cutting-tool life prediction for replacement optimization.",
+      "k": "+14% tool life",
+      "kk": "up"
+    },
+    {
+      "t": "Production scheduling optimization",
+      "s": "AXLE-Ops-03",
+      "b": "Mixed-model sequence optimization with due-date constraints.",
+      "k": "+11% throughput",
+      "kk": "up"
+    },
+    {
+      "t": "Put-away-route optimization",
+      "s": "AXLE-Ops-03",
+      "b": "Put-away routing with slotting-awareness.",
+      "k": "+14% put-away rate",
+      "kk": "up"
+    },
+    {
+      "t": "Quality escape detection & RCA",
+      "s": "AXLE-QMS-02",
+      "b": "Quality-escape detection with root-cause hypothesis ranking.",
+      "k": "−52% FPY defects",
+      "kk": "down"
+    },
+    {
+      "t": "Remote-diagnostics triage",
+      "s": "AXLE-Ops-03",
+      "b": "Remote-diagnostic session triage and truck-roll avoidance.",
+      "k": "−22% truck rolls",
+      "kk": "down"
+    },
+    {
+      "t": "Robot-axis-wear detection",
+      "s": "AXLE-Connected-Factory-01",
+      "b": "Robot-positioning accuracy monitoring.",
+      "k": "+14% accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "Safety-training refresher targeting",
+      "s": "AXLE-Ops-03",
+      "b": "Risk-based targeted refresher training.",
+      "k": "+22pp completion",
+      "kk": "up"
+    },
+    {
+      "t": "Scrap-root-cause analysis",
+      "s": "AXLE-QMS-02",
+      "b": "Scrap-pattern detection with operational-cause attribution.",
+      "k": "−28% scrap",
+      "kk": "down"
+    },
+    {
+      "t": "Sequenced-parts delivery",
+      "s": "AXLE-Supply-04",
+      "b": "Sequenced-delivery orchestration for JIT operations.",
+      "k": "+22% line stability",
+      "kk": "up"
+    },
+    {
+      "t": "Service-contract renewal",
+      "s": "AXLE-Ops-03",
+      "b": "Renewal-likelihood scoring with intervention playbooks.",
+      "k": "+18pp renewal rate",
+      "kk": "up"
+    },
+    {
+      "t": "Shift-handover note automation",
+      "s": "AXLE-Ops-03",
+      "b": "LLM-powered shift-handover summary from MES and andon data.",
+      "k": "−82% handover gaps",
+      "kk": "down"
+    },
+    {
+      "t": "Shipping-dock scheduling",
+      "s": "AXLE-Supply-04",
+      "b": "Shipping-dock appointment optimization.",
+      "k": "+28% dock throughput",
+      "kk": "up"
+    },
+    {
+      "t": "Spare-parts-kit optimization",
+      "s": "AXLE-Connected-Factory-01",
+      "b": "Predictive-failure-informed spare-parts kitting.",
+      "k": "−22% MRO inventory",
+      "kk": "down"
+    },
+    {
+      "t": "Supplier risk & dual-sourcing",
+      "s": "AXLE-Supply-07",
+      "b": "Continuous supplier risk monitoring with dual-source decisioning.",
+      "k": "−38% delays",
+      "kk": "down"
+    },
+    {
+      "t": "Supplier-collaboration portal",
+      "s": "AXLE-Supply-04",
+      "b": "Agent-assisted supplier-collaboration portal.",
+      "k": "+18% OTIF",
+      "kk": "up"
+    },
+    {
+      "t": "Supplier-drawing-revision tracking",
+      "s": "AXLE-Supply-04",
+      "b": "Supplier-drawing revision control and conformance tracking.",
+      "k": "−82% manual matching",
+      "kk": "down"
+    },
+    {
+      "t": "Supplier-quality-alert triage",
+      "s": "AXLE-QMS-02",
+      "b": "Supplier-quality alert classification and response prioritization.",
+      "k": "−24% cycle time",
+      "kk": "down"
+    },
+    {
+      "t": "Supply disruption response",
+      "s": "AXLE-Supply-04",
+      "b": "Multi-signal disruption response with playbook simulation.",
+      "k": "−$11M expedite",
+      "kk": "money"
+    },
+    {
+      "t": "Takt-time adherence monitoring",
+      "s": "AXLE-Ops-03",
+      "b": "Real-time takt-adherence monitoring and correction triggers.",
+      "k": "+8% OEE",
+      "kk": "up"
+    },
+    {
+      "t": "Tariff-impact modeling",
+      "s": "AXLE-Supply-04",
+      "b": "Tariff-change impact modeling with sourcing-decision support.",
+      "k": "−$4.2M tariff cost",
+      "kk": "money"
+    },
+    {
+      "t": "Technical-document chat assistant",
+      "s": "AXLE-Ops-03",
+      "b": "LLM chat over technical documentation for engineers and operators.",
+      "k": "−74% lookup time",
+      "kk": "down"
+    },
+    {
+      "t": "Technical-manual update automation",
+      "s": "AXLE-Ops-03",
+      "b": "Manual-update automation from engineering changes.",
+      "k": "+22% accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "Technician-knowledge-base search",
+      "s": "AXLE-Ops-03",
+      "b": "Semantic search over service manuals and prior cases.",
+      "k": "−64% lookup time",
+      "kk": "down"
+    },
+    {
+      "t": "Throughput-bottleneck identification",
+      "s": "AXLE-Ops-03",
+      "b": "Dynamic bottleneck identification with corrective-action prompts.",
+      "k": "+11% throughput",
+      "kk": "up"
+    },
+    {
+      "t": "Trade-compliance classification",
+      "s": "AXLE-Supply-04",
+      "b": "HS-code and ECCN classification automation.",
+      "k": "−62% classification time",
+      "kk": "down"
+    },
+    {
+      "t": "Utility-consumption optimization",
+      "s": "AXLE-Ops-03",
+      "b": "Plant utility consumption analytics and optimization.",
+      "k": "−14% utility cost",
+      "kk": "down"
+    },
+    {
+      "t": "Variant-proliferation-complexity reduction",
+      "s": "AXLE-Ops-03",
+      "b": "Variant-complexity analysis with rationalization roadmap.",
+      "k": "−$4.2M complexity cost",
+      "kk": "money"
+    },
+    {
+      "t": "Vehicle line-build sequencing",
+      "s": "AXLE-Ops-03",
+      "b": "Vehicle build-sequence optimization minimizing option-complexity.",
+      "k": "+8% line efficiency",
+      "kk": "up"
+    },
+    {
+      "t": "Visual-inspection computer vision",
+      "s": "AXLE-QMS-02",
+      "b": "CV-based visual inspection with defect classification.",
+      "k": "+34% detection rate",
+      "kk": "up"
+    },
+    {
+      "t": "Warehouse-slotting optimization",
+      "s": "AXLE-Ops-03",
+      "b": "Velocity-based slotting with pick-path minimization.",
+      "k": "+18% pick rate",
+      "kk": "up"
+    },
+    {
+      "t": "Warranty fraud detection",
+      "s": "AXLE-QMS-02",
+      "b": "Warranty claim fraud pattern detection.",
+      "k": "+52% detection",
+      "kk": "up"
+    },
+    {
+      "t": "Warranty-claim-pattern → recall risk",
+      "s": "AXLE-QMS-02",
+      "b": "Warranty-pattern detection for early recall-risk signal.",
+      "k": "+24% earlier recall signal",
+      "kk": "up"
+    },
+    {
+      "t": "Warranty-return-to-engineering feedback",
+      "s": "AXLE-Ops-03",
+      "b": "Warranty-pattern feedback to engineering for design improvements.",
+      "k": "+18% quality improvements",
+      "kk": "up"
+    },
+    {
+      "t": "Wastewater-discharge compliance",
+      "s": "AXLE-Ops-03",
+      "b": "Effluent monitoring with regulatory reporting.",
+      "k": "100% compliance",
+      "kk": "up"
+    },
+    {
+      "t": "Work-in-process tracking",
+      "s": "AXLE-Ops-03",
+      "b": "Real-time WIP tracking and ageing analytics.",
+      "k": "−22% WIP inventory",
+      "kk": "down"
+    },
+    {
+      "t": "Worker-skill-gap analysis",
+      "s": "AXLE-Ops-03",
+      "b": "Skill-gap analysis with training-plan generation.",
+      "k": "+24% competency",
+      "kk": "up"
+    },
+    {
+      "t": "Yard-management optimization",
+      "s": "AXLE-Supply-04",
+      "b": "Trailer-yard-management with dock-door matching.",
+      "k": "+22% yard throughput",
+      "kk": "up"
+    }
+  ],
+  "TMT": [
+    {
+      "t": "5G-slice-performance monitoring",
+      "s": "TMT-TEL-NET-02",
+      "b": "Network-slice SLA monitoring across enterprise 5G customers.",
+      "k": "+14pp SLA adherence",
+      "kk": "up"
+    },
+    {
+      "t": "AB-test-result interpretation",
+      "s": "TMT-TEC-04",
+      "b": "AB-test statistical-significance and business-impact analysis.",
+      "k": "+38% test velocity",
+      "kk": "up"
+    },
+    {
+      "t": "Account-based-marketing targeting",
+      "s": "TMT-TEC-04",
+      "b": "ABM account-and-contact targeting with engagement scoring.",
+      "k": "+28% ABM efficiency",
+      "kk": "up"
+    },
+    {
+      "t": "Account-sharing detection",
+      "s": "TMT-MED-01",
+      "b": "Account-sharing pattern detection with monetization playbooks.",
+      "k": "+$8M/yr recovery",
+      "kk": "money"
+    },
+    {
+      "t": "Ad-copy generation",
+      "s": "TMT-MED-03",
+      "b": "Brief-aware ad-copy generation with performance-prediction.",
+      "k": "+22% CTR",
+      "kk": "up"
+    },
+    {
+      "t": "Ad-fraud detection",
+      "s": "TMT-MED-03",
+      "b": "Invalid-traffic detection across programmatic inventory.",
+      "k": "−52% invalid traffic",
+      "kk": "down"
+    },
+    {
+      "t": "Advertiser-pipeline scoring",
+      "s": "TMT-MED-03",
+      "b": "Advertiser-account health and growth-potential scoring.",
+      "k": "+18% account growth",
+      "kk": "up"
+    },
+    {
+      "t": "App-store-review triage",
+      "s": "TMT-MED-01",
+      "b": "App-store review classification and response prioritization.",
+      "k": "−58% response time",
+      "kk": "down"
+    },
+    {
+      "t": "Audience-segment expansion",
+      "s": "TMT-MED-03",
+      "b": "Look-alike audience modeling for advertiser campaigns.",
+      "k": "+34% segment reach",
+      "kk": "up"
+    },
+    {
+      "t": "Bill-shock prevention",
+      "s": "TMT-TEL-CC-03",
+      "b": "Proactive alerting to prevent high roaming and overage bills.",
+      "k": "−34% bill complaints",
+      "kk": "down"
+    },
+    {
+      "t": "Brand-safety content classification",
+      "s": "TMT-MED-03",
+      "b": "Content brand-safety classification for programmatic.",
+      "k": "+24% safety score",
+      "kk": "up"
+    },
+    {
+      "t": "Build-pipeline optimization",
+      "s": "TMT-TEC-04",
+      "b": "CI/CD pipeline optimization with flaky-test detection.",
+      "k": "+22% deploy velocity",
+      "kk": "up"
+    },
+    {
+      "t": "Candidate-screening assistance",
+      "s": "TMT-TEC-04",
+      "b": "Resume screening and candidate matching.",
+      "k": "+24% funnel efficiency",
+      "kk": "up"
+    },
+    {
+      "t": "Capacity-planning for 5G buildout",
+      "s": "TMT-TEL-NET-02",
+      "b": "Traffic-forecast-driven 5G capacity planning.",
+      "k": "+22% capex efficiency",
+      "kk": "up"
+    },
+    {
+      "t": "CDN-performance optimization",
+      "s": "TMT-MED-01",
+      "b": "CDN-edge performance and cost optimization.",
+      "k": "+12% QoE",
+      "kk": "up"
+    },
+    {
+      "t": "Cell-site energy optimization",
+      "s": "TMT-TEL-NET-02",
+      "b": "Cell-site sleep-mode optimization reducing energy consumption.",
+      "k": "−14% site energy",
+      "kk": "down"
+    },
+    {
+      "t": "Churn-intervention playbooks",
+      "s": "TMT-TEC-04",
+      "b": "Churn-risk-driven CSM intervention playbooks.",
+      "k": "−24% churn",
+      "kk": "down"
+    },
+    {
+      "t": "Churn-survey sentiment analysis",
+      "s": "TMT-TEC-04",
+      "b": "Exit-survey sentiment and theme analysis.",
+      "k": "+18% insight yield",
+      "kk": "up"
+    },
+    {
+      "t": "Cloud-cost anomaly detection",
+      "s": "TMT-TEC-04",
+      "b": "Cloud-spend anomaly detection with attribution.",
+      "k": "−18% cloud spend",
+      "kk": "down"
+    },
+    {
+      "t": "Code-review assistant",
+      "s": "TMT-TEC-04",
+      "b": "AI code-review with style, security, and logic checks.",
+      "k": "+28% review velocity",
+      "kk": "up"
+    },
+    {
+      "t": "Community-content moderation",
+      "s": "TMT-TEC-04",
+      "b": "LLM-powered community-forum moderation.",
+      "k": "−62% moderation time",
+      "kk": "down"
+    },
+    {
+      "t": "Competitor-mention tracking",
+      "s": "TMT-TEC-04",
+      "b": "Cross-source competitor mention and win-loss tracking.",
+      "k": "+18% competitive win rate",
+      "kk": "up"
+    },
+    {
+      "t": "Compliance-evidence collection",
+      "s": "TMT-TEC-04",
+      "b": "Automated compliance-evidence collection.",
+      "k": "−62% audit time",
+      "kk": "down"
+    },
+    {
+      "t": "Contact-center intelligence",
+      "s": "TMT-TEL-CC-03",
+      "b": "Agent co-pilot with customer context and next-best-action.",
+      "k": "−27% AHT",
+      "kk": "down"
+    },
+    {
+      "t": "Content-catalog rationalization",
+      "s": "TMT-MED-01",
+      "b": "Catalog performance analytics for licensing decisions.",
+      "k": "−$12M/yr content cost",
+      "kk": "money"
+    },
+    {
+      "t": "Content-cold-start optimization",
+      "s": "TMT-MED-01",
+      "b": "Cold-start content-discovery optimization.",
+      "k": "+41% cold-start engagement",
+      "kk": "up"
+    },
+    {
+      "t": "Content-metadata enrichment",
+      "s": "TMT-MED-01",
+      "b": "LLM-powered content tagging and metadata enrichment.",
+      "k": "+24% discoverability",
+      "kk": "up"
+    },
+    {
+      "t": "Content-recommendation personalization",
+      "s": "TMT-MED-01",
+      "b": "Personalized rails and recommendations across surfaces.",
+      "k": "+23% engagement",
+      "kk": "up"
+    },
+    {
+      "t": "Core-network anomaly detection",
+      "s": "TMT-TEL-NET-02",
+      "b": "Control-plane and user-plane anomaly detection.",
+      "k": "−28% incidents",
+      "kk": "down"
+    },
+    {
+      "t": "Creative-performance prediction",
+      "s": "TMT-MED-03",
+      "b": "Creative-asset performance prediction pre-launch.",
+      "k": "+22% campaign CTR",
+      "kk": "up"
+    },
+    {
+      "t": "Cross-screen-attribution modeling",
+      "s": "TMT-MED-03",
+      "b": "Cross-device and cross-screen attribution modeling.",
+      "k": "+18% attribution accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "CTV inventory forecasting",
+      "s": "TMT-MED-03",
+      "b": "Connected-TV inventory forecast for upfront and scatter.",
+      "k": "+14% inventory utilization",
+      "kk": "up"
+    },
+    {
+      "t": "Customer-health scoring",
+      "s": "TMT-TEC-04",
+      "b": "Multi-signal customer-health scoring.",
+      "k": "+24% retention",
+      "kk": "up"
+    },
+    {
+      "t": "Customer-success playbook generation",
+      "s": "TMT-TEC-04",
+      "b": "Playbook generation for CSM segments.",
+      "k": "+14% playbook effectiveness",
+      "kk": "up"
+    },
+    {
+      "t": "Data-exfiltration detection",
+      "s": "TMT-TEC-04",
+      "b": "DLP-event correlation for exfiltration detection.",
+      "k": "−42% false positives",
+      "kk": "down"
+    },
+    {
+      "t": "Deal-forecast confidence",
+      "s": "TMT-TEC-04",
+      "b": "Deal-stage and engagement-driven forecast-confidence scoring.",
+      "k": "+14pp forecast accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "Deployment-risk scoring",
+      "s": "TMT-TEC-04",
+      "b": "Deployment-risk scoring for production rollouts.",
+      "k": "−34% incidents",
+      "kk": "down"
+    },
+    {
+      "t": "Developer-relations engagement",
+      "s": "TMT-TEC-04",
+      "b": "Developer-community engagement analytics.",
+      "k": "+18% DevRel efficiency",
+      "kk": "up"
+    },
+    {
+      "t": "Device-upgrade next-best-action",
+      "s": "TMT-TEL-CC-03",
+      "b": "Upgrade-propensity scoring with channel targeting.",
+      "k": "+22% upgrade revenue",
+      "kk": "up"
+    },
+    {
+      "t": "Digital-workplace analytics",
+      "s": "TMT-TEC-04",
+      "b": "Employee-productivity and collaboration analytics.",
+      "k": "+12% collaboration metric",
+      "kk": "up"
+    },
+    {
+      "t": "Employee-help-desk deflection",
+      "s": "TMT-TEC-04",
+      "b": "IT and HR help-desk self-service deflection.",
+      "k": "−38% ticket volume",
+      "kk": "down"
+    },
+    {
+      "t": "Enterprise-account customer success",
+      "s": "TMT-TEL-CC-03",
+      "b": "Enterprise-account health tracking and churn intervention.",
+      "k": "+18% renewal NRR",
+      "kk": "up"
+    },
+    {
+      "t": "Enterprise-customer-service triage",
+      "s": "TMT-TEL-CC-03",
+      "b": "Enterprise-ticket classification and SLA-prioritization.",
+      "k": "−24% SLA breach",
+      "kk": "down"
+    },
+    {
+      "t": "Executive-briefing-document generation",
+      "s": "TMT-TEC-04",
+      "b": "Exec-level briefing auto-generation.",
+      "k": "−72% prep time",
+      "kk": "down"
+    },
+    {
+      "t": "Family-plan-optimization outreach",
+      "s": "TMT-TEL-CC-03",
+      "b": "Family-plan match and share-line-optimization.",
+      "k": "+11% per-account revenue",
+      "kk": "up"
+    },
+    {
+      "t": "Feature-adoption analysis",
+      "s": "TMT-TEC-04",
+      "b": "Cohort-level feature-adoption tracking with nudge campaigns.",
+      "k": "+22pp adoption",
+      "kk": "up"
+    },
+    {
+      "t": "Feature-flag-rollout analysis",
+      "s": "TMT-TEC-04",
+      "b": "Feature-flag rollout monitoring with automatic rollback.",
+      "k": "−42% bad rollouts",
+      "kk": "down"
+    },
+    {
+      "t": "Fiber-deployment routing",
+      "s": "TMT-TEL-NET-02",
+      "b": "Fiber-route optimization minimizing cost and permitting risk.",
+      "k": "−18% deployment cost",
+      "kk": "down"
+    },
+    {
+      "t": "First-bill-complaint prevention",
+      "s": "TMT-TEL-CC-03",
+      "b": "First-bill review for confusing items and proactive outreach.",
+      "k": "−42% first-bill calls",
+      "kk": "down"
+    },
+    {
+      "t": "Identity-access-review automation",
+      "s": "TMT-TEC-04",
+      "b": "Periodic IAM review with risk-scoring.",
+      "k": "−72% reviewer time",
+      "kk": "down"
+    },
+    {
+      "t": "Insider-threat detection",
+      "s": "TMT-TEC-04",
+      "b": "Behavioral analytics for insider-threat detection.",
+      "k": "+38% detection rate",
+      "kk": "up"
+    },
+    {
+      "t": "Investor-relations-communication drafting",
+      "s": "TMT-TEC-04",
+      "b": "IR-communication drafting with regulatory compliance.",
+      "k": "−58% draft time",
+      "kk": "down"
+    },
+    {
+      "t": "IoT-connectivity monitoring",
+      "s": "TMT-TEL-NET-02",
+      "b": "M2M and IoT device fleet health and usage monitoring.",
+      "k": "−41% device issues",
+      "kk": "down"
+    },
+    {
+      "t": "Knowledge-base-search relevance",
+      "s": "TMT-TEC-04",
+      "b": "Semantic search over documentation and community.",
+      "k": "+32% deflection",
+      "kk": "up"
+    },
+    {
+      "t": "Lead-scoring optimization",
+      "s": "TMT-TEC-04",
+      "b": "Multi-signal lead-scoring with churn-aware LTV.",
+      "k": "+22% conversion",
+      "kk": "up"
+    },
+    {
+      "t": "Licensing-rights-expiry tracking",
+      "s": "TMT-MED-01",
+      "b": "Rights-expiry tracking with renewal economics.",
+      "k": "−$4M/yr content cost",
+      "kk": "money"
+    },
+    {
+      "t": "Live-commerce performance",
+      "s": "TMT-MED-03",
+      "b": "Live-shopping event performance optimization.",
+      "k": "+32% conversion",
+      "kk": "up"
+    },
+    {
+      "t": "Live-event capacity-scaling",
+      "s": "TMT-MED-01",
+      "b": "Live-event traffic forecasting and capacity scaling.",
+      "k": "+28% QoE",
+      "kk": "up"
+    },
+    {
+      "t": "Managed-service-contract renewal",
+      "s": "TMT-TEL-CC-03",
+      "b": "Managed-services contract renewal analytics.",
+      "k": "+14pp renewal rate",
+      "kk": "up"
+    },
+    {
+      "t": "Mobile-churn prediction",
+      "s": "TMT-TEL-CC-03",
+      "b": "Multi-signal mobile-subscriber churn prediction.",
+      "k": "−17% churn",
+      "kk": "down"
+    },
+    {
+      "t": "Mobile-handoff-failure root cause",
+      "s": "TMT-TEL-NET-02",
+      "b": "Inter-cell handoff failure root-cause analysis.",
+      "k": "−22% dropped sessions",
+      "kk": "down"
+    },
+    {
+      "t": "MPLS-to-SD-WAN migration planning",
+      "s": "TMT-TEL-CC-03",
+      "b": "Migration-readiness scoring and sequencing.",
+      "k": "+22% migration velocity",
+      "kk": "up"
+    },
+    {
+      "t": "Network-fault prediction",
+      "s": "TMT-TEL-NET-02",
+      "b": "RAN fault prediction from performance counters.",
+      "k": "−41% tickets",
+      "kk": "down"
+    },
+    {
+      "t": "NFV orchestration",
+      "s": "TMT-TEL-NET-02",
+      "b": "Network-function-virtualization deployment orchestration.",
+      "k": "+22% deploy speed",
+      "kk": "up"
+    },
+    {
+      "t": "Onboarding-friction detection",
+      "s": "TMT-TEC-04",
+      "b": "Onboarding-funnel friction detection and intervention.",
+      "k": "+14% activation",
+      "kk": "up"
+    },
+    {
+      "t": "Open-role-description optimization",
+      "s": "TMT-TEC-04",
+      "b": "JD optimization for applicant attraction and quality.",
+      "k": "+22% qualified applicants",
+      "kk": "up"
+    },
+    {
+      "t": "Optical-network-fault prediction",
+      "s": "TMT-TEL-NET-02",
+      "b": "Transport and optical network fault prediction.",
+      "k": "−28% optical failures",
+      "kk": "down"
+    },
+    {
+      "t": "Payment-decline recovery",
+      "s": "TMT-TEL-CC-03",
+      "b": "Soft-decline recovery with dynamic retry scheduling.",
+      "k": "+$4.2M recovery",
+      "kk": "money"
+    },
+    {
+      "t": "Performance-regression detection",
+      "s": "TMT-TEC-04",
+      "b": "APM-driven performance-regression detection.",
+      "k": "+28% earlier detection",
+      "kk": "up"
+    },
+    {
+      "t": "Phishing-email classification",
+      "s": "TMT-TEC-04",
+      "b": "Phishing classification with sender and content signals.",
+      "k": "−82% escalations",
+      "kk": "down"
+    },
+    {
+      "t": "Piracy-detection and takedown",
+      "s": "TMT-MED-01",
+      "b": "Piracy content detection and takedown workflow automation.",
+      "k": "+48% takedown velocity",
+      "kk": "up"
+    },
+    {
+      "t": "Private-5G-network sizing",
+      "s": "TMT-TEL-NET-02",
+      "b": "Enterprise private-5G network sizing and design.",
+      "k": "+18% design accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "Product-led-growth scoring",
+      "s": "TMT-TEC-04",
+      "b": "PLG account-scoring for sales handoff.",
+      "k": "+22% PLG-to-sales conversion",
+      "kk": "up"
+    },
+    {
+      "t": "Product-marketing briefing auto-generation",
+      "s": "TMT-TEC-04",
+      "b": "Automated briefing generation for releases and campaigns.",
+      "k": "−62% brief-prep time",
+      "kk": "down"
+    },
+    {
+      "t": "Production-incident root cause",
+      "s": "TMT-TEC-04",
+      "b": "Incident-RCA assistant pulling logs, metrics, traces.",
+      "k": "−48% MTTR",
+      "kk": "down"
+    },
+    {
+      "t": "Production-log-anomaly detection",
+      "s": "TMT-TEC-04",
+      "b": "Log-anomaly detection with clustering and classification.",
+      "k": "−32% MTTR",
+      "kk": "down"
+    },
+    {
+      "t": "Programmatic-bid optimization",
+      "s": "TMT-MED-03",
+      "b": "Real-time bid optimization across exchanges.",
+      "k": "+14% ROAS",
+      "kk": "up"
+    },
+    {
+      "t": "Regulatory-filing automation",
+      "s": "TMT-TEC-04",
+      "b": "SEC, FCC, FTC filing automation with evidence retrieval.",
+      "k": "−64% filing time",
+      "kk": "down"
+    },
+    {
+      "t": "Release-window optimization",
+      "s": "TMT-MED-01",
+      "b": "Release-timing optimization based on audience overlap.",
+      "k": "+14% opening-weekend performance",
+      "kk": "up"
+    },
+    {
+      "t": "Renewal-negotiation intel",
+      "s": "TMT-TEC-04",
+      "b": "Renewal-specific account-intelligence briefings.",
+      "k": "+8% renewal uplift",
+      "kk": "up"
+    },
+    {
+      "t": "Retention-offer personalization",
+      "s": "TMT-TEL-CC-03",
+      "b": "Offer-depth and channel personalization for retention.",
+      "k": "+18% retention lift",
+      "kk": "up"
+    },
+    {
+      "t": "Roadmap-dependency detection",
+      "s": "TMT-TEC-04",
+      "b": "Product-roadmap dependency detection across teams.",
+      "k": "−24% scheduling risk",
+      "kk": "down"
+    },
+    {
+      "t": "Roaming-fraud detection",
+      "s": "TMT-TEL-CC-03",
+      "b": "Roaming-pattern anomaly detection.",
+      "k": "+$6.4M recovery",
+      "kk": "money"
+    },
+    {
+      "t": "SaaS expansion & consumption",
+      "s": "TMT-TEC-04",
+      "b": "Consumption-based expansion and churn intervention.",
+      "k": "+31% expansion ARR",
+      "kk": "up"
+    },
+    {
+      "t": "Sales-rep-productivity analytics",
+      "s": "TMT-TEC-04",
+      "b": "Rep-activity and pipeline analytics.",
+      "k": "+18% rep productivity",
+      "kk": "up"
+    },
+    {
+      "t": "Satellite-backhaul-performance monitoring",
+      "s": "TMT-TEL-NET-02",
+      "b": "Satellite-backhaul link quality monitoring.",
+      "k": "+18% QoE",
+      "kk": "up"
+    },
+    {
+      "t": "SD-WAN performance analytics",
+      "s": "TMT-TEL-NET-02",
+      "b": "Enterprise SD-WAN performance and QoS analytics.",
+      "k": "+11pp SLA adherence",
+      "kk": "up"
+    },
+    {
+      "t": "SD-WAN sales-opportunity scoring",
+      "s": "TMT-TEL-CC-03",
+      "b": "SD-WAN upsell propensity scoring on enterprise accounts.",
+      "k": "+24% pipeline",
+      "kk": "up"
+    },
+    {
+      "t": "Security-incident-response triage",
+      "s": "TMT-TEC-04",
+      "b": "SOC-alert triage and playbook automation.",
+      "k": "−48% MTTR",
+      "kk": "down"
+    },
+    {
+      "t": "SIM-swap-fraud detection",
+      "s": "TMT-TEL-CC-03",
+      "b": "SIM-swap pattern detection with identity-verification.",
+      "k": "−62% SIM-swap fraud",
+      "kk": "down"
+    },
+    {
+      "t": "SLO-burn-rate alerting",
+      "s": "TMT-TEC-04",
+      "b": "Multi-window SLO burn-rate alerting with policy-gen.",
+      "k": "+24% SLO-coverage",
+      "kk": "up"
+    },
+    {
+      "t": "SOC-alert triage",
+      "s": "TMT-TEC-04",
+      "b": "Tier-1 SOC alert triage and prioritization.",
+      "k": "−62% analyst time",
+      "kk": "down"
+    },
+    {
+      "t": "Spectrum-license portfolio optimization",
+      "s": "TMT-TEL-NET-02",
+      "b": "Spectrum-license portfolio valuation and trading.",
+      "k": "+14% portfolio value",
+      "kk": "up"
+    },
+    {
+      "t": "Sports-highlight auto-generation",
+      "s": "TMT-MED-01",
+      "b": "Automated sports-highlight detection and clipping.",
+      "k": "−74% production time",
+      "kk": "down"
+    },
+    {
+      "t": "Streaming-quality-of-experience",
+      "s": "TMT-MED-01",
+      "b": "Streaming QoE monitoring with proactive intervention.",
+      "k": "+18% QoE score",
+      "kk": "up"
+    },
+    {
+      "t": "Subscription-churn prediction",
+      "s": "TMT-MED-01",
+      "b": "Streaming-service churn prediction.",
+      "k": "−19% churn",
+      "kk": "down"
+    },
+    {
+      "t": "Subtitle / closed-caption accuracy",
+      "s": "TMT-MED-01",
+      "b": "ASR-powered subtitle generation with regulatory compliance.",
+      "k": "+32% accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "Support-ticket deflection",
+      "s": "TMT-TEC-04",
+      "b": "Self-service deflection via chatbot and knowledge-base.",
+      "k": "−34% ticket volume",
+      "kk": "down"
+    },
+    {
+      "t": "Third-party-risk-assessment",
+      "s": "TMT-TEC-04",
+      "b": "Vendor-risk scoring and assessment automation.",
+      "k": "+22% vendor coverage",
+      "kk": "up"
+    },
+    {
+      "t": "Translation and localization",
+      "s": "TMT-MED-01",
+      "b": "Automated translation with cultural-adaptation review.",
+      "k": "−62% localization time",
+      "kk": "down"
+    },
+    {
+      "t": "Transport-network-fault isolation",
+      "s": "TMT-TEL-NET-02",
+      "b": "Backhaul and transport network fault isolation.",
+      "k": "−32% MTTR",
+      "kk": "down"
+    },
+    {
+      "t": "Trial-to-paid conversion",
+      "s": "TMT-TEC-04",
+      "b": "Trial-activity scoring with sales-led conversion playbooks.",
+      "k": "+24pp conversion",
+      "kk": "up"
+    },
+    {
+      "t": "Usage-based-pricing analytics",
+      "s": "TMT-TEC-04",
+      "b": "Consumption-pattern analytics for pricing-model optimization.",
+      "k": "+4.2pp margin",
+      "kk": "up"
+    },
+    {
+      "t": "Video-encoding optimization",
+      "s": "TMT-MED-01",
+      "b": "Adaptive-bitrate ladder and encoding-profile optimization.",
+      "k": "−22% egress cost",
+      "kk": "down"
+    },
+    {
+      "t": "Vulnerability-prioritization",
+      "s": "TMT-TEC-04",
+      "b": "CVE prioritization with business-context weighting.",
+      "k": "+32% patch velocity",
+      "kk": "up"
+    }
+  ],
+  "TH": [
+    {
+      "t": "ACARS message triage",
+      "s": "TH-AIR-02",
+      "b": "ACARS message classification for operational priority.",
+      "k": "−42% response time",
+      "kk": "down"
+    },
+    {
+      "t": "Accessibility-compliance verification",
+      "s": "TH-AIR-02",
+      "b": "ADA and accessibility compliance verification.",
+      "k": "+100% compliance",
+      "kk": "up"
+    },
+    {
+      "t": "Aircraft-routing optimization",
+      "s": "TH-AIR-06",
+      "b": "Network-wide aircraft-routing with maintenance-awareness.",
+      "k": "+2.8% utilization",
+      "kk": "up"
+    },
+    {
+      "t": "Airport-retail cross-sell",
+      "s": "TH-AIR-02",
+      "b": "Airport-retail recommendation and wayfinding.",
+      "k": "+18% spend/pax",
+      "kk": "up"
+    },
+    {
+      "t": "Ancillary-product attach rate",
+      "s": "TH-AIR-02",
+      "b": "Ancillary-product recommendation with propensity scoring.",
+      "k": "+22% attach",
+      "kk": "up"
+    },
+    {
+      "t": "Baggage-carousel assignment",
+      "s": "TH-AIR-04",
+      "b": "Baggage-carousel assignment optimization.",
+      "k": "+14% delivery speed",
+      "kk": "up"
+    },
+    {
+      "t": "Bookings-pace monitoring",
+      "s": "TH-AIR-02",
+      "b": "Pace monitoring with rate-change recommendations.",
+      "k": "+3.2% RASM",
+      "kk": "up"
+    },
+    {
+      "t": "Breakage analysis",
+      "s": "TH-AIR-02",
+      "b": "Loyalty-point breakage modeling for reserve setting.",
+      "k": "+14% liability accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "Cabin-upgrade targeting",
+      "s": "TH-AIR-02",
+      "b": "Upgrade propensity and pricing optimization.",
+      "k": "+22% upgrade revenue",
+      "kk": "up"
+    },
+    {
+      "t": "Catering-plan optimization",
+      "s": "TH-AIR-02",
+      "b": "Per-flight catering forecasting and waste reduction.",
+      "k": "−22% waste",
+      "kk": "down"
+    },
+    {
+      "t": "Channel-mix optimization",
+      "s": "TH-HOT-03",
+      "b": "Channel-mix optimization across OTAs and direct.",
+      "k": "+2.2pp margin",
+      "kk": "up"
+    },
+    {
+      "t": "Check-in / check-out throughput",
+      "s": "TH-HOT-03",
+      "b": "Front-desk throughput optimization.",
+      "k": "+22% check-in speed",
+      "kk": "up"
+    },
+    {
+      "t": "Co-brand-credit-card targeting",
+      "s": "TH-AIR-02",
+      "b": "Co-brand card propensity and targeting.",
+      "k": "+22% card acquisition",
+      "kk": "up"
+    },
+    {
+      "t": "Codeshare-partner performance",
+      "s": "TH-AIR-06",
+      "b": "Codeshare performance analytics across partners.",
+      "k": "+11% partner revenue",
+      "kk": "up"
+    },
+    {
+      "t": "Compensation-policy adherence",
+      "s": "TH-AIR-02",
+      "b": "DOT and policy-adherent compensation decisions.",
+      "k": "+24% policy compliance",
+      "kk": "up"
+    },
+    {
+      "t": "Competitor-rate-shop analysis",
+      "s": "TH-HOT-03",
+      "b": "Competitor rate-shopping automation.",
+      "k": "+1.8% RevPAR",
+      "kk": "up"
+    },
+    {
+      "t": "Complaint-resolution triage",
+      "s": "TH-AIR-02",
+      "b": "Customer-complaint classification and routing.",
+      "k": "−42% cycle time",
+      "kk": "down"
+    },
+    {
+      "t": "Concessionaire revenue optimization",
+      "s": "TH-AIR-02",
+      "b": "Airport-concessionaire revenue optimization.",
+      "k": "+11% revenue",
+      "kk": "up"
+    },
+    {
+      "t": "Content-accuracy audit (OTA)",
+      "s": "TH-AIR-02",
+      "b": "Property-content accuracy and consistency audit.",
+      "k": "+22% accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "Content-partnership ROI",
+      "s": "TH-AIR-02",
+      "b": "Content-partnership attribution and ROI.",
+      "k": "+22% partnership ROI",
+      "kk": "up"
+    },
+    {
+      "t": "Corporate-contract performance",
+      "s": "TH-AIR-02",
+      "b": "Corporate-contract volume and compliance tracking.",
+      "k": "+14pp compliance",
+      "kk": "up"
+    },
+    {
+      "t": "Crew scheduling optimization",
+      "s": "TH-AIR-06",
+      "b": "Multi-constraint crew-scheduling with fatigue risk.",
+      "k": "−$12M/yr cancels",
+      "kk": "money"
+    },
+    {
+      "t": "Crew-fatigue-risk monitoring",
+      "s": "TH-AIR-06",
+      "b": "Crew-fatigue risk monitoring.",
+      "k": "−41% fatigue events",
+      "kk": "down"
+    },
+    {
+      "t": "Crew-rotation optimization",
+      "s": "TH-AIR-06",
+      "b": "Crew-rotation compliance and efficiency.",
+      "k": "+11% crew utilization",
+      "kk": "up"
+    },
+    {
+      "t": "Crisis-response communication",
+      "s": "TH-AIR-02",
+      "b": "Crisis-response communication orchestration.",
+      "k": "+24% response speed",
+      "kk": "up"
+    },
+    {
+      "t": "Customer-lifetime-value modeling (travel)",
+      "s": "TH-AIR-02",
+      "b": "Traveler LTV modeling for marketing-investment allocation.",
+      "k": "+18% ROAS",
+      "kk": "up"
+    },
+    {
+      "t": "Customer-retention intervention",
+      "s": "TH-AIR-02",
+      "b": "At-risk-customer intervention playbooks.",
+      "k": "−18% churn",
+      "kk": "down"
+    },
+    {
+      "t": "Customer-service chatbot (airline)",
+      "s": "TH-AIR-02",
+      "b": "Pre-and-post-flight customer chatbot.",
+      "k": "−34% call volume",
+      "kk": "down"
+    },
+    {
+      "t": "Damage-inspection computer vision",
+      "s": "TH-AIR-02",
+      "b": "CV-based damage-inspection automation.",
+      "k": "+22% detection accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "De-icing queue management",
+      "s": "TH-AIR-02",
+      "b": "De-icing pad scheduling optimization.",
+      "k": "+18% throughput",
+      "kk": "up"
+    },
+    {
+      "t": "Destination-marketing attribution",
+      "s": "TH-AIR-02",
+      "b": "Destination-marketing attribution and ROI.",
+      "k": "+18% marketing ROI",
+      "kk": "up"
+    },
+    {
+      "t": "Disruption-communication personalization",
+      "s": "TH-AIR-02",
+      "b": "Personalized disruption communications.",
+      "k": "+17pts NPS",
+      "kk": "up"
+    },
+    {
+      "t": "Distribution-channel mix",
+      "s": "TH-AIR-02",
+      "b": "Channel-mix economics with shift recommendations.",
+      "k": "+1.8pp margin",
+      "kk": "up"
+    },
+    {
+      "t": "Dynamic fare optimization",
+      "s": "TH-AIR-02",
+      "b": "OD-level dynamic-fare optimization.",
+      "k": "+2.4% yield",
+      "kk": "up"
+    },
+    {
+      "t": "Dynamic pricing & revenue management",
+      "s": "TH-HOT-03",
+      "b": "Hotel dynamic pricing and yield management.",
+      "k": "+4.1% RevPAR",
+      "kk": "up"
+    },
+    {
+      "t": "Elite-requalification nudges",
+      "s": "TH-AIR-02",
+      "b": "Tier-requalification nudging.",
+      "k": "+18pp retention",
+      "kk": "up"
+    },
+    {
+      "t": "Embarkation-flow optimization",
+      "s": "TH-AIR-02",
+      "b": "Port embarkation and disembarkation flow.",
+      "k": "+14% throughput",
+      "kk": "up"
+    },
+    {
+      "t": "Engine-maintenance predictive (cruise)",
+      "s": "TH-AIR-06",
+      "b": "Ship engine-maintenance predictive analytics.",
+      "k": "+2.2% availability",
+      "kk": "up"
+    },
+    {
+      "t": "Engineering-work-order triage",
+      "s": "TH-HOT-03",
+      "b": "Work-order triage and technician dispatch.",
+      "k": "−34% cycle time",
+      "kk": "down"
+    },
+    {
+      "t": "F&B banquet-event planning",
+      "s": "TH-HOT-03",
+      "b": "Banquet forecasting and staffing optimization.",
+      "k": "+18% BEO accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "Fleet-utilization optimization",
+      "s": "TH-AIR-06",
+      "b": "Car-rental fleet utilization optimization.",
+      "k": "+14% utilization",
+      "kk": "up"
+    },
+    {
+      "t": "Flight-safety-report triage",
+      "s": "TH-AIR-06",
+      "b": "ASAP/ASRS safety-report classification.",
+      "k": "−58% triage time",
+      "kk": "down"
+    },
+    {
+      "t": "Food-safety-audit readiness",
+      "s": "TH-HOT-03",
+      "b": "HACCP audit-readiness tracking.",
+      "k": "+24pp readiness",
+      "kk": "up"
+    },
+    {
+      "t": "Fraud-transaction detection (OTA)",
+      "s": "TH-AIR-02",
+      "b": "Booking-fraud detection across channels.",
+      "k": "+$4M/yr recovery",
+      "kk": "money"
+    },
+    {
+      "t": "Fuel-burn optimization",
+      "s": "TH-AIR-06",
+      "b": "Flight-path and load-planning fuel-burn optimization.",
+      "k": "−2.4% fuel burn",
+      "kk": "down"
+    },
+    {
+      "t": "Gate-assignment optimization",
+      "s": "TH-AIR-02",
+      "b": "Gate-assignment with connection and ground-time optimization.",
+      "k": "+11% on-time",
+      "kk": "up"
+    },
+    {
+      "t": "Ground-handling coordination",
+      "s": "TH-AIR-02",
+      "b": "Ground-handling task coordination and timing.",
+      "k": "+14% turn efficiency",
+      "kk": "up"
+    },
+    {
+      "t": "Group-booking pricing",
+      "s": "TH-HOT-03",
+      "b": "Group pricing with displacement modeling.",
+      "k": "+8% group yield",
+      "kk": "up"
+    },
+    {
+      "t": "Group-sales pricing",
+      "s": "TH-AIR-02",
+      "b": "Group-booking pricing with displacement modeling.",
+      "k": "+8% group yield",
+      "kk": "up"
+    },
+    {
+      "t": "Guest sentiment & proactive recovery",
+      "s": "TH-HOT-05",
+      "b": "In-stay guest-sentiment detection and recovery.",
+      "k": "+21pts NPS",
+      "kk": "up"
+    },
+    {
+      "t": "Guest-request routing",
+      "s": "TH-HOT-03",
+      "b": "Guest-request classification and routing.",
+      "k": "−44% response time",
+      "kk": "down"
+    },
+    {
+      "t": "Housekeeping-task routing",
+      "s": "TH-HOT-03",
+      "b": "Room-status and priority-based housekeeping routing.",
+      "k": "+14% rooms/hour",
+      "kk": "up"
+    },
+    {
+      "t": "In-flight entertainment availability",
+      "s": "TH-AIR-02",
+      "b": "IFE-system health and availability analytics.",
+      "k": "+18% availability",
+      "kk": "up"
+    },
+    {
+      "t": "In-stay-issue resolution",
+      "s": "TH-HOT-03",
+      "b": "In-stay issue detection and resolution orchestration.",
+      "k": "−38% complaints",
+      "kk": "down"
+    },
+    {
+      "t": "Insurance-claims triage (rental)",
+      "s": "TH-AIR-02",
+      "b": "Rental-vehicle insurance-claim triage.",
+      "k": "−42% cycle time",
+      "kk": "down"
+    },
+    {
+      "t": "Inventory-par-level optimization",
+      "s": "TH-HOT-03",
+      "b": "Linens, F&B, and supplies par-level optimization.",
+      "k": "−18% carrying cost",
+      "kk": "down"
+    },
+    {
+      "t": "IROPS re-accommodation",
+      "s": "TH-AIR-02",
+      "b": "IROPS rebooking and customer recovery orchestration.",
+      "k": "+38pp top-tier recovery",
+      "kk": "up"
+    },
+    {
+      "t": "Laundry-operations optimization",
+      "s": "TH-HOT-03",
+      "b": "Laundry volume forecasting and staffing optimization.",
+      "k": "−22% labor cost",
+      "kk": "down"
+    },
+    {
+      "t": "Length-of-stay optimization",
+      "s": "TH-HOT-03",
+      "b": "LOS-restriction optimization for yield capture.",
+      "k": "+2.4% RevPAR",
+      "kk": "up"
+    },
+    {
+      "t": "Location-demand forecasting",
+      "s": "TH-AIR-02",
+      "b": "Rental-location demand forecasting.",
+      "k": "+18% forecast accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "Lounge-capacity management",
+      "s": "TH-AIR-02",
+      "b": "Lounge-capacity forecasting and overflow management.",
+      "k": "+18% member satisfaction",
+      "kk": "up"
+    },
+    {
+      "t": "Loyalty-tier-escalation predictor",
+      "s": "TH-HOT-03",
+      "b": "Tier-escalation and qualification prediction.",
+      "k": "+14pp tier retention",
+      "kk": "up"
+    },
+    {
+      "t": "Maintenance-schedule optimization",
+      "s": "TH-AIR-06",
+      "b": "Aircraft-maintenance scheduling optimization.",
+      "k": "+2.2% availability",
+      "kk": "up"
+    },
+    {
+      "t": "Maintenance-schedule optimization (rental)",
+      "s": "TH-AIR-06",
+      "b": "Rental-vehicle maintenance scheduling.",
+      "k": "+2.8% availability",
+      "kk": "up"
+    },
+    {
+      "t": "Medical-event triage (cruise)",
+      "s": "TH-AIR-02",
+      "b": "Onboard medical-event triage and response.",
+      "k": "−28% critical escalations",
+      "kk": "down"
+    },
+    {
+      "t": "Meeting-space yield",
+      "s": "TH-HOT-03",
+      "b": "Meeting-space yield management.",
+      "k": "+14% meeting revenue",
+      "kk": "up"
+    },
+    {
+      "t": "MEL decision support",
+      "s": "TH-AIR-02",
+      "b": "Minimum-equipment-list decision support.",
+      "k": "−28% dispatch delays",
+      "kk": "down"
+    },
+    {
+      "t": "Onboard-spend prediction",
+      "s": "TH-AIR-02",
+      "b": "Passenger onboard-spend prediction and targeting.",
+      "k": "+18% onboard revenue",
+      "kk": "up"
+    },
+    {
+      "t": "Overbooking strategy",
+      "s": "TH-HOT-03",
+      "b": "Overbooking optimization with walk-cost modeling.",
+      "k": "+2.2% revenue",
+      "kk": "up"
+    },
+    {
+      "t": "Package-bundling optimization",
+      "s": "TH-HOT-03",
+      "b": "Dynamic package-bundling with propensity scoring.",
+      "k": "+18% bundle attach",
+      "kk": "up"
+    },
+    {
+      "t": "Package-holiday bundling",
+      "s": "TH-AIR-02",
+      "b": "Dynamic package-holiday bundling.",
+      "k": "+22% bundle attach",
+      "kk": "up"
+    },
+    {
+      "t": "Paid-search-bid optimization (travel)",
+      "s": "TH-AIR-02",
+      "b": "Travel-specific paid-search bid optimization.",
+      "k": "+14% ROAS",
+      "kk": "up"
+    },
+    {
+      "t": "Partner-redemption optimization",
+      "s": "TH-AIR-02",
+      "b": "Partner-redemption liquidity analytics.",
+      "k": "+14% redemption",
+      "kk": "up"
+    },
+    {
+      "t": "Personalized-amenity offer",
+      "s": "TH-HOT-03",
+      "b": "Pre-arrival amenity personalization.",
+      "k": "+22% amenity revenue",
+      "kk": "up"
+    },
+    {
+      "t": "Points-redemption prediction",
+      "s": "TH-AIR-02",
+      "b": "Points-redemption forecasting.",
+      "k": "+22% forecast accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "Port-of-call-itinerary personalization",
+      "s": "TH-AIR-02",
+      "b": "Shore-excursion personalization.",
+      "k": "+24% excursion conversion",
+      "kk": "up"
+    },
+    {
+      "t": "Post-stay NPS analysis",
+      "s": "TH-HOT-05",
+      "b": "Post-stay NPS-driver analysis.",
+      "k": "+11pts NPS",
+      "kk": "up"
+    },
+    {
+      "t": "Pre-arrival upsell",
+      "s": "TH-HOT-03",
+      "b": "Pre-arrival upsell targeting.",
+      "k": "+24% upsell conversion",
+      "kk": "up"
+    },
+    {
+      "t": "Premium-cabin yield",
+      "s": "TH-AIR-02",
+      "b": "Premium-cabin upgrade and yield optimization.",
+      "k": "+14% premium yield",
+      "kk": "up"
+    },
+    {
+      "t": "Proactive baggage resolution",
+      "s": "TH-AIR-04",
+      "b": "Mishandled-bag detection and proactive customer outreach.",
+      "k": "−44% escalations",
+      "kk": "down"
+    },
+    {
+      "t": "Review-response automation",
+      "s": "TH-HOT-05",
+      "b": "LLM-powered review-response drafting.",
+      "k": "−82% response time",
+      "kk": "down"
+    },
+    {
+      "t": "Review-spam detection",
+      "s": "TH-HOT-05",
+      "b": "Review-spam and fake-review detection.",
+      "k": "−82% spam",
+      "kk": "down"
+    },
+    {
+      "t": "Room-assignment optimization",
+      "s": "TH-HOT-03",
+      "b": "Room-preference matching and assignment.",
+      "k": "+14% guest-preference match",
+      "kk": "up"
+    },
+    {
+      "t": "Room-status reconciliation",
+      "s": "TH-HOT-03",
+      "b": "PMS and housekeeping status reconciliation.",
+      "k": "−62% manual reconciliation",
+      "kk": "down"
+    },
+    {
+      "t": "Route-profitability analysis",
+      "s": "TH-AIR-06",
+      "b": "Route-level profitability analytics.",
+      "k": "+$28M/yr margin",
+      "kk": "money"
+    },
+    {
+      "t": "Search-intent understanding",
+      "s": "TH-AIR-02",
+      "b": "Semantic search intent for travel discovery.",
+      "k": "+24% conversion",
+      "kk": "up"
+    },
+    {
+      "t": "Seat-assignment preference",
+      "s": "TH-AIR-02",
+      "b": "Seat-preference prediction and offer targeting.",
+      "k": "+22% ancillary conversion",
+      "kk": "up"
+    },
+    {
+      "t": "Security-incident triage",
+      "s": "TH-HOT-03",
+      "b": "Hotel-security incident classification and response.",
+      "k": "−34% response time",
+      "kk": "down"
+    },
+    {
+      "t": "Self-service-kiosk optimization",
+      "s": "TH-AIR-02",
+      "b": "Kiosk-flow optimization for self-service.",
+      "k": "+22% self-service rate",
+      "kk": "up"
+    },
+    {
+      "t": "Shore-excursion-dynamic pricing",
+      "s": "TH-AIR-02",
+      "b": "Dynamic pricing for shore excursions.",
+      "k": "+14% excursion yield",
+      "kk": "up"
+    },
+    {
+      "t": "Social-influencer-campaign analytics",
+      "s": "TH-AIR-02",
+      "b": "Travel-influencer campaign ROI.",
+      "k": "+22% efficiency",
+      "kk": "up"
+    },
+    {
+      "t": "Social-media-escalation triage",
+      "s": "TH-AIR-02",
+      "b": "Social-channel escalation detection and response.",
+      "k": "−48% response time",
+      "kk": "down"
+    },
+    {
+      "t": "Spa / F&B recommendation",
+      "s": "TH-HOT-03",
+      "b": "On-property F&B and spa recommendation.",
+      "k": "+18% F&B capture",
+      "kk": "up"
+    },
+    {
+      "t": "Special-assistance coordination",
+      "s": "TH-AIR-02",
+      "b": "Special-assistance-passenger service coordination.",
+      "k": "+18% on-time assistance",
+      "kk": "up"
+    },
+    {
+      "t": "Staff-scheduling optimization (hotel)",
+      "s": "TH-HOT-03",
+      "b": "Occupancy-driven staff scheduling.",
+      "k": "−11% labor cost",
+      "kk": "down"
+    },
+    {
+      "t": "Supplier-commission reconciliation",
+      "s": "TH-AIR-02",
+      "b": "Supplier-commission tracking and reconciliation.",
+      "k": "+$2.8M recovery",
+      "kk": "money"
+    },
+    {
+      "t": "Sustainable-aviation-fuel tracking",
+      "s": "TH-AIR-06",
+      "b": "SAF consumption tracking for regulatory reporting.",
+      "k": "100% reporting",
+      "kk": "up"
+    },
+    {
+      "t": "Tier-matching migration analysis",
+      "s": "TH-AIR-02",
+      "b": "Status-match and migration analytics.",
+      "k": "+11% migration success",
+      "kk": "up"
+    },
+    {
+      "t": "Trip-experience sentiment",
+      "s": "TH-AIR-02",
+      "b": "Multi-touchpoint trip-experience sentiment analytics.",
+      "k": "+14pts NPS",
+      "kk": "up"
+    },
+    {
+      "t": "TSA-wait-time communication",
+      "s": "TH-AIR-02",
+      "b": "TSA wait-time forecasting and passenger communication.",
+      "k": "+14pts NPS",
+      "kk": "up"
+    },
+    {
+      "t": "Upsell-offer personalization",
+      "s": "TH-AIR-02",
+      "b": "Pre-flight upsell offer personalization.",
+      "k": "+22% upsell revenue",
+      "kk": "up"
+    },
+    {
+      "t": "Vehicle-return-location balancing",
+      "s": "TH-AIR-06",
+      "b": "One-way rental network rebalancing.",
+      "k": "−22% imbalance cost",
+      "kk": "down"
+    },
+    {
+      "t": "Voice-booking channel assistant",
+      "s": "TH-AIR-02",
+      "b": "Voice-channel booking assistant.",
+      "k": "−34% call-handling time",
+      "kk": "down"
+    }
+  ],
+  "ICE": [
+    {
+      "t": "Assembly-line-balancing (ICE)",
+      "s": "ICE-Connected-06",
+      "b": "Heavy-equipment assembly-line balancing.",
+      "k": "+11% throughput",
+      "kk": "up"
+    },
+    {
+      "t": "Asset-rotation strategy",
+      "s": "ICE-EaaS-04",
+      "b": "EaaS asset-rotation optimization.",
+      "k": "+14% asset utilization",
+      "kk": "up"
+    },
+    {
+      "t": "Attachment-utilization tracking",
+      "s": "ICE-Connected-06",
+      "b": "Attachment-utilization tracking on connected equipment.",
+      "k": "+18% utilization",
+      "kk": "up"
+    },
+    {
+      "t": "Autonomous-haulage analytics",
+      "s": "ICE-Connected-06",
+      "b": "Autonomous-haul-system analytics.",
+      "k": "+14% productivity",
+      "kk": "up"
+    },
+    {
+      "t": "Backup-power-reliability scoring",
+      "s": "ICE-Connected-06",
+      "b": "Backup-power reliability scoring across fleet.",
+      "k": "+22% reliability",
+      "kk": "up"
+    },
+    {
+      "t": "Battery-management optimization",
+      "s": "ICE-Connected-06",
+      "b": "Forklift-battery management and swap scheduling.",
+      "k": "+18% availability",
+      "kk": "up"
+    },
+    {
+      "t": "Bid-proposal generation",
+      "s": "ICE-Connected-06",
+      "b": "Configuration-based bid-proposal generation.",
+      "k": "−64% proposal time",
+      "kk": "down"
+    },
+    {
+      "t": "Cold-room-temperature compliance",
+      "s": "ICE-Connected-06",
+      "b": "Cold-room temperature compliance monitoring.",
+      "k": "100% compliance",
+      "kk": "up"
+    },
+    {
+      "t": "Cold-storage equipment derating",
+      "s": "ICE-Connected-06",
+      "b": "Equipment-derating analytics for cold-storage operation.",
+      "k": "+14% battery life",
+      "kk": "up"
+    },
+    {
+      "t": "Commercial-HVAC efficiency",
+      "s": "ICE-Connected-06",
+      "b": "Commercial HVAC efficiency optimization.",
+      "k": "−14% energy cost",
+      "kk": "down"
+    },
+    {
+      "t": "Commercial-ice-machine uptime",
+      "s": "ICE-Connected-06",
+      "b": "Commercial ice-machine uptime monitoring.",
+      "k": "+22% uptime",
+      "kk": "up"
+    },
+    {
+      "t": "Component-commonality analysis",
+      "s": "ICE-Connected-06",
+      "b": "BoM-commonality analysis across product families.",
+      "k": "−$8M/yr cost",
+      "kk": "money"
+    },
+    {
+      "t": "Configurator order-validation",
+      "s": "ICE-Connected-06",
+      "b": "Configuration-rule validation and bill-of-materials accuracy.",
+      "k": "+28% first-pass accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "Configurator-and-quote assistant",
+      "s": "ICE-Connected-06",
+      "b": "Sales-engineering configurator and quoting assistant.",
+      "k": "+22% quote velocity",
+      "kk": "up"
+    },
+    {
+      "t": "Contract-profitability analytics",
+      "s": "ICE-EaaS-04",
+      "b": "EaaS contract-profitability analytics.",
+      "k": "+18% contract margin",
+      "kk": "up"
+    },
+    {
+      "t": "Customer-concentration-risk",
+      "s": "ICE-EaaS-04",
+      "b": "Customer-concentration risk analytics for EaaS.",
+      "k": "+22% risk visibility",
+      "kk": "up"
+    },
+    {
+      "t": "Customer-pay-work capture",
+      "s": "ICE-Aftermarket-01",
+      "b": "Customer-pay service-work capture analytics.",
+      "k": "+14% revenue",
+      "kk": "up"
+    },
+    {
+      "t": "Customer-use-pattern feedback to engineering",
+      "s": "ICE-Connected-06",
+      "b": "Usage-pattern feedback to product engineering.",
+      "k": "+22% design improvements",
+      "kk": "up"
+    },
+    {
+      "t": "Damage-claim triage (rental)",
+      "s": "ICE-Connected-06",
+      "b": "Rental damage-claim triage automation.",
+      "k": "−44% cycle time",
+      "kk": "down"
+    },
+    {
+      "t": "Dealer performance & forecasting",
+      "s": "ICE-Connected-06",
+      "b": "Dealer sales-forecast-accuracy optimization.",
+      "k": "+18pp accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "Dealer-certification readiness",
+      "s": "ICE-Connected-06",
+      "b": "Dealer-certification requirement tracking.",
+      "k": "+22pp readiness",
+      "kk": "up"
+    },
+    {
+      "t": "Dealer-channel-conflict detection",
+      "s": "ICE-Connected-06",
+      "b": "Dealer-territory conflict detection.",
+      "k": "−48% disputes",
+      "kk": "down"
+    },
+    {
+      "t": "Dealer-co-op funding allocation",
+      "s": "ICE-Connected-06",
+      "b": "Co-op funding allocation optimization.",
+      "k": "+18% marketing ROI",
+      "kk": "up"
+    },
+    {
+      "t": "Dealer-CSAT analysis",
+      "s": "ICE-Connected-06",
+      "b": "Dealer customer-satisfaction analysis.",
+      "k": "+14pts CSAT",
+      "kk": "up"
+    },
+    {
+      "t": "Dealer-financing-season timing",
+      "s": "ICE-Connected-06",
+      "b": "Ag-dealer financing-program-timing optimization.",
+      "k": "+18% financing attach",
+      "kk": "up"
+    },
+    {
+      "t": "Dealer-inventory rebalancing",
+      "s": "ICE-Aftermarket-05",
+      "b": "Inter-dealer inventory rebalancing.",
+      "k": "+14% fill rate",
+      "kk": "up"
+    },
+    {
+      "t": "Dealer-leads distribution",
+      "s": "ICE-Connected-06",
+      "b": "Lead-to-dealer matching optimization.",
+      "k": "+22% lead conversion",
+      "kk": "up"
+    },
+    {
+      "t": "Dealer-margin-leakage detection",
+      "s": "ICE-Connected-06",
+      "b": "Dealer-margin-leakage pattern detection.",
+      "k": "+$3.8M/yr recovery",
+      "kk": "money"
+    },
+    {
+      "t": "Dealer-prospecting analytics",
+      "s": "ICE-Connected-06",
+      "b": "Dealer-level prospecting analytics.",
+      "k": "+24% prospect quality",
+      "kk": "up"
+    },
+    {
+      "t": "Dealer-training-completion tracking",
+      "s": "ICE-Connected-06",
+      "b": "Training completion and gap tracking.",
+      "k": "+22pp completion",
+      "kk": "up"
+    },
+    {
+      "t": "Diagnostic-code interpretation",
+      "s": "ICE-Aftermarket-01",
+      "b": "Equipment diagnostic-code interpretation for technicians.",
+      "k": "+22% first-time-fix",
+      "kk": "up"
+    },
+    {
+      "t": "Dispatch-integration (mining)",
+      "s": "ICE-Connected-06",
+      "b": "Mining dispatch-integration with OEM equipment.",
+      "k": "+11% cycle-time efficiency",
+      "kk": "up"
+    },
+    {
+      "t": "Drill-and-blast equipment utilization",
+      "s": "ICE-Connected-06",
+      "b": "Drill-and-blast utilization analytics.",
+      "k": "+14% utilization",
+      "kk": "up"
+    },
+    {
+      "t": "EaaS renewal prediction",
+      "s": "ICE-EaaS-04",
+      "b": "EaaS contract renewal likelihood scoring.",
+      "k": "+14pp renewal rate",
+      "kk": "up"
+    },
+    {
+      "t": "Emissions-compliance monitoring (equipment)",
+      "s": "ICE-Connected-06",
+      "b": "Tier-4 emissions-compliance monitoring.",
+      "k": "+100% compliance",
+      "kk": "up"
+    },
+    {
+      "t": "Engineering-change impact (ICE)",
+      "s": "ICE-Connected-06",
+      "b": "ECO impact across configurations and serviceability.",
+      "k": "−34% ECO cycle",
+      "kk": "down"
+    },
+    {
+      "t": "Engineering-spec matching",
+      "s": "ICE-Connected-06",
+      "b": "Engineering-spec-to-order matching validation.",
+      "k": "+22% order accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "Equipment-as-a-service uptime management",
+      "s": "ICE-EaaS-04",
+      "b": "EaaS uptime management with SLA adherence.",
+      "k": "+94% SLA adherence",
+      "kk": "up"
+    },
+    {
+      "t": "Equipment-health monitoring",
+      "s": "ICE-Connected-06",
+      "b": "Multi-signal equipment health scoring.",
+      "k": "+14% availability",
+      "kk": "up"
+    },
+    {
+      "t": "Equipment-location tracking",
+      "s": "ICE-Connected-06",
+      "b": "GPS/cellular location tracking and geofence-compliance.",
+      "k": "+22% recovery rate",
+      "kk": "up"
+    },
+    {
+      "t": "Equipment-ready-for-season analytics",
+      "s": "ICE-Connected-06",
+      "b": "Seasonal-readiness tracking for ag equipment.",
+      "k": "+22pp readiness",
+      "kk": "up"
+    },
+    {
+      "t": "Equipment-sharing optimization",
+      "s": "ICE-Connected-06",
+      "b": "Inter-jobsite equipment-sharing optimization.",
+      "k": "+14% utilization",
+      "kk": "up"
+    },
+    {
+      "t": "Field service dispatch optimization",
+      "s": "ICE-Aftermarket-01",
+      "b": "Field-service dispatch with skill and parts-matching.",
+      "k": "+22% first-time-fix",
+      "kk": "up"
+    },
+    {
+      "t": "Field-variable-rate-application",
+      "s": "ICE-Connected-06",
+      "b": "Variable-rate application data analytics.",
+      "k": "+8% yield",
+      "kk": "up"
+    },
+    {
+      "t": "Final-test optimization",
+      "s": "ICE-Connected-06",
+      "b": "End-of-line test optimization with defect-feedback.",
+      "k": "+14% test coverage",
+      "kk": "up"
+    },
+    {
+      "t": "Financing-offer personalization",
+      "s": "ICE-Connected-06",
+      "b": "Financing-offer personalization.",
+      "k": "+18% attach rate",
+      "kk": "up"
+    },
+    {
+      "t": "First-time-fix improvement",
+      "s": "ICE-Aftermarket-01",
+      "b": "FTF root-cause analysis.",
+      "k": "+22pp FTF",
+      "kk": "up"
+    },
+    {
+      "t": "Fleet-utilization analytics",
+      "s": "ICE-Connected-06",
+      "b": "Multi-site fleet-utilization analytics.",
+      "k": "+11% utilization",
+      "kk": "up"
+    },
+    {
+      "t": "Forklift-utilization",
+      "s": "ICE-Connected-06",
+      "b": "Forklift-fleet utilization with right-sizing.",
+      "k": "−18% fleet cost",
+      "kk": "down"
+    },
+    {
+      "t": "Fuel-consumption optimization",
+      "s": "ICE-Connected-06",
+      "b": "Fuel-consumption analytics with operator feedback.",
+      "k": "−8% fuel burn",
+      "kk": "down"
+    },
+    {
+      "t": "Fuel-tank-level management",
+      "s": "ICE-Connected-06",
+      "b": "Genset fuel-tank level management.",
+      "k": "−28% unplanned outages",
+      "kk": "down"
+    },
+    {
+      "t": "Genset-fleet-utilization",
+      "s": "ICE-Connected-06",
+      "b": "Genset-fleet utilization analytics.",
+      "k": "+14% utilization",
+      "kk": "up"
+    },
+    {
+      "t": "Geofence-compliance alerting",
+      "s": "ICE-Connected-06",
+      "b": "Jobsite-geofence compliance and unauthorized-use alerting.",
+      "k": "−42% unauthorized use",
+      "kk": "down"
+    },
+    {
+      "t": "Government / municipal bid tracking",
+      "s": "ICE-Connected-06",
+      "b": "Government-bid tracking and win-probability scoring.",
+      "k": "+22% bid velocity",
+      "kk": "up"
+    },
+    {
+      "t": "Harvest-yield correlation",
+      "s": "ICE-Connected-06",
+      "b": "Yield-data correlation across equipment and field data.",
+      "k": "+14% insight yield",
+      "kk": "up"
+    },
+    {
+      "t": "Haul-truck-cycle optimization",
+      "s": "ICE-Connected-06",
+      "b": "Haul-truck cycle-time optimization.",
+      "k": "+8% productivity",
+      "kk": "up"
+    },
+    {
+      "t": "Idle-time reduction",
+      "s": "ICE-Connected-06",
+      "b": "Idle-time reduction analytics.",
+      "k": "−24% idle time",
+      "kk": "down"
+    },
+    {
+      "t": "Jobsite-productivity tracking",
+      "s": "ICE-Connected-06",
+      "b": "Jobsite-level productivity analytics.",
+      "k": "+18% productivity",
+      "kk": "up"
+    },
+    {
+      "t": "Lead-scoring (OEM + dealer)",
+      "s": "ICE-Connected-06",
+      "b": "Coordinated OEM-dealer lead scoring.",
+      "k": "+24% lead conversion",
+      "kk": "up"
+    },
+    {
+      "t": "Load-bank-test scheduling",
+      "s": "ICE-Connected-06",
+      "b": "Load-bank-test scheduling optimization.",
+      "k": "+22% compliance",
+      "kk": "up"
+    },
+    {
+      "t": "Machine-data-quality monitoring",
+      "s": "ICE-Connected-06",
+      "b": "Connected-equipment data-quality monitoring.",
+      "k": "+28pp data quality",
+      "kk": "up"
+    },
+    {
+      "t": "On-rent-to-off-rent-turnaround",
+      "s": "ICE-Connected-06",
+      "b": "Rental turnaround optimization.",
+      "k": "+14% availability",
+      "kk": "up"
+    },
+    {
+      "t": "Operator-behavior scoring",
+      "s": "ICE-Connected-06",
+      "b": "Operator behavior scoring from telematics.",
+      "k": "−14% abuse events",
+      "kk": "down"
+    },
+    {
+      "t": "Operator-impact detection",
+      "s": "ICE-Connected-06",
+      "b": "Forklift-impact event detection.",
+      "k": "−34% damage cost",
+      "kk": "down"
+    },
+    {
+      "t": "Operator-training-completion tracking",
+      "s": "ICE-Connected-06",
+      "b": "Training-completion and certification tracking.",
+      "k": "+22pp compliance",
+      "kk": "up"
+    },
+    {
+      "t": "Paint-shop throughput (ICE)",
+      "s": "ICE-Connected-06",
+      "b": "Heavy-equipment paint-shop throughput.",
+      "k": "+8% throughput",
+      "kk": "up"
+    },
+    {
+      "t": "Parts-catalog-search relevance",
+      "s": "ICE-Aftermarket-05",
+      "b": "Parts-catalog semantic search.",
+      "k": "+34% search accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "Pedestrian-safety monitoring",
+      "s": "ICE-Connected-06",
+      "b": "Forklift-pedestrian safety monitoring.",
+      "k": "−42% near-misses",
+      "kk": "down"
+    },
+    {
+      "t": "Plant-energy optimization (ICE)",
+      "s": "ICE-Connected-06",
+      "b": "Plant-energy optimization for heavy equipment.",
+      "k": "−12% energy cost",
+      "kk": "down"
+    },
+    {
+      "t": "Predictive parts replenishment",
+      "s": "ICE-Aftermarket-05",
+      "b": "Parts-demand forecasting and replenishment.",
+      "k": "−28% stockouts",
+      "kk": "down"
+    },
+    {
+      "t": "Production scheduling (heavy equipment)",
+      "s": "ICE-Connected-06",
+      "b": "Mixed-configuration production sequencing.",
+      "k": "+11% throughput",
+      "kk": "up"
+    },
+    {
+      "t": "Productivity benchmarking",
+      "s": "ICE-Connected-06",
+      "b": "Site- and operator-level productivity benchmarking.",
+      "k": "+11% productivity",
+      "kk": "up"
+    },
+    {
+      "t": "Project-equipment-kit optimization",
+      "s": "ICE-Connected-06",
+      "b": "Equipment-kit optimization for project types.",
+      "k": "+14% bid-margin",
+      "kk": "up"
+    },
+    {
+      "t": "Quality inspection (end-of-line)",
+      "s": "ICE-Connected-06",
+      "b": "CV-based end-of-line inspection.",
+      "k": "+24% detection",
+      "kk": "up"
+    },
+    {
+      "t": "Raw-material-price hedging analytics",
+      "s": "ICE-Connected-06",
+      "b": "Raw-material price-hedging analytics.",
+      "k": "−$6M/yr commodity risk",
+      "kk": "money"
+    },
+    {
+      "t": "Refrigerant-leak detection",
+      "s": "ICE-Connected-06",
+      "b": "Refrigerant-leak detection and regulatory reporting.",
+      "k": "−42% leak incidents",
+      "kk": "down"
+    },
+    {
+      "t": "Remote-diagnostic triage",
+      "s": "ICE-Aftermarket-01",
+      "b": "Remote-diagnostic session triage.",
+      "k": "−22% truck rolls",
+      "kk": "down"
+    },
+    {
+      "t": "Rental-demand forecasting (genset)",
+      "s": "ICE-Connected-06",
+      "b": "Genset-rental demand forecasting.",
+      "k": "+18pp accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "Rental-rate-yield management",
+      "s": "ICE-Connected-06",
+      "b": "Rental rate-yield management.",
+      "k": "+11% yield",
+      "kk": "up"
+    },
+    {
+      "t": "Rental-utilization forecasting",
+      "s": "ICE-Connected-06",
+      "b": "Rental-utilization forecasting.",
+      "k": "+18pp accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "Repair-time estimation",
+      "s": "ICE-Aftermarket-01",
+      "b": "Repair-time estimation from diagnostic data.",
+      "k": "+18% estimate accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "Seasonal-demand forecasting (ag)",
+      "s": "ICE-Connected-06",
+      "b": "Seasonal-demand forecasting for ag equipment.",
+      "k": "+18pp accuracy",
+      "kk": "up"
+    },
+    {
+      "t": "Service-advisor co-pilot",
+      "s": "ICE-Aftermarket-01",
+      "b": "Service-advisor co-pilot for estimate and explanation.",
+      "k": "+14% advisor productivity",
+      "kk": "up"
+    },
+    {
+      "t": "Service-contract renewal likelihood",
+      "s": "ICE-Aftermarket-01",
+      "b": "Service-contract renewal scoring and playbooks.",
+      "k": "+18pp renewal rate",
+      "kk": "up"
+    },
+    {
+      "t": "Service-level-agreement risk scoring",
+      "s": "ICE-EaaS-04",
+      "b": "SLA breach-risk scoring and early intervention.",
+      "k": "−$4.2M penalty",
+      "kk": "money"
+    },
+    {
+      "t": "Supplier-delivery variance",
+      "s": "ICE-Connected-06",
+      "b": "Supplier-delivery variance analytics.",
+      "k": "+14pp OTIF",
+      "kk": "up"
+    },
+    {
+      "t": "Supplier-parts staging",
+      "s": "ICE-Connected-06",
+      "b": "JIT supplier-parts staging optimization.",
+      "k": "−18% line-side inventory",
+      "kk": "down"
+    },
+    {
+      "t": "Swap-unit-deployment optimization",
+      "s": "ICE-EaaS-04",
+      "b": "Swap-unit deployment for breakdown coverage.",
+      "k": "+18% uptime",
+      "kk": "up"
+    },
+    {
+      "t": "Tariff-cost modeling",
+      "s": "ICE-Connected-06",
+      "b": "Tariff-impact modeling for sourcing.",
+      "k": "−$4.2M/yr tariff cost",
+      "kk": "money"
+    },
+    {
+      "t": "Technical-publication search",
+      "s": "ICE-Aftermarket-01",
+      "b": "Semantic search over service manuals.",
+      "k": "−62% lookup time",
+      "kk": "down"
+    },
+    {
+      "t": "Technician-skill routing",
+      "s": "ICE-Aftermarket-01",
+      "b": "Skill-based work-order routing.",
+      "k": "+14% technician productivity",
+      "kk": "up"
+    },
+    {
+      "t": "Territory-realignment modeling",
+      "s": "ICE-Connected-06",
+      "b": "Dealer-territory realignment analytics.",
+      "k": "+14% territory coverage",
+      "kk": "up"
+    },
+    {
+      "t": "Tire-wear prediction",
+      "s": "ICE-Connected-06",
+      "b": "Haul-truck tire-wear prediction.",
+      "k": "+22% tire life",
+      "kk": "up"
+    },
+    {
+      "t": "Total-cost-of-ownership modeling",
+      "s": "ICE-Connected-06",
+      "b": "TCO modeling for bid and sales-support.",
+      "k": "+14% deal win rate",
+      "kk": "up"
+    },
+    {
+      "t": "Trade-in valuation",
+      "s": "ICE-Connected-06",
+      "b": "Equipment trade-in valuation.",
+      "k": "+11% trade-in margin",
+      "kk": "up"
+    },
+    {
+      "t": "Usage-based-billing reconciliation",
+      "s": "ICE-EaaS-04",
+      "b": "Usage-based billing reconciliation automation.",
+      "k": "−82% manual reconciliation",
+      "kk": "down"
+    },
+    {
+      "t": "Used-equipment pricing",
+      "s": "ICE-Connected-06",
+      "b": "Used-equipment pricing analytics.",
+      "k": "+8% used margin",
+      "kk": "up"
+    },
+    {
+      "t": "Warranty intake with fraud detection",
+      "s": "ICE-Aftermarket-03",
+      "b": "Warranty-claim fraud and recovery analytics.",
+      "k": "+52% fraud detection",
+      "kk": "up"
+    },
+    {
+      "t": "Warranty-claim feedback to engineering",
+      "s": "ICE-Aftermarket-03",
+      "b": "Warranty-claim pattern feedback to engineering.",
+      "k": "+22% quality improvement",
+      "kk": "up"
+    },
+    {
+      "t": "Weather-impact schedule adjustment",
+      "s": "ICE-Connected-06",
+      "b": "Weather-aware schedule adjustment.",
+      "k": "−18% weather-related delays",
+      "kk": "down"
+    }
+  ]
+}
