@@ -30,12 +30,19 @@ docs/scenarios/
   <PRACTICE>/                          <-- RC / HLS / ER / AXLE / TMT / TH / ICE
     README.md                          <-- Practice overview + featured list
     _browse-catalog.md                 <-- 100+ compact scenarios, alphabetical
-    NN-<scenario-slug>/                <-- one folder per featured scenario
+    01-<slug>/ ... 05-<slug>/          <-- featured scenarios (full chain)
       README.md                        <-- full scenario chain + artifact list
       tests/                           <-- pytest fixtures (when apex-test-harness targets this Practice)
       artifacts/                       <-- diagrams, screenshots, sample payloads
       manifests/                       <-- agent / orchestration / policy manifest YAMLs
+    06-<slug>/ ... NN-<slug>/          <-- compact catalog folders (alphabetical)
+      README.md                        <-- lightweight: title / service / description / KPI
 ```
+
+## Featured vs compact
+
+- **Featured (01-05 per Practice)** — hand-authored full chains: Scenario / Solution / Use Case / Service / Persona / KPI plus a Wave Ribbon. Folder includes `tests/`, `artifacts/`, `manifests/` subfolders for forthcoming build artifacts.
+- **Compact (06-NNN per Practice)** — catalog entries from `APEX_SCENARIO_LIBRARY`. Lightweight README with title, service code, description, headline KPI. No subfolders. Candidates for promotion to featured when their full chain is authored.
 
 ## Provenance
 

@@ -13,8 +13,44 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
 ROOT = Path("docs/scenarios")
 
-# Load featured chains (scratch file written by the extractor step)
-chains = json.load(open(ROOT / "_featured_chains.json", encoding="utf-8"))
+# Load featured chains — from the canonical catalog JSON if it exists, else from the
+# scratch extract (legacy path used on first run before _catalog/featured-chains.json exists).
+_primary = ROOT / "_catalog" / "featured-chains.json"
+_scratch = ROOT / "_featured_chains.json"
+if _primary.exists():
+    chains = json.load(open(_primary, encoding="utf-8"))
+elif _scratch.exists():
+    chains = json.load(open(_scratch, encoding="utf-8"))
+else:
+    # Re-extract from the narrated HTML if no JSON exists yet
+    _html = open("docs/reference/APEX-Stacked-Architecture-Narrated.html", encoding="utf-8").read()
+    _pattern = re.compile(r'<details[^>]*?>\s*<summary[^>]*>(.*?)</summary>(.*?)</details>', re.DOTALL)
+    _ROW_LABELS = ["r-scenario", "r-solution", "r-usecase", "r-service", "r-persona", "r-kpi"]
+    _ROW_NAMES = ["Scenario", "Solution", "Use Case", "Service", "Persona", "KPI"]
+    def _strip_tags(s: str) -> str:
+        s = re.sub(r'<br\s*/?>', '\n', s)
+        s = re.sub(r'<[^>]+>', ' ', s)
+        return re.sub(r'\s+', ' ', s).strip()
+    chains = []
+    _PRACTICES = ["RC", "HLS", "ER", "AXLE", "TMT", "TH", "ICE"]
+    for _m in _pattern.finditer(_html):
+        _summary, _body = _m.group(1), _m.group(2)
+        if 'r-scenario' not in _body:
+            continue
+        _full = _strip_tags(_summary)
+        _title = _full.split(' Service ')[0].strip() if ' Service ' in _full else _full[:80]
+        _m2 = re.match(r'^(\d{2})\s+(.*)$', _title)
+        if _m2:
+            _title = _m2.group(2).strip()
+        _rows = {}
+        for _name, _cls in zip(_ROW_NAMES, _ROW_LABELS):
+            _rm = re.search(rf'{_cls}[^>]*>.*?<div class="cbg-text">(.*?)</div>', _body, re.DOTALL)
+            _rows[_name] = _strip_tags(_rm.group(1)) if _rm else ""
+        chains.append({"title": _title, **_rows})
+    for _i, _c in enumerate(chains):
+        _c["practice"] = _PRACTICES[_i // 5]
+        _c["index_in_practice"] = (_i % 5) + 1
+    print(f"Re-extracted {len(chains)} chains from narrated HTML")
 
 # Re-extract compact library from the HTML
 html = open("docs/reference/APEX-Stacked-Architecture-Narrated.html", encoding="utf-8").read()
@@ -172,7 +208,7 @@ def practice_readme(p: str) -> str:
         "",
         "## Compact catalog",
         "",
-        f"See [_browse-catalog.md](_browse-catalog.md) for the full {compact_count}-scenario index (title · service code · KPI).",
+        f"The remaining ~{compact_count - 5} scenarios are catalogued in [_browse-catalog.md](_browse-catalog.md) and each has its own folder numbered `06-NNN` (alphabetical by title). Compact folders hold a lightweight README (title · service · description · KPI) and are candidates for promotion to featured when their full chain gets authored.",
         "",
         "## Adding a new scenario to this Practice",
         "",
@@ -254,6 +290,78 @@ for c in chains:
         created_scenarios += 1
 
 
+# --- Step 5b: Create a folder per compact-catalog row (numbered 06-NNN, alphabetical) --
+# Compact folders are lightweight — README.md only, no tests/artifacts/manifests stubs.
+# If a compact row's title fuzzy-matches a featured scenario, we SKIP it (the featured
+# folder already exists at 01-05 and its README holds the authoritative chain).
+
+def compact_readme(practice: str, row: dict, number: int) -> str:
+    meta = PRACTICE_META[practice]
+    svc = row.get("s", "")
+    title = row.get("t", "")
+    blurb = row.get("b", "")
+    kpi = row.get("k", "")
+    direction = row.get("kk", "")
+    arrow = "↑" if direction == "up" else ("↓" if direction == "down" else "·")
+    lines = [
+        f"# {title}",
+        "",
+        f"**Practice:** {practice} — {meta[0]}  ",
+        f"**Catalog index:** {number:03d} (compact)  ",
+        f"**Service code:** `{svc}`  ",
+        f"**Headline KPI:** {arrow} {kpi}",
+        "",
+        "## Description",
+        blurb,
+        "",
+        "## Status",
+        "Compact catalog entry. The full Scenario / Solution / Use Case / Service / Persona / KPI chain for this scenario has not yet been authored. To promote this scenario to featured status, author the full chain in this README (use any featured-scenario folder's `README.md` as the template) and add the scenario to the narrated HTML's 5-per-Practice chain-card block.",
+        "",
+        "## Cross-references",
+        "",
+        f"- Practice overview: [../README.md](../README.md)",
+        f"- Compact catalog row: [../_browse-catalog.md](../_browse-catalog.md)",
+        "- Featured scenarios for this Practice (01-05): numbered siblings of this folder",
+        "- Narrated architecture: [../../reference/APEX-Stacked-Architecture-Narrated.html](../../reference/APEX-Stacked-Architecture-Narrated.html)",
+        "",
+    ]
+    return "\n".join(lines)
+
+
+def title_matches_featured(title: str, featured_titles: list[str]) -> bool:
+    """Loose match: featured title contains compact OR compact contains featured."""
+    t = title.lower().strip()
+    for ft in featured_titles:
+        f = ft.lower().strip()
+        if f == t or f in t or t in f:
+            return True
+    return False
+
+
+created_compact = 0
+skipped_featured_dupes = 0
+compact_by_practice: dict[str, int] = {}
+for p in PRACTICES:
+    featured_titles = [c["title"] for c in chains if c["practice"] == p]
+    # Alphabetical — same order as _browse-catalog.md
+    rows = sorted(library.get(p, []), key=lambda r: r["t"].lower())
+    number = 6  # featured occupy 01-05; compact starts at 06
+    compact_by_practice[p] = 0
+    for r in rows:
+        if title_matches_featured(r["t"], featured_titles):
+            skipped_featured_dupes += 1
+            continue
+        folder = f"{number:02d}-{slugify(r['t'])}"
+        cdir = ROOT / p / folder
+        cdir.mkdir(parents=True, exist_ok=True)
+        readme = cdir / "README.md"
+        if not readme.exists():
+            readme.write_text(compact_readme(p, r, number), encoding="utf-8")
+            created_compact += 1
+        compact_by_practice[p] += 1
+        number += 1
+
+
 # --- Step 6: Top-level README + _catalog JSON ------------------------------------------
 catalog_dir = ROOT / "_catalog"
 catalog_dir.mkdir(exist_ok=True)
@@ -310,12 +418,19 @@ top_lines += [
     "  <PRACTICE>/                          <-- RC / HLS / ER / AXLE / TMT / TH / ICE",
     "    README.md                          <-- Practice overview + featured list",
     "    _browse-catalog.md                 <-- 100+ compact scenarios, alphabetical",
-    "    NN-<scenario-slug>/                <-- one folder per featured scenario",
+    "    01-<slug>/ ... 05-<slug>/          <-- featured scenarios (full chain)",
     "      README.md                        <-- full scenario chain + artifact list",
     "      tests/                           <-- pytest fixtures (when apex-test-harness targets this Practice)",
     "      artifacts/                       <-- diagrams, screenshots, sample payloads",
     "      manifests/                       <-- agent / orchestration / policy manifest YAMLs",
+    "    06-<slug>/ ... NN-<slug>/          <-- compact catalog folders (alphabetical)",
+    "      README.md                        <-- lightweight: title / service / description / KPI",
     "```",
+    "",
+    "## Featured vs compact",
+    "",
+    "- **Featured (01-05 per Practice)** — hand-authored full chains: Scenario / Solution / Use Case / Service / Persona / KPI plus a Wave Ribbon. Folder includes `tests/`, `artifacts/`, `manifests/` subfolders for forthcoming build artifacts.",
+    "- **Compact (06-NNN per Practice)** — catalog entries from `APEX_SCENARIO_LIBRARY`. Lightweight README with title, service code, description, headline KPI. No subfolders. Candidates for promotion to featured when their full chain is authored.",
     "",
     "## Provenance",
     "",
@@ -346,6 +461,11 @@ if scratch.exists():
 print(f"\nSummary:")
 print(f"  Practice READMEs created: {created_folders}")
 print(f"  Featured scenario READMEs created: {created_scenarios}")
+print(f"  Compact scenario READMEs created: {created_compact}")
+print(f"  Compact rows skipped (match a featured): {skipped_featured_dupes}")
 print(f"  Moved existing Cold-Chain Excursion folder: {moved_existing}")
 print(f"  Total featured folders: {len(chains)}")
+print(f"  Compact folders per practice:")
+for p, n in compact_by_practice.items():
+    print(f"    {p}: {n}")
 print(f"  Catalog JSONs: {catalog_dir.resolve()}")

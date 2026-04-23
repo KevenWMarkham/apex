@@ -1,0 +1,19 @@
+# Spa / F&B recommendation
+
+**Practice:** TH — Travel & Hospitality  
+**Catalog index:** 094 (compact)  
+**Service code:** `TH-HOT-03`  
+**Headline KPI:** ↑ +18% F&B capture
+
+## Description
+On-property F&B and spa recommendation.
+
+## Status
+Compact catalog entry. The full Scenario / Solution / Use Case / Service / Persona / KPI chain for this scenario has not yet been authored. To promote this scenario to featured status, author the full chain in this README (use any featured-scenario folder's `README.md` as the template) and add the scenario to the narrated HTML's 5-per-Practice chain-card block.
+
+## Cross-references
+
+- Practice overview: [../README.md](../README.md)
+- Compact catalog row: [../_browse-catalog.md](../_browse-catalog.md)
+- Featured scenarios for this Practice (01-05): numbered siblings of this folder
+- Narrated architecture: [../../reference/APEX-Stacked-Architecture-Narrated.html](../../reference/APEX-Stacked-Architecture-Narrated.html)
