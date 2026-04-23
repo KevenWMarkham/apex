@@ -1,6 +1,28 @@
 # APEX Scenario Library
 
-On-disk catalog of APEX scenarios, organized by **Practice** then by **functional domain**. 736 scenario folders across 7 Practices and up to 13 domains.
+On-disk catalog of APEX scenarios, organized by **Practice** then by **functional domain**. 736 scenario folders across 7 Practices and up to 13 domains. Every scenario has a globally unique ID.
+
+## Unique scenario ID
+
+Every scenario folder is prefixed with `{PRACTICE}-{DOMCODE}-{NN}`. The triplet is unique across the entire library — searching the file tree for e.g. `RC-SUPCHN-01` jumps to exactly one folder.
+
+**Domain codes:**
+
+| Domain | Code | | Domain | Code |
+|---|---|---|---|---|
+| clinical-care | `CLIN` | | pricing-revenue | `PRICE` |
+| network-infrastructure | `NET` | | customer-experience | `CX` |
+| engineering-rd | `ENG` | | marketing-growth | `MKTG` |
+| supply-chain | `SUPCHN` | | operations-workforce | `OPS` |
+| asset-maintenance | `ASSET` | | channel-partner-dealer | `CHAN` |
+| quality-compliance | `QUAL` | | other | `OTHER` |
+| risk-fraud-security | `RISK` | | | |
+
+**Examples:**
+
+- `RC-SUPCHN-01` → RC / supply-chain / Cold Chain Excursion
+- `HLS-CLIN-01` → HLS / clinical-care / Claims Denial Prevention
+- `AXLE-ENG-05` → AXLE / engineering-rd / Design-for-Manufacturability scoring
 
 ## Practice folders
 

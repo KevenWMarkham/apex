@@ -71,6 +71,37 @@ DOMAIN_SHORT = {
     "other": "Other",
 }
 
+# Domain codes used in the globally-unique scenario ID (PRACTICE-DOMCODE-NN).
+DOMAIN_CODES = {
+    "clinical-care":          "CLIN",
+    "network-infrastructure": "NET",
+    "engineering-rd":         "ENG",
+    "supply-chain":           "SUPCHN",
+    "asset-maintenance":      "ASSET",
+    "quality-compliance":     "QUAL",
+    "risk-fraud-security":    "RISK",
+    "pricing-revenue":        "PRICE",
+    "customer-experience":    "CX",
+    "marketing-growth":       "MKTG",
+    "operations-workforce":   "OPS",
+    "channel-partner-dealer": "CHAN",
+    "other":                  "OTHER",
+}
+
+
+def parse_scenario_folder(name: str) -> tuple[int, str] | None:
+    """Parse a scenario folder name; returns (index, slug) or None.
+
+    Accepts both legacy 'NN-slug' and prefixed 'PRACTICE-DOMCODE-NN-slug'.
+    """
+    m = re.match(r"^[A-Z]+-[A-Z]+-(\d{2,3})-(.+)$", name)
+    if m:
+        return int(m.group(1)), m.group(2)
+    m = re.match(r"^(\d{2,3})-(.+)$", name)
+    if m:
+        return int(m.group(1)), m.group(2)
+    return None
+
 # Build: (practice, domain) -> list of (new_idx, folder_name, title_from_readme, is_featured)
 # and global (practice, title_lower) -> relative_path
 tree: dict[str, dict[str, list[dict]]] = {p: defaultdict(list) for p in PRACTICES}
@@ -98,23 +129,25 @@ for p in PRACTICES:
             continue
         if domain_dir.name not in DOMAIN_NAMES:
             continue
+        dom_code = DOMAIN_CODES.get(domain_dir.name, "")
         for scenario in sorted(domain_dir.iterdir()):
             if not scenario.is_dir():
                 continue
-            m = re.match(r"^(\d{2,3})-(.+)$", scenario.name)
-            if not m:
+            parsed = parse_scenario_folder(scenario.name)
+            if parsed is None:
                 continue
-            idx = int(m.group(1))
-            slug = m.group(2)
+            idx, slug = parsed
             title = read_h1(scenario) or slug.replace("-", " ")
             is_featured = title.lower() in featured_titles[p]
             rel = f"{domain_dir.name}/{scenario.name}"
+            scenario_id = f"{p}-{dom_code}-{idx:02d}" if dom_code else f"{p}-{idx:02d}"
             tree[p][domain_dir.name].append({
                 "idx": idx,
                 "name": scenario.name,
                 "title": title,
                 "rel": rel,
                 "featured": is_featured,
+                "id": scenario_id,
             })
             title_to_path[(p, title.lower())] = rel
 
@@ -139,7 +172,7 @@ for p in PRACTICES:
         lines.append("")
         for it in items:
             marker = " ⭐" if it["featured"] else ""
-            lines.append(f"- **{it['idx']:02d}**{marker} — [{it['title']}]({it['rel']}/)")
+            lines.append(f"- **`{it['id']}`**{marker} — [{it['title']}]({it['rel']}/)")
         lines.append("")
     lines += [
         "## Indexes",
@@ -157,26 +190,33 @@ for p in PRACTICES:
 # -------- Per-Practice browse-catalog.md --------
 for p in PRACTICES:
     items = sorted(library.get(p, []), key=lambda r: r["t"].lower())
+    # Build title -> unique-id lookup from the tree we walked
+    title_to_id: dict[tuple[str, str], str] = {}
+    for domain_items in tree[p].values():
+        for it in domain_items:
+            title_to_id[(p, it["title"].lower())] = it["id"]
+
     lines = [
         f"# {p} · Browse catalog ({len(items)} scenarios)",
         "",
         f"**Practice:** {p} — {PRACTICE_NAMES[p]}  ",
-        f"Alphabetical index. Each row links to the scenario's folder inside its functional domain.",
+        f"Alphabetical index. Each row links to the scenario's folder (look up by unique ID inside its functional domain).",
         "",
-        "| # | Scenario | Domain | Service | Description | KPI |",
+        "| ID | Scenario | Domain | Service | Description | KPI |",
         "|---|---|---|---|---|---|",
     ]
-    for i, r in enumerate(items, 1):
+    for r in items:
         title = r["t"]
         svc = r["s"]
         blurb = r["b"].replace("|", "\\|")
         kpi = r["k"]
         rel = title_to_path.get((p, title.lower()))
+        sid = title_to_id.get((p, title.lower()))
         if rel is None:
-            # Fuzzy fallback
             for (kp, kt), path in title_to_path.items():
                 if kp == p and (kt in title.lower() or title.lower() in kt):
                     rel = path
+                    sid = title_to_id.get((kp, kt))
                     break
         if rel:
             title_cell = f"[{title}]({rel}/)"
@@ -185,7 +225,8 @@ for p in PRACTICES:
         else:
             title_cell = title
             dom_cell = "—"
-        lines.append(f"| {i} | {title_cell} | {dom_cell} | `{svc}` | {blurb} | {kpi} |")
+        id_cell = f"`{sid}`" if sid else "—"
+        lines.append(f"| {id_cell} | {title_cell} | {dom_cell} | `{svc}` | {blurb} | {kpi} |")
     lines.append("")
     lines.append(f"_Source: `APEX_SCENARIO_LIBRARY[\"{p}\"]` in [../../reference/APEX-Stacked-Architecture-Narrated.html](../../reference/APEX-Stacked-Architecture-Narrated.html)._")
     (ROOT / p / "_browse-catalog.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
@@ -223,7 +264,29 @@ rows.append("| **Total** | " + " | ".join(f"**{totals[d]}**" for d in DOMAIN_ORD
 top = [
     "# APEX Scenario Library",
     "",
-    f"On-disk catalog of APEX scenarios, organized by **Practice** then by **functional domain**. {grand} scenario folders across 7 Practices and up to 13 domains.",
+    f"On-disk catalog of APEX scenarios, organized by **Practice** then by **functional domain**. {grand} scenario folders across 7 Practices and up to 13 domains. Every scenario has a globally unique ID.",
+    "",
+    "## Unique scenario ID",
+    "",
+    "Every scenario folder is prefixed with `{PRACTICE}-{DOMCODE}-{NN}`. The triplet is unique across the entire library — searching the file tree for e.g. `RC-SUPCHN-01` jumps to exactly one folder.",
+    "",
+    "**Domain codes:**",
+    "",
+    "| Domain | Code | | Domain | Code |",
+    "|---|---|---|---|---|",
+    "| clinical-care | `CLIN` | | pricing-revenue | `PRICE` |",
+    "| network-infrastructure | `NET` | | customer-experience | `CX` |",
+    "| engineering-rd | `ENG` | | marketing-growth | `MKTG` |",
+    "| supply-chain | `SUPCHN` | | operations-workforce | `OPS` |",
+    "| asset-maintenance | `ASSET` | | channel-partner-dealer | `CHAN` |",
+    "| quality-compliance | `QUAL` | | other | `OTHER` |",
+    "| risk-fraud-security | `RISK` | | | |",
+    "",
+    "**Examples:**",
+    "",
+    "- `RC-SUPCHN-01` → RC / supply-chain / Cold Chain Excursion",
+    "- `HLS-CLIN-01` → HLS / clinical-care / Claims Denial Prevention",
+    "- `AXLE-ENG-05` → AXLE / engineering-rd / Design-for-Manufacturability scoring",
     "",
     "## Practice folders",
     "",
