@@ -317,6 +317,12 @@ def compact_readme(practice: str, row: dict, number: int) -> str:
         "## Status",
         "Compact catalog entry. The full Scenario / Solution / Use Case / Service / Persona / KPI chain for this scenario has not yet been authored. To promote this scenario to featured status, author the full chain in this README (use any featured-scenario folder's `README.md` as the template) and add the scenario to the narrated HTML's 5-per-Practice chain-card block.",
         "",
+        "## Folder layout",
+        "",
+        "- `tests/` — pytest fixtures and harness scenarios (add as the scenario moves toward build)",
+        "- `artifacts/` — diagrams, screenshots, sample payloads, build outputs",
+        "- `manifests/` — agent manifest YAMLs, orchestration manifest, policy manifest overlays",
+        "",
         "## Cross-references",
         "",
         f"- Practice overview: [../README.md](../README.md)",
@@ -354,6 +360,12 @@ for p in PRACTICES:
         folder = f"{number:02d}-{slugify(r['t'])}"
         cdir = ROOT / p / folder
         cdir.mkdir(parents=True, exist_ok=True)
+        # Full subfolder kit — same shape as featured scenarios
+        for sub in ("tests", "artifacts", "manifests"):
+            (cdir / sub).mkdir(exist_ok=True)
+            gk = cdir / sub / ".gitkeep"
+            if not gk.exists():
+                gk.write_text("", encoding="utf-8")
         readme = cdir / "README.md"
         if not readme.exists():
             readme.write_text(compact_readme(p, r, number), encoding="utf-8")
@@ -418,19 +430,19 @@ top_lines += [
     "  <PRACTICE>/                          <-- RC / HLS / ER / AXLE / TMT / TH / ICE",
     "    README.md                          <-- Practice overview + featured list",
     "    _browse-catalog.md                 <-- 100+ compact scenarios, alphabetical",
-    "    01-<slug>/ ... 05-<slug>/          <-- featured scenarios (full chain)",
-    "      README.md                        <-- full scenario chain + artifact list",
+    "    NN-<slug>/                        <-- one folder per scenario (01-05 featured; 06+ compact)",
+    "      README.md                        <-- chain content (full for featured; lightweight for compact)",
     "      tests/                           <-- pytest fixtures (when apex-test-harness targets this Practice)",
     "      artifacts/                       <-- diagrams, screenshots, sample payloads",
     "      manifests/                       <-- agent / orchestration / policy manifest YAMLs",
-    "    06-<slug>/ ... NN-<slug>/          <-- compact catalog folders (alphabetical)",
-    "      README.md                        <-- lightweight: title / service / description / KPI",
     "```",
     "",
     "## Featured vs compact",
     "",
-    "- **Featured (01-05 per Practice)** — hand-authored full chains: Scenario / Solution / Use Case / Service / Persona / KPI plus a Wave Ribbon. Folder includes `tests/`, `artifacts/`, `manifests/` subfolders for forthcoming build artifacts.",
-    "- **Compact (06-NNN per Practice)** — catalog entries from `APEX_SCENARIO_LIBRARY`. Lightweight README with title, service code, description, headline KPI. No subfolders. Candidates for promotion to featured when their full chain is authored.",
+    "Both folder shapes are structurally identical (README + `tests/` + `artifacts/` + `manifests/`). The difference is content:",
+    "",
+    "- **Featured (01-05 per Practice)** — hand-authored full chains: Scenario / Solution / Use Case / Service / Persona / KPI plus a Wave Ribbon.",
+    "- **Compact (06-NNN per Practice)** — catalog entries from `APEX_SCENARIO_LIBRARY`. Lightweight README with title, service code, description, headline KPI. Promote to featured by authoring the full chain.",
     "",
     "## Provenance",
     "",
