@@ -7675,7 +7675,7 @@ function openScenarioModal(practiceCode) {
       const titleSafe = escapeHtml(item.t);
       const serviceSafe = escapeHtml(item.s);
       const searchData = (item.t + ' ' + item.b + ' ' + item.s + ' ' + (item.id || '')).toLowerCase();
-      return '<div class="scenario-row" role="listitem" data-search="' + escapeHtml(searchData) + '" data-domain="' + escapeHtml(item.domain || '') + '" data-practice="' + escapeHtml(practice || '') + '">' +
+      return '<div class="scenario-row" role="listitem" data-search="' + escapeHtml(searchData) + '" data-domain="' + escapeHtml(item.domain || '') + '" data-practice="' + escapeHtml(practiceCode || '') + '">' +
         '<div class="sr-main">' +
           (item.id ? '<a class="sr-id" href="' + escapeHtml(item.p || '#') + '" target="_blank" rel="noopener" title="Open folder">' + escapeHtml(item.id) + '</a>' : '') +
           '<div class="sr-title">' + titleSafe + '</div>' +
@@ -7693,7 +7693,7 @@ function openScenarioModal(practiceCode) {
   const domSel = document.getElementById('scenarioModalDomainFilter');
   if (domSel) domSel.value = '';
   const pracSel = document.getElementById('scenarioModalPracticeFilter');
-  if (pracSel) pracSel.value = practice || '';
+  if (pracSel) pracSel.value = practiceCode || '';
   populateDomainFilter(items);
   updateFilterCount(items.length, items.length);
 
