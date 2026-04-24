@@ -4124,6 +4124,65 @@ body.light .fnm-inner {
   background: color-mix(in srgb, var(--ink-3, #8a8a8a) 20%, transparent);
   color: var(--ink-2, #b4b4b4);
 }
+/* modal-scenario-popunder-v1 */
+.scenario-row {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  transition: background 0.15s;
+}
+.scenario-row:hover { background: color-mix(in srgb, var(--bg-2) 50%, transparent); }
+.scenario-row.open { background: color-mix(in srgb, var(--sky, #6FB9E8) 4%, var(--bg-1)); }
+.sr-head {
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+}
+.sr-chevron {
+  color: var(--ink-3, #8a8a8a);
+  transition: transform 0.2s ease, color 0.2s;
+  flex: 0 0 auto;
+}
+.scenario-row.open .sr-chevron {
+  transform: rotate(90deg);
+  color: var(--sky, #6FB9E8);
+}
+.sr-id {
+  display: inline-block;
+  font-family: 'JetBrains Mono', 'Consolas', monospace;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--sky, #6FB9E8);
+  background: color-mix(in srgb, var(--sky, #6FB9E8) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--sky, #6FB9E8) 40%, transparent);
+  padding: 2px 8px;
+  border-radius: 3px;
+  margin-right: 10px;
+  text-decoration: none;
+  vertical-align: baseline;
+}
+.sr-detail {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.25s ease;
+  padding: 0 16px;
+  border-top: 1px solid transparent;
+}
+.scenario-row.open .sr-detail {
+  max-height: 1400px;
+  opacity: 1;
+  padding: 16px 16px 20px 16px;
+  border-top: 1px solid color-mix(in srgb, var(--sky, #6FB9E8) 30%, transparent);
+  overflow: visible;
+}
+.scenario-row.open .sr-detail .sfs-actions { margin-top: 10px; }
 </style>
 </head>
 
@@ -8126,15 +8185,83 @@ function openScenarioModal(practiceCode) {
       const titleSafe = escapeHtml(item.t);
       const serviceSafe = escapeHtml(item.s);
       const searchData = (item.t + ' ' + item.b + ' ' + item.s + ' ' + (item.id || '')).toLowerCase();
-      return '<div class="scenario-row" role="listitem" data-search="' + escapeHtml(searchData) + '" data-domain="' + escapeHtml(item.domain || '') + '" data-practice="' + escapeHtml(practiceCode || '') + '">' +
-        '<div class="sr-main">' +
-          (item.id ? '<a class="sr-id" href="' + escapeHtml(item.p || '#') + '" target="_blank" rel="noopener" title="Open folder">' + escapeHtml(item.id) + '</a>' : '') +
-          '<div class="sr-title">' + titleSafe + '</div>' +
-          '<div class="sr-brief">' + briefSafe + '</div>' +
-        '</div>' +
-        '<div class="sr-service">' + serviceSafe + '</div>' +
-        '<div class="sr-kpi-wrap"><span class="sr-kpi ' + kk + '">' + kpiSafe + '</span></div>' +
-      '</div>';
+      return (function() {
+        const hasChain = !!((window.FEATURED_CHAINS_BY_ID || {})[item.id]);
+        const chain = hasChain ? window.FEATURED_CHAINS_BY_ID[item.id] : null;
+        const sceneDomain = item.domain || '';
+        const sceneDomainLabel = sceneDomain
+          ? sceneDomain.replace(/-/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); })
+          : '—';
+        const kpiArrow = kk === 'up' ? '↑' : (kk === 'down' ? '↓' : '·');
+        const kpiDirClass = kk === 'up' ? 'sfs-kpi-up' : (kk === 'down' ? 'sfs-kpi-down' : '');
+        const domainCount = (window.FLYOUT_DOMAIN_COUNTS || {})[practiceCode] && (window.FLYOUT_DOMAIN_COUNTS[practiceCode][sceneDomain] || 0);
+        const siblingTxt = domainCount ? ('This is 1 of ' + domainCount + ' scenarios in ' + sceneDomainLabel + ' (' + practiceCode + ').') : '';
+        let detailBody;
+        if (chain) {
+          detailBody =
+            '<div class="sfs-chain">' +
+              (chain.scenario  ? '<div class="sfs-row sfs-r-scenario"><span class="sfs-row-label">Scenario</span><div class="sfs-row-body">' + escapeHtml(chain.scenario) + '</div></div>' : '') +
+              (chain.solution  ? '<div class="sfs-row sfs-r-solution"><span class="sfs-row-label">Solution</span><div class="sfs-row-body">' + escapeHtml(chain.solution) + '</div></div>' : '') +
+              (chain.use_case  ? '<div class="sfs-row sfs-r-usecase"><span class="sfs-row-label">Use Case</span><div class="sfs-row-body">' + escapeHtml(chain.use_case) + '</div></div>' : '') +
+              (chain.service_text ? '<div class="sfs-row sfs-r-service"><span class="sfs-row-label">Service</span><div class="sfs-row-body">' + escapeHtml(chain.service_text) + '</div></div>' : '') +
+              (chain.persona   ? '<div class="sfs-row sfs-r-persona"><span class="sfs-row-label">Persona</span><div class="sfs-row-body">' + escapeHtml(chain.persona) + '</div></div>' : '') +
+              (chain.kpi       ? '<div class="sfs-row sfs-r-kpi"><span class="sfs-row-label">KPI</span><div class="sfs-row-body">' + escapeHtml(chain.kpi) + '</div></div>' : '') +
+            '</div>' +
+            '<div class="sfs-detail-grid sfs-meta-grid">' +
+              '<div class="sfs-field"><div class="sfs-field-label">Domain</div><div class="sfs-field-value">' + escapeHtml(sceneDomainLabel) + '</div></div>' +
+              '<div class="sfs-field"><div class="sfs-field-label">Practice</div><div class="sfs-field-value">' + escapeHtml(practiceCode) + '</div></div>' +
+              (item.id ? '<div class="sfs-field"><div class="sfs-field-label">Scenario ID</div><div class="sfs-field-value"><code>' + escapeHtml(item.id) + '</code></div></div>' : '') +
+              '<div class="sfs-field"><div class="sfs-field-label">Status</div><div class="sfs-field-value"><span class="sfs-badge-featured">⭐ Featured chain</span></div></div>' +
+            '</div>';
+        } else {
+          detailBody =
+            '<div class="sfs-kpi-banner">' +
+              '<span class="sfs-kpi-banner-label">Headline KPI</span>' +
+              '<span class="sfs-kpi-banner-value ' + kpiDirClass + '">' + kpiArrow + ' ' + escapeHtml(item.k || '—') + '</span>' +
+            '</div>' +
+            '<div class="sfs-detail-grid">' +
+              '<div class="sfs-field"><div class="sfs-field-label">Scenario ID</div><div class="sfs-field-value">' + (item.id ? '<code>' + escapeHtml(item.id) + '</code>' : '—') + '</div></div>' +
+              '<div class="sfs-field"><div class="sfs-field-label">Practice</div><div class="sfs-field-value">' + escapeHtml(practiceCode) + '</div></div>' +
+              '<div class="sfs-field"><div class="sfs-field-label">Domain</div><div class="sfs-field-value">' + escapeHtml(sceneDomainLabel) + '</div></div>' +
+              '<div class="sfs-field"><div class="sfs-field-label">Service</div><div class="sfs-field-value"><code>' + escapeHtml(item.s || '') + '</code></div></div>' +
+              '<div class="sfs-field"><div class="sfs-field-label">KPI Direction</div><div class="sfs-field-value"><span class="' + kpiDirClass + '">' + kpiArrow + ' ' + (kk === 'up' ? 'Upside metric' : (kk === 'down' ? 'Reduction metric' : 'Neutral')) + '</span></div></div>' +
+              '<div class="sfs-field"><div class="sfs-field-label">Status</div><div class="sfs-field-value"><span class="sfs-badge-compact">Compact catalog entry</span></div></div>' +
+            '</div>' +
+            '<div class="sfs-field sfs-field-full"><div class="sfs-field-label">Description</div><div class="sfs-field-value">' + escapeHtml(item.b) + '</div></div>' +
+            (siblingTxt ? '<div class="sfs-sibling-note">' + escapeHtml(siblingTxt) + ' Browse the rest through its folder.</div>' : '') +
+            '<div class="sfs-promote">' +
+              '<span class="sfs-promote-label">Promote to featured</span>' +
+              '<span class="sfs-promote-body">Author the full Scenario → Solution → Use Case → Service → Persona → KPI chain in this scenario\'s README and it graduates into the Chain Views tab with the 35 featured scenarios.</span>' +
+            '</div>';
+        }
+        const href = item.p || '';
+        const actionBtn = href ? (
+          '<div class="sfs-actions">' +
+            '<a class="sfs-action sfs-action-primary" href="' + escapeHtml(href) + '" target="_blank" rel="noopener" onclick="event.stopPropagation();">' +
+              '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>' +
+              'Open folder on disk' +
+            '</a>' +
+          '</div>'
+        ) : '';
+        return (
+          '<div class="scenario-row" role="listitem" data-search="' + escapeHtml(searchData) + '" data-domain="' + escapeHtml(item.domain || '') + '" data-practice="' + escapeHtml(practiceCode || '') + '">' +
+            '<div class="sr-head">' +
+              '<div class="sr-main">' +
+                (item.id ? '<span class="sr-id" title="Click the row to expand details">' + escapeHtml(item.id) + '</span>' : '') +
+                '<div class="sr-title">' + titleSafe + '</div>' +
+                '<div class="sr-brief">' + briefSafe + '</div>' +
+              '</div>' +
+              '<div class="sr-service">' + serviceSafe + '</div>' +
+              '<div class="sr-kpi-wrap"><span class="sr-kpi ' + kk + '">' + kpiSafe + '</span></div>' +
+              '<svg class="sr-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>' +
+            '</div>' +
+            '<div class="sr-detail">' +
+              detailBody +
+              actionBtn +
+            '</div>' +
+          '</div>'
+        );
+      })()
     }).join('');
   }
 
@@ -9927,6 +10054,35 @@ window.FEATURED_CHAINS_BY_ID = {"RC-SUPCHN-01":{"title":"Cold-chain excursion �
     // the initial option list) runs first.
     setTimeout(init, 0);
   }
+})();
+</script>
+
+<script>
+/* modal-scenario-popunder-v1 */
+(function() {
+  'use strict';
+  document.addEventListener('click', function(e) {
+    // Ignore clicks on primary action buttons inside a row
+    if (e.target.closest('.sfs-action')) return;
+    const head = e.target.closest('#scenarioModalBody .scenario-row .sr-head');
+    if (!head) return;
+    const row = head.parentNode;
+    const wasOpen = row.classList.contains('open');
+    // Close siblings (accordion)
+    const body = document.getElementById('scenarioModalBody');
+    if (body) {
+      body.querySelectorAll('.scenario-row.open').forEach(function(el) {
+        if (el !== row) el.classList.remove('open');
+      });
+    }
+    row.classList.toggle('open', !wasOpen);
+    // Scroll the opened row into view if it's near the bottom
+    if (!wasOpen) {
+      setTimeout(function() {
+        row.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 120);
+    }
+  });
 })();
 </script>
 </body>
