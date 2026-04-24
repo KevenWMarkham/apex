@@ -7287,16 +7287,6 @@ body.light .fnm-inner {
       <div class="scenario-modal-filter">
         <svg class="smf-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
         <input type="text" id="scenarioModalFilter" placeholder="Filter by ID, title, service, or description..." autocomplete="off" oninput="filterScenarioModal()"/>
-        <select id="scenarioModalPracticeFilter" onchange="filterScenarioModal()" title="Filter by Practice" class="smf-select">
-          <option value="">All Practices</option>
-          <option value="RC">RC</option>
-          <option value="HLS">HLS</option>
-          <option value="ER">ER</option>
-          <option value="AXLE">AXLE</option>
-          <option value="TMT">TMT</option>
-          <option value="TH">TH</option>
-          <option value="ICE">ICE</option>
-        </select>
         <select id="scenarioModalDomainFilter" onchange="filterScenarioModal()" title="Filter by Functional Domain" class="smf-select">
           <option value="">All Domains</option>
         </select>
@@ -7710,8 +7700,6 @@ function openScenarioModal(practiceCode) {
   if (filterInput) filterInput.value = '';
   const domSel = document.getElementById('scenarioModalDomainFilter');
   if (domSel) domSel.value = '';
-  const pracSel = document.getElementById('scenarioModalPracticeFilter');
-  if (pracSel) pracSel.value = practiceCode || '';
   populateDomainFilter(items);
   updateFilterCount(items.length, items.length);
 
@@ -7752,19 +7740,15 @@ function filterScenarioModal() {
   if (!input) return;
   const q = input.value.trim().toLowerCase();
   const domSel = document.getElementById('scenarioModalDomainFilter');
-  const pracSel = document.getElementById('scenarioModalPracticeFilter');
   const domFilter = domSel ? domSel.value : '';
-  const pracFilter = pracSel ? pracSel.value : '';
   const rows = document.querySelectorAll('#scenarioModalBody .scenario-row');
   let shown = 0;
   rows.forEach(function(row) {
     const haystack = row.getAttribute('data-search') || '';
     const rowDomain = row.getAttribute('data-domain') || '';
-    const rowPractice = row.getAttribute('data-practice') || '';
     const qMatch = q === '' || haystack.indexOf(q) !== -1;
     const dMatch = domFilter === '' || rowDomain === domFilter;
-    const pMatch = pracFilter === '' || rowPractice === pracFilter;
-    const match = qMatch && dMatch && pMatch;
+    const match = qMatch && dMatch;
     row.classList.toggle('hidden', !match);
     if (match) shown++;
   });
