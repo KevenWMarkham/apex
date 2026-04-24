@@ -4183,6 +4183,53 @@ body.light .fnm-inner {
   overflow: visible;
 }
 .scenario-row.open .sr-detail .sfs-actions { margin-top: 10px; }
+/* modal-row-align-v1 */
+.scenario-row {
+  padding: 0 !important;
+  text-align: left;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+.sr-head {
+  padding: 12px 20px !important;
+  text-align: left;
+  justify-items: start;
+}
+.sr-main {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-width: 0;
+}
+.sr-main > .sr-id {
+  margin-right: 10px;
+  margin-bottom: 0;
+  align-self: flex-start;
+}
+.sr-title {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--ink-0, #fff);
+  text-align: left;
+  line-height: 1.35;
+}
+.sr-brief {
+  font-size: 12.5px;
+  color: var(--ink-2, #b4b4b4);
+  text-align: left;
+  line-height: 1.45;
+  margin-top: 2px;
+}
+/* Put ID pill inline with title so layout is: [ID] Title / blurb-below */
+.sr-main-row1 { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.scenario-row .sr-service {
+  font-family: 'JetBrains Mono', 'Consolas', monospace;
+  font-size: 11.5px;
+  color: var(--gold, #E3B657);
+  white-space: nowrap;
+}
 </style>
 </head>
 
