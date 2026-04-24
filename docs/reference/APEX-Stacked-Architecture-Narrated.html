@@ -3879,6 +3879,126 @@ body.light .fnm-inner {
 }
 .svc-chip { cursor: pointer; }
 .svc-chip:hover { filter: brightness(1.2); }
+/* flyout-popunder-v1 */
+.svc-flyout-scenario {
+  background: color-mix(in srgb, var(--bg-2, #131313) 60%, transparent);
+  border: 1px solid color-mix(in srgb, var(--line, #2a2a2a) 80%, transparent);
+  border-radius: 6px;
+  overflow: hidden;
+  transition: border-color 0.15s, background 0.15s;
+  cursor: pointer;
+}
+.svc-flyout-scenario:hover {
+  border-color: color-mix(in srgb, var(--sky, #6FB9E8) 60%, transparent);
+}
+.svc-flyout-scenario.open {
+  border-color: var(--sky, #6FB9E8);
+  background: color-mix(in srgb, var(--sky, #6FB9E8) 6%, var(--bg-2, #131313));
+}
+.sfs-head {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 14px;
+  user-select: none;
+}
+.sfs-head-main { flex: 1 1 auto; min-width: 0; }
+.sfs-head-meta { flex: 0 0 auto; display: flex; align-items: center; gap: 6px; }
+.sfs-chevron {
+  color: var(--ink-3, #8a8a8a);
+  transition: transform 0.2s ease;
+  flex: 0 0 auto;
+}
+.svc-flyout-scenario.open .sfs-chevron { transform: rotate(90deg); color: var(--sky, #6FB9E8); }
+.svc-flyout-scenario .sfs-id {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--sky, #6FB9E8);
+  margin-right: 8px;
+}
+.svc-flyout-scenario .sfs-title {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink-0, #fff);
+  display: inline;
+}
+.svc-flyout-scenario .sfs-kpi {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--gold, #E3B657) 15%, transparent);
+  color: var(--gold, #E3B657);
+  white-space: nowrap;
+}
+.svc-flyout-scenario .sfs-detail {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.25s ease, padding 0.25s ease;
+  padding: 0 14px;
+  border-top: 1px solid transparent;
+}
+.svc-flyout-scenario.open .sfs-detail {
+  max-height: 600px;
+  opacity: 1;
+  padding: 14px 14px 16px;
+  border-top: 1px solid color-mix(in srgb, var(--sky, #6FB9E8) 30%, transparent);
+}
+.sfs-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 16px;
+  margin-bottom: 12px;
+}
+.sfs-field { min-width: 0; }
+.sfs-field-full { grid-column: 1 / -1; margin-bottom: 12px; }
+.sfs-field-label {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3, #8a8a8a);
+  margin-bottom: 3px;
+}
+.sfs-field-value {
+  font-size: 12.5px;
+  color: var(--ink-1, #e6edf3);
+  line-height: 1.5;
+  word-break: break-word;
+}
+.sfs-field-value code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--gold, #E3B657);
+  background: color-mix(in srgb, var(--bg-3, #1a1a1a) 50%, transparent);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+.sfs-actions {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  margin-top: 6px;
+}
+.sfs-action {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: filter 0.15s;
+}
+.sfs-action-primary {
+  background: var(--sky, #6FB9E8);
+  color: #0b0b0b;
+}
+.sfs-action-primary:hover { filter: brightness(1.1); }
+.sfs-domain {
+  display: inline-block;
+  font-size: 10px;
+  color: var(--ink-3, #8a8a8a);
+  margin-right: 8px;
+}
 </style>
 </head>
 
@@ -9392,14 +9512,45 @@ tabButtons.forEach(btn => {
     } else {
       list.innerHTML = data.scenarios.map(function(s) {
         const idPart = s.id ? '<span class="sfs-id">' + escapeHtml(s.id) + '</span>' : '';
-        const kpiPart = s.kpi ? '<div><span class="sfs-kpi">' + escapeHtml(s.kpi) + '</span></div>' : '';
+        const kpiPart = s.kpi ? '<span class="sfs-kpi">' + escapeHtml(s.kpi) + '</span>' : '';
         const href = s.path || '#';
-        return '<a class="svc-flyout-scenario" href="' + escapeHtml(href) + '" target="_blank" rel="noopener">' +
-               idPart +
-               '<span class="sfs-title">' + escapeHtml(s.title) + '</span>' +
-               '<div class="sfs-blurb">' + escapeHtml(s.blurb) + '</div>' +
-               kpiPart +
-               '</a>';
+        // Derive domain from path: path = ../scenarios/<PRACTICE>/<domain>/<ID-slug>/
+        let domain = '';
+        if (s.path) {
+          const parts = s.path.split('/');
+          if (parts.length >= 5) domain = parts[3] || '';
+        }
+        const domainLabel = domain
+          ? domain.replace(/-/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); })
+          : '';
+        const domainPart = domain ? '<span class="sfs-domain">' + escapeHtml(domainLabel) + '</span>' : '';
+        return (
+          '<div class="svc-flyout-scenario" data-scenario-id="' + escapeHtml(s.id || '') + '">' +
+            '<div class="sfs-head">' +
+              '<div class="sfs-head-main">' +
+                idPart +
+                '<span class="sfs-title">' + escapeHtml(s.title) + '</span>' +
+              '</div>' +
+              '<div class="sfs-head-meta">' + kpiPart + '</div>' +
+              '<svg class="sfs-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>' +
+            '</div>' +
+            '<div class="sfs-detail">' +
+              '<div class="sfs-detail-grid">' +
+                '<div class="sfs-field"><div class="sfs-field-label">Domain</div><div class="sfs-field-value">' + escapeHtml(domainLabel || '—') + '</div></div>' +
+                '<div class="sfs-field"><div class="sfs-field-label">Service</div><div class="sfs-field-value"><code>' + escapeHtml(data.code) + '</code> ' + escapeHtml(data.name) + '</div></div>' +
+                '<div class="sfs-field"><div class="sfs-field-label">Practice</div><div class="sfs-field-value">' + escapeHtml(data.practice) + '</div></div>' +
+                (s.id ? '<div class="sfs-field"><div class="sfs-field-label">Scenario ID</div><div class="sfs-field-value"><code>' + escapeHtml(s.id) + '</code></div></div>' : '') +
+              '</div>' +
+              '<div class="sfs-field sfs-field-full"><div class="sfs-field-label">Description</div><div class="sfs-field-value">' + escapeHtml(s.blurb) + '</div></div>' +
+              '<div class="sfs-actions">' +
+                (href !== '#' ? '<a class="sfs-action sfs-action-primary" href="' + escapeHtml(href) + '" target="_blank" rel="noopener">' +
+                  '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>' +
+                  'Open folder on disk' +
+                '</a>' : '') +
+              '</div>' +
+            '</div>' +
+          '</div>'
+        );
       }).join('');
     }
     document.getElementById('svcFlyoutBackdrop').classList.add('open');
@@ -9427,6 +9578,22 @@ tabButtons.forEach(btn => {
     if (!codeEl) return;
     const code = codeEl.textContent.trim();
     openServiceFlyout(code);
+  });
+
+  // Accordion click inside the flyout — expand/collapse scenario cards
+  document.addEventListener('click', function(e) {
+    // Ignore if the click was on the Open-folder action link
+    if (e.target.closest('.sfs-action')) return;
+    const head = e.target.closest('.svc-flyout-scenario .sfs-head');
+    if (!head) return;
+    const card = head.parentNode;
+    const wasOpen = card.classList.contains('open');
+    // Collapse siblings (accordion)
+    const list = card.parentNode;
+    list.querySelectorAll('.svc-flyout-scenario.open').forEach(function(el) {
+      if (el !== card) el.classList.remove('open');
+    });
+    card.classList.toggle('open', !wasOpen);
   });
 
   // ESC to close
