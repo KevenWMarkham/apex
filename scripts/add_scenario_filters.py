@@ -196,7 +196,7 @@ NEW_RENDER_CALL = (
     "  const domSel = document.getElementById('scenarioModalDomainFilter');\n"
     "  if (domSel) domSel.value = '';\n"
     "  const pracSel = document.getElementById('scenarioModalPracticeFilter');\n"
-    "  if (pracSel) pracSel.value = practice || '';\n"
+    "  if (pracSel) pracSel.value = practiceCode || '';\n"
     "  populateDomainFilter(items);\n"
     "  updateFilterCount(items.length, items.length);"
 )
@@ -213,7 +213,7 @@ else:
 OLD_ROW = '<div class=\\"scenario-row\\" role=\\"listitem\\" data-search=\\"\' + escapeHtml(searchData) + \'\\" data-domain=\\"\' + escapeHtml(item.domain || \'\') + \'\\">'
 # Instead, do a literal textual swap that's easier to read
 OLD_ROW_LITERAL = 'data-search="\' + escapeHtml(searchData) + \'" data-domain="\' + escapeHtml(item.domain || \'\') + \'"'
-NEW_ROW_LITERAL = 'data-search="\' + escapeHtml(searchData) + \'" data-domain="\' + escapeHtml(item.domain || \'\') + \'" data-practice="\' + escapeHtml(practice || \'\') + \'"'
+NEW_ROW_LITERAL = 'data-search="\' + escapeHtml(searchData) + \'" data-domain="\' + escapeHtml(item.domain || \'\') + \'" data-practice="\' + escapeHtml(practiceCode || \'\') + \'"'
 
 if OLD_ROW_LITERAL in html and NEW_ROW_LITERAL not in html:
     html = html.replace(OLD_ROW_LITERAL, NEW_ROW_LITERAL)
