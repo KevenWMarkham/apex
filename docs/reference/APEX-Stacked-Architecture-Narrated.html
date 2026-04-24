@@ -4230,6 +4230,29 @@ body.light .fnm-inner {
   color: var(--gold, #E3B657);
   white-space: nowrap;
 }
+/* arch-diagram-fit-v1 */
+/* Remove the hard 1560px floor so the SVG scales with the container. */
+.flow-svg {
+  min-width: 0 !important;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  display: block;
+}
+/* Widen deep-page so the Overview diagram gets the space it was designed for. */
+.deep-page {
+  max-width: min(1600px, 96vw) !important;
+}
+/* Graceful fallback: if viewport is very narrow, allow horizontal scroll
+   so the diagram remains legible rather than squished. */
+.flow-svg-wrap {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+@media (max-width: 900px) {
+  .flow-svg { min-width: 1100px !important; }
+}
 </style>
 </head>
 
