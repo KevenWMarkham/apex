@@ -4253,6 +4253,113 @@ body.light .fnm-inner {
 @media (max-width: 900px) {
   .flow-svg { min-width: 1100px !important; }
 }
+/* arch-box-modal-v1 */
+/* Make every rect in the overview SVG visibly clickable. */
+svg.flow-svg rect[data-arch-box] { cursor: pointer; transition: filter .15s ease, stroke-width .15s ease; }
+svg.flow-svg rect[data-arch-box]:hover { filter: brightness(1.25); stroke-width: 2.5; }
+svg.flow-svg .abm-hit { cursor: pointer; fill: transparent; pointer-events: all; }
+svg.flow-svg .abm-hit:hover { fill: rgba(255,255,255,0.03); }
+
+/* Arch-box modal */
+.abm-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.6);
+  opacity: 0; pointer-events: none;
+  transition: opacity .2s ease;
+  z-index: 9998;
+}
+.abm-backdrop.open { opacity: 1; pointer-events: auto; }
+.abm-modal {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -48%) scale(.96);
+  width: min(620px, 92vw);
+  max-height: 82vh;
+  background: var(--bg-1, #0b0b0b);
+  border: 1px solid var(--line, #2a2a2a);
+  border-radius: 10px;
+  box-shadow: 0 24px 80px rgba(0,0,0,.6);
+  opacity: 0; pointer-events: none;
+  transition: transform .22s cubic-bezier(.4,0,.2,1), opacity .2s ease;
+  z-index: 9999;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.abm-modal.open {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1; pointer-events: auto;
+}
+.abm-close {
+  position: absolute; top: 14px; right: 16px;
+  width: 32px; height: 32px;
+  border: 1px solid color-mix(in srgb, var(--ink-3, #8a8a8a) 30%, transparent);
+  background: transparent;
+  color: var(--ink-2, #b4b4b4);
+  border-radius: 50%;
+  font-size: 18px; line-height: 1;
+  cursor: pointer;
+  z-index: 2;
+  transition: background .15s, color .15s;
+}
+.abm-close:hover { background: color-mix(in srgb, var(--crimson, #D34848) 30%, transparent); color: #fff; }
+.abm-body-wrap { overflow-y: auto; padding: 28px 32px 32px; flex: 1; }
+.abm-panel { display: none; }
+.abm-panel.active { display: block; }
+.abm-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold, #E3B657);
+  margin-bottom: 8px;
+}
+.abm-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 24px; font-weight: 600;
+  color: var(--ink-0, #fff);
+  margin: 0 42px 18px 0;
+  line-height: 1.2;
+}
+.abm-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sky, #6FB9E8);
+  margin: 18px 0 6px;
+}
+.abm-body {
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--ink-1, #e6edf3);
+  margin: 0 0 4px;
+}
+.abm-body strong { color: var(--gold, #E3B657); }
+.abm-body em { color: var(--teal, #44B8A8); font-style: normal; }
+.abm-pills { display: flex; flex-wrap: wrap; gap: 6px 8px; }
+.abm-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 3px 9px;
+  font-size: 11.5px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--bg-3, #1a1a1a) 60%, transparent);
+  border: 1px solid color-mix(in srgb, var(--line, #2a2a2a) 80%, transparent);
+  color: var(--ink-1, #e6edf3);
+}
+.abm-pill em {
+  font-style: normal; color: var(--ink-3, #8a8a8a); font-size: 10.5px;
+}
+.abm-refs { display: flex; flex-wrap: wrap; gap: 4px 8px; }
+.abm-ref {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  color: var(--sky, #6FB9E8);
+  padding: 2px 6px;
+  background: color-mix(in srgb, var(--sky, #6FB9E8) 10%, transparent);
+  border-radius: 3px;
+}
 </style>
 </head>
 
@@ -4445,12 +4552,12 @@ body.light .fnm-inner {
       <path class="flow-arrow gov" d="M 1300 556 L 1300 92"  marker-start="url(#arr-crimson)"/>
 
       <!-- ==================== INGRESS (left column) ==================== -->
-      <rect class="node-rect event" x="80" y="28" width="140" height="44" rx="8"/>
+      <rect class="node-rect event" x="80" y="28" width="140" height="44" rx="8" data-arch-box="ingress-event"/>
       <text x="150" y="48" class="node-sub" text-anchor="middle">EVENT &middot; trigger</text>
       <text x="150" y="64" class="node-label" text-anchor="middle" style="font-size: 12px;">SAP &middot; SCADA &middot; EMR</text>
 
       <!-- Connectors mini-band (between event and bronze) — shows the bridge from non-Azure SORs -->
-      <rect class="node-rect" x="80" y="96" width="140" height="66" rx="6" style="stroke: var(--ink-3); stroke-dasharray: 3 3; fill: color-mix(in srgb, var(--bg-3) 60%, transparent);"/>
+      <rect class="node-rect" x="80" y="96" width="140" height="66" rx="6" style="stroke: var(--ink-3); stroke-dasharray: 3 3; fill: color-mix(in srgb, var(--bg-3) 60%, transparent);" data-arch-box="fabric-connectors"/>
       <text x="150" y="114" class="node-sub" text-anchor="middle" style="fill: var(--ink-2);">CONNECTORS</text>
       <text x="150" y="130" class="node-sub" text-anchor="middle" style="font-size: 9px; letter-spacing: 0.08em;">Mirroring &middot; ADF</text>
       <text x="150" y="143" class="node-sub" text-anchor="middle" style="font-size: 9px; letter-spacing: 0.08em;">Event Hubs &middot; OPC UA</text>
@@ -4462,33 +4569,33 @@ body.light .fnm-inner {
       <path class="flow-arrow data animate" d="M 220 131 L 240 131" marker-end="url(#arr-sky)"/>
 
       <!-- ==================== DATA PLANE (medallion) ==================== -->
-      <rect class="node-rect data" x="240" y="106" width="160" height="50" rx="8"/>
+      <rect class="node-rect data" x="240" y="106" width="160" height="50" rx="8" data-arch-box="bronze"/>
       <text x="320" y="128" class="node-label" text-anchor="middle">Bronze</text>
       <text x="320" y="144" class="node-sub" text-anchor="middle">raw &middot; SOR-fidelity</text>
 
       <path class="flow-arrow data animate" d="M 400 131 L 440 131" marker-end="url(#arr-sky)"/>
 
-      <rect class="node-rect data" x="440" y="106" width="160" height="50" rx="8"/>
+      <rect class="node-rect data" x="440" y="106" width="160" height="50" rx="8" data-arch-box="silver"/>
       <text x="520" y="128" class="node-label" text-anchor="middle">Silver</text>
       <text x="520" y="144" class="node-sub" text-anchor="middle">canonical &middot; PII tokenized</text>
 
       <path class="flow-arrow data animate" d="M 600 131 L 640 131" marker-end="url(#arr-sky)"/>
 
-      <rect class="node-rect data" x="640" y="106" width="160" height="50" rx="8"/>
+      <rect class="node-rect data" x="640" y="106" width="160" height="50" rx="8" data-arch-box="gold"/>
       <text x="720" y="128" class="node-label" text-anchor="middle">Gold</text>
       <text x="720" y="144" class="node-sub" text-anchor="middle">agent-safe views</text>
 
       <!-- Schema band (under Silver + Gold span) -->
-      <rect class="node-rect schema" x="440" y="172" width="360" height="38" rx="8"/>
+      <rect class="node-rect schema" x="440" y="172" width="360" height="38" rx="8" data-arch-box="canonical-schema"/>
       <text x="620" y="189" class="node-label" text-anchor="middle" style="font-size: 12px;">Canonical Schema Layer &mdash; SCML &middot; PatientML &middot; AXLEML &middot; &hellip;</text>
       <text x="620" y="202" class="node-sub" text-anchor="middle">typed entities &middot; classifications &middot; derivations</text>
 
       <!-- ==================== CONTRACT row: Orchestration + MCP ==================== -->
-      <rect class="node-rect orch" x="240" y="236" width="360" height="44" rx="8"/>
+      <rect class="node-rect orch" x="240" y="236" width="360" height="44" rx="8" data-arch-box="orchestration"/>
       <text x="420" y="256" class="node-label" text-anchor="middle" style="font-size: 12px;">Orchestration &middot; 47 archetypes</text>
       <text x="420" y="271" class="node-sub" text-anchor="middle">sequential &middot; parallel &middot; hierarchical &middot; feedback</text>
 
-      <rect class="node-rect mcp" x="640" y="236" width="160" height="44" rx="8"/>
+      <rect class="node-rect mcp" x="640" y="236" width="160" height="44" rx="8" data-arch-box="mcp-tool"/>
       <text x="720" y="255" class="node-label" text-anchor="middle" style="font-size: 12px;">MCP tool</text>
       <text x="720" y="270" class="node-sub" text-anchor="middle">typed &middot; identity-scoped</text>
 
@@ -4502,31 +4609,31 @@ body.light .fnm-inner {
       <path class="flow-arrow exp" d="M 570 280 L 570 304" marker-end="url(#arr-amber)"/>
 
       <!-- ==================== CONTROL PLANE (right column) ==================== -->
-      <rect class="node-rect control" x="1110" y="236" width="170" height="44" rx="8"/>
+      <rect class="node-rect control" x="1110" y="236" width="170" height="44" rx="8" data-arch-box="redis"/>
       <text x="1195" y="255" class="node-label" text-anchor="middle" style="font-size: 12px;">Redis</text>
       <text x="1195" y="270" class="node-sub" text-anchor="middle">session &middot; P/C state</text>
 
-      <rect class="node-rect control" x="1110" y="296" width="170" height="44" rx="8" style="stroke: var(--amber); fill: color-mix(in srgb, var(--amber) 8%, var(--bg-3));"/>
+      <rect class="node-rect control" x="1110" y="296" width="170" height="44" rx="8" style="stroke: var(--amber); fill: color-mix(in srgb, var(--amber) 8%, var(--bg-3));" data-arch-box="ledger"/>
       <text x="1195" y="314" class="node-label" text-anchor="middle" style="font-size: 12px;">LEDGER</text>
       <text x="1195" y="329" class="node-sub" text-anchor="middle" style="fill: var(--amber);">document lineage</text>
 
       <!-- ==================== AUDIT ROW PILL (above agent, gold) ==================== -->
-      <rect class="audit-pill" x="870" y="170" width="220" height="44" rx="22"/>
+      <rect class="audit-pill" x="870" y="170" width="220" height="44" rx="22" data-arch-box="audit-row"/>
       <text x="980" y="190" class="audit-pill-label" text-anchor="middle">AUDIT ROW</text>
       <text x="980" y="205" class="node-sub" text-anchor="middle" style="fill: var(--gold);">decision_id &middot; trace &middot; versions</text>
 
       <!-- ==================== REASONING: Parent agent + children (below) ==================== -->
-      <rect class="node-rect reasoning" x="540" y="304" width="360" height="56" rx="8"/>
+      <rect class="node-rect reasoning" x="540" y="304" width="360" height="56" rx="8" data-arch-box="foundry-agent"/>
       <text x="720" y="324" class="node-label" text-anchor="middle">Foundry Agent &middot; parent</text>
       <text x="720" y="340" class="node-sub" text-anchor="middle">LLM &middot; tools &middot; prompts &middot; manifest</text>
       <text x="720" y="353" class="node-sub" text-anchor="middle" style="fill: var(--teal);">writes audit row</text>
 
       <!-- Children moved to own row below parent — eliminates crossings on the right/left -->
-      <rect class="node-rect reasoning" x="380" y="380" width="160" height="50" rx="6"/>
+      <rect class="node-rect reasoning" x="380" y="380" width="160" height="50" rx="6" data-arch-box="child-a"/>
       <text x="460" y="402" class="node-label" text-anchor="middle" style="font-size: 12px;">Child A</text>
       <text x="460" y="418" class="node-sub" text-anchor="middle">specialist</text>
 
-      <rect class="node-rect reasoning" x="900" y="380" width="160" height="50" rx="6"/>
+      <rect class="node-rect reasoning" x="900" y="380" width="160" height="50" rx="6" data-arch-box="child-b"/>
       <text x="980" y="402" class="node-label" text-anchor="middle" style="font-size: 12px;">Child B</text>
       <text x="980" y="418" class="node-sub" text-anchor="middle">specialist</text>
 
@@ -4560,15 +4667,15 @@ body.light .fnm-inner {
       <text x="790" y="250" class="node-sub" style="fill: var(--gold); font-size: 9px; letter-spacing: 0.1em;">loop &middot; learn</text>
 
       <!-- ==================== EXPERIENCE row ==================== -->
-      <rect class="node-rect service" x="240" y="476" width="340" height="50" rx="8"/>
+      <rect class="node-rect service" x="240" y="476" width="340" height="50" rx="8" data-arch-box="service-catalog"/>
       <text x="410" y="498" class="node-label" text-anchor="middle">Service Catalog</text>
       <text x="410" y="513" class="node-sub" text-anchor="middle">RC-E2E-03 &middot; HLS-E2E-02 &middot; AXLE-CF-01 &middot; TMT-TEL-CC-03</text>
 
-      <rect class="node-rect experience" x="620" y="476" width="260" height="50" rx="8"/>
+      <rect class="node-rect experience" x="620" y="476" width="260" height="50" rx="8" data-arch-box="experience-plane"/>
       <text x="750" y="498" class="node-label" text-anchor="middle">Experience Plane</text>
       <text x="750" y="513" class="node-sub" text-anchor="middle">Copilot &middot; Copilot Studio &middot; Power BI &middot; Teams</text>
 
-      <rect class="node-rect experience" x="920" y="476" width="160" height="50" rx="8" style="stroke: var(--violet); fill: color-mix(in srgb, var(--violet) 8%, var(--bg-3));"/>
+      <rect class="node-rect experience" x="920" y="476" width="160" height="50" rx="8" style="stroke: var(--violet); fill: color-mix(in srgb, var(--violet) 8%, var(--bg-3));" data-arch-box="persona-hitl"/>
       <text x="1000" y="497" class="node-label" text-anchor="middle" style="font-size: 12px;">Persona &middot; HITL</text>
       <text x="1000" y="513" class="node-sub" text-anchor="middle" style="fill: var(--violet);">approve &middot; modify &middot; deny</text>
 
@@ -4587,7 +4694,9 @@ body.light .fnm-inner {
       <text x="660" y="634" class="decision-row-note" text-anchor="middle">
         One decision &rarr; one audit row &rarr; one regulator-answerable question: &ldquo;why did the agent do that?&rdquo;
       </text>
-    </svg>
+    <rect class="abm-hit" data-arch-box="foundation-entra" x="80" y="558" width="605" height="58" rx="10"/>
+<rect class="abm-hit" data-arch-box="foundation-purview" x="685" y="558" width="605" height="58" rx="10"/>
+</svg>
   </div>
 </section>
 
@@ -10152,6 +10261,82 @@ window.FEATURED_CHAINS_BY_ID = {"RC-SUPCHN-01":{"title":"Cold-chain excursion �
         row.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }, 120);
     }
+  });
+})();
+</script>
+<!-- arch-box-modal-v1 -->
+<div id="archBoxModalBackdrop" class="abm-backdrop" onclick="closeArchBoxModal()"></div>
+<div id="archBoxModal" class="abm-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="abmTitle">
+  <button class="abm-close" type="button" onclick="closeArchBoxModal()" aria-label="Close">&times;</button>
+  <div class="abm-body-wrap">
+<section data-arch-panel="ingress-event" class="abm-panel">  <div class="abm-eyebrow">Ingress Plane · §13 SOR Integration</div>  <h3 class="abm-title">Event · Trigger</h3>  <div class="abm-label">What this is</div>  <p class="abm-body">Every APEX decision starts as a change-event in a System of Record: a CDC row in SAP, a SCADA telemetry tick, an EMR update, a Kafka message. This box is the <strong>trigger</strong> — the precipitating signal that a scenario's agent flow must respond to.</p>  <div class="abm-label">What APEX does here</div>  <p class="abm-body">APEX does not own the SORs. It listens. Triggers are captured through Fabric Mirroring (for structured CDC), Event Hubs (for streams), OPC UA (for OT data), or custom iPaaS connectors. No business logic runs at this layer — pure capture.</p>  <div class="abm-label">Key products</div>  <div class="abm-pills"><span class="abm-pill">SAP <em>ERP / S4HANA</em></span><span class="abm-pill">SCADA <em>OT telemetry</em></span><span class="abm-pill">EMR <em>Epic / Cerner / Meditech</em></span><span class="abm-pill">Salesforce <em>CRM</em></span><span class="abm-pill">Kafka <em>streams</em></span></div>  <div class="abm-label">Cross-references</div>  <div class="abm-refs"><span class="abm-ref">§13 SOR Integration Playbook</span><span class="abm-ref">§7 MCP Topology</span></div></section>
+<section data-arch-panel="fabric-connectors" class="abm-panel">  <div class="abm-eyebrow">Integration Plane · §12 Fabric Data</div>  <h3 class="abm-title">Fabric Connectors</h3>  <div class="abm-label">What this is</div>  <p class="abm-body">The bridge between SORs and Bronze. Five canonical integration patterns cover the full SOR landscape: <strong>Mirroring</strong>, <strong>ADF pipelines</strong>, <strong>Event Hubs</strong>, <strong>OPC UA</strong>, <strong>iPaaS / self-hosted runtime</strong>.</p>  <div class="abm-label">What APEX does here</div>  <p class="abm-body">Selects the right pattern per SOR based on latency, fidelity, and compliance requirements. Mirroring for structured CDC (SAP, Salesforce); Event Hubs for high-throughput streams; OPC UA for OT; iPaaS for SaaS APIs.</p>  <div class="abm-label">Key products</div>  <div class="abm-pills"><span class="abm-pill">Fabric Mirroring <em>CDC</em></span><span class="abm-pill">Azure Data Factory <em>batch + orchestration</em></span><span class="abm-pill">Event Hubs <em>streaming</em></span><span class="abm-pill">OPC UA Publisher <em>OT</em></span><span class="abm-pill">Logic Apps / Boomi <em>iPaaS</em></span></div>  <div class="abm-label">Cross-references</div>  <div class="abm-refs"><span class="abm-ref">§12.2 Five Integration Patterns</span><span class="abm-ref">§13 SOR Playbook</span></div></section>
+<section data-arch-panel="bronze" class="abm-panel">  <div class="abm-eyebrow">Data Plane · Medallion L0</div>  <h3 class="abm-title">Bronze · Raw Landing</h3>  <div class="abm-label">What this is</div>  <p class="abm-body">Immutable, schema-on-read, SOR-fidelity raw landing zone. Every event arrives here untransformed. This is the forensic record.</p>  <div class="abm-label">What APEX does here</div>  <p class="abm-body">OneLake-backed Delta lakehouse tables partitioned by event-date + source. No PII scrub yet (that is Silver's job). Retention per domain policy — 7y default, 10y HLS, permanent for legal hold.</p>  <div class="abm-label">Key products</div>  <div class="abm-pills"><span class="abm-pill">OneLake <em>Bronze lakehouse</em></span><span class="abm-pill">Delta Lake <em>ACID storage</em></span><span class="abm-pill">Purview <em>Bronze classification</em></span></div>  <div class="abm-label">Cross-references</div>  <div class="abm-refs"><span class="abm-ref">§12.1 Medallion Pattern</span><span class="abm-ref">§14 Purview Trust</span></div></section>
+<section data-arch-panel="silver" class="abm-panel">  <div class="abm-eyebrow">Data Plane · Medallion L1</div>  <h3 class="abm-title">Silver · Canonical</h3>  <div class="abm-label">What this is</div>  <p class="abm-body">Conformed, tokenized, typed, joinable. The canonical schema layer lives here — SCML, PatientML, AXLEML, CXML, MERML — each a semantic contract.</p>  <div class="abm-label">What APEX does here</div>  <p class="abm-body">Tokenization happens at the Bronze→Silver boundary. PII/PHI never crosses into Silver in raw form. Surrogate keys let agents join and reason without touching identifiers.</p>  <div class="abm-label">Key products</div>  <div class="abm-pills"><span class="abm-pill">OneLake <em>Silver lakehouse</em></span><span class="abm-pill">APEX Tokenizer <em>format-preserving</em></span><span class="abm-pill">Canonical Schemas <em>SCML / PatientML / etc.</em></span></div>  <div class="abm-label">Cross-references</div>  <div class="abm-refs"><span class="abm-ref">§5 Canonical Schema</span><span class="abm-ref">§11.6 Tokenization</span></div></section>
+<section data-arch-panel="gold" class="abm-panel">  <div class="abm-eyebrow">Data Plane · Medallion L2</div>  <h3 class="abm-title">Gold · Agent-Safe Views</h3>  <div class="abm-label">What this is</div>  <p class="abm-body">Agent-safe, classification-aware, identity-scoped, output-signed Direct Lake views. <strong>This is the layer agents actually read.</strong></p>  <div class="abm-label">What APEX does here</div>  <p class="abm-body">Gold views are pre-joined, filtered by classification, served sub-second via Direct Lake. Agents authenticate as themselves — row-level security enforces scope. No agent ever touches Bronze or Silver directly.</p>  <div class="abm-label">Key products</div>  <div class="abm-pills"><span class="abm-pill">OneLake <em>Gold lakehouse</em></span><span class="abm-pill">Direct Lake <em>sub-second serving</em></span><span class="abm-pill">Power BI <em>semantic model</em></span></div>  <div class="abm-label">Cross-references</div>  <div class="abm-refs"><span class="abm-ref">§12.3 Direct Lake</span><span class="abm-ref">§16 Service Catalog</span></div></section>
+<section data-arch-panel="canonical-schema" class="abm-panel">  <div class="abm-eyebrow">Schema Plane · §5 Canonical Schema</div>  <h3 class="abm-title">Canonical Schema Layer</h3>  <div class="abm-label">What this is</div>  <p class="abm-body">The semantic contract that makes every scenario <em>implementable</em>. SCML for supply chain, PatientML for clinical, AXLEML for manufacturing, and more — each a typed, classification-aware specification of the entities that matter in that industry.</p>  <div class="abm-label">What APEX does here</div>  <p class="abm-body">Every canonical schema carries: typed entities, relationships, classifications (propagated to Purview), business-term bindings (Unified Catalog), and pre-/post-measure derivations. Contracts are enforced in code (Fabric artifacts), in governance (Purview labels), and in agent behavior (MCP tool bindings).</p>  <div class="abm-label">Key products</div>  <div class="abm-pills"><span class="abm-pill">SCML <em>Supply Chain</em></span><span class="abm-pill">PatientML <em>Clinical</em></span><span class="abm-pill">AXLEML <em>Manufacturing</em></span><span class="abm-pill">MERML <em>Merchandising</em></span><span class="abm-pill">CXML <em>Customer</em></span></div>  <div class="abm-label">Cross-references</div>  <div class="abm-refs"><span class="abm-ref">§5 Canonical Schema</span><span class="abm-ref">§1.6 Why Canonical</span><span class="abm-ref">§1.6A Industry Standards</span></div></section>
+<section data-arch-panel="orchestration" class="abm-panel">  <div class="abm-eyebrow">Contract Plane · §10 Orchestration</div>  <h3 class="abm-title">Orchestration · 47 Archetypes</h3>  <div class="abm-label">What this is</div>  <p class="abm-body">The <strong>multi-agent pattern library</strong>. Four primitive patterns (sequential, parallel, hierarchical, feedback) compose into 47 APEX orchestration archetypes spanning every scenario pattern across the 7 Practices.</p>  <div class="abm-label">What APEX does here</div>  <p class="abm-body">Each orchestration is a manifest-declared DAG. Parent Foundry Agent reads the manifest; dispatches child agents; enforces trace-ID discipline; composes the audit row. Semantic Kernel or Copilot Studio underneath.</p>  <div class="abm-label">Key products</div>  <div class="abm-pills"><span class="abm-pill">Azure AI Agent Service <em>runtime</em></span><span class="abm-pill">Semantic Kernel <em>DAG</em></span><span class="abm-pill">APEX Orchestration Manifests <em>declarative</em></span><span class="abm-pill">Copilot Studio <em>low-code</em></span></div>  <div class="abm-label">Cross-references</div>  <div class="abm-refs"><span class="abm-ref">§10.2 Four Primitives</span><span class="abm-ref">§10.3 47 Archetypes</span><span class="abm-ref">§6.11 Orchestrator Types</span></div></section>
+<section data-arch-panel="mcp-tool" class="abm-panel">  <div class="abm-eyebrow">Contract Plane · §7 MCP Topology</div>  <h3 class="abm-title">MCP Tool</h3>  <div class="abm-label">What this is</div>  <p class="abm-body">Model Context Protocol servers expose Gold views as <strong>typed, identity-scoped, classification-aware</strong> tools for agents to call. The contract between agents and data.</p>  <div class="abm-label">What APEX does here</div>  <p class="abm-body">Each MCP tool is a typed Python function registered via the APEX MCP SDK. Every call is audited. Scope is bound to the calling agent's Entra identity. Classification rules gate what the tool can return.</p>  <div class="abm-label">Key products</div>  <div class="abm-pills"><span class="abm-pill">Azure Container Apps <em>MCP hosting</em></span><span class="abm-pill">Azure AI Agent Service <em>tool invocation</em></span><span class="abm-pill">APEX MCP SDK <em>typed contracts</em></span></div>  <div class="abm-label">Cross-references</div>  <div class="abm-refs"><span class="abm-ref">§7 MCP Topology</span><span class="abm-ref">Appendix I MCP Tool Catalog</span></div></section>
+<section data-arch-panel="redis" class="abm-panel">  <div class="abm-eyebrow">Control Plane · §6.13 Parent-Child</div>  <h3 class="abm-title">Redis · Session / P-C State</h3>  <div class="abm-label">What this is</div>  <p class="abm-body">The <strong>control-plane cache</strong> for multi-agent orchestrations. Holds ephemeral session state, parent-child coordination, and kill-switch signals.</p>  <div class="abm-label">What APEX does here</div>  <p class="abm-body">Redis is <em>control plane only</em> — never the data plane. It stores: agent session context, parent-child state handoffs, cancellation tokens, rate-limit counters. No business data lands here.</p>  <div class="abm-label">Key products</div>  <div class="abm-pills"><span class="abm-pill">Azure Cache for Redis <em>Premium tier</em></span><span class="abm-pill">APEX Control Plane SDK <em>typed operations</em></span></div>  <div class="abm-label">Cross-references</div>  <div class="abm-refs"><span class="abm-ref">§6.13 Parent-Child Orchestration</span><span class="abm-ref">§6.13.3 Three Control Primitives</span></div></section>
+<section data-arch-panel="ledger" class="abm-panel">  <div class="abm-eyebrow">Governance Plane · §6.12 File-First Context</div>  <h3 class="abm-title">LEDGER · Document Lineage</h3>  <div class="abm-label">What this is</div>  <p class="abm-body">The file-first context architecture — <strong>beyond knowledge graphs and vectors</strong>. LEDGER holds signed manifests, memory files, identity files (SOUL.md), and the accumulating record of agent competence.</p>  <div class="abm-label">What APEX does here</div>  <p class="abm-body">Every file in LEDGER carries: Purview classification, Entra-gated reads, version pinning, immutability during run. Hardened against ClawHavoc-class attacks on file-first systems.</p>  <div class="abm-label">Key products</div>  <div class="abm-pills"><span class="abm-pill">OneLake <em>signed manifest store</em></span><span class="abm-pill">Purview <em>classification</em></span><span class="abm-pill">Entra <em>read gates</em></span></div>  <div class="abm-label">Cross-references</div>  <div class="abm-refs"><span class="abm-ref">§6.12 File-First Context</span><span class="abm-ref">§6.12.6 OpenClaw Lineage</span><span class="abm-ref">§6.12.7 LEDGER Feedback Loop</span></div></section>
+<section data-arch-panel="audit-row" class="abm-panel">  <div class="abm-eyebrow">Governance Plane · §11 Decision Audit Row</div>  <h3 class="abm-title">Audit Row</h3>  <div class="abm-label">What this is</div>  <p class="abm-body">The 14-field typed audit row — <strong>the unit of regulator-answerable evidence</strong>. Every agent decision writes one. decision_id, trace_id, manifest SHAs, policy SHAs, input/output hashes, cost, safety verdict, HITL status.</p>  <div class="abm-label">What APEX does here</div>  <p class="abm-body">Audit rows land in an append-only store. They bind every decision to: the rules that governed it (three-version rule: manifest + policy + prompt SHAs), the data that fed it (input hash), the outcome (output hash), the human (HITL record).</p>  <div class="abm-label">Key products</div>  <div class="abm-pills"><span class="abm-pill">Delta Lake <em>append-only store</em></span><span class="abm-pill">Purview <em>lineage integration</em></span><span class="abm-pill">Log Analytics <em>query surface</em></span></div>  <div class="abm-label">Cross-references</div>  <div class="abm-refs"><span class="abm-ref">§11 Audit Row</span><span class="abm-ref">§11.6 Trace-ID Discipline</span><span class="abm-ref">§11.7 Three-Version Rule</span><span class="abm-ref">§8.8 Audit Architecture</span></div></section>
+<section data-arch-panel="foundry-agent" class="abm-panel">  <div class="abm-eyebrow">Reasoning Plane · §6 Azure AI Foundry</div>  <h3 class="abm-title">Foundry Agent · Parent</h3>  <div class="abm-label">What this is</div>  <p class="abm-body">The reasoning core. <strong>Every APEX agent runs here.</strong> Azure AI Agent Service composes: LLM + tools + prompts + manifest. The parent orchestrates child agents and writes the parent audit row.</p>  <div class="abm-label">What APEX does here</div>  <p class="abm-body">Parent agent reads the orchestration manifest; decomposes work to child specialists; enforces trace-ID discipline; writes the audit row referencing every child decision. Writes audit row is non-optional — missing audit row = quarantined invocation.</p>  <div class="abm-label">Key products</div>  <div class="abm-pills"><span class="abm-pill">Azure AI Foundry <em>agent platform</em></span><span class="abm-pill">Azure AI Agent Service <em>runtime</em></span><span class="abm-pill">Foundation models <em>GPT-4o / Claude / Llama</em></span><span class="abm-pill">APEX Agent SDK <em>manifest-driven</em></span></div>  <div class="abm-label">Cross-references</div>  <div class="abm-refs"><span class="abm-ref">§6 Foundry</span><span class="abm-ref">§6.3 Foundry-Native</span><span class="abm-ref">§6.10 Audit Row Emission</span></div></section>
+<section data-arch-panel="child-a" class="abm-panel">  <div class="abm-eyebrow">Reasoning Plane · §6.13 Parent-Child</div>  <h3 class="abm-title">Child Agent A · Specialist</h3>  <div class="abm-label">What this is</div>  <p class="abm-body">A specialist sub-agent dispatched by the parent. Narrow tool surface, focused reasoning, writes its own audit row linked back to the parent via trace_id.</p>  <div class="abm-label">What APEX does here</div>  <p class="abm-body">Child agents are manifest-declared specialists — e.g. assess, classify, quantify, extract. Each has its own prompt, tool list, and evaluation harness. Parent composes their outputs into the final decision.</p>  <div class="abm-label">Key products</div>  <div class="abm-pills"><span class="abm-pill">Semantic Kernel Agent <em>child runtime</em></span><span class="abm-pill">MCP tools <em>narrow surface</em></span><span class="abm-pill">LEDGER <em>audit trail</em></span></div>  <div class="abm-label">Cross-references</div>  <div class="abm-refs"><span class="abm-ref">§6.13 Parent-Child</span><span class="abm-ref">§10.3 Hierarchical Archetype</span></div></section>
+<section data-arch-panel="child-b" class="abm-panel">  <div class="abm-eyebrow">Reasoning Plane · §6.13 Parent-Child</div>  <h3 class="abm-title">Child Agent B · Specialist</h3>  <div class="abm-label">What this is</div>  <p class="abm-body">Second specialist child. Same shape as Child A but different specialty — decomposition is scenario-specific.</p>  <div class="abm-label">What APEX does here</div>  <p class="abm-body">Parent fans out to multiple children in parallel or sequentially. Each child's output becomes input to the parent's composite decision. All audit-rowed via shared trace_id.</p>  <div class="abm-label">Key products</div>  <div class="abm-pills"><span class="abm-pill">Semantic Kernel Agent <em>child runtime</em></span><span class="abm-pill">MCP tools <em>narrow surface</em></span></div>  <div class="abm-label">Cross-references</div>  <div class="abm-refs"><span class="abm-ref">§6.13 Parent-Child</span><span class="abm-ref">§10.3 Hierarchical Archetype</span></div></section>
+<section data-arch-panel="service-catalog" class="abm-panel">  <div class="abm-eyebrow">Experience Plane · §16 Service Catalog</div>  <h3 class="abm-title">Service Catalog</h3>  <div class="abm-label">What this is</div>  <p class="abm-body">The <strong>productized + priced</strong> bundling of agents, orchestrations, and outcomes into sellable services. E.g. RC-E2E-03 (Assortment & Pricing), HLS-E2E-02 (Clinical Decision Support), AXLE-CF-01 (Connected Factory).</p>  <div class="abm-label">What APEX does here</div>  <p class="abm-body">Each service is a named bundle with a commercial envelope, KPI attribution, delivery team composition, and a pricing model. Services are how clients consume APEX — not individual agents.</p>  <div class="abm-label">Key products</div>  <div class="abm-pills"><span class="abm-pill">Service manifests <em>declarative</em></span><span class="abm-pill">Commercial envelope contracts <em>Wave-sized</em></span><span class="abm-pill">KPI attribution pipeline <em>outcome-linked</em></span></div>  <div class="abm-label">Cross-references</div>  <div class="abm-refs"><span class="abm-ref">§16 Service Catalog</span><span class="abm-ref">§15 Per-Practice Services</span><span class="abm-ref">§22B Value-Delivery Chain</span></div></section>
+<section data-arch-panel="experience-plane" class="abm-panel">  <div class="abm-eyebrow">Experience Plane · §7 Copilot + Teams</div>  <h3 class="abm-title">Experience Plane</h3>  <div class="abm-label">What this is</div>  <p class="abm-body">Where humans meet agents. Copilot (M365 + custom), Copilot Studio (low-code flows), Power BI (dashboards + Q&A), Teams (notifications + HITL cards).</p>  <div class="abm-label">What APEX does here</div>  <p class="abm-body">Each experience surface is a thin client over the reasoning plane. Copilot reads agent responses; Copilot Studio orchestrates flows; Power BI visualizes KPIs from the audit row; Teams carries Adaptive Cards for approvals.</p>  <div class="abm-label">Key products</div>  <div class="abm-pills"><span class="abm-pill">Microsoft Copilot <em>M365 + custom</em></span><span class="abm-pill">Copilot Studio <em>low-code flows</em></span><span class="abm-pill">Power BI <em>dashboards</em></span><span class="abm-pill">Microsoft Teams <em>Adaptive Cards</em></span></div>  <div class="abm-label">Cross-references</div>  <div class="abm-refs"><span class="abm-ref">§7 Copilot</span><span class="abm-ref">§7.5 Copilot Studio</span><span class="abm-ref">§9.3 Teams Card Integration</span></div></section>
+<section data-arch-panel="persona-hitl" class="abm-panel">  <div class="abm-eyebrow">Experience Plane · §9 HITL Gates</div>  <h3 class="abm-title">Persona · HITL</h3>  <div class="abm-label">What this is</div>  <p class="abm-body">The <strong>human-in-the-loop gate</strong>. Approve / Modify / Deny. Every irreversible decision flows through a typed persona with the right role, training, and accountability.</p>  <div class="abm-label">What APEX does here</div>  <p class="abm-body">The Teams Adaptive Card presents: decision candidate, full evidence chain, policy verdict, safety verdict. The approver commits one of {approve, modify, reject, override} with rationale. That commit is appended to the audit row.</p>  <div class="abm-label">Key products</div>  <div class="abm-pills"><span class="abm-pill">Teams Adaptive Card <em>UX</em></span><span class="abm-pill">Entra ID <em>approver identity</em></span><span class="abm-pill">LEDGER <em>decision capture</em></span></div>  <div class="abm-label">Cross-references</div>  <div class="abm-refs"><span class="abm-ref">§9 HITL Runtime</span><span class="abm-ref">§9.1 Four Gate Kinds</span><span class="abm-ref">§2.2C Oversight Spectrum</span></div></section>
+<section data-arch-panel="foundation-entra" class="abm-panel">  <div class="abm-eyebrow">Foundation · §8 Entra ID P2</div>  <h3 class="abm-title">Entra · Identity</h3>  <div class="abm-label">What this is</div>  <p class="abm-body">The identity backbone. <strong>Every agent runs under a managed Entra identity.</strong> Agents cannot reach data their identity is not authorized to see. No shared service principals, no API keys.</p>  <div class="abm-label">What APEX does here</div>  <p class="abm-body">Managed Identity for every agent + OBO (On-Behalf-Of) token flow for user context + Conditional Access policies gating tool invocation + Entra groups for scope assignment.</p>  <div class="abm-label">Key products</div>  <div class="abm-pills"><span class="abm-pill">Entra ID P2 <em>managed identities</em></span><span class="abm-pill">OBO flow <em>user-context propagation</em></span><span class="abm-pill">Conditional Access <em>scope enforcement</em></span></div>  <div class="abm-label">Cross-references</div>  <div class="abm-refs"><span class="abm-ref">§8 Entra + Conditional Access</span><span class="abm-ref">§3.1 Identity Plane</span></div></section>
+<section data-arch-panel="foundation-purview" class="abm-panel">  <div class="abm-eyebrow">Foundation · §14 Purview Trust</div>  <h3 class="abm-title">Purview · Trust</h3>  <div class="abm-label">What this is</div>  <p class="abm-body">The governance spine. Sensitivity labels, DLP policies, and end-to-end lineage from Bronze through Audit Row. <strong>Regulators walk Purview, not spreadsheets.</strong></p>  <div class="abm-label">What APEX does here</div>  <p class="abm-body">Classifications declared in canonical schemas propagate automatically — through Fabric, through MCP tools, through agent outputs, into the audit row. DLP applies across every surface. Unified Catalog binds business terms to every field.</p>  <div class="abm-label">Key products</div>  <div class="abm-pills"><span class="abm-pill">Microsoft Purview <em>Trust Plane</em></span><span class="abm-pill">Sensitivity Labels <em>classification</em></span><span class="abm-pill">DLP policies <em>enforcement</em></span><span class="abm-pill">Unified Catalog <em>business glossary</em></span></div>  <div class="abm-label">Cross-references</div>  <div class="abm-refs"><span class="abm-ref">§14 Purview Trust</span><span class="abm-ref">§14.3 Classification Propagation</span><span class="abm-ref">§8.8 Audit Architecture</span></div></section>
+  </div>
+</div>
+
+<script>
+/* arch-box-modal-v1 */
+(function() {
+  'use strict';
+
+  function openArchBoxModal(slug) {
+    const modal = document.getElementById('archBoxModal');
+    const back = document.getElementById('archBoxModalBackdrop');
+    if (!modal) return;
+    // Activate the right panel
+    modal.querySelectorAll('.abm-panel').forEach(function(p) {
+      p.classList.toggle('active', p.getAttribute('data-arch-panel') === slug);
+    });
+    modal.classList.add('open');
+    back.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    // Scroll panel to top
+    const wrap = modal.querySelector('.abm-body-wrap');
+    if (wrap) wrap.scrollTop = 0;
+  }
+
+  function closeArchBoxModal() {
+    const modal = document.getElementById('archBoxModal');
+    const back = document.getElementById('archBoxModalBackdrop');
+    if (!modal) return;
+    modal.classList.remove('open');
+    back.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  window.openArchBoxModal = openArchBoxModal;
+  window.closeArchBoxModal = closeArchBoxModal;
+
+  // Wire clicks on any SVG element with data-arch-box
+  document.addEventListener('click', function(e) {
+    const el = e.target.closest('[data-arch-box]');
+    if (!el) return;
+    const slug = el.getAttribute('data-arch-box');
+    if (slug) openArchBoxModal(slug);
+  });
+
+  // ESC closes
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeArchBoxModal();
   });
 })();
 </script>
