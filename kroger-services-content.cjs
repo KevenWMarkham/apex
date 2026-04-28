@@ -1337,4 +1337,625 @@ The spec is **co-authored with Kroger's GRC team during Wave 1** — not deliver
   ],
 });
 
+// ---- PART IV — THE PURSUIT ----
+
+chapters.push({
+  num: 14, part: 4, title: 'Executive Engagement',
+  objectives: [
+    'Know what each Tier-1 Executive artifact does and when to use it',
+    'Sequence executive engagements through these artifacts',
+    'Rehearse the persona journey for the three target personas',
+    'Recognize the recovery patterns when an executive meeting goes sideways',
+  ],
+  body: `
+Executive engagement is the moment the program becomes real or stays a deck. Everything in Parts I through III — the strategic context, the service framing, the architectural depth — exists to support this moment. The four Tier-1 Executive artifacts are the working tools the seller carries into the room; each is engineered for a specific executive surface, a specific objection class, and a specific kind of commitment. A seller who walks in without these artifacts is improvising; a seller who walks in with them and does not know which one to reach for at which moment is just as exposed.
+
+## 14.1 The Tier-1 Executive set in one frame
+
+Four artifacts make up the Tier-1 Executive set. Sellers should be able to name them, describe what each does in one sentence, and recall which executive room each is built for.
+
+The **One-pager** (RC-E2E-03 Kroger One-pager) is the five-minute artifact. It leads with the basis-point margin claim, anchors on the five margin levers from Chapter 2, sketches the Wave-1 envelope, and lands on a single executive ask. It is the artifact you hand the executive before the meeting and expect them to bring up first. It travels well — folded into a leave-behind, pasted into an email, dropped into a board pre-read packet. Its job is to make the program fit on one page without losing the substance.
+
+The **ROI Case** (RC-E2E-03 Kroger ROI Case) is the interactive Chart.js sensitivity built for live use in the room. It lets the CFO or finance lead toggle the basis-point assumption, the Wave-1 envelope, the time-to-impact horizon, and the category footprint, then watch the resulting NPV and payback recompute in real time. It is the artifact you reach for when the conversation turns to "what does the math actually look like." Slides cannot do what this artifact does; the live interactivity is what converts skepticism faster than any static deck.
+
+The **Personas** (RC-E2E-03 Kroger Personas) are the day-in-the-life artifacts that ground the abstract program in a single named role's reality. Three personas ship in the artifact — the Category Manager, the Pricing Director, the Private-Brand Lead — and each walks the executive through one operational day with and without the program. Use Personas with QA, Operations, or Stores leadership; use them with any executive who has not lived the merchant cycle and needs to see the human texture of what changes.
+
+The **FSMA 204 Compliance Checklist** (RC-E2E-09 FSMA 204 Compliance Checklist) maps the FDA final rule line-by-line to the RC-E2E-09 implementation. Use it when QA, Legal, or Compliance leadership is in the room and the conversation has turned to regulatory gaps. It is the artifact that transforms a vague regulatory anxiety into a defensible, costed, sequenced plan. With the checklist on the table, the conversation moves from "are we exposed" to "what is the closure plan."
+
+## 14.2 The One-pager — when, to whom, what to expect back
+
+The One-pager is the artifact that runs ahead of the meeting. Hand it to the CFO, the Chief Merchant, or the CIO at least 48 hours before the meeting if you can. It is calibrated for a five-minute read in the back of a car — single page, basis-point claim above the fold, the five margin levers as the structural spine, the Wave-1 envelope and the single ask in the bottom third. It is the artifact you expect them to have read before they walk in, and the one you expect them to bring up first.
+
+The substantive content runs along three beats. **Beat one** is the basis-point claim — sized to the prospect's specific category footprint, calibrated to a publicly-defensible industry range, and explicitly attributable to a named decision class (not "AI in general"). Beat two is the five-margin-lever framing from Chapter 2, which positions the claim against the industry-recognized lever set rather than as a vendor-invented framework. Beat three is the Wave-1 envelope (typically $500K to $1.2M for envisioning and foundation, sized to the prospect) and the single executive ask — a Wave-1 go-ahead and a named sponsor.
+
+The expected outcome is signal, not commitment. A CFO who reads the One-pager and brings it up first in the meeting has signaled the basis-point claim has cleared the credibility gate; a CFO who reads it and does not bring it up has signaled either skepticism (in which case the ROI Case is the next artifact) or that the claim did not land (in which case the meeting is at risk and the seller needs to rebuild credibility before pitching anything more). Both signals are useful; the One-pager's diagnostic value is real.
+
+The One-pager is also the artifact most likely to circulate beyond the room. A Chief Merchant who is intrigued may forward it to their CFO or COO peer; a CIO who is bought-in may forward it to their architecture team for technical pre-read. The artifact is built to survive that forwarding intact — the basis-point claim is sourced, the architecture is not implied, the Wave-1 envelope is illustrative, and the single ask is unambiguous. None of that is accidental.
+
+## 14.3 The ROI Case — the interactive sensitivity
+
+The ROI Case is the artifact built for live use in the room. It is a Chart.js-powered interactive that lets a finance lead manipulate the inputs — basis-point uplift, Wave-1 envelope, time-to-impact, category footprint, the discount rate to apply — and watch the NPV and payback recompute as the toggles move. The interactivity is the point. A static ROI table generates the question "what if the inputs change"; the interactive ROI Case answers the question by handing the CFO the toggle and inviting them to ask their own version of the question.
+
+The right moment to bring it up is the moment the CFO challenges the basis-point claim. The challenge will come — it always does — and the response should not be to argue the number but to invite the challenger to test the math themselves. *"Let's drop the basis-point assumption to half what we've claimed and see what the case still looks like."* The Chart.js sensitivity recomputes; the NPV is still positive; the payback is still defensible; the conversation has just been reframed from "is your number right" to "even at half your number, the case clears." That is the move the artifact is built to enable.
+
+Pre-stage the ROI Case before the meeting. Open it on the laptop you bring; pre-tune the inputs to the prospect's actual category footprint; rehearse the toggles you expect to demonstrate. The worst version of this is the seller who fumbles for the artifact mid-meeting and cannot find the right page; the best version is the seller who turns the laptop, scrolls to the sensitivity section, and hands control to the finance lead with a single sentence — *"toggle the assumptions and see where the case breaks."*
+
+The ROI Case also serves as the asynchronous follow-up artifact. After the meeting, the link goes out with the recap email; the CFO's finance team works through it on their own schedule; the next meeting opens with the toggles they ran. The interactivity compounds across the engagement — the more the finance team interrogates the case, the more they internalize the structure, and the more the conversation moves from "do we believe the math" to "how do we sequence the wave."
+
+## 14.4 The Persona journey artifact — Food Safety Lead day-in-the-life
+
+The Personas artifact takes a single Kroger persona and walks them through one operational day, with and without the program. Three personas ship — Category Manager, Pricing Director, Private-Brand Lead — and the Food Safety Lead is a strong default for the FSMA 204 conversation when QA leadership is in the room. The artifact does what slides cannot: it grounds the abstract program in the concrete texture of one named role's reality, decision by decision, hour by hour.
+
+The Food Safety Lead day-in-the-life walks the QA executive through a recall scenario from the perspective of a single operations professional whose job depends on getting it right. The morning starts with an FDA Class II recall notification; without the program, the Food Safety Lead spends the next four hours coordinating across stores, suppliers, and corporate teams to scope the impact, with the regulatory clock ticking. With the program, the recall agent has scoped the exposure inside ten minutes, queued the customer notifications, posted the regulatory hold, and drafted the FDA evidence package — the Food Safety Lead's role shifts from manual coordination to oversight and judgment, which is what their training and experience were actually meant for.
+
+Use the Personas artifact in three contexts. **First**, with operators who have lived the work and need to see the program in operator language; the abstract architecture lands when grounded in a named role's decisions. **Second**, with executives who have not lived the work and need to see the human texture of what changes; the day-in-the-life format is more legible to a CEO or board member than an architecture diagram. **Third**, as a recovery artifact when an operator pushes back on practicality — the Personas day-in-the-life is the answer to "this won't work on the floor."
+
+The artifact also sets up Chapter 18. The Kroger Store 412 narrative is the longer, more elaborated version of the same operator-grounded approach, scaled to a full shift with eight events. The Personas artifact prepares the room for that conversation; the Store 412 narrative closes it.
+
+## 14.5 The FSMA 204 Compliance Checklist — when QA leadership is in the room
+
+The FSMA 204 Compliance Checklist is the artifact for the QA, Legal, or Compliance executive. It maps the FDA final rule — every Critical Tracking Event, every Key Data Element, every retention obligation, every format requirement — line by line to the RC-E2E-09 implementation, with a status column showing where each line is closed by design, closed by configuration, closed by integration, or open and requiring discovery.
+
+The checklist works because it inverts the typical conversation. Most regulatory pitches start with the vendor's capabilities and ask the QA team to map them back to the rule; the checklist starts with the rule and shows how the implementation maps forward to it. The QA executive does not have to translate vendor language into regulator language; the translation is already done. The conversation moves immediately to "where are the gaps in our specific posture" — which is the conversation the QA team has been wanting to have with someone who can actually close the gaps.
+
+Bring it up the moment the conversation turns to compliance. The right opening is not a pitch but a pause: *"Here's the FDA rule, line by line, against what the implementation closes. Walk through the open lines with us — those are the discovery items."* The discipline is to let the checklist do the work; the seller's job is to listen for which lines the QA team is most concerned about, which lines they have already started addressing internally, and which lines they have not yet realized are exposing them.
+
+The checklist also lands hard with the General Counsel because it converts a vague regulatory anxiety into a defensible, costed, line-item closure plan. A General Counsel who can hand the audit committee a document showing every FSMA 204 line and its closure status has a different conversation than a General Counsel who can only say "we're working on it." The checklist is the artifact that produces that document.
+
+## 14.6 The sequencing playbook (one-pager → ROI → personas → checklist)
+
+The natural sequence of executive engagement runs through the four artifacts in a predictable order. Knowing the order is what lets the seller flex it.
+
+**Pre-read the One-pager** before the meeting. Send it 48 hours ahead if you can; carry physical copies into the meeting in case the executive has not seen it. **Walk through the One-pager in the meeting** as the opening five minutes — basis-point claim, five-lever framing, Wave-1 envelope, single ask. The One-pager sets the frame.
+
+**Pivot to the ROI Case** the moment the CFO or finance lead challenges the math. This pivot is the most predictable transition in the playbook; the challenge will come, and the artifact is engineered to absorb it. Hand the toggle to the challenger; let the math tell the story.
+
+**Ground in the Persona journey** the moment the operator pushes back on practicality. The pushback usually sounds like *"this won't work in stores"* or *"merchants don't have time for another tool"* — both of which are answered by walking the named-role day-in-the-life and showing where the program returns time rather than consuming it.
+
+**Close with the FSMA 204 Checklist** if compliance is in the air or in the room. The checklist is the artifact that lets QA, Legal, or Compliance leadership leave the meeting with a costed, line-item closure plan rather than another vague regulatory anxiety.
+
+The sequence is not rigid. A meeting with the Chief Compliance Officer alone may run the checklist first and the One-pager last; a meeting with the CFO alone may never need the Persona artifact at all. But the natural order — frame, math, ground, defend — is the order most executive conversations want to take, and a seller who knows the order can flex it intentionally rather than improvise their way through.
+
+## 14.7 What to do when the meeting goes sideways
+
+Every executive meeting has a moment where it could go sideways. The recovery patterns below are the moves that turn the wobble into the next artifact rather than the end of the conversation.
+
+1. **The CFO challenges the bps claim.** The challenge usually arrives in the form *"I don't believe a 150 bps uplift is achievable in 12 months."* Drop to the ROI Case immediately. Open the laptop, scroll to the sensitivity, hand the toggle to the CFO. *"Let's see what the case looks like at 80 bps. At 50 bps. Where does it break?"* The math tells the story; the seller does not have to argue.
+
+2. **The operator says "this won't work in stores."** The pushback is rarely about the technology; it is about the operator's lived experience of failed past programs that promised time savings and produced extra clicks. Pivot to the Persona journey. *"Let me walk you through one day for a Category Manager — same role, same week, with and without the program."* The named-role day-in-the-life lands because it grounds the abstract in concrete decisions an operator can recognize.
+
+3. **The compliance officer raises a regulatory concern.** The concern usually arrives as *"I am not sure we are ready for FSMA 204."* Pull the FSMA 204 Compliance Checklist. *"Let me show you the rule, line by line, against what the implementation closes."* The checklist converts the anxiety into a costed closure plan; the CCO's posture shifts from defensive to action-oriented.
+
+The worst recovery move is to argue. Arguing the basis-point claim cedes the conversational ground to the CFO's skepticism; arguing the practicality concern reinforces the operator's prior; arguing the regulatory concern signals the program does not have a defensible answer. The discipline is to pivot to the artifact that addresses the objection — and the artifact is always available because the Tier-1 Executive set is engineered for exactly these moments.
+
+The other lesson is that the recovery patterns are predictable. The CFO will challenge the math; the operator will challenge the practicality; the CCO will challenge the regulatory readiness. None of these challenges are surprising; all of them are anticipated; all of them have an artifact engineered to absorb them. A seller who has rehearsed the recovery patterns walks into every meeting with the moves pre-staged and the artifacts ready.
+
+> **Companion Artifacts**
+> - [One-pager](Services/RC-E2E-03_Assortment-and-Pricing/Tier1-Executive/APEX-RC-E2E-03-Kroger-OnePager.html) — the five-minute executive summary
+> - [ROI Case](Services/RC-E2E-03_Assortment-and-Pricing/Tier1-Executive/APEX-RC-E2E-03-Kroger-ROI-Case.html) — the interactive Chart.js sensitivity for live CFO use
+> - [Personas](Services/RC-E2E-03_Assortment-and-Pricing/Tier1-Executive/APEX-RC-E2E-03-Kroger-Personas.html) — Category Manager, Pricing Director, Private-Brand Lead day-in-the-life
+> - [FSMA 204 Compliance Checklist](Services/RC-E2E-09_Product-Tracking/Tier1-Executive/APEX-FSMA-204-Compliance-Checklist.docx) — line-by-line FDA-rule-to-implementation map
+`,
+  summary: [
+    'Four Tier-1 artifacts, each engineered for a specific executive room',
+    'Sequencing playbook is one-pager → ROI → personas → checklist',
+    'Recovery patterns turn objections into the next artifact',
+    'The worst move is to argue — pivot to an artifact instead',
+  ],
+  actions: [
+    'Memorize which artifact addresses which objection class',
+    'Rehearse one Persona day-in-the-life cold for your next meeting',
+    'Pre-stage the ROI Case for live use; rehearse the toggles you will demonstrate',
+  ],
+});
+
+chapters.push({
+  num: 15, part: 4, title: 'The Pitch — Walking the 16-Slide Deck',
+  objectives: [
+    'Know the 16-slide structure of the Kroger pitch end-to-end',
+    'Identify the three slides that close the meeting',
+    'Rehearse the transitions between slides so the flow lands',
+    'Apply audience-specific skip patterns',
+  ],
+  body: `
+The pitch deck is the artifact that turns an executive meeting into a Wave-1 commitment. Sixteen slides, thirty minutes, three closing slides that do most of the closing work. The deck is engineered as a flow, not a slide collection — every transition is rehearsed, every closing slide does a specific job, and the audience-specific skip patterns let the seller flex the deck without losing structure. A seller who walks the deck cold misses the design; a seller who walks it well lands a Wave-1 commitment in thirty minutes.
+
+## 15.1 The 16-slide structure overview
+
+The deck splits into five movements: strategic context (slides 1-3), the two anchor services (slides 4-7), the architecture (slides 8-10), the commercial envelope and risk (slides 11-13), and the close (slides 14-16). The pacing is designed for thirty minutes of facilitated walk plus fifteen minutes of executive conversation; sellers who try to walk all sixteen slides in fifteen minutes end up reading slides instead of having a conversation.
+
+| # | Title | Purpose | Time on slide |
+|---|---|---|---|
+| 1 | Cover + the question | Open with the question the program answers; set the executive frame | 1 min |
+| 2 | The strategic context | The post-Albertsons window, the margin pressure, the open door for the program | 2 min |
+| 3 | The five margin levers | The industry-recognized lever set; positions the claim against the framework | 2 min |
+| 4 | RC-E2E-03 framing | What the assortment & pricing service is, in one sentence and one diagram | 2 min |
+| 5 | The six agents | The decision-class-shaped agent fleet; one slide for the table | 2 min |
+| 6 | RC-E2E-09 + FSMA 204 timing | The traceability anchor and the regulatory clock | 2 min |
+| 7 | Why co-anchored | The shared substrate, the lower marginal cost, the combined stakeholder coverage | 2 min |
+| 8 | Five-plane architecture | SOR, Fabric, Foundry, MCP, Purview — the architectural backbone | 3 min |
+| 9 | Coexistence with 84.51° and Ocado | The boundary-respecting story that survives CIO review | 2 min |
+| 10 | The audit-row spine | The defensibility property that closes the General Counsel | 2 min |
+| 11 | Wave 1 / 2 / 3 envelopes | The commercial framing that lets the executive say yes to a small commitment | 2 min |
+| 12 | Top-five risks | The risks named, the mitigations costed, the owners identified | 2 min |
+| 13 | Independence and procurement | The two-contract structure (Microsoft for platform, Deloitte for services) | 1 min |
+| 14 | The ask | Wave-1 envisioning go-ahead and a named sponsor | 2 min |
+| 15 | Next-step calendar | Discovery sessions, workshops, SOW timeline | 2 min |
+| 16 | Sponsor-ladder | Named decision-makers across CFO/CIO/CMO/QA — the coverage map | 1 min |
+
+Total: ~30 minutes of walk. The remaining fifteen minutes of the typical executive slot is conversation, recovery, and the close. The pacing is not arbitrary; it is what fits a forty-five-minute executive meeting without compressing the closing slides.
+
+## 15.2 Slides 1-3: setting the strategic context
+
+**Slide 1 — Cover + the question.** The cover is not just branding; it is the question the program answers, written above the brand mark. *"Where do the next 200 basis points of operating margin come from at Kroger?"* That question, positioned where the executive sees it before any other content, frames the entire meeting as an answer to a question they are already asking. Spend one minute. Read the question aloud; pause; let it land; move on.
+
+**Slide 2 — The strategic context.** The post-Albertsons window, the elevated investor pressure on organic margin, the constrained M&A optionality. Two minutes. The seller's job is to ground the meeting in Kroger-specific strategic reality, not generic retail commentary. The executive should hear the slide and recognize their own boardroom conversations in it.
+
+**Slide 3 — The five margin levers.** Assortment & pricing, shrink, labor productivity, retail media, fresh-defect rate. Two minutes. Position the program against the industry-recognized framework rather than a vendor-invented one; this is what gives the basis-point claim credibility before the claim itself lands. Expect the executive to nod through this slide; they have lived these levers for years.
+
+The transition out of slide 3 is the structural one of the deck. *"Of these five levers, the program is most differentiated on two — assortment and pricing, and traceability. Let me walk you through both."* That transition opens the second movement.
+
+## 15.3 Slides 4-7: the two anchor services
+
+**Slide 4 — RC-E2E-03 framing.** The one-sentence framing from Chapter 4: assortment & pricing intelligence as the merchant-decision orchestration layer on top of 84.51° features and operational data, surfaced through Copilot, governed by audit-row discipline. Two minutes. Pair the sentence with one architecture diagram showing the data flow; do not deep-dive the architecture yet, that comes in slides 8-10.
+
+**Slide 5 — The six agents.** The agent table from Chapter 5: Margin-Exposure, Elasticity, Counter-Move, Promo-Participation, Substitution-Pattern, Composer. Two minutes. The decision-class-first naming is what makes this slide land; the executive sees that the agents are organized around their merchant team's actual decision boundaries, not around vendor-defined product categories.
+
+**Slide 6 — RC-E2E-09 + FSMA 204 timing.** The traceability anchor and the January 2026 enforcement clock. Two minutes. Pair the service description with the regulatory timeline; the timing pressure is the door-opener for the QA, Legal, and Operations conversation, and the slide should make the timing concrete.
+
+**Slide 7 — Why co-anchored.** The shared substrate (Bronze→Silver SOR, Fabric semantic model, Foundry agent fleet, Purview governance) and the structural reason the second anchor is 30-50% cheaper at Wave-1 than a standalone build. Two minutes. This slide is also where the combined stakeholder coverage story lands — RC-E2E-03 covers Merchant/CFO, RC-E2E-09 covers QA/Legal/COO, together they cover every margin-relevant executive at Kroger.
+
+## 15.4 Slides 8-10: the architecture
+
+**Slide 8 — The five-plane architecture.** The architectural backbone — SOR, Fabric, Foundry, MCP, Purview — with one diagram showing all five planes and the data flow between them. Three minutes. This is the slide a CIO will scrutinize hardest; it is also the slide that makes the rest of the deck defensible. Do not skim it; walk each plane briefly and let the CIO's attention focus where it focuses.
+
+**Slide 9 — Coexistence with 84.51° and Ocado.** The boundary-respecting architecture story from Chapter 3. 84.51° as the upstream feature owner on GCP, read via shortcut; Ocado as the closed CFC envelope, agents on the store side of the seam; Microsoft as the decision-orchestration and experience plane. Two minutes. This slide is what takes the displacement anti-pattern off the table before it becomes an objection.
+
+**Slide 10 — The audit-row spine.** The defensibility property that closes the General Counsel — every recommendation traceable through model version, inputs, prompt fingerprint, decision, override, and realized financial impact. Two minutes. This slide is the bridge from the architecture to the commercial conversation; the audit-row discipline is what makes the basis-point claims defensible in audit, which is what makes the Wave-1 envelope worth funding.
+
+## 15.5 Slides 11-13: the commercial envelope and risk
+
+**Slide 11 — Wave 1 / 2 / 3 envelopes.** The illustrative envelopes from Chapter 5 — Wave 1 at $500K-$1.2M for envisioning and foundation, Wave 2 at $4M-$8M for production deployment, Wave 3 at $10M-$25M for banner extension and cross-anchor expansion. Two minutes. The Wave-1 envelope is the focus; the larger waves are visible behind it but are not the commitment being asked for in the meeting.
+
+**Slide 12 — Top-five risks.** The risk table from Chapter 16 — Independence pre-clearance, 84.51° governance gate, CFO basis-point credibility, Ocado-seam confusion, Microsoft account-team alignment. Each named, each costed for mitigation, each with a named owner. Two minutes. Naming the risks before the executive does is itself a credibility move; sellers who duck the risks lose the meeting at slide 12.
+
+**Slide 13 — Independence and procurement.** The two-contract structure: Kroger's contract with Microsoft for the platform, Kroger's separate contract with Deloitte for the services. One minute. This is the slide that aligns the procurement conversation upfront and prevents the late-stage surprise where procurement asks "wait, is this a single vendor commitment" and the deal slips into a longer sourcing cycle.
+
+## 15.6 Slides 14-16: the close (asks, next steps, sponsorship)
+
+**Slide 14 — The ask.** The explicit Wave-1 envisioning go-ahead and a named sponsor. Two minutes. The ask is unambiguous: *"We are asking for a Wave-1 envisioning commitment in the $500K-$1.2M range, sized to the specific category footprint we identify in discovery, with a named executive sponsor who can clear the Independence pre-clearance gate this quarter."* The seller's job on this slide is to read the ask aloud and then stop talking.
+
+**Slide 15 — Next-step calendar.** The discovery-to-SOW calendar with concrete dates. Discovery sessions in week 1-2; architecture and stakeholder workshops in week 3-4; SOW draft in week 5; signed SOW in week 6-8. Two minutes. The calendar makes the ask concrete; an executive who agrees to the ask is also agreeing to a sequence of meetings on a defined timeline.
+
+**Slide 16 — Sponsor-ladder.** The named decision-makers across the executive surface — CFO office, CIO office, Chief Merchant office, COO/Stores office, QA leadership for FSMA 204, 84.51° leadership for governance, Microsoft account team for co-sell. One minute. The ladder is the coverage map; it shows the executive that the program has thought through who needs to know, who can block, and who can sponsor.
+
+## 15.7 The three closing slides — what each must accomplish
+
+The three closing slides are the slides that do most of the closing work. Each has a specific job; missing the job on any of the three weakens the close.
+
+**Slide 14 lands the ask.** A Wave-1 envisioning commitment in a defensible envelope, with a named sponsor. The close does not happen until the executive agrees to this slide, even informally — a head-nod is sufficient, a verbal "let's do this" is ideal. If the executive sidesteps the ask on slide 14, the close has not landed yet, and slides 15 and 16 will not save it.
+
+**Slide 15 lands the calendar.** Concrete dates for discovery, workshops, and SOW. The calendar converts the verbal commitment into a scheduled commitment; an executive who agrees to slide 14 but pushes back on the calendar in slide 15 has not actually committed, and the seller's job is to surface that gap immediately.
+
+**Slide 16 lands the sponsorship map.** The coverage of executive decision-makers across the program's surface. This slide closes the meeting because it shows the executive that the program is not asking for their commitment alone; it is asking for their commitment as one node in a coordinated sponsorship structure that makes their Yes a defensible Yes.
+
+The meeting closes when all three are accepted, even informally. A nodded Yes on slide 14, an agreed calendar on slide 15, and a confirmed sponsorship map on slide 16 is a closed meeting, regardless of whether a contract is in hand. The contract follows the meeting if the close lands; it does not follow if the close does not land, regardless of how good the rest of the deck was.
+
+## 15.8 Audience-specific skip patterns
+
+The deck flexes for the audience. The skip patterns below are the standard adaptations.
+
+| Audience | Skip slides | Deepen slides | Why |
+|---|---|---|---|
+| **CFO-only audience** | 6 (FSMA 204), 8 (architecture), 9 (coexistence) | 11 (envelopes), 14 (ask) | CFO cares about the math and the commitment; deep architecture is for the CIO meeting |
+| **CIO-only audience** | 11 (envelopes), 12 (risks), 14 (ask) | 8 (architecture), 9 (coexistence), 10 (audit-row) | CIO cares about the architecture and the coexistence story; commercial close happens in a separate meeting |
+| **QA / Compliance audience** | 11 (envelopes), 14 (ask) | 6 (FSMA 204), 13 (procurement and Independence) | QA cares about regulatory readiness and procurement defensibility; commercial close runs through the CFO |
+
+The skip patterns are not about cutting the deck; they are about reallocating time. A CFO meeting that skips slides 6, 8, and 9 has six minutes back to spend on the envelopes, the ROI Case sensitivity, and the sponsor-ladder conversation. A CIO meeting that skips slides 11, 12, and 14 has six minutes back to spend on the architecture deep-dive and the coexistence story. The total time stays at thirty minutes; the depth shifts.
+
+A composite audience (CFO plus CIO, or Chief Merchant plus QA leadership) runs the full deck without skipping. The composite meeting is harder to pace because the depth has to stretch across more domains; sellers should rehearse the composite version explicitly rather than improvise the audience-specific version on the fly.
+
+> **Companion Artifacts**
+> - [Pitch Deck](Services/RC-E2E-03_Assortment-and-Pricing/Tier3-Governance/APEX-RC-E2E-03-Kroger-Pitch-Deck.html) — the canonical 16-slide deck for executive use
+> - [Demo Script & Walkthrough Guide](Services/RC-E2E-03_Assortment-and-Pricing/Tier3-Governance/APEX-RC-E2E-03-Demo-Script-and-Walkthrough-Guide.docx) — the live-walk script that pairs with the deck
+`,
+  summary: [
+    '16 slides, 30 minutes, three closing slides',
+    'Slides 1-3 set the strategic frame; slides 14-16 close the meeting',
+    'The three closes: ask, calendar, sponsorship',
+    'Audience-specific skip patterns let the deck flex without losing structure',
+  ],
+  actions: [
+    'Rehearse the 16-slide flow until each transition lands',
+    'Pre-build your audience-specific skip pattern for the next pitch',
+    'Practice the three closing slides — they do most of the closing work',
+  ],
+});
+
+chapters.push({
+  num: 16, part: 4, title: 'Risk & Stakeholders',
+  objectives: [
+    'Identify the top-five pursuit risks and the mitigation owner for each',
+    'Map the stakeholder tiers (Tier-1 sponsors, Tier-2 influencers, Tier-3 informed)',
+    'Sequence stakeholder engagement through the pursuit',
+    'Establish the risk-mitigation rhythm (weekly cadence, by phase)',
+  ],
+  body: `
+Every Kroger pursuit lives or dies on two things — the risks you anticipate and the stakeholders you sequence. Both are tracked in artifacts, and both decay if not refreshed. This chapter teaches the seller to read the Risk Register and the Stakeholder Map, to recognize the top-five pursuit risks and their mitigation owners, to map the three stakeholder tiers, and to establish the cadence that keeps both artifacts current as the pursuit moves through Wave 1.
+
+## 16.1 The risk register at a glance
+
+The Risk Register artifact enumerates the active risks across six categories — Independence, Architecture, Commercial, Stakeholder, Regulatory, and Delivery — with severity, probability, mitigation owner, and a tracker of mitigation actions and outcomes. The register is a working artifact, not a one-time deliverable; it is updated weekly at the engagement-lead level, reviewed bi-weekly with the Tier-1 sponsor, and refreshed monthly with the Lead Partner. Risks that have been closed move to a closed-risk archive; new risks are added as discovery surfaces them; severity and probability are recalibrated as the pursuit progresses.
+
+The register's structure makes it usable as both a working tool and a leadership artifact. Sellers can read the working tool and see what they should be doing this week to mitigate the highest-severity active risks; partners can read the leadership artifact and see whether the pursuit is operating with discipline. The same document serves both audiences because the structure is consistent. Get familiar with the register early in any pursuit; the register is the artifact that distinguishes a disciplined pursuit from an improvised one.
+
+## 16.2 The top-five pursuit risks
+
+Five risks deserve permanent residency at the top of the register for any Kroger pursuit. Each is high-impact for Kroger specifically, each has a named mitigation owner, and each is the kind of risk that, un-mitigated, kills the pursuit before Wave 1 closes.
+
+1. **Independence pre-clearance.** Deloitte's audit relationship with Kroger (where applicable, and where relevant audit independence rules apply) gates outbound activity. Any conversation that touches Kroger before pre-clearance is a violation of Deloitte's Independence policy and creates serious downstream exposure. Mitigation owner: **Independence Office**. The mitigation pattern is mandatory and procedural — pre-clearance request, status confirmation, documented approval before any outbound communication. The risk is permanent because Independence status can change with audit-engagement transitions.
+
+2. **84.51° governance gate.** Any agent that uses customer data must pass 84.51° data-stewardship review before production deployment. The review is rigorous and the cycle time is non-trivial; pursuits that under-budget the 84.51° engagement timeline lose Wave 1 to Wave 2 slip. Mitigation owner: **Lead Partner with the 84.51° relationship**. The mitigation pattern is early engagement — surface the data-stewardship gate in week 2 of Wave 1, not in month 4 of Wave 2 when production deployment is being planned.
+
+3. **CFO basis-point credibility.** An over-promised basis-point claim kills the program. The CFO's finance team will challenge the math; if the math does not survive challenge, the program loses CFO sponsorship and the rest of the executive surface follows. Mitigation owner: **Engagement Lead + Finance Lead**. The mitigation pattern is rigorous claim discipline — every basis-point claim within published industry range, attributable to a specific decision class, defensible in audit, costed against a credible Wave-1 envelope. Run the credibility test from Chapter 2 before the pitch, not in front of the CFO.
+
+4. **Ocado-seam confusion.** Proposals that imply Ocado integration lose architectural credibility immediately at the CIO level, because the closed-CFC-envelope posture is well known. A single slide that places agents inside the Ocado stack is enough to lose the architecture conversation. Mitigation owner: **Lead Architect**. The mitigation pattern is architectural discipline — every architecture artifact (slide, diagram, runbook) reviewed for CFC-envelope clarity before circulation. The agent fleet lives on the store side of the seam; nothing in the materials should suggest otherwise.
+
+5. **Microsoft account-team alignment.** Pursuits that bypass the Microsoft account team lose air cover. The account team holds the platform-licensing relationship, the Foundry-product relationship, and the co-sell motion that funds executive engagements; bypassing them creates internal Microsoft friction that lands on the program in Wave 2. Mitigation owner: **Co-Sell Lead**. The mitigation pattern is early and continuous coordination — joint account planning, joint executive engagement, joint pursuit reviews. The Microsoft account team is a partner in the pursuit, not an audience for it.
+
+## 16.3 Mitigation ownership
+
+Every risk has a named owner. This is not a documentation convenience; it is the discipline that distinguishes a pursued risk from a noted one. Un-owned risks fester because nobody is responsible for moving them; named-owner risks get worked because the owner is accountable for the mitigation tracker.
+
+The Risk Register's ownership column is the artifact that enforces this discipline. When a risk is added to the register without an owner, the register fails its review and the engagement lead has to resolve the ownership before the next cadence meeting. When an owner leaves the engagement (rotation, role change, departure), the ownership transfers explicitly and the register is updated; the risk does not float without an owner during the transition.
+
+The Lead Partner and the Engagement Lead jointly own the meta-discipline of risk ownership. They review the register weekly to ensure every risk has an owner, the owners are working their mitigations, and the owners are escalating where they are stuck. The discipline holds when leadership takes the meta-discipline seriously; it fails when leadership treats the register as a status report rather than a working tool.
+
+## 16.4 The stakeholder tiering
+
+The Stakeholder Map artifact organizes the prospect's executive surface into three tiers. Each tier has a different role in the pursuit, a different engagement cadence, and a different artifact set.
+
+**Tier-1 sponsors** are the named decision-makers who can fund Wave 1. For a Kroger pursuit, the Tier-1 surface typically includes the CFO office (margin pressure, capital discipline), the Chief Merchant office (assortment and pricing decision velocity), the CIO office (architecture and platform commitment), the Chief Operating Officer for stores (operational productivity), and QA leadership for the FSMA 204 conversation. These are the executives whose Yes funds the program; their engagement is the gating activity for Wave 1.
+
+**Tier-2 influencers** are the leaders who can block or accelerate the program even though they do not directly fund Wave 1. The Tier-2 surface includes 84.51° leadership (data-stewardship gate), the Microsoft account team (platform and co-sell air cover), the Restock and FreshFlex program offices (operational productivity alignment), Legal and Compliance leadership (regulatory and contractual review), and the internal architecture organization (technical due diligence). Tier-2 engagement happens through workshops and architecture reviews; the influencers' input shapes the program design and their endorsement clears the path for Tier-1 commitment.
+
+**Tier-3 informed** are the people who need to know but do not gate the program. Delivery teams, internal IT operations, change management, and communications are the Tier-3 surface. Tier-3 engagement is communication-driven — delivery cadence updates, status reports, change-management briefings — not workshop-driven. The Tier-3 stakeholders are not less important; they are differently engaged because their role is different.
+
+The tiering is not a hierarchy of importance; it is a hierarchy of function. A Tier-3 stakeholder whose role intersects with the program will surface as a Tier-2 influencer in a specific phase; a Tier-2 influencer whose endorsement carries Tier-1 weight in a specific room will engage as a Tier-1 sponsor for that conversation. The tiering is the working pattern, not the static assignment.
+
+## 16.5 Engagement sequencing
+
+The sequence is Tier-1 first. This is the discipline; pursuits that engage Tier-2 before Tier-1 has bought in are the most common cause of pursuit failure.
+
+**Tier-1 sponsor-led discovery** opens the pursuit. The Lead Partner or Engagement Lead engages the Tier-1 sponsor through the Tier-1 Executive artifacts (Chapter 14); the sponsor's commitment to Wave-1 envisioning is the gate that opens Tier-2 engagement. Without sponsor commitment, the Tier-2 workshops are speculative — they consume influencer time without a funded vehicle to act on the inputs, and the influencers learn quickly to deprioritize the conversation.
+
+**Tier-2 workshops** follow the sponsor commitment. Architecture workshops with the internal architecture organization; governance workshops with 84.51° data-stewardship; commercial workshops with the Microsoft account team. Each workshop has a specific output (architecture decisions, data-stewardship pre-clearance, commercial-structure alignment) that feeds the Wave-1 SOW. The workshops are facilitated, not improvised; the engagement lead carries an agenda, a desired output, and a pre-read.
+
+**Tier-3 communication** runs continuously through the program. Delivery cadence updates, status reports, change-management briefings — all on a defined cadence, all attributable to a named communicator, all archived in the program's communications repository. Tier-3 communication is not optional; it is what prevents the surprises that destroy program credibility in Wave 2.
+
+The sequencing failure mode is to pitch at Tier-2 before Tier-1 has committed. The architecture team is intrigued by the technology; the Microsoft account team is excited about the co-sell; the 84.51° team is willing to engage on data stewardship — and none of them can fund Wave 1, so the engagement cycles through Tier-2 conversations indefinitely without converting to a commitment. The discipline is to hold Tier-2 engagement until Tier-1 has committed, even when Tier-2 conversations are easier to schedule.
+
+## 16.6 The risk-mitigation rhythm
+
+Risks decay if not refreshed. The cadence below is the working rhythm that keeps the Risk Register current and the mitigations moving.
+
+**Weekly engagement-lead review.** Every week, the engagement lead reviews the Risk Register with the named mitigation owners. Active risks get a status update; closed risks move to the archive; new risks are surfaced and added; severity and probability are recalibrated against the week's events. The review takes thirty to sixty minutes depending on the active register size; it is non-negotiable. A weekly review that is skipped becomes a monthly review that catches stale information.
+
+**Bi-weekly Tier-1 sponsor review.** Every two weeks, the engagement lead reviews the top risks with the Tier-1 sponsor. This review is shorter (fifteen to thirty minutes) and focused on the top-three to top-five active risks. The sponsor's role is to clear blocks, escalate where escalation is required, and provide the air cover for mitigation actions that need executive sponsorship. The bi-weekly cadence is what keeps the sponsor engaged in the working pursuit rather than only the executive moments.
+
+**Monthly Lead Partner review.** Every month, the engagement lead reviews the full register with the Lead Partner. This review is the quality gate — is the discipline holding, are the owners working their mitigations, are new risks being surfaced as discovery progresses, is the pursuit on track. The monthly cadence is also where the Lead Partner sees the cross-pursuit pattern and can apply lessons from other engagements to this one.
+
+The rhythm is the discipline. A pursuit that runs the weekly, bi-weekly, and monthly reviews on cadence has a Risk Register that reflects reality; a pursuit that skips the cadence has a Risk Register that is theater. The Tier-1 sponsor and the Lead Partner can tell the difference quickly, and the difference shows up in pursuit outcomes.
+
+> **Companion Artifacts**
+> - [Risk Register](Services/RC-E2E-03_Assortment-and-Pricing/Tier3-Governance/APEX-RC-E2E-03-Kroger-Risk-Register.xlsx) — the active risk tracker, weekly cadence
+> - [Stakeholder Map](Services/RC-E2E-03_Assortment-and-Pricing/Tier3-Governance/APEX-RC-E2E-03-Kroger-Stakeholder-Map.xlsx) — the Tier-1/Tier-2/Tier-3 surface and engagement plan
+`,
+  summary: [
+    'Top-five risks: Independence, 84.51° governance, CFO bps credibility, Ocado-seam confusion, MS account-team alignment',
+    'Every risk has a named mitigation owner',
+    'Three stakeholder tiers; sponsor-first sequencing',
+    'Weekly risk-review cadence at engagement-lead level',
+  ],
+  actions: [
+    'Read the Risk Register cold; identify your top three risks for this specific pursuit',
+    'Map your prospect\'s stakeholders into the three tiers before any outbound',
+    'Pre-build your Tier-1 engagement calendar — sponsor first',
+  ],
+});
+
+chapters.push({
+  num: 17, part: 4, title: 'The Demo — Walking RC-E2E-03 Live',
+  objectives: [
+    'Walk the demo storyline end-to-end',
+    'Know the three branch points where the demo can pivot',
+    'Identify the safety nets for technical failures',
+    'Rehearse the recovery patterns',
+  ],
+  body: `
+A great demo lands the program. A bad demo costs the next meeting. The structure here is engineered to maximize the chance of the former — one merchant, one decision, one HITL gate, three branch points where the demo can pivot to the audience's interest, three safety nets in case the technology stumbles, and three post-demo questions that move the conversation from interest to commitment. The discipline is rehearsal; the artifact is a script; the worst version is the demo run cold.
+
+## 17.1 Demo storyline at a glance
+
+The demo is structured around one merchant making one decision through one HITL gate. The merchant is the Category Manager from Chapter 5 — Cassidy, the dairy category manager. The decision is a margin-defense recommendation in private-label dairy; a competitor has moved private-label whole milk down 5% over the weekend, and the Counter-Move Agent has surfaced a recommended response with the Elasticity Agent's impact modeling and the Composer's prioritized merchant queue framing. The HITL gate is the Copilot card where Cassidy approves, modifies, or rejects with reasoning.
+
+The flow runs about twelve minutes when walked cleanly. Two minutes setting the merchant context (who Cassidy is, what her week looks like, what queue she opens on Monday morning). Three minutes walking the agent reasoning chain (the Counter-Move Agent picked up the move from the Sunday-morning pricing feed, the Elasticity Agent modeled three response scenarios, the Composer prioritized the recommendation with confidence band and counterfactual). Three minutes on the Copilot HITL surface (the recommendation card, the rationale expansion, the override-reason taxonomy). Two minutes on the audit-row capture (model version, recommendation, decision, override if any, attribution to Cassidy's identity). Two minutes on the realized-impact loop (how the recommendation's outcome flows back into the model-tuning cycle).
+
+Twelve minutes is the clean walk. The realistic walk is fifteen to twenty minutes because the audience interrupts with questions, and the questions are usually the most valuable part of the demo. The seller's job is to handle the interruptions without losing the storyline; the script is the spine, the questions are the conversation.
+
+## 17.2 The three branch points where pivot is possible
+
+Three moments in the demo allow the seller to pivot the conversation to the audience's specific interest. Knowing the branch points is what lets the seller flex the demo without abandoning the structure.
+
+**Branch 1 — at the data-grounding moment.** The first branch is at the moment the agents reach back into the data plane to ground the recommendation. If the audience is data-curious — a Chief Data Officer, a data-platform leader, an analytics-org executive — the seller can pivot here into the SOR conversation: how the Bronze→Silver layer carries the source data, how the Fabric semantic model exposes it through MCP tools, how the agents query the semantic model through typed contracts rather than raw SQL. The branch ends with the recommendation grounded; the storyline resumes.
+
+**Branch 2 — at the agent-recommendation moment.** The second branch is at the moment the Composer surfaces the prioritized recommendation. If the audience is technically curious — a CTO, an enterprise architect, an AI/ML platform lead — the seller can pivot here into the agent-architecture conversation: the six-agent fleet, the model-routing logic, the maturation path from prompt-engineered through fine-tuned through distilled, the cost-per-decision economics. The branch ends with the recommendation surfaced to Copilot; the storyline resumes.
+
+**Branch 3 — at the HITL-approval moment.** The third branch is at the moment Cassidy makes her HITL decision in Copilot. If the audience is operator-curious — a COO, a Chief Merchant, an operations leadership team — the seller can pivot here into the persona conversation: how the merchant's day changes, how the override-reason taxonomy compounds into the labeled-example asset that feeds Stage-2 fine-tuning, how the audit row attributes the decision to Cassidy's identity in a way that survives finance challenge. The branch ends with the decision captured; the storyline resumes.
+
+The branches do not extend the demo by twelve more minutes each; they extend it by two to four minutes when handled with discipline. The seller's job is to recognize the audience cue, take the branch, hit the branch's substantive point, and return to the storyline. Sellers who take a branch and do not return lose the storyline; sellers who recognize the cue and do not take the branch leave the audience's interest unaddressed. The discipline is in the recognition and the return.
+
+## 17.3 The safety nets
+
+Live demos fail. Network drops, models go slow, Foundry endpoints cold-start, data freshness gaps surface mid-walk. The discipline is to pre-stage the safety nets in order of preference; the seller's job is to know which net to reach for at which failure mode.
+
+1. **Live demo working as expected.** The goal. Connectivity is solid, the model responds in single-digit seconds, the Foundry endpoint is warm, the Copilot card renders cleanly, the audit row writes correctly. When this is the state, the demo carries itself; the seller's job is to narrate and field questions.
+
+2. **Pre-rendered screenshots ready.** The first net. Every step of the demo has a pre-rendered screenshot capturing the expected state — the Counter-Move Agent's pricing-feed input, the Elasticity Agent's impact curves, the Composer's prioritized queue, the Copilot card, the audit-row write. When the live system is sluggish or a tool times out, the seller pivots to the screenshot for that step without breaking the narrative — *"while we're waiting for the system to respond, this is what the agent's output looks like in the production environment."* The screenshot carries the story; the demo continues.
+
+3. **Recorded video fallback.** The second net. A 90-second recorded walkthrough of the full demo flow, captured from a previous clean run, available on the seller's local machine and on a cloud share for redundancy. When the demo environment is fully unavailable — connectivity dropped, the Foundry workspace is down, the Copilot integration is broken — the seller pivots to the video, narrates over it, and preserves the storyline. The video is not the preferred outcome but it is materially better than abandoning the demo; the audience sees the flow even if they do not see it live.
+
+The order matters. Sellers who reach for the video at the first sign of latency over-rotate; the screenshot is the right intermediate step. Sellers who try to recover a fully-failed demo with screenshots over-rotate the other way; if the environment is down, the video is the right call. The discipline is to recognize the failure mode and pick the right net.
+
+## 17.4 What can go wrong
+
+Five common failure modes show up in demos at this level of complexity. Each has a known recovery; the recovery patterns are in the next section.
+
+| Failure mode | Likelihood | Recovery |
+|---|---|---|
+| Network drop | Medium | Pivot to pre-rendered screenshots for the affected steps; if recovery is sustained, pivot to recorded video |
+| Model latency (10+ second response time) | High | Tell the story over the spinner — "the system is reasoning, not stalled" — and continue narrating |
+| Foundry endpoint cold start | Medium | Pre-warm the endpoint 15 minutes before the demo; if cold-start surfaces anyway, narrate what is happening and pivot to screenshots if recovery exceeds 30 seconds |
+| Data freshness gap (recommendation built on stale data) | Low-Medium | Acknowledge the gap explicitly and pivot to the agent-architecture branch — "in production this would be flagged automatically by the freshness SLO" |
+| Persona credibility challenge from the audience | Medium | Invite the challenger into the demo as the persona — "what would you decide here?" — and let them walk the HITL decision |
+
+The likelihood column is illustrative — actual likelihood depends on the demo environment's operational maturity, the audience's technical sophistication, and the network conditions at the venue. Sellers should expect at least one of these failure modes per demo and rehearse the recovery for each.
+
+## 17.5 The recovery patterns
+
+For each failure mode, the recovery is a single move and a single sentence. The discipline is to have the move and the sentence pre-rehearsed, not improvised.
+
+**Network drop.** The move is to pivot to screenshots. The sentence is *"while the connection is recovering, let me show you the same flow from a recent production capture."* The screenshot covers the next step; the seller narrates from the screenshot until connectivity returns.
+
+**Model latency (the model is slow).** The move is to tell the story over the spinner. The sentence is *"the system is reasoning, not stalled — it is composing the recommendation across the upstream agent outputs and the merchant calendar; in production this typically takes 8-12 seconds."* The narration fills the dead air and turns the latency into demonstrable depth rather than a stall.
+
+**Foundry endpoint cold start.** The move is the same as model latency for short delays; for longer delays, pivot to screenshots. The sentence is *"this is a cold-start latency you would not see in production — production endpoints are warm and respond inside 2 seconds — but it gives me a chance to walk through what the agent is composing."*
+
+**Data freshness gap.** The move is to acknowledge it explicitly and pivot to the agent-architecture branch. The sentence is *"the recommendation looks built on slightly stale data — in production the freshness SLO would have flagged this and the agent would have downgraded its confidence accordingly. Let me walk through how the freshness SLO works."* The acknowledgment turns a credibility hit into a credibility win; the seller is showing they understand the failure mode.
+
+**Persona credibility challenge.** The move is to invite the challenger into the demo as the persona. The sentence is *"you have lived this decision more than I have — what would you do here? Let me hand you the HITL surface and let you walk the decision."* The invitation flips the dynamic from defensive to participatory; the challenger becomes a co-narrator rather than an adversary.
+
+The recovery patterns work because they are pre-rehearsed. A seller who is improvising the recovery in front of the audience signals discomfort; a seller who delivers the recovery sentence in a calm, prepared tone signals depth. The audience cannot tell the difference between a planned move and a recovered move when the move is well-rehearsed.
+
+## 17.6 The post-demo question set
+
+The demo is not the close; the post-demo questions are. Three pre-prepared questions move the conversation from interest to commitment. The seller asks them; the audience's answers reveal whether the demo landed and whether the pursuit is moving.
+
+**Question 1: "What would you change about the recommendation?"** The question invites the audience to engage with the agent's reasoning. An audience that engages — *"I would weight the basket-affinity higher"* or *"the counterfactual should account for the upcoming vendor meeting"* — has internalized the agent's role and is positioning themselves as a future user. An audience that demurs — *"hard to say without more context"* — is still in observer mode, and the seller needs another conversation to convert them. Either answer is useful diagnostic information.
+
+**Question 2: "Where in your current process would this gate sit?"** The question grounds the abstract program in the audience's operational reality. A merchant audience will name the specific step in their merchandising review cycle; a CIO audience will name the specific integration point in their existing platform; a CFO audience will name the specific point in the budget-review cadence. The answers reveal both the audience's operational understanding and their seriousness about adoption.
+
+**Question 3: "What would your CFO want to see in the audit row?"** The question moves the conversation to the defensibility property. A merchant audience will reference the model version and the override reasoning; a CIO audience will reference the lineage chain and the classification labels; a CFO audience will reference the realized impact and the model-version reproducibility. The answers tell the seller which executive surface is most engaged and which artifact (the audit-row spec, the lineage walkthrough, the realized-impact dashboard) to bring up in the next conversation.
+
+The three questions are sequenced from most-tactical to most-strategic. Sellers should ask all three; the answers compound. A demo that ends with the audience having answered all three questions is a demo that has converted from presentation to dialogue, which is the prerequisite for the next-meeting commitment.
+
+> **Companion Artifacts**
+> - [Demo Script & Walkthrough Guide](Services/RC-E2E-03_Assortment-and-Pricing/Tier3-Governance/APEX-RC-E2E-03-Demo-Script-and-Walkthrough-Guide.docx) — the canonical demo script and live-walk guide
+> - [Sequence Diagram](Services/RC-E2E-03_Assortment-and-Pricing/Tier2-Build/APEX-RC-E2E-03-Service-Sequence-Diagram.html) — the request-and-response architecture for the agent flow
+`,
+  summary: [
+    'One merchant, one decision, one HITL gate — the demo storyline',
+    'Three branch points let the demo pivot to audience interest',
+    'Three safety nets in order: live, screenshots, video',
+    'Three post-demo questions move the conversation to commitment',
+  ],
+  actions: [
+    'Rehearse the demo cold three times before the first client run',
+    'Pre-stage the safety nets for every demo',
+    'Internalize the three post-demo questions',
+  ],
+});
+
+chapters.push({
+  num: 18, part: 4, title: 'Kroger Store 412 — A Day in the Shift',
+  objectives: [
+    'Experience what an agentic-AI program looks like in production at a Kroger Marketplace store',
+    'Understand the eight events that anchor the narrative',
+    'Recognize how HITL gates surface in operator-grounded language',
+    'See the audit-row discipline expressed in operational terms',
+  ],
+  body: `
+> **Independence Reminder**
+> Store 412, the named operations lead persona, every event in this narrative, and every dollar figure cited are illustrative. This chapter is not a description of any actual Kroger store deployment. The operational events, the financial-impact figures, and the timing details are constructed to illustrate what an agentic-AI program looks like in production at a Kroger Marketplace store; they are not claims about The Kroger Co. Any resemblance to specific actual incidents at specific actual stores is coincidental.
+
+> **Note**
+> Lift this chapter unchanged into client-facing materials. APEX is not named below by design. When presenting this narrative to Kroger executives, frame the work as "Deloitte-delivered agents on Kroger's Microsoft platform." The accelerator name stays internal to Deloitte teams; the chapter body is engineered to be client-clean as written.
+
+## 18.1 The shift at a glance
+
+Marisol Reyes is the Operations Lead at Kroger Marketplace Store 412 in suburban Cincinnati. She has been with Kroger for eleven years — four as a front-end supervisor at a Westside store, three as an assistant manager at a smaller banner format, and the past four leading operations at Store 412 through the Marketplace conversion. She knows the dairy walk-in's compressor by sound, the bakery's lot-code system by memory, and the names of every associate on her shift. The narrative below traces one Tuesday in April, from her 5:50 AM swipe-in through the early afternoon, across eight operational events that show what a fleet of production agents on Kroger's Microsoft platform looks like in the day-to-day reality of a single store.
+
+\`\`\`mermaid
+timeline
+    title Kroger Store 412 — One Shift, Eight Events
+    05:50 : Event 01 Critical<br/>Cold-chain excursion<br/>Dairy walk-in 4 hours
+    07:15 : Event 02 High<br/>Fresh-produce shrink<br/>Bagged salad anomaly
+    08:42 : Event 03 High<br/>ESL desync<br/>Private-brand center-store
+    10:08 : Event 04 Medium<br/>Phantom OOS<br/>22 baby-aisle SKUs
+    11:30 : Event 05 Critical<br/>FDA Class II recall<br/>Infant formula lot
+    12:15 : Event 06 Low<br/>BOPIS substitution<br/>Organic milk
+    13:50 : Event 07 High<br/>Shrink pattern<br/>Register 12 spirits
+    14:45 : Event 08 Critical<br/>Customer incident<br/>Foreign object in muffin
+\`\`\`
+
+One shift. Eight events. Roughly one hour of total manager touch across the eight events. About 5.5 hours of manager time returned against the pre-program baseline. About $22,000 in financial impact protected across cold-chain savings, shrink avoidance, sales protection, recall execution, and customer-incident management.
+
+| Event # | Time | Severity | Orchestration | Domain |
+|---|---|---|---|---|
+| 01 | 5:50 AM | Critical | Cold Chain | Supply Chain / Food Safety |
+| 02 | 7:15 AM | High | Shrink / Fresh | Merchandising / Fresh |
+| 03 | 8:42 AM | High | Price Integrity | Merchandising |
+| 04 | 10:08 AM | Medium | OSA Triage | Merchandising |
+| 05 | 11:30 AM | Critical | Recall | Food Safety / Compliance |
+| 06 | 12:15 PM | Low | Substitution | Customer Experience |
+| 07 | 1:50 PM | High | Shrink Signal | Loss Prevention |
+| 08 | 2:45 PM | Critical | Customer Incident | Quality / Legal |
+
+## 18.2 Event 01 — Cold-chain excursion in the dairy walk-in (5:50 AM, Cold Chain)
+
+**Situation.** Between 1:42 AM and 5:38 AM the dairy walk-in cooler held at 46-49 °F against a 38 °F threshold for refrigerated dairy. The compressor's soft-start contactor failed in the early-morning window when the store was closed and no associate was on the floor; the unit cooled back into compliance about twelve minutes before Marisol's swipe-in. By the time she walked into the office at 5:50 AM, her phone already held a disposition-ready brief on the affected inventory across 34 SKUs and 287 units.
+
+**Agents at work.** A cold-chain telemetry agent had been monitoring the walk-in's temperature stream into the operational data plane continuously through the night. A correlation agent joined the four-hour temperature excursion to the lot-level inventory in the walk-in — gallon and half-gallon milk across three brands, yogurt cups across the private-brand and national-brand portfolio, soft cheese, and prepared dairy desserts. Kroger's published food-safety thresholds by sub-category split the affected inventory into save-viable (sealed, low-pathogen-risk packaging that briefly held above threshold but stayed below the public-health bright line) versus mandatory-destroy (ready-to-consume dairy that crossed the bright line). A quarantine task was queued for the 6:00 AM dairy clerk; case labels were pre-printed at the service desk. A write-off pre-approval with the telemetry chart attached was routed to Marisol's Teams card for a single-tap decision.
+
+**Marisol's HITL decision (6:02 AM).** *"Approve $1,840 targeted write-off on the ready-to-consume items. Save the sealed gallon milk and the unopened yogurt cases — pull them for visual inspection by the dairy clerk before they go back on the shelf. Get the refrigeration vendor on the phone for the compressor service."*
+
+**Outcome.** 73% of the affected inventory saved through the targeted disposition. $4,180 in write-off avoided against a $6,020 total exposure. Doors opened at 6:30 AM with the dairy walk-in re-stocked from the save-viable pool. Time-from-temperature-recovery to disposition-brief: 14 minutes. Manager touch on the decision: 90 seconds. Audit trail: complete, with the four-hour temperature curve, the lot-level inventory at exposure, the per-SKU disposition decision, and Marisol's approval all attributed to a single audit row defensible to the FDA inspector and to the Kroger food-safety team.
+
+**How Deloitte delivered this.** Microsoft Fabric Eventstream and Eventhouse ingested the cold-chain telemetry continuously through the night; agents running on Azure AI Foundry performed the correlation between the temperature excursion and the lot-level inventory, applied the food-safety threshold logic, and composed the disposition brief; Microsoft Teams Copilot rendered the HITL approval card with the telemetry chart in-card; Microsoft Purview classified the inventory-loss evidence chain and stamped the lineage; the audit row attributes the $4,180 saved write-off to this specific decision at this specific store on this specific morning.
+
+## 18.3 Event 02 — Fresh-produce shrink anomaly on bagged salads (7:15 AM, Shrink/Fresh)
+
+**Situation.** At 7:15 AM the agent surfaced an anomaly on the bagged-salad endcap. POS velocity for two specific SKUs (organic spring-mix triple-pack and chopped-romaine kits) had been running 60% below the four-week trailing average for the prior three days. Receiving condition on the most recent two truck deliveries had been logged as marginal — leaf integrity acceptable but warmer-than-spec at the dock. Shelf-life math against the receive date said the affected lots had 48 hours remaining; absent intervention, the projected write-off was about $1,200 across the two SKUs.
+
+**Agents at work.** A fresh-shrink agent had been correlating POS velocity, receiving-condition logs, and lot-level shelf-life math continuously across the produce department. The agent surfaced the bagged-salad anomaly with two recommended response paths — a targeted 25% markdown on the aging lots to clear them at a margin loss but above the destruction-cost threshold, or an immediate pull and donation routing to the food-bank partner that Kroger maintains a standing relationship with. The agent included the per-path math: markdown projected $720 in margin recovered against the $1,200 write-off baseline; donation projected $0 in margin but a tax-treatment offset of about $180 plus the avoided-destruction cost of about $90.
+
+**Marisol's HITL decision (7:21 AM).** *"Markdown twenty-five percent. Print the shelf-talkers, walk the produce manager through it, run the markdown through end-of-day Thursday. If they don't move by 2 PM Thursday, pull and donate."*
+
+**Outcome.** Markdown applied at 7:35 AM; both SKUs cleared by Wednesday afternoon at the markdown price. Realized margin recovery: $680 against the $720 projected, within the agent's confidence band. Write-off avoided. Manager touch: 2 minutes including the produce-manager handoff. Audit trail: complete, with the velocity anomaly, the receiving-condition data, the lot-level shelf-life math, the markdown decision, the realized clearance, and the financial-impact attribution all in a single row.
+
+## 18.4 Event 03 — ESL desync on private-brand center-store (8:42 AM, Price Integrity)
+
+**Situation.** The ESL gateway dropped the overnight pricing push for a slice of center-store private-brand items — the regular price stayed on the shelf labels, but the POS rang a Tuesday-Wednesday promotional price that was lower by 8-15% across the affected items. By the third transaction at 8:38 AM the agent had caught the gap, frozen the further loss at the register, and staged the remediation. Marisol got the alert in her Teams card at 8:42 AM with the loss already contained.
+
+**Agents at work.** A price-integrity agent monitored the POS transaction stream against the active promotional schedule and the ESL gateway state. At 8:36:22 the agent detected a divergence between the rung price and the shelf-displayed price across three transactions on different items in the affected slice; by 8:38:14 the third transaction had triggered the agent's confidence threshold, and the agent suspended the stale shelf-price override at the registers — POS now rang the regular shelf price on those items, eliminating the further margin erosion. A paper-tag print job for the 64 affected SKUs was queued at the service-desk printer to bridge until the ESL gateway recovered. The ESL vendor was ticketed automatically with the gateway log; root cause was traced to a firmware handshake issue after the prior evening's vendor software push.
+
+**Marisol's HITL decision (8:46 AM).** *"Print the tags, walk the center-store aisle with whichever associate is on it, get the ESL vendor on the line. If they can't restore by 11 AM, escalate to the district manager."*
+
+**Outcome.** Loss frozen at three transactions; the further 4-6 hours of margin erosion that would have run before the next manual price audit was prevented. 64 SKUs remediated with paper tags within 35 minutes. ESL gateway restored at 10:50 AM; paper tags pulled and ESL labels re-synced by 11:30 AM. Total margin erosion contained to about $24 across the three transactions. Manager touch: 90 seconds for the decision, plus the standing supervision of the paper-tag walk. Audit trail: complete, including the ESL gateway log, the divergence detection, the agent's automatic suspension of the stale override, and Marisol's remediation decision.
+
+## 18.5 Event 04 — Phantom OOS on 22 high-velocity baby-aisle SKUs (10:08 AM, OSA)
+
+**Situation.** Computer vision from the shelf-edge cameras, four-hour rolling POS velocity, and the perpetual inventory system all agreed: 22 high-velocity SKUs across the baby aisle were showing zero on the shelf while the perpetual-inventory system said 387 units were in the backroom across those SKUs. This is the classic phantom-OOS pattern — backroom stock present, shelf empty, no manager involved in identifying the gap, customers turning away or substituting. The agent caught it on the morning sweep, sorted the pull-list by velocity, and assigned the pick task to the most-available associate without a manager debate.
+
+**Agents at work.** An on-shelf-availability agent fused shelf-camera computer vision (latest sweep at 10:04 AM), POS velocity (four-hour rolling), and perpetual inventory position. Across the baby aisle, the agent confirmed 22 empty facings against 387 backroom units. A planogram lookup generated aisle-by-aisle pick locations sorted by velocity. The pick task was assigned to associate Diego R. — the most-available associate by his current handheld zone, his radio status, and his last-task completion time. Diego's handheld received the prioritized pick list at 10:09 AM.
+
+**Marisol's decision (10:08 AM).** *"Acknowledged."* (No HITL approval required for this routine remediation; the agent's automatic assignment is the operational pattern, the manager sees the alert for awareness only.)
+
+**Outcome.** All 22 facings restocked in 41 minutes. No manager walk; no category-team escalation. Sales protected: about $2,840 across the rest of the day at average baby-aisle velocity. Historically, this class of phantom-OOS event was caught either by store walk (which Marisol does once or twice per shift, at random) or by customer complaint to a clerk (which then escalates to the manager and consumes 20-30 minutes of investigation per event). Manager touch on this event: 5 seconds for the acknowledgment.
+
+## 18.6 Event 05 — FDA Class II infant-formula recall (11:30 AM, Recall)
+
+**Situation.** At 11:28 AM the FDA posted a Class II recall on a specific lot of infant formula across multiple distribution channels nationally. By 11:30 AM the recall agent had resolved the entire FSMA 204 Critical Tracking Event chain for the affected lot at Store 412 — receiving event, transfer event, current shelf and backroom inventory, and 14-day customer-purchase exposure — and Marisol's phone alert finished playing while the disposition-ready brief was already on her screen.
+
+**Agents at work.** Within four minutes of the FDA post, the recall agent ran the lot identifier through the Fabric Eventhouse FSMA 204 traceability records. The agent resolved the upstream lineage — supplier shipment, DC receipt, transfer to Store 412, store receiving event — and the downstream exposure. Exposure quantified: 41 units on shelf at Store 412, 88 units in the backroom, 27 units sold in the prior 14 days (24 attributed to loyalty-customer transactions, 3 to anonymous tender). A pull-from-shelf task was generated for two associates; quarantine bay QB-02 was designated. A bilingual customer notification (English and Spanish, email plus SMS) with prepaid return label and full refund was drafted for the 24 loyalty-attributed customers — held for manager release. A regulatory hold was posted to the POS so any remaining units that scanned at register would block the sale and prompt the cashier to direct the customer to service. The full FSMA 204 evidence package — five Critical Tracking Events with all required Key Data Elements, Traceability Lot Code chain, retention metadata — was assembled and ready for FDA submission within ten minutes of the recall post.
+
+**Marisol's HITL decision (11:38 AM).** *"Release the customer notifications — I'll oversee the floor pull personally. Get me Corporate Communications on the line before the SMS goes; they'll want to coordinate the customer-service script. Tell the QA lead I want a confirmation when the lineage package is in the FDA portal."*
+
+**Outcome.** 129 units pulled from shelf and backroom and quarantined in 18 minutes. 24 loyalty customers reached via the bilingual notification within 45 minutes of the FDA post; 21 of the 24 acknowledged the notification within the same hour. Full FSMA 204 lineage submitted to the FDA portal at 12:45 PM, well inside the 24-hour regulatory window. Benchmark equivalent recall-execution events at a single store historically consumed 4-6 hours of manager and supervisor time just to scope the impact; Marisol's total touch on this event was about 12 minutes including the phone calls. The 27 customer transactions were defensibly traced back to the lot through the loyalty data and the POS basket records; the 3 anonymous-tender transactions were unrecoverable, which the FSMA 204 framework anticipates and accepts.
+
+## 18.7 Event 06 — BOPIS substitution on organic milk (12:15 PM, Customer Experience)
+
+**Situation.** A BOPIS picker hit an empty shelf on a half-gallon organic whole milk SKU for a customer named Rachel whose order pickup was scheduled for 1:00 PM. Thirty-eight seconds later, Rachel had tapped accept on a proposed substitute through the Kroger app. The event illustrates what the autonomous customer-experience class looks like when the agents handle the full loop without surfacing to a manager.
+
+**Agents at work.** The pick exception triggered the substitution agent at 12:15 PM. The agent retrieved Rachel's 18-month substitution acceptance history — she accepts conventional whole milk when organic is unavailable, rejects size upsizes, accepts the in-house Kroger brand when name-brand is unavailable. Three candidate substitutes were ranked by predicted acceptance: the agent's top pick was the Kroger-brand conventional half-gallon whole milk at a $1.20 lower price point, with an SMS notification offering one-tap accept or one-tap reject. Rachel tapped accept at 12:15:38; the picker's handheld received the substitution confirmation; the order line moved to picked status; the price adjustment flowed to the order total automatically.
+
+**No HITL required.** Fully autonomous. The substitution surfaces to the manager only if the customer rejects all proposed candidates, if the substitution exceeds an aging threshold without customer response, or if the substitution involves a class of product where store policy requires human review (alcohol, regulated pharmacy items, certain prepared foods).
+
+**Outcome.** Order fulfilled on the original 1:00 PM pickup slot. Customer experience preserved through the personalized substitution. Manager shield intact — this is the class of event that silently consumes the majority of the floor lead's day in the pre-program operational pattern. Resolution: 38 seconds end-to-end. Manager touch: 0.
+
+## 18.8 Event 07 — Shrink pattern on register 12 — spirits (1:50 PM, Shrink Signal)
+
+**Situation.** A 72-hour pattern tripped the shrink-signal agent's confidence threshold at 1:48 PM. The pattern: register 12, one specific cashier on consecutive shifts (Monday day, Monday evening, Tuesday day), an anomalous void cadence on high-value spirits (4.6× the normal void rate per spirit transaction), no matching return receipts on the voided items, and a downstream inventory variance in spirits that aligned with the void volume. Not an accusation — a structured evidence package with statistical confidence and a recommended escalation path.
+
+**Agents at work.** The shrink-signal agent correlated POS void patterns by register and cashier (4.6× normal rate on spirits transactions), inventory variance for the affected SKU set (spirit inventory short by an amount that closely matched the voided dollar value), associate schedule (3 of 3 consecutive days on register 12), and the absence of matching customer return receipts across the 72-hour window. The agent's confidence band was computed; surfacing to the manager surface was suppressed until the pattern crossed the 3σ threshold (it did at 1:48 PM). The evidence timeline was assembled, including CCTV-frame timestamps that the loss-prevention team would need to pull (the agent does not move CCTV footage; it surfaces the timestamp references). The case was held behind a loss-prevention-only surface; the cashier and the front-end supervisor were not notified directly.
+
+**Marisol's HITL decision (1:54 PM).** *"Escalate to loss prevention with the package. No conversation with the cashier from me — handle this through proper procedure. Confirm to me when LP has acknowledged."*
+
+**Outcome.** Loss-prevention investigation opened with a clean, statistically-grounded evidence package. The associate's due-process protections preserved through the LP-only surface; Marisol stays out of the direct line of inquiry, which protects both the investigation integrity and the associate's right to a properly-conducted process. Pattern statistical confidence: 3.2σ. Evidence rows: 48 (POS void timestamps, inventory variance records, schedule confirmations, CCTV-frame references). Manager touch: 90 seconds for the decision and the LP handoff confirmation.
+
+## 18.9 Event 08 — Customer incident — foreign object in bakery muffin (2:45 PM, Customer Incident)
+
+**Situation.** A customer named Mr. Patel came to the customer-service desk at 2:42 PM with a sealed package of muffins from the in-store bakery, a clear photograph showing a small piece of clear plastic visible inside one of the muffins through the window of the package, and the receipt from his purchase the prior afternoon. The customer-service associate paged Marisol; the agent was already pulling the lot code from the photo by the time Marisol got to the desk.
+
+**Agents at work.** An OCR agent extracted the lot code (B-2451-0421) from Mr. Patel's phone photo and confirmed the lot against the bakery product master. The lot was resolved to a specific overnight bakery production run on April 21 — the affected baking line, the time window, the specific batch of muffin batter. A cross-match against open customer-incident cases at other Kroger Marketplace stores in the central-Ohio region surfaced two prior low-severity complaints on the same lot at two different stores within the prior 36 hours — both had been treated as one-store incidents. With the third complaint, the pattern crossed the agent's threshold for cross-store escalation. A Tier-2 case was opened automatically; QA leadership at the regional level, Legal, and Corporate Communications were notified in parallel at 2:45 PM. The agent recommended a proactive pull of the affected lot at the 12 other stores in the region that received product from the same overnight run, before additional customer complaints landed.
+
+**Marisol's HITL decision (2:51 PM).** *"Full refund to Mr. Patel plus a $50 gift card and a written apology. Preserve his package and the photo as evidence — bag it, label it, log it, give him a receipt for the bag. Get me the regional QA lead on the line — we have to coordinate the cross-store pull tonight before the 12 other stores' overnight bake runs go out."*
+
+**Outcome.** Mr. Patel left the store at 3:05 PM with refund, gift card, written apology, and the receipt for his preserved package. Full case file assembled in 7 minutes — the manual lot-trace and cross-store correlation that this event would have required pre-program would have consumed 45-60 minutes of Marisol's time and would not have caught the cross-store pattern at all (the prior two complaints would have remained one-store incidents). More substantively: pattern detection enabled the proactive pull at 12 other stores starting at 4:00 PM that afternoon, before any of those stores had logged additional customer complaints. What presented as a single-store customer incident converted into a regional-scale quality signal with proactive containment. Legal posture: evidence preserved with chain-of-custody documentation; coordinated regional response on the record.
+
+**How Deloitte delivered this.** The OCR extraction, the lot-master resolution, the cross-store complaint correlation, the proactive-pull recommendation, and the multi-stakeholder notification orchestration all run on the agent fleet that Deloitte delivered onto Kroger's Microsoft platform. The cross-store pattern detection compounds across the network — every store's customer-incident events feed back into the regional pattern recognition, and every recognized pattern triggers proactive containment before customer complaints scale.
+
+## 18.10 Shift summary
+
+| Metric | Value |
+|---|---|
+| Events handled across the shift | 8 |
+| Agent-resolved or decision-prepped | 6 of 8 (2 events fully autonomous, 4 events decision-ready with HITL) |
+| HITL decisions Marisol made | 6 (avg ~95 seconds per decision) |
+| Financial impact protected | ~$22,000 (write-off avoidance, shrink prevention, sales protection, recall containment, customer-incident mitigation) |
+| Manager time returned vs pre-program baseline | ~5.5 hours across the shift |
+| Total manager touch across all 8 events | ~1 hour |
+| Audit-defensible decision rows produced | 8 (one per event, with full lineage) |
+| Regulatory submissions assembled | 1 FSMA 204 lineage package, submitted within 75 minutes of FDA post |
+| Customer-experience events resolved without manager touch | 1 (BOPIS substitution, fully autonomous) |
+| Cross-store quality patterns detected | 1 (bakery foreign-object lot, 12-store proactive pull initiated) |
+
+## 18.11 Why this narrative matters
+
+Marisol's shift is not a pitch deck. It is a concrete illustration of what an agentic-AI program looks like when it is running in production at a Kroger Marketplace store, with the ordinary operational friction of a Tuesday in April handled by a fleet of agents that surface decisions to the operations lead in operator-grounded language, attribute every decision to a defensible audit row, and return the operator's day to the work that only an operator can do.
+
+When a Kroger executive asks what the program actually does at the store level, the answer is in this shift. Eight events of the kind that consume an operations lead's day in the current operational pattern; six of them resolved either fully autonomously or with a single HITL decision averaging 95 seconds; financial impact of about $22,000 protected through a single shift at a single store; about 5.5 hours of manager time returned. Scaled across the Kroger store network and across operating days, the headline labor-capacity recovery and the headline financial-impact protection are both substantial — and both are auditable, attributable, and defensible to the FDA inspector, the corporate finance team, the regional QA lead, and the regional loss-prevention team.
+
+The narrative also shows what changes operationally. Marisol does not lose her judgment, her relationships with the associates, or her standing on the floor; she gets all of those back, because the agents are handling the routine decision triage that previously consumed her morning. The agents do not replace her judgment — they prepare it, ground it in data, and let her exercise it in seconds rather than spending hours assembling the inputs. The audit row makes her decisions defensible in a way the pre-program operational pattern could not: every decision attributed, every input traced, every outcome measurable. That is the substantive shift the program produces.
+
+## 18.12 How to use this narrative in client conversations
+
+The narrative flexes for the audience. Use it whole when the conversation has the room (45+ minutes of executive time and an audience that engages with operational texture); use selected events when the conversation is shorter or when a specific stakeholder cares about a specific event class.
+
+- **With operations executives (COO, VP Stores, VP Operations).** Walk the eight-event day to show real operational texture. The pattern language — cold-chain excursion, ESL desync, phantom OOS, FSMA 204 recall execution, shrink signal, customer incident — resonates with operators who have lived these events through the current operational pattern and recognize the texture immediately.
+
+- **With CFOs.** Anchor the $22,000 single-shift financial-impact protection scaled to the Kroger store count and operating days. The arithmetic is illustrative, but the structure is the point: per-store, per-shift, decision-attributable, audit-defensible. Pair the shift summary table with the ROI Case (Chapter 14) and let the CFO's finance team work through the sensitivity.
+
+- **With CIOs and Chief Digital Officers.** Walk the architecture inside the events — the Microsoft Fabric Eventstream and Eventhouse carrying the cold-chain telemetry, the Foundry agents handling the correlation and disposition, the Teams Copilot rendering the HITL surface, the Purview classification stamping the evidence chain. The five-plane architecture is visible in every event; the architectural conversation lands harder when grounded in the operational moment than when presented as an abstraction.
+
+- **With Chief Compliance Officers and General Counsels.** The FSMA 204 recall execution in Event 05, the loss-prevention due-process preservation in Event 07, and the cross-store pattern detection on the bakery lot in Event 08 all demonstrate regulator-ready and litigation-defensible decision attribution. The audit row is the spine; the General Counsel sees what the litigation-defense posture looks like in the operational moment.
+
+- **With procurement.** The services that produced these outcomes are the services on offer. The commercial structure is two contracts: Kroger's contract with Microsoft for the platform (Fabric, Foundry, Copilot, Purview, identity, networking) and Kroger's separate contract with Deloitte for the services that delivered the agents onto the platform. The two-contract structure is what makes the procurement conversation clean.
+
+- **With QA leadership.** Events 01 (cold-chain), 05 (FSMA 204 recall), and 08 (cross-store quality pattern) are the QA-relevant trio. Walk all three; the operational texture makes the regulatory story more concrete than a checklist walk-through, and the FSMA 204 evidence package in Event 05 demonstrates the 24-hour-FDA-response capability in operational form.
+
+> **Independence Reminder**
+> Store 412, Marisol Reyes, the eight events, the financial figures, the timing details, and every operational specific in this chapter are illustrative. This chapter is not a description of any actual Kroger store deployment, of any actual Kroger Marketplace store, of any actual Kroger associate, or of any actual customer. The narrative is constructed to illustrate what an agentic-AI program looks like in production at a Kroger Marketplace store; it is not a claim about The Kroger Co. Sellers must not represent this chapter as a description of an actual deployment in any client conversation.
+
+> **Note**
+> When presenting this narrative to Kroger executives, describe the work as "Deloitte-delivered agents on Kroger's Microsoft platform." Never name the internal accelerator in front of the client. The accelerator name stays internal to Deloitte teams; the chapter body has been engineered to be client-clean so it can be lifted into client-facing materials unchanged. The framing — "Deloitte-delivered agents on Kroger's Microsoft platform" — is the consistent positioning across every executive surface, every artifact, and every conversation.
+
+> **Companion Artifacts**
+> - [Pitch Deck](Services/RC-E2E-03_Assortment-and-Pricing/Tier3-Governance/APEX-RC-E2E-03-Kroger-Pitch-Deck.html) — the 16-slide deck this narrative supports
+> - [Demo Script & Walkthrough Guide](Services/RC-E2E-03_Assortment-and-Pricing/Tier3-Governance/APEX-RC-E2E-03-Demo-Script-and-Walkthrough-Guide.docx) — the live-walk demo that complements this narrative
+> - [ROI Case](Services/RC-E2E-03_Assortment-and-Pricing/Tier1-Executive/APEX-RC-E2E-03-Kroger-ROI-Case.html) — the financial-impact sensitivity that scales the per-shift figures to the network
+`,
+  summary: [
+    'One shift, eight events, ~5.5 manager hours returned, ~$22K decision-attributable financial impact',
+    'Six HITL decisions averaging 95 seconds each',
+    'Two events fully autonomous (no manager touch)',
+    'Client-presentable as-is — accelerator name never appears in body',
+  ],
+  actions: [
+    'Read this chapter end-to-end before any client conversation that touches store operations',
+    'Lift the relevant 1-2 events for the specific stakeholder you are meeting',
+    'Never name the internal accelerator while presenting this narrative — the accelerator name stays internal',
+  ],
+});
+
 module.exports = { all: chapters, appendices };
