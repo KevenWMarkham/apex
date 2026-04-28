@@ -1958,4 +1958,403 @@ The narrative flexes for the audience. Use it whole when the conversation has th
   ],
 });
 
+// ---- PART V — AT SCALE ----
+
+chapters.push({
+  num: 19, part: 5, title: 'Operations & Test Strategy',
+  objectives: [
+    'Know the operating model post-Wave-1 — who runs what, on what cadence',
+    'Identify the four test layers (unit, integration, eval, production) and what each catches',
+    'Understand the SLOs that gate program credibility',
+    'Know the run-book rhythm that keeps the program disciplined day-to-day',
+  ],
+  body: `
+A program that closes Wave-1 and then quietly degrades is worse than a program that never closed. The agents drift, the audit rows develop gaps, the merchant trust that took six months to build erodes in three weeks of unattended production, and the sponsor who signed the Wave-1 SOW now has a story to tell their finance team that does not end with "let us fund Wave-2." Operations and test discipline are what separate a one-shot delivery from a multi-wave compounding program. The chapter teaches the seller and the delivery lead how to read the operating model, the four test layers, the SLOs, and the run-book rhythm — and how to brief them confidently to the client's SRE and ops audiences who will inherit the program in production.
+
+## 19.1 The operating model post-Wave-1
+
+Wave-1 closes with a pilot in production and a standing organization to run it. The standing organization is small but explicit; informal ownership at this stage is the leading indicator of Wave-2 slip.
+
+**Operations lead — full-time, embedded.** The operations lead is the single throat-to-choke for the running program. The role is full-time, embedded with the client's IT operations and platform-engineering teams, and accountable for the SLOs that gate program credibility. The operations lead runs the daily stand-up during incidents, owns the weekly stakeholder digest, and is the named escalation point for the Tier-1 sponsor. Without a named operations lead the program runs on the engagement-lead's residual attention, which is a known anti-pattern — engagement leads have other pursuits in flight, and the post-close attention that operations needs does not survive the next pursuit's discovery cycle.
+
+**Data engineering team — Bronze/Silver maintenance, transformation contracts.** The data engineering team owns the Bronze→Silver transformations from Chapter 9. Their post-Wave-1 work is steady-state: monitor freshness SLOs, respond to source-system schema changes, refactor transformations as data shape evolves, replay Bronze for any Silver regression caught downstream. Team size scales with source-system count and transformation complexity — typically two to four engineers at Wave-1 close, growing as Wave-2 expansion adds new source systems. The team reports through the data-platform organization on the client side and through the engagement structure on the Deloitte side, with a named lead on each.
+
+**Agent operations team — model swaps, eval runs, prompt updates.** The agent operations team owns the Foundry plane from Chapter 11. Their post-Wave-1 work is the maturation cadence: model swaps as new releases land, prompt updates as merchant feedback surfaces patterns, eval runs against golden sets on every change, distillation candidates surfaced when a heavy model has been carrying a steady decision class for long enough to justify a small-model replacement. The team owns the evaluation harness (section 19.3) end-to-end and is the surface that catches reasoning regressions before they reach merchants.
+
+**Platform team — Fabric/Foundry capacity management.** The platform team owns the Microsoft capacity envelope. Capacity reservations are reviewed quarterly against actual workload; F-SKU tier adjustments are negotiated with the Microsoft account team; Foundry compute reservations track with agent-call volume. This is the team that prevents the Wave-2 cost surprise where workload doubled but capacity stayed at the Wave-1 starting tier and the program absorbed unbudgeted on-demand pricing.
+
+**GRC liaison — Purview classification updates, audit-row reviews.** The GRC liaison owns the governance plane from Chapter 13. Purview classification policies are reviewed quarterly against new data sources; audit-row sampling reviews happen monthly; regulatory-change monitoring (FSMA 204 enforcement guidance, state privacy law changes, FDA inspector findings at peer grocers) feeds the policy queue. The liaison is the surface that converts external regulatory signals into internal operational adjustments before the next inspector or auditor arrives.
+
+**Cadence.** Sponsorship rolls to the Wave-1 sponsor monthly — a thirty-minute review of SLO posture, top-three operational risks, and the Wave-2 expansion candidate set. Internal team cadence runs weekly across all five functions — one hour, structured agenda, working from the run-book artifact (section 19.5). Daily stand-up runs only during active incidents; making it daily by default trains the team to talk through incidents that did not happen, which dilutes the discipline.
+
+## 19.2 The four test layers
+
+Test discipline at this scale is layered. Each layer catches a different failure class; missing any one of them lets that failure class propagate to merchants. The four layers below are the canonical structure; the Test Strategy artifact carries the full detail.
+
+**Unit tests.** Per-tool, per-transformation, per-agent-prompt. Fast, hermetic, run on every commit. A single MCP tool has a unit-test suite that exercises its happy path, its argument validation, its error handling, and its response-shape contract; a single Bronze→Silver transformation has unit tests against a frozen Bronze fixture that assert the resulting Silver record against the schema; a single agent prompt has unit tests that assert the prompt template renders correctly for representative inputs. Unit tests catch syntax, schema, and contract regressions — the boring failures that nonetheless cost half a day of debugging when they reach a downstream environment.
+
+**Integration tests.** Agent-to-MCP-to-backend round-trips with mocked external systems. Slower than unit tests, run on every pull-request merge and on a nightly schedule against a stable test environment. An integration test for the Margin-Exposure agent, for example, constructs a representative merchant query, lets the agent reason, observes the MCP-tool calls the agent makes against a mocked Silver layer, and asserts the resulting recommendation against an expected response shape. Integration tests catch contract drift, auth-scope changes, and tool-response shape regressions — the failures that slip through unit testing because the units pass individually but break when composed.
+
+**Evaluation tests.** Agent reasoning quality against golden sets. Run on every model swap, every prompt change, and on a rolling production sample. An eval set for the Counter-Move agent, for example, contains 200-500 historical competitor-move scenarios with annotated expected agent responses (the recommended counter-move, the confidence band, the materiality classification, the supporting rationale). The harness runs the agent against the eval set, compares responses to expected, and reports a quality score plus a per-case diff for any regression. Eval tests catch reasoning regressions before they reach merchants — a model swap that improves average reasoning but regresses on a specific decision pattern is caught at the eval gate, not in the merchant feedback queue.
+
+**Production tests.** Synthetic-transaction probes plus drift detection on the production decision distribution. The synthetic probes inject representative queries against the production agent fleet on a continuous schedule and assert response latency, response shape, and recommendation reasonableness. The drift detector compares the rolling 7-day production decision distribution (recommendation classes, confidence band distribution, materiality classifications) against the eval baseline; significant drift triggers an alert that routes to the agent operations team for review. Production tests catch real-world degradation that escapes the eval set — silent shifts in input distribution, infrastructure latency drift, downstream-system response-shape changes that the eval harness did not anticipate.
+
+| Layer | Speed | Run cadence | Catches | Owner |
+|---|---|---|---|---|
+| Unit | Fast (sub-second per test) | Every commit | Syntax, schema, contract | Each engineer for their code |
+| Integration | Medium (seconds to minutes) | Every merge + nightly | Contract drift, auth-scope, response-shape | Engineering team lead |
+| Evaluation | Slow (minutes to hours) | Every model/prompt change + rolling sample | Reasoning regressions | Agent operations team |
+| Production | Continuous | Synthetic probes always on; drift detector hourly | Real-world degradation | Operations lead |
+
+## 19.3 The evaluation harness
+
+The evaluation harness is the artifact that makes agent quality measurable. The pattern is consistent across the agent fleet, with per-agent variations as decision-class shape demands.
+
+**Golden sets per agent.** Each agent has a golden set of 200-500 cases at production maturity. Each case carries the input shape (the merchant query, the prior context, the current state), the expected output shape (the recommended decision, the confidence band, the materiality classification, the supporting rationale), and an annotation explaining why the expected output is the right answer. Golden sets are curated by the joint Deloitte-and-client team; they grow as new patterns surface in production and as merchant feedback identifies cases the original set did not cover.
+
+**Regression run on every change.** Every model swap, every prompt change, every tool-contract update triggers a regression run against the full golden set. The harness reports a quality score, a per-case diff, and a sign-off threshold. A regression below the threshold blocks the change from production deployment until it is investigated and either resolved or explicitly accepted with documented rationale. The discipline is non-negotiable — a model swap that ships without an eval pass is the source of the silent regression that destroys merchant trust six weeks later.
+
+**Drift detection against production sample.** The harness compares the rolling 7-day production decision distribution to the eval baseline. Drift signals across recommendation class, confidence band, and materiality classification each have a threshold; a signal above threshold triggers a model swap or prompt review. Drift can be benign (the input distribution shifted because the merchant team's focus shifted) or concerning (the agent's behavior is degrading silently); the agent operations team's job is to disambiguate within the review window.
+
+**Weekly eval report.** Every week the harness emits an eval report — golden-set scores by agent, drift-signal summary, sign-off status for any pending changes, top-three regression cases worth deeper review. The report routes to the operations lead for the weekly cadence and is archived for the monthly sponsor review. The AI/ML Model Spec artifact carries the canonical eval design, the threshold definitions, and the golden-set governance.
+
+## 19.4 SLOs that gate program credibility
+
+The SLOs below are the operational contracts the program is judged against. Each is measurable, each has a named owner, and each is reviewed at the monthly sponsor cadence. The numbers are illustrative starting targets calibrated to the merchant-decision and substitution flows; final SLO targets are set jointly with the client's IT operations team during Wave-1 close and adjusted as production data accumulates.
+
+| SLO | Target | Why it matters | Owner |
+|---|---|---|---|
+| End-to-end recommendation latency | Sub-15s p95 (merchant flow), sub-3s p95 (substitution flow) | Merchants abandon recommendations that arrive too slowly to act on; customers abandon BOPIS substitutions that take longer than the in-app dwell-time | Platform team |
+| HITL approval rate | Above 70% across the merchant agent surface | Below 70% means either the agent is not adding value (too many low-confidence recommendations) or the merchant is over-rejecting (training-set drift, scope misalignment); either way it is a leading indicator of program decay | Agent operations team |
+| Audit-row completeness | 100% — any missing field is an audit-defensibility break | An audit row missing inputs, model version, or decision attribution is unusable as evidence in finance review or regulatory inquiry; partial completeness is not acceptable | GRC liaison |
+| Tool-call error rate | Below 0.5% p99 across MCP-tool calls | Above 0.5% is a leading indicator of contract drift, auth-scope change, or backend system instability that will cascade into agent-fleet reliability | Engineering team lead |
+| Drift signal threshold | Above the per-agent threshold defined in the eval design | A drift signal above threshold triggers a model swap or prompt review within the operational window; ignored drift accumulates into reasoning regression | Agent operations team |
+
+The SLOs are also the story the operations lead tells the SRE audience. SREs at the client are inheriting the program in production; their question is "what does good look like, what does it look like when it breaks, and who do I call." The SLO table answers all three. Sellers should rehearse the SLO story until it lands with an SRE audience the way the basis-point story lands with a CFO audience.
+
+## 19.5 The run-book rhythm
+
+The run-book is the artifact the operations lead works from day-to-day. The rhythm below is the canonical structure; the Service Operations Playbook artifact carries the full detail.
+
+**Daily.** Incident triage and drift signal review. The operations lead checks the open-incident queue, reviews any drift signals that crossed threshold in the prior 24 hours, confirms that any active mitigations are progressing, and ensures the daily stand-up runs if any incident is active. The daily check takes 10-15 minutes when nothing is active; the discipline is to do it every day so the active-incident pattern is not a context shift.
+
+**Weekly.** Eval report review, capacity review, stakeholder digest. The eval report from section 19.3 is reviewed with the agent operations team; the platform team reports on capacity utilization against reservation; the operations lead drafts the stakeholder digest summarizing the week's posture, top-three risks, and any decisions needed from the sponsor. The weekly cadence is the working rhythm of the program; missing it is the leading indicator of operational decay.
+
+**Monthly.** SLO review with sponsor, model-roadmap review, GRC sync. The sponsor review covers SLO posture across all five SLOs with trend lines, the top-three operational risks with mitigation status, and the Wave-2 expansion candidate set with sponsor input on prioritization. The model-roadmap review with the agent operations team covers maturation candidates (prompt-to-fine-tune, fine-tune-to-distill), upcoming model swaps, and golden-set additions. The GRC sync with the GRC liaison covers Purview classification policy updates, audit-row sampling findings, and any external regulatory signals that need attention.
+
+**Quarterly.** Wave-N+1 planning, commercial review, IP-retention review. The Wave-N+1 planning session aligns the Wave-2 (or Wave-3) candidate set with the sponsor and the Microsoft account team; commercial review reconciles actual program spend against the wave envelope; the IP-retention review ensures that the substrate built in this wave is properly captured for reuse in subsequent waves and at subsequent grocers.
+
+## 19.6 Incident response
+
+Incidents are inevitable. The response pattern is what determines whether an incident is a learning event or a credibility-loss event.
+
+**Pause within 5 minutes.** When an agent surfaces something it should not — a wrong recommendation, a classified-data leak, an audit-row gap — the affected tool surface is paused within 5 minutes. The pause is automated where possible (a circuit-breaker on the MCP tool, a feature flag on the agent surface) and manual where automation is not yet in place. The 5-minute window is the operational contract; faster is better, but slower than 5 minutes is unacceptable because the failure compounds across merchant decisions during the window.
+
+**Root-cause within 24 hours.** The root-cause investigation runs to completion within 24 hours. The investigation pattern is structured — input trace, agent reasoning trace, tool-call trace, downstream-system trace, and a written root-cause statement signed by the agent operations team lead. A root cause that is not understood within 24 hours is escalated to the engagement lead and the Lead Partner; the escalation is the discipline that prevents a 24-hour investigation from drifting into a 72-hour investigation.
+
+**Fix-and-evaluate within 72 hours.** The fix lands in a non-production environment within 72 hours, runs through the full eval harness, and is signed off for production deployment by the agent operations team lead. A fix that does not pass eval is not deployed; the operational discipline is to extend the pause rather than ship an unevaluated fix.
+
+**Post-mortem within 7 days.** The post-mortem documents the timeline, the root cause, the fix, the prevention pattern, and the operational-process changes that follow. The post-mortem is reviewed at the next weekly cadence and archived against the Service Operations Playbook for cross-incident pattern recognition. The Service Operations Playbook is the artifact that converts incident response from improvisation into discipline; sellers and delivery leads should walk it end-to-end before Wave-1 close so that the operational hand-off from sales to delivery includes an inherited operational discipline rather than an inherited blank page.
+
+> **Companion Artifacts**
+> - [Service Operations Playbook](Services/Shared-Both-Services/Tier2-Build/APEX-RC-E2E-03-09-Service-Operations-Playbook.docx) — the operational run-book and incident-response spine
+> - [Test Strategy and Test Plan](Services/Shared-Both-Services/Tier2-Build/APEX-RC-E2E-03-09-Test-Strategy-and-Test-Plan.docx) — the canonical test-layer design across unit, integration, eval, and production
+> - [AI/ML Model Spec](Services/Shared-Both-Services/Tier4-Strategic/APEX-RC-E2E-03-09-AI-ML-Model-Spec.docx) — the eval-design reference, golden-set governance, and drift-detection thresholds
+`,
+  summary: [
+    'Standing organization post-Wave-1: ops lead, data eng, agent ops, platform, GRC liaison',
+    'Four test layers: unit, integration, eval, production — each catches a different failure class',
+    'SLOs that gate credibility — latency, HITL approval rate, audit-row completeness, error rate, drift',
+    'Run-book rhythm: daily/weekly/monthly/quarterly cadence',
+  ],
+  actions: [
+    'Memorize the four test layers and what each catches',
+    'Rehearse the SLO story for an SRE or ops audience',
+    'Pre-build the Wave-1 close run-book using the Service Operations Playbook as the spine',
+  ],
+});
+
+chapters.push({
+  num: 20, part: 5, title: 'The Service Roadmap',
+  objectives: [
+    'Describe the multi-wave roadmap end-to-end',
+    'Identify the Wave-2 expansion candidates from the high-attach catalog',
+    'Know the Wave-3 banner-extension story',
+    'Understand how the roadmap drives commercial framing across waves',
+  ],
+  body: `
+Wave-1 closes; Wave-2 builds; Wave-3 scales. The roadmap is the artifact that makes that compounding visible to the CFO. Without the roadmap, every wave is a fresh negotiation against a fresh skeptic; with the roadmap, each wave is the next step in a sequence the sponsor already nodded along to. The chapter teaches the seller to read the roadmap end-to-end, to identify the Wave-2 candidates from the high-attach catalog (Chapter 7) for any specific prospect, to walk the Wave-3 banner-extension story to a corporate-program-office audience, and to align the commercial framing with the governance shape at each wave.
+
+## 20.1 The roadmap at a glance
+
+Three waves, each with a defined scope, an illustrative timeframe, an illustrative envelope, and an explicit exit criterion that gates the next wave. The envelope ranges below are calibrated against the publicly-defensible heuristics from Chapter 5; final envelope is set in the SOW for each wave, and the actual envelope at any specific grocer is sized against discovery data rather than the table.
+
+| Wave | Scope | Timeframe | Envelope | Exit criteria |
+|---|---|---|---|---|
+| **Wave 1** | Envisioning + foundational SOR + RC-E2E-03 pilot in one Kroger banner | 4-6 months | $500K-$1.2M | Production-grade Bronze→Silver, six agents in HITL pilot, audit-row completeness verified, Wave-2 SOW negotiated |
+| **Wave 2** | Full RC-E2E-03 production rollout in anchor banner + 2-3 Tier-2 services + RC-E2E-09 production deployment | 9-12 months | $4M-$8M | Production deployment in anchor banner, measurable margin/compliance impact, FSMA 204 capability live, Tier-2 attach decisions in train |
+| **Wave 3** | Banner extension across Fred Meyer, Mariano's, Harris Teeter, King Soopers and others | 12-24 months | $10M-$25M | Banner extension underway, cross-grocer leverage activated, internal Kroger team co-extending the agent library |
+
+The illustrative timeframes are calibrated for a Kroger-scale program with a Microsoft platform footprint that supports Wave-1 envisioning without a foundational Azure or Fabric procurement cycle. At a smaller grocer or one starting from a less-mature platform footprint the timeframes stretch; the shape of the roadmap holds.
+
+## 20.2 Wave 1 scope and exit criteria
+
+Wave 1 is the foundation. The work is envisioning + foundational SOR + RC-E2E-03 pilot in one Kroger banner — typically Marketplace as the largest-format anchor where the merchant decision velocity, the FSMA-relevant fresh inventory, and the Microsoft Copilot deployment intersect with the highest concentration. The pilot is HITL across all six agents from Chapter 5; production-grade Bronze→Silver from Chapter 9 is the deliverable that anchors the substrate; audit-row discipline from Chapter 13 is verified across the pilot category before Wave-1 closes.
+
+The exit criteria are explicit and measurable. **Production-grade Bronze→Silver** means the SOR is operating on the cadence and freshness SLOs from Chapter 9, with the data engineering team named and the transformation-contract discipline in place. **Six agents in HITL pilot** means the agents are running in a constrained category footprint, surfacing recommendations to merchants through Copilot for M365, with merchant decisions captured in audit rows. **Audit-row completeness verified** means a sampling review across a representative period has confirmed that every agent decision produces a complete row defensible to the finance team and the FDA inspector. **Wave-2 SOW negotiated** means the sponsor has committed to Wave-2 in principle and the SOW is in legal review, not waiting for the post-Wave-1 close to start the negotiation cycle.
+
+A Wave 1 that closes against these four criteria opens Wave 2 cleanly. A Wave 1 that closes with the pilot working but without the SOR substrate, or with the substrate in place but the audit-row completeness untested, sets up a Wave-2 conversation that has to re-prove the foundation before it can fund expansion. The discipline is to hit all four exit criteria, not to substitute any of them.
+
+## 20.3 Wave 2 expansion candidates
+
+Wave 2 is the expansion. The typical Wave-2 program at Kroger pulls forward the Tier-2 attach services from Chapter 7 — the high-attach catalog — and pairs them with the production rollout of RC-E2E-03 across the anchor banner and the production deployment of RC-E2E-09 for FSMA 204 compliance.
+
+**Markdown Optimization** is the most common Wave-2 attach. It rides the same SOR substrate, uses the same merchant Copilot surface, and lands the most measurable margin impact in the shortest deployment cycle — typically 60-90 days from Wave-2 SOW to first production markdown decision. The CFO conversation around Wave 2 is materially easier when Markdown Optimization is in the scope because the basis-point story has a near-term landing.
+
+**Demand Forecasting** is the second common attach. It rides the SOR substrate plus 84.51° feature integration through the shortcut pattern from Chapter 10. The deployment cycle is longer (typically 4-6 months because the model maturation requires a meaningful rolling production sample) but the operational impact compounds across replenishment, labor scheduling, and shelf-availability.
+
+**Substitution Intelligence** is the third common attach. It rides the SOR substrate plus the BOPIS event stream and the customer-tolerance learning loop. The deployment cycle is fast (60-90 days) and the customer-experience impact is visible in the BOPIS NPS within the first quarter of production. For Kroger specifically, substitution intelligence is also the surface where the closed-Ocado-CFC pattern from Chapter 3 is most visible — the agents handle the store-side substitution; the CFC stack handles its own.
+
+The Wave-2 envelope at $4M-$8M is sized for the production rollout plus 2-3 of these attach services plus the RC-E2E-09 production deployment. A Wave-2 that pulls in more than 3 attach services typically blows the envelope; the discipline is to defer attach services to Wave 3 rather than dilute the Wave-2 envelope. Sellers walking into the Wave-2 SOW conversation should pre-stage the candidate set against the prospect's specific category mix and business-unit priorities; the right Wave-2 attach combination is grocer-specific and category-specific.
+
+## 20.4 Wave 3 banner extension
+
+Wave 3 is the banner extension. Kroger operates multiple banners — Marketplace as the large-format anchor; Fred Meyer in the Pacific Northwest as the multi-department large-format banner; Mariano's in Chicago as the premium urban banner; Harris Teeter in the Mid-Atlantic as the premium-to-mainstream banner; King Soopers in the Mountain West; and others including Smith's, Ralph's, Pick 'n Save, City Market, and more. Wave 3 extends the proven service set from the Wave-2 anchor banner to the rest of the portfolio.
+
+The retune cost per banner is meaningful but contained. Each banner has its own merchant team, its own category mix, its own customer-data shape, its own operational cadence, and its own Microsoft footprint variations. The substrate work — Bronze→Silver, semantic model, agent fleet, MCP server tier, Purview governance — is reused; the per-banner work is integration with the banner's specific source systems, retune of the agent prompts to the banner's category mix, alignment with the banner's merchant-team cadence, and confirmation against the banner's specific operational SLOs. Per-banner cost is typically **30-40% of the Wave-2 envelope per banner**, not 100% — the substrate amortization is the structural reason banner extension compounds favorably.
+
+The Wave-3 envelope at $10M-$25M depends on banner count. Two banners at the low end; four to six banners at the upper end. The conversation at Wave 3 is no longer with a single-banner sponsor; it is with the corporate program office that owns banner-portfolio strategy. The roadmap artifact is the working tool for that conversation — it shows the sponsor that the program is no longer a one-banner pilot, it is a portfolio-scale capability with a defined extension pattern and a defended cost structure.
+
+A Wave-3 conversation that lands also activates the cross-grocer leverage from Chapter 21 — Kroger is no longer just a Kroger conversation, it is the proof point that opens the next grocer's first conversation. The roadmap artifact is the bridge between the two narratives; corporate-program-office sponsors at Kroger increasingly recognize that their program's success creates cross-grocer leverage they may want to think strategically about, including IP-retention provisions in the Wave-3 SOW.
+
+## 20.5 The commercial framing through each wave
+
+The commercial conversation evolves wave by wave. The seller who anchors on Wave-1 commercial framing through all three waves loses the Wave-2 and Wave-3 conversations because the framing has not scaled with the governance shape.
+
+**Wave-1 framing.** Single executive sponsor — typically the CFO or the Chief Merchant. Single-banner scope. Envelope sized to be approvable inside the sponsor's discretionary authority. Decision cycle short (30-60 days from pitch to SOW). Procurement engaged but not gating. The framing is "let me show you what is possible inside your authority." A seller who pitches the Wave-1 conversation as a multi-stakeholder corporate-program-office decision loses the conversation; the sponsor does not need that scope to commit at Wave 1.
+
+**Wave-2 framing.** Multi-stakeholder governance — Operations, QA, IT, Finance — anchored by the Wave-1 sponsor. Multi-service scope. Envelope sized for production deployment plus the attach services. Decision cycle longer (90-150 days from Wave-1 close to Wave-2 SOW signature). Procurement now actively gating; legal review extensive; integration with the corporate IT operations function explicit. The framing is "we have proven the pattern; let me show you what production at scale looks like." The sponsor remains the lead voice but now has co-sponsors in adjacent functions.
+
+**Wave-3 framing.** Corporate program office — banner-portfolio scope. The conversation is with a program-office leader who owns banner-strategy decisions, supported by the original Wave-1 sponsor and the Wave-2 cross-functional co-sponsors. Decision cycle longest (6-12 months from Wave-2 stabilization to Wave-3 SOW). Procurement, legal, IT operations, and corporate strategy all in the room. The framing is "we have the proven pattern, the production capability, and the cross-banner architecture; let me show you the portfolio extension and the cross-grocer leverage you have earned." The Wave-1 sponsor's role at Wave 3 is air-cover and reference, not lead negotiation.
+
+Each wave's commercial framing must match its governance shape. Sellers who walk into a Wave-3 conversation with Wave-1 framing find the corporate program office unimpressed; sellers who walk into a Wave-1 conversation with Wave-3 framing find the executive sponsor put off by the scope of the ask. The discipline is to read the wave the prospect is in, frame to that wave, and prepare the next wave's framing for the next conversation.
+
+## 20.6 Roadmap risks and mitigation
+
+Three risks shape the roadmap conversation across waves. Each is named in the roadmap artifact, each has a mitigation pattern, and each is reviewed at the quarterly Wave-N+1 planning cadence from Chapter 19.
+
+**Wave-1 sponsor turnover.** Sponsors rotate, get promoted, leave, or shift portfolios. A pursuit anchored on a single sponsor is exposed to the rotation risk; a sponsor departure between Wave-1 close and Wave-2 SOW is the most common cause of Wave-2 slip. *Mitigation:* build the sponsor ladder from Chapter 16 to cover departures. The ladder is the bench — co-sponsors who can step up if the lead sponsor rotates, named back-up champions across the executive surface, and an explicit hand-off plan for the rotation event. Sellers who treat the sponsor ladder as a slide rather than a bench discover the bench is empty when the rotation happens.
+
+**Banner-extension scope creep.** The Wave-3 conversation is exposed to scope creep because each banner's leadership wants its own version of the program rather than the substrate-reuse pattern. The temptation is to accommodate — every banner gets a slightly different agent set, a slightly different SOR pattern, a slightly different governance posture — and the result is not a portfolio extension but five parallel custom builds. *Mitigation:* hold the line on substrate reuse vs full re-implementation. The Service Roadmap artifact carries the substrate-reuse pattern explicitly; per-banner variations are scoped to the integration and retune layers, not the substrate. The program-office sponsor is the partner in holding this line; sellers should equip the sponsor with the substrate-reuse story before each banner's leadership conversation.
+
+**Competitive entrant.** Between Wave-2 and Wave-3 a competitor can enter — another services partner pitching a parallel program, an in-house team proposing to take the work over, or a different vendor stack pitching a substrate replacement. *Mitigation:* keep Wave-N+1 visibly faster and cheaper than a competitor restart. The roadmap is the artifact that makes this visible — the substrate reuse, the agent-library carry-over, the audit-row discipline already operating, the integration with the Microsoft account team already established. A competitor restart at Wave 3 is starting at Wave 0; the roadmap artifact makes that asymmetry visible to the program office.
+
+> **Companion Artifacts**
+> - [Service Roadmap](Services/Shared-Both-Services/Tier4-Strategic/APEX-RC-E2E-03-09-Service-Roadmap.html) — the multi-wave roadmap artifact, working tool for the program-office conversation
+> - [Pitch Deck](Services/RC-E2E-03_Assortment-and-Pricing/Tier3-Governance/APEX-RC-E2E-03-Kroger-Pitch-Deck.html) — the 16-slide deck whose envelope slide carries the Wave-1/2/3 framing
+`,
+  summary: [
+    'Three waves: foundation, expansion, banner extension',
+    'Wave-2 candidates pulled from the high-attach catalog (Markdown Optimization, Demand Forecasting, Substitution Intelligence)',
+    'Wave-3 banner extension reuses substrate at 30-40% per-banner cost',
+    'Commercial framing matches governance shape at each wave',
+  ],
+  actions: [
+    'Memorize the three-wave envelopes',
+    'Pre-stage your Wave-2 candidate set for the prospect\'s specific category',
+    'Rehearse the Wave-3 banner extension story for the corporate-program-office conversation',
+  ],
+});
+
+chapters.push({
+  num: 21, part: 5, title: 'Cross-Grocer Expansion Pattern',
+  objectives: [
+    'Explain how the Kroger pattern extends to other US grocers',
+    'Identify which assets transfer vs which need rebuilding',
+    'Know the pursuit-order rationale post-Kroger',
+    'Recognize the cross-grocer commercial leverage Kroger creates',
+  ],
+  body: `
+> **Independence Reminder**
+> This chapter compares publicly-disclosed postures of multiple US grocers — Kroger, Albertsons, Ahold Delhaize USA, HEB, and Publix. All assertions derive from publicly-available signals as of 2026 Q1. Sellers must not infer specifics from internal Deloitte engagement information into client-facing materials; the cross-grocer narrative is positioning, not intelligence-sharing, and the discipline is mandatory at every grocer conversation.
+
+Kroger is not the destination; Kroger is the proof point. The cross-grocer expansion pattern is what turns a single anchor program into a Consumer Industry practice — the structural argument for the practice's compounding economics, and the operational guide for how to translate the Kroger investment into the next grocer's first conversation. The chapter teaches the seller to articulate what transfers, what does not, the pursuit-order rationale post-Kroger, and the commercial leverage that Kroger creates for the practice.
+
+## 21.1 The pattern in one paragraph
+
+Kroger's program produces three transferable assets: a working Microsoft platform pattern (Fabric + Foundry + MCP + Purview), a working agent library (the six agents and their model-routing logic), and a working audit-row discipline (regulator-ready evidence chain). Those three assets are what we sell into the next grocer. The integration work is grocer-specific and rebuilds at each prospect; the substrate is grocer-agnostic and amortizes across the portfolio. That is the pattern.
+
+## 21.2 What transfers
+
+Five assets transfer cleanly across the five major US grocers in scope. Each is grocer-agnostic in shape; each carries the Kroger investment forward without per-grocer re-investment.
+
+| Asset | Transferability | Why |
+|---|---|---|
+| **Semantic model** | High | The grocery industry shape is consistent across grocers — item, lot, customer (anonymized), transaction, receipt, promotion, price-point, supplier, store. The Silver entity model from Chapter 9 is grocery-shaped, not Kroger-shaped, and the schema, the keys, and the freshness SLO targets all carry over with minimal adjustment. |
+| **Agent library** | High | The six agents (Margin-Exposure, Elasticity, Counter-Move, Promo-Participation, Substitution-Pattern, Composer) are decision-class-shaped, not Kroger-shaped. Every grocer's merchant team has the same six decision boundaries; the agents' reasoning patterns, model-routing logic, prompt structure, and HITL contract all carry forward. The eval golden sets adapt at the margin (different category mix, different competitor set) but the core eval architecture transfers. |
+| **MCP server contracts** | High | MCP is an open standard. The tool contracts that Foundry agents call into are tool-shape-defined, not grocer-defined; the underlying integrations rebuild per grocer (different POS, different supplier portal) but the agent-facing contract is stable. This is what lets the agent library run unchanged at the next grocer once the per-grocer integrations land behind the MCP boundary. |
+| **Purview governance posture** | High | The regulatory environment is identical across all five grocers in scope — same FSMA 204, same state-by-state privacy law variation, same audit-defensibility expectations from finance and external audit. The Purview classification policy, the audit-row schema, the lineage discipline, and the regulatory-change monitoring rhythm all carry forward. |
+| **Commercial framing** | High | The three-wave envelope structure (Wave 1 foundation, Wave 2 expansion, Wave 3 banner extension) maps to the governance shape at every grocer in scope. The envelope ranges adjust by grocer scale and platform-footprint maturity, but the structure — small Wave 1 earns the right to large Wave 2 — is grocer-agnostic. |
+
+These five assets are the sales surface for the next grocer. A pitch at the next grocer leads with "we have done this at Kroger" and walks the five transferable assets; the discovery cycle compresses because the prospect is no longer hearing a hypothetical pattern, they are hearing a proven pattern adapted to their specific shape.
+
+## 21.3 What does NOT transfer
+
+Three categories of work rebuild at each grocer. The discipline is to be honest about this — pretending that everything transfers loses credibility on first technical review at the next grocer.
+
+**Grocer-specific source-system integrations.** Each grocer has its own POS vendor, its own loyalty platform, its own supplier portal, its own pricing system, its own ESL gateway, its own labor scheduling system. The Bronze layer integration to each of these is grocer-specific, with grocer-specific schemas, grocer-specific cadences, and grocer-specific failure modes. The Bronze→Silver conformance pattern from Chapter 9 is the same; the per-source integrations are not. Plan for substantial integration work at every grocer regardless of how clean the substrate transfer is.
+
+**Persona-specific Copilot tunings.** HEB merchants are not Kroger merchants. Ahold's Stop & Shop merchants are not Ahold's Food Lion merchants. The Copilot surface, the prompt structure, the merchant-language register, and the recommendation-presentation conventions all tune to the local merchant culture. The agents reason the same way; the merchant-facing surface adapts. This is not optional; merchants who feel the surface was built for someone else reject the recommendations regardless of quality.
+
+**Regulatory variants.** State-by-state privacy law variation differs across grocer footprints — California's CCPA/CPRA, Virginia's VCDPA, Colorado's CPA, Connecticut's CDPA, and the expanding state-law landscape each shape the customer-data governance posture. FSMA 204 implementation specifics also differ by grocer's existing posture; a grocer that is mid-way through an FSMA 204 program inherits a different gap pattern than a grocer that is just starting. Each grocer's regulatory variant requires fresh discovery, fresh policy work, and fresh Purview classification updates.
+
+The honesty about what does not transfer is itself a credibility move at the next grocer. Sellers who claim "we just lift and shift from Kroger" are caught immediately by the next grocer's procurement and architecture teams; sellers who walk in with a clear list of what transfers and what does not are recognized as the partner that has actually done the work.
+
+## 21.4 The pursuit order after Kroger
+
+The recommended sequence after Kroger is calibrated on three dimensions: similarity to Kroger (the transferable assets translate most cleanly), decision cycle velocity (how fast the prospect can fund Wave 1), and strategic value to the practice (reference effect plus revenue scale).
+
+1. **Albertsons.** Similar margin pressure post-merger-collapse; smaller proprietary data footprint than Kroger (no 84.51° equivalent at scale); faster cycle. Albertsons' executive surface is more accessible than Kroger's because the company is currently in a stand-alone-strategic-reset posture and is publicly receptive to capability-bringing partners. The pitch language adapts (different productivity-program naming, different cloud posture, no 84.51°-specific coexistence) but the core narrative is the same.
+
+2. **Ahold Delhaize USA.** Multi-banner gives wider expansion footprint than any single-banner grocer offers. Stop & Shop, Giant Food, Food Lion, Hannaford, plus the EU portfolio under the parent. Multi-cloud platform posture is friendly to the platform pattern (Azure footprint exists). The conversation is more complex because of the multi-banner reality and the parent-versus-OpCo decision motion, but when Ahold lands, the program scales across multiple banners with shared substrate, which amortizes the Wave-3-equivalent investment more favorably than a single-banner operator allows.
+
+3. **HEB.** Slower cycle due to the proprietary-tech posture and the private-company decision motion, but strong merchant and fresh-execution story when the engagement opens. HEB's private-label leadership and regional dominance make every margin lever land harder than at a national operator; the ROI is strong when the program lands. Pursuit motion is patient — relationship-led, partnership-framed, less appetite for vendor-led narratives.
+
+4. **Publix.** Longest cycle due to the employee-owned conservative tech-adoption posture. Publix's investment cadence moves on a different rhythm than at investor-owned grocers; the bias is toward proven-rather-than-leading-edge technology. The right time to engage Publix is after the case-study set is fully mature — when the program has Kroger plus Albertsons plus Ahold landed and operating, the conversation at Publix moves from speculative to demonstrably-proven, and the conservative-adoption posture becomes a tailwind rather than a headwind.
+
+The order is not absolute. A Microsoft co-sell motion that opens at Publix earlier than the practice would otherwise prioritize is still worth pursuing; a stalled HEB engagement that surfaces a faster Albertsons opportunity is still a fast pivot. The order is the default sequence; the practice's quarterly cross-grocer planning cadence reorders as opportunities surface.
+
+## 21.5 The cross-grocer commercial leverage
+
+Kroger as proof point unlocks faster cycles at every subsequent grocer. The structural mechanics are three.
+
+**The platform pattern is no longer hypothetical.** A pitch that says "we believe Fabric + Foundry + MCP + Purview is the right pattern for an agentic-AI program at scale" is a different pitch than one that says "we built this pattern at Kroger; here are the production SLOs, the eval reports, the audit-row samples, and the operations-lead briefing notes." The second pitch lands faster because the architectural risk is no longer the buyer's problem to take.
+
+**The agent library is no longer untested.** A pitch that says "we have designed six agents that we expect to handle the merchant decision-class spectrum" is a different pitch than one that says "we have six agents in production at Kroger handling N decisions per day at M% HITL approval rate; here is the agent-by-agent eval report and the production drift summary." The second pitch lands faster because the agent-quality risk is no longer the buyer's problem to take.
+
+**The audit-row discipline is no longer aspirational.** A pitch that says "we recommend audit-row discipline as a defensibility property" is a different pitch than one that says "we have an audit-row discipline operating at Kroger that has survived FY26 finance review and the FY26 FSMA 204 inspection cycle; here is the discipline as deployed." The second pitch lands faster because the regulatory-defensibility risk is no longer the buyer's problem to take.
+
+The compression is structural. Each subsequent grocer cycle can be **30-50% shorter at every milestone** — envisioning closes faster because the architectural pattern is proven; Wave-1 closes faster because the agent library is shippable from Day 1 with adaptation rather than ground-up construction; Wave-2 SOW signs faster because the production discipline is demonstrable rather than hypothetical. This is the structural argument for the Consumer Industry practice's compounding economics — every grocer landed shortens the next grocer's cycle, and the practice scales across the portfolio at compounding velocity rather than at single-grocer velocity.
+
+The Cross-Grocer Comparison artifact carries the working detail — the postures of all five grocers across the dimensions that matter for the pattern, the per-grocer pitch-language adaptations, and the per-grocer pursuit-motion notes. The Service Roadmap artifact carries the cross-wave commercial framing that translates from Kroger to the next grocer. Both are working tools for the practice's cross-grocer planning cadence; sellers should walk both before any second-grocer outbound and revisit both quarterly as the practice's case-study set matures.
+
+> **Companion Artifacts**
+> - [Cross-Grocer Comparison](Services/RC-E2E-03_Assortment-and-Pricing/Tier4-Strategic/APEX-RC-E2E-03-Cross-Grocer-Comparison.xlsx) — the structured cross-grocer posture and pitch-language artifact
+> - [Service Roadmap](Services/Shared-Both-Services/Tier4-Strategic/APEX-RC-E2E-03-09-Service-Roadmap.html) — the cross-wave commercial framing that translates from Kroger to the next grocer
+`,
+  summary: [
+    'Three transferable assets: platform pattern, agent library, audit-row discipline',
+    'Source-system integrations and persona tunings rebuild per grocer',
+    'Pursuit order: Kroger → Albertsons → Ahold → HEB → Publix',
+    'Each subsequent grocer cycle is 30-50% faster — Kroger creates compounding leverage',
+  ],
+  actions: [
+    'Identify your second-grocer expansion target with your practice leadership',
+    'Pre-stage the Kroger-as-proof story for the next grocer\'s first conversation',
+    'Align with practice leadership on the cross-grocer pursuit-order priority',
+  ],
+});
+
+chapters.push({
+  num: 22, part: 5, title: 'The Kroger Compact',
+  objectives: [
+    'Internalize the seller compact for the Kroger pursuit',
+    'Know the four non-negotiable commitments (Independence, coexistence, basis-point credibility, audit-row discipline)',
+    'Understand the post-close hand-off discipline from sales to delivery',
+    'Recognize the success criteria that define the program at each wave',
+  ],
+  body: `
+Every named-account pursuit has a compact — the things the seller commits to that, taken together, define how the pursuit gets run. The Kroger compact is five sentences long; the rest of this chapter is what each sentence means. Read the five sentences first; then walk the chapter; then come back to the five sentences and notice that they are the discipline you have just internalized.
+
+## 22.1 The seller compact in five sentences
+
+1. I will confirm Independence pre-clearance before any outbound.
+2. I will treat 84.51° and Ocado as architectural commitments to coexist with, never as targets to displace.
+3. I will only make basis-point claims that are within range, attributable, defensible, and costed.
+4. I will hold every agent decision to the audit-row discipline.
+5. I will hand off cleanly to delivery the moment Wave-1 closes.
+
+These five sentences are the compact. The rest of the chapter is the unpacking.
+
+## 22.2 Independence as the non-negotiable
+
+Deloitte's audit relationship with Kroger (where applicable, and where the relevant audit independence rules apply) gates the entire pursuit. Pre-clearance is the gate, not a checkbox — it is the formal Independence Office determination that the pursuit may proceed against this client at this time under the current rules and the current audit posture. A conversation with Kroger that happens before pre-clearance is, at best, a procedural violation that the engagement team will have to remediate; at worst, it is a substantive Independence breach that creates material exposure for the firm.
+
+The Independence Office is your partner here, not a hurdle. Sellers who treat the Office as a clearance bureaucracy lose time and lose patience; sellers who treat the Office as a partner — engaging early, providing the right context, asking the substantive questions — clear the gate cleanly and build a working relationship that supports every subsequent Kroger interaction. The pre-clearance request is not a single event; it is a refresh cadence, because Independence status can change with audit-engagement transitions, and the discipline is to confirm status at each meaningful pursuit milestone rather than to assume that yesterday's clearance still applies today.
+
+## 22.3 Coexistence as the architectural commitment
+
+84.51° on GCP and Ocado in the CFCs are not optional features of the Kroger estate — they are central. 84.51° is the wholly-owned customer-data subsidiary with the public CPG-revenue line; Ocado is the licensed automated-fulfillment platform that runs the customer fulfillment centers. Both have organizational standing, both have technical investment, and both have constituencies inside Kroger that defend their domains. A pursuit that imagines either as a target to displace is a pursuit that gets blocked at the data-stewardship or platform-engineering level before it ever reaches the merchant or CFO sponsor.
+
+Every architectural slide must show coexistence. The five-plane architecture from Chapter 13 carries coexistence explicitly — 84.51° as the upstream feature owner read via shortcut, Ocado as the closed CFC envelope with agents on the store side of the seam, Microsoft as the decision-orchestration and experience plane. Every commercial conversation must respect the boundaries — the Wave-1 envelope does not include 84.51° displacement, the Wave-2 envelope does not include CFC integration, the Wave-3 envelope extends across banners but holds the coexistence story at every banner. Programs that imply displacement, even at the slide-deck level, get blocked early; programs that lead with coexistence get welcomed because they map onto the Kroger leadership team's existing architectural commitments.
+
+## 22.4 Basis-point credibility as the CFO commitment
+
+Every claimed basis-point of margin must be **within the published industry range, attributable to a specific decision class, defensible in audit, and costed against a credible Wave envelope**. This is the CFO commitment because the CFO is the gating stakeholder for the program; a basis-point claim that does not survive the CFO's finance team's challenge ends the conversation and resets the pursuit.
+
+**Within range** means calibrated against publicly-disclosed industry signals — the assortment-and-pricing range from Chapter 2, the shrink range, the labor productivity range, the retail-media margin range, the fresh-defect range. Claims outside the published range need extraordinary justification or they get rejected on first review.
+
+**Attributable** means traceable to a specific decision class that the program produces. A claim of "200 basis points of margin uplift" that cannot be decomposed into the specific decision categories driving each component is not a credible claim; the CFO's finance team will ask the decomposition question on the first call.
+
+**Defensible in audit** means the audit row from Chapter 13 carries the evidence that ties the claimed impact back to the specific decision and the specific input. This is the structural property that distinguishes a credible claim from an aspirational one — at the moment the claim is challenged, the audit row is the answer.
+
+**Costed against a credible Wave envelope** means the claim's denominator is sound. A claim of "$X million in margin impact" against a Wave-1 envelope that is implicitly under-sized is a claim that fails the cost-benefit test once the realistic envelope surfaces; the discipline is to pair every impact claim with the realistic cost to deliver it.
+
+The Wave-1 conversation runs through the credibility test before the pitch, not in front of the CFO. Sellers who run the test in real-time at the executive meeting find the test failing in real-time; sellers who pre-stage the four-property test for every claim survive the CFO conversation cleanly.
+
+## 22.5 Audit-row discipline as the regulatory commitment
+
+Every agent decision lives in an audit row that captures inputs, model version, recommendation, human decision, override reasoning, and downstream impact. The audit row is the artifact that survives both internal finance review and external regulatory inquiry — it is what the FDA inspector reads when investigating a recall response, what the finance team reads when sampling agent decisions for the quarterly impact attribution, what the General Counsel reads when constructing the litigation-defense posture, and what the data-stewardship team reads when validating customer-data handling against the Purview classification policy.
+
+Programs without audit-row discipline are programs that cannot scale. The first regulatory inquiry, the first litigation moment, the first finance challenge that lands without audit-row defensibility is also the moment the program loses sponsorship. The discipline is non-negotiable across the agent fleet; every agent in production at Kroger, regardless of decision class or HITL posture, produces a complete audit row for every decision, and the GRC liaison from Chapter 19 samples the rows monthly to confirm completeness.
+
+The Kroger compact's commitment is to hold this discipline as the sales motion progresses. Promises made in the pitch deck about audit-row defensibility have to land in the actual implementation; sellers who soften the commitment to win a Wave-1 decision discover that the un-honored commitment surfaces three months into delivery as a credibility breach the program cannot recover from.
+
+## 22.6 The post-close hand-off
+
+The worst pursuit failure is winning Wave-1 and losing the delivery momentum. A Wave-1 SOW signed without a hand-off discipline is a Wave-1 SOW that lands with the delivery lead two weeks behind from Day 1, the sponsor wondering why the seller they were closing with disappeared, and the discovery cycle starting over because the delivery team has to re-learn what the sales team already knew. The hand-off discipline below is the antidote.
+
+**Named delivery lead onboarded before Wave-1 SOW signature.** The delivery lead is named, briefed, and paired with the engagement lead before the SOW signs — not after. The lead reads the discovery materials, reads the risk register, reads the stakeholder map, and joins the final pre-close meetings as observer-then-participant. By the time the SOW signs the delivery lead is in the room and known to the sponsor.
+
+**Sponsor-to-sponsor introduction in the first week.** The Lead Partner introduces the delivery lead to the Tier-1 sponsor in a structured first-week meeting. The introduction is not casual; it is a working session where the delivery lead presents the Wave-1 plan back to the sponsor, surfaces the risks they intend to work first, and confirms the sponsor's expectations for the cadence going forward. The sponsor's first impression of the delivery lead is operational competence, not relationship discontinuity.
+
+**Risk register and stakeholder map transferred with handover notes.** The two working artifacts from Chapter 16 transfer with annotations — what is known, what is hypothesis, what is open, who has been engaged, who has not yet been engaged. The transfer is not a file drop; it is a working session between the engagement lead and the delivery lead, often spanning multiple hours, with the delivery lead asking questions and the engagement lead transferring the institutional context that does not live in the artifacts.
+
+**Sales-to-delivery shadow period of 2-4 weeks.** The engagement lead and the delivery lead are both in the room for the first 2-4 weeks of Wave-1. Stakeholder meetings have both attending; weekly cadence reviews have both attending; risk register updates happen jointly. The shadow period is what converts the hand-off from a handoff event into a continuous relationship transition, and it is what the sponsor experiences as "the seller stayed engaged through the start of delivery" rather than "the seller disappeared."
+
+## 22.7 Success criteria for the program
+
+The success criteria escalate by wave. Each wave has a definition of success that is measurable, that is shared with the sponsor, and that is the basis for the next wave's commitment.
+
+| Wave | Success criterion | How measured |
+|---|---|---|
+| **Wave 1** | Foundation in place, six agents in HITL pilot, sponsor commitment to Wave 2 | Production-grade Bronze→Silver operating; agents producing decisions in the pilot category at the target HITL rate; signed Wave-2 SOW or active Wave-2 negotiation in legal review |
+| **Wave 2** | Production deployment in anchor banner, measurable margin or compliance impact, Tier-2 attach decisions in train | Agents in production across the anchor banner; basis-point impact measured and attributed in the audit-row evidence; FSMA 204 capability live and operating against the regulatory window; Wave-3 candidate set discussed with the program office |
+| **Wave 3** | Banner extension underway, cross-grocer leverage activated, internal Kroger team co-extending the agent library | Agent fleet in production at multiple banners; cross-grocer pursuit cycles compressing per Chapter 21; internal Kroger engineering capacity co-extending the agent library and the substrate |
+
+The escalation matters because it shapes the conversation at each wave. The Wave-1 conversation is about foundation; the Wave-2 conversation is about production and impact; the Wave-3 conversation is about portfolio extension and strategic asset accumulation. The seller who walks the wave-by-wave success criteria with the sponsor at each transition keeps the program funded; the seller who muddles the criteria across waves discovers the sponsor losing patience because the goalposts seem to have moved.
+
+## 22.8 Closing
+
+The compact is not a contract. It is the discipline that, when honored, is the difference between a deal that closes once and a program that compounds. Kroger is the proof point. The compact is what makes the proof point honest. Sellers who internalize the five sentences at the top of this chapter and live them across the pursuit produce the kind of program that earns Wave 2 and Wave 3 because the foundation, the architecture, the credibility, the discipline, and the hand-off were all done right the first time. That is the entire book in one paragraph; the rest of the work is to live it.
+
+> **Companion Artifacts**
+> - [Deliverables Index](INDEX.html) — the master index that covers all 17 artifacts in one navigable surface
+> - [Pitch Deck](Services/RC-E2E-03_Assortment-and-Pricing/Tier3-Governance/APEX-RC-E2E-03-Kroger-Pitch-Deck.html) — the 16-slide pitch deck that anchors the executive conversation
+> - [Risk Register](Services/RC-E2E-03_Assortment-and-Pricing/Tier3-Governance/APEX-RC-E2E-03-Kroger-Risk-Register.xlsx) — the working risk artifact transferred at hand-off
+> - [Service Roadmap](Services/Shared-Both-Services/Tier4-Strategic/APEX-RC-E2E-03-09-Service-Roadmap.html) — the multi-wave roadmap that anchors the success-criteria conversation across waves
+`,
+  summary: [
+    'The compact is five sentences; together they define how the pursuit gets run',
+    'Four non-negotiables: Independence, coexistence, basis-point credibility, audit-row discipline',
+    'Post-close hand-off discipline preserves the win',
+    'Success criteria escalate by wave: foundation → production → banner extension',
+  ],
+  actions: [
+    'Internalize the five-sentence compact before your next Kroger conversation',
+    'Pre-build your hand-off plan into the pursuit timeline',
+    'Review the Independence pre-clearance checklist quarterly',
+  ],
+});
+
 module.exports = { all: chapters, appendices };
