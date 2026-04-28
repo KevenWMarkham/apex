@@ -136,7 +136,8 @@ function mdToHtml(md) {
       else if (/^\*\*Key Play/i.test(firstLine))      { cls = 'keyplay'; label = 'Key Play'; }
       else if (/^\*\*Objection/i.test(firstLine))     { cls = 'objection'; label = 'Objection'; }
       else if (/^\*\*Independence/i.test(firstLine))  { cls = 'independence'; label = 'Independence Reminder'; }
-      const cleaned = bqText.replace(/^\*\*(Note|Warning|Best Practice|Try It Out|Key Play|Objection|Independence)\*\*[.\s:—-]*/i, '');
+      else if (/^\*\*Companion/i.test(firstLine))     { cls = 'companion'; label = 'Companion Artifacts'; }
+      const cleaned = bqText.replace(/^\*\*(Note|Warning|Best Practice|Try It Out|Key Play|Objection|Independence|Companion Artifacts|Companion)\*\*[.\s:—-]*/i, '');
       out.push(`<aside class="callout ${cls}"><div class="callout-label">${label}</div>${mdToHtml(cleaned)}</aside>`);
       continue;
     }
@@ -440,6 +441,15 @@ const CSS = `
   .callout.objection .callout-label { color: var(--wrox-red); }
   .callout.independence { border-color: var(--gold); background: rgba(200, 157, 58, 0.08); }
   .callout.independence .callout-label { color: var(--gold); }
+  .callout.companion {
+    border-color: var(--gold);
+    background: linear-gradient(to right, rgba(200,157,58,0.08), transparent 60%);
+  }
+  .callout.companion .callout-label { color: var(--gold); }
+  .callout.companion ul { margin: 6px 0 0 0; padding-left: 22px; }
+  .callout.companion li { margin: 3px 0; font-size: 14px; }
+  .callout.companion a { color: var(--navy); text-decoration: underline; text-decoration-color: var(--gold); }
+  .callout.companion a:hover { color: var(--gold); }
   .callout p:last-child { margin-bottom: 0; }
 
   .table-wrap { overflow-x: auto; margin: 16px 0; }

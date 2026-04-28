@@ -14,11 +14,19 @@ const chapters = [];
 const appendices = [];
 
 chapters.push({
-  num: 1, part: 1, title: 'Placeholder — replaced in Task 4',
-  objectives: ['Placeholder objective'],
-  body: '## Placeholder\n\nReplaced in Task 4.\n',
-  summary: ['Placeholder takeaway'],
-  actions: ['Placeholder action'],
+  num: 1, part: 1, title: 'Smoke test',
+  objectives: ['Verify the Companion Artifacts callout renders'],
+  body: `
+## Smoke
+
+This chapter is a temporary smoke test for the Companion Artifacts callout. It is replaced in Task 5.
+
+> **Companion Artifacts**
+> - [Walkthrough](Services/RC-E2E-03_Assortment-and-Pricing/Tier0-Foundation/APEX-RC-E2E-03-Walkthrough.docx) — narrative walkthrough of the service
+> - [One-pager](Services/RC-E2E-03_Assortment-and-Pricing/Tier1-Executive/APEX-RC-E2E-03-Kroger-OnePager.html) — 5-minute summary
+`,
+  summary: ['Smoke takeaway'],
+  actions: ['Smoke action'],
 });
 
 module.exports = { all: chapters, appendices };
