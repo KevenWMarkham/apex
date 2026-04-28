@@ -541,15 +541,15 @@ const JS = `
 
 // ---------- Part metadata ----------
 const parts = {
-  1: { title: 'The APEX Thesis for Sellers', intro: 'Why APEX matters as a commercial vehicle, what it pulls through on the Microsoft stack, and how the economics work for both sides of the table.' },
-  2: { title: 'The Four Microsoft Pillars', intro: 'Fabric, Copilot, Foundry, and Purview — how APEX positions each one as a revenue driver, and how they compose into a single cross-sell motion.' },
-  3: { title: 'Industry Playbooks', intro: 'Seven APEX Practices, one chapter each. Industry context, typical SORs, signature services, flagship demo scenarios, KPI targets, and the opening conversation template.' },
-  4: { title: 'Anchor Account Playbooks', intro: 'Thirteen named accounts. Each chapter: strategic context, APEX thesis, MS pillar lead, priority services, qualifying questions, discovery agenda, opening demo, commercial envelope, decision-maker map, and the 30/60/90 plan.' },
-  5: { title: 'The Pursuit Motion', intro: 'Qualifying, discovery, proposal, competitive, objection handling, procurement, delivery handoff — the full cycle with APEX-specific guidance at every stage.' },
+  1: { title: 'Why Kroger, Why APEX', intro: 'The strategic context for the Kroger pursuit, where margin moves in modern grocery, and how APEX wedges into the Kroger estate alongside 84.51°, Ocado, and Boost.' },
+  2: { title: 'The Service Portfolio', intro: 'The two anchor services (RC-E2E-03 Assortment & Pricing and RC-E2E-09 Product Tracking), the high-attach catalog, and how Kroger differentiates from Albertsons, Publix, HEB, and Ahold.' },
+  3: { title: 'The Architecture', intro: 'System of record, the Fabric plane, the Foundry agent plane, the MCP layer, and Purview governance — the five technology planes Deloitte assembles for Kroger.' },
+  4: { title: 'The Pursuit', intro: 'Executive engagement, the pitch, risk and stakeholder management, the demo, and the client-presentable Kroger Store 412 day-in-the-shift narrative.' },
+  5: { title: 'At Scale', intro: 'Operations and test strategy, the multi-wave service roadmap, cross-grocer expansion, and the closing seller compact.' },
 };
 
 // ---------- Build ----------
-console.log('Building Professional APEX: The Sellers Guide...\n');
+console.log('Building Professional Kroger Services...\n');
 
 const tocByPart = {};
 for (const ch of chapters.all) {
@@ -604,28 +604,31 @@ function buildSidebarHtml() {
 const FRONT_MATTER = `
 <section class="cover" id="cover">
   <div class="brand">Professional</div>
-  <h1 class="title"><span class="accent">APEX</span></h1>
-  <div class="subtitle">The Sellers Guide</div>
-  <div class="edition">Pursuing Microsoft Revenue in Industry Accounts</div>
-  <p class="tagline">A field guide for Deloitte Microsoft-practice sellers, Global Practice Leaders, and co-selling account teams. Position APEX to drive Fabric, Copilot, Foundry, and Purview revenue at your industry's anchor accounts.</p>
-  <div class="wrox-label">WROX-STYLE EDITION · SELLERS VOLUME</div>
+  <h1 class="title"><span class="accent">Kroger</span> Services</h1>
+  <div class="subtitle">The Anchor-Account Companion to APEX RC-E2E-03 + RC-E2E-09</div>
+  <div class="edition">FY27 Pipeline · Assortment, Pricing & Product Tracking at The Kroger Co.</div>
+  <p class="tagline">A field guide for Deloitte sellers and delivery leads pursuing the Kroger agentic-AI program. Wraps the seventeen pursuit deliverables into one read — strategy, services, architecture, pursuit motion, and at-scale playbook.</p>
+  <div class="wrox-label">WROX-STYLE EDITION · KROGER VOLUME</div>
   <div class="byline">
-    by the APEX GTM team · Deloitte Microsoft Technology &amp; Services Practice<br>
+    by the APEX RC team · Deloitte Microsoft Technology &amp; Services Practice<br>
     April 2026 · Version 1.0 · CONFIDENTIAL — internal use only
   </div>
 </section>
 <section class="front-toc" id="front-matter">
   <h1>How to Use This Book</h1>
-  <p><em>Professional APEX: The Sellers Guide</em> is a Wrox-style field book for sellers pursuing APEX opportunities in named industry accounts. It is not the architect's reference — that book is <em>Professional APEX: Agentic Platforms on Microsoft Fabric</em>. This book is what you open before a client meeting, during a pursuit, or when the GPL asks "what's the play at Walmart?".</p>
-  <p>The book is organised around three seller questions:</p>
+  <p><em>Professional Kroger Services</em> is the read-front-to-back companion to the seventeen artifacts that make up the FY27 Kroger pursuit deliverables set. It is not a replacement for those artifacts — it is the narrative that ties them together. A seller can read it cold to get smart on the pursuit; a delivery lead can use it to brief a new team member; a GPL can hand it to an account partner walking into a meeting.</p>
+  <p>The book is organised around five questions:</p>
   <ul>
-    <li><strong>"What am I selling, and why does it move Microsoft revenue?"</strong> → Parts I and II.</li>
-    <li><strong>"What do I say in this industry / to this specific client?"</strong> → Parts III and IV. Open Part III for the industry play; open Part IV for the named-account play; use both.</li>
-    <li><strong>"What do I do next in my pursuit cycle?"</strong> → Part V and the Appendices.</li>
+    <li><strong>"Why Kroger, why now, and why does APEX fit?"</strong> → Part I.</li>
+    <li><strong>"What are we actually selling?"</strong> → Part II.</li>
+    <li><strong>"How does it get built?"</strong> → Part III.</li>
+    <li><strong>"How do we close it?"</strong> → Part IV. Chapter 18 (Kroger Store 412) is client-presentable as-is.</li>
+    <li><strong>"How do we run it and grow it?"</strong> → Part V.</li>
   </ul>
+  <p>Each chapter ends with a <strong>Companion Artifacts</strong> callout listing the underlying deliverable files. Click through whenever you need the full document.</p>
   <aside class="callout independence">
     <div class="callout-label">Independence Reminder</div>
-    <p>This book contains publicly-observable strategic signals on named accounts. It does not represent that Deloitte is currently engaged with any named account, nor does it disclose confidential client information. All account narratives are framed as hypotheses to validate in discovery.</p>
+    <p>This book contains publicly-observable strategic signals on The Kroger Co. It does not represent that Deloitte is currently engaged with Kroger, nor does it disclose confidential client information. All account narratives are framed as hypotheses to validate in discovery. The Kroger Store 412 narrative in Chapter 18 is illustrative — it is not a description of any actual Kroger store deployment.</p>
   </aside>
 </section>
 `;
@@ -635,14 +638,14 @@ const html = `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Professional APEX — The Sellers Guide</title>
+  <title>Professional Kroger Services</title>
   <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Aptos:wght@400;600;700&family=Cascadia+Mono&display=swap" rel="stylesheet">
   <style>${CSS}</style>
 </head>
 <body>
   <header class="topbar">
-    <a href="#cover" class="book-brand">Professional <span class="accent">APEX</span> · Sellers Guide</a>
-    <div class="current-chapter" id="current-chapter">Pursuing Microsoft Revenue in Industry Accounts</div>
+    <a href="#cover" class="book-brand">Professional <span class="accent">Kroger</span> Services</a>
+    <div class="current-chapter" id="current-chapter">FY27 Pipeline · RC-E2E-03 + RC-E2E-09 at The Kroger Co.</div>
     <input type="search" id="searchBox" class="search-box" placeholder="Search TOC (press /)">
     <button id="darkToggle" title="Toggle dark mode">◐</button>
   </header>
