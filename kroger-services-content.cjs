@@ -865,4 +865,476 @@ The intelligent pursuit sequence orders the five grocers by similarity-to-Kroger
   ],
 });
 
+// ---- PART III — THE ARCHITECTURE ----
+
+chapters.push({
+  num: 9, part: 3, title: 'System of Record — Bronze→Silver',
+  objectives: [
+    'Describe what the Bronze and Silver layer scopes are for this program',
+    'Identify the source systems feeding the Bronze layer',
+    'Name the Silver entities that form the spine of the agent fleet',
+    'Understand why the Bronze→Silver contract is the QA gate for everything downstream',
+  ],
+  body: `
+No data, no agents. Every chapter that follows assumes the Bronze→Silver layer is in place; without it, there is nothing for the agents to reason over, nothing for Purview to govern, nothing for the audit row to attribute. The system of record is foundational, and a Wave-1 envelope that under-invests in the SOR produces a Wave-2 program that cannot scale. The discipline starts here.
+
+## 9.1 Why SOR matters for agentic AI
+
+Agents that reason on bad data produce bad recommendations, and bad recommendations destroy CFO credibility faster than missing recommendations. A merchant who accepts an agent recommendation that turns out to have been built on a stale supplier-cost feed, or on a receiving event that never landed in the data plane, will reject the next twenty recommendations on principle. Worse, the audit row that ties the recommendation back to the realized P&L delta becomes indefensible the moment the inputs are challenged — the chain breaks at the source, and the program loses its CFO sponsorship in the next quarterly review.
+
+The Silver layer is what makes the agent fleet defensible. It is the conformed, schema-validated, freshness-instrumented business-entity layer that sits between raw operational source systems and the agent runtime. Every agent in the fleet queries Silver; no agent queries a source system directly; every Silver record carries the provenance back to the Bronze record (and from there to the source-system event) that produced it. This is the architectural posture that lets a CFO defend the basis-point claims, that lets a General Counsel defend the recall-execution evidence chain, and that lets a CIO defend the data plane in front of the audit committee. Without it, the program is a demo; with it, the program is a system of record.
+
+## 9.2 The Bronze layer — raw ingest from source systems
+
+The Bronze layer is the as-is landing zone. Data lands at native cadence, in native shape, with original timestamps preserved and source identifiers untouched. There is no transformation in Bronze, no schema enforcement, no deduplication, no normalization — Bronze is a lossless capture of what the source system produced, when it produced it, with the metadata that tells the data engineering team where it came from. If the supplier portal sends a JSON payload with seventeen fields and three of them are misspelled, all seventeen land in Bronze with the misspellings intact. If the POS system sends a transaction record with a future-dated timestamp because of a clock-sync issue at the store, the future-dated timestamp lands in Bronze alongside the system-time of ingest.
+
+The discipline matters for two reasons. First, the Bronze layer is the replay surface — when a downstream Silver transformation has a bug and produces wrong outputs for two weeks, the fix is to correct the transformation and replay from Bronze. If Bronze had been transformed at ingest, the source data would be lost and the replay would not be possible. Second, the Bronze layer is the audit baseline — when a regulator or auditor asks "what did the source system actually send you on July 17," the answer is in Bronze, not reconstructed from Silver. The integrity of the answer depends on the lossless capture.
+
+In Fabric terms, Bronze lives in OneLake delta tables organized by source system, with partition keys that match the source system's natural cadence (date for batch sources, hour or minute for event streams). Eventstream pipelines handle the streaming sources; batch ingest jobs handle the file-and-API sources. Schema-on-read at Bronze, schema-on-write at Silver — that is the line.
+
+## 9.3 The source systems (typical Kroger pattern)
+
+The source systems feeding Bronze are illustrative for the Kroger pattern. Specifics — vendor, version, integration mechanism, refresh cadence — are discovery territory and should be confirmed in Wave-1 envisioning rather than assumed. The shape below is the publicly-inferable typical pattern for a Kroger-scale grocer.
+
+| Source system | Domain | Data shape | Cadence | Refresh latency |
+|---|---|---|---|---|
+| POS / transaction system | Sales, basket, store-level revenue | Event stream (transaction, line item, tender) | Continuous | Sub-minute via Eventstream |
+| Loyalty / customer master (84.51° feed) | Household segments, propensity scores, elasticity coefficients | Curated feature tables via API or Fabric shortcut | Daily refresh, near-real-time for select features | Hours, with feature-specific SLOs |
+| Item master | PLU + UPC + GTIN + TLC, item attributes, category hierarchy | Reference dataset with daily delta | Daily batch | Same-day |
+| Supplier portal / EDI receiving | Advance shipping notices, bills of lading, receiving confirmations | EDI 856/810/856-style messages plus portal events | Per-shipment | Minutes from supplier transmission |
+| Cold-chain telemetry | Temperature, humidity, GPS for refrigerated transport and store cases | Time-series telemetry stream | Continuous | Seconds via Eventhouse |
+| Planogram master | Shelf layouts, facings, category placement | Reference dataset with weekly batch | Weekly with mid-week updates | Same-day |
+| Pricing / promo system | Effective shelf price, promo windows, KVI flags | Reference + event hybrid (price changes are events) | Daily batch + intraday events | Hours for batch, minutes for events |
+| ESL gateway | Electronic shelf label state, sync confirmations | Event stream | Continuous | Sub-minute |
+| Labor scheduling | Department schedules, FreshFlex assignments, time-clock events | Reference + event hybrid | Daily batch + intraday events | Same-day |
+
+These integrations are illustrative; the specific Kroger systems, vendors, and versions are discovery territory. The shape of the table — *how many sources, what cadence each runs at, what latency the agents can rely on* — is what the lead architect should walk through with the Kroger data-platform team in the first week of Wave 1.
+
+## 9.4 The Silver layer — conformed business entities
+
+Silver is the harmonized, schema-validated, business-entity layer that the agent fleet queries. Each Silver record is the result of a Bronze→Silver transformation that maps one or more Bronze records (potentially across multiple source systems) into a canonical business entity with a defined schema, a canonical key, a versioned schema definition, and a freshness service-level objective. Silver is the contract the agent fleet depends on; Bronze is the lossless capture that makes the contract recoverable.
+
+The conformance pattern is straightforward in shape and demanding in execution. Each Bronze record is mapped to one or more Silver entities; the mapping is a code artifact (not a stored procedure, not a notebook left in an analyst's workspace) under version control with explicit ownership. Each Silver entity has a primary key that is canonical across the data plane — an item is identified by GTIN or by an internal item number that resolves consistently across categories; a store is identified by the canonical store number that the operations org uses; a lot is identified by the TLC. Where source systems disagree on identifiers, the conformance layer resolves the disagreement once and writes the canonical identifier to Silver; the disagreement does not propagate to the agent fleet.
+
+Schema validation at Silver is enforced. A Bronze→Silver transformation that produces a Silver record violating its schema fails the transformation and surfaces an alert to data engineering before the bad record reaches the agent fleet. This is the gate that protects the agent fleet from upstream data-quality drift. Freshness is also instrumented — each Silver entity has a freshness SLO (e.g., POS-derived sales facts current within 5 minutes; item-master attributes current within 24 hours; cold-chain telemetry current within 30 seconds), and the data plane reports freshness against SLO continuously. When freshness drifts, the agents are notified and downgrade their confidence accordingly.
+
+## 9.5 The Silver entity model
+
+The core Silver entities are decision-class-shaped, not source-system-shaped. Each is described below with its one-line purpose, primary key, and freshness SLO target. The full visual entity-relationship model lives in the SOR ERD artifact.
+
+- **Item.** The canonical product entity carrying GTIN, UPC, PLU, internal item number, category hierarchy, and attribute set. Primary key: item number (canonical). Freshness SLO: 24 hours for attribute updates, sub-hour for new-item additions.
+- **Lot.** The traceability lot carrying TLC, source identifier, harvest or production date, and lineage links to upstream lots (for transformations and creations). Primary key: TLC. Freshness SLO: minutes from supplier transmission (FSMA-driven).
+- **Customer (anonymized for the agent layer).** The household identifier shape, anonymized at the Silver boundary so that agents reason over segment and propensity rather than raw customer identifiers. Primary key: anonymized household identifier. Freshness SLO: daily for segment updates, near-real-time for in-trip signals where available.
+- **Transaction.** The basket-level event combining tender, line items, store, register, and timestamp. Primary key: transaction identifier. Freshness SLO: sub-minute via Eventstream.
+- **Receipt.** The receiving-event entity for inbound supplier shipments, carrying TLC, supplier, store or DC, quantity, and lineage links. Primary key: receipt identifier. Freshness SLO: minutes from receiving-system transmission.
+- **Promotion.** The promotion-instance entity carrying promo identifier, scope (item/category/store), effective window, and funding source (vendor-funded or grocer-funded). Primary key: promotion identifier. Freshness SLO: same-day.
+- **Price-Point.** The effective shelf-price entity at the item-store-time grain, carrying everyday price, promotional price (where active), and effective window. Primary key: composite of item, store, and effective time. Freshness SLO: minutes for price changes, sub-minute for ESL-confirmed updates.
+- **Supplier.** The supplier-master entity carrying supplier identifier, business name, location, and qualification status. Primary key: supplier identifier (canonical). Freshness SLO: daily.
+- **Store.** The store-master entity carrying canonical store number, banner, format, geography, and operational metadata. Primary key: store number. Freshness SLO: daily, with intraday updates for open/closed status.
+- **Staff-Assignment.** The labor-assignment entity at the associate-shift-department grain, supporting the FreshFlex labor model and the schedule-and-assignment agents. Primary key: composite of associate, shift, and department. Freshness SLO: hourly for schedule, sub-minute for time-clock events.
+
+The full ERD — entities, relationships, foreign keys, cardinality — lives in the SOR ERD artifact and should be walked end-to-end with the lead architect before Wave-1 envisioning workshops begin. The ERD is also the artifact that 84.51° data stewards will review during the data-stewardship gate; it should be presentable cold.
+
+## 9.6 Why Silver is the spine
+
+Every agent in the fleet queries Silver, never Bronze. This is not an implementation convenience; it is the architectural gate that defines what the agent fleet is and is not. Three structural reasons.
+
+**Source-system independence.** When a source system is replaced — a new POS vendor, a new pricing system, a refreshed item master — the impact is confined to the Bronze→Silver transformations for that system. The Silver entities and their schemas do not change; the agents continue querying Silver as before; the swap is invisible to the agent fleet. Without this discipline, every source-system change is an agent-fleet change, and the program loses the agility that makes it valuable.
+
+**Audit defensibility.** Every agent decision traces through schema-validated Silver records, each of which traces back through a versioned Bronze→Silver transformation to a Bronze record, which traces back to a source-system event with timestamp and identifier. This is the chain that makes the audit row defensible: the chain is automatic, captured in lineage metadata, and reproducible six months later when a finance challenge or regulatory inquiry lands.
+
+**Data-quality isolation.** Bad data in a source system does not silently corrupt the agent fleet. The Bronze→Silver schema validation catches malformed records at the conformance boundary; the freshness SLO catches stale records as their staleness exceeds threshold; the agents are notified and adjust. Without Silver as the gate, source-system data-quality drift propagates directly into agent reasoning, and the program loses the integrity that makes it survive scrutiny.
+
+## 9.7 The Bronze→Silver transformation contract
+
+Each Bronze→Silver transformation is a code artifact with explicit ownership, versioning, and a test suite. Not a notebook in someone's workspace, not a stored procedure with no test coverage, not a hand-written script that runs on an analyst's laptop. The discipline is software-engineering-grade: each transformation has a named owner on the data engineering team, lives in a code repository with pull-request review, has unit tests for the transformation logic and integration tests against a frozen Bronze sample, and is deployed through the same CI/CD pipeline that other data-platform code uses.
+
+When a transformation fails — a schema violation in Silver, a freshness SLO miss, an upstream source-system change that breaks the parsing logic — the failure surfaces to data engineering before it surfaces to the agent fleet. Alerting is on the freshness SLO and on the schema-validation failure rate; runbooks define the response; ownership is named. This is the contract that makes the data plane operable rather than fragile.
+
+The Wave-1 envelope budget for SOR work is typically **30-40% of total Wave-1 effort**, sometimes higher when the source-system landscape is messier than expected. Sellers who shave the SOR budget to make the Wave-1 number look smaller are setting up the program to fail in Wave 2; the substrate is the foundation everything downstream depends on, and under-investing here produces an agent fleet that cannot be defended and a CFO conversation that does not survive the second quarter.
+
+> **Companion Artifacts**
+> - [SOR Bronze→Silver](Services/Shared-Both-Services/Tier0-Foundation/APEX-RC-E2E-03-09-SOR-Bronze-to-Silver.docx) — the foundational SOR design document
+> - [SOR ERD](Services/Shared-Both-Services/Tier0-Foundation/APEX-RC-E2E-03-09-SOR-ERD.html) — the full entity-relationship picture
+`,
+  summary: [
+    'Bronze raw, Silver conformed; ten-ish source systems feed Bronze; Silver is the agent spine',
+    'Each Bronze→Silver transformation is a versioned, owned, tested code artifact',
+    'Silver freshness SLOs gate downstream agent reliability',
+    'SOR is 30-40% of Wave-1 effort because everything downstream depends on it',
+  ],
+  actions: [
+    'Walk the ERD with your lead architect before envisioning workshops begin',
+    'Identify which source systems are missing or weak in your prospect\'s estate',
+    'Pre-clear the Bronze→Silver transformation owner before Wave-1 SOW',
+  ],
+});
+
+chapters.push({
+  num: 10, part: 3, title: 'The Fabric Plane',
+  objectives: [
+    'Describe the Fabric components in the architecture',
+    'Name the semantic-model layer and what it serves',
+    'Identify the Eventhouse / Eventstream usage pattern',
+    'Quote a capacity-sizing rule of thumb for the F-SKU starting envelope',
+  ],
+  body: `
+Fabric is the data-plane substrate. OneLake holds everything; the semantic model is the consumption surface; Eventhouse and Eventstream handle the time-series flows; mirroring keeps the coexistence story clean. For this program at Kroger, Fabric is not just a data warehouse — it is the operational data plane that the agent fleet reasons over, the regulatory data plane that the recall agent queries, and the integration plane that bridges the Kroger estate (POS, supplier, store) to the 84.51° estate without copying customer features into Microsoft territory.
+
+## 10.1 What Fabric does for this program
+
+Fabric provides storage, compute, semantic model, and event ingest in one capacity-priced envelope. For a Kroger-scale workload, the appeal is consolidation: one F-SKU envelope replaces the OpEx complexity of a multi-vendor data stack — separate warehouse licensing, separate streaming-platform licensing, separate semantic-layer licensing, separate ETL-tool licensing — with a single capacity reservation that the data-platform team manages against a single set of SLAs. The accounting story is simpler; the operational story is simpler; the upgrade story is simpler.
+
+The architectural story is also tighter. The Bronze and Silver layers from Chapter 9 live in OneLake delta tables; the semantic model that the agents query is **Direct Lake** over those same delta tables, with no separate import or refresh cycle; the time-series streams (POS, cold-chain, FSMA 204 receiving events) land in Eventhouse with KQL-queryable indexes; the streaming pipelines that move source data into Bronze run as Eventstreams. Everything addressable through one workspace, one capacity, one identity boundary. The agent fleet does not have to reason about which platform a particular dataset lives on — it lives in Fabric, the rest is detail.
+
+## 10.2 OneLake as the unified storage tier
+
+Every Bronze and Silver record lives in OneLake — the unified storage tier under Fabric. The format is delta/parquet; the layout is workspace-scoped lakehouses with partition strategies tuned to each entity's query patterns; the access is governed through Entra and classified through Purview. This gives the agent fleet a single addressable storage namespace: when an MCP server (Chapter 12) needs to read a Silver entity, it reads from OneLake; when the recall agent needs to scan a year of receiving events, it scans Eventhouse-indexed OneLake data; when the demand-forecasting model needs a year of POS history, it reads from OneLake.
+
+The storage-tier consolidation has a structural consequence for cost. Compute and storage are decoupled at the OneLake layer — capacity buys compute, OneLake billing covers storage independently — which means the program scales storage and compute against actual workload rather than against a coupled SKU. For the Kroger pattern (large historical retention for FSMA 204, intensive query on recent data for the agent fleet), the decoupling lets the program right-size each dimension separately.
+
+OneLake shortcuts are the structural mechanism that keeps the coexistence story clean — the **shortcut** lets the Fabric workspace read a dataset from another estate (84.51° on GCP, an Azure SQL database, an external Synapse workspace) as if it were native OneLake, without copying the data. Section 10.6 covers the implications.
+
+## 10.3 The Fabric semantic model (Direct Lake)
+
+**Direct Lake** is the semantic layer the agents query. It is the deterministic, business-entity-aware view that the Foundry agents call when they need a Silver record — not a SQL surface, not a raw delta-table read, but a semantic-model query that resolves through the same conformed entity model the data-engineering team published. The agent does not write SQL; it calls a tool exposed by an MCP server (Chapter 12) that resolves through the semantic model and returns a typed business entity.
+
+The decoupling matters. A semantic-model layer between the agents and the storage tier means the storage layout can change — partition strategies refined, table physical structures evolved, even underlying delta tables refactored — without the agent code changing. The agent calls a tool with semantic intent (*"give me the price-point history for item X at store Y over the last 90 days"*); the tool resolves through the semantic model; the semantic model resolves through Direct Lake to the underlying delta tables. Three layers of decoupling, each protecting the layer above from the churn of the layer below.
+
+Direct Lake also gives the program a single conformed view that BI consumers can use. The same semantic model that serves the agent fleet serves Power BI dashboards, Copilot for M365 query surfaces, and any other BI client. There is one definition of *item*, one definition of *store*, one definition of *transaction* — and that one definition is what the merchant sees in their dashboard, what the agents reason over, and what the audit row attributes against. The cross-consumer consistency is itself a defensibility property.
+
+## 10.4 Eventhouse for time-series telemetry
+
+The FSMA 204 traceability records, the cold-chain telemetry, the POS streams, the ESL state events, the time-clock events — all the high-volume, time-series, low-latency data lives in **Eventhouse**. KQL-queryable, time-series-optimized, designed for the workload pattern where queries are bounded by time windows and the cardinality of the events is high.
+
+The recall agent in RC-E2E-09 is the canonical Eventhouse query workload. When a recall is initiated and the agent receives a TLC at 09:02, the query that returns every store that received the lot, every customer transaction that touched the lot, and every remaining inventory unit is an Eventhouse query against a time-bounded slice of the receiving and transaction streams. Sub-minute for the impact-scoping result; minutes for the full lineage export. The performance is not incidental — it is what makes the 24-hour FSMA 204 obligation operationally feasible.
+
+Eventhouse also serves the freshness-signal agent (Chapter 2's fresh-defect-rate decision class), the cold-chain-excursion analytics, and any other workload where the natural shape of the data is time-series with high cardinality. The Eventhouse and OneLake delta layers are not separate stores — Eventhouse data is queryable through the Fabric semantic model alongside OneLake delta data, which means the agents reason over a unified view that hides the storage-tier distinction.
+
+## 10.5 Eventstream for ingest pipelines
+
+**Eventstream** sits between source systems and OneLake, handling the streaming ingest from POS, supplier, and telemetry sources. This is the Bronze-layer landing pipeline for the streaming sources — the batch sources land through scheduled batch jobs, but the streaming sources land through Eventstream, with the ingest pipeline preserving source order, source timestamps, and source identifiers as required by the Bronze-layer discipline from Chapter 9.
+
+The Eventstream pipelines are versioned alongside the Bronze→Silver transformation code; ownership is named on the data engineering team; the ingest pipeline failure modes (back-pressure, schema-drift, source-system outage) are runbook-documented. When a source system pushes a malformed event, the Eventstream pipeline routes it to a dead-letter queue rather than dropping it silently; data engineering investigates; the agent fleet is shielded.
+
+## 10.6 Mirroring and shortcuts to other estates
+
+Fabric **mirroring** and **shortcuts** are the architectural mechanisms that keep the coexistence story with 84.51° clean. The 84.51° estate runs on Google Cloud Platform; copying customer features into Fabric would trigger the displacement anti-pattern from Chapter 3, the data-stewardship gate would block the program, and the cost of duplicated storage would compound monthly. Instead, the Fabric workspace reads the 84.51°-curated feature tables in place via shortcut — the data does not move, the ownership does not change, the governance posture does not shift, but the agent fleet can query the features through the same semantic model that serves Silver.
+
+The same pattern applies to Azure SQL, to existing Synapse workspaces, and to any other estate that the Kroger data-platform team has invested in. Mirroring keeps a continuously-refreshed copy in OneLake for workloads that need ultra-low-latency reads; shortcuts read in place for workloads that tolerate a network hop. The decision is workload-specific and discovery-driven; the architectural pattern is consistent.
+
+For the Kroger pattern specifically, the mirroring story is what lets the architecture slide from Chapter 3 hold up in front of a CIO. **84.51° features stay on GCP, are read via shortcut, are governed by 84.51° upstream and Purview at the consumption boundary.** The Fabric workspace consolidates the operational data plane (POS, supplier, store) but does not absorb the customer-data plane. That is the boundary that makes the coexistence defensible.
+
+## 10.7 Capacity sizing rule of thumb
+
+Capacity sizing is illustrative; the actual envelope depends on data volume, query concurrency, semantic-model complexity, Eventhouse retention, and a half-dozen other factors that only Microsoft and the joint architecture team can size definitively. The rule-of-thumb starting envelope below is publicly-defensible heuristic, not commitment.
+
+| Workload phase | Typical F-SKU starting tier | Notes |
+|---|---|---|
+| Wave-1 envisioning + foundational deployment | F64, or F128 if heavy Eventhouse from the start (FSMA 204 receiving stream) | Sized for one-category proof-of-concept and the foundational SOR build |
+| Wave-2 production | F128–F256 depending on category breadth | Six-agent fleet in production, full Bronze→Silver, semantic model, FSMA 204 lineage live |
+| Wave-3 production at Kroger scale | F256–F512 | All anchors plus high-attach catalog, multi-banner, enterprise scale |
+
+The framing is illustrative. Final pricing is set by Microsoft and the Microsoft account team should validate the starting envelope against the specific Kroger licensing posture before any commitment is documented. The rule-of-thumb tier scales via reservation discounts as the program grows; the program rarely sees a step-change cost increase, more often a gradual climb as workload grows and Microsoft's reservation pricing absorbs the growth.
+
+A note on co-tenancy: Fabric capacity is not exclusively a single-workload reservation, and the Kroger data platform team may already have an enterprise F-SKU footprint that the program rides on top of. Discovery should establish whether the program needs its own dedicated capacity (typical for the regulatory FSMA 204 workload, where SLO isolation matters) or whether it can share an existing enterprise capacity (often acceptable for the agent-decision workload where queries are bursty and small). The decision changes both the cost story and the ownership story; surface it early in Wave 1.
+
+> **Companion Artifacts**
+> - [Fabric Runbook](Services/Shared-Both-Services/Tier2-Build/APEX-RC-E2E-03-09-Fabric-Runbook.docx) — the build-side runbook for the Fabric plane
+> - [Solution Architecture Document](Services/Shared-Both-Services/Tier0-Foundation/APEX-RC-E2E-03-09-Solution-Architecture-Document.docx) — the full architecture treatment, both anchors
+`,
+  summary: [
+    'OneLake + semantic model + Eventhouse + Eventstream is the Fabric stack for this program',
+    'Mirroring keeps coexistence with 84.51° clean — read in place, don\'t copy',
+    'Direct Lake is the semantic surface the agents call through MCP',
+    'Capacity sizing has a starting heuristic; Microsoft validates final pricing',
+  ],
+  actions: [
+    'Rehearse the Fabric architecture story for a CIO audience',
+    'Pre-validate the F-SKU starting envelope with the Microsoft account team',
+    'Identify the F-SKU starting tier for your prospect\'s expected workload',
+  ],
+});
+
+chapters.push({
+  num: 11, part: 3, title: 'The Foundry Plane — Six Agents and Maturation',
+  objectives: [
+    'Recap the six-agent fleet and the model-routing logic for each',
+    'Describe the maturation path (prompt → fine-tune → distill) and when each step is worthwhile',
+    'Quote a cost-per-decision target band for the agent fleet',
+    'Understand the evaluation harness and the HITL contract that anchor the fleet\'s economics',
+  ],
+  body: `
+Foundry is the reasoning runtime. The six agents from Chapter 5 live here; the model-routing decisions live here; the evaluation harness lives here; the HITL contract is enforced here. For this program, Foundry is what turns the data plane into a decision plane — and **model routing** is what keeps the cost-per-decision in defensible bounds as the fleet scales from one-category proof-of-concept to multi-banner production.
+
+## 11.1 The six-agent fleet recap
+
+The six agents introduced in Chapter 5 are the working fleet for RC-E2E-03. Each owns a decision boundary; each is named for its decision class; each runs on a model class chosen for that boundary. The names below are the canonical fleet:
+
+- **Margin-Exposure Agent** — where is gross margin at risk this cycle?
+- **Elasticity Agent** — what happens if we move this price 1%, 3%, 5%?
+- **Counter-Move Agent** — how do we respond to a competitor's move on a watched SKU?
+- **Promo-Participation Agent** — do we accept, modify, or decline this VFP proposal?
+- **Substitution-Pattern Agent** — which SKUs can we discontinue without losing the basket?
+- **Recommendation-Composer Agent** — which 200 recommendations does the merchant see this week?
+
+The fleet is co-resident in a single Foundry workspace with a shared agent registry, a shared MCP server tier, a shared observability stack, and a shared evaluation harness. RC-E2E-09's recall and freshness-signal agents add into the same workspace as the program expands; the workspace is the unit of operational scale, not the individual agent.
+
+## 11.2 Model routing — which agent uses which class and why
+
+Model routing is the discipline of matching each agent's decision class to a model whose reasoning capability is necessary and sufficient for the boundary. Putting a top-tier reasoning model behind every decision is uneconomic; using a small fast model where deep reasoning is required produces unreliable recommendations that destroy merchant trust. The right answer is per-agent, and it changes as the agents mature.
+
+The illustrative routing table below uses publicly-known model classes. Final selection is a joint decision with the Microsoft Foundry product team and depends on availability, cost, latency, and license posture at the time of deployment. Treat this as the starting heuristic, not the commitment.
+
+| Agent | Model class | Why this class | Typical token shape |
+|---|---|---|---|
+| **Margin-Exposure Agent** | Top-tier reasoning (e.g., Claude Sonnet, GPT-4o) | Multi-factor reasoning across margin targets, supplier cost, KVI flags, category strategy; first-pass agent that anchors the entire week | 4-12K input, 1-3K output per cycle |
+| **Elasticity Agent** | Top-tier reasoning (e.g., Claude Sonnet, GPT-4o) | Probabilistic reasoning over elasticity coefficients, basket-affinity, confidence bands; output drives downstream pricing decisions | 6-15K input, 2-4K output per SKU |
+| **Counter-Move Agent** | Top-tier reasoning (e.g., Claude Sonnet, GPT-4o) | Game-theoretic reasoning over competitor postures, banner positioning, KVI implications; latency-sensitive (must respond inside the merchant's review window) | 4-10K input, 1-2K output per move |
+| **Promo-Participation Agent** | Mid-tier reasoning (e.g., GPT-4o-mini, Claude Haiku) | Bounded decision class; structured input (VFP proposal), structured output (accept/modify/decline + counter-offer); benefits from fine-tuning over time | 2-6K input, 1-2K output per proposal |
+| **Substitution-Pattern Agent** | Mid-tier reasoning (e.g., GPT-4o-mini, Claude Haiku) | Pattern-recognition over basket data; not a reasoning-intensive decision but a high-volume one; ideal candidate for fine-tuning | 3-8K input, 1K output per candidate SKU |
+| **Recommendation-Composer Agent** | Smaller model with strong tool-calling (e.g., Claude Haiku, fine-tuned smaller) | Orchestration and ranking, not deep reasoning; consumes upstream agent outputs and merchant calendar; tool-calling dominates over reasoning | 8-20K input, 2-5K output per merchant queue |
+
+The routing logic — *Margin-Exposure, Elasticity, Counter-Move at the top tier; Promo-Participation, Substitution-Pattern at mid tier; Composer at small with strong tool-calling* — is the starting posture. It changes as agents mature down the path described in Section 11.4.
+
+## 11.3 Tool calling and MCP integration (preview Ch 12)
+
+Agents do not query data sources directly; they call tools exposed by MCP servers. This decoupling is what lets us swap models without rebuilding the agent code, and it is what lets the same agent code serve multiple banners with different backend integrations. The Margin-Exposure Agent does not know whether the price-point data lives in Fabric Direct Lake, in an Eventhouse query, or in a mirrored Azure SQL instance — it calls a tool named *get-current-price-points-for-category* with typed input, and the MCP server resolves the call against whatever backend currently serves the data.
+
+When the model class behind the Margin-Exposure Agent changes (an upgrade from one top-tier model to another, a fine-tuning step, a distillation step), the tool-calling contract does not change. The agent code adapts to the new model's tool-calling syntax (which is itself converging across model providers), but the tools themselves stay stable. This is the structural property that makes the model-routing table above changeable rather than brittle. Chapter 12 covers the MCP layer in depth.
+
+## 11.4 The maturation path
+
+The fleet matures along a three-stage path. Each stage has explicit prerequisites; sellers and delivery leads should not skip stages or invert the order.
+
+**Stage 1 — Prompt + RAG.** The starting posture for Wave-1 and early Wave-2. Agents run on a top-tier reasoning model with carefully-engineered prompts and retrieval-augmented context from the Silver layer. This stage is the cheapest to iterate (prompt changes deploy in hours, not weeks) but the most expensive per decision (top-tier model tokens dominate the cost line). The right stage for proving the agent boundaries, refining the input/output contracts, and accumulating the labeled examples that make Stage 2 worthwhile.
+
+**Stage 2 — Fine-tune.** The right step when a recurring decision class has accumulated **enough labeled examples** — typically 1000 or more high-quality examples with clear ground-truth labels (the merchant's HITL decision plus the realized P&L delta). Fine-tuning a smaller model on the decision class reduces both tokens (the prompt is shorter because the model has internalized the decision pattern) and latency (smaller model, fewer parameters). The Promo-Participation Agent and the Substitution-Pattern Agent are the natural Stage-2 candidates; both have bounded decision classes and both accumulate labeled examples quickly under HITL.
+
+**Stage 3 — Distill.** The right step when a fine-tuned agent is hot enough — running thousands of decisions per day on a regular cadence — to justify a small dedicated model whose only job is that decision class. Distillation cuts token cost 10-50x for the highest-volume agents and shrinks latency to sub-second. The Recommendation-Composer Agent is a natural Stage-3 candidate eventually, because it runs every merchant cycle on every category and the orchestration logic is bounded enough to distill cleanly.
+
+The maturation cost-benefit math is the program's compounding economics. **A Stage-1 fleet operates on token-rich top-tier models; a Stage-3 fleet operates on token-lean distilled models with surgical use of top-tier where reasoning depth is genuinely required.** The cost gap between the two is the multi-year economic story for the CFO.
+
+## 11.5 Cost-per-decision target band
+
+The cost-per-decision target band is illustrative and highly workload-dependent. The framing below is the publicly-defensible heuristic for the Kroger pattern; actual cost depends on token shape, model selection, fine-tuning investment, and the maturation stage of each agent.
+
+- **Wave-1 prompt-only fleet:** $0.05–$0.20 per decision. Top-tier model, prompt + RAG, no fine-tuning yet. The Wave-1 cost is high per decision but absolute volume is low — one-category proof-of-concept produces hundreds of decisions per cycle, not thousands.
+- **Mature mixed fleet (Wave 2 to mid Wave 3):** $0.005–$0.02 per decision. Mix of top-tier on the reasoning-heavy agents, fine-tuned mid-tier on the Promo-Participation and Substitution-Pattern agents. Volume has scaled to thousands of decisions per cycle across multiple categories.
+- **Distilled production fleet (mid Wave 3 onward):** sub-cent per decision. Top-tier reserved for the highest-stakes reasoning calls (Counter-Move under competitive pressure, Margin-Exposure for at-risk categories); distilled small models for the high-volume orchestration and pattern-recognition work. Volume at full Kroger scale is tens of thousands of decisions per day.
+
+The illustrative ranges are the right shape for a CFO conversation about scaling economics. Sellers should frame the cost-per-decision band as a multi-year trajectory rather than a Wave-1 commitment; the program earns the right to move down the band by completing the maturation prerequisites at each stage.
+
+## 11.6 Evaluation harness — how Foundry agents get measured
+
+Every agent has a **golden set** — a frozen, labeled set of representative decision examples curated by the data-science team in collaboration with the merchant org. The harness runs the golden set against every model swap, every prompt change, every fine-tuning iteration, and every deployment to a new banner; regressions surface as failed harness runs and block deployment until investigated.
+
+In production, **drift detection** runs against a rolling sample of live decisions. The harness compares the agent's recommendations on the rolling sample against the golden-set baseline; if the agent's distribution of recommendations shifts beyond a calibrated threshold (e.g., recommending price increases at a materially higher rate than the golden set suggests is appropriate for the current input distribution), an alert surfaces to the data-science team. Drift can be benign (the world has changed, the agent is responding correctly), or it can indicate a problem (a source-system change has shifted the input distribution and the agent has not been retrained for the new distribution). Either way, the alert triggers investigation.
+
+The **eval report** is surfaced to the operations team weekly. Cadence-routine: golden-set pass rate per agent, drift-detection signal summary, accept-rate trends from the merchant HITL surface, realized-vs-predicted impact gap per agent. This is the operational dashboard that the program runs on; it is also the artifact that the data-science team and the merchant team review jointly to prioritize the next round of agent tuning. The full eval design lives in the AI/ML Model Spec artifact.
+
+## 11.7 The HITL contract
+
+Every agent surfaces a recommendation with a **confidence score** and a **rationale**. The merchant accepts, modifies, or rejects; if they modify or reject, a structured **override reason** is captured. The audit row captures all of it — model version, inputs (with classification labels), prompt fingerprint, recommendation, confidence, rationale, merchant decision, override reason if any, timestamp, identity. This is the contract.
+
+The HITL gate is what makes the audit trail defensible AND what produces the labeled examples that feed the maturation path. Both properties matter equally. The defensibility property is what the CFO and General Counsel rely on when challenges land — every recommendation traces, every decision attributes, every dollar of claimed margin connects back through the chain. The labeled-example property is what compounds the program's economics — every HITL decision is a labeled example for the agent that produced the recommendation, and 1000 high-quality labeled examples is the threshold for Stage-2 fine-tuning. The merchant org is, structurally, the labeling team for the agent fleet; the program does not have to fund a separate labeling effort because the labeling falls out of the operational HITL workflow.
+
+The contract is also where the program's economics tighten over time. A Wave-1 fleet runs every recommendation through HITL; a Wave-2 fleet runs the high-stakes recommendations through HITL and the routine recommendations on a sampled-HITL basis (the merchant reviews every fifth recommendation, not every one, with the full audit row still captured); a Wave-3 fleet retains HITL on the high-stakes decisions and operates the routine ones on supervisory oversight (the merchant reviews exception reports rather than individual recommendations). The throughput climbs; the audit defensibility holds; the cost-per-decision falls; the merchant time freed is the substantive productivity gain.
+
+> **Companion Artifacts**
+> - [Six Agents Deep Dive and Maturation](Services/RC-E2E-03_Assortment-and-Pricing/Tier2-Build/APEX-RC-E2E-03-Six-Agents-Deep-Dive-and-Maturation.docx) — the agent-by-agent specification and maturation roadmap
+> - [Service Sequence Diagram](Services/RC-E2E-03_Assortment-and-Pricing/Tier2-Build/APEX-RC-E2E-03-Service-Sequence-Diagram.html) — the agent-to-agent and agent-to-tool flow
+> - [AI/ML Model Spec](Services/Shared-Both-Services/Tier4-Strategic/APEX-RC-E2E-03-09-AI-ML-Model-Spec.docx) — the full eval, model-governance, and maturation design
+`,
+  summary: [
+    'Six agents; model class is matched to decision complexity, not bolted on uniformly',
+    'Prompt + RAG → fine-tune → distill is the maturation path; each step has explicit prerequisites',
+    'Cost-per-decision target band drops 10-50x as agents mature',
+    'Evaluation harness + HITL contract anchor both defensibility and economics',
+  ],
+  actions: [
+    'Memorize the six-agent / model-class table for your next architecture conversation',
+    'Rehearse the maturation story for a Chief Data & Analytics Officer',
+    'Pre-validate the illustrative cost band with the Foundry product specialist on the Microsoft team',
+  ],
+});
+
+chapters.push({
+  num: 12, part: 3, title: 'The MCP Layer',
+  objectives: [
+    'Describe MCP in the context of this architecture',
+    'Identify the MCP servers in the deployment and what each exposes',
+    'Explain the tool contract MCP gives the Foundry agents',
+    'Recognize where MCP intersects with Purview and Entra',
+  ],
+  body: `
+MCP is the agent-to-tool spine. It is what lets the same agent code work against different backends — and what lets governance wrap every tool call. For this program at Kroger, MCP is the architectural layer that makes the rest of the platform composable: the agents call tools, the tools resolve through MCP servers, the MCP servers wrap the underlying systems (Fabric semantic model, Eventhouse, 84.51° API, pricing system, audit store), and the whole stack is uniformly governed by Purview classification and Entra identity.
+
+## 12.1 MCP in one paragraph
+
+**Model Context Protocol (MCP)** is an open contract for tool calling that decouples the agent (which reasons) from the tool surface (which acts). Each tool is exposed via an MCP server with a typed input/output contract, an explicit auth scope, and a well-defined error model. The agent calls a tool by name with typed arguments; the MCP server resolves the call against its backend system; the response returns to the agent as a typed object. The contract is open — published, versioned, and supported by every major model and agent framework — which means the investment in MCP servers compounds across model upgrades, agent-framework changes, and even multi-vendor agent estates. For a Kroger-scale program, MCP is the structural piece that makes the platform durable across multiple Wave-3 years.
+
+## 12.2 The MCP servers in the Kroger deployment
+
+The deployment carries a focused set of MCP servers, each wrapping one backend system or one decision-tier of the platform. The table below is the working set; the full list and each server's tool catalog lives in the MCP Deep Dive artifact.
+
+| Server | Purpose | Tools exposed (sample) | Backend system |
+|---|---|---|---|
+| **Semantic-Model server** | Read access to the Fabric Direct Lake semantic model | *get-item-attributes*, *get-price-points-for-category*, *get-promotion-history*, *get-substitution-patterns* | Fabric Direct Lake / OneLake delta |
+| **Eventhouse server** | KQL queries against time-series streams | *scope-recall-by-tlc*, *get-cold-chain-excursions*, *get-pos-stream-window*, *get-receiving-events-for-supplier* | Fabric Eventhouse |
+| **Customer-Features server** | Curated 84.51° feature reads via API | *get-segment-membership* (anonymized), *get-elasticity-coefficients*, *get-basket-affinity*, *get-propensity-scores* | 84.51° feature API (read via shortcut where possible) |
+| **Pricing/Promo server** | Write-back to the pricing and promotion systems through approved channels | *propose-price-change*, *commit-approved-promotion*, *cancel-pending-price-change* | Pricing system + promotion system |
+| **Notification server** | Teams Copilot card delivery and customer-channel notifications | *push-merchant-recommendation-card*, *push-store-pull-notification*, *queue-customer-recall-notification* | Teams + customer-communication channel |
+| **Audit-Row server** | Writes the canonical audit record for every agent decision | *write-audit-row*, *attach-realized-impact*, *amend-audit-row-with-merchant-decision* | Audit store (typically OneLake-resident with append-only semantics) |
+
+Each server is small, focused, and replaceable. When the underlying pricing system is upgraded, only the Pricing/Promo server changes; the agent code and every other server are untouched. When 84.51° refines its feature API, only the Customer-Features server adapts. The blast radius of a backend change is bounded to one MCP server. The full server-by-server tool catalog and contract is in the MCP Deep Dive artifact, which the lead architect should walk through during Wave-1 architecture review.
+
+## 12.3 Server-to-tool contract — what the agents see
+
+Each tool is a function with **typed inputs**, **typed outputs**, and an **explicit auth scope**. The agent does not see the backend; it sees a callable tool with a JSON-schema-defined input shape, a JSON-schema-defined output shape, and a well-documented error model. Calling *get-price-points-for-category* requires an auth scope that includes pricing-read; calling *propose-price-change* requires the pricing-write scope plus a merchant identity context; calling *get-segment-membership* requires the customer-feature-read scope and the call returns anonymized segment data, not raw customer identifiers.
+
+The typed contract is what makes the agents reliable. A Stage-1 prompt-engineered agent and a Stage-3 distilled agent call the same tool with the same input shape and consume the same output shape — the model behind the agent has changed, but the tool surface is stable. This is also what makes the program multi-banner-ready: the same Margin-Exposure Agent code that serves the Kroger banner serves the Marketplace banner, the Fred Meyer banner, and the Mariano's banner because the tool surface is uniform across them. Banner-specific behavior is captured in tool implementations (the Pricing/Promo server resolves the right downstream pricing system per banner), not in agent code.
+
+## 12.4 MCP hosting in Azure
+
+The production hosting pattern is straightforward and Azure-native. **App Service** or **Container Apps** hosts the bulk of the MCP servers; **Azure Functions** is the right shape for the lightest-weight servers (e.g., simple notification dispatchers with no persistent state). All servers sit behind **Azure API Management** for rate limiting, throttling, monitoring, and external-facing identity boundaries.
+
+The hosting choice between App Service and Container Apps is a discovery-driven decision; for the Kroger pattern with multiple language runtimes (the Customer-Features server may be Python, the Pricing/Promo server may be .NET, the Eventhouse server may use the official KQL SDK in either), Container Apps is often the cleaner shape for operational consistency. App Service is the right shape when the team is heavily Microsoft-stack-aligned and wants the simpler deployment model. Either pattern works; the decision is operational rather than architectural and should be pre-cleared with the Microsoft account team.
+
+API Management at the front gives the program a clean throttling and observability layer. Every tool call is logged through API Management's standard surface; rate limits are enforced per-tool to protect downstream backends; external identities (where the surface is exposed beyond the tenant) authenticate through API Management's gateway. For internal-only servers, API Management still adds value as the uniform observability boundary.
+
+## 12.5 MCP intersection with Purview
+
+Every tool call is observable to Purview through the standard Azure logging surface. **Classification labels** assigned by Purview to underlying data (e.g., a customer-segment table classified as customer-PII) propagate through tool calls so that customer-PII data carries its label end-to-end — when the Customer-Features server returns segment data to an agent, the response carries the classification label, and the agent's downstream actions (writing the segment data into a recommendation, surfacing it to a merchant) inherit the label.
+
+**DLP applies at the tool boundary.** A tool refuses to return classified data to an unauthorized agent context. If an agent operating with a merchant-decision auth scope attempts to call a tool that returns raw customer identifiers (which require a higher classification scope), the call is rejected at the MCP server before any data leaves the backend. This is the structural protection against agent-driven data exfiltration; it sits at the tool boundary because that is the only consistent gate where every agent action passes.
+
+The intersection with Purview is also what gives the program lineage through the agent layer. Without MCP-mediated tool calls, agent reasoning is a black box from a lineage perspective — you can see what data the agent received and what recommendation it produced, but the chain of tool calls inside the reasoning is opaque. With MCP, every tool call is logged, every classification label propagates, and the lineage chain runs end-to-end from source through tool through agent through recommendation through audit row. Chapter 13 covers Purview in depth.
+
+## 12.6 MCP intersection with Entra
+
+Agents call tools **on-behalf-of** a human user (or a service principal for unattended scenarios). **Entra** issues the scoped tokens; the audit row captures the user identity. The Margin-Exposure Agent invoked from Cassidy's Copilot session calls tools with Cassidy's identity in the token; the audit row attributes the recommendation chain back to Cassidy; if Cassidy lacks the auth scope for a particular tool, the tool call fails with an authorization error.
+
+This is the structural pattern that makes the agent's actions attributable to a human. Without it, agent actions are ambiguous from an audit perspective — they were taken by the system, not by anyone in particular. With on-behalf-of identity, every action attributes; the audit row is defensible; the security and compliance posture survives review. For unattended scenarios (e.g., an overnight Margin-Exposure batch run with no merchant in the loop), the agent runs as a service principal with explicit auth scopes, and the audit row attributes the recommendation chain back to the service principal — which is itself owned by a named team and bounded by explicit scope.
+
+## 12.7 The MCP-as-product story
+
+Long-term, the MCP servers become the integration product Kroger owns and extends. Future internal Kroger teams add tools; future LLMs and agent frameworks consume them; the investment compounds because the contract is open. The Pricing/Promo server that today serves the six-agent merchant fleet may tomorrow serve a customer-service-side agent that needs to read price-point history for a customer inquiry, a finance-side agent that needs to verify pricing decisions against a budget, or a third-party developer's agent that Kroger has chosen to grant scoped access.
+
+This is the structural argument for why the MCP layer is **not a transient implementation detail.** The Bronze→Silver SOR is the data product; the Fabric semantic model is the consumption product; the MCP server tier is the integration product. Each compounds as the program scales; each survives model-vendor changes and agent-framework changes; each is an asset that Kroger's data and platform team owns and extends. Sellers who frame MCP as a transient layer (*"the agents will get to the data however they get to it"*) miss the strategic shape; sellers who frame MCP as a long-term product investment (*"this is your integration tier for every agent estate you build over the next decade"*) land the architecture conversation with a Chief Data Officer or Chief Architect.
+
+> **Companion Artifacts**
+> - [MCP Server Deep Dive](Services/RC-E2E-03_Assortment-and-Pricing/Tier2-Build/APEX-RC-E2E-03-MCP-Server-Deep-Dive.docx) — the server-by-server contract, tool catalog, and hosting design
+> - [Service Sequence Diagram](Services/RC-E2E-03_Assortment-and-Pricing/Tier2-Build/APEX-RC-E2E-03-Service-Sequence-Diagram.html) — the request/response flow including MCP tool calls
+`,
+  summary: [
+    'MCP is the agent-to-tool spine; multiple servers, one open contract',
+    'Azure-hosted via App Service / Container Apps behind API Management',
+    'Purview classification + Entra identity wrap every tool call for governance',
+    'Long-term, the MCP layer is Kroger\'s integration product, not a transient detail',
+  ],
+  actions: [
+    'Memorize the MCP server list and what each exposes',
+    'Rehearse the MCP-as-product narrative for an enterprise architect',
+    'Pre-clear the MCP hosting choice (App Service vs Container Apps) with the Microsoft account team',
+  ],
+});
+
+chapters.push({
+  num: 13, part: 3, title: 'Purview & Governance',
+  objectives: [
+    'Describe Purview\'s role in an agentic AI program',
+    'Identify the four Purview capabilities the program uses',
+    'Explain the data-classification posture from Bronze through agent decision',
+    'Recognize the audit-row discipline as the regulator-ready evidence chain',
+  ],
+  body: `
+Purview is non-negotiable. An agentic AI program without Purview is a program that cannot survive a regulatory audit, a CISO review, or a compliance-driven incident. For this program at Kroger, Purview is the governance plane that wraps every other plane — the SOR, the Fabric data plane, the Foundry agent runtime, the MCP integration tier — and turns the platform from a collection of capable components into a defensible system of record. The defensibility is the part the General Counsel and the Chief Compliance Officer care most about, and it is the part that makes the difference between a pilot and a production program.
+
+## 13.1 Why Purview is non-negotiable in agentic AI
+
+Three structural reasons make Purview a hard requirement, not a nice-to-have.
+
+**Regulator pressure.** The FTC's posture on AI-driven consumer decisions, the FDA's posture on FSMA 204 evidence chains, and the patchwork of state privacy laws (CCPA, CPRA, the emerging state-level AI laws) all converge on the same operational requirement: the program must produce, on demand, a defensible record of which data informed which decision and which classification controls were applied. Without Purview, the records are reconstructed manually under deadline pressure, and reconstructed records do not survive scrutiny.
+
+**Customer trust.** The largest headline-risk event in retail in the past decade has been the customer-data exfiltration incident — at Target, at Home Depot, at multiple grocers. The lesson is that the headline does not turn on whether the exfiltration was sophisticated; it turns on whether the grocer can credibly demonstrate that the controls were in place and working. Purview is the evidence that the controls were in place and working, and it is what lets a CISO defend the program in front of the audit committee after an incident.
+
+**Legal defensibility.** The audit chain must be **producible** — not merely existing in some logging system, but producible in a form that opposing counsel cannot challenge as reconstructed. Purview lineage is captured automatically at the moment of data movement; it is not assembled after the fact. That is the property that makes it defensible. The General Counsel quantifies the defensibility differential in expected-value terms against the program's litigation exposure, and the math underwrites the Purview investment.
+
+## 13.2 Data Map and classification
+
+**Purview Data Map** scans Bronze and Silver and applies classification labels — *PII*, *PHI* (where applicable, e.g., for pharmacy operations), *financial-confidential* (for supplier-cost and margin data), *supplier-confidential* (for vendor-funded promotion contracts), and the standard public/internal/confidential tiers for everything else. The scan runs on a defined cadence (typically daily for Silver, less frequent for Bronze) and surfaces classification drift — new datasets that arrive without classification, existing datasets whose contents have shifted classification, and policy violations where classified data has landed in an unclassified zone.
+
+Classification **propagates** through the semantic model into tool outputs. When the Customer-Features MCP server returns segment data to an agent, the response carries the classification label that was applied at the underlying feature table. When the agent writes a recommendation that incorporates segment data into the audit row, the audit row inherits the label. The classification chain runs end-to-end; the agent does not have to know what classification rules apply because the rules ride along with the data.
+
+The classification matrix — which data class lives where, what label applies, what controls follow — is co-authored with Kroger's data-governance and 84.51° data-stewardship teams during Wave 1. The matrix is also the artifact the program presents at the data-stewardship gate; getting the matrix right early is what unblocks the rest of the program.
+
+## 13.3 Data Loss Prevention (DLP) for agent outputs
+
+**DLP policies** apply at the tool boundary (Chapter 12). An agent operating outside its authorized scope cannot retrieve classified data; an agent producing a recommendation with classified data attached cannot deliver the recommendation to an unauthorized surface. Both gates are enforced at the MCP server, not at the agent — which means the gates are uniform across model-vendor changes, prompt revisions, and fine-tuning iterations. The agent's behavior may evolve; the DLP enforcement does not.
+
+The DLP posture covers two failure modes. **Data over-disclosure** — the agent retrieving more sensitive data than its decision boundary requires — is gated at the tool input by auth scope. **Data over-exposure** — the agent producing a recommendation that surfaces sensitive data into a less-controlled channel (e.g., a Teams card visible to unauthorized recipients, an export to an unmanaged endpoint) — is gated at the tool output by classification-aware delivery rules. Both gates fail closed: an unauthorized request is denied, an unauthorized delivery is blocked, and both events surface to the security team for investigation.
+
+DLP enforcement is also what makes the program safe to scale to additional banners and additional categories without per-banner re-engineering. The DLP rules are policy-defined, not code-defined; adding a banner extends the policy scope, not the codebase.
+
+## 13.4 Data lineage end-to-end
+
+The lineage chain is the evidence backbone. **Source system → Bronze record → Silver entity → semantic-model exposure → tool call → agent reasoning → recommendation → HITL decision → audit row.** Every link in the chain is captured automatically — at ingestion, at conformance, at semantic-model query, at tool call, at agent recommendation, at HITL gate, at audit-row write. The capture is not a separate process the team has to remember to run; it is a property of the platform.
+
+When a regulator or auditor asks *"how do you know this recommendation was based on accurate data,"* the answer runs the chain backward. The audit row identifies the recommendation; the recommendation identifies the agent and the model version; the model version identifies the prompt and the tool calls; the tool calls identify the semantic-model queries; the semantic-model queries identify the underlying Silver entities; the Silver entities identify the Bronze records and the conformance transformations; the Bronze records identify the source-system events with original timestamps. **End-to-end, automatic, reproducible.** This is the architectural property that makes the program survive regulatory scrutiny.
+
+The lineage chain is also what makes incident response operable. When a data-quality issue is detected at Silver — say, a price-point entity with a wrong effective time — the lineage chain identifies every recommendation that consumed the bad data, every merchant decision that followed the recommendation, and every realized P&L delta that attributes back to the chain. The remediation is bounded; the affected decisions are identified; the merchant and finance teams can review the affected outcomes specifically rather than treating the whole program as suspect.
+
+## 13.5 Communication compliance for HITL conversations
+
+The HITL surface (Teams Copilot, Copilot Studio) is **communications-compliance-monitored** where required. Sensitive communications can be flagged, retained, and reviewed. For the merchant-decision flow, this typically applies to the structured override-reason capture, the margin-exposure-driven escalation conversations between category managers and the pricing director, and the supplier-funded promotion negotiations that touch the VFP Management workflow.
+
+The communications-compliance posture is more delicate at Kroger than at many grocers because of the 84.51° boundary. Communications that touch customer segment data, propensity scores, or basket-affinity outputs need the classification-aware retention and review posture; communications that stay inside the merchant-and-margin conversation need the standard retention. The policy work is co-authored with Kroger's communications-compliance and legal teams during Wave 1 and is part of the Privacy and Data Governance Specification.
+
+## 13.6 Audit-row discipline
+
+The **audit row** is the canonical record of every agent decision. Each row captures:
+
+- **Model version** — the exact hash of each upstream agent's model artifact at decision time.
+- **Inputs (with classification labels)** — every input the agent received, with the classification label that applied at retrieval.
+- **Prompt fingerprint** — a hash of the prompt template and any retrieval-augmented context, allowing reproducibility without storing the full prompt text.
+- **Recommendation** — the full recommendation as presented, including SKU, action, predicted impact, confidence band, counterfactual.
+- **Confidence** — the agent's confidence score for the recommendation.
+- **Human decision** — accept, modify (with the modification captured), or reject; timestamped and identity-attributed.
+- **Override reasoning if any** — the structured override-class capture from the merchant.
+- **Downstream financial impact (when measurable)** — the realized P&L delta attached to the recommendation as it becomes measurable, typically days to weeks after the decision.
+
+This is the artifact the GRC team produces in a regulatory audit. It is also the artifact finance produces when challenging a basis-point claim. It is the artifact the General Counsel produces when defending a recall response. The audit row is not an internal logging convenience; it is the regulator-ready evidence chain, and the discipline of writing it correctly at every decision is what makes the chain trustworthy.
+
+The audit-row store itself is OneLake-resident with append-only semantics, classified at the highest tier the row's content requires (typically financial-confidential at minimum, customer-PII when the recommendation involved customer-segment inputs), and Purview-lineaged like any other Silver entity. Retention is policy-driven and typically multi-year — the FSMA 204 24-month minimum applies for the recall-related rows, and finance and legal retention requirements typically push the merchant-decision rows to similar or longer windows.
+
+## 13.7 The Privacy and Data Governance Specification walkthrough
+
+The Privacy and Data Governance Specification artifact lays out the controls in operational detail. Five sections anchor it.
+
+- **Classification matrix** — the full enumeration of data classes, the labels that apply, the storage zones each is permitted in, and the retention obligation for each.
+- **Retention by classification** — the policy-defined retention windows tied to each classification; FSMA-driven 24-month minimums for traceability data, multi-year retention for financial-confidential decisions, the exceptional handling for customer data that crosses the 84.51° boundary.
+- **Access scopes by role** — which roles (merchant, pricing director, private-brand lead, recall responder, GRC analyst, security responder) can access which classifications, in which contexts, with which audit obligations.
+- **Exit obligations** — what happens to data, audit rows, and lineage records when the program ends or when a banner is divested; the obligations that survive any commercial change.
+- **Incident-response playbooks** — the structured response to a classification breach, a DLP failure, a lineage-chain gap, or an audit-row write failure.
+
+The spec is **co-authored with Kroger's GRC team during Wave 1** — not delivered by Deloitte and reviewed by Kroger, but co-authored with shared accountability. This is the discipline that makes the spec land; specs delivered for review get edited by GRC and become political artifacts; specs co-authored from the start carry shared ownership and survive the operating cadence.
+
+> **Companion Artifacts**
+> - [Privacy & Data Governance Spec](Services/Shared-Both-Services/Tier4-Strategic/APEX-RC-E2E-03-09-Privacy-Data-Governance-Spec.docx) — the full controls document
+> - [AI/ML Model Spec](Services/Shared-Both-Services/Tier4-Strategic/APEX-RC-E2E-03-09-AI-ML-Model-Spec.docx) — model-governance design that pairs with the privacy controls
+`,
+  summary: [
+    'Purview is non-negotiable; agentic AI without Purview cannot survive an audit',
+    'Four capabilities used: classification, DLP, lineage, communications compliance',
+    'Lineage runs end-to-end from source system through audit row',
+    'Audit-row discipline is the regulator-ready evidence chain',
+  ],
+  actions: [
+    'Memorize the four Purview capabilities and where each applies',
+    'Rehearse the audit-row pitch for the General Counsel and Chief Compliance Officer',
+    'Pre-clear classification posture with 84.51° governance early in Wave 1',
+  ],
+});
+
 module.exports = { all: chapters, appendices };
