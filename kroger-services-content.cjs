@@ -644,7 +644,7 @@ RC-E2E-09 closes the gaps with three architectural moves.
 
 A short recall scenario makes the architecture concrete. **Class II FDA recall on infant formula, lot LX-IF-2207, initiated Tuesday 09:00.** The recall agent receives the lot identifier at 09:02. By 09:08 the agent has identified 412 stores that received the lot, 11,847 loyalty-attributed customer transactions, and 2,304 remaining inventory units across the network. By 09:30 store-pull notifications have hit every receiving store via Teams and have been acknowledged by 380 of 412. By 11:00 the loyalty notifications have been queued through the customer-communications channel. By 14:00 the FDA-format lineage export is ready for submission. End-to-end inside the same business day; all steps timestamped, attributed, and Purview-lineage-defensible.
 
-## 6.9 The six-agent fleet for traceability
+## 6.8 The six-agent fleet for traceability
 
 The "recall agent" framing in 6.7 is shorthand. RC-E2E-09's reasoning is actually distributed across **six agents** that share the Fabric Eventhouse SOR — structurally parallel to RC-E2E-03's six-agent merchant pod from Chapter 5. Each agent owns a bounded decision class within the FSMA 204 + recall workflow; together they compose into the end-to-end traceability service. The six agents and their decision boundaries are below.
 
@@ -659,7 +659,7 @@ The "recall agent" framing in 6.7 is shorthand. RC-E2E-09's reasoning is actuall
 
 The agents compose during a recall event in a tight choreography. When an FDA recall posts, the **Compliance Monitoring Agent** confirms KDE coverage on the affected lots so the evidence base is sound; the **Distribution and Fulfillment Agent** traces the affected TLCs to their current locations across DCs, stores, and customer transactions; the **Disposition Optimizer Agent** generates the pull plan, the customer-notification roster, and the store-team task list; the **Inventory Holding Agent** manages the quarantine status of remaining inventory and produces the release-or-destruction decision; the **Regulatory Compliance Agent** stamps the evidence package for FDA submission against FSMA 204 and any state-variant requirements; and the **Supplier Optimization Agent** feeds the lot's data-quality history back into the upstream supplier scorecard. End-to-end inside the same business day, attributed and lineage-defensible from source through evidence package.
 
-## 6.8 The litigation and customer-trust upside
+## 6.9 The litigation and customer-trust upside
 
 The regulatory compliance is the floor, not the ceiling. The second-order value of RC-E2E-09 is what closes the General Counsel.
 
