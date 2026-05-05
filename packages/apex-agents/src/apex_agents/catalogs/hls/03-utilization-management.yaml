@@ -1,0 +1,47 @@
+kind: agent
+name: apex.hls.agents.utilization-management
+version: 0.1.0
+practice: hls
+persona: Utilization Review Nurse
+service_codes: [HLS-E2E-03]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Prior-authorization and continued-stay review automation. Reads InterQual /
+  MCG criteria + patient context, produces structured determinations with
+  rationale chain.
+archetype_id: F4-regulatory-trigger-audit-preserve
+primary_contact: hls-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.hls.mcp.claimml.get_authorization_request
+    purpose: Read inbound prior-auth request
+  - tool_id: apex.hls.mcp.patientml.get_clinical_summary
+    purpose: Read patient clinical summary
+  - tool_id: apex.hls.mcp.external.get_uw_criteria
+    purpose: Read InterQual / MCG criteria
+  - tool_id: apex.hls.mcp.claimml.post_authorization_decision
+    purpose: Issue auth decision
+    write: true
+
+hitl_gates:
+  - name: denial_review
+    description: Any denial requires nurse review before issuance
+    fires_when: Decision is to deny
+    surface: teams_card
+    sla_minutes: 240
+  - name: high-cost approval
+    description: Approval over $50K total cost requires medical director sign-off
+    fires_when: Estimated total cost > $50,000
+    surface: dashboard
+    sla_minutes: 1440
+
+oversight_modes: [HITL, HOTL]
+
+kpis:
+  - name: turnaround time
+    direction: down
+    target_band: "-50 to -70% reduction"
+  - name: denial-overturn rate
+    direction: down

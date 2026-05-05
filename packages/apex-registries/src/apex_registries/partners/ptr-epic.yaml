@@ -1,0 +1,12 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: partner
+partner_id: ptr.epic
+name: Epic
+category: sor-vendor
+practices:
+- hls
+description: EHR / health-system core SOR.
+apex_integration_pattern: Clarity-mirroring-via-Sprint15
+contracts_in_place:
+- Pre-cleared deployment posture
+appendix_h_section: Appendix H — sor-vendor

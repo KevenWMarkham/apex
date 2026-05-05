@@ -1,0 +1,25 @@
+kind: agent
+name: apex.tmt.agents.network-anomaly
+version: 0.1.0
+practice: tmt
+persona: Network Operations Manager
+service_codes: [TMT-TEL-02]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  5G/RAN telemetry anomaly detection. Identifies emerging cell-degradation patterns before customer-impact threshold.
+archetype_id: F1-continuous-monitor-hitl-alert
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.networkml.get_kpi_stream
+    purpose: Read 5G KPI telemetry
+  - tool_id: apex.tmt.mcp.networkml.get_alarm_state
+    purpose: Read OSS alarm state
+
+oversight_modes: [HOTL]
+
+kpis:
+  - { name: network availability, direction: up }
+  - { name: MTTR, direction: down }

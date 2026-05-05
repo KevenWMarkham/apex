@@ -1,0 +1,16 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.monitor.004
+family: monitor
+name: Drift Monitor
+description: Detect data / model drift across deployed agents.
+canonical_inputs:
+- EvalStream
+- ReferenceDistribution
+canonical_outputs:
+- DriftSignal
+typical_hitl_gate: Drift exceeds tolerance
+typical_oversight: HITL
+typical_model_tier: standard
+example_agents: []
+appendix_d_section: Appendix D — Archetype family monitor

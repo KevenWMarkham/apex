@@ -1,0 +1,22 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: schema
+schema_code: CCML
+name: Customer Care Lineage
+description: Customer Care Lineage canonical schema family. Bronze to Silver to Gold
+  pipeline scope; consumed by APEX agents/services across TMT, TH, RC, ICE.
+practices:
+- tmt
+- th
+- rc
+- ice
+primary_entities:
+- Case
+- Interaction
+- Resolution
+- SLA
+standards_alignment:
+- TM Forum SID
+- ITIL
+governance_classification: pii
+appendix_a_section: Appendix A — Schema family CCML
+package_implementation: apex-ccml

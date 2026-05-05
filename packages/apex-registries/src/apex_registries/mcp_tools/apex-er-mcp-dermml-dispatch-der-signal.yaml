@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: mcp_tool
+tool_id: apex.er.mcp.dermml.dispatch_der_signal
+practice: er
+sor_or_layer: dermml
+purpose: Issue dispatch signal to enrolled assets
+write: true
+inputs_schema: ''
+outputs_schema: ''
+classification_required: []
+related_canonical_schemas:
+- DERMML
+appendix_f_section: Appendix F — ER MCP Tools

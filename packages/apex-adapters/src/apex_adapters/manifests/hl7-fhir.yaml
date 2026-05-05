@@ -1,0 +1,42 @@
+kind: adapter
+name: hl7-fhir
+version: 0.1.0
+sor_name: HL7 v2 / FHIR feed
+sor_vendor: integration-engine vendor (Mirth, InterSystems, Rhapsody)
+practice: hls
+connection_method: eventstream
+schedule: continuous
+bronze_workspace: apex-hls-prod-bronze
+description: >
+  HL7 v2 (MLLP) and FHIR R4 RESTful feed landing into HLS Bronze. The
+  integration engine emits HL7 v2 messages or FHIR resources to an
+  Eventstream endpoint; APEX captures raw message text + parsed
+  structured rows in Bronze. Sprint 23 BL.P.155–156 message-format
+  parsers operate at Silver canonicalisation, not at Bronze landing.
+standards: [HL7 FHIR R4, HL7 v2.x, SNOMED CT, LOINC]
+schema_mappings:
+  - source_table: ADTMessage
+    bronze_table: bronze_hl7_adt
+    primary_key: [MessageControlId]
+    fields:
+      - { source_field: MessageControlId, bronze_column: message_control_id, bronze_type: string, nullable: false }
+      - { source_field: MessageType,      bronze_column: message_type,       bronze_type: string }
+      - { source_field: SendingFacility,  bronze_column: sending_facility,   bronze_type: string }
+      - { source_field: RawMessage,       bronze_column: raw_message,        bronze_type: string, classification: phi }
+  - source_table: FHIRPatient
+    bronze_table: bronze_fhir_patient
+    primary_key: [Id]
+    fields:
+      - { source_field: Id,              bronze_column: fhir_id,             bronze_type: string, nullable: false, classification: phi }
+      - { source_field: ResourceJson,    bronze_column: resource_json,       bronze_type: string, classification: phi }
+runbook:
+  primary_contact: hls-data-platform@deloitte.com
+  sla_recovery_minutes: 5  # clinical workflows are SLA-critical
+  failure_modes:
+    - code: ENGINE_BACKLOG
+      description: Integration engine queue backlog growing beyond 1000 messages
+      severity: critical
+      retry: true
+      retry_max: 1
+      backoff_seconds: 60
+      escalation: hls-on-call

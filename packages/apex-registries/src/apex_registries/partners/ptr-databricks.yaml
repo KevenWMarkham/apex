@@ -1,0 +1,17 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: partner
+partner_id: ptr.databricks
+name: Databricks
+category: sor-vendor
+practices:
+- rc
+- axle
+- er
+- th
+- tmt
+- ice
+- hls
+description: Lakehouse (read-mirror to Fabric).
+apex_integration_pattern: Mirroring-via-Sprint15
+contracts_in_place: []
+appendix_h_section: Appendix H — sor-vendor

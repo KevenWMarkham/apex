@@ -1,0 +1,44 @@
+kind: service
+service_code: HLS-PAY-02
+version: 0.1.0
+practice: hls
+display_name: Risk Stratification & Population Health
+brief: "HEDIS / Stars / population-health risk scoring with care-gap intervention recommendations."
+description: >
+  Payer + Provider service. Drives quality-measure improvement and value-based-care contract performance.
+
+personas:
+  - { name: "VP Population Health", role: primary }
+  - { name: "Chief Medical Officer", role: secondary }
+  - { name: "VP Quality", role: secondary }
+
+kpis:
+  - name: "HEDIS measure attainment"
+    direction: up
+    wave2_target: "+5-10 pp"
+  - name: "readmission rate"
+    direction: down
+    wave2_target: "-10 to -15%"
+
+waves:
+  - wave: wave_1
+    duration: "4-10 weeks"
+    fee_band_low_usd: 400000
+    fee_band_high_usd: 1200000
+  - wave: wave_2
+    duration: "9-15 months"
+    fee_band_low_usd: 3500000
+    fee_band_high_usd: 12000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.hls.agents.readmission-risk
+
+linked_archetypes:
+  - F3-predictive-trigger-workflow-aware
+
+schemas_touched: [PatientML, PopHealthML]
+standards: ['HIPAA']
+primary_contact: hls-practice-lead@deloitte.com

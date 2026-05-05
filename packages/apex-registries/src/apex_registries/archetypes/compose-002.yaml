@@ -1,0 +1,16 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.compose.002
+family: compose
+name: Document Composition
+description: Compose proposal / report / brief from canonical components.
+canonical_inputs:
+- ContentBlocks
+- Template
+canonical_outputs:
+- Document
+typical_hitl_gate: Sign-off authority
+typical_oversight: HITL
+typical_model_tier: standard
+example_agents: []
+appendix_d_section: Appendix D — Archetype family compose

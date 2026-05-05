@@ -1,0 +1,54 @@
+kind: service
+service_code: AXLE-Connected-Factory-01
+version: 0.1.0
+practice: axle
+display_name: Connected Factory OEE & PdM
+brief: "Real-time OEE monitoring + predictive maintenance recommendation."
+description: >
+  Plant + Maintenance Manager service. Bottleneck detection + MTBF improvement via OPC-UA + vibration / temp telemetry.
+
+personas:
+  - { name: "Plant Manager", role: primary }
+  - { name: "Maintenance Manager", role: secondary }
+  - { name: "Chief Operating Officer", role: secondary }
+
+kpis:
+  - name: "OEE"
+    direction: up
+    wave2_target: "+6-9 pp"
+  - name: "MTBF"
+    direction: up
+    wave2_target: "+15-25%"
+
+slos:
+  - { name: "ISA-95 audit conformance", target: "100%", enforcement: soft }
+
+waves:
+  - wave: wave_1
+    duration: "8-12 weeks"
+    fee_band_low_usd: 600000
+    fee_band_high_usd: 1500000
+  - wave: wave_2
+    duration: "12-18 months"
+    fee_band_low_usd: 6000000
+    fee_band_high_usd: 20000000
+  - wave: wave_3
+    duration: "multi-year"
+    fee_band_low_usd: 10000000
+    fee_band_high_usd: 30000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.axle.agents.oee-monitor
+  - apex.axle.agents.predictive-maintenance
+  - apex.axle.agents.andon-rca
+
+linked_archetypes:
+  - F1-continuous-monitor-hitl-alert
+  - F3-predictive-trigger-workflow-aware
+
+schemas_touched: [AAML, EngML]
+standards: ['ISA-95', 'OPC UA', 'AutomationML']
+primary_contact: axle-practice-lead@deloitte.com

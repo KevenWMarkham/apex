@@ -1,0 +1,21 @@
+kind: agent
+name: cold-chain-disposition-agent
+version: 1.0.0
+owner: rc-practice-lead
+practice: rc
+description: Classifies at-risk inventory as salvage / destroy per FDA food-safety rules.
+persona: store-operations-lead
+model_pin: gpt-4.1-2025-06-15
+system_prompt_sha: a1b2c3d4e5f6
+tool_allow_list:
+  - scml-mcp.get_sku_by_key
+  - scml-mcp.list_shipments_in_window
+  - fda-mcp.get_food_safety_rule
+temperature: 0.2
+max_tokens: 4000
+scope:
+  practice: rc
+  persona: store-operations-lead
+  classification_visibility: [internal, pii]
+  row_filters:
+    region: US-WEST

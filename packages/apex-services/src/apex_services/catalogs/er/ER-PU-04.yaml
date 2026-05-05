@@ -1,0 +1,46 @@
+kind: service
+service_code: ER-PU-04
+version: 0.1.0
+practice: er
+display_name: DER + VPP Orchestration
+brief: "Distributed Energy Resource and Virtual Power Plant dispatch orchestration during peak demand."
+description: >
+  P&U service for DER program ops. Aggregates enrolled batteries, solar, EV fleets for grid support.
+
+personas:
+  - { name: "Grid Operations Engineer", role: primary }
+  - { name: "VP Customer Programs", role: secondary }
+  - { name: "Chief Sustainability Officer", role: secondary }
+
+kpis:
+  - name: "peak-shaving capacity"
+    direction: up
+    wave2_target: "+5-10 MW per program"
+  - name: "settlement accuracy"
+    direction: up
+
+slos:
+  - { name: "dispatch SLA", target: "< 5 minutes", enforcement: soft }
+
+waves:
+  - wave: wave_1
+    duration: "6-10 weeks"
+    fee_band_low_usd: 400000
+    fee_band_high_usd: 1200000
+  - wave: wave_2
+    duration: "9-12 months"
+    fee_band_low_usd: 3500000
+    fee_band_high_usd: 12000000
+
+commercial_model: hybrid
+value_share_eligible: true
+
+linked_agents:
+  - apex.er.agents.der-orchestration
+
+linked_archetypes:
+  - F3-predictive-trigger-workflow-aware
+
+schemas_touched: [DERMML, P&UML]
+standards: ['FERC']
+primary_contact: er-practice-lead@deloitte.com

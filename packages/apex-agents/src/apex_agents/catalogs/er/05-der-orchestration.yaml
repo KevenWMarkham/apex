@@ -1,0 +1,35 @@
+kind: agent
+name: apex.er.agents.der-orchestration
+version: 0.1.0
+practice: er
+persona: Grid Operations Engineer
+service_codes: [ER-PU-04]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Distributed Energy Resource (DER) and Virtual Power Plant (VPP)
+  orchestration. Signals enrolled residential battery + solar + EV
+  fleet for aggregated grid support during peak.
+archetype_id: F3-predictive-trigger-workflow-aware
+primary_contact: er-pu-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.er.mcp.dermml.get_enrolled_assets
+    purpose: Read DER program enrollment + capabilities
+  - tool_id: apex.er.mcp.gridml.get_load_forecast
+    purpose: Read short-horizon load forecast
+  - tool_id: apex.er.mcp.dermml.dispatch_der_signal
+    purpose: Issue dispatch signal to enrolled assets
+    write: true
+
+hitl_gates:
+  - name: large_dispatch
+    description: Dispatch signaling > 5 MW aggregate requires operations director approval
+    fires_when: Aggregated dispatch > 5 MW
+    surface: dashboard
+    sla_minutes: 15
+
+oversight_modes: [HITL, HOTL]
+kpis:
+  - { name: peak-shaving capacity, direction: up }

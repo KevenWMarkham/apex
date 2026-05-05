@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: mcp_tool
+tool_id: apex.th.mcp.travelerml.get_unified_profile
+practice: th
+sor_or_layer: travelerml
+purpose: Read unified traveler profile
+write: false
+inputs_schema: ''
+outputs_schema: ''
+classification_required: []
+related_canonical_schemas:
+- TRAVELERML
+appendix_f_section: Appendix F — TH MCP Tools

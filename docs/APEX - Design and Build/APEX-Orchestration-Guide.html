@@ -1,0 +1,837 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>APEX · Orchestrating Multi-Agent Systems</title>
+<meta name="description" content="Parent-child agent orchestration for APEX — patterns, control plane, Azure stack, monitoring, failure modes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root[data-theme="dark"]{
+  --bg: #0E0B08; --bg-1: #15110C; --bg-2: #1C1711;
+  --surface: #201A13; --surface-2: #28211A;
+  --border: #2E2619; --border-2: #3D3324;
+  --ink: #EFE6DB; --ink-2: #B8AB99; --ink-3: #85785F;
+  --teal: #5DCAA5; --teal-dim: #2E8568; --teal-bg: #0D2A22;
+  --purple: #AFA9EC; --purple-dim: #6860B8; --purple-bg: #1E1B3A;
+  --amber: #F2A623; --amber-dim: #B07715; --amber-bg: #3A2608;
+  --crimson: #E24B4A; --crimson-dim: #A32D2D; --crimson-bg: #341414;
+  --gold: #E8C547; --gold-dim: #A6892C; --gold-bg: #2D2308;
+}
+:root[data-theme="light"]{
+  --bg: #FAF6EF; --bg-1: #F2ECE0; --bg-2: #EBE3D1;
+  --surface: #FFFCF5; --surface-2: #F5EEDD;
+  --border: #D5C9B3; --border-2: #BBAD92;
+  --ink: #2A1F14; --ink-2: #554838; --ink-3: #8A7965;
+  --teal: #0F6E56; --teal-dim: #1D9E75; --teal-bg: #E1F5EE;
+  --purple: #3C3489; --purple-dim: #534AB7; --purple-bg: #EEEDFE;
+  --amber: #854F0B; --amber-dim: #BA7517; --amber-bg: #FAEEDA;
+  --crimson: #791F1F; --crimson-dim: #A32D2D; --crimson-bg: #FCEBEB;
+  --gold: #6B5412; --gold-dim: #A6892C; --gold-bg: #F5EAC7;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:"Instrument Sans",system-ui,sans-serif;
+  font-size:15px; line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  transition:background .25s ease,color .25s ease;
+}
+.wrap{max-width:1240px;margin:0 auto;padding:0 32px}
+.display{font-family:"Fraunces",Georgia,serif;font-weight:400;letter-spacing:-.01em}
+.mono{font-family:"JetBrains Mono",monospace;font-size:.88em}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* nav */
+nav.top{
+  position:sticky;top:0;z-index:50;
+  background:color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+}
+nav.top .wrap{display:flex;align-items:center;gap:24px;padding:16px 32px}
+.brand{font-family:"Fraunces",serif;font-size:22px;font-weight:500;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.brand .sub{color:var(--purple);font-style:italic;font-weight:400;font-size:14px;margin-left:8px}
+button.theme-toggle{
+  margin-left:auto;background:var(--surface);border:1px solid var(--border);color:var(--ink-2);
+  font-family:inherit;font-size:12px;padding:7px 14px;border-radius:8px;cursor:pointer;font-weight:500;
+  transition:all .15s ease;
+}
+button.theme-toggle:hover{color:var(--ink);border-color:var(--border-2)}
+
+/* hero */
+.hero{padding:100px 0 56px}
+.kicker{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--purple);margin-bottom:22px}
+.hero h1{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(48px,7vw,88px);line-height:.98;letter-spacing:-.03em;margin:0 0 28px;color:var(--ink)}
+.hero h1 em{font-style:italic;color:var(--purple);font-weight:300}
+.hero .lede{font-size:18px;line-height:1.6;max-width:780px;color:var(--ink-2);margin:0 0 44px}
+.hero .lede strong{color:var(--ink);font-weight:500}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.stat{padding:22px 26px 22px 0;border-right:1px solid var(--border)}
+.stat:last-child{border-right:0}
+.stat .n{font-family:"Fraunces",serif;font-size:40px;line-height:1;color:var(--ink);letter-spacing:-.02em}
+.stat .label{font-size:11.5px;color:var(--ink-3);margin-top:7px;letter-spacing:.05em;text-transform:uppercase;font-weight:500}
+@media (max-width:900px){.stats{grid-template-columns:repeat(2,1fr)}.stat{border-bottom:1px solid var(--border)}}
+
+/* tabs */
+.tabs{
+  display:flex;gap:2px;border-bottom:1px solid var(--border);
+  overflow-x:auto;scrollbar-width:none;margin-top:16px;
+  position:sticky;top:61px;z-index:40;
+  background:color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+}
+.tabs::-webkit-scrollbar{display:none}
+.tab{
+  background:none;border:0;border-bottom:2px solid transparent;
+  padding:16px 18px;font-family:inherit;font-size:13.5px;font-weight:500;
+  color:var(--ink-3);cursor:pointer;white-space:nowrap;
+  transition:color .15s,border-color .15s;
+}
+.tab .tn{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--purple);margin-right:8px}
+.tab:hover{color:var(--ink-2)}
+.tab.active{color:var(--ink);border-color:var(--purple)}
+.tab:focus-visible{outline:1px solid var(--purple-dim);outline-offset:-4px;border-radius:4px}
+
+/* panels */
+.panel{display:none;padding:56px 0 96px}
+.panel.active{display:block}
+.p-kicker{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);margin-bottom:14px}
+.p-title{font-family:"Fraunces",serif;font-weight:400;font-size:42px;line-height:1.08;letter-spacing:-.02em;margin:0 0 20px;color:var(--ink)}
+.p-title em{font-style:italic;color:var(--purple)}
+.p-lede{font-size:17px;color:var(--ink-2);max-width:780px;margin:0 0 44px;line-height:1.65}
+.p-lede strong{color:var(--ink);font-weight:500}
+
+h3.sh{font-family:"Fraunces",serif;font-weight:400;font-size:26px;letter-spacing:-.01em;margin:44px 0 16px;color:var(--ink)}
+h3.sh em{font-style:italic;color:var(--purple)}
+h4.ssh{font-family:"Instrument Sans",sans-serif;font-weight:600;font-size:15px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-3);margin:32px 0 12px}
+
+/* generic */
+p{color:var(--ink-2);line-height:1.65;margin:0 0 14px}
+p strong{color:var(--ink);font-weight:500}
+code{font-family:"JetBrains Mono",monospace;font-size:.9em;background:var(--bg-1);border:1px solid var(--border);padding:1px 6px;border-radius:4px;color:var(--teal)}
+
+/* card grid */
+.cards-2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.cards-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media (max-width:900px){.cards-2,.cards-3{grid-template-columns:1fr}}
+.card{
+  background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;
+  transition:border-color .15s;
+}
+.card:hover{border-color:var(--border-2)}
+.card .ctag{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--purple);letter-spacing:.1em;margin-bottom:10px}
+.card h4{font-family:"Fraunces",serif;font-weight:400;font-size:21px;letter-spacing:-.005em;color:var(--ink);margin:0 0 12px;line-height:1.2}
+.card p{font-size:14px;line-height:1.6}
+.card p:last-child{margin-bottom:0}
+.card.focal{border-color:var(--purple-dim);background:var(--purple-bg)}
+
+/* tables */
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px;margin:16px 0 24px;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.tbl th,.tbl td{text-align:left;padding:12px 16px;border-top:1px solid var(--border);vertical-align:top}
+.tbl thead th{background:var(--bg-1);border-top:0;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:500;padding:13px 16px}
+.tbl tbody tr{background:var(--surface)}
+.tbl tbody tr:nth-child(even){background:var(--surface-2)}
+.tbl td.mono{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--teal)}
+.tbl td strong{color:var(--ink);font-weight:500}
+.tbl td{color:var(--ink-2)}
+
+/* badges */
+.badge{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:10px;padding:2px 8px;border-radius:4px;letter-spacing:.05em;font-weight:500;border:1px solid transparent;vertical-align:middle}
+.badge.teal{background:var(--teal-bg);color:var(--teal);border-color:var(--teal-dim)}
+.badge.purple{background:var(--purple-bg);color:var(--purple);border-color:var(--purple-dim)}
+.badge.amber{background:var(--amber-bg);color:var(--amber);border-color:var(--amber-dim)}
+.badge.crimson{background:var(--crimson-bg);color:var(--crimson);border-color:var(--crimson-dim)}
+.badge.gold{background:var(--gold-bg);color:var(--gold);border-color:var(--gold-dim)}
+.badge.muted{background:var(--bg-2);color:var(--ink-2);border-color:var(--border-2)}
+
+/* callout */
+.callout{background:var(--surface);border-left:3px solid var(--purple);border-radius:0 10px 10px 0;padding:20px 24px;margin:24px 0}
+.callout .clabel{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--purple);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;font-weight:500}
+.callout p{margin:0;font-size:14.5px;color:var(--ink)}
+.callout.amber{border-left-color:var(--amber)}
+.callout.amber .clabel{color:var(--amber)}
+.callout.crimson{border-left-color:var(--crimson)}
+.callout.crimson .clabel{color:var(--crimson)}
+.callout.teal{border-left-color:var(--teal)}
+.callout.teal .clabel{color:var(--teal)}
+
+/* control plane primitives grid */
+.prim-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px 0}
+@media (max-width:900px){.prim-grid{grid-template-columns:1fr}}
+.prim{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;position:relative}
+.prim::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;border-radius:14px 14px 0 0}
+.prim.one::before{background:var(--teal)}
+.prim.two::before{background:var(--amber)}
+.prim.three::before{background:var(--purple)}
+.prim .pnum{font-family:"Fraunces",serif;font-size:40px;line-height:1;color:var(--ink-3);letter-spacing:-.02em;margin-bottom:4px}
+.prim.one .pnum{color:var(--teal)}
+.prim.two .pnum{color:var(--amber)}
+.prim.three .pnum{color:var(--purple)}
+.prim h4{font-family:"Fraunces",serif;font-weight:400;font-size:20px;color:var(--ink);margin:8px 0 10px;line-height:1.2}
+.prim p{font-size:13.5px;line-height:1.55;margin:0 0 10px}
+.prim .snippet{font-family:"JetBrains Mono",monospace;font-size:11.5px;background:var(--bg-1);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--teal);margin-top:10px;line-height:1.5;overflow-x:auto}
+
+/* diagram box */
+.dbox{background:var(--bg-1);border:1px solid var(--border);border-radius:14px;padding:32px;margin:24px 0;overflow:hidden}
+.dbox svg{width:100%;height:auto;display:block}
+
+/* dashboard mock */
+.dash{background:var(--bg-1);border:1px solid var(--border);border-radius:14px;padding:24px;margin:24px 0}
+.dash-head{display:flex;flex-wrap:wrap;gap:16px 32px;padding-bottom:20px;border-bottom:1px solid var(--border);margin-bottom:20px}
+.dh-item .dk{font-size:10px;color:var(--ink-3);letter-spacing:.08em;text-transform:uppercase;font-weight:500;margin-bottom:3px}
+.dh-item .dv{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--ink);font-weight:500}
+.dh-item .dv.status{color:var(--amber)}
+.dh-item .dv.elapsed{color:var(--teal)}
+
+.lane{margin-bottom:22px}
+.lane-head{display:flex;align-items:baseline;gap:12px;margin-bottom:10px}
+.lane-name{font-family:"Fraunces",serif;font-size:16px;color:var(--ink);font-weight:500}
+.lane-num{font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--purple);letter-spacing:.1em}
+.lane-hint{font-size:11px;color:var(--ink-3);margin-left:auto}
+
+/* topology */
+.topo{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;overflow-x:auto}
+
+/* budget bars */
+.budget-row{display:grid;grid-template-columns:100px 1fr 110px 70px 70px;gap:12px;align-items:center;padding:9px 12px;border-top:1px solid var(--border);font-size:12.5px}
+.budget-row:first-child{border-top:0}
+.budget-row .bchild{font-family:"JetBrains Mono",monospace;color:var(--ink);font-size:12px}
+.budget-row .bbar{position:relative;height:18px;background:var(--bg-2);border-radius:4px;overflow:hidden}
+.budget-row .bfill{position:absolute;top:0;left:0;bottom:0;border-radius:4px;transition:width .3s}
+.budget-row .bfill.t{background:var(--teal)}
+.budget-row .bfill.a{background:var(--amber)}
+.budget-row .bfill.m{background:var(--ink-3)}
+.budget-row .bval{font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--ink-2);text-align:right}
+
+/* HITL row */
+.hitl-card{background:var(--amber-bg);border:1px solid var(--amber-dim);border-radius:8px;padding:14px 18px;display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center}
+.hitl-card .hl-who{font-family:"JetBrains Mono",monospace;font-size:12.5px;color:var(--amber);margin-bottom:4px}
+.hitl-card .hl-msg{font-size:13px;color:var(--ink)}
+.hitl-card .hl-wait{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--amber);font-weight:500;text-align:right}
+.hitl-card .hl-wait .hl-lab{display:block;font-size:10px;color:var(--ink-3);letter-spacing:.08em;text-transform:uppercase;font-weight:500;margin-bottom:2px}
+
+/* tool calls list */
+.tc-list{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.tc-row{display:grid;grid-template-columns:70px 1fr 70px 90px 80px;gap:12px;align-items:center;padding:9px 14px;border-top:1px solid var(--border);font-size:12px}
+.tc-row:first-child{border-top:0}
+.tc-time{font-family:"JetBrains Mono",monospace;color:var(--ink-3);font-size:11px}
+.tc-name{font-family:"JetBrains Mono",monospace;color:var(--teal);font-size:12px}
+.tc-lat{font-family:"JetBrains Mono",monospace;color:var(--ink-2);font-size:11px;text-align:right}
+.tc-child{font-family:"JetBrains Mono",monospace;color:var(--ink-3);font-size:11px}
+
+/* interventions */
+.iv-row{display:grid;grid-template-columns:90px 1fr;gap:16px;padding:10px 14px;border-top:1px solid var(--border);font-size:12.5px}
+.iv-row:first-child{border-top:0}
+.iv-time{font-family:"JetBrains Mono",monospace;color:var(--ink-3);font-size:11px}
+.iv-msg{color:var(--ink-2)}
+.iv-msg strong{color:var(--ink)}
+
+/* footer */
+footer{border-top:1px solid var(--border);padding:40px 0 56px;margin-top:40px;background:var(--bg-1)}
+footer .fgrid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px}
+@media (max-width:800px){footer .fgrid{grid-template-columns:1fr}}
+footer .indepth{background:var(--crimson-bg);border:1px solid var(--crimson-dim);border-radius:10px;padding:18px 22px}
+footer .indepth .iptag{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--crimson);letter-spacing:.1em;margin-bottom:8px;font-weight:500}
+footer .indepth p{margin:0;font-size:12.5px;color:var(--ink);line-height:1.6}
+footer .meta-col .mt{font-size:11px;color:var(--ink-3);letter-spacing:.08em;text-transform:uppercase;font-weight:500;margin-bottom:6px}
+footer .meta-col .mv{font-size:13px;color:var(--ink);margin-bottom:14px}
+footer .meta-col .mv.mono{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--ink-2)}
+
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<nav class="top" aria-label="Primary">
+  <div class="wrap">
+    <a href="#top" class="brand">APEX <span class="sub">· Agent Orchestration</span></a>
+    <button class="theme-toggle" id="themeBtn" aria-label="Toggle color theme">Light</button>
+  </div>
+</nav>
+
+<section class="hero" id="top">
+  <div class="wrap">
+    <div class="kicker">Patterns · Control Plane · Microsoft Stack</div>
+    <h1>Spawn. Monitor. <em>Kill safely.</em><br>Reconcile without stomping.</h1>
+    <p class="lede">
+      Parent-child orchestration has four distinct concerns: <strong>spawning, monitoring, control, reconciliation</strong>. Most agent-framework pain is control and reconciliation leaking into the first two. This guide names the primitives, maps them to Azure, mocks the dashboard you actually want, and proposes the APEX pattern that makes it reusable across editions.
+    </p>
+    <div class="stats" role="list">
+      <div class="stat" role="listitem"><div class="n">4</div><div class="label">Orchestration patterns</div></div>
+      <div class="stat" role="listitem"><div class="n">3</div><div class="label">Control-plane primitives</div></div>
+      <div class="stat" role="listitem"><div class="n">4</div><div class="label">Kill levels</div></div>
+      <div class="stat" role="listitem"><div class="n">5</div><div class="label">Failure modes</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="tabs" role="tablist" aria-label="Orchestration topics">
+    <button class="tab active" role="tab" aria-selected="true" aria-controls="p-overview" id="t-overview" data-tab="overview"><span class="tn">§1</span>Overview</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-control" id="t-control" data-tab="control"><span class="tn">§2</span>Control plane</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-stack" id="t-stack" data-tab="stack"><span class="tn">§3</span>Azure stack</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-monitor" id="t-monitor" data-tab="monitor"><span class="tn">§4</span>Monitoring</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-fail" id="t-fail" data-tab="fail"><span class="tn">§5</span>Failure modes</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-apex" id="t-apex" data-tab="apex"><span class="tn">§6</span>APEX pattern</button>
+  </div>
+
+  <!-- ========== TAB 1 · OVERVIEW ========== -->
+  <section class="panel active" id="p-overview" role="tabpanel" aria-labelledby="t-overview">
+    <div class="p-kicker">§1 · The frame</div>
+    <h2 class="p-title">The four concerns you must <em>not</em> conflate</h2>
+    <p class="p-lede">Most teams pick a framework, try to do all four at once, and find that the framework's opinions about one concern break how they need to solve another. Separate them. Decide each explicitly. Then pick the framework that supports your decisions — not the other way around.</p>
+
+    <div class="cards-2">
+      <div class="card"><div class="ctag">01 · Spawning</div><h4>How the parent creates and configures children</h4><p>Naming, identity scope, tool access, budget envelope, initial state. Every child is born with a declared shape; it does not discover its own permissions at runtime.</p></div>
+      <div class="card"><div class="ctag">02 · Monitoring</div><h4>How the parent observes progress without blocking</h4><p>Children emit events; parents subscribe. Pull-polling is an anti-pattern — it couples parent availability to child liveness. Push via append-only log, always.</p></div>
+      <div class="card"><div class="ctag">03 · Control</div><h4>How the parent intervenes — pause, redirect, kill</h4><p>Control is about revoking permission to continue, not terminating processes. Cooperative cancellation beats signal-level termination every time in production.</p></div>
+      <div class="card"><div class="ctag">04 · Reconciliation</div><h4>How child outputs merge back without stomping</h4><p>Declare the merge policy at DAG design time, not at runtime. Last-write-wins is the source of most silent corruption incidents in agent systems.</p></div>
+    </div>
+
+    <h3 class="sh">The four <em>patterns</em> — pick one explicitly</h3>
+    <p>For APEX engagements — Nike R2R, Samsonite, the RC edition playbook — <strong>supervisor-worker with a DAG spine</strong> is the right default. It matches Azure AI Agent Service's native shape, it's what SteerCo reviewers can reason about, and it gives you clean kill semantics.</p>
+
+    <table class="tbl">
+      <thead><tr><th>Pattern</th><th>Parent → child relationship</th><th>Best for</th><th>Kill semantics</th></tr></thead>
+      <tbody>
+        <tr><td><strong>DAG</strong> <span class="badge teal">directed acyclic</span></td><td>Parent defines graph; children run per topology</td><td>Deterministic workflows with known steps (close, reconciliation)</td><td>Cancel downstream; upstream unaffected</td></tr>
+        <tr><td><strong>Supervisor-Worker</strong> <span class="badge purple">APEX default</span></td><td>Parent spawns workers, collects results, decides next</td><td>Research, enrichment, gather-then-act</td><td>Parent signals workers; workers drain</td></tr>
+        <tr><td><strong>Hierarchical</strong> <span class="badge gold">tree</span></td><td>Parent spawns children that can spawn grandchildren</td><td>Deep decomposition (trend ID → sub-trends → evidence)</td><td>Recursive cancel propagates down tree</td></tr>
+        <tr><td><strong>Swarm</strong> <span class="badge crimson">avoid in prod</span></td><td>Agents read/write shared state, no strict parent</td><td>Exploration, multi-hypothesis generation</td><td>Hard to kill cleanly; avoid for production</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout teal">
+      <div class="clabel">The key move</div>
+      <p>If you can't draw the parent-child relationship on a whiteboard in under 90 seconds, the pattern is wrong. Supervisor-worker with a DAG spine fits this bar; swarm never does.</p>
+    </div>
+  </section>
+
+  <!-- ========== TAB 2 · CONTROL PLANE ========== -->
+  <section class="panel" id="p-control" role="tabpanel" aria-labelledby="t-control">
+    <div class="p-kicker">§2 · Control primitives &amp; kill levels</div>
+    <h2 class="p-title">Don't kill the process. <em>Revoke permission</em> to continue.</h2>
+    <p class="p-lede">The single most important design decision in production multi-agent systems. You externalize three primitives — every child agent checks them between steps — and killing becomes cooperative, predictable, and auditable.</p>
+
+    <div class="prim-grid">
+      <div class="prim one">
+        <div class="pnum">01</div>
+        <h4>Cancellation token</h4>
+        <p><strong>Not a signal.</strong> A flag in shared state that children poll between steps. At minimum, between any two tool calls.</p>
+        <p>Cancellation is cooperative. No orphaned tool calls. No half-written database rows. No dangling HITL prompts.</p>
+        <div class="snippet">while not cancel_token.is_set():<br>&nbsp;&nbsp;&nbsp;&nbsp;step()</div>
+      </div>
+      <div class="prim two">
+        <div class="pnum">02</div>
+        <h4>Budget envelope</h4>
+        <p><strong>Declared at spawn time.</strong> Max wall-clock, max tool calls, max tokens, max cost, max recursion depth.</p>
+        <p>The child enforces it on itself and exits gracefully on breach. Your protection against runaway recursion and cost surprises.</p>
+        <div class="snippet">budget = {<br>&nbsp;&nbsp;wall_s: 480,<br>&nbsp;&nbsp;tool_calls: 40,<br>&nbsp;&nbsp;cost_usd: 2.0,<br>&nbsp;&nbsp;depth: 2<br>}</div>
+      </div>
+      <div class="prim three">
+        <div class="pnum">03</div>
+        <h4>Status channel</h4>
+        <p><strong>Append-only log</strong> keyed by run_id + child_id. Children emit progress events: <code>step_started</code>, <code>tool_called</code>, <code>awaiting_hitl</code>, <code>heartbeat</code>, <code>cancelled</code>, <code>error</code>.</p>
+        <p>Parents read this stream. Parents never poll children. This inverts control direction and makes monitoring cheap.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="clabel">How the three primitives compose into a kill</div>
+      <p>Set the cancel token → wait for the child's next heartbeat → confirm a <code>cancelled</code> event in the log. If no heartbeat arrives within N seconds, declare the child stuck and mark for cleanup. No shutting-down-the-VM, no kill -9, no orphaned writes.</p>
+    </div>
+
+    <h3 class="sh">The four <em>kill levels</em> — offer the spectrum, let the human pick</h3>
+    <p>Not all kills are equal. A SteerCo partner who wants to "kill it" almost always means <em>pause</em> or <em>soft cancel</em>. Abort is the wrong default and will destroy trust the first time it corrupts state.</p>
+
+    <table class="tbl">
+      <thead><tr><th>Level</th><th>What it does</th><th>When to use</th><th>State preservation</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Pause</strong> <span class="badge teal">reversible</span></td><td>Sets a pause flag; children stop between steps, hold state in place</td><td>Investigate, then maybe resume</td><td>Full — resumable</td></tr>
+        <tr><td><strong>Soft cancel</strong> <span class="badge purple">default</span></td><td>Sets cancel token; children finish current step, write state, exit</td><td>Human-triggered stop — preserves partial work</td><td>Partial — committed steps survive</td></tr>
+        <tr><td><strong>Hard cancel</strong> <span class="badge amber">emergency</span></td><td>Soft cancel + abandons in-flight tool calls if idempotent</td><td>Budget breach, policy violation detected mid-run</td><td>Uncertain — in-flight step may or may not commit</td></tr>
+        <tr><td><strong>Abort</strong> <span class="badge crimson">last resort</span></td><td>Terminates child processes immediately; may leave orphaned writes</td><td>Contained damage only. Requires cleanup job.</td><td>None — may corrupt state</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout amber">
+      <div class="clabel">Anti-pattern to name and kill</div>
+      <p>Any framework that offers only one kill primitive — usually labelled <code>terminate()</code> or <code>stop()</code> — is missing the spectrum. You will use it, it will corrupt state, and your team will stop trusting the orchestrator. Demand the four levels before you commit to a framework.</p>
+    </div>
+  </section>
+
+  <!-- ========== TAB 3 · AZURE STACK ========== -->
+  <section class="panel" id="p-stack" role="tabpanel" aria-labelledby="t-stack">
+    <div class="p-kicker">§3 · The Microsoft mapping</div>
+    <h2 class="p-title">Durable Functions is the parent. <em>Agent Service</em> is the child.</h2>
+    <p class="p-lede">The orchestrator doesn't <em>run</em> the children — it dispatches them, then awaits events on the Event Hub stream. This gives you free replay-ability of the orchestration for debugging, durable state across restarts, and an already-governed path for Entra identity and Purview classification.</p>
+
+    <div class="dbox" aria-label="Architecture diagram">
+      <svg viewBox="0 0 1000 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="arch-title">
+        <title id="arch-title">Parent orchestrator dispatches children, awaits Event Hubs stream</title>
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+          </marker>
+        </defs>
+        <style>
+          .block{fill:var(--surface);stroke:var(--border);stroke-width:1}
+          .block.parent{fill:var(--purple-bg);stroke:var(--purple-dim);stroke-width:1.5}
+          .block.child{fill:var(--teal-bg);stroke:var(--teal-dim);stroke-width:1.5}
+          .block.hub{fill:var(--amber-bg);stroke:var(--amber-dim);stroke-width:1.5}
+          .block.ctrl{fill:var(--bg-2);stroke:var(--border-2)}
+          .t{font-family:"Instrument Sans",sans-serif;font-size:13px;fill:var(--ink);font-weight:500}
+          .t.sm{font-size:11px;fill:var(--ink-3);font-weight:400}
+          .t.mono{font-family:"JetBrains Mono",monospace;font-size:11px;fill:var(--teal)}
+          .t.lbl{font-family:"JetBrains Mono",monospace;font-size:10px;fill:var(--ink-3);letter-spacing:.08em;text-transform:uppercase;font-weight:500}
+          .arrow{stroke:var(--ink-3);stroke-width:1.4;fill:none;color:var(--ink-3)}
+          .arrow.status{stroke:var(--amber);color:var(--amber)}
+          .arrow.spawn{stroke:var(--purple);color:var(--purple)}
+          .arrow.read{stroke:var(--teal);color:var(--teal);stroke-dasharray:4 3}
+        </style>
+
+        <!-- Parent -->
+        <rect class="block parent" x="380" y="40" width="240" height="70" rx="10"/>
+        <text x="500" y="66" text-anchor="middle" class="t lbl">Parent orchestrator</text>
+        <text x="500" y="86" text-anchor="middle" class="t">Azure Durable Functions</text>
+        <text x="500" y="100" text-anchor="middle" class="t sm">durable state · replayable</text>
+
+        <!-- Control store -->
+        <rect class="block ctrl" x="60" y="60" width="240" height="50" rx="10"/>
+        <text x="180" y="82" text-anchor="middle" class="t lbl">Cancel + budget tokens</text>
+        <text x="180" y="100" text-anchor="middle" class="t">Cosmos DB / DF entities</text>
+
+        <!-- Three children -->
+        <rect class="block child" x="80" y="200" width="200" height="80" rx="10"/>
+        <text x="180" y="224" text-anchor="middle" class="t lbl">Child A1</text>
+        <text x="180" y="244" text-anchor="middle" class="t">Azure AI Agent Service</text>
+        <text x="180" y="262" text-anchor="middle" class="t mono">rc.customer.get</text>
+
+        <rect class="block child" x="400" y="200" width="200" height="80" rx="10"/>
+        <text x="500" y="224" text-anchor="middle" class="t lbl">Child A2</text>
+        <text x="500" y="244" text-anchor="middle" class="t">Azure AI Agent Service</text>
+        <text x="500" y="262" text-anchor="middle" class="t mono">rc.order.get</text>
+
+        <rect class="block child" x="720" y="200" width="200" height="80" rx="10"/>
+        <text x="820" y="224" text-anchor="middle" class="t lbl">Child A3</text>
+        <text x="820" y="244" text-anchor="middle" class="t">Azure AI Agent Service</text>
+        <text x="820" y="262" text-anchor="middle" class="t mono">rc.return.history</text>
+
+        <!-- Event Hubs -->
+        <rect class="block hub" x="180" y="370" width="640" height="70" rx="10"/>
+        <text x="500" y="395" text-anchor="middle" class="t lbl">Append-only status channel</text>
+        <text x="500" y="415" text-anchor="middle" class="t">Azure Event Hubs + Kusto / ADX</text>
+        <text x="500" y="430" text-anchor="middle" class="t sm">heartbeats · tool calls · HITL waits · cancellations · errors</text>
+
+        <!-- Arrows -->
+        <!-- parent spawn children -->
+        <path class="arrow spawn" d="M 430 110 Q 430 160 180 200" marker-end="url(#arr)"/>
+        <path class="arrow spawn" d="M 500 110 L 500 200" marker-end="url(#arr)"/>
+        <path class="arrow spawn" d="M 570 110 Q 570 160 820 200" marker-end="url(#arr)"/>
+
+        <!-- children emit to hub -->
+        <path class="arrow status" d="M 180 280 Q 180 330 310 370" marker-end="url(#arr)"/>
+        <path class="arrow status" d="M 500 280 L 500 370" marker-end="url(#arr)"/>
+        <path class="arrow status" d="M 820 280 Q 820 330 690 370" marker-end="url(#arr)"/>
+
+        <!-- parent reads hub -->
+        <path class="arrow read" d="M 620 75 Q 880 75 860 370"/>
+
+        <!-- children read control store -->
+        <path class="arrow read" d="M 60 85 Q 30 240 80 240"/>
+
+        <!-- legends -->
+        <g transform="translate(60, 445)">
+          <line class="arrow spawn" x1="0" y1="0" x2="24" y2="0" marker-end="url(#arr)"/>
+          <text x="32" y="4" class="t sm">spawn</text>
+          <line class="arrow status" x1="90" y1="0" x2="114" y2="0" marker-end="url(#arr)"/>
+          <text x="122" y="4" class="t sm">status events</text>
+          <line class="arrow read" x1="220" y1="0" x2="244" y2="0"/>
+          <text x="252" y="4" class="t sm">read control / stream</text>
+        </g>
+      </svg>
+    </div>
+
+    <h3 class="sh">The stack <em>mapping</em></h3>
+    <table class="tbl">
+      <thead><tr><th>Concern</th><th>Azure primitive</th><th>Why it fits</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Parent orchestrator</strong></td><td><span class="mono">Azure Durable Functions</span></td><td>Durable state, replayable, survives restarts</td></tr>
+        <tr><td><strong>Child agents</strong></td><td><span class="mono">Azure AI Agent Service</span></td><td>Native tool calling, per-agent identity via Entra</td></tr>
+        <tr><td><strong>Cancellation + budget</strong></td><td><span class="mono">DF Entities or Cosmos DB</span></td><td>Strongly consistent reads, low latency for frequent polls</td></tr>
+        <tr><td><strong>Status channel</strong></td><td><span class="mono">Event Hubs + ADX</span></td><td>Designed for append-only streams; cheap query by run_id</td></tr>
+        <tr><td><strong>HITL prompts</strong></td><td><span class="mono">Service Bus + Teams cards</span></td><td>Parent pauses child when HITL is raised</td></tr>
+        <tr><td><strong>Audit + lineage</strong></td><td><span class="mono">Purview + Event Hubs</span></td><td>Already in the APEX governance plane</td></tr>
+        <tr><td><strong>Tool calls</strong></td><td><span class="mono">MCP tools from RC catalog</span></td><td>Child tool access scoped by Entra at spawn</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout purple">
+      <div class="clabel">The architectural move</div>
+      <p>The orchestrator doesn't execute the agents — it dispatches them. Children run as independent Agent Service instances. The parent sits on an Event Hubs subscription and reacts to events. This is the pattern Azure is actually designed for; it gives you durable replay for debugging, and it means the parent can restart without the children noticing.</p>
+    </div>
+  </section>
+
+  <!-- ========== TAB 4 · MONITORING ========== -->
+  <section class="panel" id="p-monitor" role="tabpanel" aria-labelledby="t-monitor">
+    <div class="p-kicker">§4 · The five-lane dashboard</div>
+    <h2 class="p-title">If the dashboard can't answer <em>"why is this slow?"</em><br>in thirty seconds, it's wrong.</h2>
+    <p class="p-lede">Most teams build dashboards that show "which agents are running" and call it done. That tells you nothing useful when something breaks. What you actually want is a per-run timeline view with five lanes — topology, budget, HITL, tool calls, interventions — rendering the same event stream the parent orchestrator subscribes to.</p>
+
+    <h3 class="sh">A <em>live run</em>, rendered</h3>
+    <p>Reference orchestration: <code>ORCH-RC-03</code> — Customer-service refund and return. Five children spawned. Two complete, one running, one awaiting HITL, one pending. The dashboard below mocks exactly what a SteerCo partner should be able to glance at and reason about.</p>
+
+    <div class="dash">
+      <div class="dash-head">
+        <div class="dh-item"><div class="dk">Run ID</div><div class="dv">ORCH-RC-03-run-48291</div></div>
+        <div class="dh-item"><div class="dk">Started</div><div class="dv">14:32:07 UTC</div></div>
+        <div class="dh-item"><div class="dk">Elapsed</div><div class="dv elapsed">08:42</div></div>
+        <div class="dh-item"><div class="dk">State</div><div class="dv status">AWAITING_HITL</div></div>
+        <div class="dh-item"><div class="dk">Purview class</div><div class="dv">RP · PII</div></div>
+        <div class="dh-item"><div class="dk">Actor</div><div class="dv">svc-apex-rc@deloitte.com</div></div>
+      </div>
+
+      <!-- LANE 1 — TOPOLOGY -->
+      <div class="lane">
+        <div class="lane-head"><span class="lane-num">LANE 1</span><span class="lane-name">Topology</span><span class="lane-hint">DAG · state per node</span></div>
+        <div class="topo">
+          <svg viewBox="0 0 940 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="DAG of five child agents">
+            <defs>
+              <marker id="arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--ink-3)"/>
+              </marker>
+            </defs>
+            <style>
+              .n{stroke-width:1.5}
+              .n.done{fill:var(--teal-bg);stroke:var(--teal-dim)}
+              .n.run{fill:var(--purple-bg);stroke:var(--purple-dim);stroke-dasharray:4 3}
+              .n.hitl{fill:var(--amber-bg);stroke:var(--amber-dim)}
+              .n.pend{fill:var(--bg-2);stroke:var(--border-2)}
+              .nt{font-family:"JetBrains Mono",monospace;font-size:11px;fill:var(--ink);font-weight:500}
+              .ns{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.08em}
+              .ns.done{fill:var(--teal)}
+              .ns.run{fill:var(--purple)}
+              .ns.hitl{fill:var(--amber)}
+              .ns.pend{fill:var(--ink-3)}
+              .ln{stroke:var(--ink-3);stroke-width:1;fill:none}
+            </style>
+
+            <!-- parent -->
+            <rect class="n run" x="380" y="15" width="180" height="42" rx="8"/>
+            <text x="470" y="35" text-anchor="middle" class="nt">ORCH-RC-03</text>
+            <text x="470" y="48" text-anchor="middle" class="ns run">PARENT · RUNNING</text>
+
+            <!-- children row -->
+            <rect class="n done" x="20" y="120" width="160" height="56" rx="8"/>
+            <text x="100" y="142" text-anchor="middle" class="nt">A1 · customer.get</text>
+            <text x="100" y="158" text-anchor="middle" class="ns done">DONE · 0:18</text>
+            <text x="100" y="170" text-anchor="middle" class="ns done" font-size="8">4 tool calls</text>
+
+            <rect class="n done" x="200" y="120" width="160" height="56" rx="8"/>
+            <text x="280" y="142" text-anchor="middle" class="nt">A2 · order.get</text>
+            <text x="280" y="158" text-anchor="middle" class="ns done">DONE · 0:22</text>
+            <text x="280" y="170" text-anchor="middle" class="ns done" font-size="8">3 tool calls</text>
+
+            <rect class="n run" x="380" y="120" width="180" height="56" rx="8"/>
+            <text x="470" y="142" text-anchor="middle" class="nt">A3 · return.history</text>
+            <text x="470" y="158" text-anchor="middle" class="ns run">RUNNING · 2:47</text>
+            <text x="470" y="170" text-anchor="middle" class="ns run" font-size="8">12 tool calls · HB 3s ago</text>
+
+            <rect class="n hitl" x="580" y="120" width="180" height="56" rx="8"/>
+            <text x="670" y="142" text-anchor="middle" class="nt">A4 · refund.draft</text>
+            <text x="670" y="158" text-anchor="middle" class="ns hitl">HITL · 4:23 wait</text>
+            <text x="670" y="170" text-anchor="middle" class="ns hitl" font-size="8">awaiting approver</text>
+
+            <rect class="n pend" x="780" y="120" width="150" height="56" rx="8"/>
+            <text x="855" y="142" text-anchor="middle" class="nt">A5 · refund.post</text>
+            <text x="855" y="158" text-anchor="middle" class="ns pend">PENDING</text>
+            <text x="855" y="170" text-anchor="middle" class="ns pend" font-size="8">blocked by A4</text>
+
+            <!-- arrows parent to children -->
+            <path class="ln" d="M 420 57 Q 300 90 100 120" marker-end="url(#arr2)"/>
+            <path class="ln" d="M 450 57 Q 400 90 280 120" marker-end="url(#arr2)"/>
+            <path class="ln" d="M 470 57 L 470 120" marker-end="url(#arr2)"/>
+            <path class="ln" d="M 490 57 Q 580 90 670 120" marker-end="url(#arr2)"/>
+            <path class="ln" d="M 520 57 Q 680 90 855 120" marker-end="url(#arr2)"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- LANE 2 — BUDGET -->
+      <div class="lane">
+        <div class="lane-head"><span class="lane-num">LANE 2</span><span class="lane-name">Budget</span><span class="lane-hint">elapsed · tool calls · cost · depth vs. envelope</span></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:4px 14px">
+          <div class="budget-row">
+            <div class="bchild">A1 · customer</div>
+            <div class="bbar"><div class="bfill t" style="width:12%"></div></div>
+            <div class="bval">0:18 / 2:30</div>
+            <div class="bval">4 / 20</div>
+            <div class="bval">$0.12</div>
+          </div>
+          <div class="budget-row">
+            <div class="bchild">A2 · order</div>
+            <div class="bbar"><div class="bfill t" style="width:15%"></div></div>
+            <div class="bval">0:22 / 2:30</div>
+            <div class="bval">3 / 20</div>
+            <div class="bval">$0.09</div>
+          </div>
+          <div class="budget-row">
+            <div class="bchild">A3 · history</div>
+            <div class="bbar"><div class="bfill a" style="width:58%"></div></div>
+            <div class="bval">2:47 / 4:45</div>
+            <div class="bval">12 / 25</div>
+            <div class="bval">$0.34</div>
+          </div>
+          <div class="budget-row">
+            <div class="bchild">A4 · refund</div>
+            <div class="bbar"><div class="bfill a" style="width:88%"></div></div>
+            <div class="bval">4:23 HITL</div>
+            <div class="bval">8 / 20</div>
+            <div class="bval">$0.21</div>
+          </div>
+          <div class="budget-row">
+            <div class="bchild">A5 · post</div>
+            <div class="bbar"><div class="bfill m" style="width:0%"></div></div>
+            <div class="bval">pending</div>
+            <div class="bval">0 / 10</div>
+            <div class="bval">$0.00</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LANE 3 — HITL -->
+      <div class="lane">
+        <div class="lane-head"><span class="lane-num">LANE 3</span><span class="lane-name">HITL</span><span class="lane-hint">active pause points · deadline tracking</span></div>
+        <div class="hitl-card">
+          <div>
+            <div class="hl-who">A4 · refund.draft → jane.okafor@retail-client.com</div>
+            <div class="hl-msg">Refund of $847.12 requires manager approval (over $500 policy threshold). Diff preview attached. Deadline: 30 minutes.</div>
+          </div>
+          <div class="hl-wait"><span class="hl-lab">Wait</span>04:23</div>
+        </div>
+      </div>
+
+      <!-- LANE 4 — TOOL CALLS -->
+      <div class="lane">
+        <div class="lane-head"><span class="lane-num">LANE 4</span><span class="lane-name">Tool calls</span><span class="lane-hint">last 6 invocations · latency · Purview class</span></div>
+        <div class="tc-list">
+          <div class="tc-row"><span class="tc-time">14:40:49</span><span class="tc-name">rc.return.history</span><span class="tc-lat">284ms</span><span class="tc-child">A3</span><span class="badge muted">C</span></div>
+          <div class="tc-row"><span class="tc-time">14:40:47</span><span class="tc-name">rc.return.history</span><span class="tc-lat">302ms</span><span class="tc-child">A3</span><span class="badge muted">C</span></div>
+          <div class="tc-row"><span class="tc-time">14:40:44</span><span class="tc-name">rc.return.history</span><span class="tc-lat">267ms</span><span class="tc-child">A3</span><span class="badge muted">C</span></div>
+          <div class="tc-row"><span class="tc-time">14:36:28</span><span class="tc-name">rc.customer.get</span><span class="tc-lat">142ms</span><span class="tc-child">A4</span><span class="badge amber">RP</span></div>
+          <div class="tc-row"><span class="tc-time">14:33:11</span><span class="tc-name">rc.order.get</span><span class="tc-lat">118ms</span><span class="tc-child">A2</span><span class="badge muted">C</span></div>
+          <div class="tc-row"><span class="tc-time">14:32:49</span><span class="tc-name">rc.customer.get</span><span class="tc-lat">138ms</span><span class="tc-child">A1</span><span class="badge amber">RP</span></div>
+        </div>
+      </div>
+
+      <!-- LANE 5 — INTERVENTIONS -->
+      <div class="lane">
+        <div class="lane-head"><span class="lane-num">LANE 5</span><span class="lane-name">Interventions</span><span class="lane-hint">human-triggered actions · actor identity</span></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px">
+          <div class="iv-row">
+            <span class="iv-time">14:35:18</span>
+            <span class="iv-msg"><strong>Budget extended</strong> · A3 wall-clock +2m by <code>kmarkham@deloitte.com</code></span>
+          </div>
+          <div class="iv-row">
+            <span class="iv-time">14:32:07</span>
+            <span class="iv-msg"><strong>Run spawned</strong> · trigger: inbound case CS-48291 · actor: <code>svc-apex-rc@deloitte.com</code></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout teal">
+      <div class="clabel">The thirty-second test</div>
+      <p>With this layout, the answer to "why is this run at 8 minutes instead of 3?" is visible without clicking anything: A4 is in HITL, 4:23 waiting on a specific named approver, with a 30-minute deadline. That is the whole answer. No log-digging. No narrative reconstruction.</p>
+    </div>
+  </section>
+
+  <!-- ========== TAB 5 · FAILURE MODES ========== -->
+  <section class="panel" id="p-fail" role="tabpanel" aria-labelledby="t-fail">
+    <div class="p-kicker">§5 · Five failure modes</div>
+    <h2 class="p-title">These will bite you. <em>Plan for them</em> on day one.</h2>
+    <p class="p-lede">Not optional. Every one of the five shows up in production within the first fifty runs. Each has a diagnostic signature (how you recognize it), a trigger (what set it off), and a mitigation (the primitive that prevents it). Build the mitigation before you need it.</p>
+
+    <div class="cards-2">
+      <div class="card">
+        <div class="ctag">F1</div>
+        <h4>Zombie children</h4>
+        <p><strong>Signature:</strong> parent thinks the child is dead; child is still running, still calling tools, still writing to state.</p>
+        <p><strong>Trigger:</strong> parent-side timeout without confirming child-side cancel event.</p>
+        <p><strong>Mitigation:</strong> heartbeat timeout on the parent triggers parent-side reconciliation, not child-side watchdog. Parent revokes the child's Entra scope to hard-stop writes.</p>
+      </div>
+      <div class="card">
+        <div class="ctag">F2</div>
+        <h4>Split-brain HITL</h4>
+        <p><strong>Signature:</strong> two parallel children get contradictory approvals from two different humans.</p>
+        <p><strong>Trigger:</strong> HITL prompts flow through per-child queues instead of a single parent queue.</p>
+        <p><strong>Mitigation:</strong> every HITL approval request routes through a single parent-level queue with correlation IDs. Siblings that reach for the same approval serialize.</p>
+      </div>
+      <div class="card">
+        <div class="ctag">F3</div>
+        <h4>Cost runaway from recursion</h4>
+        <p><strong>Signature:</strong> child spawns grandchild spawns great-grandchild. Cost balloons. Nothing looks wrong until the bill arrives.</p>
+        <p><strong>Trigger:</strong> no depth limit in the spawn primitive. Children think recursion is free because the parent didn't say otherwise.</p>
+        <p><strong>Mitigation:</strong> depth limit declared in the budget envelope at spawn time. Enforced on the parent side before allowing a child to request its own spawn.</p>
+      </div>
+      <div class="card">
+        <div class="ctag">F4</div>
+        <h4>Stuck HITL</h4>
+        <p><strong>Signature:</strong> human never responds to an approval prompt. Run hangs forever. Budget for active agents quietly burns.</p>
+        <p><strong>Trigger:</strong> HITL prompt with no deadline, no escalation, no fallback path.</p>
+        <p><strong>Mitigation:</strong> every HITL has a deadline. Expiry triggers a declared policy — auto-cancel, escalate to a named second approver, or take a defined fallback action. Never indefinite wait.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:14px">
+      <div class="card" style="max-width:none">
+        <div class="ctag">F5 · The quietest and nastiest</div>
+        <h4>Partial success ambiguity</h4>
+        <p><strong>Signature:</strong> eight of ten children succeeded. The orchestrator doesn't know what "done" means. It proceeds anyway. Downstream steps use incomplete state.</p>
+        <p><strong>Trigger:</strong> no explicit success/partial/failure policy declared at DAG design time. Someone wrote "wait for all" and meant "wait for most." The framework picked the literal interpretation.</p>
+        <p><strong>Mitigation:</strong> every DAG node declares its completion policy explicitly — <code>all-must-succeed</code>, <code>quorum(n)</code>, <code>best-effort</code>, <code>required-set</code>. Framework fails the run at design-time validation if the policy is missing. No runtime defaults.</p>
+      </div>
+    </div>
+
+    <div class="callout crimson">
+      <div class="clabel">Honest note on frameworks</div>
+      <p>None of the orchestration frameworks in the market today handle all five failure modes well — not LangGraph, not Semantic Kernel, not CrewAI, not AutoGen, not OpenAI's Agents SDK. Each nails two or three, punts on the others. The glue is real engineering work, and it's exactly the accumulated pattern work APEX should make reusable so Deloitte doesn't rediscover it three times.</p>
+    </div>
+  </section>
+
+  <!-- ========== TAB 6 · APEX PATTERN ========== -->
+  <section class="panel" id="p-apex" role="tabpanel" aria-labelledby="t-apex">
+    <div class="p-kicker">§6 · Recommended APEX additions</div>
+    <h2 class="p-title">Make it an <em>inheritable pattern</em>, not a bespoke build.</h2>
+    <p class="p-lede">Two additions to APEX that take the orchestration lessons out of any single engagement and put them in the kernel where every edition inherits them. Both natural extensions of work already done — the ORCH namespace is already established, and the MCP tool catalog naming convention is already defined.</p>
+
+    <h3 class="sh">Addition 1 · <em>apex.orch.control</em> pattern spec</h3>
+    <p>A sibling to the RC ORCHs. Defines the control plane as a reusable contract across editions. Every concrete ORCH inherits this — so spawn, monitor, and kill behavior is identical across Retail, Healthcare, Energy.</p>
+
+    <table class="tbl">
+      <thead><tr><th>Contract element</th><th>Required per child</th><th>Enforcement</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Cancellation token</strong></td><td>Polled between every tool call</td><td>Framework-enforced; missing poll fails CI lint</td></tr>
+        <tr><td><strong>Budget envelope</strong></td><td>wall_s, tool_calls, tokens, cost_usd, depth</td><td>Parent rejects spawn if envelope missing</td></tr>
+        <tr><td><strong>Heartbeat cadence</strong></td><td>Max 30s between heartbeats while running</td><td>Parent declares child stuck on breach</td></tr>
+        <tr><td><strong>Status event schema</strong></td><td>step_started, tool_called, awaiting_hitl, heartbeat, cancelled, error</td><td>Event Hubs schema validation</td></tr>
+        <tr><td><strong>Completion policy</strong></td><td>all | quorum(n) | best-effort | required-set</td><td>Design-time validation; no runtime default</td></tr>
+        <tr><td><strong>HITL deadline</strong></td><td>Required on every HITL raise</td><td>Expiry policy declared per raise</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sh">Addition 2 · <em>rc.orch.*</em> MCP tool family</h3>
+    <p>Orchestration telemetry exposed through the same MCP abstraction used for everything else. Humans and higher-level agents drive the control plane through governed tool calls. Every cancel becomes a Purview-audited event, not a side-channel operation.</p>
+
+    <table class="tbl">
+      <thead><tr><th>Tool</th><th>Purpose</th><th>Oversight</th><th>Class</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">rc.orch.status</td><td>Get current state of a run or child</td><td><span class="badge muted">HIC</span></td><td><span class="badge muted">I</span></td></tr>
+        <tr><td class="mono">rc.orch.timeline</td><td>Fetch status-channel events for a run</td><td><span class="badge muted">HIC</span></td><td><span class="badge muted">I</span></td></tr>
+        <tr><td class="mono">rc.orch.pause</td><td>Set pause flag on a run or child</td><td><span class="badge amber">HITL</span></td><td><span class="badge muted">I</span></td></tr>
+        <tr><td class="mono">rc.orch.resume</td><td>Clear pause flag; children resume</td><td><span class="badge amber">HITL</span></td><td><span class="badge muted">I</span></td></tr>
+        <tr><td class="mono">rc.orch.cancel</td><td>Soft cancel — cooperative exit</td><td><span class="badge amber">HITL</span></td><td><span class="badge muted">I</span></td></tr>
+        <tr><td class="mono">rc.orch.cancel.hard</td><td>Hard cancel — abandon in-flight</td><td><span class="badge amber">HITL</span></td><td><span class="badge muted">I</span></td></tr>
+        <tr><td class="mono">rc.orch.abort</td><td>Terminate processes — last resort</td><td><span class="badge crimson">HITL · 2-party</span></td><td><span class="badge muted">I</span></td></tr>
+        <tr><td class="mono">rc.orch.budget.extend</td><td>Extend envelope for a child</td><td><span class="badge amber">HITL</span></td><td><span class="badge muted">I</span></td></tr>
+        <tr><td class="mono">rc.orch.hitl.resolve</td><td>Submit HITL decision with signature</td><td><span class="badge amber">HITL</span></td><td>inherits</td></tr>
+        <tr><td class="mono">rc.orch.spawn</td><td>Spawn a new child under an existing run</td><td><span class="badge amber">HITL</span></td><td>inherits</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout purple">
+      <div class="clabel">Why the rc.orch family matters</div>
+      <p>The governance story stays clean. A SteerCo partner who cancels a run does it through a Purview-audited tool call attributed to their Entra identity — same audit plane as every other agent action. No separate "admin console" with its own access model, its own audit gap, and its own way to go wrong.</p>
+    </div>
+
+    <h3 class="sh">What I can build <em>next</em></h3>
+    <div class="cards-3">
+      <div class="card focal">
+        <div class="ctag">NEXT · A</div>
+        <h4>apex.orch.control spec</h4>
+        <p>One-page pattern spec as a sibling to the RC Logical Architecture. Formalizes the three primitives, four kill levels, five failure modes as inheritable patterns.</p>
+      </div>
+      <div class="card focal">
+        <div class="ctag">NEXT · B</div>
+        <h4>PoC skeleton</h4>
+        <p>~300 lines of Python. Durable Functions parent, Agent Service children, Event Hubs status stream, Cosmos cancel tokens. Runnable, instrumented, with all five failure modes injected as test cases.</p>
+      </div>
+      <div class="card focal">
+        <div class="ctag">NEXT · C</div>
+        <h4>Live dashboard artifact</h4>
+        <p>The five-lane mock on Tab 4 as a fully-wired interactive HTML, subscribable to a real Event Hubs stream. Drop-in for a SteerCo demo.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="indepth">
+        <div class="iptag">Independence note</div>
+        <p>This document is an internal Deloitte working artifact. It references Microsoft platform capabilities (Durable Functions, Azure AI Agent Service, Event Hubs, Purview, Entra, Cosmos DB) that clients license directly from Microsoft. Deloitte delivers agentic AI services on the Microsoft platform, accelerated internally by APEX. APEX is never licensed, sold, or invoiced to a client. No &ldquo;partner,&rdquo; &ldquo;alliance,&rdquo; or &ldquo;strategic alliance&rdquo; language is used anywhere in this document.</p>
+      </div>
+      <div class="meta-col">
+        <div class="mt">Owner</div>
+        <div class="mv">Keven Markham</div>
+        <div class="mt">Practice</div>
+        <div class="mv">Deloitte DMTSP &middot; Consumer Industry</div>
+      </div>
+      <div class="meta-col">
+        <div class="mt">Version</div>
+        <div class="mv mono">v0.1 · working draft</div>
+        <div class="mt">Context</div>
+        <div class="mv">Parent-child orchestration guidance · candidate pattern for APEX Core</div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Tab switching with keyboard support
+  const tabs = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('.panel');
+  function activate(name){
+    tabs.forEach(t=>{
+      const on = t.dataset.tab===name;
+      t.classList.toggle('active', on);
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    panels.forEach(p=>p.classList.toggle('active', p.id==='p-'+name));
+    if(history.replaceState){ history.replaceState(null,'','#'+name); }
+  }
+  tabs.forEach((tab, i)=>{
+    tab.addEventListener('click', ()=>activate(tab.dataset.tab));
+    tab.addEventListener('keydown', (e)=>{
+      if(e.key==='ArrowRight' || e.key==='ArrowLeft'){
+        e.preventDefault();
+        const dir = e.key==='ArrowRight' ? 1 : -1;
+        const next = tabs[(i + dir + tabs.length) % tabs.length];
+        next.focus(); activate(next.dataset.tab);
+      }
+    });
+  });
+
+  // Deep-link support
+  if(location.hash){
+    const name = location.hash.slice(1);
+    if(document.getElementById('p-'+name)) activate(name);
+  }
+
+  // Theme toggle
+  const btn = document.getElementById('themeBtn');
+  btn.addEventListener('click', ()=>{
+    const cur = document.documentElement.getAttribute('data-theme');
+    const next = cur==='dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    btn.textContent = next==='dark' ? 'Light' : 'Dark';
+  });
+</script>
+
+</body>
+</html>

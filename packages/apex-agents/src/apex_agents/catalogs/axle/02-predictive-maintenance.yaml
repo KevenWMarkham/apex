@@ -1,0 +1,35 @@
+kind: agent
+name: apex.axle.agents.predictive-maintenance
+version: 0.1.0
+practice: axle
+persona: Maintenance Manager
+service_codes: [AXLE-Connected-Factory-01]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Predictive-maintenance recommendation across press, CNC, and conveyor
+  equipment using vibration + temperature + acoustic signatures.
+archetype_id: F3-predictive-trigger-workflow-aware
+primary_contact: axle-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.axle.mcp.aaml.get_equipment_telemetry
+    purpose: Read OPC-UA + vibration + temp telemetry
+  - tool_id: apex.axle.mcp.qmsml.get_failure_history
+    purpose: Read historical failure data
+  - tool_id: apex.axle.mcp.aaml.create_pm_work_order
+    purpose: Create preventive-maintenance work order
+    write: true
+
+hitl_gates:
+  - name: pm_dispatch
+    description: PM work order requires maintenance manager approval
+    fires_when: Recommendation produced
+    surface: teams_card
+    sla_minutes: 240
+
+oversight_modes: [HITL, HOTL]
+kpis:
+  - { name: MTBF, direction: up, target_band: "+15 to +25%" }
+  - { name: unplanned downtime, direction: down }

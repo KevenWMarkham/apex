@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: mcp_tool
+tool_id: apex.tmt.mcp.contentml.get_asset_metadata
+practice: tmt
+sor_or_layer: contentml
+purpose: Read EIDR + asset metadata
+write: false
+inputs_schema: ''
+outputs_schema: ''
+classification_required: []
+related_canonical_schemas:
+- CONTENTML
+appendix_f_section: Appendix F — TMT MCP Tools

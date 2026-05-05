@@ -1,0 +1,44 @@
+kind: service
+service_code: TMT-MED-01
+version: 0.1.0
+practice: tmt
+display_name: Content Rights Compliance
+brief: "Distribution rights validation across territories + windows + device classes before publishing."
+description: >
+  MED rights service. Prevents rights violations via pre-publish gate with rights-ops review HITL.
+
+personas:
+  - { name: "Rights Operations Manager", role: primary }
+  - { name: "Chief Content Officer", role: secondary }
+  - { name: "Chief Compliance Officer", role: secondary }
+
+kpis:
+  - name: "rights-violation incidents"
+    direction: down
+    wave2_target: "-90% near-miss reduction"
+
+slos:
+  - { name: "DMCA audit retention", target: "permanent", enforcement: regulatory }
+
+waves:
+  - wave: wave_1
+    duration: "4-10 weeks"
+    fee_band_low_usd: 400000
+    fee_band_high_usd: 1200000
+  - wave: wave_2
+    duration: "9-12 months"
+    fee_band_low_usd: 4000000
+    fee_band_high_usd: 15000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.tmt.agents.content-rights
+
+linked_archetypes:
+  - F4-regulatory-trigger-audit-preserve
+
+schemas_touched: [MEDML, RightsML]
+standards: ['DMCA §512', 'EU DSA', 'EIDR']
+primary_contact: tmt-practice-lead@deloitte.com

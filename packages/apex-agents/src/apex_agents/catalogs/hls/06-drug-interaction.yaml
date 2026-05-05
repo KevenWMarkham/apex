@@ -1,0 +1,37 @@
+kind: agent
+name: apex.hls.agents.drug-interaction
+version: 0.1.0
+practice: hls
+persona: Pharmacist
+service_codes: [HLS-E2E-02]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Real-time drug-drug + drug-allergy + drug-condition interaction
+  screening at order entry. Outputs severity-classified interactions
+  with citation chain.
+archetype_id: F1-continuous-monitor-hitl-alert
+primary_contact: hls-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.hls.mcp.patientml.get_active_medications
+    purpose: Read patient's active medication list
+  - tool_id: apex.hls.mcp.patientml.get_allergies
+    purpose: Read documented allergies
+  - tool_id: apex.hls.mcp.external.get_drug_database
+    purpose: Read drug-interaction reference (RxNorm + First Databank)
+
+hitl_gates:
+  - name: severe_interaction_block
+    description: Severity-1 interaction blocks order pending pharmacist override
+    fires_when: Interaction severity classified as severity-1
+    surface: teams_card
+    sla_minutes: 5
+
+oversight_modes: [HITL]
+
+kpis:
+  - name: severity-1 interaction rate at admin
+    direction: down
+    target_band: "-90% near-miss reduction"

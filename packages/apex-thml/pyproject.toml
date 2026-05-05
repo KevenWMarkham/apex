@@ -1,0 +1,25 @@
+[project]
+name = "apex-thml"
+version = "0.1.0"
+description = "APEX THML — Travel & Hospitality canonical entities over OpenTravel + IATA NDC."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Proprietary — Deloitte Internal" }
+dependencies = [
+    "apex-core",
+    "apex-schemas-common",
+    "apex-standards-opentravel",
+    "pydantic>=2.9.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/apex_thml"]
+
+[tool.uv.sources]
+apex-core = { workspace = true }
+apex-schemas-common = { workspace = true }
+apex-standards-opentravel = { workspace = true }

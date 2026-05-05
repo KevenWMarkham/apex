@@ -1,0 +1,12 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: persona
+persona_id: persona.ice.chief-compliance-officer
+name: Chief Compliance Officer
+practice: ice
+seniority: c-suite
+function: service
+description: Chief Compliance Officer (ICE). Persona referenced by APEX service manifests.
+typical_decisions: []
+pains: []
+metrics_owned: []
+appendix_e_section: Appendix E — ICE Personas

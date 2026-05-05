@@ -1,0 +1,19 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.rca.004
+family: rca
+name: Billing Anomaly RCA
+description: Find root cause of customer-billing anomalies and propose remediation
+  playbook.
+canonical_inputs:
+- BillExceptions
+- CIShistory
+canonical_outputs:
+- RCAReport
+- Playbook
+typical_hitl_gate: Customer-care HITL
+typical_oversight: HITL
+typical_model_tier: standard
+example_agents:
+- apex.er.agents.ami-billing-anomaly
+appendix_d_section: Appendix D — Archetype family rca

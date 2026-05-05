@@ -1,0 +1,22 @@
+kind: event
+name: cold-chain-excursion
+version: 1.0.0
+owner: rc-practice-lead
+practice: rc
+description: Refrigeration case temperature has exceeded threshold for N minutes.
+classification: internal
+trigger:
+  source: eventstream
+  source_system: iot-refrigeration-sensors
+  detail:
+    topic: rc/cold-chain/excursion
+payload_schema:
+  type: object
+  required: [store_id, case_id, duration_minutes, temp_f]
+  properties:
+    store_id: { type: string }
+    case_id: { type: string }
+    duration_minutes: { type: integer, minimum: 0 }
+    temp_f: { type: number }
+entity_refs:
+  - sku

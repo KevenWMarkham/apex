@@ -1,0 +1,27 @@
+kind: tenant
+name: acme-grocery
+version: 1.0.0
+owner: acme-delivery-lead
+description: ACME Grocery — first RC Wave-1 pilot tenant.
+region: eastus2
+practice_pin:
+  practice: rc
+  release: 1.2.0
+service_subscriptions:
+  - rc-cold-chain-response
+  - rc-assortment-pricing
+  - rc-markdown-cadence
+extensions:
+  - target_kind: schema
+    target_name: scml
+    overlay:
+      entities:
+        - name: sku
+          attributes:
+            - name: acme_internal_sku_code
+              data_type: string
+              nullable: true
+policy_overrides:
+  - service: rc-markdown-cadence
+    gate_kind: ACK_ONLY
+    rationale: Low-risk tenant — patch/minor markdown adjustments safe to auto-apply.

@@ -1,0 +1,14 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: competitive
+entry_id: comp.databricks-mosaic
+competitor: Databricks (Mosaic AI)
+competitor_offering: Mosaic AI Agent Framework
+apex_differentiators:
+- APEX is Microsoft-native; Databricks Mosaic is Databricks-native
+- APEX HITL/HOTL governance is more mature for regulated clients
+independence_concerns:
+- Clients deeply Databricks-invested may prefer Mosaic-native
+win_themes:
+- Microsoft alignment
+- HITL governance maturity
+appendix_k_section: Appendix K — Independence and Competitive Posture

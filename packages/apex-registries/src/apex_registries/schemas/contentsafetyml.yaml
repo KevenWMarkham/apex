@@ -1,0 +1,19 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: schema
+schema_code: ContentSafetyML
+name: Content Safety IVT Lineage
+description: Content Safety IVT Lineage canonical schema family. Bronze to Silver
+  to Gold pipeline scope; consumed by APEX agents/services across TMT.
+practices:
+- tmt
+primary_entities:
+- Asset
+- Decision
+- ReviewQueue
+- Appeal
+standards_alignment:
+- IFTA
+- C2PA
+governance_classification: operations
+appendix_a_section: Appendix A — Schema family ContentSafetyML
+package_implementation: apex-contentsafetyml

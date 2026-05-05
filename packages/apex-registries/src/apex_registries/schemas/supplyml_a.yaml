@@ -1,0 +1,18 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: schema
+schema_code: SupplyML-A
+name: Aftermarket Supply Chain Lineage
+description: Aftermarket Supply Chain Lineage canonical schema family. Bronze to Silver
+  to Gold pipeline scope; consumed by APEX agents/services across ICE, AXLE.
+practices:
+- ice
+- axle
+primary_entities:
+- PartLot
+- DistributionMove
+- ReturnMaterial
+standards_alignment:
+- AIAG
+governance_classification: operations
+appendix_a_section: Appendix A — Schema family SupplyML-A
+package_implementation: apex-supplyml-a

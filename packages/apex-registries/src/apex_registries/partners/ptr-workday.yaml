@@ -1,0 +1,15 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: partner
+partner_id: ptr.workday
+name: Workday
+category: sor-vendor
+practices:
+- hls
+- th
+- tmt
+- rc
+- axle
+description: HCM / Financials.
+apex_integration_pattern: Mirroring-via-Sprint15
+contracts_in_place: []
+appendix_h_section: Appendix H — sor-vendor

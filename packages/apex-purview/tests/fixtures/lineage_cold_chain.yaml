@@ -1,0 +1,65 @@
+kind: lineage
+version: 1.0
+practice: rc
+family: scml
+description: >
+  Cold Chain Excursion reference lineage — full seven-hop path from SAP
+  inbound through agent to audit row. Used by Sprint 13 smoke tests.
+edges:
+  # 13.2.1 — SOR → Bronze
+  - hop: sor_to_bronze
+    sor_qualified_name: sap.s4.pm_maint_order
+    sor_type_name: sap_table
+    bronze_qualified_name: apex.rc.bronze.pm_maint_order
+    pipeline_run_id: adf-pipe-2026-04-22-0630
+    ingest_ts: "2026-04-22T06:30:00Z"
+    ingest_latency_ms: 1450
+
+  # 13.2.2 — Bronze → Silver
+  - hop: bronze_to_silver
+    bronze_qualified_name: apex.rc.bronze.pm_maint_order
+    silver_qualified_name: apex.rc.silver.scml.shipment
+    notebook_url: adf://notebooks/bronze-to-silver/scml-shipment/v1.4.2
+    commit_sha: 7f3a9b2c4d5e6f1a2b3c4d5e6f7a8b9c
+    transform_version: "1.4.2"
+
+  # 13.2.3 — Silver → Gold (one Gold view joins two Silver tables)
+  - hop: silver_to_gold
+    silver_qualified_names:
+      - apex.rc.silver.scml.shipment
+      - apex.rc.silver.scml.lot
+    gold_qualified_name: apex.rc.gold.vw_agent_cold_chain_status
+    sql_sha: 5e6f7a8b9c1d2e3f4a5b6c7d8e9f0a1b
+    view_definition_url: github://deloitte/apex/views/cold-chain-status.sql
+    gold_type: direct_lake_view
+
+  # 13.2.4 — Gold → MCP tool
+  - hop: gold_to_mcp
+    gold_qualified_name: apex.rc.gold.vw_agent_cold_chain_status
+    mcp_tool_qualified_name: apex.rc.mcp.scml.get_cold_chain_status
+    mcp_tool_version: "1.2.0"
+    mcp_server: scml-mcp
+
+  # 13.2.5a — MCP → Agent
+  - hop: mcp_to_agent
+    mcp_tool_qualified_name: apex.rc.mcp.scml.get_cold_chain_status
+    agent_qualified_name: apex.rc.agents.cold_chain_response
+    agent_manifest_sha: a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6
+
+  # 13.2.5b — Agent → Orchestration
+  - hop: agent_to_orchestration
+    agent_qualified_name: apex.rc.agents.cold_chain_response
+    orchestration_qualified_name: apex.rc.orch.cold_chain_excursion_response
+    orchestration_manifest_sha: d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9
+    archetype_id: F1-continuous-monitor-hitl-alert
+
+  # 13.2.5c — Orchestration → Audit row
+  - hop: orchestration_to_audit
+    orchestration_qualified_name: apex.rc.orch.cold_chain_excursion_response
+    audit_row_qualified_name: apex.audit.dec-20260422-0635-00042
+    trace_id: trace-20260422-0635-cc-001
+    decision_id: dec-20260422-0635-00042
+    manifest_version: d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9
+    policy_version: c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2
+    prompt_version: f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3
+    hitl_status: approved

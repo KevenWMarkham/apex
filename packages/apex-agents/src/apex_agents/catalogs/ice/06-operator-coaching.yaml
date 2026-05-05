@@ -1,0 +1,26 @@
+kind: agent
+name: apex.ice.agents.operator-coaching
+version: 0.1.0
+practice: ice
+persona: Field Operations Manager
+service_codes: [ICE-Connected-Factory-02]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Operator-coaching agent. Detects sub-optimal operating patterns (over-revving, sharp turning) and surfaces coaching prompts.
+archetype_id: F2-event-cluster-pattern-match
+primary_contact: ice-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.ice.mcp.connectedml.get_operator_signals
+    purpose: Read operator-action telemetry
+  - tool_id: apex.ice.mcp.amml.send_coaching_prompt
+    purpose: Send in-cab coaching prompt
+    write: true
+
+oversight_modes: [HOTL]
+
+kpis:
+  - { name: fuel burn per hour, direction: down }
+  - { name: operator-induced incidents, direction: down }

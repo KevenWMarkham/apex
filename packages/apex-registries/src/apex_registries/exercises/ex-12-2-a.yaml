@@ -1,0 +1,17 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: exercise
+exercise_id: ex.12.2.a
+sellers_guide_section: §12.2
+chapter: 12. Industrial / Manufacturing Practice
+prompt: Decompose an OEE shortfall using the Sprint 16 OEE monitor agent.
+canonical_solution: 'Decompose into Availability × Performance × Quality. Drivers
+  below target each get a confidence-scored hypothesis (e.g., changeover #4 SMED candidate).
+  Andon-RCA agent correlates with prior incidents.'
+teaching_points:
+- OEE = A × P × Q
+- Decomposition surfaces confidence-scored levers
+related_kpi_ids:
+- kpi.axle.oee
+related_archetype_ids:
+- arch.monitor.001
+- arch.rca.001

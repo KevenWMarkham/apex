@@ -1,0 +1,105 @@
+kind: adapter
+name: sap-s4hana
+version: 0.1.0
+sor_name: SAP S/4HANA
+sor_vendor: SAP
+practice: rc
+connection_method: mirrored_db
+schedule: continuous
+bronze_workspace: apex-rc-prod-bronze
+description: >
+  SAP S/4HANA ingest via Fabric Mirroring (CDC over the underlying SAP
+  HANA database). Avoids ABAP custom coding and respects SAP licensing
+  per Sellers Guide §9.11.3.
+standards:
+  - EDI X12
+  - OAGIS
+  - GS1
+
+schema_mappings:
+  - source_table: KNA1
+    bronze_table: bronze_sap_customer
+    primary_key: [KUNNR]
+    fields:
+      - source_field: KUNNR
+        bronze_column: customer_number
+        bronze_type: string
+        nullable: false
+        classification: pii
+      - source_field: NAME1
+        bronze_column: customer_name
+        bronze_type: string
+        classification: pii
+      - source_field: LAND1
+        bronze_column: country_code
+        bronze_type: string
+        classification: internal
+  - source_table: MARA
+    bronze_table: bronze_sap_material
+    primary_key: [MATNR]
+    fields:
+      - source_field: MATNR
+        bronze_column: material_number
+        bronze_type: string
+        nullable: false
+        classification: internal
+      - source_field: MTART
+        bronze_column: material_type
+        bronze_type: string
+      - source_field: MEINS
+        bronze_column: base_unit
+        bronze_type: string
+  - source_table: BSEG
+    bronze_table: bronze_sap_acct_doc_line
+    primary_key: [BUKRS, BELNR, GJAHR, BUZEI]
+    fields:
+      - source_field: BUKRS
+        bronze_column: company_code
+        bronze_type: string
+        nullable: false
+      - source_field: BELNR
+        bronze_column: doc_number
+        bronze_type: string
+        nullable: false
+      - source_field: GJAHR
+        bronze_column: fiscal_year
+        bronze_type: int
+        nullable: false
+      - source_field: BUZEI
+        bronze_column: line_item
+        bronze_type: int
+        nullable: false
+      - source_field: DMBTR
+        bronze_column: amount_local
+        bronze_type: decimal
+        classification: trade_secret
+      - source_field: WAERS
+        bronze_column: currency
+        bronze_type: string
+
+runbook:
+  primary_contact: rc-data-platform@deloitte.com
+  secondary_contact: rc-on-call@deloitte.com
+  sla_recovery_minutes: 60
+  failure_modes:
+    - code: MIRROR_LAG_HIGH
+      description: Fabric Mirror replication lag exceeds 5 minutes
+      severity: warning
+      retry: false
+    - code: MIRROR_DETACHED
+      description: Mirror state shows detached / failed
+      severity: critical
+      retry: true
+      retry_max: 2
+      backoff_seconds: 120
+      escalation: data-platform-team
+    - code: SAP_CREDS_EXPIRED
+      description: Service-principal credentials rotated without update
+      severity: error
+      retry: false
+      escalation: identity-on-call
+  notes: >
+    SAP HANA underlying DB schema changes (e.g., S/4 enhancement packs)
+    require re-validation of canonical table set before resuming
+    mirroring. CHARTER §3 should be updated alongside any new tables
+    added beyond the canonical set in apex_adapters.implementations.sap_s4hana.

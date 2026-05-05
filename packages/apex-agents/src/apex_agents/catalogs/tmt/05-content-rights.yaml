@@ -1,0 +1,31 @@
+kind: agent
+name: apex.tmt.agents.content-rights
+version: 0.1.0
+practice: tmt
+persona: Rights Operations Manager
+service_codes: [TMT-MED-01]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Content-rights compliance check. Validates distribution windows + territories + device classes before publishing release.
+archetype_id: F4-regulatory-trigger-audit-preserve
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.contentml.get_asset_metadata
+    purpose: Read EIDR + asset metadata
+  - tool_id: apex.tmt.mcp.rightsml.get_rights_window
+    purpose: Read territory + window + device-class scope
+
+hitl_gates:
+  - name: publish_outside_scope
+    description: Publishing requested outside rights envelope blocks pending rights-ops review
+    fires_when: Requested publish exceeds declared rights
+    surface: dashboard
+    sla_minutes: 240
+
+oversight_modes: [HITL]
+
+kpis:
+  - { name: rights-violation incidents, direction: down }

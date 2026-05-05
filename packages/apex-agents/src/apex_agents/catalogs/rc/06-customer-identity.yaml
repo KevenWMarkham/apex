@@ -1,0 +1,43 @@
+kind: agent
+name: apex.rc.agents.customer-identity
+version: 0.1.0
+practice: rc
+persona: CMO
+service_codes: [RC-E2E-05]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Identity resolution across channels (POS, e-commerce, loyalty, MarTech)
+  with deterministic + probabilistic matching. Produces customer 360
+  views with consent enforcement.
+archetype_id: F5-identity-resolution-confidence-merge
+primary_contact: rc-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.rc.mcp.cxml.get_customer_360
+    purpose: Read unified customer record across channels
+  - tool_id: apex.rc.mcp.cxml.get_consent_state
+    purpose: Read current consent record per customer
+  - tool_id: apex.rc.mcp.cxml.merge_identities
+    purpose: Merge identity confidently linked
+    write: true
+
+hitl_gates:
+  - name: high_confidence_merge
+    description: Probabilistic merge below 95% confidence requires data-steward approval
+    fires_when: Merge confidence < 95% or cross-jurisdiction merge
+    surface: dashboard
+    sla_minutes: 1440
+
+oversight_modes: [HITL, HOTL]
+
+forbidden_classifications: [pci]
+
+kpis:
+  - name: 360-coverage rate
+    direction: up
+    target_band: "+25 to +35 percentage points"
+  - name: loyalty member value
+    direction: up
+    target_band: "+8 to +20%"

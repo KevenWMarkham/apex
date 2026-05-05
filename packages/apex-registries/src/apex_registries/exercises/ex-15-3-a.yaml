@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: exercise
+exercise_id: ex.15.3.a
+sellers_guide_section: §15.3
+chapter: 15. Industrial Connected Electronics Practice
+prompt: Why does ICE Wave-1 typically run F128 single-tenant rather than per-workload-isolation?
+canonical_solution: ICE Wave-1 telemetry estate is typically homogeneous (single OEM
+  device family), so the OT/IT isolation overhead of per-workload doesn't pay off.
+  Multi-OEM Wave-2 may justify isolation.
+teaching_points:
+- Capacity choice follows estate complexity, not always max-isolation
+related_kpi_ids: []
+related_archetype_ids: []

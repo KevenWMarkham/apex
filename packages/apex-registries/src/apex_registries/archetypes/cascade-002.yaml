@@ -1,0 +1,16 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.cascade.002
+family: cascade
+name: Workflow Cascade
+description: Trigger downstream workflows in dependency order with retry / compensate.
+canonical_inputs:
+- WorkflowGraph
+- TriggerEvent
+canonical_outputs:
+- ExecutionTrace
+typical_hitl_gate: Compensation flow fires
+typical_oversight: HITL
+typical_model_tier: standard
+example_agents: []
+appendix_d_section: Appendix D — Archetype family cascade

@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autonomous GSE · Positioned in APEX Services-to-Solutions | DMTSP</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f172a;
+  --surface: #1e293b;
+  --surface-2: #334155;
+  --surface-3: #475569;
+  --border: #475569;
+  --azure: #0078D4;
+  --azure-light: #50e6ff;
+  --teal: #008272;
+  --teal-light: #00B294;
+  --green: #86BC25;
+  --amber: #f59e0b;
+  --red: #ef4444;
+  --purple: #7B4BC4;
+  --fabric: #B23CD0;
+  --pink: #ec4899;
+  --cyan: #22d3ee;
+  --gold: #FFC857;
+  --gold-deep: #D97706;
+  --text: #f1f5f9;
+  --text-2: #94a3b8;
+  --text-3: #64748b;
+  --white: #ffffff;
+  --th: #B5179E;
+  --ice: #7209B7;
+  --er: #F77F00;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  padding: 24px 40px 36px;
+  min-height: 100vh;
+}
+
+/* HEADER */
+.brand {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+  margin-bottom: 18px;
+}
+.brand-name {
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--gold);
+  letter-spacing: 1.5px;
+}
+.title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--white);
+  margin-top: 4px;
+  letter-spacing: -0.4px;
+}
+.subtitle {
+  font-size: 13px;
+  color: var(--text-2);
+  margin-top: 4px;
+}
+.brand-right {
+  text-align: right;
+  font-size: 11px;
+  color: var(--text-3);
+  line-height: 1.6;
+}
+.brand-right strong { color: var(--text-2); }
+
+/* TIER LAYOUT */
+.tier {
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.tier-tag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Outfit', sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  border-radius: 8px;
+  padding: 8px 4px;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  text-orientation: mixed;
+}
+.tier-tag.t1 { background: linear-gradient(180deg, #FFD995, var(--gold-deep)); color: var(--bg); }
+.tier-tag.t2 { background: linear-gradient(180deg, var(--azure-light), var(--azure)); color: var(--bg); }
+.tier-tag.t3 { background: linear-gradient(180deg, var(--teal-light), var(--teal)); color: var(--white); }
+.tier-tag.t4 { background: linear-gradient(180deg, var(--fabric), var(--purple)); color: var(--white); }
+
+.tier-content {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px 14px;
+}
+
+.tier-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.tier-subtitle {
+  font-size: 11px;
+  color: var(--text-2);
+  font-style: italic;
+  margin-bottom: 12px;
+}
+
+/* OUTCOMES */
+.outcomes-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+.outcome {
+  background: var(--surface-2);
+  border: 1px solid var(--surface-3);
+  border-top: 3px solid var(--gold);
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+.outcome .name {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--white);
+}
+.outcome .target {
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--gold);
+  margin: 4px 0;
+  letter-spacing: -0.5px;
+}
+.outcome .desc {
+  font-size: 10px;
+  color: var(--text-2);
+  line-height: 1.4;
+}
+
+/* SOLUTIONS */
+.solutions-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+.solution {
+  background: var(--surface-2);
+  border: 1px solid var(--surface-3);
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+}
+.solution.op   { border-left: 4px solid var(--th); }
+.solution.oem  { border-left: 4px solid var(--ice); }
+.solution.reg  { border-left: 4px solid var(--green); }
+.solution.com  { border-left: 4px solid var(--gold); }
+
+.solution-tag {
+  position: absolute;
+  top: -8px;
+  left: 12px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 9px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 3px;
+  letter-spacing: 1px;
+  color: var(--bg);
+}
+.solution.op  .solution-tag { background: var(--th); color: white; }
+.solution.oem .solution-tag { background: var(--ice); color: white; }
+.solution.reg .solution-tag { background: var(--green); color: var(--bg); }
+.solution.com .solution-tag { background: var(--gold); color: var(--bg); }
+
+.solution-name {
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--white);
+  margin-top: 6px;
+}
+.solution-buyer {
+  font-size: 10px;
+  color: var(--azure-light);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+.solution-value {
+  font-size: 11px;
+  color: var(--text-2);
+  line-height: 1.45;
+  flex-grow: 1;
+}
+.kpi-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: 4px;
+  padding-top: 6px;
+  border-top: 1px solid var(--surface-3);
+}
+.kpi {
+  font-size: 10px;
+  color: var(--text);
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+.kpi .v { color: var(--gold); font-weight: 700; font-family: 'Outfit', sans-serif; }
+
+/* SERVICES TABLE */
+.svc-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 11px;
+}
+.svc-table thead th {
+  text-align: left;
+  font-family: 'Outfit', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-2);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 8px 10px;
+  background: var(--surface-2);
+  border-top: 1px solid var(--surface-3);
+  border-bottom: 1px solid var(--surface-3);
+}
+.svc-table thead th:first-child { border-left: 1px solid var(--surface-3); border-top-left-radius: 6px; }
+.svc-table thead th:last-child  { border-right: 1px solid var(--surface-3); border-top-right-radius: 6px; }
+.svc-table tbody td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--surface-3);
+  vertical-align: top;
+  font-size: 11px;
+}
+.svc-table tbody tr:hover td { background: rgba(255, 200, 87, 0.04); }
+.svc-table tbody tr:last-child td { border-bottom: none; }
+
+.svc-table .code {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  white-space: nowrap;
+  font-size: 11px;
+}
+.code.ice { color: var(--ice); }
+.code.th  { color: var(--th); }
+.code.er  { color: var(--er); }
+
+.svc-table .name { color: var(--white); font-weight: 600; }
+.svc-table .kpi-cell {
+  color: var(--gold);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  white-space: nowrap;
+  font-size: 10.5px;
+}
+.svc-table .gate {
+  display: inline-block;
+  font-family: 'Outfit', sans-serif;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+.gate.hitl   { background: var(--amber); color: var(--bg); }
+.gate.ack    { background: var(--cyan);  color: var(--bg); }
+.gate.zero   { background: var(--green); color: var(--bg); }
+.gate.esc    { background: var(--red);   color: var(--white); }
+
+.svc-table .bundle-dot {
+  display: inline-block;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  margin-right: 3px;
+  border: 1.5px solid;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.svc-table .bundle-dot:not(.bundle-empty) {
+  cursor: pointer;
+}
+.svc-table .bundle-dot:not(.bundle-empty):hover {
+  transform: scale(1.35);
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.12);
+}
+.bundle-op  { background: var(--th);    border-color: var(--th); }
+.bundle-oem { background: var(--ice);   border-color: var(--ice); }
+.bundle-reg { background: var(--green); border-color: var(--green); }
+.bundle-com { background: var(--gold);  border-color: var(--gold); }
+.bundle-empty { background: transparent; border-color: var(--surface-3); cursor: default; }
+
+/* MODAL */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.78);
+  backdrop-filter: blur(4px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 24px;
+}
+.modal-backdrop.open { display: flex; animation: fade-in 0.18s ease; }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+.modal {
+  background: linear-gradient(180deg, var(--surface), #14213D);
+  border: 1px solid var(--surface-3);
+  border-radius: 14px;
+  max-width: 720px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.04);
+  position: relative;
+  animation: slide-up 0.22s cubic-bezier(.2,.7,.3,1);
+}
+@keyframes slide-up { from { transform: translateY(14px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.modal-header {
+  padding: 18px 22px 14px;
+  border-bottom: 1px solid var(--surface-3);
+  position: relative;
+}
+.modal-eyebrow {
+  font-family: 'Outfit', sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+.modal-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--white);
+  margin-top: 4px;
+  letter-spacing: -0.2px;
+}
+.modal-sub {
+  font-size: 12px;
+  color: var(--text-2);
+  margin-top: 4px;
+  font-style: italic;
+}
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  background: var(--surface-2);
+  border: 1px solid var(--surface-3);
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.12s, color 0.12s;
+}
+.modal-close:hover { background: var(--red); color: var(--white); border-color: var(--red); }
+
+.modal-body { padding: 18px 22px 22px; }
+.modal-section { margin-bottom: 14px; }
+.modal-section:last-child { margin-bottom: 0; }
+.modal-section h4 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-3);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.modal-section p {
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+.modal-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+.pill {
+  font-family: 'Outfit', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.4px;
+  border: 1px solid var(--surface-3);
+  background: var(--surface-2);
+  color: var(--text);
+}
+.modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.modal-stat {
+  background: var(--surface-2);
+  border: 1px solid var(--surface-3);
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+.modal-stat .lbl {
+  font-family: 'Outfit', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--text-3);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+.modal-stat .val {
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-top: 3px;
+}
+.modal-flow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+  font-size: 11.5px;
+  line-height: 1.6;
+}
+.modal-flow .step {
+  background: var(--surface-2);
+  border: 1px solid var(--surface-3);
+  border-radius: 4px;
+  padding: 4px 9px;
+  color: var(--text);
+}
+.modal-flow .arr { color: var(--text-3); font-family: 'Outfit', sans-serif; }
+.modal-bundle-bar {
+  height: 4px;
+  border-radius: 2px;
+  margin-bottom: 14px;
+}
+.bb-op  { background: var(--th); }
+.bb-oem { background: var(--ice); }
+.bb-reg { background: var(--green); }
+.bb-com { background: var(--gold); }
+
+.svc-table .ms {
+  font-size: 10px;
+  color: var(--text-2);
+  font-style: italic;
+}
+
+/* FOUNDATION */
+.foundation-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.found-item {
+  background: var(--surface-2);
+  border: 1px solid var(--surface-3);
+  border-left: 3px solid var(--fabric);
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+.found-item .name {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 4px;
+}
+.found-item .desc {
+  font-size: 10.5px;
+  color: var(--text-2);
+  line-height: 1.45;
+}
+.found-item .gse-cut {
+  display: inline-block;
+  font-family: 'Outfit', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/* WAVES (footer) */
+.waves {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 4px;
+}
+.wave {
+  background: var(--surface-2);
+  border: 1px solid var(--surface-3);
+  border-radius: 6px;
+  padding: 10px 14px;
+}
+.wave .num {
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--azure-light);
+  letter-spacing: 1.5px;
+}
+.wave .title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--white);
+  margin: 2px 0 6px;
+}
+.wave .desc {
+  font-size: 10.5px;
+  color: var(--text-2);
+  line-height: 1.45;
+}
+.wave .envelope {
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--gold);
+  margin-top: 6px;
+}
+
+/* FLOW */
+.flow {
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-3);
+  margin: 4px 0;
+  letter-spacing: 4px;
+}
+.flow .label {
+  font-family: 'Outfit', sans-serif;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  color: var(--text-2);
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+/* FOOTER */
+.foot {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: 24px;
+  font-size: 11px;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+.foot h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.bundle-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
+}
+.bundle-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  color: var(--text-2);
+}
+.copy {
+  margin-top: 12px;
+  font-size: 9.5px;
+  color: var(--text-3);
+  text-align: center;
+  font-style: italic;
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="brand">
+  <div>
+    <div class="brand-name">DELOITTE  ·  DMTSP  ·  AUTONOMOUS GSE</div>
+    <div class="title">Autonomous GSE — Positioned in APEX Services-to-Solutions Architecture</div>
+    <div class="subtitle">A vertical slice through the APEX stack: which Outcomes autonomous GSE delivers, which sub-Solutions decompose the engagement, which Services compose those sub-Solutions, and which Foundation elements they ride on.</div>
+  </div>
+  <div class="brand-right">
+    <strong>Prepared for:</strong> Nagataka Asa, Deloitte Japan<br>
+    <strong>Author:</strong> Keven Markham, DMTSP<br>
+    <strong>Version:</strong> v1.0 · 2026-05-01<br>
+    <strong>Classification:</strong> Internal — Deloitte Global
+  </div>
+</div>
+
+<!-- ================ TIER 1 — OUTCOMES ================ -->
+<div class="tier">
+  <div class="tier-tag t1">Outcomes</div>
+  <div class="tier-content">
+    <div class="tier-title">Tier 1 — GSE Business Outcomes</div>
+    <div class="tier-subtitle">What an airport operator, ground handler, OEM, or lessor experiences when an APEX-delivered Autonomous GSE programme is in place.</div>
+    <div class="outcomes-grid">
+      <div class="outcome">
+        <div class="name">Turn Reliability</div>
+        <div class="target">≥ 99.5%</div>
+        <div class="desc">Pushback dispatch reliability against TOBT/TSAT — narrow-body turn-time variance halved.</div>
+      </div>
+      <div class="outcome">
+        <div class="name">Fleet Availability</div>
+        <div class="target">≥ 95%</div>
+        <div class="desc">Autonomous GSE uptime hub-wide. MTBF lifted via predictive battery / drivetrain models.</div>
+      </div>
+      <div class="outcome">
+        <div class="name">Workforce Augmentation</div>
+        <div class="target">30–40%</div>
+        <div class="desc">Closure of structural ramp-labour gap without further headcount expansion.</div>
+      </div>
+      <div class="outcome">
+        <div class="name">Regulatory Evidence</div>
+        <div class="target">100%</div>
+        <div class="desc">Inspection-ready audit trail for FAA Part 139 · EASA · JCAB · ICAO Annex 14.</div>
+      </div>
+      <div class="outcome">
+        <div class="name">As-a-Service Revenue</div>
+        <div class="target">2–4×</div>
+        <div class="desc">OEM cumulative ROI on Wave 1 services by month 18 · subscription-priced contracts.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="flow">↓ delivered by <span class="label">SUB-SOLUTIONS</span></div>
+
+<!-- ================ TIER 2 — SUB-SOLUTIONS ================ -->
+<div class="tier">
+  <div class="tier-tag t2">Solutions</div>
+  <div class="tier-content">
+    <div class="tier-title">Tier 2 — Autonomous GSE Solution, Decomposed</div>
+    <div class="tier-subtitle">The single Solution &ldquo;Autonomous GSE Operations&rdquo; from the master catalogue, decomposed into four engagement-shaped sub-Solutions, each with a primary buyer persona.</div>
+    <div class="solutions-grid">
+
+      <!-- OPERATOR -->
+      <div class="solution op">
+        <div class="solution-tag">A — OPERATOR</div>
+        <div class="solution-name">GSE Operator Solution</div>
+        <div class="solution-buyer">Buyer: OCC Director · Hub Ops VP</div>
+        <div class="solution-value">Ramp dispatch, turn-time orchestration, exception routing, and cross-stand allocation of the autonomous GSE fleet at hub airports.</div>
+        <div class="kpi-list">
+          <div class="kpi"><span>Pushback dispatch SLA</span><span class="v">≥ 99.5%</span></div>
+          <div class="kpi"><span>IRROPS recovery latency</span><span class="v">−45%</span></div>
+        </div>
+      </div>
+
+      <!-- OEM -->
+      <div class="solution oem">
+        <div class="solution-tag">B — OEM</div>
+        <div class="solution-name">GSE OEM Solution</div>
+        <div class="solution-buyer">Buyer: GSE OEM CTO · Product VP</div>
+        <div class="solution-value">Fleet asset health, warranty pattern detection, ODD discipline, and OTA update governance for the OEM&rsquo;s deployed autonomous GSE fleet.</div>
+        <div class="kpi-list">
+          <div class="kpi"><span>Mean time-to-failure detection</span><span class="v">−60%</span></div>
+          <div class="kpi"><span>Warranty cost reduction</span><span class="v">12–18%</span></div>
+        </div>
+      </div>
+
+      <!-- REGULATORY -->
+      <div class="solution reg">
+        <div class="solution-tag">C — REGULATORY</div>
+        <div class="solution-name">GSE Regulatory &amp; Safety Case</div>
+        <div class="solution-buyer">Buyer: Airport Compliance · OEM Safety</div>
+        <div class="solution-value">Audit-grade evidence pipeline for Part 139 / EASA / JCAB inspections, plus the AXLE V&amp;V harness for ODD validation and continuous safety-case maintenance.</div>
+        <div class="kpi-list">
+          <div class="kpi"><span>Inspection cycle time</span><span class="v">−70%</span></div>
+          <div class="kpi"><span>Safety-case update latency</span><span class="v">&lt; 24h</span></div>
+        </div>
+      </div>
+
+      <!-- COMMERCIAL -->
+      <div class="solution com">
+        <div class="solution-tag">D — COMMERCIAL</div>
+        <div class="solution-name">GSE-as-a-Service / Commercial</div>
+        <div class="solution-buyer">Buyer: OEM CFO · Lessor · Handler CFO</div>
+        <div class="solution-value">Subscription pricing, utilisation telemetry, contract-renewal protection, and metered billing infrastructure for GSE-as-a-Service contracts.</div>
+        <div class="kpi-list">
+          <div class="kpi"><span>Renewal protection rate</span><span class="v">≥ 92%</span></div>
+          <div class="kpi"><span>Utilisation visibility</span><span class="v">100% per asset</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="flow">↓ composed from <span class="label">SERVICES</span></div>
+
+<!-- ================ TIER 3 — SERVICES ================ -->
+<div class="tier">
+  <div class="tier-tag t3">Services</div>
+  <div class="tier-content">
+    <div class="tier-title">Tier 3 — Catalogued APEX Services Bound to Autonomous GSE</div>
+    <div class="tier-subtitle">Nine services drawn from three Practices (ICE · TH · ER). Each row shows the dominant KPI, HITL gate posture, the Microsoft anchor, and which sub-Solution(s) consume it.</div>
+
+    <table class="svc-table">
+      <thead>
+        <tr>
+          <th style="width: 110px;">Service ID</th>
+          <th style="width: 200px;">Service Name</th>
+          <th style="width: 220px;">Primary KPI / Target</th>
+          <th style="width: 90px;">HITL Gate</th>
+          <th style="width: 200px;">Microsoft Anchor</th>
+          <th>Sub-Solution Bundles</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr data-service="ICE-FAF-01">
+          <td><span class="code ice">ICE-FAF-01</span></td>
+          <td><span class="name">Field Asset Failure Response</span></td>
+          <td class="kpi-cell">MTTF detection − 60%</td>
+          <td><span class="gate hitl">HITL</span></td>
+          <td class="ms">Azure ML + Azure AI Agent Service</td>
+          <td>
+            <span class="bundle-dot bundle-op" title="Operator"></span>
+            <span class="bundle-dot bundle-oem" title="OEM"></span>
+            <span class="bundle-dot bundle-empty"></span>
+            <span class="bundle-dot bundle-empty"></span>
+          </td>
+        </tr>
+        <tr data-service="ICE-SPA-02">
+          <td><span class="code ice">ICE-SPA-02</span></td>
+          <td><span class="name">Spare-Parts Availability Triage</span></td>
+          <td class="kpi-cell">Hub fill-rate ≥ 98%</td>
+          <td><span class="gate ack">ACK_ONLY</span></td>
+          <td class="ms">Logic Apps + D365 Field Service</td>
+          <td>
+            <span class="bundle-dot bundle-op"></span>
+            <span class="bundle-dot bundle-oem"></span>
+            <span class="bundle-dot bundle-empty"></span>
+            <span class="bundle-dot bundle-empty"></span>
+          </td>
+        </tr>
+        <tr data-service="ICE-WCP-03">
+          <td><span class="code ice">ICE-WCP-03</span></td>
+          <td><span class="name">Warranty Claim Pattern Analysis</span></td>
+          <td class="kpi-cell">Warranty cost − 12 to 18%</td>
+          <td><span class="gate ack">ACK_ONLY</span></td>
+          <td class="ms">Fabric Lakehouse + Azure AI Search</td>
+          <td>
+            <span class="bundle-dot bundle-empty"></span>
+            <span class="bundle-dot bundle-oem"></span>
+            <span class="bundle-dot bundle-empty"></span>
+            <span class="bundle-dot bundle-com"></span>
+          </td>
+        </tr>
+        <tr data-service="ICE-CRP-04">
+          <td><span class="code ice">ICE-CRP-04</span></td>
+          <td><span class="name">Contract-Renewal Revenue Protection</span></td>
+          <td class="kpi-cell">Renewal rate ≥ 92%</td>
+          <td><span class="gate hitl">HITL</span></td>
+          <td class="ms">Azure OpenAI + Power BI</td>
+          <td>
+            <span class="bundle-dot bundle-empty"></span>
+            <span class="bundle-dot bundle-empty"></span>
+            <span class="bundle-dot bundle-empty"></span>
+            <span class="bundle-dot bundle-com"></span>
+          </td>
+        </tr>
+        <tr data-service="ICE-AaS-05">
+          <td><span class="code ice">ICE-AaS-05</span></td>
+          <td><span class="name">As-a-Service Utilization Optimization</span></td>
+          <td class="kpi-cell">100% per-asset visibility</td>
+          <td><span class="gate zero">ZERO_TOUCH</span></td>
+          <td class="ms">Fabric + Azure Data Explorer</td>
+          <td>
+            <span class="bundle-dot bundle-empty"></span>
+            <span class="bundle-dot bundle-oem"></span>
+            <span class="bundle-dot bundle-empty"></span>
+            <span class="bundle-dot bundle-com"></span>
+          </td>
+        </tr>
+        <tr data-service="ICE-CIR-06">
+          <td><span class="code ice">ICE-CIR-06</span></td>
+          <td><span class="name">Compliance Inspection Response</span></td>
+          <td class="kpi-cell">Inspection cycle − 70%</td>
+          <td><span class="gate hitl">HITL</span></td>
+          <td class="ms">Power Pages + Microsoft Purview</td>
+          <td>
+            <span class="bundle-dot bundle-op"></span>
+            <span class="bundle-dot bundle-empty"></span>
+            <span class="bundle-dot bundle-reg"></span>
+            <span class="bundle-dot bundle-empty"></span>
+          </td>
+        </tr>
+        <tr data-service="TH-DRO-02">
+          <td><span class="code th">TH-DRO-02</span></td>
+          <td><span class="name">Disruption Recovery Orchestration</span></td>
+          <td class="kpi-cell">IRROPS latency − 45%</td>
+          <td><span class="gate hitl">HITL</span></td>
+          <td class="ms">Azure AI Agent Service + Teams</td>
+          <td>
+            <span class="bundle-dot bundle-op"></span>
+            <span class="bundle-dot bundle-empty"></span>
+            <span class="bundle-dot bundle-empty"></span>
+            <span class="bundle-dot bundle-empty"></span>
+          </td>
+        </tr>
+        <tr data-service="TH-HER-06">
+          <td><span class="code th">TH-HER-06</span></td>
+          <td><span class="name">Ramp Exception Routing (TH-HER variant)</span></td>
+          <td class="kpi-cell">Pushback SLA ≥ 99.5%</td>
+          <td><span class="gate ack">ACK_ONLY</span></td>
+          <td class="ms">Logic Apps + Power Apps</td>
+          <td>
+            <span class="bundle-dot bundle-op"></span>
+            <span class="bundle-dot bundle-empty"></span>
+            <span class="bundle-dot bundle-empty"></span>
+            <span class="bundle-dot bundle-empty"></span>
+          </td>
+        </tr>
+        <tr data-service="ER-FWO-04">
+          <td><span class="code er">ER-FWO-04</span></td>
+          <td><span class="name">Field Work-Order Optimisation</span></td>
+          <td class="kpi-cell">First-time-fix ≥ 80%</td>
+          <td><span class="gate hitl">HITL</span></td>
+          <td class="ms">D365 Field Service + Maps</td>
+          <td>
+            <span class="bundle-dot bundle-op"></span>
+            <span class="bundle-dot bundle-oem"></span>
+            <span class="bundle-dot bundle-empty"></span>
+            <span class="bundle-dot bundle-empty"></span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="flow">↓ rides on <span class="label">FOUNDATION</span></div>
+
+<!-- ================ TIER 4 — FOUNDATION ================ -->
+<div class="tier">
+  <div class="tier-tag t4">Foundation</div>
+  <div class="tier-content">
+    <div class="tier-title">Tier 4 — Foundation Elements Specific to Autonomous GSE</div>
+    <div class="tier-subtitle">Where the standard APEX foundation is extended, specialised, or made airside-credible for the autonomous-GSE programme.</div>
+
+    <div class="foundation-grid">
+      <div class="found-item">
+        <div class="name">ICEML Schema — GSE Extensions</div>
+        <div class="desc">Vehicle telemetry, ASSET_HEALTH, WORK_ORDER, INSPECTION_EVENT shaped to GSE grain. Versioned via APEX manifest model with bump classification.</div>
+        <div class="gse-cut">Extends ICE-edition canonical schemas</div>
+      </div>
+      <div class="found-item">
+        <div class="name">AHM 950 / 956 Conformant Adapter</div>
+        <div class="desc">IATA equipment-independent vehicle data ingestion at L2 (Event Hubs / IoT Hub). Required for multi-OEM hub deployments.</div>
+        <div class="gse-cut">L2 ingest binding</div>
+      </div>
+      <div class="found-item">
+        <div class="name">A-CDM / AODB Integration Pattern</div>
+        <div class="desc">Bidirectional TOBT / TSAT consumption + position/state publishing. Day-one integration is a winning-OEM differentiator.</div>
+        <div class="gse-cut">L2 ingest + L7 surface</div>
+      </div>
+      <div class="found-item">
+        <div class="name">AXLE V&amp;V Harness for ODD</div>
+        <div class="desc">Operational Design Domain validation suite, third-party-auditable. Extends APEX-AXLE&rsquo;s automotive autonomy depth into airside.</div>
+        <div class="gse-cut">L5 evals · regulator-credible</div>
+      </div>
+      <div class="found-item">
+        <div class="name">HITL Gate Model — Airside Variant</div>
+        <div class="desc">Explicit ZERO_TOUCH boundaries (e.g., AaS metering) versus HITL (e.g., disruption-recovery rebooking) per Core Part 8.3 taxonomy.</div>
+        <div class="gse-cut">Cross-cutting · per-decision</div>
+      </div>
+      <div class="found-item">
+        <div class="name">Part 139 / Annex 14 Evidence Model</div>
+        <div class="desc">Audit-grade artifact pipeline keyed to FAA, EASA, and JCAB inspection regimes. Power Pages portal for regulator review.</div>
+        <div class="gse-cut">L7 · regulatory surface</div>
+      </div>
+      <div class="found-item">
+        <div class="name">Vehicle Bus Adapters (CAN · J1939)</div>
+        <div class="desc">First-class OEM bus integration via Azure IoT Edge. Lossless cloud telemetry · signed OTA updates · deterministic rollback.</div>
+        <div class="gse-cut">L1 → L2 binding</div>
+      </div>
+      <div class="found-item">
+        <div class="name">Independence Posture (GSE-Adapted)</div>
+        <div class="desc">Client-tenant data plane; OEM telemetry segregated from operator tenancy under explicit data-sharing contracts.</div>
+        <div class="gse-cut">Multi-tenant boundary</div>
+      </div>
+      <div class="found-item">
+        <div class="name">Foundry Evals — Safety-Case Set</div>
+        <div class="desc">Continuous evaluation suite for autonomy decision agents · red-team harness · PII/PCI safety. Outputs are inspection evidence.</div>
+        <div class="gse-cut">L5 evals · audit feed</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================ WAVE ROADMAP ================ -->
+<div class="tier">
+  <div class="tier-tag t2" style="background: linear-gradient(180deg, #50e6ff, #008272); color: var(--bg);">Roadmap</div>
+  <div class="tier-content">
+    <div class="tier-title">Engagement Wave Roadmap — Autonomous GSE</div>
+    <div class="tier-subtitle">Three self-funding waves following the APEX wave model. Investment envelope and expected outcomes shown per wave.</div>
+    <div class="waves">
+      <div class="wave">
+        <div class="num">WAVE 1 — FOUNDATION  ·  MONTHS 1–6</div>
+        <div class="title">Operator Pilot at One Hub</div>
+        <div class="desc">Fabric workspace topology · ICEML schema deployment · ICE-FAF-01 + ICE-AaS-05 + ICE-CIR-06 live · TH-DRO-02 ramp variant integrated. 1 hub · 1 ground handler.</div>
+        <div class="envelope">$3–8M  ·  ROI by month 18: 2–4×</div>
+      </div>
+      <div class="wave">
+        <div class="num">WAVE 2 — INTELLIGENCE  ·  MONTHS 7–12</div>
+        <div class="title">OEM Telemetry &amp; Hub Scale-Out</div>
+        <div class="desc">Add OEM solution: ICE-WCP-03 + ICE-SPA-02 · AXLE V&amp;V harness wired · ER-FWO-04 maintenance dispatch · 2nd and 3rd hubs onboarded.</div>
+        <div class="envelope">$5–12M  ·  Cumulative ROI 3–5×</div>
+      </div>
+      <div class="wave">
+        <div class="num">WAVE 3 — OPTIMISATION  ·  MONTHS 13–18</div>
+        <div class="title">Commercial &amp; Regulatory Maturity</div>
+        <div class="desc">ICE-CRP-04 renewal protection · GSE-as-a-Service contracts go live · regulator portal certified · multi-handler tenancy · cross-airport benchmark KPIs.</div>
+        <div class="envelope">$3–6M  ·  Steady-state programme</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================ FOOTER ================ -->
+<div class="foot">
+  <div>
+    <h3>Reading the Slice</h3>
+    <p>This is a <strong>vertical slice</strong> through the APEX 4-tier architecture, surfaced for autonomous Ground Support Equipment. Outcomes are measurable; sub-Solutions are buyer-shaped; Services are catalogued SKUs; Foundation is shared.</p>
+    <p style="margin-top: 6px;">A typical engagement starts with the Operator sub-Solution (Wave 1), expands into OEM and Regulatory in Wave 2, and resolves into the Commercial / FaaS posture in Wave 3.</p>
+  </div>
+  <div>
+    <h3>Bundle Legend &amp; HITL Gates</h3>
+    <div class="bundle-legend">
+      <span><span class="bundle-dot bundle-op"></span>Operator Sub-Solution</span>
+      <span><span class="bundle-dot bundle-oem"></span>OEM Sub-Solution</span>
+      <span><span class="bundle-dot bundle-reg"></span>Regulatory Sub-Solution</span>
+      <span><span class="bundle-dot bundle-com"></span>Commercial Sub-Solution</span>
+    </div>
+    <div class="bundle-legend" style="margin-top: 8px;">
+      <span><span class="gate hitl">HITL</span> Human approves before action</span>
+      <span><span class="gate ack">ACK_ONLY</span> Human acks after</span>
+      <span><span class="gate zero">ZERO_TOUCH</span> Fully autonomous</span>
+      <span><span class="gate esc">ESCALATION</span> Tier-up on exception</span>
+    </div>
+  </div>
+</div>
+
+<div class="copy">© 2026 Deloitte. APEX is DMTSP-authored IP. Microsoft, Azure, Fabric, Power Platform, D365 are trademarks of Microsoft Corporation. AHM, A-CDM, ICAO Annex 14, FAA Part 139, EASA, JCAB are referenced as standards bodies / regulations only.</div>
+
+<!-- ============= MODAL ============= -->
+<div class="modal-backdrop" id="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal" role="document">
+    <div class="modal-bundle-bar" id="modal-bar"></div>
+    <div class="modal-header">
+      <div class="modal-eyebrow" id="modal-eyebrow">Sub-Solution</div>
+      <div class="modal-title" id="modal-title">Service Title</div>
+      <div class="modal-sub" id="modal-sub">Service code</div>
+      <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <h4>Role in this Sub-Solution</h4>
+        <p id="modal-role">—</p>
+      </div>
+
+      <div class="modal-section">
+        <h4>KPI &amp; Microsoft Anchor</h4>
+        <div class="modal-grid">
+          <div class="modal-stat">
+            <div class="lbl">Primary KPI</div>
+            <div class="val" id="modal-kpi">—</div>
+          </div>
+          <div class="modal-stat">
+            <div class="lbl">HITL Gate</div>
+            <div class="val" id="modal-gate">—</div>
+          </div>
+          <div class="modal-stat" style="grid-column: span 2;">
+            <div class="lbl">Microsoft Anchor</div>
+            <div class="val" id="modal-azure" style="color: var(--azure-light); font-size: 13px;">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-section">
+        <h4>Buyer / Persona</h4>
+        <div class="modal-pills" id="modal-personas"></div>
+      </div>
+
+      <div class="modal-section">
+        <h4>Workflow</h4>
+        <div class="modal-flow" id="modal-flow"></div>
+      </div>
+
+      <div class="modal-section">
+        <h4>Why this Service belongs to this Sub-Solution</h4>
+        <p id="modal-rationale">—</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const BUNDLE_META = {
+  op:  { name: 'Operator Sub-Solution',    bar: 'bb-op',  color: '#B5179E', eyebrow: 'A — OPERATOR SUB-SOLUTION' },
+  oem: { name: 'OEM Sub-Solution',         bar: 'bb-oem', color: '#7209B7', eyebrow: 'B — OEM SUB-SOLUTION' },
+  reg: { name: 'Regulatory & Safety Case', bar: 'bb-reg', color: '#86BC25', eyebrow: 'C — REGULATORY SUB-SOLUTION' },
+  com: { name: 'GSE-as-a-Service / Commercial', bar: 'bb-com', color: '#FFC857', eyebrow: 'D — COMMERCIAL SUB-SOLUTION' },
+};
+
+const SERVICE_NAMES = {
+  'ICE-FAF-01': 'Field Asset Failure Response',
+  'ICE-SPA-02': 'Spare-Parts Availability Triage',
+  'ICE-WCP-03': 'Warranty Claim Pattern Analysis',
+  'ICE-CRP-04': 'Contract-Renewal Revenue Protection',
+  'ICE-AaS-05': 'As-a-Service Utilization Optimization',
+  'ICE-CIR-06': 'Compliance Inspection Response',
+  'TH-DRO-02':  'Disruption Recovery Orchestration',
+  'TH-HER-06':  'Ramp Exception Routing (TH-HER variant)',
+  'ER-FWO-04':  'Field Work-Order Optimisation',
+};
+
+const DETAILS = {
+  'ICE-FAF-01:op': {
+    role: 'Predicts and triages autonomous-GSE failures (battery, drivetrain, sensor stack) before they cause a missed turn. Anchors fleet-wide health telemetry to the airline operating clock so a degrading tug is swapped *before* it touches a TOBT window.',
+    kpi: 'MTTF detection − 60%', gate: 'HITL', azure: 'Azure ML + Azure AI Agent Service + Power Apps',
+    personas: ['Hub Maintenance Lead', 'OCC Dispatcher', 'Ramp Coordinator'],
+    flow: ['Bus telemetry (CAN/J1939)', 'Failure-window prediction (Azure ML)', 'HITL approval card', 'Spare swap dispatched', 'TOBT preserved'],
+    rationale: 'Operators buy this to convert reactive maintenance into proactive — the GSE that *would have* failed mid-turn is taken out of rotation before allocation.'
+  },
+  'ICE-FAF-01:oem': {
+    role: 'Closes the field-to-engineering loop. Failure events from the deployed fleet feed the OEM\'s reliability roadmap and surface common-cause defects earlier than warranty-claim review.',
+    kpi: 'Field MTBF growth + 25%', gate: 'ACK_ONLY', azure: 'Fabric Lakehouse + Azure AI Search',
+    personas: ['OEM Reliability Engineer', 'OEM Product Manager'],
+    flow: ['Field failure events', 'Semantic clustering', 'Engineering ticket auto-opened', 'Design action / FRACAS'],
+    rationale: 'OEMs buy this to learn from their fleet at scale. The same telemetry that lets the operator avoid a missed turn lets the OEM kill the failure mode in the next firmware build.'
+  },
+
+  'ICE-SPA-02:op': {
+    role: 'Pre-positions long-lead autonomy parts (LiDAR units, IMUs, compute modules, traction batteries) at hub airports against forecasted MTBF and turn density. Without this, an autonomous tug down for a part is a missed-turn cluster.',
+    kpi: 'Hub fill-rate ≥ 98%', gate: 'ACK_ONLY', azure: 'Logic Apps + D365 Field Service',
+    personas: ['Hub Logistics Lead', 'Maintenance Planner'],
+    flow: ['Demand signal from FAF-01', 'Forecast model', 'Replenishment trigger', 'Parts staged at hub'],
+    rationale: 'Autonomous components are long-lead. The operator buys this to make sure the parts arrive *before* the asset is needed, not after.'
+  },
+  'ICE-SPA-02:oem': {
+    role: 'Aggregates parts demand across the OEM\'s entire deployed fleet. Drives procurement, inventory pooling, and supplier negotiation at a much earlier signal than after-the-fact claim data.',
+    kpi: 'OEM out-of-stock incidents − 50%', gate: 'ACK_ONLY', azure: 'Logic Apps + Power BI',
+    personas: ['OEM Supply Chain Manager', 'OEM Service Director'],
+    flow: ['Per-customer demand signals', 'Aggregated forecast', 'Procurement plan', 'Hub-level pre-position'],
+    rationale: 'OEMs buy this to align global supply with airport-by-airport consumption — instead of equal-allocating parts and starving the heaviest hubs.'
+  },
+
+  'ICE-WCP-03:oem': {
+    role: 'Detects warranty-failure patterns across the deployed autonomous-GSE fleet earlier than manual claim review. Pulls semantic clusters from telemetry + claim text + repair notes.',
+    kpi: 'Warranty cost − 12 to 18%', gate: 'ACK_ONLY', azure: 'Fabric Lakehouse + Azure AI Search',
+    personas: ['OEM Quality Engineer', 'OEM Reliability Director'],
+    flow: ['Claim events', 'Telemetry correlation', 'ML clustering', 'Pattern flagged', 'Engineering action'],
+    rationale: 'OEMs buy this because warranty leakage is the silent profit killer on autonomous platforms — every undetected pattern costs four to six claims before someone notices.'
+  },
+  'ICE-WCP-03:com': {
+    role: 'Feeds the commercial pricing model: warranty patterns inform As-a-Service contract pricing, renewal terms, and SLA carve-outs. Protects margin in subscription contracts.',
+    kpi: 'FaaS margin protection + 4–6 pp', gate: 'HITL', azure: 'Power BI + Azure OpenAI',
+    personas: ['OEM CFO', 'Contract Pricing Lead'],
+    flow: ['Warranty patterns', 'Pricing model update', 'HITL pricing review', 'Contract terms updated'],
+    rationale: 'Commercial teams buy this to keep As-a-Service contracts profitable as failure patterns emerge — not lock in a price that bleeds for three years.'
+  },
+
+  'ICE-CRP-04:com': {
+    role: 'Detects renewal-risk signals (uptime drift, dispatch reliability, customer complaints) early in As-a-Service contracts. Triggers customer-success intervention before the renewal conversation, not at it.',
+    kpi: 'Renewal rate ≥ 92%', gate: 'HITL', azure: 'Azure OpenAI + Power BI',
+    personas: ['OEM Account Director', 'Customer Success Manager'],
+    flow: ['Uptime + dispatch + complaint signals', 'Renewal-risk score', 'CSM intervention', 'Renewal preserved'],
+    rationale: 'OEMs and lessors buy this because in subscription contracts, the recurring revenue *is* the business — losing one hub is more painful than missing one sale.'
+  },
+
+  'ICE-AaS-05:oem': {
+    role: 'Telemetry foundation that lets the OEM move from sale-and-walk-away to a recurring-revenue posture. 100% per-asset visibility across the deployed fleet, conformant with AHM 950/956.',
+    kpi: '100% per-asset visibility', gate: 'ZERO_TOUCH', azure: 'Fabric + Azure Data Explorer',
+    personas: ['OEM Product Manager', 'OEM Operations Director'],
+    flow: ['IoT Hub ingest', 'OneLake bronze→silver', 'Utilisation aggregator', 'OEM business intelligence'],
+    rationale: 'OEMs buy this because Fleet-as-a-Service without telemetry is just rental with extra steps. Telemetry is what makes the recurring contract differentiated.'
+  },
+  'ICE-AaS-05:com': {
+    role: 'Powers metered billing — per-turn, per-uptime-hour, per-kWh. The commercial backbone of the GSE-as-a-Service model. ZERO_TOUCH on the metering itself; HITL only on the month-end audit.',
+    kpi: 'Metered billing accuracy > 99.9%', gate: 'ZERO_TOUCH', azure: 'Fabric Lakehouse + Power Automate',
+    personas: ['Customer Finance', 'OEM Finance', 'Lessor Billing Ops'],
+    flow: ['Per-asset telemetry', 'Utilisation aggregation', 'Billing system feed', 'Monthly invoice'],
+    rationale: 'Commercial teams buy this because a metered billing engine is the difference between a slide deck about As-a-Service and a contract that actually invoices correctly every month.'
+  },
+
+  'ICE-CIR-06:op': {
+    role: 'Operator-side inspection-ready evidence pipeline. Every inspection event (Part 139, EASA, JCAB) returns a packaged audit record drawn from the live event stream — no scramble, no last-minute spreadsheet.',
+    kpi: 'Inspection cycle time − 70%', gate: 'HITL', azure: 'Power Pages + Microsoft Purview',
+    personas: ['Airport Compliance Manager', 'Operator Safety Officer'],
+    flow: ['Inspection event', 'Evidence query', 'Packaged audit record', 'Compliance officer review'],
+    rationale: 'Operators buy this to stop staffing for inspection week. The evidence already exists in the data plane — this surfaces it.'
+  },
+  'ICE-CIR-06:reg': {
+    role: 'Regulator-readable evidence portal supporting FAA Part 139, EASA, JCAB, ICAO Annex 14. Maintains audit-grade artifacts continuously rather than producing them ad-hoc per inspection.',
+    kpi: '100% Part 139 / Annex 14 evidence coverage', gate: 'HITL', azure: 'Power Pages + Microsoft Purview',
+    personas: ['Airport Authority Inspector', 'OEM Safety Engineer', 'Regulatory Liaison'],
+    flow: ['Regulator login', 'Event query', 'Audit-grade evidence packet', 'Operator-approved release'],
+    rationale: 'Regulators reward operators that can produce evidence cleanly and in real time. This service is what turns "we have the data somewhere" into "here is the inspection-grade packet."'
+  },
+
+  'TH-DRO-02:op': {
+    role: 'IRROPS orchestration that re-allocates autonomous GSE alongside crew, gate, and aircraft re-optimisation. When weather closes a runway, GSE dispatch is a constraint — DRO solves it as part of the same problem.',
+    kpi: 'IRROPS recovery latency − 45%', gate: 'HITL', azure: 'Azure AI Agent Service + Microsoft Teams',
+    personas: ['OCC Director', 'Hub Operations Lead', 'Ground Operations Manager'],
+    flow: ['Disruption event', 'DRO orchestration agents', 'Multi-resource re-optimisation', 'HITL approval', 'Ramp dispatch updated'],
+    rationale: 'Without DRO, an autonomous-GSE fleet during IRROPS is a *new* coordination burden, not a relief. With DRO, the GSE allocator is part of the recovery plan from the start.'
+  },
+
+  'TH-HER-06:op': {
+    role: 'Routes ramp exceptions (stuck tug, missed pushback window, GPU offline, lavatory truck blocked) with priority scoring. Originally hospitality housekeeping; the same exception-routing pattern transfers cleanly.',
+    kpi: 'Pushback dispatch SLA ≥ 99.5%', gate: 'ACK_ONLY', azure: 'Logic Apps + Power Apps',
+    personas: ['Ramp Coordinator', 'Maintenance Dispatcher'],
+    flow: ['Exception event', 'Priority scoring', 'Best-fit resource match', 'Auto-dispatch + ack'],
+    rationale: 'Operators buy this because most ramp exceptions are routine but time-critical — the cost is lost minutes, not lost decisions. ACK_ONLY is the right gate.'
+  },
+
+  'ER-FWO-04:op': {
+    role: 'Maintenance dispatch optimisation across the hub footprint. Crew-skills matcher (ER-A07) + route optimiser (ER-A08) pair adapted for autonomous-GSE service across multiple stands and remote pads.',
+    kpi: 'First-time-fix ≥ 80% · travel-time − 15%', gate: 'HITL', azure: 'D365 Field Service + Azure Maps',
+    personas: ['Hub Maintenance Lead', 'Field Technician', 'Dispatcher'],
+    flow: ['Work order', 'Skills match', 'Route optimisation', 'Tech assignment', 'Dispatcher override option'],
+    rationale: 'Operators buy this because autonomous GSE has a denser maintenance cadence than legacy fleets — the routing problem is non-trivial and human dispatchers can\'t hold it all in their head.'
+  },
+  'ER-FWO-04:oem': {
+    role: 'OEM service-network density requirement. Powers same-shift technician dispatch across customers — the differentiator that wins hub-level FaaS deals.',
+    kpi: 'Same-shift response rate ≥ 90%', gate: 'HITL', azure: 'D365 Field Service + Azure Maps',
+    personas: ['OEM Service Manager', 'OEM Field Tech'],
+    flow: ['Customer service request', 'OEM tech dispatch', 'Route optimisation', 'On-site by SLA'],
+    rationale: 'OEMs buy this because in As-a-Service contracts, response-time SLAs are the renewal trigger. A same-shift tech network is the credible promise.'
+  },
+};
+
+const $ = id => document.getElementById(id);
+const backdrop = $('modal-backdrop');
+const closeBtn = $('modal-close');
+
+function openModal(service, bundleKey) {
+  const detail = DETAILS[`${service}:${bundleKey}`];
+  if (!detail) return;
+  const meta = BUNDLE_META[bundleKey];
+
+  $('modal-bar').className = 'modal-bundle-bar ' + meta.bar;
+  $('modal-eyebrow').textContent = meta.eyebrow;
+  $('modal-eyebrow').style.color = meta.color;
+  $('modal-title').textContent = SERVICE_NAMES[service];
+  $('modal-sub').textContent = `${service}  ·  ${meta.name}`;
+
+  $('modal-role').textContent = detail.role;
+  $('modal-kpi').textContent = detail.kpi;
+  $('modal-gate').textContent = detail.gate;
+  $('modal-azure').textContent = detail.azure;
+  $('modal-rationale').textContent = detail.rationale;
+
+  const personasEl = $('modal-personas');
+  personasEl.innerHTML = '';
+  detail.personas.forEach(p => {
+    const span = document.createElement('span');
+    span.className = 'pill';
+    span.textContent = p;
+    personasEl.appendChild(span);
+  });
+
+  const flowEl = $('modal-flow');
+  flowEl.innerHTML = '';
+  detail.flow.forEach((s, i) => {
+    if (i > 0) {
+      const arr = document.createElement('span');
+      arr.className = 'arr';
+      arr.textContent = '→';
+      flowEl.appendChild(arr);
+    }
+    const step = document.createElement('span');
+    step.className = 'step';
+    step.textContent = s;
+    flowEl.appendChild(step);
+  });
+
+  backdrop.classList.add('open');
+  backdrop.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  backdrop.classList.remove('open');
+  backdrop.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('click', (e) => {
+  const dot = e.target.closest('.bundle-dot');
+  if (dot && !dot.classList.contains('bundle-empty')) {
+    const row = dot.closest('tr');
+    if (!row) return;
+    const service = row.getAttribute('data-service');
+    if (!service) return;
+    let key = null;
+    if (dot.classList.contains('bundle-op'))  key = 'op';
+    if (dot.classList.contains('bundle-oem')) key = 'oem';
+    if (dot.classList.contains('bundle-reg')) key = 'reg';
+    if (dot.classList.contains('bundle-com')) key = 'com';
+    if (key) openModal(service, key);
+  }
+});
+
+closeBtn.addEventListener('click', closeModal);
+backdrop.addEventListener('click', (e) => { if (e.target === backdrop) closeModal(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+</script>
+
+</body>
+</html>

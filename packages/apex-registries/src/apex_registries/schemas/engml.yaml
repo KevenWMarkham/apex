@@ -1,0 +1,18 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: schema
+schema_code: EngML
+name: Engineering PLM Lineage
+description: Engineering PLM Lineage canonical schema family. Bronze to Silver to
+  Gold pipeline scope; consumed by APEX agents/services across AXLE.
+practices:
+- axle
+primary_entities:
+- Part
+- Revision
+- ChangeNotice
+- BOM
+standards_alignment:
+- ISO 10303 STEP
+governance_classification: intellectual-property
+appendix_a_section: Appendix A — Schema family EngML
+package_implementation: apex-engml

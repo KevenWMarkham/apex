@@ -1,0 +1,334 @@
+# auto-generated — apex_schemas_common.standards.catalog.write_catalog()
+# Source of truth at runtime: STANDARDS dict in registry.py
+# This file is reviewable diff-bait; CI fails on drift.
+kind: apex.standards.catalog
+version: 1
+count: 25
+standards:
+- id: cdisc-odm
+  name: CDISC ODM
+  authority: CDISC
+  authority_url: https://www.cdisc.org/standards/data-exchange/odm
+  type: data_model
+  current_version: '2.0'
+  apex_pinned_version: '2.0'
+  license: open
+  redistribution_ok: true
+  pattern: B
+  supporting_package: apex-standards-cdisc
+  practices:
+  - hls
+- id: cdisc-sdtm
+  name: CDISC SDTM
+  authority: CDISC
+  authority_url: https://www.cdisc.org/standards/foundational/sdtm
+  type: data_model
+  current_version: '2.0'
+  apex_pinned_version: '2.0'
+  license: open
+  redistribution_ok: true
+  pattern: B
+  supporting_package: apex-standards-cdisc
+  practices:
+  - hls
+- id: cim-iec-61968
+  name: IEC 61968 CIM (Utility Operations)
+  authority: IEC
+  authority_url: https://webstore.iec.ch/publication/6197
+  type: data_model
+  current_version: '2020'
+  apex_pinned_version: '2020'
+  license: restricted
+  redistribution_ok: false
+  pattern: B
+  supporting_package: apex-standards-cim
+  practices:
+  - er
+- id: cim-iec-61970
+  name: IEC 61970 CIM (Power System)
+  authority: IEC
+  authority_url: https://webstore.iec.ch/publication/61167
+  type: data_model
+  current_version: '2021'
+  apex_pinned_version: '2021'
+  license: restricted
+  redistribution_ok: false
+  pattern: B
+  supporting_package: apex-standards-cim
+  practices:
+  - er
+- id: cpt
+  name: CPT
+  authority: AMA
+  authority_url: https://www.ama-assn.org/practice-management/cpt
+  type: identifier
+  current_version: '2026'
+  apex_pinned_version: '2026'
+  license: restricted
+  redistribution_ok: false
+  pattern: A
+  practices:
+  - hls
+  notes: AMA-licensed; regex binding only.
+- id: eidr
+  name: EIDR Content ID
+  authority: EIDR
+  authority_url: https://www.eidr.org/
+  type: identifier
+  current_version: '2.1'
+  apex_pinned_version: '2.1'
+  license: open
+  redistribution_ok: true
+  pattern: A
+  practices:
+  - tmt
+- id: epcis
+  name: EPCIS
+  authority: GS1
+  authority_url: https://www.gs1.org/standards/epcis
+  type: message_format
+  current_version: '2.0'
+  apex_pinned_version: '2.0'
+  license: royalty_free
+  redistribution_ok: true
+  pattern: D
+  practices:
+  - rc
+- id: gs1-gln
+  name: GS1 GLN
+  authority: GS1
+  authority_url: https://www.gs1.org/standards/id-keys/gln
+  type: identifier
+  current_version: BMS-1.34
+  apex_pinned_version: BMS-1.34
+  license: royalty_free
+  redistribution_ok: true
+  pattern: A
+  practices:
+  - rc
+- id: gs1-gtin
+  name: GS1 GTIN
+  authority: GS1
+  authority_url: https://www.gs1.org/standards/id-keys/gtin
+  type: identifier
+  current_version: BMS-1.34
+  apex_pinned_version: BMS-1.34
+  license: royalty_free
+  redistribution_ok: true
+  pattern: A
+  practices:
+  - rc
+- id: gs1-sscc
+  name: GS1 SSCC
+  authority: GS1
+  authority_url: https://www.gs1.org/standards/id-keys/sscc
+  type: identifier
+  current_version: BMS-1.34
+  apex_pinned_version: BMS-1.34
+  license: royalty_free
+  redistribution_ok: true
+  pattern: A
+  practices:
+  - rc
+- id: hcpcs
+  name: HCPCS
+  authority: CMS
+  authority_url: https://www.cms.gov/medicare/coding-billing/healthcare-common-procedure-system
+  type: identifier
+  current_version: '2026'
+  apex_pinned_version: '2026'
+  license: open
+  redistribution_ok: true
+  pattern: A
+  practices:
+  - hls
+- id: hl7-fhir
+  name: HL7 FHIR
+  authority: HL7
+  authority_url: https://www.hl7.org/fhir/
+  type: data_model
+  current_version: R5
+  apex_pinned_version: R4
+  license: royalty_free
+  redistribution_ok: true
+  pattern: B
+  supporting_package: apex-standards-fhir
+  practices:
+  - hls
+- id: iata-ndc
+  name: IATA NDC
+  authority: IATA
+  authority_url: https://www.iata.org/en/programs/airline-distribution/ndc/
+  type: data_model
+  current_version: '2024.2'
+  apex_pinned_version: '2024.2'
+  license: royalty_free
+  redistribution_ok: true
+  pattern: B+C
+  practices:
+  - th
+- id: icd-10-cm
+  name: ICD-10-CM
+  authority: CDC/NCHS
+  authority_url: https://www.cdc.gov/nchs/icd/icd10cm.htm
+  type: identifier
+  current_version: 2026-Q1
+  apex_pinned_version: 2026-Q1
+  license: open
+  redistribution_ok: true
+  pattern: A
+  practices:
+  - hls
+- id: isa-95
+  name: ISA-95
+  authority: ISA
+  authority_url: https://www.isa.org/standards-and-publications/isa-standards/isa-standards-committees/isa95
+  type: data_model
+  current_version: '2018'
+  apex_pinned_version: '2018'
+  license: royalty_free
+  redistribution_ok: true
+  pattern: B
+  supporting_package: apex-standards-isa95
+  practices:
+  - axle
+  - er
+  - ice
+- id: iso-14224
+  name: ISO 14224
+  authority: ISO
+  authority_url: https://www.iso.org/standard/64076.html
+  type: data_model
+  current_version: '2016'
+  apex_pinned_version: '2016'
+  license: restricted
+  redistribution_ok: false
+  pattern: B
+  supporting_package: apex-standards-iso14224
+  practices:
+  - axle
+  - ice
+  notes: ISO publishes under commercial licence; APEX mirrors taxonomy only.
+- id: iso-8000
+  name: ISO 8000 Data Quality
+  authority: ISO
+  authority_url: https://www.iso.org/standard/50798.html
+  type: data_model
+  current_version: 8000-61:2016
+  apex_pinned_version: 8000-61:2016
+  license: restricted
+  redistribution_ok: false
+  pattern: B
+  practices:
+  - axle
+  - er
+  - hls
+  - ice
+  - rc
+  - th
+  - tmt
+  notes: Master-data-quality dimensions (completeness, consistency, accuracy, currency,
+    provenance, conformance) bound at the CanonicalEnvelope level via DataQualityMetadata.
+    Standard text NOT redistributed; APEX implements the dimension semantics in code
+    only.
+- id: loinc
+  name: LOINC
+  authority: Regenstrief Institute
+  authority_url: https://loinc.org/
+  type: terminology
+  current_version: '2.77'
+  apex_pinned_version: '2.77'
+  license: restricted
+  redistribution_ok: false
+  pattern: A
+  practices:
+  - hls
+  notes: Regex + external lookup; vocabulary content not redistributed.
+- id: ndc
+  name: National Drug Code
+  authority: FDA
+  authority_url: https://www.fda.gov/drugs/drug-approvals-and-databases/national-drug-code-directory
+  type: identifier
+  current_version: '2026'
+  apex_pinned_version: '2026'
+  license: open
+  redistribution_ok: true
+  pattern: A
+  practices:
+  - hls
+- id: opentravel
+  name: OpenTravel Alliance (OTA)
+  authority: OpenTravel Alliance
+  authority_url: https://opentravel.org/
+  type: data_model
+  current_version: 2025A
+  apex_pinned_version: 2025A
+  license: open
+  redistribution_ok: true
+  pattern: B
+  supporting_package: apex-standards-opentravel
+  practices:
+  - th
+- id: rxnorm
+  name: RxNorm
+  authority: NLM
+  authority_url: https://www.nlm.nih.gov/research/umls/rxnorm/
+  type: terminology
+  current_version: 2026-01
+  apex_pinned_version: 2026-01
+  license: open
+  redistribution_ok: true
+  pattern: A
+  practices:
+  - hls
+- id: sae-j1939
+  name: SAE J1939
+  authority: SAE International
+  authority_url: https://www.sae.org/standards/development/standards-committee-content/sae-j1939
+  type: identifier
+  current_version: '2025'
+  apex_pinned_version: '2025'
+  license: restricted
+  redistribution_ok: false
+  pattern: A
+  practices:
+  - axle
+  - ice
+- id: schema-org
+  name: Schema.org
+  authority: Schema.org
+  authority_url: https://schema.org/
+  type: data_model
+  current_version: '25.0'
+  apex_pinned_version: '25.0'
+  license: open
+  redistribution_ok: true
+  pattern: D
+  practices:
+  - rc
+- id: snomed-ct
+  name: SNOMED CT
+  authority: SNOMED International
+  authority_url: https://www.snomed.org/
+  type: terminology
+  current_version: 2026-01
+  apex_pinned_version: 2026-01
+  license: restricted
+  redistribution_ok: false
+  pattern: A
+  practices:
+  - hls
+  notes: Licensed terminology; tenant provides terminology service.
+- id: tm-forum-sid
+  name: TM Forum SID
+  authority: TM Forum
+  authority_url: https://www.tmforum.org/oda/information-systems/
+  type: data_model
+  current_version: '22.5'
+  apex_pinned_version: '22.5'
+  license: open
+  redistribution_ok: true
+  pattern: B
+  supporting_package: apex-standards-sid
+  practices:
+  - tmt

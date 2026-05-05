@@ -1,0 +1,36 @@
+kind: agent
+name: apex.tmt.agents.contact-center-routing
+version: 0.1.0
+practice: tmt
+persona: TMT Contact Center Director
+service_codes: [TMT-TEL-01]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Real-time contact-center routing fusing IVR intent + customer-360 + agent-skill signals to minimize handle time and CPNI exposure.
+archetype_id: F3-predictive-trigger-workflow-aware
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.ccml.get_active_call
+    purpose: Read live call state
+  - tool_id: apex.tmt.mcp.subscriberml.get_customer_360
+    purpose: Read subscriber profile (CPNI-scoped)
+  - tool_id: apex.tmt.mcp.ccml.dispatch_route
+    purpose: Issue routing decision
+    write: true
+
+hitl_gates:
+  - name: routing_above_volume
+    description: Routing changes during peak require supervisor approval
+    fires_when: Aggregate routing change > 200 calls/hr
+    surface: dashboard
+    sla_minutes: 5
+
+oversight_modes: [HITL]
+forbidden_classifications: [cpni]
+
+kpis:
+  - { name: AHT (handle time), direction: down, target_band: "-15 to -25%" }
+  - { name: FCR, direction: up, target_band: "+8 to +12 percentage points" }

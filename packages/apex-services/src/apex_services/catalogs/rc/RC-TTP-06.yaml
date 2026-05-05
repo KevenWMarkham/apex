@@ -1,0 +1,52 @@
+kind: service
+service_code: RC-TTP-06
+version: 0.1.0
+practice: rc
+display_name: Shrink Intelligence
+brief: "Pattern-matching across POS, inventory, employee, and CCTV signals for ORC + internal-theft detection."
+description: >
+  VP Asset Protection service. Detects organized retail crime signatures and internal-theft patterns; HITL on employee-naming or ORC-claim outputs.
+
+personas:
+  - { name: "VP Asset Protection", role: primary }
+  - { name: "Chief Operating Officer", role: secondary }
+  - { name: "VP HR", role: secondary }
+
+kpis:
+  - name: "shrink rate"
+    direction: down
+    baseline: "typical"
+    wave2_target: "-150 to -300 bps"
+    wave3_target: "-300 to -500 bps"
+  - name: "ORC interdiction"
+    direction: money
+    wave2_target: "$3-8M/yr typical"
+
+slos:
+  - { name: "audit retention", target: "7 years", enforcement: regulatory }
+
+waves:
+  - wave: wave_1
+    duration: "4-8 weeks"
+    fee_band_low_usd: 200000
+    fee_band_high_usd: 600000
+  - wave: wave_2
+    duration: "6-12 months"
+    fee_band_low_usd: 2000000
+    fee_band_high_usd: 7000000
+  - wave: wave_3
+    duration: "multi-year"
+    fee_band_low_usd: 3500000
+    fee_band_high_usd: 12000000
+
+commercial_model: value_share
+value_share_eligible: true
+
+linked_agents:
+  - apex.rc.agents.shrink-detection
+
+linked_archetypes:
+  - F2-event-cluster-pattern-match
+
+schemas_touched: [SCML, CXML]
+primary_contact: rc-practice-lead@deloitte.com

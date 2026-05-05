@@ -1,0 +1,23 @@
+[project]
+name = "apex-standards-isa95"
+version = "0.1.0"
+description = "APEX ISA-95 Pattern-B mirror — manufacturing / operations hierarchy + personnel + equipment + material (shared by ER, AXLE, ICE)."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Proprietary — Deloitte Internal. ISA-95 reference: ANSI/ISA-95.00.01–95.00.05." }
+dependencies = [
+    "apex-core",
+    "apex-schemas-common",
+    "pydantic>=2.9.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/apex_standards_isa95"]
+
+[tool.uv.sources]
+apex-core = { workspace = true }
+apex-schemas-common = { workspace = true }

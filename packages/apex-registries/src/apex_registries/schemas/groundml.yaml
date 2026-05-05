@@ -1,0 +1,18 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: schema
+schema_code: GroundML
+name: Ground Operations Lineage
+description: Ground Operations Lineage canonical schema family. Bronze to Silver to
+  Gold pipeline scope; consumed by APEX agents/services across TH.
+practices:
+- th
+primary_entities:
+- Turn
+- Resource
+- BaggageEvent
+- FuelEvent
+standards_alignment:
+- IATA SGHA
+governance_classification: operations
+appendix_a_section: Appendix A — Schema family GroundML
+package_implementation: apex-groundml

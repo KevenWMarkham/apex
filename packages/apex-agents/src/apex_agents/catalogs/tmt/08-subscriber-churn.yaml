@@ -1,0 +1,35 @@
+kind: agent
+name: apex.tmt.agents.subscriber-churn
+version: 0.1.0
+practice: tmt
+persona: Customer Operations VP
+service_codes: [TMT-TEL-05]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Subscriber-churn risk prediction with retention-offer recommendation. CPNI-scoped.
+archetype_id: F3-predictive-trigger-workflow-aware
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.subscriberml.get_subscriber_profile
+    purpose: Read subscriber profile
+  - tool_id: apex.tmt.mcp.bssml.get_billing_history
+    purpose: Read billing + service history
+  - tool_id: apex.tmt.mcp.subscriberml.recommend_retention_offer
+    purpose: Propose retention offer
+    write: true
+
+hitl_gates:
+  - name: offer_above_threshold
+    description: Offers > $50 retention credit require manager approval
+    fires_when: Offer credit > $50
+    surface: teams_card
+    sla_minutes: 240
+
+oversight_modes: [HITL]
+forbidden_classifications: [cpni]
+
+kpis:
+  - { name: churn rate, direction: down, target_band: "-2 to -4 percentage points" }

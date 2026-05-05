@@ -1,0 +1,21 @@
+
+kind: reference_deployment
+name: bad-inverted
+practice: rc
+display_name: Bad
+description: bad
+architecture:
+  capacity_blueprint: single-capacity-tenant
+  fabric_sku: F64
+use_cases:
+  - name: uc
+    description: d
+kpi_targets:
+  - name: k
+    direction: up
+    wave2_target: x
+wave1_scope:
+  duration_weeks_low: 12
+  duration_weeks_high: 8
+  fee_band_usd_low: 100000
+  fee_band_usd_high: 200000

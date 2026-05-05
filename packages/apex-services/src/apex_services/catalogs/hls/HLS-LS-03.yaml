@@ -1,0 +1,46 @@
+kind: service
+service_code: HLS-LS-03
+version: 0.1.0
+practice: hls
+display_name: Clinical Trial Enrollment
+brief: "Match candidate patients to trial protocols using inclusion / exclusion criteria + EHR signals."
+description: >
+  Life Sciences sub-segment service. Reduces protocol time-to-enrollment via intelligent matching with CRC review.
+
+personas:
+  - { name: "Clinical Research Coordinator", role: primary }
+  - { name: "Principal Investigator", role: secondary }
+  - { name: "Chief Scientific Officer", role: secondary }
+
+kpis:
+  - name: "enrollment rate"
+    direction: up
+    wave2_target: "+30-50% trials hitting target"
+  - name: "days-to-enrollment"
+    direction: down
+
+slos:
+  - { name: "21 CFR Part 11 audit", target: "tamper-evident", enforcement: regulatory }
+
+waves:
+  - wave: wave_1
+    duration: "8-12 weeks"
+    fee_band_low_usd: 600000
+    fee_band_high_usd: 1500000
+  - wave: wave_2
+    duration: "9-15 months"
+    fee_band_low_usd: 4000000
+    fee_band_high_usd: 15000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.hls.agents.study-enrollment
+
+linked_archetypes:
+  - F5-identity-resolution-confidence-merge
+
+schemas_touched: [StudyML, PatientML]
+standards: ['HIPAA', '21 CFR Part 11', 'CDISC']
+primary_contact: hls-practice-lead@deloitte.com

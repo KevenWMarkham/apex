@@ -1,0 +1,96 @@
+kind: adapter
+name: epic-clarity
+version: 0.1.0
+sor_name: Epic Clarity
+sor_vendor: Epic
+practice: hls
+connection_method: odbc
+schedule: every 4 hours
+bronze_workspace: apex-hls-prod-bronze
+description: >
+  Epic Clarity ODBC ingest into HLS Bronze. Read-only Service-Principal
+  scope; PHI tokenized at Silver per Sprint 5.
+standards:
+  - HL7 FHIR R4
+  - HL7 v2
+  - SNOMED CT
+  - LOINC
+  - ICD-10
+
+schema_mappings:
+  - source_table: PATIENT
+    bronze_table: bronze_epic_patient
+    primary_key: [PAT_ID]
+    fields:
+      - source_field: PAT_ID
+        bronze_column: pat_id
+        bronze_type: string
+        nullable: false
+        classification: phi
+      - source_field: PAT_MRN_ID
+        bronze_column: mrn_token
+        bronze_type: string
+        classification: phi
+      - source_field: PAT_NAME
+        bronze_column: patient_name
+        bronze_type: string
+        classification: phi
+      - source_field: BIRTH_DATE
+        bronze_column: birth_date
+        bronze_type: date
+        classification: phi
+  - source_table: PAT_ENC
+    bronze_table: bronze_epic_encounter
+    primary_key: [PAT_ENC_CSN_ID]
+    fields:
+      - source_field: PAT_ENC_CSN_ID
+        bronze_column: encounter_csn
+        bronze_type: long
+        nullable: false
+        classification: phi
+      - source_field: PAT_ID
+        bronze_column: pat_id
+        bronze_type: string
+        nullable: false
+        classification: phi
+      - source_field: CONTACT_DATE
+        bronze_column: contact_date
+        bronze_type: timestamp
+        classification: phi
+      - source_field: ENC_TYPE_C
+        bronze_column: encounter_type_code
+        bronze_type: string
+        classification: internal
+
+runbook:
+  primary_contact: hls-data-platform@deloitte.com
+  secondary_contact: hls-on-call@deloitte.com
+  sla_recovery_minutes: 30
+  failure_modes:
+    - code: CONN_TIMEOUT
+      description: Clarity ODBC endpoint unreachable
+      severity: error
+      retry: true
+      retry_max: 3
+      backoff_seconds: 60
+    - code: SCHEMA_DRIFT
+      description: New column appeared in source; ingest aborted to prevent silent loss
+      severity: error
+      retry: false
+      escalation: hls-data-platform-team
+    - code: PHI_CLASSIFICATION_MISMATCH
+      description: Field declared 'phi' missing from Purview classification at Silver
+      severity: critical
+      retry: false
+      escalation: compliance-office
+    - code: TOKEN_VAULT_UNREACHABLE
+      description: PII / PHI tokenization service unavailable
+      severity: critical
+      retry: true
+      retry_max: 5
+      backoff_seconds: 30
+      escalation: tokenization-on-call
+  notes: >
+    Clarity refresh from Chronicles is typically nightly; APEX schedules
+    ingest 4 hours after the documented Chronicles-to-Clarity refresh
+    window completes. Verify with Epic ops before changing schedule.

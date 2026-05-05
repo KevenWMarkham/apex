@@ -1,0 +1,11 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: product
+product_id: ms.copilot-studio.kit
+family: copilot-studio
+display_name: Copilot Studio — Agent Builder Kit
+sku_or_tier: feature
+description: Programmatic agent builder + tool bindings.
+list_price_basis: messages-bundle
+typical_use: Custom agent surfaces
+apex_role: Sprint 16 advanced surfaces
+appendix_g_section: Appendix G — copilot-studio

@@ -1,0 +1,47 @@
+kind: service
+service_code: AXLE-QMS-01
+version: 0.1.0
+practice: axle
+display_name: Quality Defect Detection
+brief: "Vision + CMM + inline-test-driven defect detection with NCR creation."
+description: >
+  Quality Engineer service. First-pass-yield improvement via real-time defect classification.
+
+personas:
+  - { name: "Quality Engineer", role: primary }
+  - { name: "Plant Manager", role: secondary }
+  - { name: "Chief Quality Officer", role: secondary }
+
+kpis:
+  - name: "first-pass yield"
+    direction: up
+    wave2_target: "+3-7 pp"
+  - name: "PPM defect rate"
+    direction: down
+    wave2_target: "-30 to -50%"
+
+slos:
+  - { name: "IATF 16949 audit retention", target: "10 years", enforcement: regulatory }
+
+waves:
+  - wave: wave_1
+    duration: "6-10 weeks"
+    fee_band_low_usd: 500000
+    fee_band_high_usd: 1300000
+  - wave: wave_2
+    duration: "9-15 months"
+    fee_band_low_usd: 4000000
+    fee_band_high_usd: 14000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.axle.agents.quality-defect
+
+linked_archetypes:
+  - F2-event-cluster-pattern-match
+
+schemas_touched: [QMSML, AAML]
+standards: ['IATF 16949', 'ISO 14224']
+primary_contact: axle-practice-lead@deloitte.com

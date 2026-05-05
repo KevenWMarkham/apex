@@ -1,0 +1,11 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: product
+product_id: ms.purview.std
+family: purview
+display_name: Microsoft Purview — Data Map + Catalog
+sku_or_tier: standard
+description: Discovery, classification, lineage across Fabric.
+list_price_basis: consumption
+typical_use: Governance baseline
+apex_role: Sprint 13 governance foundation
+appendix_g_section: Appendix G — purview

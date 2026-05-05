@@ -1,0 +1,52 @@
+kind: service
+service_code: HLS-E2E-04
+version: 0.1.0
+practice: hls
+display_name: Sepsis Early Warning
+brief: "Multi-signal sepsis prediction with bedside-confirmation HITL."
+description: >
+  Reference clinical-decisioning service per Sellers Guide §10.9. 6-hour-ahead early warning across vitals + labs + medication signals.
+
+personas:
+  - { name: "Charge Nurse", role: primary }
+  - { name: "Attending Physician", role: secondary }
+  - { name: "Chief Medical Information Officer", role: secondary }
+
+kpis:
+  - name: "mortality (cohort)"
+    direction: down
+    wave2_target: "-15 to -22%"
+  - name: "LOS (sepsis cohort)"
+    direction: down
+    wave2_target: "-1 to -2 days"
+
+slos:
+  - { name: "end-to-end latency", target: "< 5 min", enforcement: hard }
+  - { name: "HIPAA audit retention", target: "10 years", enforcement: regulatory }
+
+waves:
+  - wave: wave_1
+    duration: "6-12 weeks"
+    fee_band_low_usd: 500000
+    fee_band_high_usd: 1500000
+  - wave: wave_2
+    duration: "12-18 months"
+    fee_band_low_usd: 5000000
+    fee_band_high_usd: 25000000
+  - wave: wave_3
+    duration: "multi-year"
+    fee_band_low_usd: 8000000
+    fee_band_high_usd: 30000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.hls.agents.sepsis-early-warning
+
+linked_archetypes:
+  - F1-continuous-monitor-hitl-alert
+
+schemas_touched: [PatientML]
+standards: ['HIPAA', 'HL7 FHIR R4', 'SNOMED CT', 'LOINC']
+primary_contact: hls-practice-lead@deloitte.com

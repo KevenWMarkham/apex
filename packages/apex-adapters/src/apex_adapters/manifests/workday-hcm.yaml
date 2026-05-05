@@ -1,0 +1,41 @@
+kind: adapter
+name: workday-hcm
+version: 0.1.0
+sor_name: Workday HCM
+sor_vendor: Workday
+practice: core
+connection_method: dataflow_gen2
+schedule: daily 06:00 UTC
+bronze_workspace: apex-core-prod-bronze
+description: >
+  Workday HCM ingest via Power Query (RaaS / web services). Worker,
+  position, and organization data lands in Core Bronze; Practices
+  shortcut to relevant entities via OneLake Practice-reference pattern.
+standards: []
+schema_mappings:
+  - source_table: Worker
+    bronze_table: bronze_wd_worker
+    primary_key: [WorkerId]
+    fields:
+      - { source_field: WorkerId,         bronze_column: worker_id,         bronze_type: string, nullable: false, classification: pii }
+      - { source_field: WorkerName,       bronze_column: worker_name,       bronze_type: string, classification: pii }
+      - { source_field: HireDate,         bronze_column: hire_date,         bronze_type: date }
+      - { source_field: PositionId,       bronze_column: position_id,       bronze_type: string }
+      - { source_field: OrganizationId,   bronze_column: organization_id,   bronze_type: string }
+  - source_table: Position
+    bronze_table: bronze_wd_position
+    primary_key: [PositionId]
+    fields:
+      - { source_field: PositionId,    bronze_column: position_id,    bronze_type: string, nullable: false }
+      - { source_field: JobProfileId,  bronze_column: job_profile_id, bronze_type: string }
+      - { source_field: PositionTitle, bronze_column: position_title, bronze_type: string }
+runbook:
+  primary_contact: core-data-platform@deloitte.com
+  sla_recovery_minutes: 240  # tolerable for HR data
+  failure_modes:
+    - code: REPORT_NOT_PUBLISHED
+      description: Workday RaaS report missing for the day's run
+      severity: warning
+      retry: true
+      retry_max: 4
+      backoff_seconds: 900

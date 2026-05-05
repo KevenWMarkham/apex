@@ -1,0 +1,24 @@
+kind: agent
+name: apex.th.agents.demand-disruption
+version: 0.1.0
+practice: th
+persona: Network Planning Director
+service_codes: [TH-AIR-06]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Demand-disruption detection identifying emerging route-level demand shifts and recommending capacity/schedule adjustments.
+archetype_id: F1-continuous-monitor-hitl-alert
+primary_contact: th-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.th.mcp.revml.get_booking_curve
+    purpose: Read live booking curve
+  - tool_id: apex.th.mcp.revml.get_competitive_capacity
+    purpose: Read competitor capacity
+
+oversight_modes: [HITL]
+
+kpis:
+  - { name: seat-mile yield, direction: up }

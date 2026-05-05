@@ -1,0 +1,17 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.triage.003
+family: triage
+name: Alert Triage
+description: Reduce alert volume via signal-quality scoring and drop low-precision
+  alerts.
+canonical_inputs:
+- AlertStream
+- HistoricalNoiseModel
+canonical_outputs:
+- FilteredAlerts
+typical_hitl_gate: False-positive review
+typical_oversight: HOTL
+typical_model_tier: lightweight
+example_agents: []
+appendix_d_section: Appendix D — Archetype family triage

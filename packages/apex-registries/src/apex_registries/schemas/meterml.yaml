@@ -1,0 +1,19 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: schema
+schema_code: MeterML
+name: Metering Lineage
+description: Metering Lineage canonical schema family. Bronze to Silver to Gold pipeline
+  scope; consumed by APEX agents/services across ER.
+practices:
+- er
+primary_entities:
+- Meter
+- Reading
+- Tariff
+- Bill
+standards_alignment:
+- MultiSpeak
+- IEC 62056
+governance_classification: pii
+appendix_a_section: Appendix A — Schema family MeterML
+package_implementation: apex-meterml

@@ -1,0 +1,17 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: competitive
+entry_id: comp.accenture-cfc
+competitor: Accenture
+competitor_offering: Centre for Advanced AI + Industry-X stack
+apex_differentiators:
+- APEX is contract-shippable in 4-12 weeks vs. multi-quarter Centre engagements
+- Independence-clean for Big-4-eligible clients
+- Sprint 16 catalog + Sprint 18 references give pre-engagement evidence
+independence_concerns:
+- AICPA / SEC independence rules limit which client populations APEX can serve where
+  Deloitte audits
+win_themes:
+- Faster time-to-value
+- Compliance-grade audit posture out of the box
+- Pre-built reference deployments per Practice
+appendix_k_section: Appendix K — Independence and Competitive Posture

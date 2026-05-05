@@ -1,0 +1,31 @@
+kind: agent
+name: apex.rc.agents.demand-sensing
+version: 0.1.0
+practice: rc
+persona: VP Supply Chain Planning
+service_codes: [RC-TTP-02]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Short-horizon (1-14 day) SKU-store-day forecasting that fuses POS,
+  weather, promotion, and event signals to beat statistical baselines.
+archetype_id: F3-predictive-trigger-workflow-aware
+primary_contact: rc-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.rc.mcp.scml.get_pos_history
+    purpose: Read historical POS by SKU-store-day
+  - tool_id: apex.rc.mcp.scml.get_inventory_position
+    purpose: Read current stock and in-transit
+  - tool_id: apex.rc.mcp.merml.get_promotion_calendar
+    purpose: Read active and pending promotions
+  - tool_id: apex.rc.mcp.external.get_weather_forecast
+    purpose: Read 14-day local weather
+
+oversight_modes: [HOTL]
+
+kpis:
+  - name: MAPE
+    direction: down
+    target_band: "-20 to -35% reduction at SKU-store-day"

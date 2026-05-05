@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: mcp_tool
+tool_id: apex.er.mcp.drillingml.get_rig_telemetry
+practice: er
+sor_or_layer: drillingml
+purpose: Read live drilling rig telemetry
+write: false
+inputs_schema: ''
+outputs_schema: ''
+classification_required: []
+related_canonical_schemas:
+- DRILLINGML
+appendix_f_section: Appendix F — ER MCP Tools

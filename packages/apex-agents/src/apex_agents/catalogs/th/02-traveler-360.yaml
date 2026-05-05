@@ -1,0 +1,24 @@
+kind: agent
+name: apex.th.agents.traveler-360
+version: 0.1.0
+practice: th
+persona: Customer Operations Director
+service_codes: [TH-AIR-02]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Unified traveler profile across PSS + loyalty + service interactions. Resolves identities and surfaces preferences for next-best-action.
+archetype_id: F5-identity-resolution-confidence-merge
+primary_contact: th-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.th.mcp.travelerml.get_unified_profile
+    purpose: Read unified traveler profile
+  - tool_id: apex.th.mcp.travelerml.get_loyalty_state
+    purpose: Read tier + lifetime value
+
+oversight_modes: [HOTL]
+
+kpis:
+  - { name: loyalty member value, direction: up, target_band: "+10 to +20%" }

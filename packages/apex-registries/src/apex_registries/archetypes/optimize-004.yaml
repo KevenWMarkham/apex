@@ -1,0 +1,17 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.optimize.004
+family: optimize
+name: Replenishment Optimization
+description: Replenish against demand signal + DC capacity + safety stock.
+canonical_inputs:
+- DemandForecast
+- InventoryState
+canonical_outputs:
+- ReplenishmentOrders
+typical_hitl_gate: Planner approves
+typical_oversight: HITL
+typical_model_tier: standard
+example_agents:
+- apex.rc.agents.inventory-replenishment
+appendix_d_section: Appendix D — Archetype family optimize

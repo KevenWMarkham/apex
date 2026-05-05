@@ -1,0 +1,202 @@
+kind: reference_deployment
+name: hospital
+version: 0.1.0
+practice: hls
+display_name: Hospital — Acute-Care Reference Deployment
+description: >
+  Turnkey Wave-1 blueprint for an integrated delivery network (IDN)
+  acute-care hospital. Composes Sprint 14 capacity (per-workload
+  isolation for clinical vs. revenue-cycle), Sprint 15 SOR adapters
+  (Epic Clarity + HL7-FHIR + Workday), Sprint 16 anchor agents (sepsis
+  early warning, clinical decision support, utilization management,
+  patient identity), and Sprint 17 productized services (HLS-E2E,
+  HLS-PAY) into a HIPAA + 42 CFR Part 2 compliant deployment.
+  Per Sellers Guide §10.9 hospital reference deployment.
+
+sellers_guide_section: "§10.9"
+demo_script_path: hospital.md
+primary_contact: hls-practice-lead@deloitte.com
+
+sponsor_personas:
+  - Chief Medical Officer
+  - Chief Nursing Officer
+  - VP Revenue Cycle
+
+triggering_scenarios:
+  - name: Sepsis bundle compliance under-performance
+    description: >
+      CMS SEP-1 bundle compliance dropped to 62% over the trailing
+      quarter. CMO faces public reporting penalty and quality-incentive
+      clawback. Charge nurses report alert fatigue from existing rules
+      engine; need higher-precision early warning with HITL hand-off.
+    pain: regulatory + financial + clinical
+    sponsor_persona: Chief Medical Officer
+
+  - name: Length-of-stay outliers driving capacity gridlock
+    description: >
+      Med-surg length-of-stay variance is gridlocking the ED.
+      Utilization management is reactive; case managers triage by paper
+      list. CMO needs predictive LOS + discharge-barrier identification
+      to free capacity by next quarter.
+    pain: operational + financial + patient-experience
+    sponsor_persona: Chief Nursing Officer
+
+  - name: Denied claims aging past 90 days
+    description: >
+      First-pass denial rate is 11%; 90-day aged AR is climbing.
+      Revenue cycle leadership needs claim-triage agent to prioritize
+      rework queues by recoverable value × probability of overturn.
+    pain: financial
+    sponsor_persona: VP Revenue Cycle
+
+architecture:
+  capacity_blueprint: per-workload-isolation
+  fabric_sku: F128
+  bronze_workspaces:
+    - apex-hls-clinical-bronze
+    - apex-hls-revcycle-bronze
+  silver_workspaces:
+    - apex-hls-clinical-silver
+    - apex-hls-revcycle-silver
+  gold_workspaces:
+    - apex-hls-clinical-gold
+    - apex-hls-revcycle-gold
+  governance_workspace: apex-hls-governance
+
+  adapters:
+    - epic-clarity
+    - hl7-fhir
+    - workday-hcm
+    - servicenow
+
+  canonical_schemas:
+    - PatientML
+    - ClaimML
+    - EncounterML
+
+  foundry_model_pins:
+    - gpt-4o-2024-11-20
+    - gpt-4o-mini-2024-07-18
+
+  purview_classifications:
+    - phi
+    - 42-cfr-part-2
+    - pii
+
+use_cases:
+  - name: Sepsis early warning with HITL escalation
+    description: >
+      Streaming vitals + labs + nursing assessments fed into early
+      warning model. Score crossing threshold opens Teams card to
+      charge nurse with one-tap escalate / dismiss / observe and
+      audit-row capture. SEP-1 bundle steps pre-staged on accept.
+    service_codes:
+      - HLS-E2E-01
+    agents:
+      - apex.hls.agents.sepsis-early-warning
+      - apex.hls.agents.clinical-decision-support
+    triggering_event: composite vitals/labs score crosses threshold
+    expected_decision_latency: under 15 minutes from score crossing to nurse acknowledgment
+
+  - name: Utilization-management LOS outlier
+    description: >
+      Daily LOS-prediction agent identifies outliers + barriers
+      (placement delays, awaiting consults, social determinants) and
+      routes to case manager with prioritized action list and
+      payer-policy context.
+    service_codes:
+      - HLS-E2E-02
+    agents:
+      - apex.hls.agents.utilization-management
+      - apex.hls.agents.readmission-risk
+    triggering_event: morning census + predicted LOS > expected by N days
+    expected_decision_latency: same-day
+
+  - name: Claim triage for first-pass denials
+    description: >
+      Denied claims scored on recoverable value × overturn probability;
+      revenue cycle specialists worked highest-yield first. Drug-interaction
+      and adverse-event flags surfaced for clinical re-review where relevant.
+    service_codes:
+      - HLS-PAY-01
+    agents:
+      - apex.hls.agents.claim-triage
+    triggering_event: denial received from payer
+    expected_decision_latency: 24 hours to triage decision
+
+  - name: Patient identity reconciliation
+    description: >
+      Cross-system identity resolution at registration + during care
+      coordination handoffs. PII / PHI redaction at every boundary;
+      duplicate-MRN detection routed to HIM HITL gate.
+    service_codes:
+      - HLS-E2E-03
+    agents:
+      - apex.hls.agents.patient-identity
+    triggering_event: registration event OR cross-system handoff
+    expected_decision_latency: under 60 seconds
+
+  - name: Adverse-event cold-chain (pharmacy)
+    description: >
+      Pharmacy refrigeration excursion → drug-stability lookup → patient
+      exposure trace → clinical review. Combines supply cold-chain agent
+      with adverse-event reporting workflow.
+    service_codes:
+      - HLS-LS-03
+    agents:
+      - apex.hls.agents.supply-cold-chain
+      - apex.hls.agents.adverse-event
+    triggering_event: pharmacy refrigeration alarm
+    expected_decision_latency: under 60 minutes
+
+kpi_targets:
+  - name: SEP-1 bundle compliance
+    direction: up
+    wave1_commitment: baseline + early-warning agent in HITL shadow
+    wave2_target: "+12-20pp in pilot units"
+    wave3_target: ">90% sustained hospital-wide
+"
+    measurement_pattern: CMS SEP-1 abstracted measure on pilot units versus control units
+
+  - name: Average length of stay (med-surg)
+    direction: down
+    wave1_commitment: instrumentation + LOS prediction live in HOTL
+    wave2_target: "-0.4 to -0.7 days in pilot"
+    wave3_target: "-1.0 day hospital-wide"
+    measurement_pattern: pilot vs. control unit difference-in-differences
+
+  - name: First-pass denial rate
+    direction: down
+    wave1_commitment: instrumentation + claim-triage live for top payers
+    wave2_target: "-15-25%"
+    wave3_target: "-35%"
+    measurement_pattern: 837/835 cycle attribution per payer
+
+  - name: 30-day readmission rate (CHF / pneumonia)
+    direction: down
+    wave1_commitment: instrumentation + readmission-risk in HOTL
+    wave2_target: "-1.5pp to -3pp"
+    wave3_target: "-4pp sustained"
+    measurement_pattern: discharge-cohort 30-day window with payer claims back-fill
+
+wave1_scope:
+  duration_weeks_low: 10
+  duration_weeks_high: 14
+  fee_band_usd_low: 1000000
+  fee_band_usd_high: 1750000
+  deliverables:
+    - F128 Fabric capacity provisioned with clinical / revenue-cycle workload isolation
+    - Epic Clarity + HL7-FHIR + Workday adapters live in Bronze
+    - PatientML + ClaimML + EncounterML canonical schemas in Silver
+    - Sepsis early-warning agent live in HITL on two pilot units
+    - Utilization-management agent live in HOTL on med-surg
+    - Claim-triage agent live for top-3 payer queues
+    - Patient-identity agent live at registration boundary
+    - HIPAA / 42 CFR Part 2 classifications + DLP applied per Sprint 13
+    - Sellers Guide §10.9 demo deck + CMO/CNO/CFO readout
+  success_criteria:
+    - Sepsis alert → nurse acknowledgment median < 15 minutes on pilot units
+    - LOS-prediction PR-AUC ≥ 0.75 on pilot population
+    - Claim-triage queue throughput ≥ 1.5x baseline
+    - All clinical agents emit audit rows tagged phi + clinical-decision
+    - Wave-2 commercial proposal signed with named KPI commitments

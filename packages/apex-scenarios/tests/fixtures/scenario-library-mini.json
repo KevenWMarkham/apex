@@ -1,0 +1,32 @@
+{
+  "RC": [
+    {
+      "t": "Assortment rationalization",
+      "s": "RC-E2E-03",
+      "b": "SKU-level contribution-margin analysis with delist candidate recommendations.",
+      "k": "+2.4pp GM",
+      "kk": "up"
+    },
+    {
+      "t": "Cold-chain excursion response",
+      "s": "RC-E2E-06",
+      "b": "Real-time perishables-integrity agent with FSMA 204 lot provenance.",
+      "k": "+18% margin",
+      "kk": "up"
+    }
+  ],
+  "HLS": [
+    {
+      "t": "Sepsis early warning",
+      "s": "HLS-E2E-04",
+      "b": "Multi-signal sepsis prediction with HITL confirmation gate at the bedside.",
+      "k": "-22% mortality",
+      "kk": "down"
+    }
+  ],
+  "ER": [],
+  "AXLE": [],
+  "TMT": [],
+  "TH": [],
+  "ICE": []
+}

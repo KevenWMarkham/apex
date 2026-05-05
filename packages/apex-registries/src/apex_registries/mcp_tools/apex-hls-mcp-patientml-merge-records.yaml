@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: mcp_tool
+tool_id: apex.hls.mcp.patientml.merge_records
+practice: hls
+sor_or_layer: patientml
+purpose: Merge confirmed duplicate
+write: true
+inputs_schema: ''
+outputs_schema: ''
+classification_required: []
+related_canonical_schemas:
+- PATIENTML
+appendix_f_section: Appendix F — HLS MCP Tools

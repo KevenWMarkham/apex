@@ -1,0 +1,16 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: partner
+partner_id: ptr.salesforce
+name: Salesforce
+category: sor-vendor
+practices:
+- rc
+- hls
+- tmt
+- th
+- ice
+description: CRM + Marketing Cloud + Service Cloud.
+apex_integration_pattern: API-via-Sprint15-adapter
+contracts_in_place:
+- Co-sell
+appendix_h_section: Appendix H — sor-vendor

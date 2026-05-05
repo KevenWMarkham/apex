@@ -1,0 +1,43 @@
+kind: service
+service_code: TH-HOT-01
+version: 0.1.0
+practice: th
+display_name: Yield & Revenue Management
+brief: "Hotel yield-management with demand + competitor + event-signal-driven rate + inventory recommendations."
+description: >
+  HOT sub-segment service. Reasoning-tier rate recommendations with revenue-director approval HITL.
+
+personas:
+  - { name: "Revenue Director", role: primary }
+  - { name: "Chief Revenue Officer", role: secondary }
+  - { name: "GM", role: secondary }
+
+kpis:
+  - name: "RevPAR"
+    direction: up
+    wave2_target: "+3-5%"
+  - name: "ADR"
+    direction: up
+    wave2_target: "+2-3%"
+
+waves:
+  - wave: wave_1
+    duration: "4-8 weeks"
+    fee_band_low_usd: 400000
+    fee_band_high_usd: 1000000
+  - wave: wave_2
+    duration: "6-12 months"
+    fee_band_low_usd: 3000000
+    fee_band_high_usd: 10000000
+
+commercial_model: value_share
+value_share_eligible: true
+
+linked_agents:
+  - apex.th.agents.yield-management
+
+linked_archetypes:
+  - F3-predictive-trigger-workflow-aware
+
+schemas_touched: [RevML-TH, InvML-TH]
+primary_contact: th-practice-lead@deloitte.com

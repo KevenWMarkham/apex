@@ -1,0 +1,43 @@
+kind: service
+service_code: AXLE-Aftermarket-02
+version: 0.1.0
+practice: axle
+display_name: Warranty Cost & Recall
+brief: "Warranty-claim-spike detection with root-cause isolation (lot, plant, vendor) and recall-risk assessment."
+description: >
+  Warranty operations service. Surfaces emerging field issues before recall threshold.
+
+personas:
+  - { name: "Warranty Operations Manager", role: primary }
+  - { name: "Chief Engineer", role: secondary }
+  - { name: "Chief Quality Officer", role: secondary }
+
+kpis:
+  - name: "warranty cost per unit"
+    direction: down
+    wave2_target: "-15 to -25%"
+  - name: "time-to-recall identification"
+    direction: down
+    wave2_target: "weeks-to-days"
+
+waves:
+  - wave: wave_1
+    duration: "4-8 weeks"
+    fee_band_low_usd: 350000
+    fee_band_high_usd: 1000000
+  - wave: wave_2
+    duration: "6-12 months"
+    fee_band_low_usd: 3000000
+    fee_band_high_usd: 11000000
+
+commercial_model: hybrid
+value_share_eligible: true
+
+linked_agents:
+  - apex.axle.agents.warranty-cost
+
+linked_archetypes:
+  - F2-event-cluster-pattern-match
+
+schemas_touched: [AftermarketML, QMSML, ConnectedProductML]
+primary_contact: axle-practice-lead@deloitte.com

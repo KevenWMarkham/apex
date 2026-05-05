@@ -1,0 +1,16 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.score.002
+family: score
+name: Quality Score
+description: Quality / yield / health score with attribution.
+canonical_inputs:
+- MeasurementSet
+canonical_outputs:
+- Score
+- Drivers
+typical_hitl_gate: Score-out-of-spec
+typical_oversight: HOTL
+typical_model_tier: standard
+example_agents: []
+appendix_d_section: Appendix D — Archetype family score

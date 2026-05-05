@@ -1,0 +1,16 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.compose.001
+family: compose
+name: Plan Composition
+description: Compose multi-step plan from sub-agent capabilities.
+canonical_inputs:
+- Goal
+- CapabilityCatalog
+canonical_outputs:
+- Plan
+typical_hitl_gate: Plan complexity > threshold
+typical_oversight: HITL
+typical_model_tier: reasoning
+example_agents: []
+appendix_d_section: Appendix D — Archetype family compose

@@ -1,7 +1,7 @@
 // Render the APEX Developer Guide markdown sources to a SINGLE combined .docx.
-// Concatenates the spine (docs/APEX-developer-guide.md) followed by the 7
+// Concatenates the spine (docs/guides/APEX-developer-guide.md) followed by the 7
 // companions (docs/dev-guide/01..07) with a title page and page breaks
-// between sections. Output: docs/APEX-developer-implementation-guide.docx
+// between sections. Output: docs/guides/APEX-developer-implementation-guide.docx
 //
 // Run:   node build-dev-guide-docx.cjs
 //
@@ -30,7 +30,7 @@ const {
 // Config — files to combine, in order
 // ------------------------------------------------------------------
 const FILES = [
-  { md: 'docs/APEX-developer-guide.md',                sectionTitle: 'Part I — Spine' },
+  { md: 'docs/guides/APEX-developer-guide.md',         sectionTitle: 'Part I — Spine' },
   { md: 'docs/dev-guide/01-fabric-layering.md',        sectionTitle: 'Part II — Companion 01: Fabric Layering' },
   { md: 'docs/dev-guide/02-medallion-sor.md',          sectionTitle: 'Part III — Companion 02: Medallion & SOR Integration' },
   { md: 'docs/dev-guide/03-mcp-servers.md',            sectionTitle: 'Part IV — Companion 03: MCP Servers & Tooling' },
@@ -40,7 +40,7 @@ const FILES = [
   { md: 'docs/dev-guide/07-service-catalog.md',        sectionTitle: 'Part VIII — Companion 07: Service Catalog' },
 ];
 
-const OUTPUT_DOCX = 'docs/APEX-developer-implementation-guide.docx';
+const OUTPUT_DOCX = 'docs/guides/APEX-developer-implementation-guide.docx';
 const GUIDE_TITLE = 'APEX Developer Implementation Guide';
 
 // Mermaid rendering — diagrams are rendered to PNG via @mermaid-js/mermaid-cli

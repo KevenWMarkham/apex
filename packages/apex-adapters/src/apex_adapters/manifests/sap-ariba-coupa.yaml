@@ -1,0 +1,32 @@
+kind: adapter
+name: sap-ariba-coupa
+version: 0.1.0
+sor_name: SAP Ariba / Coupa
+sor_vendor: SAP / Coupa
+practice: rc
+connection_method: dataflow_gen2
+schedule: daily 02:00 UTC
+bronze_workspace: apex-rc-prod-bronze
+description: >
+  Procurement-platform ingest via REST API. Supplier, contract,
+  purchase-order, and invoice tables — used by RC supplier-fraud and
+  ICE aftermarket-procurement workflows.
+standards: [EDI X12, OAGIS]
+schema_mappings:
+  - source_table: Supplier
+    bronze_table: bronze_proc_supplier
+    primary_key: [SupplierId]
+    fields:
+      - { source_field: SupplierId,   bronze_column: supplier_id,   bronze_type: string, nullable: false }
+      - { source_field: SupplierName, bronze_column: supplier_name, bronze_type: string, classification: trade_secret }
+      - { source_field: Country,      bronze_column: country,       bronze_type: string }
+  - source_table: PurchaseOrder
+    bronze_table: bronze_proc_po
+    primary_key: [PoNumber]
+    fields:
+      - { source_field: PoNumber,    bronze_column: po_number,    bronze_type: string, nullable: false }
+      - { source_field: SupplierId,  bronze_column: supplier_id,  bronze_type: string }
+      - { source_field: TotalAmount, bronze_column: total_amount, bronze_type: decimal, classification: trade_secret }
+runbook:
+  primary_contact: rc-data-platform@deloitte.com
+  sla_recovery_minutes: 240

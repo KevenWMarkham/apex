@@ -1,0 +1,43 @@
+kind: service
+service_code: ER-PU-03
+version: 0.1.0
+practice: er
+display_name: Vegetation & Wildfire Risk
+brief: "CV-driven vegetation-risk prediction with pre-emptive crew dispatch."
+description: >
+  P&U safety + reliability service. Reduces vegetation-caused outages via drone-imagery + weather-fused prediction.
+
+personas:
+  - { name: "Vegetation Manager", role: primary }
+  - { name: "Operations Director", role: secondary }
+  - { name: "Chief Safety Officer", role: secondary }
+
+kpis:
+  - name: "vegetation-caused outages"
+    direction: down
+    wave2_target: "-30 to -40%"
+  - name: "ignition probability"
+    direction: down
+
+waves:
+  - wave: wave_1
+    duration: "6-10 weeks"
+    fee_band_low_usd: 400000
+    fee_band_high_usd: 1100000
+  - wave: wave_2
+    duration: "9-15 months"
+    fee_band_low_usd: 3500000
+    fee_band_high_usd: 11000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.er.agents.vegetation-risk
+
+linked_archetypes:
+  - F2-event-cluster-pattern-match
+
+schemas_touched: [P&UML]
+standards: ['NERC CIP']
+primary_contact: er-practice-lead@deloitte.com

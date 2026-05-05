@@ -1,0 +1,22 @@
+[project]
+name = "edi-mcp"
+version = "0.1.0"
+description = "APEX edi-mcp — EDI X12 message parsing + emission (850 / 856 / 810 stubs)."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Proprietary — Deloitte Internal" }
+dependencies = ["apex-core", "mcp-common", "pydantic>=2.9.0"]
+
+[project.scripts]
+edi-mcp = "edi_mcp.server:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/edi_mcp"]
+
+[tool.uv.sources]
+apex-core = { workspace = true }
+mcp-common = { workspace = true }

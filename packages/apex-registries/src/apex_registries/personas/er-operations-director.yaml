@@ -1,0 +1,12 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: persona
+persona_id: persona.er.operations-director
+name: Operations Director
+practice: er
+seniority: director
+function: agent
+description: Operations Director (ER). Persona referenced by APEX agent manifests.
+typical_decisions: []
+pains: []
+metrics_owned: []
+appendix_e_section: Appendix E — ER Personas

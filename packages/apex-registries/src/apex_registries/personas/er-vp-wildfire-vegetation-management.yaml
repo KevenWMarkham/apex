@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: persona
+persona_id: persona.er.vp-wildfire-vegetation-management
+name: VP Wildfire & Vegetation Management
+practice: er
+seniority: vp
+function: reference-deployment
+description: VP Wildfire & Vegetation Management (ER). Persona referenced by APEX
+  reference-deployment manifests.
+typical_decisions: []
+pains: []
+metrics_owned: []
+appendix_e_section: Appendix E — ER Personas

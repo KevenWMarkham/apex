@@ -1,0 +1,34 @@
+kind: service
+name: rc-cold-chain-response
+version: 1.0.0
+owner: rc-practice-lead
+practice: rc
+description: End-to-end response to cold-chain excursions — classify, disposition, preserve.
+persona: store-operations-lead
+hitl_mode: HITL
+kpis:
+  - kpi_id: writeoff-avoided-usd
+    target: ">= 1000 per event average"
+  - kpi_id: time-to-brief-minutes
+    target: "<= 10"
+  - kpi_id: audit-trail-completeness-pct
+    target: "= 100"
+slo:
+  latency_ms_p95: 500
+  freshness_seconds: 60
+  availability_pct: 99.9
+commercial:
+  wave: 1
+  envelope_usd_low: 500000
+  envelope_usd_high: 2000000
+  delivery_weeks_low: 4
+  delivery_weeks_high: 8
+orchestrations:
+  - cold-chain-response
+agents:
+  - cold-chain-detection-agent
+  - cold-chain-disposition-agent
+  - store-notification-agent
+schema_refs:
+  - scml
+  - merml

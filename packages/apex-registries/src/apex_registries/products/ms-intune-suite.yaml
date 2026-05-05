@@ -1,0 +1,11 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: product
+product_id: ms.intune.suite
+family: intune
+display_name: Microsoft Intune Suite
+sku_or_tier: suite
+description: MDM/MAM + endpoint privilege management.
+list_price_basis: per-user/month
+typical_use: Workforce device mgmt
+apex_role: Engagement perimeter
+appendix_g_section: Appendix G — intune

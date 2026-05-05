@@ -1,0 +1,39 @@
+kind: agent
+name: apex.hls.agents.clinical-decision-support
+version: 0.1.0
+practice: hls
+persona: Attending Physician
+service_codes: [HLS-E2E-02]
+model_tier: reasoning
+model_pin: claude-opus-4
+prompt_sha: ""
+description: >
+  Guideline-adherent clinical decision support. Surfaces evidence-based
+  recommendations for diagnosis + treatment with per-recommendation
+  citation chain (UpToDate, PubMed, hospital order sets).
+archetype_id: F7-magentic-reasoning-multi-source
+primary_contact: hls-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.hls.mcp.patientml.get_patient_360
+    purpose: Read patient context (history, allergies, problem list)
+  - tool_id: apex.hls.mcp.patientml.get_diagnostic_results
+    purpose: Read latest diagnostic studies
+  - tool_id: apex.hls.mcp.external.get_evidence_library
+    purpose: Read curated guideline + evidence library
+
+hitl_gates:
+  - name: physician_review
+    description: Every CDS recommendation requires physician acknowledgment before action
+    fires_when: Always — CDS is advisory, never autonomous
+    surface: teams_card
+    sla_minutes: 30
+
+oversight_modes: [HITL]
+
+forbidden_classifications: [pci]
+
+kpis:
+  - name: guideline-adherence rate
+    direction: up
+    target_band: "+8 to +15 percentage points"

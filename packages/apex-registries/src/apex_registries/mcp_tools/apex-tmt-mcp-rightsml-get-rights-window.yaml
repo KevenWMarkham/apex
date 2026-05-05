@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: mcp_tool
+tool_id: apex.tmt.mcp.rightsml.get_rights_window
+practice: tmt
+sor_or_layer: rightsml
+purpose: Read territory + window + device-class scope
+write: false
+inputs_schema: ''
+outputs_schema: ''
+classification_required: []
+related_canonical_schemas:
+- RIGHTSML
+appendix_f_section: Appendix F — TMT MCP Tools

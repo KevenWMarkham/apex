@@ -1,0 +1,11 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: product
+product_id: ms.entra.workload-id
+family: entra
+display_name: Microsoft Entra Workload Identities
+sku_or_tier: feature
+description: Service-principal / managed-identity governance.
+list_price_basis: per-identity/month
+typical_use: Agent workload identity
+apex_role: Sprint 16 agent identity
+appendix_g_section: Appendix G — entra

@@ -1,0 +1,24 @@
+kind: agent
+name: apex.ice.agents.supply-shortage
+version: 0.1.0
+practice: ice
+persona: Supply Chain Manager
+service_codes: [ICE-Supply-01]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Supply-shortage early warning for parts and components. Detects emerging shortages from supplier signals and historical patterns.
+archetype_id: F1-continuous-monitor-hitl-alert
+primary_contact: ice-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.ice.mcp.supplyml.get_supplier_performance
+    purpose: Read supplier performance
+  - tool_id: apex.ice.mcp.supplyml.get_inventory_position
+    purpose: Read parts inventory
+
+oversight_modes: [HITL]
+
+kpis:
+  - { name: stock-out events, direction: down }

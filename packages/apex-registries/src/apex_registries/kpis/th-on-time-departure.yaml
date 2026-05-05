@@ -1,0 +1,15 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: kpi
+kpi_id: kpi.th.on-time-departure
+name: on-time departure
+practice: th
+direction: up
+description: KPI tracked by APEX TH agents/services. Wave-2 typical movement defined
+  by source manifests.
+measurement_pattern: audit-row attribution against pre-engagement baseline
+typical_baseline: ''
+typical_wave2_target: +2-4 pp
+typical_wave3_target: ''
+units: ''
+cadence: monthly
+appendix_c_section: Appendix C — TH KPIs

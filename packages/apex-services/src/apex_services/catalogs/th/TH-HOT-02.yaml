@@ -1,0 +1,42 @@
+kind: service
+service_code: TH-HOT-02
+version: 0.1.0
+practice: th
+display_name: Guest Experience Recovery
+brief: "Guest-experience signal aggregation across check-in, room-service, housekeeping, incidents with proactive recovery."
+description: >
+  HOT guest-experience service. Reduces NPS detractor rate via early intervention.
+
+personas:
+  - { name: "Guest Experience Director", role: primary }
+  - { name: "GM", role: secondary }
+  - { name: "Chief Customer Officer", role: secondary }
+
+kpis:
+  - name: "guest NPS"
+    direction: up
+    wave2_target: "+5-10 pt"
+  - name: "recovery success rate"
+    direction: up
+
+waves:
+  - wave: wave_1
+    duration: "4-8 weeks"
+    fee_band_low_usd: 350000
+    fee_band_high_usd: 900000
+  - wave: wave_2
+    duration: "6-12 months"
+    fee_band_low_usd: 2500000
+    fee_band_high_usd: 8000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.th.agents.guest-experience
+
+linked_archetypes:
+  - F1-continuous-monitor-hitl-alert
+
+schemas_touched: [TravelerML, GroundML]
+primary_contact: th-practice-lead@deloitte.com

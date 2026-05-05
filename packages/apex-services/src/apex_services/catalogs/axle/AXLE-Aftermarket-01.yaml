@@ -1,0 +1,44 @@
+kind: service
+service_code: AXLE-Aftermarket-01
+version: 0.1.0
+practice: axle
+display_name: Connected-Vehicle Aftermarket
+brief: "Connected-vehicle / connected-equipment aftermarket service intelligence."
+description: >
+  Aftermarket Director service. Predictive-service recommendations using DTC + cycle + emergent fault patterns.
+
+personas:
+  - { name: "Aftermarket Director", role: primary }
+  - { name: "VP Customer Service", role: secondary }
+  - { name: "Chief Service Officer", role: secondary }
+
+kpis:
+  - name: "service-revenue capture"
+    direction: money
+    wave2_target: "+$8M typical fleet of 5K units"
+  - name: "unplanned downtime"
+    direction: down
+    wave2_target: "-25 to -35%"
+
+waves:
+  - wave: wave_1
+    duration: "6-10 weeks"
+    fee_band_low_usd: 500000
+    fee_band_high_usd: 1300000
+  - wave: wave_2
+    duration: "9-15 months"
+    fee_band_low_usd: 4000000
+    fee_band_high_usd: 14000000
+
+commercial_model: value_share
+value_share_eligible: true
+
+linked_agents:
+  - apex.axle.agents.vehicle-dtc
+
+linked_archetypes:
+  - F3-predictive-trigger-workflow-aware
+
+schemas_touched: [ConnectedProductML, AftermarketML]
+standards: ['SAE J1939']
+primary_contact: axle-practice-lead@deloitte.com

@@ -1,0 +1,30 @@
+kind: agent
+name: apex.rc.agents.substitution-recommendation
+version: 0.1.0
+practice: rc
+persona: Store Associate
+service_codes: [RC-E2E-03]
+model_tier: lightweight
+model_pin: gpt-4o-mini-2024-07-18
+prompt_sha: ""
+description: >
+  Real-time stockout substitution recommendation. Uses adjacency,
+  shopper personalization, and margin-impact signals to recommend
+  alternates at the shelf.
+archetype_id: F1-continuous-monitor-hitl-alert
+primary_contact: rc-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.rc.mcp.scml.get_inventory_position
+    purpose: Read live shelf inventory
+  - tool_id: apex.rc.mcp.scml.get_substitute_table
+    purpose: Read approved substitution adjacencies
+  - tool_id: apex.rc.mcp.cxml.get_customer_profile
+    purpose: Read shopper preferences if loyalty-linked
+
+oversight_modes: [HOTL]
+
+kpis:
+  - name: stockout-saved revenue
+    direction: money
+    target_band: "+$2-5M/yr per chain"

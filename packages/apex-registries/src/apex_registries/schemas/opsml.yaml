@@ -1,0 +1,19 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: schema
+schema_code: OpsML
+name: Travel Hospitality Ops Lineage Alias
+description: Travel Hospitality Ops Lineage Alias canonical schema family. Bronze
+  to Silver to Gold pipeline scope; consumed by APEX agents/services across TH.
+practices:
+- th
+primary_entities:
+- FlightLeg
+- CrewPairing
+- Aircraft
+- Gate
+standards_alignment:
+- IATA SSIM
+- A-CDM
+governance_classification: operations
+appendix_a_section: Appendix A — Schema family OpsML
+package_implementation: apex-opsml-th

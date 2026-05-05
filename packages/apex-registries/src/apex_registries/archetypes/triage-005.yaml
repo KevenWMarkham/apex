@@ -1,0 +1,19 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.triage.005
+family: triage
+name: Disposition Triage
+description: Recommend disposition action (sell/markdown/donate/destroy etc.) per
+  item.
+canonical_inputs:
+- ItemBatch
+- ShelfLifeModel
+- PolicyRules
+canonical_outputs:
+- DispositionPlan
+typical_hitl_gate: Manager approves disposition
+typical_oversight: HITL
+typical_model_tier: standard
+example_agents:
+- apex.rc.agents.cold-chain-response
+appendix_d_section: Appendix D — Archetype family triage

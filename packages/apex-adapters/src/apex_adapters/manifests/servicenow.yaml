@@ -1,0 +1,36 @@
+kind: adapter
+name: servicenow
+version: 0.1.0
+sor_name: ServiceNow ITSM / CSM
+sor_vendor: ServiceNow
+practice: core
+connection_method: dataflow_gen2
+schedule: every 30 minutes
+bronze_workspace: apex-core-prod-bronze
+description: >
+  ServiceNow ingest via Power Query Table API. Incident, Change, and
+  Problem tables pull on a 30-minute cadence. Audit and CMDB tables on
+  daily.
+standards: []
+schema_mappings:
+  - source_table: incident
+    bronze_table: bronze_snow_incident
+    primary_key: [sys_id]
+    fields:
+      - { source_field: sys_id,             bronze_column: sys_id,            bronze_type: string, nullable: false }
+      - { source_field: number,             bronze_column: ticket_number,     bronze_type: string }
+      - { source_field: short_description,  bronze_column: short_description, bronze_type: string }
+      - { source_field: priority,           bronze_column: priority,          bronze_type: string }
+      - { source_field: state,              bronze_column: state,             bronze_type: string }
+      - { source_field: opened_at,          bronze_column: opened_at,         bronze_type: timestamp }
+      - { source_field: assigned_to,        bronze_column: assigned_to,       bronze_type: string, classification: pii }
+runbook:
+  primary_contact: core-data-platform@deloitte.com
+  sla_recovery_minutes: 60
+  failure_modes:
+    - code: API_QUOTA_EXCEEDED
+      description: ServiceNow REST quota saturated
+      severity: warning
+      retry: true
+      retry_max: 1
+      backoff_seconds: 1800

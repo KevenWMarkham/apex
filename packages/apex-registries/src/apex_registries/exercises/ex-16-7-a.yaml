@@ -1,0 +1,16 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: exercise
+exercise_id: ex.16.7.a
+sellers_guide_section: §16.7
+chapter: 16. Retail / Consumer Practice
+prompt: Map cold-chain agent decision to FSMA 204 audit obligations.
+canonical_solution: Cold-chain response writes the disposition decision + lot trace
+  to the audit row. SCML schema links the lot to inbound supplier movements. The audit
+  row is FSMA 204 traceability-event compatible.
+teaching_points:
+- SCML schema designed against FSMA 204 traceability-event vocabulary
+- Audit row is the traceability event
+related_kpi_ids:
+- kpi.rc.cold-chain-disposition-decision-latency
+related_archetype_ids:
+- arch.triage.005

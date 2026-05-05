@@ -1,0 +1,15 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: partner
+partner_id: ptr.sap
+name: SAP
+category: sor-vendor
+practices:
+- rc
+- axle
+- er
+- ice
+description: ERP backbone for finance, supply chain, manufacturing.
+apex_integration_pattern: mirrored-db-via-Sprint15-adapter
+contracts_in_place:
+- Master agreement
+appendix_h_section: Appendix H — sor-vendor

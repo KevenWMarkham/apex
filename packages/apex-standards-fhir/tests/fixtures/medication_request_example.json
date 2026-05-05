@@ -1,0 +1,30 @@
+{
+  "resourceType": "MedicationRequest",
+  "id": "medrx0301",
+  "status": "active",
+  "intent": "order",
+  "medicationCodeableConcept": {
+    "coding": [
+      {
+        "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+        "code": "1049630",
+        "display": "Acetaminophen 325 MG Oral Tablet"
+      }
+    ]
+  },
+  "subject": {"reference": "Patient/example"},
+  "authoredOn": "2026-04-19T10:15:00Z",
+  "dosageInstruction": [
+    {
+      "sequence": 1,
+      "text": "One tablet every 6 hours as needed for pain",
+      "asNeededBoolean": true,
+      "doseQuantity": {
+        "value": 1.0,
+        "unit": "tablet",
+        "system": "http://unitsofmeasure.org",
+        "code": "{tbl}"
+      }
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+kind: agent
+name: apex.hls.agents.claim-triage
+version: 0.1.0
+practice: hls
+persona: Claims Examiner
+service_codes: [HLS-E2E-01]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Triage inbound claims into auto-adjudicate / pend / deny lanes with
+  rationale and audit trail. Reduces examiner backlog while preserving
+  every-claim audit row.
+archetype_id: F2-event-cluster-pattern-match
+primary_contact: hls-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.hls.mcp.claimml.get_claim
+    purpose: Read submitted claim
+  - tool_id: apex.hls.mcp.claimml.get_member_benefits
+    purpose: Read benefits and eligibility
+  - tool_id: apex.hls.mcp.claimml.post_triage_decision
+    purpose: Set claim disposition lane
+    write: true
+
+hitl_gates:
+  - name: high-dollar pend
+    description: Claims with billed > $25K pend for examiner review
+    fires_when: Billed amount > $25,000
+    surface: dashboard
+    sla_minutes: 1440
+
+oversight_modes: [HITL, HOTL]
+
+kpis:
+  - name: auto-adjudication rate
+    direction: up
+    target_band: "+15 to +25 percentage points"
+  - name: claim cycle time
+    direction: down

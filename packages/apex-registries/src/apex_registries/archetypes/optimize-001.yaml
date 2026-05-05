@@ -1,0 +1,17 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.optimize.001
+family: optimize
+name: Price Optimization
+description: Compute elastic-demand price given competitive + capacity + objective.
+canonical_inputs:
+- PriceCurves
+- Constraints
+canonical_outputs:
+- PriceAction
+typical_hitl_gate: Magnitude > threshold
+typical_oversight: HITL
+typical_model_tier: standard
+example_agents:
+- apex.th.agents.yield-management
+appendix_d_section: Appendix D — Archetype family optimize

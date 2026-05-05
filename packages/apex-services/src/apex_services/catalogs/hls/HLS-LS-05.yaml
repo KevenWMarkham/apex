@@ -1,0 +1,46 @@
+kind: service
+service_code: HLS-LS-05
+version: 0.1.0
+practice: hls
+display_name: Adverse Event Pharmacovigilance
+brief: "Detect potential AEs from clinical-note text + lab signals + medication-admin history with severity classification."
+description: >
+  Life Sciences PV service. Reduces AE-detection latency from days to hours with FDA-aligned reporting.
+
+personas:
+  - { name: "Pharmacovigilance Specialist", role: primary }
+  - { name: "Chief Safety Officer", role: secondary }
+
+kpis:
+  - name: "time-to-detection"
+    direction: down
+    baseline: "days"
+    wave2_target: "hours"
+  - name: "AE-detection precision"
+    direction: up
+
+slos:
+  - { name: "21 CFR Part 11 audit", target: "tamper-evident", enforcement: regulatory }
+
+waves:
+  - wave: wave_1
+    duration: "6-12 weeks"
+    fee_band_low_usd: 500000
+    fee_band_high_usd: 1400000
+  - wave: wave_2
+    duration: "9-15 months"
+    fee_band_low_usd: 4000000
+    fee_band_high_usd: 13000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.hls.agents.adverse-event
+
+linked_archetypes:
+  - F4-regulatory-trigger-audit-preserve
+
+schemas_touched: [StudyML, PatientML]
+standards: ['HIPAA', '21 CFR Part 11']
+primary_contact: hls-practice-lead@deloitte.com

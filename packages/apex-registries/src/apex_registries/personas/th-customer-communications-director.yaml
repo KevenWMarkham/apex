@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: persona
+persona_id: persona.th.customer-communications-director
+name: Customer Communications Director
+practice: th
+seniority: director
+function: agent
+description: Customer Communications Director (TH). Persona referenced by APEX agent
+  manifests.
+typical_decisions: []
+pains: []
+metrics_owned: []
+appendix_e_section: Appendix E — TH Personas

@@ -1,0 +1,53 @@
+kind: service
+service_code: RC-E2E-09
+version: 0.1.0
+practice: rc
+display_name: Product Tracking & Traceability
+brief: "Serialised provenance across the supply chain with FSMA 204 + DSCSA-aligned audit row and recall management."
+description: >
+  Chief Supply Chain / Chief Sustainability service. Provides defensible provenance from supplier through shelf with recall-event response.
+
+personas:
+  - { name: "Chief Supply Chain Officer", role: primary }
+  - { name: "Chief Sustainability Officer", role: secondary }
+  - { name: "Chief Compliance Officer", role: secondary }
+
+kpis:
+  - name: "recall response time"
+    direction: down
+    baseline: "4-6 hours"
+    wave2_target: "minutes"
+  - name: "provenance defensibility"
+    direction: neutral
+    wave2_target: "regulator-ready"
+
+slos:
+  - { name: "lot-trace latency", target: "< 2 minutes", enforcement: hard }
+  - { name: "audit retention", target: "7 years", enforcement: regulatory }
+
+waves:
+  - wave: wave_1
+    duration: "6-12 weeks"
+    fee_band_low_usd: 400000
+    fee_band_high_usd: 1200000
+  - wave: wave_2
+    duration: "9-15 months"
+    fee_band_low_usd: 4000000
+    fee_band_high_usd: 14000000
+  - wave: wave_3
+    duration: "multi-year"
+    fee_band_low_usd: 6000000
+    fee_band_high_usd: 22000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.rc.agents.cold-chain-response
+
+linked_archetypes:
+  - F4-regulatory-trigger-audit-preserve
+
+schemas_touched: [SCML]
+standards: ['FSMA 204', 'EPCIS', 'GS1', 'GDSN']
+primary_contact: rc-practice-lead@deloitte.com

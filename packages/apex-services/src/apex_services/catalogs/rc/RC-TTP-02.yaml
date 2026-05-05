@@ -1,0 +1,50 @@
+kind: service
+service_code: RC-TTP-02
+version: 0.1.0
+practice: rc
+display_name: Demand Sensing
+brief: "1-14 day SKU-store-day forecast that beats statistical baselines by 15-30%."
+description: >
+  VP Supply Chain Planning service. Combines historical POS, weather, promotion, and event signals via standard-tier reasoning.
+
+personas:
+  - { name: "VP Supply Chain Planning", role: primary }
+  - { name: "VP Demand Planning", role: secondary }
+  - { name: "Chief Operating Officer", role: secondary }
+
+kpis:
+  - name: "MAPE"
+    direction: down
+    baseline: "typical"
+    wave2_target: "-20 to -35%"
+    wave3_target: "-35 to -45%"
+
+slos:
+  - { name: "forecast refresh", target: "< 15 minutes", enforcement: soft }
+
+waves:
+  - wave: wave_1
+    duration: "4-8 weeks"
+    fee_band_low_usd: 250000
+    fee_band_high_usd: 700000
+  - wave: wave_2
+    duration: "6-12 months"
+    fee_band_low_usd: 2500000
+    fee_band_high_usd: 8000000
+  - wave: wave_3
+    duration: "multi-year"
+    fee_band_low_usd: 4000000
+    fee_band_high_usd: 14000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.rc.agents.demand-sensing
+  - apex.rc.agents.inventory-replenishment
+
+linked_archetypes:
+  - F3-predictive-trigger-workflow-aware
+
+schemas_touched: [SCML]
+primary_contact: rc-practice-lead@deloitte.com

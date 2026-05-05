@@ -1,0 +1,35 @@
+kind: agent
+name: apex.tmt.agents.content-moderation
+version: 0.1.0
+practice: tmt
+persona: Trust & Safety Lead
+service_codes: [TMT-MED-03]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  User-generated-content moderation across text + image + video. Routes flagged content to T&S reviewers with policy-citation chain.
+archetype_id: F4-regulatory-trigger-audit-preserve
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.contentsafetyml.get_ugc_record
+    purpose: Read submitted UGC record
+  - tool_id: apex.tmt.mcp.contentsafetyml.classify_ugc
+    purpose: Classify against policy taxonomy
+  - tool_id: apex.tmt.mcp.contentsafetyml.post_moderation_decision
+    purpose: Issue moderation decision
+    write: true
+
+hitl_gates:
+  - name: takedown_action
+    description: Takedown decisions require T&S reviewer approval
+    fires_when: Recommendation is takedown
+    surface: dashboard
+    sla_minutes: 60
+
+oversight_modes: [HITL]
+
+kpis:
+  - { name: policy-violation rate, direction: down }
+  - { name: over-moderation false-positive rate, direction: down }

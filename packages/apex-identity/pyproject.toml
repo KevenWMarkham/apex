@@ -1,0 +1,23 @@
+[project]
+name = "apex-identity"
+version = "0.1.0"
+description = "APEX identity + visibility-lattice runtime — scope resolver, lattice evaluator, agent-safe view generator, response signing, Entra provisioning stub."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Proprietary — Deloitte Internal" }
+dependencies = [
+    "apex-core",
+    "mcp-common",
+    "pydantic>=2.9.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/apex_identity"]
+
+[tool.uv.sources]
+apex-core = { workspace = true }
+mcp-common = { workspace = true }

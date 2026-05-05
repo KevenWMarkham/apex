@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: persona
+persona_id: persona.axle.vp-manufacturing-operations
+name: VP Manufacturing Operations
+practice: axle
+seniority: vp
+function: reference-deployment
+description: VP Manufacturing Operations (AXLE). Persona referenced by APEX reference-deployment
+  manifests.
+typical_decisions: []
+pains: []
+metrics_owned: []
+appendix_e_section: Appendix E — AXLE Personas

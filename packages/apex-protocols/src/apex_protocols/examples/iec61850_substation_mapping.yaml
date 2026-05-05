@@ -1,0 +1,78 @@
+# Reference IEC 61850 FCDA-path mapping for the ER Practice substation
+# Sprint 25 Task 25.2 reference workspace.
+#
+# Each FCDA path follows IED/LDevice/LN.DO[.SDO].DA[.SubDA] notation.
+
+protocol: iec61850
+name: substation-north-bay
+
+nodes:
+  - node_id: "IED1/CTRL/XCBR1.Pos.stVal"
+    canonical_entity: BreakerStatus
+    canonical_field: position
+    classification: critical-infrastructure
+    units: ""
+    description: "Circuit Breaker 1 position (intermediate/open/closed/bad)"
+    sampling_hint_ms: 100
+
+  - node_id: "IED1/CTRL/XCBR1.OpCnt.stVal"
+    canonical_entity: BreakerStatus
+    canonical_field: operation_count
+    classification: critical-infrastructure
+    units: ""
+    description: "Circuit Breaker 1 lifetime operation count"
+    sampling_hint_ms: 5000
+
+  - node_id: "IED1/MEAS/MMXU1.A.phsA.cVal.mag.f"
+    canonical_entity: PhaseMeasurement
+    canonical_field: current_amps_phase_a
+    classification: critical-infrastructure
+    units: "A"
+    description: "Three-phase current — Phase A magnitude"
+    sampling_hint_ms: 250
+
+  - node_id: "IED1/MEAS/MMXU1.A.phsB.cVal.mag.f"
+    canonical_entity: PhaseMeasurement
+    canonical_field: current_amps_phase_b
+    classification: critical-infrastructure
+    units: "A"
+    description: "Three-phase current — Phase B magnitude"
+    sampling_hint_ms: 250
+
+  - node_id: "IED1/MEAS/MMXU1.A.phsC.cVal.mag.f"
+    canonical_entity: PhaseMeasurement
+    canonical_field: current_amps_phase_c
+    classification: critical-infrastructure
+    units: "A"
+    description: "Three-phase current — Phase C magnitude"
+    sampling_hint_ms: 250
+
+  - node_id: "IED1/MEAS/MMXU1.PPV.phsAB.cVal.mag.f"
+    canonical_entity: PhaseMeasurement
+    canonical_field: voltage_volts_phase_ab
+    classification: critical-infrastructure
+    units: "V"
+    description: "Phase-to-phase voltage AB"
+    sampling_hint_ms: 250
+
+  - node_id: "IED1/MEAS/MMXU1.TotW.mag.f"
+    canonical_entity: PhaseMeasurement
+    canonical_field: real_power_kw
+    classification: critical-infrastructure
+    units: "kW"
+    description: "Total real power"
+    sampling_hint_ms: 250
+
+# GOOSE / SV publications referenced by upstream consumers but never
+# directly subscribed-to by APEX (raw frames stay in OT domain per
+# Sprint 25 §25.2.3). These entries are metadata-only.
+goose_metadata:
+  - name: "GOOSEPos1"
+    app_id: "0x0001"
+    confRev: 1
+    dataset: "DS_PosFlt"
+sv_metadata:
+  - name: "MUSV1"
+    app_id: "0x4000"
+    smp_rate: 4800
+    dataset: "DS_PhsMeas"

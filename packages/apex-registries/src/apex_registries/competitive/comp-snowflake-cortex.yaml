@@ -1,0 +1,15 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: competitive
+entry_id: comp.snowflake-cortex
+competitor: Snowflake (Cortex AI)
+competitor_offering: Snowflake Cortex Agents
+apex_differentiators:
+- APEX is Microsoft-native; Cortex is Snowflake-native
+- APEX cross-Practice catalog >> Cortex
+independence_concerns:
+- Snowflake-deep clients may have lock-in pull
+win_themes:
+- Microsoft alignment
+- Catalog breadth
+- HITL governance
+appendix_k_section: Appendix K — Independence and Competitive Posture

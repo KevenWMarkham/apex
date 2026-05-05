@@ -1,0 +1,17 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.schedule.001
+family: schedule
+name: Crew Scheduling
+description: Crew-legality-aware rebooking under disruption.
+canonical_inputs:
+- CrewPool
+- Disruption
+canonical_outputs:
+- RebookPlan
+typical_hitl_gate: Crew Ops approves
+typical_oversight: HITL
+typical_model_tier: reasoning
+example_agents:
+- apex.th.agents.crew-scheduling
+appendix_d_section: Appendix D — Archetype family schedule

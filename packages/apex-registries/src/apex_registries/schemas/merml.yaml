@@ -1,0 +1,19 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: schema
+schema_code: MERML
+name: Merchandising Lineage
+description: Merchandising Lineage canonical schema family. Bronze to Silver to Gold
+  pipeline scope; consumed by APEX agents/services across RC, AXLE.
+practices:
+- rc
+- axle
+primary_entities:
+- Assortment
+- Markdown
+- Pricing
+- ProductMaster
+standards_alignment:
+- GS1
+governance_classification: operations
+appendix_a_section: Appendix A — Schema family MERML
+package_implementation: apex-merml

@@ -1,0 +1,12 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: product
+product_id: ms.fabric.f64
+family: fabric
+display_name: Microsoft Fabric F64 Capacity
+sku_or_tier: F64
+description: Reserved Fabric capacity (~32 vcores). Entry-level production deployments
+  and small-Practice anchors.
+list_price_basis: reserved-capacity-monthly
+typical_use: Single-Practice prod tenant
+apex_role: Sprint 14 single-capacity-tenant default
+appendix_g_section: Appendix G — fabric

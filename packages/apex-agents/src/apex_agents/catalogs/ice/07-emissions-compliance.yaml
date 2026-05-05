@@ -1,0 +1,32 @@
+kind: agent
+name: apex.ice.agents.emissions-compliance
+version: 0.1.0
+practice: ice
+persona: Compliance Manager
+service_codes: [ICE-QMS-01]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Emissions-compliance monitoring across the deployed fleet. Verifies Tier-4 / Stage-V regulatory limits and surfaces non-compliance.
+archetype_id: F4-regulatory-trigger-audit-preserve
+primary_contact: ice-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.ice.mcp.connectedml.get_emissions_data
+    purpose: Read emissions telemetry
+  - tool_id: apex.ice.mcp.qmsml.create_compliance_report
+    purpose: Create regulatory report
+    write: true
+
+hitl_gates:
+  - name: regulator_report
+    description: Regulatory report requires compliance-manager approval before submission
+    fires_when: Always
+    surface: dashboard
+    sla_minutes: 1440
+
+oversight_modes: [HITL]
+
+kpis:
+  - { name: compliance violations, direction: down }

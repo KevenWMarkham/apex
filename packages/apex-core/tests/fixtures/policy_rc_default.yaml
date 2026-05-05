@@ -1,0 +1,28 @@
+kind: policy
+name: rc-default-policy
+version: 1.0.0
+owner: rc-practice-lead
+practice: rc
+description: Default HITL / DLP / classification rules for RC Practice.
+hitl_rules:
+  - bump_class: PATCH
+    gate_kind: ZERO_TOUCH
+    variant: hard
+  - bump_class: MINOR
+    gate_kind: ACK_ONLY
+    variant: soft
+  - bump_class: MAJOR
+    gate_kind: HITL
+    variant: hard
+dlp_rules:
+  - classification: pii
+    action: tokenise
+    surfaces: [agent_output, copilot]
+  - classification: trade_secret
+    action: mask
+    surfaces: [agent_output, copilot, power_bi]
+classification_mappings:
+  - path: cxml.customer.email
+    classification: pii
+  - path: scml.sku.unit_cost
+    classification: trade_secret

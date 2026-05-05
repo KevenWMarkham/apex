@@ -1,0 +1,17 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: schema
+schema_code: InvML-TH
+name: Travel Inventory Lineage
+description: Travel Inventory Lineage canonical schema family. Bronze to Silver to
+  Gold pipeline scope; consumed by APEX agents/services across TH.
+practices:
+- th
+primary_entities:
+- Inventory
+- SeatMap
+- HoldRule
+standards_alignment:
+- IATA NDC
+governance_classification: operations
+appendix_a_section: Appendix A — Schema family InvML-TH
+package_implementation: apex-invml-th

@@ -1,0 +1,12 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: mcp_tool
+tool_id: apex.hls.mcp.external.get_uw_criteria
+practice: hls
+sor_or_layer: external
+purpose: Read InterQual / MCG criteria
+write: false
+inputs_schema: ''
+outputs_schema: ''
+classification_required: []
+related_canonical_schemas: []
+appendix_f_section: Appendix F — HLS MCP Tools

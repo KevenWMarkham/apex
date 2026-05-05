@@ -1,0 +1,24 @@
+kind: agent
+name: apex.th.agents.loyalty-personalization
+version: 0.1.0
+practice: th
+persona: Loyalty Director
+service_codes: [TH-AIR-03]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Loyalty next-best-action recommendation. Reads tier, history, and current-trip context to recommend offers + upgrades.
+archetype_id: F3-predictive-trigger-workflow-aware
+primary_contact: th-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.th.mcp.travelerml.get_unified_profile
+    purpose: Read traveler profile
+  - tool_id: apex.th.mcp.revml.get_offer_inventory
+    purpose: Read live offer inventory
+
+oversight_modes: [HOTL]
+
+kpis:
+  - { name: loyalty engagement rate, direction: up }

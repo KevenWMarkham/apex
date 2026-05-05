@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: mcp_tool
+tool_id: apex.er.mcp.hseml.get_incident_log
+practice: er
+sor_or_layer: hseml
+purpose: Read incident + near-miss reports
+write: false
+inputs_schema: ''
+outputs_schema: ''
+classification_required: []
+related_canonical_schemas:
+- HSEML
+appendix_f_section: Appendix F — ER MCP Tools

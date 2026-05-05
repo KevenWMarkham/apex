@@ -1,0 +1,54 @@
+kind: service
+service_code: RC-E2E-05
+version: 0.1.0
+practice: rc
+display_name: Unified Customer Intelligence
+brief: "Identity resolution across channels with consent-aware customer 360 and next-best-action orchestration."
+description: >
+  CMO-led service for customer identity, loyalty optimization, and channel-consistent personalization. PII tokenized at Silver; consent enforced at MCP.
+
+personas:
+  - { name: "Chief Marketing Officer", role: primary }
+  - { name: "Chief Customer Officer", role: secondary }
+  - { name: "VP Loyalty", role: secondary }
+
+kpis:
+  - name: "loyalty member value"
+    direction: up
+    baseline: "baseline"
+    wave2_target: "+8-20%"
+    wave3_target: "+25-35%"
+  - name: "CAC"
+    direction: down
+    wave2_target: "-10-15%"
+
+slos:
+  - { name: "identity-merge precision", target: ">= 95% confidence", enforcement: soft }
+
+waves:
+  - wave: wave_1
+    duration: "4-8 weeks"
+    fee_band_low_usd: 400000
+    fee_band_high_usd: 1200000
+  - wave: wave_2
+    duration: "6-15 months"
+    fee_band_low_usd: 5000000
+    fee_band_high_usd: 15000000
+  - wave: wave_3
+    duration: "multi-year"
+    fee_band_low_usd: 8000000
+    fee_band_high_usd: 25000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.rc.agents.customer-identity
+  - apex.rc.agents.promotion-effectiveness
+
+linked_archetypes:
+  - F5-identity-resolution-confidence-merge
+
+schemas_touched: [CXML]
+standards: ['GDPR', 'CCPA']
+primary_contact: rc-practice-lead@deloitte.com

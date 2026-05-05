@@ -1,0 +1,42 @@
+kind: service
+service_code: TMT-TEL-02
+version: 0.1.0
+practice: tmt
+display_name: Network Operations Intelligence
+brief: "5G/RAN telemetry anomaly detection with cell-degradation pattern surfacing."
+description: >
+  Network Operations Manager service. Reduces customer-impact-minutes via proactive degradation detection.
+
+personas:
+  - { name: "Network Operations Manager", role: primary }
+  - { name: "Chief Technology Officer", role: secondary }
+
+kpis:
+  - name: "network availability"
+    direction: up
+  - name: "MTTR"
+    direction: down
+    wave2_target: "-20 to -35%"
+
+waves:
+  - wave: wave_1
+    duration: "6-12 weeks"
+    fee_band_low_usd: 600000
+    fee_band_high_usd: 2000000
+  - wave: wave_2
+    duration: "12-15 months"
+    fee_band_low_usd: 8000000
+    fee_band_high_usd: 30000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.tmt.agents.network-anomaly
+
+linked_archetypes:
+  - F1-continuous-monitor-hitl-alert
+
+schemas_touched: [TELML, NetworkML]
+standards: ['3GPP', 'MEF']
+primary_contact: tmt-practice-lead@deloitte.com

@@ -1,0 +1,36 @@
+kind: agent
+name: apex.er.agents.psps-decision
+version: 0.1.0
+practice: er
+persona: Operations Director
+service_codes: [ER-PU-02]
+model_tier: reasoning
+model_pin: claude-opus-4
+prompt_sha: ""
+description: >
+  Public Safety Power Shutoff decision support. Computes risk score
+  combining fuel load, wind forecast, RH, ignition density, and
+  affected-customer count. Assembles regulator-ready PSPS package.
+archetype_id: F4-regulatory-trigger-audit-preserve
+primary_contact: er-pu-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.er.mcp.gridml.get_feeder_topology
+    purpose: Read feeder topology in at-risk zones
+  - tool_id: apex.er.mcp.external.get_wildfire_conditions
+    purpose: Read fuel + wind + RH + historical ignition density
+  - tool_id: apex.er.mcp.gridml.compose_psps_package
+    purpose: Assemble PSPS decision package
+    write: true
+
+hitl_gates:
+  - name: ceo_approval
+    description: PSPS shutoff requires Operations Director + CEO sign-off per utility protocol
+    fires_when: Risk score exceeds initiation threshold
+    surface: dashboard
+    sla_minutes: 60
+
+oversight_modes: [HITL]
+kpis:
+  - { name: ignition events, direction: down }
+  - { name: customer-impact minimization, direction: neutral }

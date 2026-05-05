@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transportation AHM · APEX &amp; AXLE for Fleet Asset Management | DMTSP</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f172a;
+  --surface: #1e293b;
+  --surface2: #334155;
+  --border: #475569;
+  --azure: #0078D4;
+  --azure-glow: rgba(0,120,212,0.15);
+  --teal: #008272;
+  --green: #86BC25;
+  --amber: #f59e0b;
+  --red: #ef4444;
+  --purple: #7B4BC4;
+  --pink: #ec4899;
+  --cyan: #22d3ee;
+  --text: #f1f5f9;
+  --text2: #94a3b8;
+  --text3: #64748b;
+  --white: #ffffff;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; overflow: hidden; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); }
+
+/* Slide container */
+.deck { width: 100vw; height: 100vh; overflow: hidden; position: relative; }
+.slide {
+  width: 100vw; height: 100vh;
+  display: none; flex-direction: column; justify-content: center;
+  padding: 60px 100px;
+  position: absolute; top: 0; left: 0;
+  opacity: 0; transition: opacity 0.4s ease;
+}
+.slide.active { display: flex; opacity: 1; }
+
+/* Progress bar */
+.progress {
+  position: fixed; top: 0; left: 0; height: 3px;
+  background: linear-gradient(90deg, var(--azure), var(--teal), var(--green));
+  z-index: 200; transition: width 0.3s ease;
+}
+
+/* Slide counter */
+.counter {
+  position: fixed; bottom: 24px; right: 32px;
+  font-size: 13px; color: var(--text3); z-index: 200;
+  font-family: 'Outfit', sans-serif; font-weight: 500;
+}
+
+/* DMTSP branding (top-right of every slide) */
+.dmtsp-brand {
+  position: fixed;
+  top: 22px;
+  right: 32px;
+  z-index: 150;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+  user-select: none;
+}
+.dmtsp-brand .brand-logo {
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 8px rgba(0,120,212,0.4));
+}
+.dmtsp-brand .brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+  text-align: right;
+}
+.dmtsp-brand .brand-name {
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  color: rgba(255,255,255,0.9);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.dmtsp-brand .brand-context {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 9px;
+  font-style: italic;
+  color: rgba(148,163,184,0.85);
+  margin-top: 2px;
+  letter-spacing: 0.2px;
+}
+@media print {
+  .dmtsp-brand { position: absolute; }
+}
+
+/* Section label (top-left) */
+.section-label {
+  position: fixed;
+  top: 24px;
+  left: 32px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: var(--text3);
+  text-transform: uppercase;
+  z-index: 150;
+  pointer-events: none;
+}
+.section-label .sec-divider { color: var(--azure); margin: 0 6px; }
+
+/* Nav arrows */
+.nav-arrow {
+  position: fixed; top: 50%; transform: translateY(-50%); z-index: 200;
+  width: 48px; height: 48px; border-radius: 50%;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text3); font-size: 18px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.nav-arrow:hover { background: rgba(255,255,255,0.1); color: var(--white); }
+.nav-prev { left: 20px; }
+.nav-next { right: 20px; }
+
+/* Typography */
+.slide-title {
+  font-family: 'Outfit', sans-serif; font-size: 44px; font-weight: 800;
+  line-height: 1.15; letter-spacing: -0.02em; color: var(--white);
+  margin-bottom: 16px;
+}
+.slide-subtitle {
+  font-size: 20px; color: var(--text2); line-height: 1.6; max-width: 900px;
+  margin-bottom: 32px;
+}
+.slide-body { font-size: 17px; color: var(--text2); line-height: 1.7; max-width: 900px; }
+
+/* Act label */
+.act-label {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 2px; color: var(--azure); margin-bottom: 24px;
+  display: flex; align-items: center; gap: 8px;
+  font-family: 'Outfit', sans-serif;
+}
+.act-label::before {
+  content: ''; width: 24px; height: 2px; background: var(--azure);
+}
+.act-label.teal { color: var(--teal); }
+.act-label.teal::before { background: var(--teal); }
+.act-label.green { color: var(--green); }
+.act-label.green::before { background: var(--green); }
+.act-label.amber { color: var(--amber); }
+.act-label.amber::before { background: var(--amber); }
+
+/* Stat huge */
+.stat-huge {
+  font-family: 'Outfit', sans-serif; font-size: 96px; font-weight: 800;
+  line-height: 1; letter-spacing: -0.03em;
+}
+
+/* Cards */
+.card-row { display: flex; gap: 16px; margin-top: 24px; flex-wrap: wrap; }
+.outcome-card {
+  background: var(--surface); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px; padding: 24px; flex: 1; min-width: 160px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.outcome-card:hover { border-color: var(--azure); transform: translateY(-2px); }
+.outcome-card .card-icon { font-size: 28px; margin-bottom: 12px; }
+.outcome-card .card-title { font-size: 15px; font-weight: 700; color: var(--white); margin-bottom: 6px; font-family: 'Outfit', sans-serif; }
+.outcome-card .card-desc { font-size: 13px; color: var(--text3); line-height: 1.5; }
+
+/* Split layout */
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 24px; }
+.split-panel {
+  background: var(--surface); border-radius: 12px; padding: 32px;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.split-panel.highlight {
+  background: linear-gradient(135deg, rgba(0,120,212,0.08), rgba(0,130,114,0.08));
+  border-color: rgba(0,120,212,0.2);
+}
+.split-label {
+  font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1.5px; margin-bottom: 16px; font-family: 'Outfit', sans-serif;
+}
+
+/* Chain thread (was "Keigo thread") */
+.chain-thread {
+  position: absolute; bottom: 28px; left: 100px; right: 100px;
+  font-size: 12px; font-style: italic; color: var(--text3);
+  border-top: 1px solid rgba(255,255,255,0.06); padding-top: 12px;
+}
+.chain-thread::before { content: 'Chain link · '; font-weight: 600; color: var(--amber); font-style: normal; }
+
+/* Quote */
+.slide-quote {
+  font-family: 'Outfit', sans-serif; font-size: 36px; font-weight: 600;
+  line-height: 1.4; color: var(--white); max-width: 800px;
+  border-left: 4px solid var(--azure); padding-left: 24px;
+}
+
+/* Architecture diagram - 5 planes stacked */
+.planes-stack {
+  display: flex; flex-direction: column; gap: 10px;
+  margin: 16px 0; max-width: 940px;
+}
+.plane-row {
+  display: grid; grid-template-columns: 180px 1fr 280px;
+  align-items: center; gap: 20px;
+  background: var(--surface); border-radius: 10px; padding: 14px 20px;
+  border: 1px solid rgba(255,255,255,0.06);
+  transition: border-color 0.2s;
+}
+.plane-row:hover { border-color: var(--azure); }
+.plane-name {
+  font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 700;
+  color: var(--white);
+}
+.plane-name .plane-no {
+  display: inline-block; width: 24px; height: 24px;
+  background: var(--azure); color: var(--white); border-radius: 50%;
+  font-size: 12px; font-weight: 800;
+  text-align: center; line-height: 24px; margin-right: 10px;
+  vertical-align: middle;
+}
+.plane-services { font-size: 13px; color: var(--text2); line-height: 1.55; }
+.plane-role { font-size: 12px; color: var(--text3); font-style: italic; line-height: 1.5; }
+
+.plane-row.foundation .plane-no { background: var(--purple); }
+.plane-row.data .plane-no { background: var(--azure); }
+.plane-row.reasoning .plane-no { background: var(--teal); }
+.plane-row.experience .plane-no { background: var(--green); }
+.plane-row.trust .plane-no { background: var(--amber); }
+
+/* Chain visualization - horizontal flow */
+.chain-flow {
+  display: flex; align-items: stretch; gap: 8px;
+  margin: 24px 0; flex-wrap: nowrap; max-width: 100%;
+  overflow-x: auto;
+}
+.chain-link {
+  flex: 1; min-width: 130px;
+  background: var(--surface);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 16px 14px;
+  position: relative;
+  transition: all 0.2s;
+}
+.chain-link:hover { border-color: var(--azure); transform: translateY(-2px); }
+.chain-link::after {
+  content: '\2192'; position: absolute; right: -16px; top: 50%;
+  transform: translateY(-50%); font-size: 16px; color: var(--azure);
+  z-index: 5; pointer-events: none;
+}
+.chain-link:last-child::after { display: none; }
+.chain-link .link-no {
+  font-family: 'Outfit', sans-serif; font-size: 10px; font-weight: 800;
+  color: var(--azure); letter-spacing: 1.5px; margin-bottom: 6px;
+  text-transform: uppercase;
+}
+.chain-link .link-name {
+  font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 700;
+  color: var(--white); margin-bottom: 6px;
+}
+.chain-link .link-desc {
+  font-size: 11px; color: var(--text3); line-height: 1.4;
+  margin-bottom: 8px;
+}
+.chain-link .link-services {
+  font-size: 10px; color: var(--azure); font-weight: 600;
+  letter-spacing: 0.3px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  padding-top: 6px;
+}
+
+/* Envelope rings (concentric) */
+.envelope-viz {
+  display: flex; align-items: center; gap: 40px;
+  margin-top: 12px;
+}
+.envelope-rings {
+  width: 320px; height: 320px;
+  position: relative;
+  flex-shrink: 0;
+}
+.env-ring {
+  position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  display: flex; align-items: flex-start; justify-content: center;
+  padding-top: 8px;
+  font-family: 'Outfit', sans-serif; font-size: 10px;
+  font-weight: 800; letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.env-ring.r1 { width: 320px; height: 320px; background: rgba(123,75,196,0.08); border: 1px solid var(--purple); color: var(--purple); }
+.env-ring.r2 { width: 270px; height: 270px; background: rgba(245,158,11,0.08); border: 1px solid var(--amber); color: var(--amber); }
+.env-ring.r3 { width: 220px; height: 220px; background: rgba(0,120,212,0.08); border: 1px solid var(--azure); color: var(--azure); }
+.env-ring.r4 { width: 170px; height: 170px; background: rgba(0,130,114,0.08); border: 1px solid var(--teal); color: var(--teal); }
+.env-ring.r5 { width: 120px; height: 120px; background: rgba(134,188,37,0.08); border: 1px solid var(--green); color: var(--green); }
+.env-ring.r6 { width: 70px; height: 70px; background: rgba(236,72,153,0.10); border: 1px solid var(--pink); color: var(--pink); padding-top: 4px; font-size: 9px; }
+.envelope-list {
+  display: flex; flex-direction: column; gap: 10px; max-width: 480px;
+}
+.env-item {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 10px 14px; background: var(--surface);
+  border-left: 3px solid; border-radius: 6px;
+}
+.env-item .env-tag {
+  font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 800;
+  letter-spacing: 1px; min-width: 90px;
+}
+.env-item .env-desc {
+  font-size: 12px; color: var(--text2); line-height: 1.45;
+}
+.env-item.purple { border-color: var(--purple); }
+.env-item.purple .env-tag { color: var(--purple); }
+.env-item.amber { border-color: var(--amber); }
+.env-item.amber .env-tag { color: var(--amber); }
+.env-item.azure { border-color: var(--azure); }
+.env-item.azure .env-tag { color: var(--azure); }
+.env-item.teal { border-color: var(--teal); }
+.env-item.teal .env-tag { color: var(--teal); }
+.env-item.green { border-color: var(--green); }
+.env-item.green .env-tag { color: var(--green); }
+.env-item.pink { border-color: var(--pink); }
+.env-item.pink .env-tag { color: var(--pink); }
+
+/* Wave timeline */
+.wave-timeline {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;
+  margin-top: 24px;
+}
+.wave-card {
+  background: var(--surface); border-radius: 12px; padding: 24px;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-top: 4px solid;
+  position: relative;
+}
+.wave-card.w1 { border-top-color: var(--azure); }
+.wave-card.w2 { border-top-color: var(--teal); }
+.wave-card.w3 { border-top-color: var(--green); }
+.wave-card .wave-num {
+  font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 800;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--text3);
+  margin-bottom: 6px;
+}
+.wave-card.w1 .wave-num { color: var(--azure); }
+.wave-card.w2 .wave-num { color: var(--teal); }
+.wave-card.w3 .wave-num { color: var(--green); }
+.wave-card .wave-title {
+  font-family: 'Outfit', sans-serif; font-size: 22px; font-weight: 800;
+  color: var(--white); margin-bottom: 12px;
+}
+.wave-card .wave-meta {
+  font-size: 13px; color: var(--text2); margin-bottom: 12px;
+  font-family: 'Outfit', sans-serif; font-weight: 600;
+}
+.wave-card .wave-meta .wave-amount { color: var(--white); }
+.wave-card .wave-deliver {
+  font-size: 12px; color: var(--text3); line-height: 1.55;
+}
+
+/* Two-contract visual */
+.contract-viz {
+  display: grid; grid-template-columns: 1fr 80px 1fr; gap: 16px;
+  align-items: center; margin: 24px 0; max-width: 1000px;
+}
+.contract-box {
+  background: var(--surface); border-radius: 12px;
+  padding: 24px; border: 2px solid;
+  text-align: center;
+}
+.contract-box.ms { border-color: var(--azure); }
+.contract-box.del { border-color: var(--green); }
+.contract-box .ct-label {
+  font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 800;
+  letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px;
+}
+.contract-box.ms .ct-label { color: var(--azure); }
+.contract-box.del .ct-label { color: var(--green); }
+.contract-box .ct-title {
+  font-family: 'Outfit', sans-serif; font-size: 22px; font-weight: 700;
+  color: var(--white); margin-bottom: 10px;
+}
+.contract-box .ct-desc {
+  font-size: 13px; color: var(--text2); line-height: 1.55;
+}
+.contract-and {
+  font-family: 'Outfit', sans-serif; font-size: 32px; font-weight: 800;
+  color: var(--text3); text-align: center;
+}
+
+/* Schema pills */
+.schema-pills { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+.schema-pill {
+  padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 700;
+  font-family: 'Outfit', sans-serif; letter-spacing: 0.5px;
+}
+
+/* Stat trio */
+.stat-trio { display: flex; gap: 48px; margin: 24px 0; flex-wrap: wrap; }
+.stat-trio .stat-item { text-align: center; min-width: 120px; }
+.stat-trio .stat-number { font-family: 'Outfit', sans-serif; font-size: 56px; font-weight: 800; line-height: 1; }
+.stat-trio .stat-label { font-size: 13px; color: var(--text3); margin-top: 8px; line-height: 1.4; }
+
+/* AXLE sub-segment grid */
+.subseg-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+  margin-top: 20px;
+}
+.subseg-card {
+  background: var(--surface); border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px; padding: 16px; text-align: center;
+  transition: all 0.2s;
+}
+.subseg-card.featured {
+  background: linear-gradient(135deg, rgba(0,120,212,0.16), rgba(0,130,114,0.10));
+  border-color: var(--azure);
+  box-shadow: 0 0 0 3px rgba(0,120,212,0.15);
+}
+.subseg-card .subseg-icon { font-size: 22px; margin-bottom: 8px; display: block; }
+.subseg-card .subseg-name {
+  font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 700;
+  color: var(--white); margin-bottom: 4px; line-height: 1.2;
+}
+.subseg-card .subseg-desc {
+  font-size: 10px; color: var(--text3); line-height: 1.4;
+}
+.subseg-card.featured .subseg-name { color: var(--white); }
+
+/* Scenario cards */
+.scenario-grid {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;
+  margin-top: 16px;
+}
+.scenario-card {
+  background: var(--surface); border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px; padding: 16px;
+  border-top: 3px solid;
+}
+.scenario-card.s1 { border-top-color: var(--azure); }
+.scenario-card.s2 { border-top-color: var(--teal); }
+.scenario-card.s3 { border-top-color: var(--amber); }
+.scenario-card.s4 { border-top-color: var(--green); }
+.scenario-card.s5 { border-top-color: var(--purple); }
+.scenario-card .sc-code {
+  font-family: 'Outfit', sans-serif; font-size: 10px; font-weight: 800;
+  letter-spacing: 1.5px; color: var(--text3); margin-bottom: 6px;
+}
+.scenario-card.s1 .sc-code { color: var(--azure); }
+.scenario-card.s2 .sc-code { color: var(--teal); }
+.scenario-card.s3 .sc-code { color: var(--amber); }
+.scenario-card.s4 .sc-code { color: var(--green); }
+.scenario-card.s5 .sc-code { color: var(--purple); }
+.scenario-card .sc-title {
+  font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 700;
+  color: var(--white); line-height: 1.25; margin-bottom: 10px;
+}
+.scenario-card .sc-kpi {
+  font-size: 11px; color: var(--text2); line-height: 1.5;
+}
+.scenario-card .sc-kpi-num {
+  font-family: 'Outfit', sans-serif; font-weight: 800; color: var(--white);
+}
+
+/* Detailed chain breakdown for AXLE-ASSET-01 */
+.chain-detail {
+  display: flex; flex-direction: column; gap: 8px;
+  margin-top: 16px; max-width: 100%;
+}
+.chain-detail-row {
+  display: grid; grid-template-columns: 130px 1fr 200px;
+  gap: 16px; align-items: center;
+  background: var(--surface); border-left: 3px solid var(--azure);
+  border-radius: 6px; padding: 12px 18px;
+}
+.chain-detail-row.r2 { border-left-color: var(--teal); }
+.chain-detail-row.r3 { border-left-color: var(--amber); }
+.chain-detail-row.r4 { border-left-color: var(--green); }
+.chain-detail-row.r5 { border-left-color: var(--purple); }
+.chain-detail-row.r6 { border-left-color: var(--pink); }
+.chain-detail-row .cdr-label {
+  font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 800;
+  letter-spacing: 1.5px; text-transform: uppercase;
+}
+.chain-detail-row .cdr-content {
+  font-size: 13px; color: var(--text); line-height: 1.45;
+}
+.chain-detail-row .cdr-svc {
+  font-size: 10px; color: var(--text3); line-height: 1.4; font-style: italic;
+}
+.chain-detail-row.r1 .cdr-label { color: var(--azure); }
+.chain-detail-row.r2 .cdr-label { color: var(--teal); }
+.chain-detail-row.r3 .cdr-label { color: var(--amber); }
+.chain-detail-row.r4 .cdr-label { color: var(--green); }
+.chain-detail-row.r5 .cdr-label { color: var(--purple); }
+.chain-detail-row.r6 .cdr-label { color: var(--pink); }
+
+/* Reference architecture diagram - the chain link */
+.refarch {
+  display: flex; flex-direction: column; gap: 6px;
+  margin-top: 16px;
+}
+.refarch-tier {
+  display: grid; grid-template-columns: 200px 1fr;
+  gap: 16px; align-items: center;
+  padding: 10px 16px; background: var(--surface);
+  border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);
+  transition: all 0.2s;
+}
+.refarch-tier:hover { border-color: var(--azure); }
+.refarch-tier .tier-label {
+  font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 800;
+  letter-spacing: 1px; text-transform: uppercase;
+}
+.refarch-tier .tier-services {
+  font-size: 12px; color: var(--text2); line-height: 1.5;
+}
+.refarch-tier .tier-services strong { color: var(--white); font-weight: 600; }
+.refarch-tier.t1 .tier-label { color: var(--purple); }
+.refarch-tier.t2 .tier-label { color: var(--azure); }
+.refarch-tier.t3 .tier-label { color: var(--cyan); }
+.refarch-tier.t4 .tier-label { color: var(--teal); }
+.refarch-tier.t5 .tier-label { color: var(--green); }
+.refarch-tier.t6 .tier-label { color: var(--amber); }
+.refarch-tier.t7 .tier-label { color: var(--red); }
+
+/* Funding cards */
+.funding-card {
+  background: var(--surface); border-radius: 12px; padding: 24px;
+  flex: 1; min-width: 180px;
+  border: 1px solid rgba(255,255,255,0.06); text-align: center;
+  border-top: 4px solid;
+}
+.funding-card.f1 { border-top-color: var(--azure); }
+.funding-card.f2 { border-top-color: var(--teal); }
+.funding-card.f3 { border-top-color: var(--green); }
+.funding-card.f4 { border-top-color: var(--amber); }
+.funding-card .fund-name {
+  font-family: 'Outfit', sans-serif; font-size: 22px; font-weight: 800;
+  margin-bottom: 6px; line-height: 1;
+}
+.funding-card.f1 .fund-name { color: var(--azure); }
+.funding-card.f2 .fund-name { color: var(--teal); }
+.funding-card.f3 .fund-name { color: var(--green); }
+.funding-card.f4 .fund-name { color: var(--amber); }
+.funding-card .fund-full {
+  font-size: 11px; color: var(--white); font-weight: 600;
+  margin-bottom: 10px; min-height: 30px;
+}
+.funding-card .fund-desc {
+  font-size: 12px; color: var(--text3); line-height: 1.5;
+}
+
+/* Independence callout */
+.ind-callout {
+  background: linear-gradient(135deg, rgba(245,158,11,0.10), rgba(245,158,11,0.04));
+  border: 1px solid rgba(245,158,11,0.4);
+  border-radius: 10px; padding: 18px 24px;
+  margin-top: 16px; max-width: 1000px;
+}
+.ind-callout .ind-label {
+  font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 800;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--amber);
+  margin-bottom: 8px;
+}
+.ind-callout .ind-body {
+  font-size: 13px; color: var(--text2); line-height: 1.6;
+}
+.ind-callout .ind-good { color: var(--green); font-weight: 600; }
+.ind-callout .ind-bad { color: var(--red); font-weight: 600; text-decoration: line-through; }
+
+/* Persona thread visual */
+.persona-card {
+  display: flex; gap: 16px; align-items: center;
+  background: linear-gradient(135deg, rgba(0,120,212,0.08), rgba(123,75,196,0.05));
+  border: 1px solid rgba(0,120,212,0.25);
+  border-radius: 12px; padding: 18px 24px;
+  margin: 16px 0; max-width: 920px;
+}
+.persona-avatar {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--azure), var(--teal));
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Outfit', sans-serif; font-weight: 800;
+  font-size: 22px; color: var(--white);
+  flex-shrink: 0;
+}
+.persona-info .pname {
+  font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 700;
+  color: var(--white); margin-bottom: 2px;
+}
+.persona-info .ptitle { font-size: 12px; color: var(--text2); margin-bottom: 6px; }
+.persona-info .pcontext { font-size: 12px; color: var(--text3); line-height: 1.4; font-style: italic; }
+
+/* Section divider slide */
+.section-divider {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  height: 100%; text-align: center;
+}
+.section-divider .sd-overline {
+  font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 800;
+  letter-spacing: 4px; text-transform: uppercase;
+  color: var(--azure); margin-bottom: 24px;
+}
+.section-divider .sd-title {
+  font-family: 'Outfit', sans-serif; font-size: 96px; font-weight: 800;
+  color: var(--white); line-height: 1.05; letter-spacing: -0.03em;
+  margin-bottom: 16px;
+}
+.section-divider .sd-subtitle {
+  font-family: 'Outfit', sans-serif; font-size: 28px; font-weight: 500;
+  color: var(--text2); line-height: 1.4; max-width: 800px;
+}
+
+/* Title slide */
+.title-slide {
+  display: flex; flex-direction: column; justify-content: center;
+  height: 100%; max-width: 1200px;
+}
+.title-slide .ts-overline {
+  font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 800;
+  letter-spacing: 4px; text-transform: uppercase;
+  color: var(--azure); margin-bottom: 24px;
+}
+.title-slide .ts-title {
+  font-family: 'Outfit', sans-serif; font-size: 72px; font-weight: 800;
+  color: var(--white); line-height: 1.05; letter-spacing: -0.03em;
+  margin-bottom: 16px;
+}
+.title-slide .ts-title .accent { color: var(--azure); }
+.title-slide .ts-subtitle {
+  font-family: 'Outfit', sans-serif; font-size: 26px; font-weight: 500;
+  color: var(--text2); line-height: 1.4; margin-bottom: 32px;
+}
+.title-slide .ts-meta {
+  font-size: 13px; color: var(--text3); line-height: 1.7;
+  border-top: 1px solid rgba(255,255,255,0.08); padding-top: 16px;
+  max-width: 700px;
+}
+.title-slide .ts-meta strong { color: var(--white); }
+
+/* Closing CTA */
+.cta-block {
+  background: linear-gradient(135deg, rgba(0,120,212,0.12), rgba(0,130,114,0.08));
+  border: 1px solid rgba(0,120,212,0.3);
+  border-radius: 12px; padding: 28px 36px;
+  max-width: 900px; margin-top: 24px;
+}
+.cta-block .cta-title {
+  font-family: 'Outfit', sans-serif; font-size: 22px; font-weight: 700;
+  color: var(--white); margin-bottom: 10px;
+}
+.cta-block .cta-list {
+  font-size: 14px; color: var(--text2); line-height: 1.8; padding-left: 0;
+  list-style: none;
+}
+.cta-block .cta-list li {
+  padding-left: 24px; position: relative; margin-bottom: 6px;
+}
+.cta-block .cta-list li::before {
+  content: '\2192'; position: absolute; left: 0; color: var(--azure); font-weight: 700;
+}
+
+
+/* Demo CTA — link out to the embedded 3D demo */
+.demo-cta {
+  position: absolute;
+  bottom: 60px; right: 60px;
+  display: flex; align-items: center; gap: 14px;
+  background: linear-gradient(135deg, rgba(0,120,212,0.18), rgba(34,211,238,0.10));
+  border: 2px solid var(--azure);
+  border-radius: 12px;
+  padding: 12px 20px 12px 16px;
+  text-decoration: none;
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  box-shadow: 0 0 0 4px rgba(0,120,212,0.08), 0 8px 24px rgba(0,0,0,0.4);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  max-width: 460px;
+  z-index: 10;
+  animation: demoPulse 2.5s ease-in-out infinite;
+}
+.demo-cta:hover {
+  background: linear-gradient(135deg, rgba(0,120,212,0.32), rgba(34,211,238,0.20));
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 4px rgba(0,120,212,0.18), 0 12px 32px rgba(0,0,0,0.5);
+}
+@keyframes demoPulse {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(0,120,212,0.08), 0 8px 24px rgba(0,0,0,0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(0,120,212,0.20), 0 8px 28px rgba(0,0,0,0.5); }
+}
+.demo-cta-icon {
+  font-size: 28px;
+  width: 48px; height: 48px;
+  border-radius: 10px;
+  background: rgba(0,120,212,0.25);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.demo-cta-text { display: flex; flex-direction: column; }
+.demo-cta-label {
+  font-family: 'Outfit', sans-serif;
+  font-size: 10px; font-weight: 800;
+  color: var(--azure); letter-spacing: 2px;
+  text-transform: uppercase;
+  display: flex; align-items: center; gap: 6px;
+}
+.demo-cta-label::before {
+  content: ''; display: inline-block;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--red);
+  animation: livePulse 1.5s ease-in-out infinite;
+}
+@keyframes livePulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+.demo-cta-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px; font-weight: 800;
+  color: var(--white); margin-top: 2px; line-height: 1.1;
+}
+.demo-cta-focus {
+  font-size: 11px; color: var(--text2);
+  margin-top: 4px; line-height: 1.4; max-width: 360px;
+}
+.demo-cta-arrow {
+  font-size: 22px; color: var(--azure);
+  font-weight: 700; margin-left: 4px;
+}
+
+/* Embedded demo slide */
+.demo-slide-wrap {
+  display: flex; flex-direction: column;
+  height: calc(100vh - 100px);
+  width: 100%;
+  margin-top: 6px;
+}
+.demo-frame-shell {
+  flex: 1;
+  background: #000;
+  border: 2px solid var(--azure);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 0 4px rgba(0,120,212,0.10), 0 16px 40px rgba(0,0,0,0.6);
+  position: relative;
+  min-height: 480px;
+}
+.demo-frame-shell iframe {
+  width: 100%; height: 100%;
+  border: 0;
+  display: block;
+}
+.demo-frame-fallback {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  background: var(--bg);
+  padding: 40px;
+  text-align: center;
+  pointer-events: none;
+}
+.demo-frame-shell:has(iframe[data-loaded="true"]) .demo-frame-fallback { display: none; }
+.demo-frame-fallback .ff-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 22px; font-weight: 700; color: var(--white);
+  margin-bottom: 12px;
+}
+.demo-frame-fallback .ff-body {
+  font-size: 14px; color: var(--text2); line-height: 1.6;
+  max-width: 560px; margin-bottom: 20px;
+}
+.demo-frame-fallback .ff-link {
+  pointer-events: auto;
+  display: inline-block;
+  padding: 12px 24px;
+  background: var(--azure); color: var(--white);
+  border-radius: 8px;
+  text-decoration: none;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+.demo-meta-row {
+  display: flex; gap: 16px;
+  margin-top: 10px;
+  padding: 8px 4px 0;
+  font-size: 11px;
+  color: var(--text3);
+  align-items: center;
+}
+.demo-meta-row .meta-tag {
+  font-family: 'Outfit', sans-serif;
+  font-size: 10px; font-weight: 800;
+  letter-spacing: 1.5px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: rgba(0,120,212,0.15);
+  color: var(--azure);
+}
+.demo-meta-row .meta-tag.green { background: rgba(134,188,37,0.15); color: var(--green); }
+.demo-meta-row .meta-tag.amber { background: rgba(245,158,11,0.15); color: var(--amber); }
+.demo-meta-row .meta-spacer { flex: 1; }
+.demo-meta-row .meta-pop {
+  pointer-events: auto;
+  text-decoration: none;
+  color: var(--azure);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+}
+.demo-meta-row .meta-pop:hover { text-decoration: underline; }
+
+/* Print */
+@media print {
+  .slide { display: flex !important; opacity: 1 !important; position: relative !important; page-break-after: always; min-height: 100vh; }
+  .progress, .counter, .nav-arrow { display: none !important; }
+  body, html { overflow: visible; }
+  .deck { overflow: visible; height: auto; }
+}
+
+/* Responsive — keep deck readable on smaller screens */
+@media (max-width: 1280px) {
+  .slide { padding: 50px 70px; }
+  .slide-title { font-size: 36px; }
+  .stat-huge { font-size: 72px; }
+  .title-slide .ts-title { font-size: 56px; }
+  .section-divider .sd-title { font-size: 72px; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress" style="width: 5%"></div>
+
+<div class="deck">
+
+  <!-- ===================================================== -->
+  <!-- SLIDE 1: Title -->
+  <!-- ===================================================== -->
+  <section class="slide active" id="slide-1">
+    <div class="title-slide">
+      <div class="ts-overline">Transportation AHM &middot; FY27 Fleet Asset Management</div>
+      <div class="ts-title"><span class="accent">APEX</span> &amp; <span class="accent">AXLE</span><br>for Fleet Asset Management</div>
+      <div class="ts-subtitle">Two assets, one platform, one chain &mdash; what FedEx, Hertz, and JB Hunt buy when they buy outcomes.</div>
+      <div class="ts-meta">
+        <strong>Keven Markham</strong> &middot; Vice President, DMTSP Consumer Industry<br>
+        Hosted by <strong>Madhav Mullapudi</strong> &amp; <strong>Don Busch</strong> &middot; Transportation Sub-Sector GTM Leads<br>
+        <em>Two 10-minute sessions: APEX (the platform) &middot; AXLE (the Practice that runs on it)</em><br>
+        <em style="color: var(--amber);">Internal &mdash; CONFIDENTIAL &middot; Intended for green dot distribution after Independence review</em>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================== -->
+  <!-- PART 1: APEX (Slides 2-10) -->
+  <!-- ===================================================== -->
+
+  <!-- SLIDE 2: Why Now -->
+  <section class="slide" id="slide-2">
+    <div class="act-label">Act 1 &middot; Why now</div>
+    <h2 class="slide-title">The transportation operations gap is widening.</h2>
+    <div class="slide-subtitle">Transportation clients are sitting on more telemetry, more sensors, and more digital signal than they have ever had &mdash; and acting on less of it. Telemetry that doesn't change a decision is just storage cost.</div>
+    <div class="card-row">
+      <div class="outcome-card" style="border-top: 3px solid var(--azure);">
+        <div class="card-icon">&#128642;</div>
+        <div class="card-title">Asset volume up</div>
+        <div class="card-desc">Connected vehicles, trailers, and yard assets across the THS portfolio have roughly tripled since 2020. Most of that data is logged, not acted on.</div>
+      </div>
+      <div class="outcome-card" style="border-top: 3px solid var(--teal);">
+        <div class="card-icon">&#128202;</div>
+        <div class="card-title">Insight latency flat</div>
+        <div class="card-desc">Time-from-signal-to-decision for predictive maintenance, dwell, dispatch, and warranty has not meaningfully improved &mdash; still measured in days, not minutes.</div>
+      </div>
+      <div class="outcome-card" style="border-top: 3px solid var(--green);">
+        <div class="card-icon">&#128737;</div>
+        <div class="card-title">OEM &amp; ISV pressure</div>
+        <div class="card-desc">Geotab, Samsara, Trimble, Platform Science are climbing the value stack. Every quarter without an agentic platform is captured analytics value carriers don't get back.</div>
+      </div>
+    </div>
+    <div class="chain-thread">FedEx, Hertz, and JB Hunt do not have a data problem. They have a decision-velocity problem.</div>
+  </section>
+
+  <!-- SLIDE 3: What is APEX -->
+  <section class="slide" id="slide-3">
+    <div class="act-label teal">Act 2 &middot; What changes</div>
+    <h2 class="slide-title">APEX is what we mean when we say<br>&ldquo;agentic AI delivery on Microsoft.&rdquo;</h2>
+    <div class="slide-subtitle"><strong style="color: var(--white);">A</strong>gent-based <strong style="color: var(--white);">P</strong>latform for <strong style="color: var(--white);">EX</strong>ecution. Deloitte's internal delivery accelerator &mdash; never a line item on a client SOW. The architecture beneath every Microsoft-native agentic engagement.</div>
+    <div class="split">
+      <div class="split-panel">
+        <div class="split-label" style="color: var(--azure);">Four design commitments</div>
+        <div style="font-size: 14px; color: var(--text2); line-height: 1.8;">
+          <strong style="color: var(--white);">A &middot; Agent-based.</strong> Typed, manifest-governed agents. Reasoning, not rules.<br>
+          <strong style="color: var(--white);">P &middot; Platform.</strong> Microsoft-native: Fabric, Foundry, Copilot, Purview, Entra.<br>
+          <strong style="color: var(--white);">E &middot; Enterprise.</strong> Governance-grade. HITL-gated. Audit-rowed. Regulator-defensible.<br>
+          <strong style="color: var(--white);">X &middot; eXecution.</strong> Named, priced services with measured KPIs &mdash; not pilots.
+        </div>
+      </div>
+      <div class="split-panel highlight">
+        <div class="split-label" style="color: var(--green);">What APEX is not</div>
+        <div style="font-size: 14px; color: var(--text2); line-height: 1.8;">
+          &times; A product Deloitte sells. It is never a SOW line item.<br>
+          &times; A ground-up framework. It rides Microsoft, period.<br>
+          &times; A pilot factory. Every engagement is Wave-structured to production.<br>
+          &times; A black box. Every decision writes an audit row that survives Purview lineage and SteerCo review.
+        </div>
+      </div>
+    </div>
+    <div class="chain-thread">APEX rides the Microsoft platform. Clients procure Microsoft from Microsoft, Deloitte services from Deloitte. Two contracts, one program.</div>
+  </section>
+
+  <!-- SLIDE 4: Five Microsoft Planes -->
+  <section class="slide" id="slide-4">
+    <div class="act-label teal">Act 2 &middot; What changes</div>
+    <h2 class="slide-title">Five Microsoft planes. One governance model.</h2>
+    <div class="slide-subtitle" style="margin-bottom: 12px;">APEX is the composition of these five planes &mdash; not a layer on top of them. Each plane is a Microsoft-native service surface; together they are the substrate every Practice executes on.</div>
+    <div class="planes-stack">
+      <div class="plane-row foundation">
+        <div class="plane-name"><span class="plane-no">1</span>Foundation</div>
+        <div class="plane-services">Microsoft Entra ID &middot; Managed Identities &middot; OBO Token Exchange &middot; Conditional Access</div>
+        <div class="plane-role">Agent identity, scope enforcement, no privilege escalation across boundaries.</div>
+      </div>
+      <div class="plane-row data">
+        <div class="plane-name"><span class="plane-no">2</span>Data</div>
+        <div class="plane-services">Microsoft Fabric &middot; OneLake &middot; Real-Time Hub &middot; Lakehouse / Warehouse &middot; Direct Lake</div>
+        <div class="plane-role">Bronze &rarr; Silver canonical schemas &rarr; Gold agent-safe views.</div>
+      </div>
+      <div class="plane-row reasoning">
+        <div class="plane-name"><span class="plane-no">3</span>Reasoning</div>
+        <div class="plane-services">Azure AI Foundry &middot; Agent Service &middot; Model Catalog &middot; Evaluation Harness &middot; Content Safety</div>
+        <div class="plane-role">Where agents run. Manifest-governed, tool-bound, version-pinned.</div>
+      </div>
+      <div class="plane-row experience">
+        <div class="plane-name"><span class="plane-no">4</span>Experience</div>
+        <div class="plane-services">M365 Copilot &middot; Copilot Studio &middot; Power BI Direct Lake &middot; Teams Adaptive Cards</div>
+        <div class="plane-role">Where humans meet agents. HITL approvals commit back to the audit row.</div>
+      </div>
+      <div class="plane-row trust">
+        <div class="plane-name"><span class="plane-no">5</span>Trust</div>
+        <div class="plane-services">Microsoft Purview &middot; Data Map &middot; Unified Catalog &middot; Sensitivity Labels &middot; DLP &middot; Lineage</div>
+        <div class="plane-role">Four-tier classification (Public/Internal/Confidential/Restricted), end-to-end lineage, regulator-defensible audit.</div>
+      </div>
+    </div>
+    <div class="chain-thread">Five planes &middot; one tenant &middot; one identity &middot; one catalog &middot; one audit row.</div>
+  </section>
+
+  <!-- SLIDE 5: The Chain -->
+  <section class="slide" id="slide-5">
+    <div class="act-label teal">Act 2 &middot; What changes</div>
+    <h2 class="slide-title">The Chain &mdash; how a client reality<br>becomes a measured outcome.</h2>
+    <div class="slide-subtitle">Every Deloitte Agentic AI Delivery engagement is a specific instance of one chain. Six links, one pattern, one auditable trail across all seven Practices.</div>
+    <div class="chain-flow">
+      <div class="chain-link">
+        <div class="link-no">Link 1</div>
+        <div class="link-name">Scenario</div>
+        <div class="link-desc">The actual client reality &mdash; the operational pain in the operator's words.</div>
+        <div class="link-services">Real-Time Hub &middot; Bronze</div>
+      </div>
+      <div class="chain-link">
+        <div class="link-no">Link 2</div>
+        <div class="link-name">Solution</div>
+        <div class="link-desc">The Practice lead's named approach &mdash; the &ldquo;how we solve it.&rdquo;</div>
+        <div class="link-services">LEDGER doctrine &middot; Purview</div>
+      </div>
+      <div class="chain-link">
+        <div class="link-no">Link 3</div>
+        <div class="link-name">Use Case</div>
+        <div class="link-desc">The Wave-2 cut: the canonical schemas and tools the agent reads.</div>
+        <div class="link-services">Silver schemas &middot; MCP tools</div>
+      </div>
+      <div class="chain-link">
+        <div class="link-no">Link 4</div>
+        <div class="link-name">Service</div>
+        <div class="link-desc">The productized, priced, named unit (e.g. AXLE-Connected-Factory-01).</div>
+        <div class="link-services">Foundry agents &middot; Gold views</div>
+      </div>
+      <div class="chain-link">
+        <div class="link-no">Link 5</div>
+        <div class="link-name">Persona</div>
+        <div class="link-desc">The operator working the agent and the approver gating it.</div>
+        <div class="link-services">Teams &middot; Copilot &middot; Entra</div>
+      </div>
+      <div class="chain-link">
+        <div class="link-no">Link 6</div>
+        <div class="link-name">KPI</div>
+        <div class="link-desc">The measured, audit-row-attributed business outcome.</div>
+        <div class="link-services">Power BI &middot; LEDGER &middot; Purview</div>
+      </div>
+    </div>
+    <div class="slide-body" style="margin-top: 12px; font-size: 15px;">A seller who walks the chain top-down in an executive conversation and bottom-up in an architect conversation carries credibility a generalized AI pitch cannot match.</div>
+    <div class="chain-thread">This is the chain. Every slide that follows lights up one or more of these links.</div>
+  </section>
+
+  <!-- SLIDE 6: Six Envelopes -->
+  <section class="slide" id="slide-6">
+    <div class="act-label teal">Act 2 &middot; What changes</div>
+    <h2 class="slide-title">Six envelopes contain every agent decision.</h2>
+    <div class="slide-subtitle" style="margin-bottom: 12px;">When an agent executes a tool call in production, all six envelopes apply <em>simultaneously</em>. Break any envelope, break the decision. This is the difference between a regulator-defensible deployment and a demo.</div>
+    <div class="envelope-viz">
+      <div class="envelope-rings">
+        <div class="env-ring r1">Commercial</div>
+        <div class="env-ring r2">Scope</div>
+        <div class="env-ring r3">Data</div>
+        <div class="env-ring r4">Schema</div>
+        <div class="env-ring r5">Trust</div>
+        <div class="env-ring r6">Cost</div>
+      </div>
+      <div class="envelope-list">
+        <div class="env-item purple"><div class="env-tag">Commercial</div><div class="env-desc">Money &amp; time boundary &mdash; the Wave it's funded under.</div></div>
+        <div class="env-item amber"><div class="env-tag">Scope</div><div class="env-desc">Functional boundary &mdash; which services, agents, tools, KPIs are in.</div></div>
+        <div class="env-item azure"><div class="env-tag">Data</div><div class="env-desc">What the agent may read/write &mdash; enforced at MCP tool, Purview, Entra.</div></div>
+        <div class="env-item teal"><div class="env-tag">Schema</div><div class="env-desc">The canonical-entity subset the service depends on.</div></div>
+        <div class="env-item green"><div class="env-tag">Trust</div><div class="env-desc">Classification, identity, DLP, HITL gate &mdash; governs all above.</div></div>
+        <div class="env-item pink"><div class="env-tag">Cost</div><div class="env-desc">FinOps boundary &mdash; tokens, Fabric CU, MCP invocations, egress &mdash; metered per service code, written to <code style="font-family: monospace; color: var(--cyan);">cost_per_decision</code> on the audit row.</div></div>
+      </div>
+    </div>
+    <div class="chain-thread">Service P&amp;L is a query against the audit row, not a quarter-end reconciliation.</div>
+  </section>
+
+  <!-- SLIDE 7: Wave Arc -->
+  <section class="slide" id="slide-7">
+    <div class="act-label green">Act 3 &middot; Why now, why us</div>
+    <h2 class="slide-title">The three-Wave commercial arc.</h2>
+    <div class="slide-subtitle">9&ndash;12 months to production at Wave 2 vs. an 18&ndash;24 month industry baseline &mdash; because canonical schemas, MCP tool catalog, and the audit row spec ship out of the box.</div>
+    <div class="wave-timeline">
+      <div class="wave-card w1">
+        <div class="wave-num">Wave 1</div>
+        <div class="wave-title">Envision &amp; Land</div>
+        <div class="wave-meta">4&ndash;8 weeks &middot; <span class="wave-amount">$500K&ndash;$2M</span></div>
+        <div class="wave-deliver">Target-state architecture, 2&ndash;3 services live at pilot tenant, business case, Wave 2 roadmap, draft SOW.</div>
+      </div>
+      <div class="wave-card w2">
+        <div class="wave-num">Wave 2</div>
+        <div class="wave-title">Enable &amp; Scale</div>
+        <div class="wave-meta">6&ndash;15 months &middot; <span class="wave-amount">$5M&ndash;$15M</span></div>
+        <div class="wave-deliver">Full Practice catalog at pilot scale, HITL calibration, geography expansion, measured KPI uplift, runbooks, Wave 3 SOW.</div>
+      </div>
+      <div class="wave-card w3">
+        <div class="wave-num">Wave 3</div>
+        <div class="wave-title">Sustain &amp; Transform</div>
+        <div class="wave-meta">Multi-year &middot; <span class="wave-amount">$8M&ndash;$30M</span></div>
+        <div class="wave-deliver">Full enterprise rollout, second Practice initiation, autonomy pilots, managed-service run under SLA.</div>
+      </div>
+    </div>
+    <div class="stat-trio" style="margin-top: 36px;">
+      <div class="stat-item">
+        <div class="stat-number" style="color: var(--azure);">$13&ndash;47M</div>
+        <div class="stat-label">Single-Practice<br>3-year arc per client</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" style="color: var(--teal);">$40&ndash;140M</div>
+        <div class="stat-label">3-Practice client<br>over 3 years</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" style="color: var(--green);">9&ndash;12 mo</div>
+        <div class="stat-label">To production at Wave 2<br>vs. 18&ndash;24 mo industry baseline</div>
+      </div>
+    </div>
+    <div class="chain-thread">These ranges are Deloitte-services envelopes only. Microsoft platform consumption is the client's direct contract with Microsoft.</div>
+  </section>
+
+  <!-- SLIDE 8: Two-Contract Model -->
+  <section class="slide" id="slide-8">
+    <div class="act-label green">Act 3 &middot; Why now, why us</div>
+    <h2 class="slide-title">Two contracts. One coherent program.</h2>
+    <div class="slide-subtitle">The two-contract model is the Independence rail. Microsoft is Deloitte's external auditor &mdash; the client must contract Microsoft for platform and Deloitte for services separately. APEX itself is never a SOW line item.</div>
+    <div class="contract-viz">
+      <div class="contract-box ms">
+        <div class="ct-label">Contract 1</div>
+        <div class="ct-title">Microsoft Platform</div>
+        <div class="ct-desc">Fabric capacity, Foundry consumption, Copilot licenses, Purview, Entra. Direct contract between client and Microsoft. Client pays Microsoft for what they consume.</div>
+      </div>
+      <div class="contract-and">+</div>
+      <div class="contract-box del">
+        <div class="ct-label">Contract 2</div>
+        <div class="ct-title">Deloitte Agentic AI<br>Delivery Services</div>
+        <div class="ct-desc">Wave 1 / 2 / 3 services as SOW. Discovery, architecture, agent build, HITL calibration, managed run. Client pays Deloitte for outcome-attributed services.</div>
+      </div>
+    </div>
+    <div class="ind-callout">
+      <div class="ind-label">Independence language &middot; reinforced</div>
+      <div class="ind-body">
+        Use: <span class="ind-good">DMTSP</span> &middot; <span class="ind-good">Deloitte's Microsoft practice</span> &middot; <span class="ind-good">Microsoft-native deployment</span><br>
+        Never: <span class="ind-bad">partner</span> &middot; <span class="ind-bad">alliance</span> &middot; <span class="ind-bad">strategic alliance</span> &middot; <span class="ind-bad">co-sell partner</span>
+      </div>
+    </div>
+    <div class="chain-thread">APEX never appears on the SOW. It appears in the velocity, the schemas, the runbooks, the audit row.</div>
+  </section>
+
+  <!-- SLIDE 9: Bridge to AXLE -->
+  <section class="slide" id="slide-9">
+    <div class="act-label green">Act 3 &middot; Why now, why us</div>
+    <h2 class="slide-title">APEX runs across seven Practices.<br>For Transportation, that means AXLE.</h2>
+    <div class="slide-subtitle">Each Practice publishes 15&ndash;25 productized services on the same five Microsoft planes. Same chain. Same envelopes. Same audit row spec. The vertical Practice owns the canonical schemas and the personas.</div>
+    <div class="card-row" style="gap: 10px;">
+      <div class="outcome-card" style="border-top: 3px solid var(--purple); flex: 1; min-width: 130px;">
+        <div class="card-title" style="font-size: 13px;">RC</div>
+        <div class="card-desc" style="font-size: 11px;">Retail &amp; Consumer<br>SCML &middot; MERML &middot; CXML</div>
+      </div>
+      <div class="outcome-card" style="border-top: 3px solid var(--red); flex: 1; min-width: 130px;">
+        <div class="card-title" style="font-size: 13px;">HLS</div>
+        <div class="card-desc" style="font-size: 11px;">Healthcare &amp; Life Sci<br>PatientML &middot; ClaimML</div>
+      </div>
+      <div class="outcome-card" style="border-top: 3px solid var(--amber); flex: 1; min-width: 130px;">
+        <div class="card-title" style="font-size: 13px;">ER</div>
+        <div class="card-desc" style="font-size: 11px;">Energy &amp; Resources<br>UOGML &middot; P&amp;U &middot; MiningML</div>
+      </div>
+      <div class="outcome-card" style="border-top: 3px solid var(--azure); flex: 1; min-width: 130px; box-shadow: 0 0 0 2px var(--azure);">
+        <div class="card-title" style="font-size: 13px; color: var(--azure);">AXLE &#9733;</div>
+        <div class="card-desc" style="font-size: 11px;">Industrial &amp; Mfg<br>AXLEML &middot; OpsML-A &middot; SupplyML-A</div>
+      </div>
+      <div class="outcome-card" style="border-top: 3px solid var(--teal); flex: 1; min-width: 130px;">
+        <div class="card-title" style="font-size: 13px;">TMT</div>
+        <div class="card-desc" style="font-size: 11px;">Tech, Media, Telecom<br>TELML &middot; MEDML &middot; TECML</div>
+      </div>
+      <div class="outcome-card" style="border-top: 3px solid var(--green); flex: 1; min-width: 130px;">
+        <div class="card-title" style="font-size: 13px;">TH</div>
+        <div class="card-desc" style="font-size: 11px;">Travel &amp; Hospitality<br>TravelerML &middot; TripML</div>
+      </div>
+      <div class="outcome-card" style="border-top: 3px solid var(--pink); flex: 1; min-width: 130px;">
+        <div class="card-title" style="font-size: 13px;">ICE</div>
+        <div class="card-desc" style="font-size: 11px;">Indl, Constr, Equipment<br>WLML &middot; warranty</div>
+      </div>
+    </div>
+    <div class="slide-body" style="margin-top: 28px; font-size: 16px;">For a fleet asset management conversation at FedEx, Hertz, or JB Hunt: <strong style="color: var(--white);">AXLE owns the asset</strong> (the truck, the trailer, the parts, the maintenance event). <strong style="color: var(--white);">TH owns the operating side</strong> (driver, route, IROPS, customer). Most fleet engagements compose both &mdash; AXLE leads when the asset is the unit of value.</div>
+    <div class="chain-thread">Transportation in THS is cross-cut: AXLE for the vehicle, TH for the journey. We sequence AXLE first because the asset chain is where the easiest measured KPIs live.</div>
+  </section>
+
+  <!-- ===================================================== -->
+  <!-- DIVIDER: AXLE Section -->
+  <!-- ===================================================== -->
+  <section class="slide" id="slide-10">
+    <div class="section-divider">
+      <div class="sd-overline">Part 2 &middot; The next 10 minutes</div>
+      <div class="sd-title">AXLE</div>
+      <div class="sd-subtitle">The Industrial &amp; Manufacturing Practice within APEX, walked through the chain that matters for fleet asset management.</div>
+    </div>
+  </section>
+
+  <!-- ===================================================== -->
+  <!-- PART 2: AXLE Deep-Dive (Slides 11-19) -->
+  <!-- ===================================================== -->
+
+  <!-- SLIDE 11: AXLE within APEX -->
+  <section class="slide" id="slide-11">
+    <div class="act-label">Act 1 &middot; Why now</div>
+    <h2 class="slide-title">AXLE is Industrial &amp; Manufacturing.<br>Inside it sits Fleet Operators.</h2>
+    <div class="slide-subtitle">AXLE covers discrete manufacturing, process manufacturing, automotive, and aerospace &mdash; with a dedicated Fleet Operators sub-segment that maps directly to FedEx, Hertz, and JB Hunt's asset side. Anchor accounts include GM and Bridgestone.</div>
+    <div class="schema-pills">
+      <span class="schema-pill" style="background: rgba(0,120,212,0.15); color: var(--azure);">AXLEML.Equipment</span>
+      <span class="schema-pill" style="background: rgba(0,130,114,0.15); color: var(--teal);">AXLEML.Shift</span>
+      <span class="schema-pill" style="background: rgba(245,158,11,0.15); color: var(--amber);">AXLEML.Inspection</span>
+      <span class="schema-pill" style="background: rgba(134,188,37,0.15); color: var(--green);">AXLEML.Material</span>
+      <span class="schema-pill" style="background: rgba(123,75,196,0.15); color: var(--purple);">QMSML</span>
+      <span class="schema-pill" style="background: rgba(34,211,238,0.15); color: var(--cyan);">OpsML-A</span>
+      <span class="schema-pill" style="background: rgba(236,72,153,0.15); color: var(--pink);">SupplyML-A</span>
+      <span class="schema-pill" style="background: rgba(239,68,68,0.15); color: var(--red);">WLML &middot; warranty</span>
+      <span class="schema-pill" style="background: rgba(148,163,184,0.15); color: var(--text2);">WOSFML &middot; workforce</span>
+    </div>
+    <div class="subseg-grid">
+      <div class="subseg-card"><span class="subseg-icon">&#128663;</span><div class="subseg-name">OEM Passenger</div><div class="subseg-desc">Anchor: GM</div></div>
+      <div class="subseg-card"><span class="subseg-icon">&#128666;</span><div class="subseg-name">OEM Heavy-Duty Truck</div><div class="subseg-desc">Class 8, Daimler Truck adjacent</div></div>
+      <div class="subseg-card"><span class="subseg-icon">&#9881;&#65039;</span><div class="subseg-name">Tier 1 Suppliers</div><div class="subseg-desc">Anchor: Bridgestone</div></div>
+      <div class="subseg-card"><span class="subseg-icon">&#128295;</span><div class="subseg-name">Dealer Aftermarket</div><div class="subseg-desc">Parts, service bays, warranty</div></div>
+      <div class="subseg-card featured"><span class="subseg-icon">&#128666;&#10024;</span><div class="subseg-name">Fleet Operators</div><div class="subseg-desc"><strong style="color: var(--white);">FedEx &middot; Hertz &middot; JB Hunt</strong></div></div>
+      <div class="subseg-card"><span class="subseg-icon">&#9889;</span><div class="subseg-name">Charging / ZEV</div><div class="subseg-desc">Compliance, depot infra</div></div>
+      <div class="subseg-card"><span class="subseg-icon">&#129302;</span><div class="subseg-name">Autonomous / ADAS</div><div class="subseg-desc">Connected vehicle data</div></div>
+      <div class="subseg-card"><span class="subseg-icon">&#128202;</span><div class="subseg-name">105 scenarios</div><div class="subseg-desc">Productized, priced, KPI-mapped</div></div>
+    </div>
+    <div class="chain-thread">Fleet Operators is where the asset and operations meet &mdash; Class 8 truck, rental car, LTL trailer, last-mile van. It's the AXLE chapter Don's audience came for.</div>
+  </section>
+
+  <!-- SLIDE 12: Persona introduction (Marcus) -->
+  <section class="slide" id="slide-12">
+    <div class="act-label">Act 1 &middot; Why now</div>
+    <h2 class="slide-title">Meet Marcus &mdash; the persona we're<br>going to walk through the chain.</h2>
+    <div class="slide-subtitle">Every chain ends in a Persona &middot; KPI pair. For the Fleet Operators sub-segment, the canonical operator persona is the one who decides what gets pulled out of service today.</div>
+    <div class="persona-card">
+      <div class="persona-avatar">MR</div>
+      <div class="persona-info">
+        <div class="pname">Marcus Reyes</div>
+        <div class="ptitle">Director of Fleet Maintenance &middot; National LTL Carrier (Class 8 portfolio)</div>
+        <div class="pcontext">"My drivers tell me about a tractor pulling left two days before my system tells me. I'm spending 40% of my morning huddle reading what the trucks already knew."</div>
+      </div>
+    </div>
+    <div class="split">
+      <div class="split-panel">
+        <div class="split-label" style="color: var(--red);">Marcus's reality today</div>
+        <div style="font-size: 13px; color: var(--text2); line-height: 1.7;">
+          14&ndash;18% of tractors flagged "deferred maintenance" at any given time<br>
+          Fault-code triage = Tier-1 dispatcher reads CSV<br>
+          Predictive failure data sits in 4 systems, 3 of them OEM portals<br>
+          Warranty recovery cycle: 47&ndash;90 days<br>
+          DOT inspection findings reach maintenance after the bay is full
+        </div>
+      </div>
+      <div class="split-panel highlight">
+        <div class="split-label" style="color: var(--green);">What APEX changes for Marcus</div>
+        <div style="font-size: 13px; color: var(--text2); line-height: 1.7;">
+          Predicted-failure card in Teams the night before, with parts staged<br>
+          Bay schedule auto-balanced around predicted RUL<br>
+          Warranty trace pre-built into the audit row<br>
+          DOT findings routed to the right bay, not the right inbox<br>
+          One Power BI dashboard sourced from Direct Lake over Gold &mdash; one truth
+        </div>
+      </div>
+    </div>
+    <div class="chain-thread">Marcus is link 5 (Persona). Whatever scenario we lead with on slide 14 has to land for him &mdash; or the chain doesn't close.</div>
+  </section>
+
+  <!-- SLIDE 13: Five AXLE Scenarios -->
+  <section class="slide" id="slide-13">
+    <div class="act-label teal">Act 2 &middot; What changes</div>
+    <h2 class="slide-title">Five AXLE chains. Five productized services.<br>One hundred and five scenarios behind them.</h2>
+    <div class="slide-subtitle">Each card collapses a full Scenario &rarr; Solution &rarr; Use Case &rarr; Service &rarr; Persona &rarr; KPI chain. We'll expand the predictive-maintenance one on the next slide because it's where Marcus lives.</div>
+    <div class="scenario-grid">
+      <div class="scenario-card s1">
+        <div class="sc-code">AXLE-ASSET-01</div>
+        <div class="sc-title">Predictive maintenance &mdash; equipment / vehicle</div>
+        <div class="sc-kpi">
+          <span class="sc-kpi-num">+6&ndash;9pp</span> OEE<br>
+          <span class="sc-kpi-num">&minus;41%</span> downtime<br>
+          <span class="sc-kpi-num">&minus;22%</span> maint cost
+        </div>
+      </div>
+      <div class="scenario-card s2">
+        <div class="sc-code">AXLE-QUAL-01</div>
+        <div class="sc-title">Quality escape detection &amp; root-cause</div>
+        <div class="sc-kpi">
+          <span class="sc-kpi-num">&minus;52%</span> FPY defects<br>
+          <span class="sc-kpi-num">&minus;74%</span> RCA cycle<br>
+          <span class="sc-kpi-num">&minus;58%</span> recurrence
+        </div>
+      </div>
+      <div class="scenario-card s3">
+        <div class="sc-code">AXLE-SUPCHN-02</div>
+        <div class="sc-title">Supply chain disruption response</div>
+        <div class="sc-kpi">
+          <span class="sc-kpi-num">+43pp</span> on-time<br>
+          <span class="sc-kpi-num">&minus;$11M</span> expedite/yr<br>
+          <span class="sc-kpi-num">&minus;62%</span> stoppages
+        </div>
+      </div>
+      <div class="scenario-card s4">
+        <div class="sc-code">AXLE-OPS-01</div>
+        <div class="sc-title">Production / dispatch scheduling optimization</div>
+        <div class="sc-kpi">
+          <span class="sc-kpi-num">+11%</span> throughput<br>
+          <span class="sc-kpi-num">+7pp</span> OTD<br>
+          <span class="sc-kpi-num">&minus;24%</span> changeover
+        </div>
+      </div>
+      <div class="scenario-card s5">
+        <div class="sc-code">AXLE-SUPCHN-01</div>
+        <div class="sc-title">Supplier risk &amp; dual-sourcing decisioning</div>
+        <div class="sc-kpi">
+          <span class="sc-kpi-num">&minus;38%</span> supplier delays<br>
+          <span class="sc-kpi-num">+$8M/yr</span> savings<br>
+          Audit-row attributed
+        </div>
+      </div>
+    </div>
+    <div class="slide-body" style="margin-top: 24px; font-size: 15px;">Translation for transportation: AXLE-ASSET-01 is the tractor-and-trailer chain. AXLE-OPS-01 maps to dispatch and yard scheduling. AXLE-SUPCHN-01/02 covers the parts-and-MRO supply-chain stack that keeps bays running. AXLE-QUAL-01 is warranty-claim and DOT-finding RCA.</div>
+    <div class="chain-thread">100 more scenarios published in the AXLE catalog. These five are the exemplars architects pressure-test the platform against.</div>
+  </section>
+
+  <!-- SLIDE 14: AXLE-ASSET-01 chain in detail -->
+  <section class="slide" id="slide-14">
+    <div class="act-label teal">Act 2 &middot; What changes</div>
+    <h2 class="slide-title">AXLE-ASSET-01 &mdash; one chain,<br>top to bottom, fleet-translated.</h2>
+    <div class="slide-subtitle" style="margin-bottom: 12px;">The scenario in the architecture doc is a stamping press. Translated for fleet: a Class 8 tractor with a degrading turbocharger, two days before failure.</div>
+    <div class="chain-detail">
+      <div class="chain-detail-row r1">
+        <div class="cdr-label">Scenario</div>
+        <div class="cdr-content">National LTL fleet runs at 72&ndash;78% asset availability. Roadside breakdowns cost $2,400&ndash;$8,000/event including driver detention and missed delivery windows. Early-failure indicators sit in OEM portals nobody opens between 10pm and 6am.</div>
+        <div class="cdr-svc">Real-Time Hub ingests OEM telematics + ECU streams to Bronze</div>
+      </div>
+      <div class="chain-detail-row r2">
+        <div class="cdr-label">Solution</div>
+        <div class="cdr-content">PdM agent fuses ECU signals (turbo speed, EGR, oil pressure, DPF differential), telematics duty-cycle data, and historical RUL distributions. Surfaces predicted-failure window with confidence interval and proposed bay-and-parts staging.</div>
+        <div class="cdr-svc">LEDGER carries OEM service-bulletin doctrine; Purview classifies driver / vehicle PII</div>
+      </div>
+      <div class="chain-detail-row r3">
+        <div class="cdr-label">Use Case</div>
+        <div class="cdr-content">Pilot tractor cohort (e.g. 1,200 Cascadias on a single corridor). PdM agent reads <code style="font-family: monospace;">AXLEML.Equipment</code>, <code style="font-family: monospace;">AXLEML.Shift</code>, OEM telematics stream via Real-Time Hub. MCP tool catalog includes <code style="font-family: monospace;">mcp.fleet-asset-rul</code>, <code style="font-family: monospace;">mcp.bay-availability</code>, <code style="font-family: monospace;">mcp.parts-stock</code>.</div>
+        <div class="cdr-svc">Silver canonical schemas + MCP-typed agent tools</div>
+      </div>
+      <div class="chain-detail-row r4">
+        <div class="cdr-label">Service</div>
+        <div class="cdr-content"><strong style="color: var(--white);">AXLE-Connected-Factory-01</strong> (translated to Connected-Fleet variant) &middot; AXLE-Ops-03 (Production / Dispatch Operations) &middot; AXLE-Supply-04 (Supply Chain &amp; Sourcing for parts/MRO).</div>
+        <div class="cdr-svc">Foundry Agent Service runs the orchestrator + 4 child agents; Direct Lake over Gold</div>
+      </div>
+      <div class="chain-detail-row r5">
+        <div class="cdr-label">Persona</div>
+        <div class="cdr-content"><strong style="color: var(--white);">Primary:</strong> Marcus Reyes (Director of Fleet Maintenance) reviews predicted-failure dashboard daily; approves bay-and-parts staging via Teams Adaptive Card. <strong style="color: var(--white);">Secondary:</strong> Bay Foreman (executor), Operations Manager (escalation), Parts Manager (provisioner), Driver Manager (route impact).</div>
+        <div class="cdr-svc">Teams Adaptive Card HITL &middot; M365 Copilot in Outlook for staging notes &middot; Entra OBO scope</div>
+      </div>
+      <div class="chain-detail-row r6">
+        <div class="cdr-label">KPI</div>
+        <div class="cdr-content"><strong style="color: var(--white);">Asset availability +6&ndash;9pp</strong> &middot; <strong style="color: var(--white);">unplanned roadside events &minus;41%</strong> &middot; <strong style="color: var(--white);">maintenance cost per mile &minus;22%</strong> &middot; warranty-recoverable share +14pp &middot; every decision audit-row attributed.</div>
+        <div class="cdr-svc">Power BI Direct Lake &middot; LEDGER audit row &middot; Purview lineage</div>
+      </div>
+    </div>
+    <a href="AXLE-3D-Factory-KPIs.html" target="_blank" class="demo-cta">
+      <div class="demo-cta-icon">&#127981;</div>
+      <div class="demo-cta-text">
+        <div class="demo-cta-label">Live demo &middot; Chain in motion</div>
+        <div class="demo-cta-title">Walk AXLE-ASSET-01 in 3D</div>
+        <div class="demo-cta-focus">Stamping bay equipment, predicted-failure card, audit row writing live. Translate the bay to a Class&nbsp;8 maintenance lane.</div>
+      </div>
+      <div class="demo-cta-arrow">&#9654;</div>
+    </a>
+    <div class="chain-thread">This is the chain Don's three anchor accounts will recognize. Same architecture shape; the scenario rewrites the sub-segment.</div>
+  </section>
+
+  <!-- ===================================================== -->
+  <!-- SLIDE 15: Live Demo — AXLE Connected Factory (3D) -->
+  <!-- ===================================================== -->
+  <section class="slide" id="slide-15">
+    <div class="act-label teal">Act 2 &middot; What changes &middot; Live demo</div>
+    <h2 class="slide-title" style="font-size: 32px; margin-bottom: 4px;">AXLE Connected Factory &mdash; Automotive OEM Assembly</h2>
+    <div style="font-size: 14px; color: var(--text2); margin-bottom: 8px; max-width: 1100px;">A running 3D model of an AXLE-shaped factory floor with 36 KPIs, 13 Gold views, the audit-row panel, and the orchestration panel live. Same canonical schemas, same MCP tools, same chain &mdash; rendered as the architecture audience would see it during a Wave-1 walk-through. Click into Stamping Shop or any equipment for the AXLE-ASSET-01 drill-down.</div>
+    <div class="demo-slide-wrap">
+      <div class="demo-frame-shell">
+        <iframe src="AXLE-3D-Factory-KPIs.html" title="AXLE 3D Factory Intelligence" loading="lazy" onload="this.dataset.loaded='true'" allow="fullscreen"></iframe>
+        <div class="demo-frame-fallback">
+          <div class="ff-title">3D demo file not found alongside this deck</div>
+          <div class="ff-body">The embedded demo expects <code style="font-family: monospace; color: var(--white);">AXLE-3D-Factory-KPIs.html</code> in the same folder as this deck. If you're viewing in a sandboxed preview, the iframe may be blocked &mdash; pop it open in its own window.</div>
+          <a href="AXLE-3D-Factory-KPIs.html" target="_blank" class="ff-link">Open demo in new window &rarr;</a>
+        </div>
+      </div>
+      <div class="demo-meta-row">
+        <span class="meta-tag">Three.js r128</span>
+        <span class="meta-tag green">36 KPIs &middot; 13 Gold views</span>
+        <span class="meta-tag amber">Audit row &amp; orchestration panels live</span>
+        <div class="meta-spacer"></div>
+        <a href="AXLE-3D-Factory-KPIs.html" target="_blank" class="meta-pop">Open in new window &rarr;</a>
+      </div>
+    </div>
+    <div class="chain-thread" style="bottom: 14px;">Translate this from a stamping bay to a maintenance bay and you have the FedEx / Hertz / JB Hunt walk-through. Same chain, sub-segment-rewritten.</div>
+  </section>
+
+  <!-- SLIDE 16: Microsoft Service Chain Link -->
+  <section class="slide" id="slide-16">
+    <div class="act-label teal">Act 2 &middot; What changes</div>
+    <h2 class="slide-title">The Microsoft service chain link<br>that makes this chain run.</h2>
+    <div class="slide-subtitle" style="margin-bottom: 8px;">Each tier of the reference architecture is a specific bundle of Microsoft services. This is what gets stood up in Wave 1 and instrumented through Wave 2.</div>
+    <div class="refarch">
+      <div class="refarch-tier t1">
+        <div class="tier-label">1 &middot; Edge &amp; SOR</div>
+        <div class="tier-services"><strong>Azure IoT Operations</strong> &middot; <strong>Azure IoT Hub</strong> &middot; Device Provisioning &middot; <strong>Azure Arc</strong> for depot/yard gateways &middot; OPC-UA / J1939 / OEM telematics feeds</div>
+      </div>
+      <div class="refarch-tier t2">
+        <div class="tier-label">2 &middot; Ingress</div>
+        <div class="tier-services"><strong>Microsoft Fabric Real-Time Hub</strong> &middot; <strong>Event Hubs</strong> &middot; <strong>Event Grid</strong> &middot; <strong>Service Bus</strong> for transactional dispatch messaging</div>
+      </div>
+      <div class="refarch-tier t3">
+        <div class="tier-label">3 &middot; Data plane</div>
+        <div class="tier-services"><strong>Fabric OneLake</strong> &middot; Bronze (raw telemetry, hash-on-ingest) &rarr; <strong>Silver</strong> (AXLEML / OpsML-A canonical) &rarr; <strong>Gold</strong> (agent-safe Direct Lake views) &middot; <strong>Real-Time Intelligence</strong> + KQL Eventhouse</div>
+      </div>
+      <div class="refarch-tier t4">
+        <div class="tier-label">4 &middot; Schema &amp; tools</div>
+        <div class="tier-services"><strong>Canonical schema registry</strong> (typed, classification-aware) &middot; <strong>MCP servers</strong> binding agents to Gold views &middot; ~165+ catalog tools across Practices</div>
+      </div>
+      <div class="refarch-tier t5">
+        <div class="tier-label">5 &middot; Reasoning</div>
+        <div class="tier-services"><strong>Azure AI Foundry Agent Service</strong> &middot; model catalog (GPT-4o, Phi, Mistral, Llama, pinned <code style="font-family: monospace;">model_version</code>) &middot; <strong>Foundry evaluation harness</strong> + content safety &middot; runtime gateway, observability, FinOps</div>
+      </div>
+      <div class="refarch-tier t6">
+        <div class="tier-label">6 &middot; Experience</div>
+        <div class="tier-services"><strong>M365 Copilot</strong> in Outlook / Teams / Word &middot; <strong>Copilot Studio</strong> low-code agents (Marcus's daily briefing) &middot; <strong>Power BI Direct Lake</strong> over Gold &middot; <strong>Teams Adaptive Cards</strong> for HITL approvals</div>
+      </div>
+      <div class="refarch-tier t7">
+        <div class="tier-label">7 &middot; Trust</div>
+        <div class="tier-services"><strong>Microsoft Entra</strong> (managed identities, OBO, conditional access) &middot; <strong>Microsoft Purview</strong> (Data Map, Unified Catalog, sensitivity labels, DLP, lineage, 4-tier classification) &middot; <strong>LEDGER</strong> (versioned doctrine + audit row store) &middot; <strong>Defender for IoT</strong> for connected-vehicle threat detection</div>
+      </div>
+    </div>
+    <a href="AXLE-3D-Factory-KPIs.html" target="_blank" class="demo-cta">
+      <div class="demo-cta-icon">&#127959;&#65039;</div>
+      <div class="demo-cta-text">
+        <div class="demo-cta-label">Live demo &middot; Architecture view</div>
+        <div class="demo-cta-title">See the seven tiers running</div>
+        <div class="demo-cta-focus">Real-Time Hub &rarr; Bronze &rarr; Silver schemas &rarr; Gold views &rarr; MCP tools &rarr; Foundry agents &rarr; HITL. Click any layer.</div>
+      </div>
+      <div class="demo-cta-arrow">&#9654;</div>
+    </a>
+    <div class="chain-thread">Same seven tiers underneath every AXLE chain &mdash; what changes per scenario is which schemas, MCP tools, and KPIs you wire together.</div>
+  </section>
+
+  <!-- SLIDE 17: Anchor Accounts + Adjacencies -->
+  <section class="slide" id="slide-17">
+    <div class="act-label green">Act 3 &middot; Why now, why us</div>
+    <h2 class="slide-title">We have not started from zero<br>on this Practice.</h2>
+    <div class="slide-subtitle">AXLE's anchor accounts (GM, Bridgestone) have built the canonical schemas, MCP tool catalog, and audit row spec that fleet engagements inherit. Daimler Truck adjacency gives us a Class-8-shaped reference architecture that drops cleanly onto the THS sub-sector.</div>
+    <div class="split">
+      <div class="split-panel highlight">
+        <div class="split-label" style="color: var(--azure);">AXLE anchors &mdash; canonical material</div>
+        <div style="font-size: 13px; color: var(--text2); line-height: 1.8;">
+          <strong style="color: var(--white);">GM (Chapter 20).</strong> Connected-vehicle data, ADAS, manufacturing-floor PdM. Brought AXLEML.Equipment to maturity.<br>
+          <strong style="color: var(--white);">Bridgestone (Chapter 21).</strong> Tier-1 supplier perspective; warranty trace, supplier risk, mobility-as-a-service. Brought WLML and SupplyML-A to maturity.<br>
+          <strong style="color: var(--white);">Daimler Truck (adjacent).</strong> Connected fleet 3D demo + DTNA Fleet_360 reference architecture. Class-8 chain shape ready to clone for FedEx / Hertz / JB Hunt.
+        </div>
+      </div>
+      <div class="split-panel">
+        <div class="split-label" style="color: var(--green);">What this means for the AHM audience</div>
+        <div style="font-size: 13px; color: var(--text2); line-height: 1.8;">
+          The first six weeks at any THS fleet account are <em>not</em> framework-building. They are envisioning + envelope-shaping + service catalog selection from material that already exists.<br><br>
+          The 9&ndash;12 month Wave-2 production target is real because the AXLEML schema family doesn't get rebuilt &mdash; it gets configured.<br><br>
+          The deliverable on day one of an engagement is the Wave-1 service shortlist mapped to canonical schemas, not a discovery deck.
+        </div>
+      </div>
+    </div>
+    <div class="chain-thread">Bring an architect to the discovery meeting. The schemas and MCP tools are the proof; the slide deck is just the cover sheet.</div>
+  </section>
+
+  <!-- SLIDE 18: Funding paths (Independence-compliant) -->
+  <section class="slide" id="slide-18">
+    <div class="act-label green">Act 3 &middot; Why now, why us</div>
+    <h2 class="slide-title">Approved funding paths.<br>Two contracts, several investment vehicles.</h2>
+    <div class="slide-subtitle">Microsoft platform investment vehicles support discovery and the Wave-1 motion. <strong style="color: var(--amber);">ECIF direct is not on this list</strong> &mdash; Independence rules constrain what's available given Microsoft is Deloitte's external auditor.</div>
+    <div class="card-row" style="gap: 16px;">
+      <div class="funding-card f1">
+        <div class="fund-name">BVA</div>
+        <div class="fund-full">Business Value Assessment</div>
+        <div class="fund-desc">Microsoft-funded discovery / business case. The most common Wave 1 entry point.</div>
+      </div>
+      <div class="funding-card f2">
+        <div class="fund-name">DCIF</div>
+        <div class="fund-full">Deloitte Cloud Investment Fund</div>
+        <div class="fund-desc">Deloitte-side investment to underwrite discovery and Wave-1 Envision motions for strategic accounts.</div>
+      </div>
+      <div class="funding-card f3">
+        <div class="fund-name">ISV<br>Marketplace</div>
+        <div class="fund-full">Azure Marketplace transactions</div>
+        <div class="fund-desc">For ISV-anchored elements of the architecture (telematics ISVs, observability, data quality).</div>
+      </div>
+      <div class="funding-card f4">
+        <div class="fund-name">SI<br>Teaming</div>
+        <div class="fund-full">Microsoft SI co-sell teaming</div>
+        <div class="fund-desc">Joint pursuit motion under the SI program for Wave 2 / Wave 3 expansion.</div>
+      </div>
+    </div>
+    <div class="ind-callout">
+      <div class="ind-label">Why this matters for the AHM audience</div>
+      <div class="ind-body">
+        Materials going to the green dot distribution will reach Tax and Audit &amp; Assurance practitioners. Independence Office reviews any deck that names funding mechanisms &mdash; <span class="ind-good">BVA / DCIF / ISV Marketplace / SI Teaming</span> are pre-cleared language; <span class="ind-bad">ECIF direct</span>, <span class="ind-bad">co-investment</span>, <span class="ind-bad">strategic alliance</span> are not.
+      </div>
+    </div>
+    <div class="chain-thread">When in doubt, route through your DMTSP Independence point of contact before the deck circulates.</div>
+  </section>
+
+  <!-- SLIDE 19: Engagement model + CTA -->
+  <section class="slide" id="slide-19">
+    <div class="act-label green">Act 3 &middot; Why now, why us</div>
+    <h2 class="slide-title">Engagement motion &mdash; what to do<br>after this AHM.</h2>
+    <div class="slide-subtitle">If you have a Transportation account where Fleet Asset Management is on the FY27 priority list, here is the path from this AHM to a funded Wave-1 discovery.</div>
+    <div class="cta-block">
+      <div class="cta-title">For Account Teams &amp; GPLs in Transportation</div>
+      <ul class="cta-list">
+        <li>Identify the asset chain that hurts most: maintenance, dispatch, warranty, supply, or quality &mdash; map to one of the five AXLE scenarios from slide 13.</li>
+        <li>Pull your Microsoft account team in for a BVA scoping call. We can co-build the BVA application with you.</li>
+        <li>Engage DMTSP early: a 30-minute architecture call before the BVA submission saves a re-scope on the back end.</li>
+        <li>Set the Wave-1 deliverable expectation up front: target-state architecture, 2&ndash;3 services live at pilot tenant, business case, Wave-2 roadmap, draft SOW. Not a discovery deck.</li>
+      </ul>
+    </div>
+    <div class="cta-block" style="margin-top: 18px;">
+      <div class="cta-title">For Tax, A&amp;A, Consulting practitioners on this distribution</div>
+      <ul class="cta-list">
+        <li>Most THS clients have an APEX-shaped opportunity hiding in their FY27 priorities &mdash; not just the named anchors. Bring me into the conversation early.</li>
+        <li>Independence-compliant language is in the seller guides and the AHM follow-up; use it as your cover.</li>
+        <li>Schedule a 30-minute office hour with DMTSP if you want to pressure-test a specific account fit.</li>
+      </ul>
+    </div>
+    <div class="chain-thread">Reach: Keven Markham &middot; kmarkham@deloitte.com &middot; +1 972 589 0258 &middot; DMTSP Consumer Industry</div>
+  </section>
+
+  <!-- SLIDE 20: Closing -->
+  <section class="slide" id="slide-20">
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center;">
+      <div style="font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 800; letter-spacing: 4px; text-transform: uppercase; color: var(--azure); margin-bottom: 32px;">Two assets &middot; one platform &middot; one chain</div>
+      <div style="font-family: 'Outfit', sans-serif; font-size: 44px; font-weight: 600; color: var(--white); line-height: 1.3; margin-bottom: 12px; max-width: 1000px;">When Marcus Reyes opens his phone tomorrow morning,</div>
+      <div style="font-family: 'Outfit', sans-serif; font-size: 44px; font-weight: 700; color: var(--white); line-height: 1.3; margin-bottom: 28px; max-width: 1000px;">does the predicted failure greet him,</div>
+      <div style="font-family: 'Outfit', sans-serif; font-size: 36px; font-weight: 700; color: var(--azure); margin-bottom: 48px; max-width: 1000px;">or does the breakdown call?</div>
+      <div style="display: inline-block; padding: 18px 36px; border: 2px solid var(--azure); border-radius: 10px; margin-bottom: 44px; max-width: 760px;">
+        <div style="font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 700; color: var(--white); margin-bottom: 4px;">APEX is the platform. AXLE is the Practice.</div>
+        <div style="font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 700; color: var(--white); margin-bottom: 8px;">The chain is the engagement.</div>
+        <div style="font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--azure); font-style: italic;">Bring DMTSP into the conversation before you scope the discovery.</div>
+      </div>
+      <div style="font-size: 14px; color: var(--white); font-weight: 700;">Keven Markham</div>
+      <div style="font-size: 13px; color: var(--text2); margin-top: 4px;">Vice President &middot; DMTSP Consumer Industry &middot; kmarkham@deloitte.com</div>
+      <div style="font-size: 12px; color: var(--text3); margin-top: 16px;">Hosted with <strong style="color: var(--text2);">Madhav Mullapudi</strong> &amp; <strong style="color: var(--text2);">Don Busch</strong> &middot; THS Transportation GTM &middot; Internal &mdash; CONFIDENTIAL &middot; April 2026</div>
+    </div>
+  </section>
+
+</div>
+
+<div class="nav-arrow nav-prev" onclick="goTo(current-1)">&#8592;</div>
+<div class="nav-arrow nav-next" onclick="goTo(current+1)">&#8594;</div>
+<div class="counter">1 / 20</div>
+
+<!-- Section label (top-left) — updates dynamically -->
+<div class="section-label" id="sectionLabel">Part 1 <span class="sec-divider">&middot;</span> APEX</div>
+
+<!-- DMTSP brand (top-right) -->
+<div class="dmtsp-brand">
+  <svg class="brand-logo" viewBox="0 0 64 64" width="32" height="32">
+    <defs>
+      <linearGradient id="brandGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#0078D4"/>
+        <stop offset="100%" stop-color="#008272"/>
+      </linearGradient>
+    </defs>
+    <!-- Chain link icon -->
+    <g fill="none" stroke="url(#brandGrad)" stroke-width="3.5" stroke-linecap="round">
+      <path d="M 22 22 a 10 10 0 0 0 -10 10 a 10 10 0 0 0 10 10 l 6 0"/>
+      <path d="M 42 42 a 10 10 0 0 0 10 -10 a 10 10 0 0 0 -10 -10 l -6 0"/>
+      <line x1="26" y1="32" x2="38" y2="32"/>
+    </g>
+  </svg>
+  <div class="brand-text">
+    <div class="brand-name">DMTSP</div>
+    <div class="brand-context">Transportation AHM &middot; Apr 2026</div>
+  </div>
+</div>
+
+<script>
+let current = 1;
+const total = 20;
+
+// Slide-to-section mapping
+const sections = {
+  1: 'Cover',
+  2: 'Part 1 · APEX', 3: 'Part 1 · APEX', 4: 'Part 1 · APEX', 5: 'Part 1 · APEX',
+  6: 'Part 1 · APEX', 7: 'Part 1 · APEX', 8: 'Part 1 · APEX', 9: 'Part 1 · APEX',
+  10: 'Transition',
+  11: 'Part 2 · AXLE', 12: 'Part 2 · AXLE', 13: 'Part 2 · AXLE', 14: 'Part 2 · AXLE',
+  15: 'Part 2 · Live Demo', 16: 'Part 2 · AXLE', 17: 'Part 2 · AXLE',
+  18: 'Part 2 · AXLE', 19: 'Part 2 · AXLE',
+  20: 'Close'
+};
+
+function goTo(n) {
+  if (n < 1 || n > total) return;
+  document.querySelector('.slide.active').classList.remove('active');
+  current = n;
+  document.getElementById('slide-' + n).classList.add('active');
+  document.querySelector('.counter').textContent = current + ' / ' + total;
+  document.querySelector('.progress').style.width = (current / total * 100) + '%';
+  // Update section label
+  const labelEl = document.getElementById('sectionLabel');
+  const secText = sections[n] || '';
+  if (secText.includes('·')) {
+    const parts = secText.split('·').map(s => s.trim());
+    labelEl.innerHTML = parts[0] + ' <span class="sec-divider">·</span> ' + parts[1];
+  } else {
+    labelEl.textContent = secText;
+  }
+  // Update URL hash for deep-linking when running standalone.
+  // Sandboxed iframes (about:srcdoc) reject replaceState — silently ignore.
+  try { history.replaceState(null, '', '#slide-' + current); } catch (e) { /* sandboxed iframe */ }
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); goTo(current + 1); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(current - 1); }
+  if (e.key === 'Home') { e.preventDefault(); goTo(1); }
+  if (e.key === 'End') { e.preventDefault(); goTo(total); }
+});
+
+// Init from hash (only valid when opened standalone, not in a sandboxed iframe)
+window.addEventListener('load', () => {
+  try {
+    const hash = parseInt(location.hash.replace('#slide-', ''));
+    if (hash >= 1 && hash <= total) goTo(hash);
+  } catch (e) { /* sandboxed iframe */ }
+});
+</script>
+
+</body>
+</html>

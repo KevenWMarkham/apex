@@ -1,0 +1,33 @@
+kind: adapter
+name: analytics-platforms
+version: 0.1.0
+sor_name: Adobe Analytics / Google Analytics 4
+sor_vendor: Adobe / Google
+practice: rc
+connection_method: dataflow_gen2
+schedule: daily 03:00 UTC
+bronze_workspace: apex-rc-prod-bronze
+description: >
+  Web/mobile analytics ingest via Power Query — Adobe Analytics Data
+  Feeds + Google Analytics 4 BigQuery export. Visit-level event data
+  joined to CXML.Customer at Silver.
+standards: []
+schema_mappings:
+  - source_table: AdobeHits
+    bronze_table: bronze_adobe_hit
+    primary_key: [VisitorId, HitTimestamp]
+    fields:
+      - { source_field: VisitorId,    bronze_column: visitor_id,    bronze_type: string, nullable: false, classification: pii }
+      - { source_field: HitTimestamp, bronze_column: hit_ts,        bronze_type: timestamp, nullable: false }
+      - { source_field: PageUrl,      bronze_column: page_url,      bronze_type: string }
+      - { source_field: EventType,    bronze_column: event_type,    bronze_type: string }
+  - source_table: GA4Events
+    bronze_table: bronze_ga4_event
+    primary_key: [user_pseudo_id, event_timestamp]
+    fields:
+      - { source_field: user_pseudo_id, bronze_column: user_pseudo_id, bronze_type: string, nullable: false, classification: pii }
+      - { source_field: event_timestamp, bronze_column: event_ts,      bronze_type: timestamp, nullable: false }
+      - { source_field: event_name,     bronze_column: event_name,     bronze_type: string }
+runbook:
+  primary_contact: rc-data-platform@deloitte.com
+  sla_recovery_minutes: 240

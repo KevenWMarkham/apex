@@ -1,0 +1,16 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: exercise
+exercise_id: ex.10.5.b
+sellers_guide_section: §10.5
+chapter: 10. Healthcare Practice
+prompt: Explain why HLS-PAY-01 is value-share-eligible but HLS-E2E-01 is fixed-fee.
+canonical_solution: HLS-PAY-01 attaches money-direction KPIs (recovered AR) where
+  attribution is clean (837/835 cycle). HLS-E2E-01 sepsis early warning is fixed-fee
+  because clinical attribution is multi-causal and not contractually attributable.
+teaching_points:
+- Value-share requires clean money attribution
+- Clinical-outcome attribution is multi-causal
+related_kpi_ids:
+- kpi.hls.first-pass-denial-rate
+related_archetype_ids:
+- arch.score.001

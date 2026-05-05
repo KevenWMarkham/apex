@@ -1,0 +1,11 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: product
+product_id: ms.teams.premium
+family: teams
+display_name: Microsoft Teams Premium
+sku_or_tier: premium
+description: Advanced meeting + intelligent recap + watermarking.
+list_price_basis: per-user/month
+typical_use: HITL Teams-card surfaces with rich approval flows
+apex_role: Sprint 16 HITL surfaces
+appendix_g_section: Appendix G — teams

@@ -1,0 +1,11 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: product
+product_id: ms.azure-ml.workspace
+family: azure-ml
+display_name: Azure ML — Workspace
+sku_or_tier: workspace
+description: ML model training + registry + deployment.
+list_price_basis: consumption
+typical_use: Model lifecycle for tabular models
+apex_role: Sprint 16 supplemental model registry
+appendix_g_section: Appendix G — azure-ml

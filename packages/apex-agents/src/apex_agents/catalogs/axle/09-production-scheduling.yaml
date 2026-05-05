@@ -1,0 +1,35 @@
+kind: agent
+name: apex.axle.agents.production-scheduling
+version: 0.1.0
+practice: axle
+persona: Production Planner
+service_codes: [AXLE-Ops-02]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Production-schedule optimization across mixed-model lines balancing
+  takt time, sequence constraints, and material availability.
+archetype_id: F3-predictive-trigger-workflow-aware
+primary_contact: axle-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.axle.mcp.mscml.get_schedule_horizon
+    purpose: Read current production schedule
+  - tool_id: apex.axle.mcp.supplyml.get_material_availability
+    purpose: Read material availability across plants
+  - tool_id: apex.axle.mcp.mscml.publish_revised_schedule
+    purpose: Publish revised schedule
+    write: true
+
+hitl_gates:
+  - name: schedule_publish
+    description: Revised schedule requires planner approval before publishing
+    fires_when: Always — schedule changes are review-gated
+    surface: teams_card
+    sla_minutes: 30
+
+oversight_modes: [HITL, HOTL]
+kpis:
+  - { name: takt-time adherence, direction: up }
+  - { name: changeover time, direction: down }

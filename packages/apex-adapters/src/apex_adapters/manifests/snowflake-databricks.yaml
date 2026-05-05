@@ -1,0 +1,37 @@
+kind: adapter
+name: snowflake-databricks
+version: 0.1.0
+sor_name: Snowflake / Databricks lakehouse
+sor_vendor: Snowflake / Databricks
+practice: core
+connection_method: data_pipeline
+schedule: daily 04:00 UTC
+bronze_workspace: apex-core-prod-bronze
+description: >
+  Inter-platform interop adapter for clients with substantial existing
+  Snowflake or Databricks investments. Snowflake → Fabric via Fabric
+  Mirror; Databricks → Fabric via OneLake shortcut to Unity-Catalog Delta
+  tables. See Sellers Guide Appendix F (Data Platform Co-existence).
+standards: []
+schema_mappings:
+  - source_table: client_snowflake_warehouse_table
+    bronze_table: bronze_external_warehouse
+    primary_key: []
+    fields:
+      - { source_field: SOURCE_ROW_ID, bronze_column: source_row_id, bronze_type: string }
+      - { source_field: PAYLOAD_JSON,  bronze_column: payload_json,  bronze_type: string }
+runbook:
+  primary_contact: core-data-platform@deloitte.com
+  sla_recovery_minutes: 240
+  failure_modes:
+    - code: SHORTCUT_DETACHED
+      description: OneLake shortcut to Databricks Unity Catalog detached
+      severity: error
+      retry: true
+      retry_max: 2
+      backoff_seconds: 120
+  notes: >
+    Per APEX positioning (Sellers Guide §4.8 complementary platforms),
+    Snowflake and Databricks are coexistence-pattern partners, not
+    targets for replacement. This adapter provides the interop seam,
+    not a migration path.

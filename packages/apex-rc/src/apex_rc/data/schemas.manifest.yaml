@@ -1,0 +1,190 @@
+kind: schema
+name: rc-practice-schemas
+version: 0.1.0
+owner: rc-practice-lead
+practice: rc
+description: RC Practice schema bundle — SCML + MERML + CXML declarative manifest.
+family: rc
+
+# Every canonical entity across the three RC schema families.
+entities:
+  # --- SCML (Supply Chain) -----------------------------------------------
+  - name: sku
+    natural_key: [sku_natural]
+    classification: internal
+    attributes:
+      - name: sku_natural
+        data_type: string
+        nullable: false
+      - name: gtin
+        data_type: string
+        nullable: true
+        description: GS1 GTIN-14.
+      - name: sku_status
+        data_type: string
+        nullable: false
+        enum: [ACTIVE, INACTIVE, DISCONTINUED]
+      - name: unit_cost_token
+        data_type: string
+        nullable: true
+        classification: trade_secret
+
+  - name: location
+    natural_key: [location_natural]
+    classification: internal
+    attributes:
+      - name: location_natural
+        data_type: string
+        nullable: false
+      - name: gln
+        data_type: string
+        nullable: true
+      - name: location_type
+        data_type: string
+        nullable: false
+        enum: [STORE, DC, WAREHOUSE, SUPPLIER_SITE, CROSS_DOCK]
+
+  - name: lot
+    natural_key: [lot_number]
+    classification: internal
+    attributes:
+      - name: lot_number
+        data_type: string
+        nullable: false
+      - name: sku_key
+        data_type: string
+        nullable: false
+
+  - name: shipment
+    natural_key: [shipment_natural]
+    classification: internal
+    attributes:
+      - name: shipment_natural
+        data_type: string
+        nullable: false
+      - name: sscc
+        data_type: string
+        nullable: true
+
+  - name: supplier
+    natural_key: [supplier_natural]
+    classification: internal
+    attributes:
+      - name: supplier_natural
+        data_type: string
+        nullable: false
+      - name: contact_email_token
+        data_type: string
+        nullable: true
+        classification: pii
+
+  - name: item
+    natural_key: [item_natural]
+    classification: internal
+    attributes:
+      - name: item_natural
+        data_type: string
+        nullable: false
+
+  # --- MERML (Merchandising) ---------------------------------------------
+  - name: category
+    natural_key: [category_natural]
+    classification: internal
+    attributes:
+      - name: category_natural
+        data_type: string
+        nullable: false
+      - name: category_name
+        data_type: string
+        nullable: false
+
+  - name: price
+    natural_key: [sku_key, kind, effective_from]
+    classification: internal
+    attributes:
+      - name: sku_key
+        data_type: string
+        nullable: false
+      - name: amount
+        data_type: decimal
+        nullable: false
+
+  - name: promotion
+    natural_key: [promotion_natural]
+    classification: internal
+    attributes:
+      - name: promotion_natural
+        data_type: string
+        nullable: false
+      - name: promotion_type
+        data_type: string
+        nullable: false
+
+  - name: markdown
+    natural_key: [sku_key, applied_at]
+    classification: internal
+    attributes:
+      - name: sku_key
+        data_type: string
+        nullable: false
+      - name: reason
+        data_type: string
+        nullable: false
+        enum: [SEASONAL, OVERSTOCK, DAMAGED, EXPIRATION, COMPETITIVE, CLEARANCE]
+
+  # --- CXML (Customer) ---------------------------------------------------
+  - name: customer
+    natural_key: [customer_natural]
+    classification: pii
+    attributes:
+      - name: customer_natural
+        data_type: string
+        nullable: false
+      - name: email_token
+        data_type: string
+        nullable: true
+        classification: pii
+      - name: phone_token
+        data_type: string
+        nullable: true
+        classification: pii
+
+  - name: loyalty
+    natural_key: [customer_key, program_code]
+    classification: member_only
+    attributes:
+      - name: customer_key
+        data_type: string
+        nullable: false
+      - name: member_number_token
+        data_type: string
+        nullable: false
+        classification: member_only
+
+  - name: interaction
+    natural_key: [event_id]
+    classification: internal
+    attributes:
+      - name: channel
+        data_type: string
+        nullable: false
+        enum: [IN_STORE, WEB, MOBILE, EMAIL, SMS, PHONE, CHAT]
+
+  - name: order
+    natural_key: [order_natural]
+    classification: pci
+    attributes:
+      - name: order_natural
+        data_type: string
+        nullable: false
+      - name: payment_method_token
+        data_type: string
+        nullable: true
+        classification: pci
+
+standards:
+  - GS1 GTIN (RC anchor identifier)
+  - GS1 SSCC
+  - GS1 GLN
+  - EPCIS 2.0
+  - Schema.org Product/Offer

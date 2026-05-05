@@ -1,0 +1,11 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: product
+product_id: ms.defender.cloud
+family: defender
+display_name: Microsoft Defender for Cloud
+sku_or_tier: P2
+description: CSPM + CWPP across Azure resources.
+list_price_basis: per-resource/month
+typical_use: Posture mgmt for Fabric/Foundry
+apex_role: Sprint 13 posture telemetry
+appendix_g_section: Appendix G — defender

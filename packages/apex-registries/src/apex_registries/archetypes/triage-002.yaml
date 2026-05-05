@@ -1,0 +1,18 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.triage.002
+family: triage
+name: Document Triage
+description: Classify inbound documents (claims, denials, support tickets) by recoverable
+  value × probability of resolution.
+canonical_inputs:
+- DocumentBatch
+- RoutingPolicy
+canonical_outputs:
+- TriageList
+typical_hitl_gate: Top-of-queue dispatch
+typical_oversight: HOTL
+typical_model_tier: standard
+example_agents:
+- apex.hls.agents.claim-triage
+appendix_d_section: Appendix D — Archetype family triage

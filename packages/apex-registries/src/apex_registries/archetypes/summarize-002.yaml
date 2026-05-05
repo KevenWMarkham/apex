@@ -1,0 +1,15 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.summarize.002
+family: summarize
+name: Investigation Summary
+description: Summarize incident or audit investigation evidence.
+canonical_inputs:
+- EvidenceBundle
+canonical_outputs:
+- SummaryDoc
+typical_hitl_gate: Auditor / counsel review
+typical_oversight: HITL
+typical_model_tier: reasoning
+example_agents: []
+appendix_d_section: Appendix D — Archetype family summarize

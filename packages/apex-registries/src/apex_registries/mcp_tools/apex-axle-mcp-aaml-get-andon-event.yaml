@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: mcp_tool
+tool_id: apex.axle.mcp.aaml.get_andon_event
+practice: axle
+sor_or_layer: aaml
+purpose: Read line-stop event detail
+write: false
+inputs_schema: ''
+outputs_schema: ''
+classification_required: []
+related_canonical_schemas:
+- AAML
+appendix_f_section: Appendix F — AXLE MCP Tools

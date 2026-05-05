@@ -1,0 +1,15 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: kpi
+kpi_id: kpi.ice.dealer-parts-working-capital
+name: dealer parts working capital
+practice: ice
+direction: down
+description: KPI tracked by APEX ICE services. Wave-2 typical movement defined by
+  source manifests.
+measurement_pattern: audit-row attribution against pre-engagement baseline
+typical_baseline: ''
+typical_wave2_target: -10 to -15%
+typical_wave3_target: ''
+units: ''
+cadence: monthly
+appendix_c_section: Appendix C — ICE KPIs

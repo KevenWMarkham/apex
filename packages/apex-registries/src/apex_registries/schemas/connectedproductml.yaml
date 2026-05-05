@@ -1,0 +1,20 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: schema
+schema_code: ConnectedProductML
+name: Connected Product Lineage
+description: Connected Product Lineage canonical schema family. Bronze to Silver to
+  Gold pipeline scope; consumed by APEX agents/services across ICE, AXLE.
+practices:
+- ice
+- axle
+primary_entities:
+- Product
+- Owner
+- Telemetry
+- UsageEvent
+standards_alignment:
+- MQTT
+- OPC UA
+governance_classification: operations
+appendix_a_section: Appendix A — Schema family ConnectedProductML
+package_implementation: apex-connectedproduct

@@ -1,0 +1,18 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.rca.002
+family: rca
+name: Defect-Cluster Root-Cause
+description: Cluster defects + correlate with supplier lots / process windows / shift
+  boundaries.
+canonical_inputs:
+- DefectStream
+- GenealogyData
+canonical_outputs:
+- RCAReport
+typical_hitl_gate: Quality engineer
+typical_oversight: HITL
+typical_model_tier: standard
+example_agents:
+- apex.axle.agents.quality-defect
+appendix_d_section: Appendix D — Archetype family rca

@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: mcp_tool
+tool_id: apex.tmt.mcp.productml.get_tenant_metrics
+practice: tmt
+sor_or_layer: productml
+purpose: Read tenant-level service metrics
+write: false
+inputs_schema: ''
+outputs_schema: ''
+classification_required: []
+related_canonical_schemas:
+- PRODUCTML
+appendix_f_section: Appendix F — TMT MCP Tools

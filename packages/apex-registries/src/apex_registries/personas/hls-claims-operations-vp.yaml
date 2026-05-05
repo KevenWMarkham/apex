@@ -1,0 +1,12 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: persona
+persona_id: persona.hls.claims-operations-vp
+name: Claims Operations VP
+practice: hls
+seniority: vp
+function: service
+description: Claims Operations VP (HLS). Persona referenced by APEX service manifests.
+typical_decisions: []
+pains: []
+metrics_owned: []
+appendix_e_section: Appendix E — HLS Personas

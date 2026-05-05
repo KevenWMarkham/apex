@@ -1,0 +1,138 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint (ruff)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          python-version: "3.12"
+          enable-cache: true
+      - run: uv sync --all-packages
+      - run: uv run ruff check .
+      - run: uv run ruff format --check .
+
+  type-check:
+    name: Type check (mypy --strict)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+        with:
+          python-version: "3.12"
+          enable-cache: true
+      - run: uv sync --all-packages
+      - run: uv run mypy packages
+
+  test:
+    name: Test (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          enable-cache: true
+      - run: uv sync --all-packages
+      - run: uv run pytest --cov=packages --cov-report=term-missing --cov-report=xml
+      - uses: actions/upload-artifact@v4
+        if: always() && matrix.python-version == '3.12'
+        with:
+          name: coverage-report
+          path: coverage.xml
+
+  conformance:
+    name: Standards conformance
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+        with:
+          python-version: "3.12"
+          enable-cache: true
+      - run: uv sync --all-packages
+      - name: Audit standards bindings
+        run: uv run apex standards audit
+      - name: Verify standards catalog.yaml in sync (Sprint 20 Task 20.4)
+        run: uv run apex standards sync-catalog --check
+      - name: Run conformance-marked tests
+        run: uv run pytest -m conformance -v
+      - name: Verify per-package licence attribution (Sprint 20 Task 20.5.3)
+        run: python tools/check_standards_licences.py .
+      - name: Restricted-terminology guardrail (Sprint 20 Task 20.5.4)
+        run: python tools/check_restricted_terminology.py packages/
+      - name: Cache governance lint (Sprint 26 Task 26.5)
+        run: python tools/lint_cache_governance.py --root . --charter apex-workspace/CHARTER.md --scan packages
+
+  scenarios:
+    name: Scenario Library Governance (Sprint 28 Task 28.7.6)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+        with:
+          python-version: "3.12"
+          enable-cache: true
+      - run: uv sync --all-packages
+      - name: Validate scenario library structural rules
+        # Service codes resolve, KPI deltas parse, featured chains
+        # name agents. Wave-data-presence check is skipped during the
+        # initial Sprint 28 ramp; flip --skip-wave-check off when Task
+        # 28.1.1 ships W1/W2/W3 content for all 723 rows.
+        run: uv run apex scenarios validate --skip-wave-check
+      - name: Show scenario library coverage
+        run: uv run apex scenarios stats
+      - name: Publish Appendix L master catalog (artifact preview)
+        run: |
+          uv run apex scenarios publish-catalog /tmp/appendix-l-preview
+      - name: Upload Appendix L preview artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scenarios-appendix-l-preview
+          path: /tmp/appendix-l-preview/
+          retention-days: 14
+
+  register-classifications:
+    name: Register Purview classifications (Sprint 13 Task 13.1)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+        with:
+          python-version: "3.12"
+          enable-cache: true
+      - run: uv sync --all-packages
+      - name: Emit Purview classification payloads for every schema
+        # Discover every `kind: schema` YAML in the repo (excluding test
+        # fixtures / noise dirs). Emit Atlas v2 classificationDefs +
+        # entity-attachment payloads. Fail the build on any emission error.
+        run: |
+          uv run apex purview register-all \
+            --root . \
+            --output purview-artifacts \
+            --strict
+      - name: Upload Purview payload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: purview-classification-payloads
+          path: purview-artifacts/
+          retention-days: 30

@@ -1,0 +1,26 @@
+kind: adapter
+name: ge-proficy
+version: 0.1.0
+sor_name: GE Proficy / AVEVA Wonderware
+sor_vendor: GE Vernova / AVEVA
+practice: axle
+connection_method: eventstream
+schedule: continuous
+bronze_workspace: apex-axle-prod-bronze
+description: >
+  Industrial historian ingest from GE Proficy or AVEVA Wonderware
+  Historian via OPC UA → Eventstream. Used by AXLE Manufacturing for
+  SCADA / PLC tag streams driving OEE, MTBF, and Andon agents.
+standards: [ISA-95, OPC UA]
+schema_mappings:
+  - source_table: HistorianTag
+    bronze_table: bronze_proficy_tag
+    primary_key: [TagName, Timestamp]
+    fields:
+      - { source_field: TagName,   bronze_column: tag_name,   bronze_type: string,    nullable: false }
+      - { source_field: Timestamp, bronze_column: ts,         bronze_type: timestamp, nullable: false }
+      - { source_field: Value,     bronze_column: value,      bronze_type: double }
+      - { source_field: Quality,   bronze_column: quality,    bronze_type: int }
+runbook:
+  primary_contact: axle-data-platform@deloitte.com
+  sla_recovery_minutes: 15

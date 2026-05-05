@@ -1,0 +1,12 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: persona
+persona_id: persona.th.ground-operations-lead
+name: Ground Operations Lead
+practice: th
+seniority: manager
+function: agent
+description: Ground Operations Lead (TH). Persona referenced by APEX agent manifests.
+typical_decisions: []
+pains: []
+metrics_owned: []
+appendix_e_section: Appendix E — TH Personas

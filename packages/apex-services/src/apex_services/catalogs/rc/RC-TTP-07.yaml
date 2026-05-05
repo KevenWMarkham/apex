@@ -1,0 +1,47 @@
+kind: service
+service_code: RC-TTP-07
+version: 0.1.0
+practice: rc
+display_name: Markdown Optimization
+brief: "Store-by-store, SKU-by-SKU markdown cadence with sell-through prediction and price elasticity."
+description: >
+  VP Merchandising service. Reasoning-tier elasticity model recommends cadence; merchant approves via Teams card.
+
+personas:
+  - { name: "VP Merchandising", role: primary }
+  - { name: "VP Planning", role: secondary }
+  - { name: "Chief Merchant", role: secondary }
+
+kpis:
+  - name: "margin per unit"
+    direction: up
+    wave2_target: "+150 to +300 bps protected"
+
+slos:
+  - { name: "recommendation latency", target: "p95 < 10s", enforcement: soft }
+
+waves:
+  - wave: wave_1
+    duration: "4-8 weeks"
+    fee_band_low_usd: 250000
+    fee_band_high_usd: 800000
+  - wave: wave_2
+    duration: "6-12 months"
+    fee_band_low_usd: 3000000
+    fee_band_high_usd: 10000000
+  - wave: wave_3
+    duration: "multi-year"
+    fee_band_low_usd: 5000000
+    fee_band_high_usd: 16000000
+
+commercial_model: value_share
+value_share_eligible: true
+
+linked_agents:
+  - apex.rc.agents.markdown-cadence
+
+linked_archetypes:
+  - F3-predictive-trigger-workflow-aware
+
+schemas_touched: [MERML, SCML]
+primary_contact: rc-practice-lead@deloitte.com

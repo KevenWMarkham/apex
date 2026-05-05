@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: persona
+persona_id: persona.hls.vp-revenue-cycle
+name: VP Revenue Cycle
+practice: hls
+seniority: vp
+function: reference-deployment
+description: VP Revenue Cycle (HLS). Persona referenced by APEX reference-deployment
+  manifests.
+typical_decisions: []
+pains: []
+metrics_owned: []
+appendix_e_section: Appendix E — HLS Personas

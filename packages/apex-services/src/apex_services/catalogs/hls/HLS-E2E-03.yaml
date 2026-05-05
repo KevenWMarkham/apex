@@ -1,0 +1,46 @@
+kind: service
+service_code: HLS-E2E-03
+version: 0.1.0
+practice: hls
+display_name: Utilization Management Acceleration
+brief: "Prior-auth and continued-stay review automation against InterQual / MCG criteria."
+description: >
+  Payer sub-segment lead service. Reduces UR examiner backlog while preserving denial review.
+
+personas:
+  - { name: "Utilization Review Nurse", role: primary }
+  - { name: "Medical Director", role: secondary }
+  - { name: "Claims Operations VP", role: secondary }
+
+kpis:
+  - name: "turnaround time"
+    direction: down
+    wave2_target: "-50 to -70%"
+  - name: "denial-overturn rate"
+    direction: down
+
+slos:
+  - { name: "HIPAA audit retention", target: "10 years", enforcement: regulatory }
+
+waves:
+  - wave: wave_1
+    duration: "6-10 weeks"
+    fee_band_low_usd: 500000
+    fee_band_high_usd: 1300000
+  - wave: wave_2
+    duration: "9-15 months"
+    fee_band_low_usd: 4000000
+    fee_band_high_usd: 15000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.hls.agents.utilization-management
+
+linked_archetypes:
+  - F4-regulatory-trigger-audit-preserve
+
+schemas_touched: [ClaimML, PatientML]
+standards: ['HIPAA', 'EDI X12 HIPAA']
+primary_contact: hls-practice-lead@deloitte.com

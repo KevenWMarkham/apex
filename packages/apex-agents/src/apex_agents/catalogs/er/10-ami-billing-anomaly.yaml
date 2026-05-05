@@ -1,0 +1,24 @@
+kind: agent
+name: apex.er.agents.ami-billing-anomaly
+version: 0.1.0
+practice: er
+persona: Customer Operations Director
+service_codes: [ER-PU-05]
+model_tier: lightweight
+model_pin: gpt-4o-mini-2024-07-18
+prompt_sha: ""
+description: >
+  AMI consumption-anomaly detection at billing time. Flags meters with
+  reads incompatible with usage history before invoice generation.
+archetype_id: F1-continuous-monitor-hitl-alert
+primary_contact: er-pu-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.er.mcp.meterml.get_ami_reads
+    purpose: Read AMI interval data for billing window
+  - tool_id: apex.er.mcp.meterml.get_consumption_history
+    purpose: Read historical consumption pattern
+
+oversight_modes: [HOTL]
+kpis:
+  - { name: bill-correction rate, direction: down }

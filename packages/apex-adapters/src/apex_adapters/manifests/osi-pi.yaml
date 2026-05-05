@@ -1,0 +1,41 @@
+kind: adapter
+name: osi-pi
+version: 0.1.0
+sor_name: OSIsoft / AVEVA PI System
+sor_vendor: AVEVA (formerly OSIsoft)
+practice: er
+connection_method: eventstream
+schedule: continuous
+bronze_workspace: apex-er-prod-bronze
+description: >
+  PI Asset Framework + PI Vision live tag stream into Eventhouse. ER
+  Practice's primary OT-source for upstream O&G + power generation
+  workloads. PI tokens are scoped per asset hierarchy; tag values land
+  raw in Bronze with PI-tag-name preserved.
+standards: [ISA-95, OPC UA]
+schema_mappings:
+  - source_table: PiTagValue
+    bronze_table: bronze_pi_tag_value
+    primary_key: [TagName, EventTimestamp]
+    fields:
+      - { source_field: TagName,        bronze_column: tag_name,        bronze_type: string,  nullable: false }
+      - { source_field: EventTimestamp, bronze_column: event_ts,        bronze_type: timestamp, nullable: false }
+      - { source_field: Value,          bronze_column: value,           bronze_type: double }
+      - { source_field: Quality,        bronze_column: quality,         bronze_type: string }
+      - { source_field: AssetHierarchyPath, bronze_column: asset_path,  bronze_type: string }
+runbook:
+  primary_contact: er-data-platform@deloitte.com
+  sla_recovery_minutes: 15
+  failure_modes:
+    - code: PI_CONNECTOR_DOWN
+      description: PI Web API endpoint unreachable
+      severity: critical
+      retry: true
+      retry_max: 5
+      backoff_seconds: 30
+      escalation: er-on-call
+    - code: TAG_BACKFILL_GAP
+      description: Eventstream lag created a tag-value backfill gap
+      severity: error
+      retry: false
+      escalation: er-on-call

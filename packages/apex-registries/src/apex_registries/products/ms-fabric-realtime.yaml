@@ -1,0 +1,11 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: product
+product_id: ms.fabric.realtime
+family: fabric
+display_name: Microsoft Fabric Real-Time Intelligence
+sku_or_tier: RTI
+description: Streaming-first ingestion + KQL-based analysis.
+list_price_basis: consumption
+typical_use: Telemetry pipelines
+apex_role: Sprint 15 streaming adapters
+appendix_g_section: Appendix G — fabric

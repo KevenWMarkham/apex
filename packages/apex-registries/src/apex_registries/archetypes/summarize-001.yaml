@@ -1,0 +1,16 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.summarize.001
+family: summarize
+name: Operational Digest
+description: Daily/shift digest with prioritized actions.
+canonical_inputs:
+- MultiSourceSignals
+canonical_outputs:
+- DigestNarrative
+typical_hitl_gate: Recipient acknowledges
+typical_oversight: HOTL
+typical_model_tier: standard
+example_agents:
+- apex.rc.agents.store-ops-intelligence
+appendix_d_section: Appendix D — Archetype family summarize

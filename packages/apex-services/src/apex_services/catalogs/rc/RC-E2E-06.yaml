@@ -1,0 +1,54 @@
+kind: service
+service_code: RC-E2E-06
+version: 0.1.0
+practice: rc
+display_name: Cold Chain Excursion Response
+brief: "Real-time perishables-integrity agent with FSMA 204 lot provenance and HITL on destroy/markdown."
+description: >
+  Reference deployment service per Sellers Guide §16.13 Big Box Store Store 100. End-to-end orchestration from temperature-excursion event through agent reasoning to HITL-approved disposition with full audit row.
+
+personas:
+  - { name: "Store Manager", role: primary }
+  - { name: "VP Asset Protection", role: secondary }
+  - { name: "Chief Compliance Officer", role: secondary }
+
+kpis:
+  - name: "write-off recovery"
+    direction: money
+    wave2_target: "$2.8M/yr typical"
+    wave3_target: "$5-8M/yr at scale"
+  - name: "regulator-ready audit"
+    direction: neutral
+    wave2_target: "100% of events"
+
+slos:
+  - { name: "excursion-to-decision time", target: "< 4 minutes", enforcement: hard }
+  - { name: "audit-row WORM retention", target: "7 years", enforcement: regulatory }
+
+waves:
+  - wave: wave_1
+    duration: "8-10 weeks"
+    fee_band_low_usd: 400000
+    fee_band_high_usd: 900000
+  - wave: wave_2
+    duration: "6-12 months"
+    fee_band_low_usd: 3000000
+    fee_band_high_usd: 12000000
+  - wave: wave_3
+    duration: "multi-year"
+    fee_band_low_usd: 5000000
+    fee_band_high_usd: 20000000
+
+commercial_model: value_share
+value_share_eligible: true
+
+linked_agents:
+  - apex.rc.agents.cold-chain-response
+
+linked_archetypes:
+  - F1-continuous-monitor-hitl-alert
+  - F4-regulatory-trigger-audit-preserve
+
+schemas_touched: [SCML, MERML]
+standards: ['FSMA 204', 'EPCIS', 'GS1']
+primary_contact: rc-practice-lead@deloitte.com

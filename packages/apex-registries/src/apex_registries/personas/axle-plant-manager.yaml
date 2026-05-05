@@ -1,0 +1,12 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: persona
+persona_id: persona.axle.plant-manager
+name: Plant Manager
+practice: axle
+seniority: manager
+function: agent
+description: Plant Manager (AXLE). Persona referenced by APEX agent manifests.
+typical_decisions: []
+pains: []
+metrics_owned: []
+appendix_e_section: Appendix E — AXLE Personas

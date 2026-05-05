@@ -1,0 +1,15 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.translate.003
+family: translate
+name: Protocol Adapter
+description: Adapt protocol layers (REST to gRPC, MQTT to AMQP).
+canonical_inputs:
+- SourcePayload
+canonical_outputs:
+- TargetPayload
+typical_hitl_gate: API gateway gate
+typical_oversight: HOTL
+typical_model_tier: lightweight
+example_agents: []
+appendix_d_section: Appendix D — Archetype family translate

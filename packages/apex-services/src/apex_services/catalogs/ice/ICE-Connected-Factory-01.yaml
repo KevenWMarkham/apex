@@ -1,0 +1,44 @@
+kind: service
+service_code: ICE-Connected-Factory-01
+version: 0.1.0
+practice: ice
+display_name: Connected Equipment Fleet Health
+brief: "Fleet-wide connected-equipment health monitoring across construction, agriculture, mining equipment."
+description: >
+  ICE foundational service for OEM aftermarket motion. Aggregates duty cycle, fault, and serviceability signals.
+
+personas:
+  - { name: "Fleet Operations Director", role: primary }
+  - { name: "Aftermarket Director", role: secondary }
+  - { name: "Chief Technology Officer", role: secondary }
+
+kpis:
+  - name: "fleet utilization"
+    direction: up
+    wave2_target: "+3-7%"
+  - name: "serviceability rate"
+    direction: up
+
+waves:
+  - wave: wave_1
+    duration: "6-10 weeks"
+    fee_band_low_usd: 500000
+    fee_band_high_usd: 1400000
+  - wave: wave_2
+    duration: "12-18 months"
+    fee_band_low_usd: 5000000
+    fee_band_high_usd: 22000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.ice.agents.fleet-health
+  - apex.ice.agents.operator-coaching
+
+linked_archetypes:
+  - F1-continuous-monitor-hitl-alert
+
+schemas_touched: [ConnectedICEML, EquipML]
+standards: ['AEMP 2.0', 'SAE J1939', 'ISOBUS']
+primary_contact: ice-practice-lead@deloitte.com

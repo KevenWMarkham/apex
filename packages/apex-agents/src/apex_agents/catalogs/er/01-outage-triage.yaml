@@ -1,0 +1,35 @@
+kind: agent
+name: apex.er.agents.outage-triage
+version: 0.1.0
+practice: er
+persona: Distribution Dispatcher
+service_codes: [ER-PU-01]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Real-time grid outage triage fusing SCADA fault indication, AMI
+  last-gasp, and topology to identify affected feeders and prioritize
+  restoration.
+archetype_id: F1-continuous-monitor-hitl-alert
+primary_contact: er-pu-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.er.mcp.gridml.get_scada_alarms
+    purpose: Read live SCADA fault indications
+  - tool_id: apex.er.mcp.meterml.get_ami_last_gasp
+    purpose: Read AMI last-gasp messages
+  - tool_id: apex.er.mcp.gridml.get_topology
+    purpose: Read current grid topology
+
+hitl_gates:
+  - name: dispatch_action
+    description: Crew dispatch requires dispatcher approval
+    fires_when: Recommendation to dispatch field crew
+    surface: dashboard
+    sla_minutes: 5
+
+oversight_modes: [HITL, HOTL]
+kpis:
+  - { name: SAIDI, direction: down, target_band: "-15 to -25%" }
+  - { name: customer-minutes lost, direction: down }

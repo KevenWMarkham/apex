@@ -1,0 +1,41 @@
+kind: service
+service_code: ICE-EaaS-01
+version: 0.1.0
+practice: ice
+display_name: Equipment-as-a-Service Rental
+brief: "Rental-fleet utilization optimization with under-utilized-unit identification and repositioning."
+description: >
+  ICE EaaS service for rental businesses. Drives rental utilization improvement.
+
+personas:
+  - { name: "Rental Operations Manager", role: primary }
+  - { name: "VP Rental Business", role: secondary }
+
+kpis:
+  - name: "rental utilization"
+    direction: up
+    wave2_target: "+3-7 pp"
+  - name: "revenue per unit per day"
+    direction: up
+
+waves:
+  - wave: wave_1
+    duration: "4-8 weeks"
+    fee_band_low_usd: 300000
+    fee_band_high_usd: 800000
+  - wave: wave_2
+    duration: "6-12 months"
+    fee_band_low_usd: 2000000
+    fee_band_high_usd: 7000000
+
+commercial_model: value_share
+value_share_eligible: true
+
+linked_agents:
+  - apex.ice.agents.rental-utilization
+
+linked_archetypes:
+  - F3-predictive-trigger-workflow-aware
+
+schemas_touched: [ConnectedICEML, AMML-ICE]
+primary_contact: ice-practice-lead@deloitte.com

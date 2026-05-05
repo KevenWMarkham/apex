@@ -1,0 +1,38 @@
+kind: agent
+name: apex.hls.agents.patient-identity
+version: 0.1.0
+practice: hls
+persona: Health Information Manager
+service_codes: [HLS-E2E-04]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Master Patient Index (MPI) deduplication across EHR + ancillary +
+  affiliated-network feeds. Resolves probabilistic matches with
+  data-steward HITL on lower-confidence merges.
+archetype_id: F5-identity-resolution-confidence-merge
+primary_contact: hls-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.hls.mcp.patientml.get_candidate_duplicates
+    purpose: Read candidate duplicate clusters
+  - tool_id: apex.hls.mcp.patientml.merge_records
+    purpose: Merge confirmed duplicate
+    write: true
+
+hitl_gates:
+  - name: merge_confirmation
+    description: All merges require data-steward confirmation
+    fires_when: Always — patient-record merges are clinically consequential
+    surface: dashboard
+    sla_minutes: 1440
+
+oversight_modes: [HITL]
+
+forbidden_classifications: [pci]
+
+kpis:
+  - name: duplicate rate
+    direction: down
+    target_band: "from typical 8-12% to <2%"

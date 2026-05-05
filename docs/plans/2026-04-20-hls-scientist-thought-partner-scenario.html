@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HLS Scientist Thought-Partner — Scenario Brainstorm</title>
+  <style>
+    :root {
+      --navy: #1A2339;
+      --teal: #0D7D70;
+      --teal-soft: #2DD4BF;
+      --slate: #475569;
+      --slate-light: #64748B;
+      --bg: #F8FAFC;
+      --card: #FFFFFF;
+      --border: #E2E8F0;
+      --border-strong: #CBD5E1;
+      --accent: #EFF6FF;
+      --danger: #B45309;
+      --success: #047857;
+      --amber: #D97706;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--navy);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.55;
+    }
+    header {
+      background: var(--navy);
+      color: #fff;
+      padding: 32px 48px 24px;
+      border-bottom: 4px solid var(--teal);
+    }
+    header h1 { margin: 0 0 6px; font-size: 28px; font-weight: 600; }
+    header p { margin: 0; opacity: 0.85; font-size: 15px; }
+    header .meta { margin-top: 12px; font-size: 13px; opacity: 0.7; }
+    header .meta span { margin-right: 18px; }
+    main { max-width: 1200px; margin: 0 auto; padding: 0 24px 64px; }
+    nav.tabs {
+      display: flex;
+      gap: 4px;
+      margin-top: 24px;
+      border-bottom: 2px solid var(--border-strong);
+      overflow-x: auto;
+    }
+    nav.tabs button {
+      appearance: none;
+      background: transparent;
+      border: 0;
+      padding: 12px 18px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--slate);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      white-space: nowrap;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    nav.tabs button:hover { color: var(--navy); }
+    nav.tabs button.active {
+      color: var(--teal);
+      border-bottom-color: var(--teal);
+    }
+    section.panel { display: none; padding: 32px 4px; }
+    section.panel.active { display: block; }
+    h2 {
+      font-size: 22px;
+      margin: 0 0 8px;
+      color: var(--navy);
+    }
+    h2 + .lede { margin: 0 0 24px; color: var(--slate); font-size: 15px; }
+    h3 { font-size: 16px; margin: 24px 0 10px; color: var(--navy); }
+    .grid { display: grid; gap: 16px; }
+    .grid.cols-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+    .grid.cols-3 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+    .card h4 {
+      margin: 0 0 8px;
+      font-size: 15px;
+      color: var(--teal);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card h4 .tag {
+      font-size: 10px;
+      font-weight: 600;
+      background: var(--accent);
+      color: var(--teal);
+      border: 1px solid var(--teal);
+      border-radius: 20px;
+      padding: 2px 8px;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+    }
+    .card p { margin: 6px 0; font-size: 14px; color: var(--slate); }
+    .card ul { margin: 8px 0; padding-left: 20px; font-size: 14px; color: var(--slate); }
+    .card ul li { margin-bottom: 4px; }
+    .card .label {
+      font-size: 11px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--slate-light);
+      font-weight: 600;
+      display: block;
+      margin-top: 12px;
+    }
+    .callout {
+      background: #FEF3C7;
+      border: 1px solid #FDE68A;
+      border-left: 4px solid var(--amber);
+      border-radius: 6px;
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-size: 14px;
+      color: #78350F;
+    }
+    .callout.ok {
+      background: #ECFDF5;
+      border-color: #A7F3D0;
+      border-left-color: var(--success);
+      color: #064E3B;
+    }
+    .callout.info {
+      background: var(--accent);
+      border-color: #BFDBFE;
+      border-left-color: #2563EB;
+      color: #1E3A8A;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      font-size: 14px;
+    }
+    table th, table td {
+      text-align: left;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    table th {
+      background: var(--accent);
+      color: var(--navy);
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    table td code {
+      background: #F1F5F9;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 12.5px;
+    }
+    .vignette {
+      background: linear-gradient(180deg, #F1F5F9 0%, #FFFFFF 100%);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 28px;
+      margin: 20px 0;
+    }
+    .vignette .turn {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 16px;
+      padding: 12px 0;
+      border-bottom: 1px dashed var(--border);
+    }
+    .vignette .turn:last-child { border-bottom: 0; }
+    .vignette .turn .actor {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--teal);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .vignette .turn.ai .actor { color: #7C3AED; }
+    .vignette .turn.gate .actor { color: var(--amber); }
+    .vignette .turn p { margin: 0; font-size: 14px; color: var(--navy); }
+    .vignette .turn code {
+      background: #EEF2FF;
+      color: #3730A3;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 12.5px;
+    }
+    .flow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      font-size: 13px;
+      margin: 12px 0;
+    }
+    .flow .node {
+      background: var(--card);
+      border: 1px solid var(--border-strong);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+    .flow .node.agent { background: #F5F3FF; border-color: #C4B5FD; color: #5B21B6; }
+    .flow .node.gate { background: #FEF3C7; border-color: #FDE68A; color: #78350F; }
+    .flow .node.audit { background: #ECFDF5; border-color: #A7F3D0; color: #064E3B; }
+    .flow .arrow { color: var(--slate-light); font-weight: 600; }
+    details {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin: 10px 0;
+      background: var(--card);
+    }
+    details summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--navy);
+    }
+    details[open] summary { margin-bottom: 10px; }
+    details p, details ul { font-size: 14px; color: var(--slate); }
+    kbd {
+      background: #F1F5F9;
+      border: 1px solid var(--border-strong);
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-size: 12px;
+      color: var(--navy);
+    }
+    footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--slate-light);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>HLS Scientist Thought-Partner</h1>
+    <p>A scenario brainstorm for the APEX HLS Practice: AI-augmented lab notebook with regulatory-grade decision capture and end-to-end product-lifecycle threading.</p>
+    <div class="meta">
+      <span><strong>Status:</strong> Brainstorm — pre-design</span>
+      <span><strong>Date:</strong> 2026-04-20</span>
+      <span><strong>Design reference:</strong> APEX_Design.md §15 HLS</span>
+    </div>
+  </header>
+
+  <main>
+    <nav class="tabs" role="tablist">
+      <button class="active" data-tab="vision">Vision</button>
+      <button data-tab="personas">Personas</button>
+      <button data-tab="vignette">Day-in-Life</button>
+      <button data-tab="modes">AI Modes</button>
+      <button data-tab="regulations">Regulations</button>
+      <button data-tab="lifecycle">Lifecycle</button>
+      <button data-tab="apex">APEX Mapping</button>
+      <button data-tab="questions">Open Questions</button>
+    </nav>
+
+    <!-- ============================================================ -->
+    <!-- TAB 1: VISION                                                -->
+    <!-- ============================================================ -->
+    <section class="panel active" id="vision">
+      <h2>What we're building</h2>
+      <p class="lede">A notebook that thinks with the scientist — and leaves a regulator-defensible trail without anyone having to stop and format it that way.</p>
+
+      <div class="grid cols-2">
+        <div class="card">
+          <h4>The gap this closes</h4>
+          <p>Scientists today keep two (or three) records in parallel: a paper lab notebook, a digital ELN, and a mental model of "what this means for the product / the regulator." The three rarely align, which costs time at submission and creates compliance risk.</p>
+        </div>
+        <div class="card">
+          <h4>The promise</h4>
+          <p>One surface where the scientist narrates their work in natural language. An AI thought-partner listens, structures, flags the moments where a <em>decision</em> is being made, and captures that decision once — with signed provenance — so it flows automatically into the downstream regulatory submission and product record.</p>
+        </div>
+      </div>
+
+      <h3>The three questions APEX answers — applied here</h3>
+      <table>
+        <thead>
+          <tr><th>APEX question</th><th>What that looks like for this scientist</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>What should happen next?</strong></td>
+            <td>The agent proposes: "This observation looks like a protocol deviation — do you want to log a PD and notify QA?"</td>
+          </tr>
+          <tr>
+            <td><strong>Who must approve, and under what rules?</strong></td>
+            <td>Deterministic gate: protocol deviations → HITL to QA; hypothesis refinements → ACK_ONLY; typos → ZERO_TOUCH.</td>
+          </tr>
+          <tr>
+            <td><strong>What audit trail does the decision leave?</strong></td>
+            <td>21 CFR Part 11-compliant signed record: who, when, why, what-was-known, model version, prompt version, policy version. Immutable.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout info">
+        <strong>APEX positioning:</strong> This is not an ELN replacement. It's a thought-partner that sits alongside ELN/LIMS systems, consuming their canonical data via <code>hlscml-mcp</code> and writing structured decisions back to them through the Silver layer.
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- TAB 2: PERSONAS                                              -->
+    <!-- ============================================================ -->
+    <section class="panel" id="personas">
+      <h2>Scientist personas</h2>
+      <p class="lede">Different scientists, different regulatory surfaces, different interaction shapes. Picking an anchor persona determines the first increment; others become extensions in Wave 2+.</p>
+
+      <div class="grid cols-2">
+        <div class="card">
+          <h4>Discovery chemist / bench scientist <span class="tag">Earliest</span></h4>
+          <p>Runs wet-lab experiments, captures hypotheses and results, tracks IP-relevant observations. Mostly GLP-adjacent; heavy IP notebook requirements.</p>
+          <span class="label">AI earns its keep by</span>
+          <ul>
+            <li>Structuring free-form observations into experiment records</li>
+            <li>Suggesting next experiment based on the current result</li>
+            <li>Flagging when an observation changes the IP claim</li>
+          </ul>
+          <span class="label">Regulatory surface</span>
+          <ul><li>GLP, 21 CFR Part 58, IP/patent disclosure timing</li></ul>
+        </div>
+
+        <div class="card">
+          <h4>CMC scientist <span class="tag">Chemistry · Manufacturing · Controls</span></h4>
+          <p>Owns process development, transitions from lab-scale to GMP manufacturing, authors CMC sections of regulatory submissions (IND, NDA, BLA).</p>
+          <span class="label">AI earns its keep by</span>
+          <ul>
+            <li>Watching process-parameter drift and flagging deviations before they become PDs</li>
+            <li>Assembling submission-ready CMC narrative from bench notes</li>
+            <li>Cross-referencing ICH Q8/Q9/Q10 requirements</li>
+          </ul>
+          <span class="label">Regulatory surface</span>
+          <ul><li>GMP, ICH Q8–Q11, 21 CFR 210/211, CMC sections of IND/NDA</li></ul>
+        </div>
+
+        <div class="card">
+          <h4>Clinical researcher / investigator <span class="tag">Clinical</span></h4>
+          <p>Executes clinical protocols at a site or sponsor level, captures subject-level events, writes sections of the Clinical Study Report.</p>
+          <span class="label">AI earns its keep by</span>
+          <ul>
+            <li>Catching protocol deviations at the moment the scientist describes them</li>
+            <li>Linking adverse events to subject FHIR records and safety signal queries</li>
+            <li>Drafting CSR sections from structured notes</li>
+          </ul>
+          <span class="label">Regulatory surface</span>
+          <ul><li>GCP, ICH E6(R2), 21 CFR 50/56/312, CDISC SDTM/ADaM</li></ul>
+        </div>
+
+        <div class="card">
+          <h4>Biostatistician / data scientist <span class="tag">Analysis</span></h4>
+          <p>Owns Statistical Analysis Plans, runs pre-specified and exploratory analyses, answers regulator questions during review.</p>
+          <span class="label">AI earns its keep by</span>
+          <ul>
+            <li>Capturing the <em>rationale</em> for every SAP change (the part regulators grill)</li>
+            <li>Tracking pre-specified vs post-hoc analyses</li>
+            <li>Drafting response narratives to regulator info-requests</li>
+          </ul>
+          <span class="label">Regulatory surface</span>
+          <ul><li>ICH E9, CDISC ADaM, regulatory Q&A traceability</li></ul>
+        </div>
+
+        <div class="card">
+          <h4>Medical device engineer <span class="tag">Device</span></h4>
+          <p>Runs design-control activities, produces Design History File, manages risk analysis through the product lifecycle.</p>
+          <span class="label">AI earns its keep by</span>
+          <ul>
+            <li>Keeping the DHF live instead of assembled-at-the-end</li>
+            <li>Linking risk-analysis updates to design changes</li>
+            <li>Drafting 510(k) / PMA sections from design-control artefacts</li>
+          </ul>
+          <span class="label">Regulatory surface</span>
+          <ul><li>21 CFR 820 (QSR), ISO 13485, ISO 14971 (risk), IEC 62304 (SaMD), EU MDR</li></ul>
+        </div>
+
+        <div class="card">
+          <h4>Regulatory writer / reviewer <span class="tag">Adjacent</span></h4>
+          <p>Not a "scientist" in the bench sense, but a heavy consumer of whatever the thought-partner captures. Benefits when upstream capture is structured.</p>
+          <span class="label">AI earns its keep by</span>
+          <ul>
+            <li>Surfacing all open regulatory decisions across a product line</li>
+            <li>Diffing the current submission draft against the captured decision record</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- TAB 3: DAY-IN-LIFE VIGNETTE                                  -->
+    <!-- ============================================================ -->
+    <section class="panel" id="vignette">
+      <h2>One moment, illustrated</h2>
+      <p class="lede">A CMC scientist at the bench, 10:34 AM on a Tuesday. This is the shape of the interaction — not a script, but the kind of thing the AI thought-partner enables.</p>
+
+      <div class="vignette">
+        <div class="turn">
+          <div class="actor">Scientist</div>
+          <p><em>(dictating into Teams while working)</em> "Running batch APX-2026-044. pH came in at 7.8 instead of the 7.4 target. Temperature was 2 degrees high on the start — I think the heating element is drifting. Product looks fine visually. Going to proceed but flag it."</p>
+        </div>
+        <div class="turn ai">
+          <div class="actor">AI</div>
+          <p>Two things caught my attention. (1) The pH deviation is outside the ±0.2 window in the process validation record for APX-2026 — that's a <strong>protocol deviation by the CMC definition</strong>, not just a note. (2) You said "temperature was 2 degrees high" but didn't specify units or duration — can you confirm so I log it precisely?</p>
+        </div>
+        <div class="turn">
+          <div class="actor">Scientist</div>
+          <p>"2 degrees C, for about 15 minutes at the start. Confirmed."</p>
+        </div>
+        <div class="turn ai">
+          <div class="actor">AI</div>
+          <p>Thanks. I'm proposing this as a <strong>Protocol Deviation record</strong> against APX-2026 PV-3.1. It's material to the CMC section. Before I write it, two decisions are yours: (a) is the batch <em>salvageable</em> per §5.2 of the validation plan, or does this invalidate it? (b) Do you want to proceed or halt?</p>
+          <p>If it's salvageable and you proceed, this needs <strong>QA concurrence</strong> before batch release. I can ping QA now so the review is parallel to your continuing work.</p>
+        </div>
+        <div class="turn gate">
+          <div class="actor">Gate</div>
+          <p>HITL: <code>batch-disposition</code> — Protocol Deviation + proceed/halt. Options: <kbd>Salvageable, proceed, QA concur</kbd> · <kbd>Invalidate batch</kbd> · <kbd>Halt pending QA</kbd>. Scientist's choice is the decision; QA concur is the second signature.</p>
+        </div>
+        <div class="turn">
+          <div class="actor">Scientist</div>
+          <p>"Salvageable, proceed, flag for QA."</p>
+        </div>
+        <div class="turn audit">
+          <div class="actor" style="color: var(--success)">Audit</div>
+          <p>Signed decision row written to <code>ledger-mcp</code>: <code>decision_id</code>, <code>agent_id</code>, <code>invoking_identity</code> (scientist's Entra ID), three version SHAs pinned, reasoning trace captured (DLP-scrubbed), PD linked to batch record, QA notification sent. <em>Total scientist friction added: 45 seconds.</em></p>
+        </div>
+      </div>
+
+      <div class="callout ok">
+        <strong>What's different from today:</strong> Without the thought-partner, this deviation might end up as a line in the notebook, recognised as a PD weeks later during batch-record review, and reconstructed imperfectly for the submission. Here it's captured as a structured, signed, linked decision <em>at the moment it's made</em>, with zero additional forms to fill.
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- TAB 4: AI MODES                                              -->
+    <!-- ============================================================ -->
+    <section class="panel" id="modes">
+      <h2>How the AI participates</h2>
+      <p class="lede">Same underlying agent infrastructure, four distinct interaction modes. Most sessions blend them.</p>
+
+      <div class="grid cols-2">
+        <div class="card">
+          <h4>Mode 1 — Passive structurer</h4>
+          <p>Scientist dictates or types freely. AI listens silently, structures the narrative into an ELN-ready record (experiment, observation, result, hypothesis). Surfaces the structured version for a thumbs-up.</p>
+          <span class="label">HITL</span><ul><li><code>ACK_ONLY</code> on structured record acceptance</li></ul>
+        </div>
+
+        <div class="card">
+          <h4>Mode 2 — Clarity prompter</h4>
+          <p>When the scientist says something ambiguous or contradicts an earlier note, the AI asks a single targeted question. Not about the science — about the <em>record</em>. "You said the temperature was high but didn't specify duration — was this sustained or transient?"</p>
+          <span class="label">HITL</span><ul><li>Conversational; no formal gate</li></ul>
+        </div>
+
+        <div class="card">
+          <h4>Mode 3 — Regulatory sentinel</h4>
+          <p>Watches for patterns that map to regulatory triggers (PD, AE, SAE, OOS, deviation, change control). Raises these explicitly. Never silent-files a regulatory event.</p>
+          <span class="label">HITL</span><ul><li><code>HITL</code> on every regulatory-grade decision</li><li><code>ESCALATION</code> when safety signal thresholds cross</li></ul>
+        </div>
+
+        <div class="card">
+          <h4>Mode 4 — Lifecycle threader</h4>
+          <p>Keeps an internal graph: decision → affected-record → downstream-artefact (CMC section, CSR section, DHF entry, submission module). When the scientist makes a decision today, the lifecycle threader knows which submission section it will flow into tomorrow.</p>
+          <span class="label">HITL</span><ul><li>Per-downstream-artefact, at assembly time</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- TAB 5: REGULATIONS                                           -->
+    <!-- ============================================================ -->
+    <section class="panel" id="regulations">
+      <h2>Regulatory scope</h2>
+      <p class="lede">A scientist-facing scenario touches many regimes. Any MVP must be clear about which it covers and which it declines to cover.</p>
+
+      <table>
+        <thead>
+          <tr><th>Regime</th><th>What it governs</th><th>Relevance to this scenario</th><th>MVP?</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>21 CFR Part 11</strong></td>
+            <td>Electronic records + electronic signatures</td>
+            <td>Every decision row is a signed record; non-negotiable</td>
+            <td>✅ Table stakes</td>
+          </tr>
+          <tr>
+            <td><strong>GLP (21 CFR 58)</strong></td>
+            <td>Nonclinical lab practice</td>
+            <td>Discovery + preclinical scientists; notebook + SOPs + QA</td>
+            <td>✅ Likely</td>
+          </tr>
+          <tr>
+            <td><strong>GCP (ICH E6 R2/R3)</strong></td>
+            <td>Clinical study conduct</td>
+            <td>Clinical researcher persona; adverse events, PDs, monitoring</td>
+            <td>Conditional on persona</td>
+          </tr>
+          <tr>
+            <td><strong>GMP (21 CFR 210/211)</strong></td>
+            <td>Manufacturing practice</td>
+            <td>CMC scientist persona; batch records, deviations, change control</td>
+            <td>Conditional on persona</td>
+          </tr>
+          <tr>
+            <td><strong>ICH Q8 / Q9 / Q10 / Q11</strong></td>
+            <td>Pharma quality, risk, pharmaceutical development</td>
+            <td>Frames "design space" decisions CMC scientists make</td>
+            <td>✅ Yes if CMC persona</td>
+          </tr>
+          <tr>
+            <td><strong>ICH E9</strong></td>
+            <td>Statistical principles for clinical trials</td>
+            <td>Biostat persona: SAP, pre-specified vs post-hoc</td>
+            <td>Conditional on persona</td>
+          </tr>
+          <tr>
+            <td><strong>21 CFR 820 / ISO 13485</strong></td>
+            <td>Medical device quality system</td>
+            <td>Device engineer persona: DHF, design controls</td>
+            <td>Conditional on persona</td>
+          </tr>
+          <tr>
+            <td><strong>ISO 14971</strong></td>
+            <td>Medical device risk management</td>
+            <td>Device engineer persona</td>
+            <td>Conditional on persona</td>
+          </tr>
+          <tr>
+            <td><strong>EU MDR 2017/745</strong></td>
+            <td>EU medical device regulation</td>
+            <td>Device engineer persona + EU-market products</td>
+            <td>Phase 2+</td>
+          </tr>
+          <tr>
+            <td><strong>EMA Clinical Trial Regulation</strong></td>
+            <td>EU clinical trial conduct</td>
+            <td>Clinical researcher + EU-site studies</td>
+            <td>Phase 2+</td>
+          </tr>
+          <tr>
+            <td><strong>CDISC ODM / SDTM / ADaM</strong></td>
+            <td>Clinical data tabulation</td>
+            <td>Already in APEX via <code>apex-standards-cdisc</code></td>
+            <td>✅ Infrastructure exists</td>
+          </tr>
+          <tr>
+            <td><strong>PMDA / NMPA / Health Canada</strong></td>
+            <td>Japan / China / Canada regulators</td>
+            <td>Market expansion</td>
+            <td>Later</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout">
+        <strong>MVP recommendation:</strong> Pick <strong>one persona</strong> × <strong>one regime beyond 21 CFR Part 11</strong> × <strong>one product-lifecycle stage</strong>. Expand from there. Trying to cover all regimes from day one is how these projects die.
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- TAB 6: LIFECYCLE                                             -->
+    <!-- ============================================================ -->
+    <section class="panel" id="lifecycle">
+      <h2>End-to-end product lifecycle</h2>
+      <p class="lede">"Drive end-to-end for design and implementation of products" means decisions made in early stages must still be retrievable — and correctly interpretable — in late stages.</p>
+
+      <div class="flow">
+        <div class="node">Discovery</div>
+        <div class="arrow">→</div>
+        <div class="node">Preclinical</div>
+        <div class="arrow">→</div>
+        <div class="node">Clinical Phase 1</div>
+        <div class="arrow">→</div>
+        <div class="node">Clinical Phase 2</div>
+        <div class="arrow">→</div>
+        <div class="node">Clinical Phase 3</div>
+        <div class="arrow">→</div>
+        <div class="node">Submission</div>
+        <div class="arrow">→</div>
+        <div class="node">Approval</div>
+        <div class="arrow">→</div>
+        <div class="node">Manufacturing</div>
+        <div class="arrow">→</div>
+        <div class="node">Post-market</div>
+      </div>
+
+      <h3>How a decision threads through</h3>
+      <div class="card">
+        <p><strong>Example:</strong> A CMC scientist decides during preclinical that the acceptable range for a critical quality attribute (CQA) is ±5%.</p>
+        <ul>
+          <li><strong>Preclinical:</strong> Decision row written, linked to CQA specification.</li>
+          <li><strong>Clinical Phase 1:</strong> Batch-release specs pull the ±5% from the decision row; any batch outside triggers a PD; scientist who set the ±5% is referenced in the PD record.</li>
+          <li><strong>Clinical Phase 3:</strong> Process validation uses the same spec; if a validation batch exceeds ±5%, the lifecycle threader surfaces the original rationale to the investigator.</li>
+          <li><strong>Submission:</strong> The CMC section of the NDA is drafted referencing the original decision row and every downstream batch-record event that tested against it.</li>
+          <li><strong>Manufacturing:</strong> Commercial-scale deviation from ±5% triggers a change-control evaluation; the decision row is the starting reference.</li>
+          <li><strong>Post-market:</strong> If an adverse event cluster correlates with lot-level CQA values, the threader surfaces the decision chain back to the original rationale.</li>
+        </ul>
+      </div>
+
+      <div class="callout info">
+        Every stage is the <strong>same underlying decision row</strong>, referenced forward. Nobody retypes anything. Nobody reconciles notebooks. The auditor walks <code>trace_id</code> forward or backward.
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- TAB 7: APEX MAPPING                                          -->
+    <!-- ============================================================ -->
+    <section class="panel" id="apex">
+      <h2>Mapping into APEX</h2>
+      <p class="lede">This scenario is an HLS service composed of specialised agents, gated orchestrations, and audit rows that thread the 21 CFR Part 11 contract all the way through.</p>
+
+      <h3>Service declaration</h3>
+      <div class="card">
+        <p><strong>ServiceManifest:</strong> <code>hls-e2e-scientist-thought-partner</code></p>
+        <ul>
+          <li><strong>Practice:</strong> HLS</li>
+          <li><strong>Primary persona:</strong> (MVP anchor — TBD from brainstorm)</li>
+          <li><strong>HITL mode:</strong> HITL on regulatory decisions · HOTL on routine structuring · HIC on quarterly governance</li>
+          <li><strong>KPIs:</strong> time-to-submission-ready %, PD-capture latency, audit-trail completeness %, scientist-friction-seconds-per-decision</li>
+          <li><strong>SLO:</strong> p95 &lt; 2 s for ambient structuring; p95 &lt; 10 s for regulatory-sentinel classification</li>
+        </ul>
+      </div>
+
+      <h3>Agents composed</h3>
+      <div class="grid cols-3">
+        <div class="card">
+          <h4>Note-capture agent</h4>
+          <p>Ambient dictation / typing ingest; structures into HLSCML records; zero-touch unless ambiguous.</p>
+        </div>
+        <div class="card">
+          <h4>Clarity agent</h4>
+          <p>Targeted single-question probes when the record has a gap that will bite later.</p>
+        </div>
+        <div class="card">
+          <h4>Regulatory sentinel</h4>
+          <p>Classifies every utterance against a regulatory-trigger taxonomy (PD, AE, SAE, OOS, deviation, change-control).</p>
+        </div>
+        <div class="card">
+          <h4>Decision recorder</h4>
+          <p>Takes a classified trigger + the scientist's choice; produces the signed decision row; fires HITL to the right approver group.</p>
+        </div>
+        <div class="card">
+          <h4>Lifecycle threader</h4>
+          <p>Maintains the decision → downstream-artefact graph. Surfaces upstream decisions when a downstream artefact is touched.</p>
+        </div>
+        <div class="card">
+          <h4>Submission assembler</h4>
+          <p>At submission time, assembles CMC/CSR/DHF sections from decision rows + source artefacts. Never starts from scratch.</p>
+        </div>
+      </div>
+
+      <h3>Orchestration shape</h3>
+      <div class="flow">
+        <div class="node agent">Note-capture</div>
+        <div class="arrow">→</div>
+        <div class="node agent">Regulatory sentinel</div>
+        <div class="arrow">→</div>
+        <div class="node gate">HITL? (per classification)</div>
+        <div class="arrow">→</div>
+        <div class="node agent">Decision recorder</div>
+        <div class="arrow">→</div>
+        <div class="node audit">Signed row → ledger-mcp</div>
+        <div class="arrow">→</div>
+        <div class="node agent">Lifecycle threader</div>
+      </div>
+      <p>Primitive: <strong>sequential with conditional feedback-loop</strong>. Clarity agent re-opens the note-capture step when the note is ambiguous.</p>
+
+      <h3>Data flow</h3>
+      <div class="flow">
+        <div class="node">ELN / LIMS / Veeva</div>
+        <div class="arrow">→</div>
+        <div class="node">Bronze landing</div>
+        <div class="arrow">→</div>
+        <div class="node">HLSCML / StudyML Silver</div>
+        <div class="arrow">→</div>
+        <div class="node">Gold agent-safe views</div>
+        <div class="arrow">→</div>
+        <div class="node agent">hlscml-mcp</div>
+        <div class="arrow">→</div>
+        <div class="node agent">Agent fleet</div>
+        <div class="arrow">→</div>
+        <div class="node audit">Decision rows (ledger-mcp)</div>
+      </div>
+
+      <h3>Experience surface</h3>
+      <details>
+        <summary>Microsoft 365 Copilot / Teams channel</summary>
+        <p>Scientist narrates in Teams (voice or text); Copilot shows structured record, classifications, and HITL cards. Lowest friction for knowledge-worker scientists (CMC, biostat, regulatory). Uses Copilot Studio for the HITL surface.</p>
+      </details>
+      <details>
+        <summary>Native ELN plugin (Benchling / LabWare)</summary>
+        <p>Embedded UI inside the existing ELN. Right for bench scientists who already live in the ELN. Requires a plugin per ELN vendor — higher up-front cost.</p>
+      </details>
+      <details>
+        <summary>OneNote / Microsoft Loop</summary>
+        <p>Loop components embedded in pages. Good for teams who already standardise on OneNote. Less opinionated about structure.</p>
+      </details>
+      <details>
+        <summary>Power App canvas app</summary>
+        <p>Purpose-built app. Most opinionated; hardest sell if the scientist already has an ELN they prefer.</p>
+      </details>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- TAB 8: OPEN QUESTIONS                                        -->
+    <!-- ============================================================ -->
+    <section class="panel" id="questions">
+      <h2>Open questions to resolve before design</h2>
+      <p class="lede">Each row below is a decision that materially changes what we build. Answer any you have strong views on; I'll default the rest.</p>
+
+      <div class="grid cols-2">
+        <div class="card">
+          <h4>Q1 — Anchor persona</h4>
+          <p>Which scientist persona do we build for first? CMC is a strong default: clear regulatory surface, strong ROI, heavy decision volume.</p>
+        </div>
+        <div class="card">
+          <h4>Q2 — Lifecycle scope for MVP</h4>
+          <p>End-to-end is the North Star, but MVP needs a smaller bite. Preclinical + Phase 1? CMC-only (process dev through validation)? One clinical phase?</p>
+        </div>
+        <div class="card">
+          <h4>Q3 — Passive vs active AI</h4>
+          <p>Passive structurer + clarity prompter is a <em>safer</em> MVP. Active (proposing next experiments, drafting sections) is more ambitious and carries more risk of hallucination / scientist rejection.</p>
+        </div>
+        <div class="card">
+          <h4>Q4 — Experience surface</h4>
+          <p>Microsoft 365 Copilot / Teams channel is the fastest to ship and leverages identity + DLP already. ELN plugin is most native but slow to ship.</p>
+        </div>
+        <div class="card">
+          <h4>Q5 — Decision taxonomy</h4>
+          <p>What counts as a "regulatory decision"? A fixed taxonomy (PD / AE / SAE / OOS / deviation / change-control) is defensible but may miss edge cases. An extensible taxonomy is flexible but harder to govern.</p>
+        </div>
+        <div class="card">
+          <h4>Q6 — 21 CFR Part 11 validation</h4>
+          <p>APEX can produce the signed-record shape by design, but end-to-end Part-11 validation of the <em>system</em> is a separate commitment. Is that in MVP scope or a follow-on?</p>
+        </div>
+        <div class="card">
+          <h4>Q7 — Integration depth</h4>
+          <p>One ELN vendor (e.g. Benchling) or ELN-agnostic via HLSCML canonical layer? Agnostic is more work up front but compounds faster.</p>
+        </div>
+        <div class="card">
+          <h4>Q8 — Privacy + PHI</h4>
+          <p>How much PHI is in scope? Scientist notes often brush PHI (subject IDs, adverse-event narratives). Default: tokenise at the boundary per APEX standard; surface only tokens to the AI.</p>
+        </div>
+      </div>
+
+      <div class="callout info">
+        <strong>My recommended MVP (pending your feedback):</strong> CMC scientist persona · GMP + 21 CFR Part 11 + ICH Q8/Q10 · preclinical process dev through Phase 1 batch release · passive structurer + clarity + regulatory sentinel (modes 1–3) · Microsoft 365 Copilot / Teams as experience surface · HLSCML + StudyML canonical layer · decision taxonomy fixed to the six canonical triggers. Wave-1 envelope estimated at 12–16 weeks.
+      </div>
+    </section>
+
+    <footer>
+      APEX · HLS scenario brainstorm · 2026-04-20 · Single-file HTML, no external assets — share as-is or open locally in any browser.
+    </footer>
+  </main>
+
+  <script>
+    const tabs = document.querySelectorAll('nav.tabs button');
+    const panels = document.querySelectorAll('section.panel');
+    tabs.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.tab;
+        tabs.forEach(b => b.classList.toggle('active', b === btn));
+        panels.forEach(p => p.classList.toggle('active', p.id === target));
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.personalize.003
+family: personalize
+name: Substitution Recommendation
+description: Pre-stage alternates for at-risk SKUs / inventory gaps.
+canonical_inputs:
+- DemandSignal
+- InventoryState
+canonical_outputs:
+- SubstitutionPlan
+typical_hitl_gate: Category manager
+typical_oversight: HOTL
+typical_model_tier: standard
+example_agents:
+- apex.rc.agents.substitution-recommendation
+appendix_d_section: Appendix D — Archetype family personalize

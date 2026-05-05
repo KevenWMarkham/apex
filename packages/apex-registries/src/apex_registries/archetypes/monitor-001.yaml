@@ -1,0 +1,17 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.monitor.001
+family: monitor
+name: OEE / KPI Monitor
+description: Decompose KPI into drivers + flag attribution.
+canonical_inputs:
+- TelemetryStream
+- KPIMap
+canonical_outputs:
+- DriverDecomposition
+typical_hitl_gate: Plant manager digest
+typical_oversight: HOTL
+typical_model_tier: lightweight
+example_agents:
+- apex.axle.agents.oee-monitor
+appendix_d_section: Appendix D — Archetype family monitor

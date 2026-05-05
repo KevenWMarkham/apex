@@ -1,0 +1,41 @@
+kind: service
+service_code: TMT-TEL-04
+version: 0.1.0
+practice: tmt
+display_name: Telco Fraud Detection
+brief: "SIM-swap / international-fraud / wangiri pattern detection from CDR + provisioning streams."
+description: >
+  TEL fraud service. Reasoning-tier model with HITL on high-confidence-fraud account blocks.
+
+personas:
+  - { name: "Fraud Operations Manager", role: primary }
+  - { name: "Chief Risk Officer", role: secondary }
+  - { name: "Customer Operations VP", role: secondary }
+
+kpis:
+  - name: "fraud loss"
+    direction: money
+    wave2_target: "$5-12M/yr typical tier-1"
+
+waves:
+  - wave: wave_1
+    duration: "6-10 weeks"
+    fee_band_low_usd: 500000
+    fee_band_high_usd: 1500000
+  - wave: wave_2
+    duration: "9-15 months"
+    fee_band_low_usd: 5000000
+    fee_band_high_usd: 20000000
+
+commercial_model: value_share
+value_share_eligible: true
+
+linked_agents:
+  - apex.tmt.agents.fraud-pattern
+
+linked_archetypes:
+  - F2-event-cluster-pattern-match
+
+schemas_touched: [BSSML, SubscriberML]
+standards: ['FCC §222']
+primary_contact: tmt-practice-lead@deloitte.com

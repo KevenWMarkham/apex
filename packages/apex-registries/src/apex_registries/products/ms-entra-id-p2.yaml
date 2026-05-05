@@ -1,0 +1,11 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: product
+product_id: ms.entra.id-p2
+family: entra
+display_name: Microsoft Entra ID — P2
+sku_or_tier: P2
+description: Conditional Access + PIM + Identity Protection.
+list_price_basis: per-user/month
+typical_use: Engagement IAM baseline
+apex_role: Sprint 13 IAM baseline
+appendix_g_section: Appendix G — entra

@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: mcp_tool
+tool_id: apex.rc.mcp.scml.get_competitor_pricing
+practice: rc
+sor_or_layer: scml
+purpose: Read competitor-pricing feed
+write: false
+inputs_schema: ''
+outputs_schema: ''
+classification_required: []
+related_canonical_schemas:
+- SCML
+appendix_f_section: Appendix F — RC MCP Tools

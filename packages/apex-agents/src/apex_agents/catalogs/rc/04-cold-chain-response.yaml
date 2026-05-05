@@ -1,0 +1,48 @@
+kind: agent
+name: apex.rc.agents.cold-chain-response
+version: 0.1.0
+practice: rc
+persona: Store Manager
+service_codes: [RC-E2E-06]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Real-time perishables-integrity agent. Fuses temperature excursion
+  data with FSMA 204 lot provenance. Produces sell-through, markdown,
+  or destroy recommendations with full audit row.
+archetype_id: F1-continuous-monitor-hitl-alert
+primary_contact: rc-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.rc.mcp.scml.get_lot_trace
+    purpose: Read FSMA 204 lot provenance for affected SKUs
+  - tool_id: apex.rc.mcp.scml.get_cold_chain_status
+    purpose: Read temperature excursion detail
+  - tool_id: apex.rc.mcp.merml.recommend_markdown
+    purpose: Propose markdown if sell-through is recommended
+    write: true
+  - tool_id: apex.rc.mcp.scml.post_destroy_disposition
+    purpose: Mark inventory as destroyed
+    write: true
+
+hitl_gates:
+  - name: destroy_action
+    description: Destroy disposition requires store manager confirmation
+    fires_when: Recommendation is to destroy
+    surface: teams_card
+    sla_minutes: 15
+  - name: markdown_above_threshold
+    description: Markdown depth >= 25% requires manager approval
+    fires_when: Recommended markdown depth >= 25%
+    surface: teams_card
+    sla_minutes: 15
+
+oversight_modes: [HITL, HOTL]
+
+kpis:
+  - name: shrink-write-off
+    direction: down
+    target_band: "$2.8M/yr recovery on managed categories"
+  - name: regulator-ready audit row
+    direction: neutral

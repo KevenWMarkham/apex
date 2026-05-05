@@ -1,0 +1,36 @@
+kind: agent
+name: apex.rc.agents.shrink-detection
+version: 0.1.0
+practice: rc
+persona: VP Asset Protection
+service_codes: [RC-TTP-06]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Pattern-matching across POS, inventory, employee, and CCTV signals to
+  detect organized retail crime and internal-theft signatures.
+archetype_id: F2-event-cluster-pattern-match
+primary_contact: rc-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.rc.mcp.scml.get_inventory_variance
+    purpose: Read book-vs-physical variance by store
+  - tool_id: apex.rc.mcp.cxml.get_pos_anomaly
+    purpose: Read POS-level anomaly signals
+  - tool_id: apex.rc.mcp.external.get_orc_pattern_library
+    purpose: Read organized-retail-crime signature patterns
+
+hitl_gates:
+  - name: investigation_recommendation
+    description: Specific employee or organized-pattern flag requires HR + Legal review before action
+    fires_when: Output names a specific employee or claims ORC signature
+    surface: dashboard
+    sla_minutes: 240
+
+oversight_modes: [HITL, HOTL]
+
+kpis:
+  - name: shrink rate
+    direction: down
+    target_band: "-150 to -300 bps annualized"

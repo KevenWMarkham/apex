@@ -1,0 +1,18 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: schema
+schema_code: EncounterML
+name: Clinical Encounter Lineage
+description: Clinical Encounter Lineage canonical schema family. Bronze to Silver
+  to Gold pipeline scope; consumed by APEX agents/services across HLS.
+practices:
+- hls
+primary_entities:
+- Encounter
+- Diagnosis
+- Procedure
+- CarePlan
+standards_alignment:
+- HL7 FHIR R4
+governance_classification: phi
+appendix_a_section: Appendix A — Schema family EncounterML
+package_implementation: apex-encounterml

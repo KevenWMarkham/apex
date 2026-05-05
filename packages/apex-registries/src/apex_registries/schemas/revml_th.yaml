@@ -1,0 +1,19 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: schema
+schema_code: RevML-TH
+name: Travel Revenue Mgmt Lineage
+description: Travel Revenue Mgmt Lineage canonical schema family. Bronze to Silver
+  to Gold pipeline scope; consumed by APEX agents/services across TH.
+practices:
+- th
+primary_entities:
+- OandD
+- Fare
+- Inventory
+- Booking
+standards_alignment:
+- IATA NDC
+- ATPCO
+governance_classification: payment-card
+appendix_a_section: Appendix A — Schema family RevML-TH
+package_implementation: apex-revml-th

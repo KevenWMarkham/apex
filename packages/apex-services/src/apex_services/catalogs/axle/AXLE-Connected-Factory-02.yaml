@@ -1,0 +1,41 @@
+kind: service
+service_code: AXLE-Connected-Factory-02
+version: 0.1.0
+practice: axle
+display_name: Generative Engineering
+brief: "Design-space exploration with reasoning-tier topology + material variation proposals."
+description: >
+  Chief Engineer service per Sellers Guide §12.10.3. Reduces design-cycle time on managed parts.
+
+personas:
+  - { name: "Chief Engineer", role: primary }
+  - { name: "VP Engineering", role: secondary }
+  - { name: "Chief Innovation Officer", role: secondary }
+
+kpis:
+  - name: "design-cycle time"
+    direction: down
+    wave2_target: "-30 to -50% on managed parts"
+
+waves:
+  - wave: wave_1
+    duration: "8-12 weeks"
+    fee_band_low_usd: 700000
+    fee_band_high_usd: 1800000
+  - wave: wave_2
+    duration: "12-18 months"
+    fee_band_low_usd: 7000000
+    fee_band_high_usd: 25000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.axle.agents.generative-engineering
+
+linked_archetypes:
+  - F7-magentic-reasoning-multi-source
+
+schemas_touched: [EngML, QMSML]
+standards: ['STEP AP242', 'ISA-95']
+primary_contact: axle-practice-lead@deloitte.com

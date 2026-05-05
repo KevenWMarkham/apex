@@ -1,0 +1,40 @@
+kind: agent
+name: apex.th.agents.irops-recovery
+version: 0.1.0
+practice: th
+persona: Operations Director
+service_codes: [TH-AIR-01]
+model_tier: reasoning
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Irregular-operations recovery agent. Composes re-accommodation, crew-legality, and disruption-comms plans during disruption events.
+archetype_id: F7-magentic-reasoning-multi-source
+primary_contact: th-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.th.mcp.iropsml.get_disruption_state
+    purpose: Read live disruption state
+  - tool_id: apex.th.mcp.opsml.get_crew_legality
+    purpose: Read crew duty time
+  - tool_id: apex.th.mcp.opsml.recommend_reaccom_plan
+    purpose: Propose re-accommodation plan
+    write: true
+
+hitl_gates:
+  - name: plan_publish
+    description: Re-accommodation plan requires ops director approval before issue
+    fires_when: Always
+    surface: dashboard
+    sla_minutes: 15
+  - name: crew_change
+    description: Crew swaps require crew-management approval
+    fires_when: Crew-roster change > 5 changes
+    surface: teams_card
+    sla_minutes: 10
+
+oversight_modes: [HITL]
+
+kpis:
+  - { name: DOT tarmac-rule violations, direction: down }
+  - { name: D+1 recovery time, direction: down }

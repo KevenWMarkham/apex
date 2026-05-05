@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: mcp_tool
+tool_id: apex.axle.mcp.supplyml.get_material_availability
+practice: axle
+sor_or_layer: supplyml
+purpose: Read material availability across plants
+write: false
+inputs_schema: ''
+outputs_schema: ''
+classification_required: []
+related_canonical_schemas:
+- SUPPLYML
+appendix_f_section: Appendix F — AXLE MCP Tools

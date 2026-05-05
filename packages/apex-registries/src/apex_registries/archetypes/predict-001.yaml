@@ -1,0 +1,17 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.predict.001
+family: predict
+name: Demand Sensing
+description: Multi-horizon demand forecast with weather/event overrides.
+canonical_inputs:
+- HistoricalSales
+- ExogenousFactors
+canonical_outputs:
+- DemandForecast
+typical_hitl_gate: Planner accepts forecast
+typical_oversight: HOTL
+typical_model_tier: standard
+example_agents:
+- apex.rc.agents.demand-sensing
+appendix_d_section: Appendix D — Archetype family predict

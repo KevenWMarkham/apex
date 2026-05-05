@@ -1,0 +1,15 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: kpi
+kpi_id: kpi.rc.information-gathering-time-per-shift
+name: information-gathering time per shift
+practice: rc
+direction: down
+description: KPI tracked by APEX RC agents/services. Wave-2 typical movement defined
+  by source manifests.
+measurement_pattern: audit-row attribution against pre-engagement baseline
+typical_baseline: 65%
+typical_wave2_target: from 65% to 25% of shift
+typical_wave3_target: 20%
+units: ''
+cadence: monthly
+appendix_c_section: Appendix C — RC KPIs

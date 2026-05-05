@@ -1,0 +1,31 @@
+{
+  "KNA1": [
+    {
+      "KUNNR": "0000010001",
+      "NAME1": "ACME Retail Corp",
+      "LAND1": "US"
+    }
+  ],
+  "MARA": [
+    {
+      "MATNR": "000000000000110001",
+      "MTART": "FERT",
+      "MEINS": "EA"
+    },
+    {
+      "MATNR": "000000000000110002",
+      "MTART": "ROH",
+      "MEINS": "KG"
+    }
+  ],
+  "BSEG": [
+    {
+      "BUKRS": "1000",
+      "BELNR": "0010000123",
+      "GJAHR": 2026,
+      "BUZEI": 1,
+      "DMBTR": 12345.67,
+      "WAERS": "USD"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.predict.002
+family: predict
+name: Predictive Maintenance
+description: Equipment-failure score + recommended action.
+canonical_inputs:
+- VibrationSpectrum
+- ThermalProfile
+- CurrentDraw
+canonical_outputs:
+- FailureScore
+- Action
+typical_hitl_gate: Maintenance planner
+typical_oversight: HITL
+typical_model_tier: standard
+example_agents:
+- apex.axle.agents.predictive-maintenance
+appendix_d_section: Appendix D — Archetype family predict

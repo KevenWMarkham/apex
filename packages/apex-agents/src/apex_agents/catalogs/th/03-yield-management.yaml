@@ -1,0 +1,35 @@
+kind: agent
+name: apex.th.agents.yield-management
+version: 0.1.0
+practice: th
+persona: Revenue Director
+service_codes: [TH-HOT-01]
+model_tier: reasoning
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Hotel yield-management agent fusing demand, competitor, and event signals into rate + inventory recommendations.
+archetype_id: F3-predictive-trigger-workflow-aware
+primary_contact: th-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.th.mcp.revml.get_demand_forecast
+    purpose: Read demand forecast
+  - tool_id: apex.th.mcp.revml.get_competitor_rates
+    purpose: Read competitor rate intelligence
+  - tool_id: apex.th.mcp.revml.recommend_rate
+    purpose: Propose rate change
+    write: true
+
+hitl_gates:
+  - name: rate_change
+    description: Rate-change recommendation requires revenue-director approval before publishing
+    fires_when: Always
+    surface: teams_card
+    sla_minutes: 60
+
+oversight_modes: [HITL]
+
+kpis:
+  - { name: RevPAR, direction: up, target_band: "+3 to +5%" }
+  - { name: ADR, direction: up }

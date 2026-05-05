@@ -1,0 +1,44 @@
+kind: service
+service_code: ICE-Aftermarket-01
+version: 0.1.0
+practice: ice
+display_name: Predictive Service
+brief: "Predictive-service recommendation for connected equipment with dealer service-request creation."
+description: >
+  ICE flagship aftermarket service per Sellers Guide §15.9. Drives service-revenue capture and unplanned-downtime reduction.
+
+personas:
+  - { name: "Aftermarket Director", role: primary }
+  - { name: "Service Operations VP", role: secondary }
+  - { name: "Dealer Network Director", role: secondary }
+
+kpis:
+  - name: "service-revenue capture"
+    direction: money
+    wave2_target: "+$8M typical fleet of 5K"
+  - name: "unplanned downtime"
+    direction: down
+    wave2_target: "-25 to -35%"
+
+waves:
+  - wave: wave_1
+    duration: "6-10 weeks"
+    fee_band_low_usd: 500000
+    fee_band_high_usd: 1300000
+  - wave: wave_2
+    duration: "9-15 months"
+    fee_band_low_usd: 4000000
+    fee_band_high_usd: 14000000
+
+commercial_model: value_share
+value_share_eligible: true
+
+linked_agents:
+  - apex.ice.agents.predictive-service
+
+linked_archetypes:
+  - F3-predictive-trigger-workflow-aware
+
+schemas_touched: [ConnectedICEML, AMML-ICE]
+standards: ['AEMP 2.0', 'SAE J1939']
+primary_contact: ice-practice-lead@deloitte.com

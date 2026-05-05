@@ -1,0 +1,47 @@
+kind: service
+service_code: ER-OG-03
+version: 0.1.0
+practice: er
+display_name: HSE Incident Detection
+brief: "Leading-indicator HSE monitoring across OT alarms + permits-to-work + near-miss reports."
+description: >
+  O&G + Mining HSE service. Aggregates leading indicators into operations-leader weekly dashboards.
+
+personas:
+  - { name: "HSE Manager", role: primary }
+  - { name: "Chief Safety Officer", role: secondary }
+  - { name: "Chief Operating Officer", role: secondary }
+
+kpis:
+  - name: "TRIR"
+    direction: down
+    wave2_target: "-10 to -20%"
+  - name: "leading-indicator coverage"
+    direction: up
+    wave2_target: "+50-80%"
+
+slos:
+  - { name: "OSHA PSM audit", target: "permanent", enforcement: regulatory }
+
+waves:
+  - wave: wave_1
+    duration: "4-10 weeks"
+    fee_band_low_usd: 400000
+    fee_band_high_usd: 1100000
+  - wave: wave_2
+    duration: "6-12 months"
+    fee_band_low_usd: 3000000
+    fee_band_high_usd: 10000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.er.agents.hse-incident
+
+linked_archetypes:
+  - F4-regulatory-trigger-audit-preserve
+
+schemas_touched: [HSEML]
+standards: ['OSHA PSM', 'EPA']
+primary_contact: er-practice-lead@deloitte.com

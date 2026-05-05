@@ -1,0 +1,17 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: exercise
+exercise_id: ex.10.3.a
+sellers_guide_section: §10.3
+chapter: 10. Healthcare Practice
+prompt: Identify the three highest-value HITL gates in a Wave-1 hospital deployment.
+canonical_solution: Sepsis early warning escalation (charge nurse), claim-triage rework
+  (revenue cycle specialist), patient-identity duplicate-MRN (HIM steward). Each emits
+  an audit row with PHI redaction.
+teaching_points:
+- HITL placement is at consequential decisions, not all writes
+- Audit row is mandatory at every HITL gate
+related_kpi_ids:
+- kpi.hls.sep-1-bundle-compliance
+related_archetype_ids:
+- arch.recovery.001
+- arch.match.001

@@ -1,0 +1,15 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: kpi
+kpi_id: kpi.rc.gm-managed-categories
+name: GM (managed categories)
+practice: rc
+direction: up
+description: KPI tracked by APEX RC services. Wave-2 typical movement defined by source
+  manifests.
+measurement_pattern: audit-row attribution against pre-engagement baseline
+typical_baseline: 31.8%
+typical_wave2_target: +80-180 bps
+typical_wave3_target: +250-400 bps
+units: ''
+cadence: monthly
+appendix_c_section: Appendix C — RC KPIs

@@ -1,0 +1,33 @@
+kind: agent
+name: apex.rc.agents.store-ops-intelligence
+version: 0.1.0
+practice: rc
+persona: Chief Operating Officer
+service_codes: [RC-E2E-07]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Store-operations command-center agent. Synthesizes labor, traffic,
+  service-level, and incident signals into a single shift-level
+  decision view for store leadership.
+archetype_id: F2-event-cluster-pattern-match
+primary_contact: rc-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.rc.mcp.scml.get_labor_schedule
+    purpose: Read current labor schedule
+  - tool_id: apex.rc.mcp.scml.get_traffic_signal
+    purpose: Read store-traffic and conversion
+  - tool_id: apex.rc.mcp.cxml.get_service_alerts
+    purpose: Read open service / safety incidents
+
+oversight_modes: [HOTL]
+
+kpis:
+  - name: labor productivity
+    direction: up
+    target_band: "+5 to +10%"
+  - name: information-gathering time per shift
+    direction: down
+    target_band: "from 65% to 25% of shift"

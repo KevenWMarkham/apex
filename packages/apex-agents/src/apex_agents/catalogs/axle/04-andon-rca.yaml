@@ -1,0 +1,24 @@
+kind: agent
+name: apex.axle.agents.andon-rca
+version: 0.1.0
+practice: axle
+persona: Production Supervisor
+service_codes: [AXLE-Ops-01]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Andon-signal root-cause analysis. Correlates line-stop events with
+  upstream telemetry to surface likely cause and recommended action.
+archetype_id: F2-event-cluster-pattern-match
+primary_contact: axle-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.axle.mcp.aaml.get_andon_event
+    purpose: Read line-stop event detail
+  - tool_id: apex.axle.mcp.aaml.get_upstream_state
+    purpose: Read upstream station state
+
+oversight_modes: [HOTL]
+kpis:
+  - { name: line-stop duration, direction: down }

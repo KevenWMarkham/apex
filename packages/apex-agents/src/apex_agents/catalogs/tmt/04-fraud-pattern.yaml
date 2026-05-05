@@ -1,0 +1,31 @@
+kind: agent
+name: apex.tmt.agents.fraud-pattern
+version: 0.1.0
+practice: tmt
+persona: Fraud Operations Manager
+service_codes: [TMT-TEL-04]
+model_tier: reasoning
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Telco fraud-pattern detection. Identifies SIM-swap / international-fraud / wangiri patterns from CDR + provisioning streams.
+archetype_id: F2-event-cluster-pattern-match
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.bssml.get_cdr_stream
+    purpose: Read live CDR stream
+  - tool_id: apex.tmt.mcp.subscriberml.get_provisioning_history
+    purpose: Read SIM provisioning events
+
+hitl_gates:
+  - name: fraud_block
+    description: High-confidence fraud requires fraud-ops manager approval before account block
+    fires_when: Fraud confidence > 95%
+    surface: dashboard
+    sla_minutes: 30
+
+oversight_modes: [HITL]
+
+kpis:
+  - { name: fraud loss, direction: money, target_band: "$5-12M/yr typical tier-1 carrier" }

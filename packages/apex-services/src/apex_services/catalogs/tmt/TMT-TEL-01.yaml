@@ -1,0 +1,51 @@
+kind: service
+service_code: TMT-TEL-01
+version: 0.1.0
+practice: tmt
+display_name: Contact Center Intelligence
+brief: "Real-time contact-center routing fusing IVR intent + customer-360 + agent-skill signals."
+description: >
+  TEL contact-center service. Minimizes handle time + maintains CPNI compliance per Sellers Guide §13.13.7.
+
+personas:
+  - { name: "Contact Center Director", role: primary }
+  - { name: "Customer Operations VP", role: secondary }
+  - { name: "Chief Compliance Officer", role: secondary }
+
+kpis:
+  - name: "AHT (handle time)"
+    direction: down
+    wave2_target: "-15 to -25%"
+  - name: "FCR"
+    direction: up
+    wave2_target: "+8-12 pp"
+
+slos:
+  - { name: "CPNI access audit", target: "100%", enforcement: regulatory }
+
+waves:
+  - wave: wave_1
+    duration: "8-12 weeks"
+    fee_band_low_usd: 600000
+    fee_band_high_usd: 2000000
+  - wave: wave_2
+    duration: "12-18 months"
+    fee_band_low_usd: 8000000
+    fee_band_high_usd: 30000000
+  - wave: wave_3
+    duration: "multi-year"
+    fee_band_low_usd: 15000000
+    fee_band_high_usd: 60000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.tmt.agents.contact-center-routing
+
+linked_archetypes:
+  - F3-predictive-trigger-workflow-aware
+
+schemas_touched: [CCML, BSSML, TELML]
+standards: ['FCC §222 (CPNI)']
+primary_contact: tmt-practice-lead@deloitte.com

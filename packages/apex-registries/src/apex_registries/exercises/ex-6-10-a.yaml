@@ -1,0 +1,14 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: exercise
+exercise_id: ex.6.10.a
+sellers_guide_section: §6.10
+chapter: 6. Agent runtime
+prompt: What goes in an audit row?
+canonical_solution: agent_name, agent_version, prompt_sha, model_pin, decision, decision_actor
+  (HITL only), inputs_provenance, outputs_persisted_to, classification_at_emit, timestamp,
+  replay_token.
+teaching_points:
+- Audit row is the contract artifact
+- Replay token enables forensic replay
+related_kpi_ids: []
+related_archetype_ids: []

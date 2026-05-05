@@ -1,0 +1,15 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: kpi
+kpi_id: kpi.tmt.sla-credit-cost
+name: SLA-credit cost
+practice: tmt
+direction: money
+description: KPI tracked by APEX TMT agents/services. Wave-2 typical movement defined
+  by source manifests.
+measurement_pattern: audit-row attribution against pre-engagement baseline
+typical_baseline: ''
+typical_wave2_target: ''
+typical_wave3_target: ''
+units: ''
+cadence: monthly
+appendix_c_section: Appendix C — TMT KPIs

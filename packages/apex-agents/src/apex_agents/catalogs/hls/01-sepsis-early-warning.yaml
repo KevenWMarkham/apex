@@ -1,0 +1,41 @@
+kind: agent
+name: apex.hls.agents.sepsis-early-warning
+version: 0.1.0
+practice: hls
+persona: Charge Nurse
+service_codes: [HLS-E2E-04]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Multi-signal sepsis prediction (vitals + labs + medication + clinical-note
+  cues) with bedside-confirmation HITL gate. Designed for ~6-hour-ahead
+  early warning per Sellers Guide §10.9 hospital reference deployment.
+archetype_id: F1-continuous-monitor-hitl-alert
+primary_contact: hls-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.hls.mcp.patientml.get_vitals_stream
+    purpose: Read live vitals (HR, BP, temp, SpO2)
+  - tool_id: apex.hls.mcp.patientml.get_lab_results
+    purpose: Read recent labs (lactate, WBC, creatinine)
+  - tool_id: apex.hls.mcp.patientml.get_medication_admin
+    purpose: Read recent medication administrations
+
+hitl_gates:
+  - name: bedside_confirmation
+    description: Sepsis-positive prediction requires charge-nurse confirmation before order set fires
+    fires_when: Sepsis-risk score crosses confirmation threshold
+    surface: teams_card
+    sla_minutes: 5
+
+oversight_modes: [HITL]
+
+forbidden_classifications: [pci]
+
+kpis:
+  - name: mortality
+    direction: down
+    target_band: "-15 to -22% in cohort with predicted sepsis"
+  - name: alarm fatigue rate
+    direction: down

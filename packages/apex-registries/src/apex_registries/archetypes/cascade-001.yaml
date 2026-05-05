@@ -1,0 +1,18 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.cascade.001
+family: cascade
+name: Notification Cascade
+description: Fan out notifications across channels with channel-aware formatting and
+  acknowledgment tracking.
+canonical_inputs:
+- Event
+- RecipientList
+canonical_outputs:
+- DeliveryReceipts
+typical_hitl_gate: Send to broad audience > N
+typical_oversight: HOTL
+typical_model_tier: lightweight
+example_agents:
+- apex.th.agents.disruption-comms
+appendix_d_section: Appendix D — Archetype family cascade

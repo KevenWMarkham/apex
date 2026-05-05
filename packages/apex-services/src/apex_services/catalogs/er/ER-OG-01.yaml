@@ -1,0 +1,46 @@
+kind: service
+service_code: ER-OG-01
+version: 0.1.0
+practice: er
+display_name: Upstream Well Operations
+brief: "Production-anomaly detection and intervention recommendation across well portfolio."
+description: >
+  O&G sub-segment service. PI-sourced telemetry feeds reasoning-tier production-engineering agent with workover HITL.
+
+personas:
+  - { name: "Production Engineer", role: primary }
+  - { name: "VP Operations", role: secondary }
+  - { name: "Chief Operating Officer", role: secondary }
+
+kpis:
+  - name: "production decline"
+    direction: down
+  - name: "NPT (non-productive time)"
+    direction: down
+    wave2_target: "-15 to -25%"
+
+slos:
+  - { name: "PSM audit retention", target: "5 years", enforcement: regulatory }
+
+waves:
+  - wave: wave_1
+    duration: "6-12 weeks"
+    fee_band_low_usd: 500000
+    fee_band_high_usd: 1400000
+  - wave: wave_2
+    duration: "9-15 months"
+    fee_band_low_usd: 5000000
+    fee_band_high_usd: 18000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.er.agents.well-ops
+
+linked_archetypes:
+  - F1-continuous-monitor-hitl-alert
+
+schemas_touched: [UOGML]
+standards: ['WITSML', 'PRODML', 'OPC UA']
+primary_contact: er-practice-lead@deloitte.com

@@ -1,0 +1,18 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: schema
+schema_code: PUML
+name: Power and Utilities Cross Lineage
+description: Power and Utilities Cross Lineage canonical schema family. Bronze to
+  Silver to Gold pipeline scope; consumed by APEX agents/services across ER.
+practices:
+- er
+primary_entities:
+- TariffBook
+- RegulatoryFiling
+- StormEvent
+standards_alignment:
+- FERC
+- NERC
+governance_classification: critical-infrastructure
+appendix_a_section: Appendix A — Schema family PUML
+package_implementation: apex-puml

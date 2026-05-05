@@ -1,0 +1,35 @@
+kind: agent
+name: apex.axle.agents.generative-engineering
+version: 0.1.0
+practice: axle
+persona: Chief Engineer
+service_codes: [AXLE-Connected-Factory-02]
+model_tier: reasoning
+model_pin: claude-opus-4
+prompt_sha: ""
+description: >
+  Generative-engineering agent for design-space exploration. Proposes
+  topology + material variations against engineering constraints with
+  citation chain to simulation outputs.
+archetype_id: F7-magentic-reasoning-multi-source
+primary_contact: axle-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.axle.mcp.engml.get_part_specification
+    purpose: Read PLM part specification
+  - tool_id: apex.axle.mcp.engml.get_simulation_results
+    purpose: Read FEA / CFD simulation history
+  - tool_id: apex.axle.mcp.engml.propose_design_variant
+    purpose: Propose design variant
+    write: true
+
+hitl_gates:
+  - name: variant_review
+    description: Every proposed variant routes to chief engineer review
+    fires_when: Always — design changes are review-gated
+    surface: dashboard
+    sla_minutes: 4320
+
+oversight_modes: [HITL]
+kpis:
+  - { name: design-cycle time, direction: down, target_band: "-30 to -50% in managed parts" }

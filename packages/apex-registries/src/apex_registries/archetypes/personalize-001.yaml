@@ -1,0 +1,17 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.personalize.001
+family: personalize
+name: Next-Best-Offer
+description: Score next-best offer from history + propensity + inventory.
+canonical_inputs:
+- CustomerProfile
+- OfferCatalog
+canonical_outputs:
+- RankedOffers
+typical_hitl_gate: Margin / brand guardrail
+typical_oversight: HOTL
+typical_model_tier: standard
+example_agents:
+- apex.rc.agents.substitution-recommendation
+appendix_d_section: Appendix D — Archetype family personalize

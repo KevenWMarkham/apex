@@ -1,0 +1,12 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: persona
+persona_id: persona.hls.attending-physician
+name: Attending Physician
+practice: hls
+seniority: individual-contributor
+function: agent
+description: Attending Physician (HLS). Persona referenced by APEX agent manifests.
+typical_decisions: []
+pains: []
+metrics_owned: []
+appendix_e_section: Appendix E — HLS Personas

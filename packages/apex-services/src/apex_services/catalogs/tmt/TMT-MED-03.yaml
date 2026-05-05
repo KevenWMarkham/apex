@@ -1,0 +1,45 @@
+kind: service
+service_code: TMT-MED-03
+version: 0.1.0
+practice: tmt
+display_name: Content Moderation at Scale
+brief: "User-generated-content moderation across text + image + video with policy-citation chain."
+description: >
+  MED Trust & Safety service. Routes flagged content to T&S reviewers with appeal-defensible audit trail.
+
+personas:
+  - { name: "Trust & Safety Lead", role: primary }
+  - { name: "Chief Content Officer", role: secondary }
+  - { name: "Chief Compliance Officer", role: secondary }
+
+kpis:
+  - name: "policy-violation rate"
+    direction: down
+  - name: "over-moderation false-positive rate"
+    direction: down
+
+slos:
+  - { name: "EU DSA audit", target: "permanent", enforcement: regulatory }
+
+waves:
+  - wave: wave_1
+    duration: "6-12 weeks"
+    fee_band_low_usd: 500000
+    fee_band_high_usd: 1500000
+  - wave: wave_2
+    duration: "9-15 months"
+    fee_band_low_usd: 5000000
+    fee_band_high_usd: 18000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.tmt.agents.content-moderation
+
+linked_archetypes:
+  - F4-regulatory-trigger-audit-preserve
+
+schemas_touched: [ContentSafetyML, MEDML]
+standards: ['EU DSA', 'DMCA §512', 'COPPA']
+primary_contact: tmt-practice-lead@deloitte.com

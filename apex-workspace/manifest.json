@@ -1,0 +1,165 @@
+{
+  "manifest_version": "0.2.0",
+  "schema_version": "apex.workspace.manifest/v0.2",
+  "built_at_utc": "2026-05-05T15:23:18.613035Z",
+  "boot_sequence_steps": 10,
+  "boot_sequence": [
+    {
+      "step": 1,
+      "action": "verify_manifest_signature",
+      "description": "Ed25519 signature on manifest.json"
+    },
+    {
+      "step": 2,
+      "action": "bind_workspace_scope",
+      "description": "Entra scope match: read_scope must include caller"
+    },
+    {
+      "step": 3,
+      "action": "load_apex_core",
+      "file": "APEX-CORE.md",
+      "description": "Constitutional rules"
+    },
+    {
+      "step": 4,
+      "action": "load_charter",
+      "file": "CHARTER.md",
+      "description": "Practice rules + MCP catalog"
+    },
+    {
+      "step": 5,
+      "action": "load_engagement",
+      "file": "ENGAGEMENT.md",
+      "description": "Tenant collaborators + windows"
+    },
+    {
+      "step": 6,
+      "action": "load_operator",
+      "file": "OPERATOR.md",
+      "description": "Per-operator thresholds"
+    },
+    {
+      "step": 7,
+      "action": "load_heartbeat",
+      "file": "HEARTBEAT.md",
+      "description": "Periodic autonomy routines (Sprint 26)"
+    },
+    {
+      "step": 8,
+      "action": "load_agents",
+      "file": "AGENTS.md",
+      "description": "Operating rules — four bands (Sprint 26)"
+    },
+    {
+      "step": 9,
+      "action": "load_memory",
+      "files": [
+        "memory/MEMORY.md"
+      ],
+      "description": "Curated long-term memory + recent per-day files"
+    },
+    {
+      "step": 10,
+      "action": "open_status_channel",
+      "description": "Trigger source tag + audit-row stream open"
+    }
+  ],
+  "files": {
+    "APEX-CORE.md": {
+      "version": "0.2.0",
+      "file_class": "Internal",
+      "read_scope": "apex-all-agents",
+      "modify_scope": "apex-framework-stewards",
+      "inherits_from": [],
+      "required": true,
+      "immutable_during_run": true,
+      "sha256": "55c8ec1b153e592a59990879df255e3dcf06bd2029d20352cd7ede5d711d355b",
+      "size_bytes": 12394
+    },
+    "CHARTER.md": {
+      "version": "0.2.0",
+      "file_class": "Internal",
+      "read_scope": "apex-rc-agents",
+      "modify_scope": "apex-rc-practice-stewards",
+      "inherits_from": [
+        "APEX-CORE.md"
+      ],
+      "required": true,
+      "immutable_during_run": true,
+      "sha256": "caa32d7dfa50e319e9d8b82c5c21d226655d5ed7f59a47ee1c97c18498019a53",
+      "size_bytes": 6938
+    },
+    "ENGAGEMENT.md": {
+      "version": "0.2.0",
+      "file_class": "Internal",
+      "read_scope": "apex-engagement-agents",
+      "modify_scope": "apex-engagement-leads",
+      "inherits_from": [
+        "APEX-CORE.md",
+        "CHARTER.md"
+      ],
+      "required": true,
+      "immutable_during_run": true,
+      "sha256": "8612d3584783d9ffce266e68b4e6e2c9a1844bf016f2576b59b815758cc795dc",
+      "size_bytes": 2805
+    },
+    "OPERATOR.md": {
+      "version": "0.2.0",
+      "file_class": "Internal",
+      "read_scope": "apex-engagement-agents",
+      "modify_scope": "apex-engagement-leads",
+      "inherits_from": [
+        "APEX-CORE.md",
+        "CHARTER.md",
+        "ENGAGEMENT.md"
+      ],
+      "required": true,
+      "immutable_during_run": true,
+      "sha256": "d40a390f3de1a9ac12d59ddb2e5373c3d78e067cadda985833bf000c0c6d4e70",
+      "size_bytes": 2191
+    },
+    "HEARTBEAT.md": {
+      "version": "0.1.0",
+      "file_class": "Internal",
+      "read_scope": "apex-engagement-agents",
+      "modify_scope": "apex-engagement-leads",
+      "inherits_from": [
+        "APEX-CORE.md",
+        "CHARTER.md",
+        "ENGAGEMENT.md"
+      ],
+      "required": true,
+      "immutable_during_run": true,
+      "sha256": "db2ccc0a7ff2f06f772d80dd6f51077ad4bd6092a64892f9c36d588cc4c9d143",
+      "size_bytes": 6900
+    },
+    "AGENTS.md": {
+      "version": "0.1.0",
+      "file_class": "Internal",
+      "read_scope": "apex-engagement-agents",
+      "modify_scope": "apex-engagement-leads",
+      "inherits_from": [
+        "APEX-CORE.md",
+        "CHARTER.md",
+        "ENGAGEMENT.md"
+      ],
+      "required": true,
+      "immutable_during_run": true,
+      "sha256": "a6bd411500a01aeb69894699d91d25934afba4e51568b31299c4a65b35b8d2ee",
+      "size_bytes": 7879
+    }
+  },
+  "memory": {
+    "directory": "memory/",
+    "primary_file": "memory/MEMORY.md",
+    "per_day_pattern": "memory/YYYY-MM-DD.md",
+    "class": "Internal",
+    "operator_curated": true
+  },
+  "signature": {
+    "algorithm": "Ed25519",
+    "public_key_kid": "engagement-security-lead",
+    "value": "signature_pending",
+    "comment": "Replace with engagement-security-lead's Ed25519 signature before deploying to a tenant. Sprint 26 Task 26.2.4."
+  }
+}

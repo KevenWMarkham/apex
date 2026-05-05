@@ -1,0 +1,26 @@
+[project]
+name = "axlecml-mcp"
+version = "0.1.0"
+description = "APEX axlecml-mcp — Automotive / Industrial Manufacturing canonical reads."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Proprietary — Deloitte Internal" }
+dependencies = [
+    "apex-core", "apex-axlecml", "fabric-mcp", "mcp-common", "pydantic>=2.9.0",
+]
+
+[project.scripts]
+axlecml-mcp = "axlecml_mcp.server:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/axlecml_mcp"]
+
+[tool.uv.sources]
+apex-core = { workspace = true }
+apex-axlecml = { workspace = true }
+fabric-mcp = { workspace = true }
+mcp-common = { workspace = true }

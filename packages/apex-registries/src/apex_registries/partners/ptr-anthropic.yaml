@@ -1,0 +1,11 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: partner
+partner_id: ptr.anthropic
+name: Anthropic
+category: model-provider
+practices:
+- cross
+description: Claude family models for reasoning + standard agents.
+apex_integration_pattern: Foundry-pinned-deployment-or-AWS-Bedrock-via-bridge
+contracts_in_place: []
+appendix_h_section: Appendix H — model-provider

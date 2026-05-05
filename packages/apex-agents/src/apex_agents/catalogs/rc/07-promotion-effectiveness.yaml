@@ -1,0 +1,32 @@
+kind: agent
+name: apex.rc.agents.promotion-effectiveness
+version: 0.1.0
+practice: rc
+persona: VP Marketing Analytics
+service_codes: [RC-E2E-03]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Multi-touch attribution + promotion-effectiveness scoring across paid,
+  owned, and earned channels. Produces ROI per promotion and cannibalization
+  flags.
+archetype_id: F2-event-cluster-pattern-match
+primary_contact: rc-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.rc.mcp.cxml.get_engagement_history
+    purpose: Read customer-level promotion exposure
+  - tool_id: apex.rc.mcp.merml.get_promotion_calendar
+    purpose: Read active and historical promotion windows
+  - tool_id: apex.rc.mcp.scml.get_pos_history
+    purpose: Read promotion-period sell-through
+
+oversight_modes: [HOTL]
+
+kpis:
+  - name: marketing ROI
+    direction: up
+    target_band: "+15 to +25%"
+  - name: cannibalization rate
+    direction: down

@@ -1,0 +1,17 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: schema
+schema_code: QMSML-ICE
+name: ICE Quality Mgmt Lineage
+description: ICE Quality Mgmt Lineage canonical schema family. Bronze to Silver to
+  Gold pipeline scope; consumed by APEX agents/services across ICE.
+practices:
+- ice
+primary_entities:
+- NonConformance
+- CorrectiveAction
+- Audit
+standards_alignment:
+- ISO 9001
+governance_classification: operations
+appendix_a_section: Appendix A — Schema family QMSML-ICE
+package_implementation: apex-qmsml-ice

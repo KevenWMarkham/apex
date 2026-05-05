@@ -1,0 +1,33 @@
+kind: schema
+name: hlscml
+version: 0.1.0
+owner: hls-practice-lead
+practice: hls
+family: patientml
+description: HLS canonical Patient entities (subset for tests).
+entities:
+  - name: patient
+    natural_key: [patient_mrn_token]
+    surrogate_key: patient_key
+    scd2: true
+    classification: phi
+    attributes:
+      - name: patient_key
+        data_type: string
+        nullable: false
+      - name: patient_mrn_token
+        data_type: string
+        nullable: false
+        classification: phi
+      - name: patient_dob
+        data_type: date
+        nullable: true
+        classification: phi
+      - name: preferred_name
+        data_type: string
+        nullable: true
+        classification: pii
+      - name: genomic_panel_token
+        data_type: string
+        nullable: true
+        classification: genetic

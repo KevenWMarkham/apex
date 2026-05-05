@@ -1,0 +1,42 @@
+kind: service
+service_code: ICE-Aftermarket-03
+version: 0.1.0
+practice: ice
+display_name: Parts Stocking Optimization
+brief: "Dealer-level parts-stocking with connected-fleet-population + failure-pattern + lead-time signals."
+description: >
+  ICE parts operations service. Improves parts-fill rate and reduces dealer working capital.
+
+personas:
+  - { name: "Parts Operations Director", role: primary }
+  - { name: "Dealer Network Director", role: secondary }
+
+kpis:
+  - name: "parts-fill rate"
+    direction: up
+    wave2_target: "+5-10 pp"
+  - name: "dealer parts working capital"
+    direction: down
+    wave2_target: "-10 to -15%"
+
+waves:
+  - wave: wave_1
+    duration: "4-8 weeks"
+    fee_band_low_usd: 300000
+    fee_band_high_usd: 800000
+  - wave: wave_2
+    duration: "6-12 months"
+    fee_band_low_usd: 2000000
+    fee_band_high_usd: 8000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.ice.agents.parts-stocking
+
+linked_archetypes:
+  - F3-predictive-trigger-workflow-aware
+
+schemas_touched: [AMML-ICE, DealerML]
+primary_contact: ice-practice-lead@deloitte.com

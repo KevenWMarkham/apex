@@ -1,0 +1,28 @@
+kind: agent
+name: apex.er.agents.hse-incident
+version: 0.1.0
+practice: er
+persona: HSE Manager
+service_codes: [ER-OG-03]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Health-Safety-Environment incident detection across OT alarms +
+  worker-permit data + near-miss reports. Aggregates leading indicators
+  into operations-leader weekly dashboards.
+archetype_id: F4-regulatory-trigger-audit-preserve
+primary_contact: er-og-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.er.mcp.hseml.get_incident_log
+    purpose: Read incident + near-miss reports
+  - tool_id: apex.er.mcp.hseml.get_permit_state
+    purpose: Read open permits-to-work
+  - tool_id: apex.er.mcp.uogml.get_alarm_state
+    purpose: Read OT alarm state
+
+oversight_modes: [HOTL, HIC]
+kpis:
+  - { name: TRIR, direction: down }
+  - { name: leading-indicator coverage, direction: up }

@@ -1,0 +1,24 @@
+kind: agent
+name: apex.axle.agents.energy-optimization
+version: 0.1.0
+practice: axle
+persona: Plant Energy Manager
+service_codes: [AXLE-Ops-03]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Plant energy-consumption optimization across compressed air, lighting,
+  and HVAC against production schedule. Reduces $/unit energy cost.
+archetype_id: F3-predictive-trigger-workflow-aware
+primary_contact: axle-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.axle.mcp.aaml.get_energy_meter_data
+    purpose: Read sub-meter consumption
+  - tool_id: apex.axle.mcp.mscml.get_production_schedule
+    purpose: Read production schedule
+
+oversight_modes: [HOTL]
+kpis:
+  - { name: energy cost per unit, direction: money, target_band: "$2.5M/yr typical 8-plant deployment" }

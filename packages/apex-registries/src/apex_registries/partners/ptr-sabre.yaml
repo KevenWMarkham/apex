@@ -1,0 +1,11 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: partner
+partner_id: ptr.sabre
+name: Sabre
+category: sor-vendor
+practices:
+- th
+description: GDS + airline DCS / PSS.
+apex_integration_pattern: API-via-Sprint15-adapter
+contracts_in_place: []
+appendix_h_section: Appendix H — sor-vendor

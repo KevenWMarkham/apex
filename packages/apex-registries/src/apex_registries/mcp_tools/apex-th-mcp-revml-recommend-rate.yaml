@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: mcp_tool
+tool_id: apex.th.mcp.revml.recommend_rate
+practice: th
+sor_or_layer: revml
+purpose: Propose rate change
+write: true
+inputs_schema: ''
+outputs_schema: ''
+classification_required: []
+related_canonical_schemas:
+- REVML
+appendix_f_section: Appendix F — TH MCP Tools

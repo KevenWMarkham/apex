@@ -1,0 +1,19 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: schema
+schema_code: ProvML
+name: Provider Lineage
+description: Provider Lineage canonical schema family. Bronze to Silver to Gold pipeline
+  scope; consumed by APEX agents/services across HLS.
+practices:
+- hls
+primary_entities:
+- Provider
+- Affiliation
+- Privilege
+- Credential
+standards_alignment:
+- NPPES
+- DEA
+governance_classification: phi
+appendix_a_section: Appendix A — Schema family ProvML
+package_implementation: apex-provml

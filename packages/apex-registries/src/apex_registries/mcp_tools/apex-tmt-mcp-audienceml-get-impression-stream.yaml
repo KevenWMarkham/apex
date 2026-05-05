@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: mcp_tool
+tool_id: apex.tmt.mcp.audienceml.get_impression_stream
+practice: tmt
+sor_or_layer: audienceml
+purpose: Read impression event stream
+write: false
+inputs_schema: ''
+outputs_schema: ''
+classification_required: []
+related_canonical_schemas:
+- AUDIENCEML
+appendix_f_section: Appendix F — TMT MCP Tools

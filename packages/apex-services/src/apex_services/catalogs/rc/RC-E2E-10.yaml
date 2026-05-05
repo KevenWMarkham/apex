@@ -1,0 +1,42 @@
+kind: service
+service_code: RC-E2E-10
+version: 0.1.0
+practice: rc
+display_name: Promotion ROI Attribution
+brief: "Multi-touch attribution across paid, owned, earned channels with cannibalization detection."
+description: >
+  VP Marketing Analytics service. Outputs ROI per promotion + cannibalization flags per Sellers Guide §9.3.
+
+personas:
+  - { name: "VP Marketing Analytics", role: primary }
+  - { name: "Chief Marketing Officer", role: secondary }
+  - { name: "Chief Customer Officer", role: secondary }
+
+kpis:
+  - name: "marketing ROI"
+    direction: up
+    wave2_target: "+15-25%"
+  - name: "cannibalization rate"
+    direction: down
+
+waves:
+  - wave: wave_1
+    duration: "4-8 weeks"
+    fee_band_low_usd: 250000
+    fee_band_high_usd: 700000
+  - wave: wave_2
+    duration: "6-12 months"
+    fee_band_low_usd: 2000000
+    fee_band_high_usd: 7000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.rc.agents.promotion-effectiveness
+
+linked_archetypes:
+  - F2-event-cluster-pattern-match
+
+schemas_touched: [CXML, MERML]
+primary_contact: rc-practice-lead@deloitte.com

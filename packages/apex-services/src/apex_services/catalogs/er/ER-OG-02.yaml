@@ -1,0 +1,47 @@
+kind: service
+service_code: ER-OG-02
+version: 0.1.0
+practice: er
+display_name: Drilling Safety & Pre-Kick Detection
+brief: "Pre-kick indicator detection during drilling operations with immediate supervisor escalation."
+description: >
+  O&G drilling-safety service. Sub-second-latency monitoring of mud-loss + ROP + drag signatures.
+
+personas:
+  - { name: "Drilling Supervisor", role: primary }
+  - { name: "Operations Director", role: secondary }
+  - { name: "Chief Safety Officer", role: secondary }
+
+kpis:
+  - name: "kick frequency"
+    direction: down
+    wave2_target: "-30 to -50%"
+  - name: "well-control incidents"
+    direction: down
+
+slos:
+  - { name: "OSHA PSM retention", target: "permanent", enforcement: regulatory }
+  - { name: "alert latency", target: "< 1 second", enforcement: hard }
+
+waves:
+  - wave: wave_1
+    duration: "8-12 weeks"
+    fee_band_low_usd: 600000
+    fee_band_high_usd: 1500000
+  - wave: wave_2
+    duration: "9-15 months"
+    fee_band_low_usd: 5000000
+    fee_band_high_usd: 16000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.er.agents.drilling-safety
+
+linked_archetypes:
+  - F1-continuous-monitor-hitl-alert
+
+schemas_touched: [DrillingML, UOGML]
+standards: ['WITSML', 'OSHA PSM', 'OPC UA']
+primary_contact: er-practice-lead@deloitte.com

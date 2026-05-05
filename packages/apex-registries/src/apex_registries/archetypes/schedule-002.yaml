@@ -1,0 +1,16 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.schedule.002
+family: schedule
+name: Workforce Scheduling
+description: Forecast-driven shift planning with skill-mix constraints.
+canonical_inputs:
+- DemandForecast
+- SkillMatrix
+canonical_outputs:
+- Schedule
+typical_hitl_gate: WFM manager
+typical_oversight: HITL
+typical_model_tier: standard
+example_agents: []
+appendix_d_section: Appendix D — Archetype family schedule

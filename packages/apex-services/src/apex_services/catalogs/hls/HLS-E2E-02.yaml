@@ -1,0 +1,48 @@
+kind: service
+service_code: HLS-E2E-02
+version: 0.1.0
+practice: hls
+display_name: Clinical Decision Support
+brief: "Guideline-adherent CDS with citation-chain output and per-recommendation physician review."
+description: >
+  Lead service for Provider sub-segment. Uses reasoning-tier model with curated evidence library.
+
+personas:
+  - { name: "Attending Physician", role: primary }
+  - { name: "Chief Medical Officer", role: secondary }
+  - { name: "Chief Quality Officer", role: secondary }
+
+kpis:
+  - name: "guideline-adherence rate"
+    direction: up
+    wave2_target: "+8-15 pp"
+  - name: "clinical decision time"
+    direction: down
+    wave2_target: "-30 to -50%"
+
+slos:
+  - { name: "HIPAA audit retention", target: "10 years", enforcement: regulatory }
+
+waves:
+  - wave: wave_1
+    duration: "8-12 weeks"
+    fee_band_low_usd: 600000
+    fee_band_high_usd: 1500000
+  - wave: wave_2
+    duration: "12-18 months"
+    fee_band_low_usd: 6000000
+    fee_band_high_usd: 20000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.hls.agents.clinical-decision-support
+  - apex.hls.agents.drug-interaction
+
+linked_archetypes:
+  - F7-magentic-reasoning-multi-source
+
+schemas_touched: [PatientML, ProvML]
+standards: ['HIPAA', 'HL7 FHIR R4', 'SNOMED CT', 'ICD-10']
+primary_contact: hls-practice-lead@deloitte.com

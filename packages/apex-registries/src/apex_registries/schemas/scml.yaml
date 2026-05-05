@@ -1,0 +1,20 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: schema
+schema_code: SCML
+name: Supply Chain Management Lineage
+description: Supply Chain Management Lineage canonical schema family. Bronze to Silver
+  to Gold pipeline scope; consumed by APEX agents/services across RC.
+practices:
+- rc
+primary_entities:
+- Lot
+- Movement
+- Trace
+- Allocation
+standards_alignment:
+- GS1
+- FSMA 204
+- EDI X12
+governance_classification: operations
+appendix_a_section: Appendix A — Schema family SCML
+package_implementation: apex-scml

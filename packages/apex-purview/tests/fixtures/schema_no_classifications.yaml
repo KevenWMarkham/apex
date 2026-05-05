@@ -1,0 +1,17 @@
+kind: schema
+name: no-class
+version: 1.0.0
+owner: test
+practice: rc
+family: scml
+entities:
+  - name: widget
+    natural_key: [widget_natural]
+    surrogate_key: widget_key
+    attributes:
+      - name: widget_key
+        data_type: string
+        nullable: false
+      - name: widget_natural
+        data_type: string
+        nullable: false

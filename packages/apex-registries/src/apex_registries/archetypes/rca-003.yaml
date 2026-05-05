@@ -1,0 +1,16 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.rca.003
+family: rca
+name: Incident Post-Mortem
+description: Generate structured post-mortem from incident timeline + remediation
+  candidates.
+canonical_inputs:
+- IncidentTimeline
+canonical_outputs:
+- PostMortemDraft
+typical_hitl_gate: SRE / IM lead review
+typical_oversight: HITL
+typical_model_tier: reasoning
+example_agents: []
+appendix_d_section: Appendix D — Archetype family rca

@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Cold-chain excursion — store cooler",
+    "Scenario": "Dairy case at Big Box Store 100 exceeds temperature threshold for 47 minutes mid-shift.",
+    "Solution": "Real-time perishables-integrity agent fuses SKU-level elasticity with FSMA 204 lot provenance.",
+    "Use Case": "Excursion triage + markdown decisioning, Wave 2 across NA footprint.",
+    "Service": "RC-E2E-06",
+    "Persona": "Store Manager",
+    "KPI": "+18% margin"
+  },
+  {
+    "title": "Stockout-saving substitution",
+    "Scenario": "Aisle 14 stockout on top-mover SKU; substitute lot has 11 days to expiry.",
+    "Solution": "Substitution recommendation agent with shopper-personalization signal.",
+    "Use Case": "Real-time substitution recommendation across owned brands.",
+    "Service": "RC-E2E-03",
+    "Persona": "Store Associate",
+    "KPI": "-15% MAPE"
+  }
+]

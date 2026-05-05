@@ -1,0 +1,32 @@
+kind: agent
+name: apex.er.agents.drilling-safety
+version: 0.1.0
+practice: er
+persona: Drilling Supervisor
+service_codes: [ER-OG-02]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Drilling-operations safety monitor. Detects pre-kick indicators (mud
+  loss, ROP shifts, drag deviations) that precede well-control events.
+archetype_id: F1-continuous-monitor-hitl-alert
+primary_contact: er-og-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.er.mcp.drillingml.get_rig_telemetry
+    purpose: Read live drilling rig telemetry
+  - tool_id: apex.er.mcp.drillingml.get_mud_log
+    purpose: Read live mud-log readings
+
+hitl_gates:
+  - name: kick_alert
+    description: Pre-kick alert escalates immediately to drilling supervisor
+    fires_when: Pre-kick signature detected
+    surface: dashboard
+    sla_minutes: 1
+
+oversight_modes: [HITL]
+kpis:
+  - { name: kick frequency, direction: down }
+  - { name: well-control incidents, direction: down }

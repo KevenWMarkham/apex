@@ -1,0 +1,22 @@
+kind: agent
+name: apex.ice.agents.dealer-performance
+version: 0.1.0
+practice: ice
+persona: Dealer Network Director
+service_codes: [ICE-Aftermarket-04]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Dealer-performance scorecard agent. Aggregates parts attach, service revenue, customer satisfaction, and inventory health into scorecards.
+archetype_id: F1-continuous-monitor-hitl-alert
+primary_contact: ice-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.ice.mcp.amml.get_dealer_metrics
+    purpose: Read dealer-network performance metrics
+
+oversight_modes: [HIC]
+
+kpis:
+  - { name: dealer-network revenue, direction: money }

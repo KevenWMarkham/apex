@@ -1,0 +1,73 @@
+# Reference OPC UA address-space mapping for the AXLE Practice north-plant
+# Sprint 25 Task 25.1 reference workspace.
+#
+# Maps NodeIds in the GE Proficy OPC UA server's address space onto the
+# canonical apex_axle.equipment + apex_axle.production schemas.
+
+protocol: opcua
+name: north-plant-line-7
+
+# Each mapping entry MUST declare:
+#   node_id           — OPC UA NodeId (ns=N;i=M or ns=N;s="path")
+#   canonical_entity  — target schema entity name (e.g., EquipmentHealth)
+#   canonical_field   — target field
+#   classification    — Purview classification applied at adapter boundary
+#   units             — UCUM-aligned units (or empty)
+#   sampling_hint_ms  — recommended subscribe interval
+
+nodes:
+  - node_id: "ns=2;s=Line7.Press4.ServoMotor.VibrationRMS"
+    canonical_entity: EquipmentHealth
+    canonical_field: vibration_rms
+    classification: operations
+    units: "mm/s"
+    description: "Stamping Press 4 servo-motor vibration RMS"
+    sampling_hint_ms: 500
+
+  - node_id: "ns=2;s=Line7.Press4.ServoMotor.CurrentDraw"
+    canonical_entity: EquipmentHealth
+    canonical_field: current_draw_amps
+    classification: operations
+    units: "A"
+    description: "Stamping Press 4 servo-motor current draw"
+    sampling_hint_ms: 500
+
+  - node_id: "ns=2;s=Line7.Press4.ServoMotor.Temperature"
+    canonical_entity: EquipmentHealth
+    canonical_field: temperature_c
+    classification: operations
+    units: "Cel"
+    description: "Stamping Press 4 servo-motor casing temperature"
+    sampling_hint_ms: 1000
+
+  - node_id: "ns=2;s=Line7.Press4.CycleCounter"
+    canonical_entity: EquipmentHealth
+    canonical_field: cycle_count
+    classification: operations
+    units: ""
+    description: "Stamping Press 4 lifetime cycle count"
+    sampling_hint_ms: 5000
+
+  - node_id: "ns=2;s=Line7.QualityCell.RejectCount"
+    canonical_entity: ProductionQuality
+    canonical_field: rejects_per_shift
+    classification: operations
+    units: ""
+    description: "Line 7 quality-cell shift rejects"
+    sampling_hint_ms: 1000
+
+  - node_id: "ns=2;s=Line7.MES.JobId"
+    canonical_entity: ProductionJob
+    canonical_field: job_id
+    classification: operations
+    units: ""
+    description: "Active MES job id on Line 7"
+    sampling_hint_ms: 5000
+
+  - node_id: "ns=2;s=Line7.OperatorId"
+    canonical_entity: ProductionJob
+    canonical_field: operator_id
+    classification: pii
+    units: ""
+    description: "Operator badge id (PII — token at adapter boundary)"
+    sampling_hint_ms: 5000

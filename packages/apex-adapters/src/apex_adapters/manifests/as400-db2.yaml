@@ -1,0 +1,33 @@
+kind: adapter
+name: as400-db2
+version: 0.1.0
+sor_name: AS/400 (IBM i) / DB2
+sor_vendor: IBM
+practice: rc
+connection_method: odbc
+schedule: every 6 hours
+bronze_workspace: apex-rc-prod-bronze
+description: >
+  Legacy AS/400 / DB2 ingest via ODBC for engagements with retained
+  IBM-i workloads (Sazerac, parts of Bridgestone). Schema is typically
+  flat green-screen tables; APEX preserves source field names verbatim
+  and lets canonical SCML reshape at Silver.
+standards: []
+schema_mappings:
+  - source_table: ITEMMST
+    bronze_table: bronze_as400_item_master
+    primary_key: [ITEMNO]
+    fields:
+      - { source_field: ITEMNO,  bronze_column: item_no,  bronze_type: string, nullable: false }
+      - { source_field: ITEMDS,  bronze_column: description, bronze_type: string }
+      - { source_field: UMOFM,   bronze_column: unit_of_measure, bronze_type: string }
+runbook:
+  primary_contact: rc-data-platform@deloitte.com
+  sla_recovery_minutes: 240
+  failure_modes:
+    - code: AS400_CONNECTION_REJECTED
+      description: AS/400 host limited concurrent connections; ODBC pool exhausted
+      severity: warning
+      retry: true
+      retry_max: 3
+      backoff_seconds: 300

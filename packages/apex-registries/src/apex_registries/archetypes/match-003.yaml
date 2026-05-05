@@ -1,0 +1,17 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.match.003
+family: match
+name: Adverse-Event Match
+description: Match adverse-event signals against drug / device cohorts.
+canonical_inputs:
+- AESignals
+- ProductCohort
+canonical_outputs:
+- MatchedEvents
+typical_hitl_gate: Pharmacovigilance review
+typical_oversight: HITL
+typical_model_tier: standard
+example_agents:
+- apex.hls.agents.adverse-event
+appendix_d_section: Appendix D — Archetype family match

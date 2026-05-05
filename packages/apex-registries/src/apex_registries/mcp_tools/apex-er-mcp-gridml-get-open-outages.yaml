@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: mcp_tool
+tool_id: apex.er.mcp.gridml.get_open_outages
+practice: er
+sor_or_layer: gridml
+purpose: Read current open outage list
+write: false
+inputs_schema: ''
+outputs_schema: ''
+classification_required: []
+related_canonical_schemas:
+- GRIDML
+appendix_f_section: Appendix F — ER MCP Tools

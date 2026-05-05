@@ -1,0 +1,11 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: product
+product_id: ms.gh.copilot.business
+family: github-copilot
+display_name: GitHub Copilot Business
+sku_or_tier: business
+description: Engineer productivity for build+adapter+package work.
+list_price_basis: per-user/month
+typical_use: Engagement engineering team
+apex_role: Sprint 14/15 build velocity
+appendix_g_section: Appendix G — github-copilot

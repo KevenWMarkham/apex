@@ -1,0 +1,22 @@
+kind: agent
+name: apex.tmt.agents.sla-monitoring
+version: 0.1.0
+practice: tmt
+persona: TEC Service Operations Manager
+service_codes: [TMT-TEC-01]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Multi-tenant SaaS product SLA monitoring. Identifies emerging tenant-impact issues before SLA-breach threshold.
+archetype_id: F1-continuous-monitor-hitl-alert
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.productml.get_tenant_metrics
+    purpose: Read tenant-level service metrics
+
+oversight_modes: [HOTL]
+
+kpis:
+  - { name: SLA-credit cost, direction: money }

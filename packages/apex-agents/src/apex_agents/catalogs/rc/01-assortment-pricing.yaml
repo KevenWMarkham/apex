@@ -1,0 +1,44 @@
+kind: agent
+name: apex.rc.agents.assortment-pricing
+version: 0.1.0
+practice: rc
+persona: Chief Merchant
+service_codes: [RC-E2E-03]
+model_tier: reasoning
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Category-level margin-exposure detection, price elasticity modeling,
+  competitive-response simulation, and markdown-cadence recommendation.
+archetype_id: F1-continuous-monitor-hitl-alert
+primary_contact: rc-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.rc.mcp.merml.get_category_exposure
+    purpose: Read category-level margin exposure aggregates
+  - tool_id: apex.rc.mcp.merml.get_elasticity_signal
+    purpose: Read price-elasticity model outputs
+  - tool_id: apex.rc.mcp.scml.get_competitor_pricing
+    purpose: Read competitor-pricing feed
+  - tool_id: apex.rc.mcp.merml.recommend_markdown
+    purpose: Propose markdown cadence
+    write: true
+
+hitl_gates:
+  - name: markdown_above_threshold
+    description: Markdown depth >= 30% requires VP Pricing approval
+    fires_when: Recommendation depth >= 30% off list price
+    surface: teams_card
+    sla_minutes: 30
+
+oversight_modes: [HITL, HOTL]
+
+forbidden_classifications: [phi, pci]
+
+kpis:
+  - name: GM
+    direction: up
+    target_band: "+80 to +180 bps in managed categories"
+  - name: markdown rate
+    direction: down
+    target_band: "-200 to -400 bps"

@@ -1,0 +1,17 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: schema
+schema_code: SupplyML-ICE
+name: ICE Supply Chain Lineage
+description: ICE Supply Chain Lineage canonical schema family. Bronze to Silver to
+  Gold pipeline scope; consumed by APEX agents/services across ICE.
+practices:
+- ice
+primary_entities:
+- PartLot
+- DistributionMove
+- ReturnMaterial
+standards_alignment:
+- AIAG
+governance_classification: operations
+appendix_a_section: Appendix A — Schema family SupplyML-ICE
+package_implementation: apex-supplyml-ice

@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: partner
+partner_id: ptr.deloitte-iv
+name: Deloitte In-Vehicle Practice
+category: delivery-partner
+practices:
+- axle
+- ice
+description: Sister Deloitte practice for vehicle / aftermarket plays.
+apex_integration_pattern: Co-staffing
+contracts_in_place:
+- Practice MoU
+appendix_h_section: Appendix H — delivery-partner

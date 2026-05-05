@@ -1,0 +1,11 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: product
+product_id: ms.power.platform.std
+family: power-platform
+display_name: Power Platform — Standard
+sku_or_tier: standard
+description: Power Apps + Power Automate.
+list_price_basis: per-user/month
+typical_use: Edge automations + custom HITL UIs
+apex_role: Sprint 16 custom surfaces
+appendix_g_section: Appendix G — power-platform

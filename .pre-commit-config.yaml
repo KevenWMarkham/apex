@@ -1,0 +1,44 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-toml
+      - id: check-added-large-files
+        args: [--maxkb=1024]
+      - id: check-merge-conflict
+      - id: mixed-line-ending
+        args: [--fix=lf]
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.7.0
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+      - id: ruff-format
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.13.0
+    hooks:
+      - id: mypy
+        additional_dependencies:
+          - pydantic>=2.9.0
+        args: [--config-file=mypy.ini]
+        pass_filenames: false
+        files: ^packages/.*\.py$
+
+  # --- Purview classification registration (Sprint 13 Task 13.1) -----------
+  # Emit Atlas v2 classification payloads for every canonical schema in the
+  # repo. Fails the commit if any schema references an unknown classification.
+  - repo: local
+    hooks:
+      - id: apex-purview-register
+        name: APEX Purview classification registration
+        entry: uv run apex purview register-all --root . --strict
+        language: system
+        pass_filenames: false
+        # Only run when a schema YAML, the emitter itself, or the canonical
+        # classification registry changes.
+        files: '^(packages/.*/(data|schemas)/.*\.ya?ml|packages/apex-purview/src/.*\.py)$'

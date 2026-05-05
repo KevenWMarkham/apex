@@ -1,0 +1,24 @@
+kind: agent
+name: apex.th.agents.fnb-recommendation
+version: 0.1.0
+practice: th
+persona: F&B Director
+service_codes: [TH-HOT-03]
+model_tier: lightweight
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Spa / F&B recommendation agent for in-stay guests. Uses preference + tier + occasion context.
+archetype_id: F3-predictive-trigger-workflow-aware
+primary_contact: th-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.th.mcp.travelerml.get_guest_preferences
+    purpose: Read preferences
+  - tool_id: apex.th.mcp.revml.get_fnb_inventory
+    purpose: Read F&B inventory + offers
+
+oversight_modes: [HOTL]
+
+kpis:
+  - { name: F&B capture, direction: up, target_band: "+18%" }

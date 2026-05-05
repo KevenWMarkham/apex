@@ -1,0 +1,11 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: partner
+partner_id: ptr.dunhumby
+name: dunnhumby
+category: data-provider
+practices:
+- rc
+description: Customer-data-science + retail loyalty insights.
+apex_integration_pattern: Co-delivery-on-pilot
+contracts_in_place: []
+appendix_h_section: Appendix H — data-provider

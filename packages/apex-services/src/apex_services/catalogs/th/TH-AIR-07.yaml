@@ -1,0 +1,42 @@
+kind: service
+service_code: TH-AIR-07
+version: 0.1.0
+practice: th
+display_name: Disruption Communications
+brief: "Tier-personalized disruption notification composition during IROPs events."
+description: >
+  AIR customer-comms service. Drafts re-accommodation notices via traveler's preferred channel.
+
+personas:
+  - { name: "Customer Communications Director", role: primary }
+  - { name: "Operations Director", role: secondary }
+
+kpis:
+  - name: "disruption NPS"
+    direction: up
+    wave2_target: "+10-15 pt"
+  - name: "notification latency"
+    direction: down
+    wave2_target: "minutes from disruption"
+
+waves:
+  - wave: wave_1
+    duration: "4-6 weeks"
+    fee_band_low_usd: 250000
+    fee_band_high_usd: 600000
+  - wave: wave_2
+    duration: "6-9 months"
+    fee_band_low_usd: 2000000
+    fee_band_high_usd: 6000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.th.agents.disruption-comms
+
+linked_archetypes:
+  - F1-continuous-monitor-hitl-alert
+
+schemas_touched: [TravelerML, OpsML-TH]
+primary_contact: th-practice-lead@deloitte.com

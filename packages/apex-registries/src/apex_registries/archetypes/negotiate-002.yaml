@@ -1,0 +1,17 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.negotiate.002
+family: negotiate
+name: Supplier Negotiation Support
+description: Support supplier negotiation on pricing / SLAs / corrective action.
+canonical_inputs:
+- SupplierHistory
+- BenchmarkData
+canonical_outputs:
+- NegotiationPosition
+typical_hitl_gate: Procurement HITL
+typical_oversight: HITL
+typical_model_tier: standard
+example_agents:
+- apex.axle.agents.supplier-quality
+appendix_d_section: Appendix D — Archetype family negotiate

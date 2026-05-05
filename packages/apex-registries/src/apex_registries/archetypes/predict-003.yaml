@@ -1,0 +1,18 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.predict.003
+family: predict
+name: Risk Prediction
+description: Patient / customer / outage risk model with explanation.
+canonical_inputs:
+- FeatureSet
+canonical_outputs:
+- RiskScore
+- Explanation
+typical_hitl_gate: Clinician / case manager
+typical_oversight: HITL
+typical_model_tier: standard
+example_agents:
+- apex.hls.agents.readmission-risk
+- apex.hls.agents.sepsis-early-warning
+appendix_d_section: Appendix D — Archetype family predict

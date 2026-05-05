@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: mcp_tool
+tool_id: apex.rc.mcp.merml.get_price_history
+practice: rc
+sor_or_layer: merml
+purpose: Read price-and-elasticity history
+write: false
+inputs_schema: ''
+outputs_schema: ''
+classification_required: []
+related_canonical_schemas:
+- MERML
+appendix_f_section: Appendix F — RC MCP Tools

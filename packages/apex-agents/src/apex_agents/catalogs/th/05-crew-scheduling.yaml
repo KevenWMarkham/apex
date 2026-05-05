@@ -1,0 +1,34 @@
+kind: agent
+name: apex.th.agents.crew-scheduling
+version: 0.1.0
+practice: th
+persona: Crew Scheduling Manager
+service_codes: [TH-AIR-04]
+model_tier: reasoning
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Crew-roster optimization respecting union rules + duty-time legality + qualification requirements.
+archetype_id: F3-predictive-trigger-workflow-aware
+primary_contact: th-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.th.mcp.opsml.get_crew_roster
+    purpose: Read current roster
+  - tool_id: apex.th.mcp.opsml.get_legality_constraints
+    purpose: Read union + regulatory legality
+  - tool_id: apex.th.mcp.opsml.publish_revised_roster
+    purpose: Publish revised roster
+    write: true
+
+hitl_gates:
+  - name: roster_publish
+    description: Revised roster requires crew-management approval before publishing
+    fires_when: Always
+    surface: teams_card
+    sla_minutes: 30
+
+oversight_modes: [HITL]
+
+kpis:
+  - { name: crew-legality violations, direction: down }

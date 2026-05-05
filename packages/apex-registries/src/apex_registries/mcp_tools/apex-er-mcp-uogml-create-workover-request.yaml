@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: mcp_tool
+tool_id: apex.er.mcp.uogml.create_workover_request
+practice: er
+sor_or_layer: uogml
+purpose: Create workover work order
+write: true
+inputs_schema: ''
+outputs_schema: ''
+classification_required: []
+related_canonical_schemas:
+- UOGML
+appendix_f_section: Appendix F — ER MCP Tools

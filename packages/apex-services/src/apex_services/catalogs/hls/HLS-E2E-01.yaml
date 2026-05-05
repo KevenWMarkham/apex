@@ -1,0 +1,43 @@
+kind: service
+service_code: HLS-E2E-01
+version: 0.1.0
+practice: hls
+display_name: Claim Triage & Adjudication
+brief: "Triage inbound claims into auto-adjudicate / pend / deny lanes with examiner backlog reduction."
+description: >
+  Payer claims-operations service. Examiner reviews high-dollar pends; routine claims auto-adjudicate per benefit grid.
+
+personas:
+  - { name: "Claims Operations Director", role: primary }
+  - { name: "Medical Director", role: secondary }
+
+kpis:
+  - name: "auto-adjudication rate"
+    direction: up
+    wave2_target: "+15-25 pp"
+  - name: "claim cycle time"
+    direction: down
+    wave2_target: "-40 to -60%"
+
+waves:
+  - wave: wave_1
+    duration: "6-10 weeks"
+    fee_band_low_usd: 500000
+    fee_band_high_usd: 1300000
+  - wave: wave_2
+    duration: "9-15 months"
+    fee_band_low_usd: 4000000
+    fee_band_high_usd: 14000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.hls.agents.claim-triage
+
+linked_archetypes:
+  - F2-event-cluster-pattern-match
+
+schemas_touched: [ClaimML]
+standards: ['HIPAA', 'EDI X12 HIPAA']
+primary_contact: hls-practice-lead@deloitte.com

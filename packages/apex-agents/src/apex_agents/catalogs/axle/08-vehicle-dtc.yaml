@@ -1,0 +1,24 @@
+kind: agent
+name: apex.axle.agents.vehicle-dtc
+version: 0.1.0
+practice: axle
+persona: Connected Vehicle Operations
+service_codes: [AXLE-Connected-Factory-02]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Connected-vehicle DTC (Diagnostic Trouble Code) cluster analysis.
+  Detects emerging fault signatures across the deployed fleet.
+archetype_id: F2-event-cluster-pattern-match
+primary_contact: axle-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.axle.mcp.connectedml.get_dtc_stream
+    purpose: Read live DTC stream from telematics
+  - tool_id: apex.axle.mcp.qmsml.get_field_failure_history
+    purpose: Read historical field failures
+
+oversight_modes: [HOTL]
+kpis:
+  - { name: time-to-fault-detection, direction: down }

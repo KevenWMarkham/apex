@@ -1,0 +1,6 @@
+kind: agent
+name: bad-version-agent
+version: not-semver
+owner: rc-practice-lead
+model_pin: gpt-4.1-2025-06-15
+system_prompt_sha: a1b2c3d4e5f6

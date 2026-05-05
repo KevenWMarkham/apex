@@ -1,0 +1,19 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: schema
+schema_code: CXML
+name: Customer Experience Management Lineage
+description: Customer Experience Management Lineage canonical schema family. Bronze
+  to Silver to Gold pipeline scope; consumed by APEX agents/services across RC.
+practices:
+- rc
+primary_entities:
+- Customer
+- Identity
+- Journey
+- Consent
+standards_alignment:
+- UCDM
+- GDPR
+governance_classification: pii
+appendix_a_section: Appendix A — Schema family CXML
+package_implementation: apex-cxml

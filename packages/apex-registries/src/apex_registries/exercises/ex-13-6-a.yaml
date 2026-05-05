@@ -1,0 +1,16 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: exercise
+exercise_id: ex.13.6.a
+sellers_guide_section: §13.6
+chapter: 13. Telecom / Media / Tech Practice
+prompt: Map IVT (invalid-traffic) detection to its commercial model.
+canonical_solution: 'IVT detection is value-share-eligible: cleanly attributable to
+  recovered ad-spend / refund avoidance. ContentSafetyML schema family + apex.tmt.agents
+  — IVT detection writes audit row tied to settlement.'
+teaching_points:
+- IVT money-attribution is clean
+- ContentSafetyML schema captures the decision evidence
+related_kpi_ids:
+- kpi.tmt.ivt-rate
+related_archetype_ids:
+- arch.score.001

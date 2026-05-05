@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: mcp_tool
+tool_id: apex.er.mcp.miningml.get_haul_fleet_state
+practice: er
+sor_or_layer: miningml
+purpose: Read live fleet telemetry (Cat MineStar / Komatsu Komtrax)
+write: false
+inputs_schema: ''
+outputs_schema: ''
+classification_required: []
+related_canonical_schemas:
+- MININGML
+appendix_f_section: Appendix F — ER MCP Tools

@@ -1,0 +1,11 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: partner
+partner_id: ptr.manhattan
+name: Manhattan Associates
+category: sor-vendor
+practices:
+- rc
+description: WMS.
+apex_integration_pattern: Mirroring-via-Sprint15
+contracts_in_place: []
+appendix_h_section: Appendix H — sor-vendor

@@ -1,0 +1,15 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: kpi
+kpi_id: kpi.rc.shrink-rate
+name: shrink rate
+practice: rc
+direction: down
+description: KPI tracked by APEX RC agents/services. Wave-2 typical movement defined
+  by source manifests.
+measurement_pattern: audit-row attribution against pre-engagement baseline
+typical_baseline: typical
+typical_wave2_target: -150 to -300 bps annualized
+typical_wave3_target: -300 to -500 bps
+units: ''
+cadence: monthly
+appendix_c_section: Appendix C — RC KPIs

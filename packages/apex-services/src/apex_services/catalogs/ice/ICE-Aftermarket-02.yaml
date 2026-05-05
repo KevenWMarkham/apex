@@ -1,0 +1,43 @@
+kind: service
+service_code: ICE-Aftermarket-02
+version: 0.1.0
+practice: ice
+display_name: Warranty Claim Triage
+brief: "Triage inbound warranty claims with auto-pay / dealer-review / engineering-review lanes."
+description: >
+  ICE warranty operations service. Reduces warranty cycle time + warranty cost per unit.
+
+personas:
+  - { name: "Warranty Operations Manager", role: primary }
+  - { name: "Chief Engineer", role: secondary }
+  - { name: "Aftermarket Director", role: secondary }
+
+kpis:
+  - name: "warranty cycle time"
+    direction: down
+    wave2_target: "-30 to -45%"
+  - name: "warranty cost per unit"
+    direction: down
+    wave2_target: "-10 to -20%"
+
+waves:
+  - wave: wave_1
+    duration: "4-8 weeks"
+    fee_band_low_usd: 350000
+    fee_band_high_usd: 950000
+  - wave: wave_2
+    duration: "6-12 months"
+    fee_band_low_usd: 2500000
+    fee_band_high_usd: 9000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.ice.agents.warranty-claim-triage
+
+linked_archetypes:
+  - F2-event-cluster-pattern-match
+
+schemas_touched: [QMSML-ICE, ConnectedICEML, AMML-ICE]
+primary_contact: ice-practice-lead@deloitte.com

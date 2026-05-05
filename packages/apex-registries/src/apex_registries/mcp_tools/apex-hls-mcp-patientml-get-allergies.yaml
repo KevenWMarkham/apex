@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: mcp_tool
+tool_id: apex.hls.mcp.patientml.get_allergies
+practice: hls
+sor_or_layer: patientml
+purpose: Read documented allergies
+write: false
+inputs_schema: ''
+outputs_schema: ''
+classification_required: []
+related_canonical_schemas:
+- PATIENTML
+appendix_f_section: Appendix F — HLS MCP Tools

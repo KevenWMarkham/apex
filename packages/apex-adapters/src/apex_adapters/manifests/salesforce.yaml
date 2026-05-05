@@ -1,0 +1,47 @@
+kind: adapter
+name: salesforce
+version: 0.1.0
+sor_name: Salesforce Sales Cloud / Service Cloud
+sor_vendor: Salesforce
+practice: rc
+connection_method: dataflow_gen2
+schedule: every 30 minutes
+bronze_workspace: apex-rc-prod-bronze
+description: >
+  Salesforce ingest via Power Query / Dataflow Gen2 with the Salesforce
+  connector. Bulk API 2.0 for full pulls; CDC stream subscribed via
+  Salesforce Change Data Capture for incrementals. PII tokenized at Silver.
+standards: [Schema.org, GS1]
+schema_mappings:
+  - source_table: Account
+    bronze_table: bronze_sf_account
+    primary_key: [Id]
+    fields:
+      - { source_field: Id,        bronze_column: account_id,   bronze_type: string,    nullable: false }
+      - { source_field: Name,      bronze_column: account_name, bronze_type: string,    classification: pii }
+      - { source_field: Industry,  bronze_column: industry,     bronze_type: string }
+      - { source_field: BillingCity, bronze_column: billing_city, bronze_type: string,  classification: pii }
+  - source_table: Opportunity
+    bronze_table: bronze_sf_opportunity
+    primary_key: [Id]
+    fields:
+      - { source_field: Id,        bronze_column: opp_id,       bronze_type: string,    nullable: false }
+      - { source_field: AccountId, bronze_column: account_id,   bronze_type: string,    nullable: false }
+      - { source_field: Amount,    bronze_column: amount,       bronze_type: decimal,   classification: trade_secret }
+      - { source_field: StageName, bronze_column: stage,        bronze_type: string }
+      - { source_field: CloseDate, bronze_column: close_date,   bronze_type: date }
+runbook:
+  primary_contact: rc-data-platform@deloitte.com
+  sla_recovery_minutes: 30
+  failure_modes:
+    - code: API_RATE_LIMIT
+      description: Salesforce API daily rate limit reached
+      severity: warning
+      retry: true
+      retry_max: 1
+      backoff_seconds: 3600
+    - code: AUTH_TOKEN_EXPIRED
+      description: OAuth refresh token rotated
+      severity: error
+      retry: false
+      escalation: identity-on-call

@@ -1,0 +1,19 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: schema
+schema_code: ConnectedICEML
+name: Connected ICE Lineage
+description: Connected ICE Lineage canonical schema family. Bronze to Silver to Gold
+  pipeline scope; consumed by APEX agents/services across ICE.
+practices:
+- ice
+primary_entities:
+- Device
+- Telemetry
+- FirmwareImage
+- Ticket
+standards_alignment:
+- MQTT
+- OPC UA
+governance_classification: operations
+appendix_a_section: Appendix A — Schema family ConnectedICEML
+package_implementation: apex-connectedice

@@ -1,0 +1,46 @@
+kind: service
+service_code: TMT-TEL-05
+version: 0.1.0
+practice: tmt
+display_name: Subscriber Churn & Retention
+brief: "Churn-risk prediction with retention-offer recommendation, CPNI-scoped."
+description: >
+  TEL customer-operations service. Predictive-trigger orchestration with offer-threshold HITL.
+
+personas:
+  - { name: "Customer Operations VP", role: primary }
+  - { name: "VP Marketing", role: secondary }
+  - { name: "Chief Customer Officer", role: secondary }
+
+kpis:
+  - name: "churn rate"
+    direction: down
+    wave2_target: "-2 to -4 pp"
+  - name: "retention offer ROI"
+    direction: up
+
+slos:
+  - { name: "CPNI access audit", target: "100%", enforcement: regulatory }
+
+waves:
+  - wave: wave_1
+    duration: "4-8 weeks"
+    fee_band_low_usd: 350000
+    fee_band_high_usd: 1000000
+  - wave: wave_2
+    duration: "9-12 months"
+    fee_band_low_usd: 3000000
+    fee_band_high_usd: 11000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.tmt.agents.subscriber-churn
+
+linked_archetypes:
+  - F3-predictive-trigger-workflow-aware
+
+schemas_touched: [SubscriberML, BSSML]
+standards: ['FCC §222']
+primary_contact: tmt-practice-lead@deloitte.com

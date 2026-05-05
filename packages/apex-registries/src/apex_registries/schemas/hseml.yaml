@@ -1,0 +1,20 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: schema
+schema_code: HSEML
+name: HSE Event Lineage
+description: HSE Event Lineage canonical schema family. Bronze to Silver to Gold pipeline
+  scope; consumed by APEX agents/services across ER, AXLE.
+practices:
+- er
+- axle
+primary_entities:
+- Incident
+- NearMiss
+- Investigation
+- CorrectiveAction
+standards_alignment:
+- OSHA
+- ISO 45001
+governance_classification: operations
+appendix_a_section: Appendix A — Schema family HSEML
+package_implementation: apex-hseml

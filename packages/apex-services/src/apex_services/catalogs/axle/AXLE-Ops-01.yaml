@@ -1,0 +1,44 @@
+kind: service
+service_code: AXLE-Ops-01
+version: 0.1.0
+practice: axle
+display_name: Production Scheduling Optimization
+brief: "Mixed-model production-schedule optimization balancing takt + sequence + material constraints."
+description: >
+  Production Planning service. Improves takt-adherence and reduces changeover time.
+
+personas:
+  - { name: "Production Planner", role: primary }
+  - { name: "Plant Manager", role: secondary }
+  - { name: "VP Manufacturing", role: secondary }
+
+kpis:
+  - name: "takt-time adherence"
+    direction: up
+    wave2_target: "+5-10 pp"
+  - name: "changeover time"
+    direction: down
+    wave2_target: "-10 to -20%"
+
+waves:
+  - wave: wave_1
+    duration: "4-8 weeks"
+    fee_band_low_usd: 350000
+    fee_band_high_usd: 900000
+  - wave: wave_2
+    duration: "6-12 months"
+    fee_band_low_usd: 2500000
+    fee_band_high_usd: 9000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.axle.agents.production-scheduling
+
+linked_archetypes:
+  - F3-predictive-trigger-workflow-aware
+
+schemas_touched: [AAML, MSCML]
+standards: ['ISA-95']
+primary_contact: axle-practice-lead@deloitte.com

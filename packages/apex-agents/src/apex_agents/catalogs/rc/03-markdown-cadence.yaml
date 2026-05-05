@@ -1,0 +1,37 @@
+kind: agent
+name: apex.rc.agents.markdown-cadence
+version: 0.1.0
+practice: rc
+persona: VP Merchandising
+service_codes: [RC-TTP-07]
+model_tier: reasoning
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Store-by-store, SKU-by-SKU markdown cadence with sell-through prediction
+  and price-elasticity modeling.
+archetype_id: F3-predictive-trigger-workflow-aware
+primary_contact: rc-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.rc.mcp.scml.get_inventory_position
+    purpose: Read remaining stock per SKU-store
+  - tool_id: apex.rc.mcp.merml.get_price_history
+    purpose: Read price-and-elasticity history
+  - tool_id: apex.rc.mcp.merml.recommend_markdown
+    purpose: Propose markdown cadence
+    write: true
+
+hitl_gates:
+  - name: markdown_recommendation
+    description: Markdown depth and timing recommendation requires merchant approval
+    fires_when: Any new markdown cadence proposed
+    surface: teams_card
+    sla_minutes: 60
+
+oversight_modes: [HITL, HOTL]
+
+kpis:
+  - name: margin per unit
+    direction: up
+    target_band: "+150 to +300 bps protected"

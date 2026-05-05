@@ -1,0 +1,17 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.optimize.003
+family: optimize
+name: Energy Load-Shift
+description: Shift load to lower-cost windows under stability constraints.
+canonical_inputs:
+- TariffFeed
+- LoadProfile
+canonical_outputs:
+- LoadShiftPlan
+typical_hitl_gate: Operator approves aggregate
+typical_oversight: HITL
+typical_model_tier: standard
+example_agents:
+- apex.axle.agents.energy-optimization
+appendix_d_section: Appendix D — Archetype family optimize

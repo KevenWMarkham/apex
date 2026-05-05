@@ -1,0 +1,16 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.explain.001
+family: explain
+name: Decision Explanation
+description: Generate plain-language explanation of agent decision with feature attribution.
+canonical_inputs:
+- Decision
+- FeatureSet
+canonical_outputs:
+- Explanation
+typical_hitl_gate: User requests rationale
+typical_oversight: HOTL
+typical_model_tier: standard
+example_agents: []
+appendix_d_section: Appendix D — Archetype family explain

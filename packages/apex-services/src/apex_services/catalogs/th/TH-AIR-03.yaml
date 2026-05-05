@@ -1,0 +1,41 @@
+kind: service
+service_code: TH-AIR-03
+version: 0.1.0
+practice: th
+display_name: Loyalty Personalization
+brief: "Loyalty next-best-action recommendation across tier, history, and current-trip context."
+description: >
+  AIR loyalty service. Drives engagement and tier-progression behaviors via offers + upgrades.
+
+personas:
+  - { name: "Loyalty Director", role: primary }
+  - { name: "Chief Customer Officer", role: secondary }
+
+kpis:
+  - name: "loyalty engagement rate"
+    direction: up
+    wave2_target: "+15-25%"
+  - name: "tier-progression rate"
+    direction: up
+
+waves:
+  - wave: wave_1
+    duration: "4-8 weeks"
+    fee_band_low_usd: 350000
+    fee_band_high_usd: 900000
+  - wave: wave_2
+    duration: "6-12 months"
+    fee_band_low_usd: 3000000
+    fee_band_high_usd: 10000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.th.agents.loyalty-personalization
+
+linked_archetypes:
+  - F3-predictive-trigger-workflow-aware
+
+schemas_touched: [TravelerML, RevML-TH]
+primary_contact: th-practice-lead@deloitte.com

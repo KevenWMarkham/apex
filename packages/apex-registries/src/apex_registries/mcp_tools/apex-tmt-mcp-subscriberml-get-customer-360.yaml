@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: mcp_tool
+tool_id: apex.tmt.mcp.subscriberml.get_customer_360
+practice: tmt
+sor_or_layer: subscriberml
+purpose: Read subscriber profile (CPNI-scoped)
+write: false
+inputs_schema: ''
+outputs_schema: ''
+classification_required: []
+related_canonical_schemas:
+- SUBSCRIBERML
+appendix_f_section: Appendix F — TMT MCP Tools

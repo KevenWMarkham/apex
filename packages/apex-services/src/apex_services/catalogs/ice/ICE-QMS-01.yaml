@@ -1,0 +1,44 @@
+kind: service
+service_code: ICE-QMS-01
+version: 0.1.0
+practice: ice
+display_name: Emissions & Regulatory Compliance
+brief: "Tier-4 / Stage-V emissions compliance monitoring across deployed fleet with regulatory reporting."
+description: >
+  ICE compliance service. Verifies regulatory limits and surfaces non-compliance with HITL on regulatory submissions.
+
+personas:
+  - { name: "Compliance Manager", role: primary }
+  - { name: "Chief Sustainability Officer", role: secondary }
+  - { name: "Chief Compliance Officer", role: secondary }
+
+kpis:
+  - name: "compliance violations"
+    direction: down
+    wave2_target: "0 violations"
+
+slos:
+  - { name: "EPA + CARB audit retention", target: "permanent", enforcement: regulatory }
+
+waves:
+  - wave: wave_1
+    duration: "4-8 weeks"
+    fee_band_low_usd: 350000
+    fee_band_high_usd: 950000
+  - wave: wave_2
+    duration: "6-12 months"
+    fee_band_low_usd: 2500000
+    fee_band_high_usd: 9000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.ice.agents.emissions-compliance
+
+linked_archetypes:
+  - F4-regulatory-trigger-audit-preserve
+
+schemas_touched: [QMSML-ICE, ConnectedICEML]
+standards: ['EPA Tier 4', 'EU Stage V', 'CARB']
+primary_contact: ice-practice-lead@deloitte.com

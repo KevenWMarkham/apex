@@ -1,0 +1,12 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: persona
+persona_id: persona.th.f-b-director
+name: F&B Director
+practice: th
+seniority: director
+function: agent
+description: F&B Director (TH). Persona referenced by APEX agent manifests.
+typical_decisions: []
+pains: []
+metrics_owned: []
+appendix_e_section: Appendix E — TH Personas

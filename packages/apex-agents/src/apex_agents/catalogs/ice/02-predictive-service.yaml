@@ -1,0 +1,33 @@
+kind: agent
+name: apex.ice.agents.predictive-service
+version: 0.1.0
+practice: ice
+persona: Aftermarket Director
+service_codes: [ICE-Aftermarket-01]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Predictive-service recommendation for connected equipment. Recommends service intervention based on cycle + DTC + emergent fault patterns.
+archetype_id: F3-predictive-trigger-workflow-aware
+primary_contact: ice-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.ice.mcp.connectedml.get_machine_health
+    purpose: Read machine health score
+  - tool_id: apex.ice.mcp.amml.create_service_request
+    purpose: Create dealer service request
+    write: true
+
+hitl_gates:
+  - name: service_dispatch
+    description: Dealer service-request creation requires service-ops approval
+    fires_when: Recommendation produced
+    surface: teams_card
+    sla_minutes: 240
+
+oversight_modes: [HITL]
+
+kpis:
+  - { name: unplanned downtime, direction: down, target_band: "-25 to -35%" }
+  - { name: service-revenue capture, direction: money, target_band: "+$8M typical fleet of 5000 units" }

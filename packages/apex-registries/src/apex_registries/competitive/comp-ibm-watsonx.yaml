@@ -1,0 +1,15 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: competitive
+entry_id: comp.ibm-watsonx
+competitor: IBM
+competitor_offering: watsonx + Industry packs
+apex_differentiators:
+- APEX is Microsoft-native (Fabric / Foundry / Copilot Studio) vs. watsonx-on-OpenShift
+- Pre-engagement Sprint 18 reference deployments are shippable
+- Sprint 16 anchor agent catalog larger than watsonx out-of-the-box
+independence_concerns:
+- Clients with significant IBM mainframe estate may benefit from watsonx's CICS connectors
+win_themes:
+- Microsoft licensing leverage
+- Faster Wave-1 commercial path
+appendix_k_section: Appendix K — Independence and Competitive Posture

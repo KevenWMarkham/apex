@@ -1,0 +1,44 @@
+kind: service
+service_code: AXLE-Supply-01
+version: 0.1.0
+practice: axle
+display_name: Supplier Quality & Performance
+brief: "Supplier-quality monitoring across PPM + on-time delivery + quality incidents with action-plan triggers."
+description: >
+  SQE service. Drives supplier-development and reduces inbound-defect cost.
+
+personas:
+  - { name: "Supplier Quality Engineer", role: primary }
+  - { name: "VP Procurement", role: secondary }
+  - { name: "Chief Quality Officer", role: secondary }
+
+kpis:
+  - name: "supplier PPM"
+    direction: down
+    wave2_target: "-20 to -35%"
+  - name: "on-time delivery rate"
+    direction: up
+    wave2_target: "+5-10 pp"
+
+waves:
+  - wave: wave_1
+    duration: "4-8 weeks"
+    fee_band_low_usd: 350000
+    fee_band_high_usd: 900000
+  - wave: wave_2
+    duration: "6-12 months"
+    fee_band_low_usd: 3000000
+    fee_band_high_usd: 10000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.axle.agents.supplier-quality
+
+linked_archetypes:
+  - F1-continuous-monitor-hitl-alert
+
+schemas_touched: [QMSML, SupplyML-A]
+standards: ['IATF 16949']
+primary_contact: axle-practice-lead@deloitte.com

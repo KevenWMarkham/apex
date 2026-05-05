@@ -1,0 +1,19 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: schema
+schema_code: StudyML
+name: Clinical Study Lineage
+description: Clinical Study Lineage canonical schema family. Bronze to Silver to Gold
+  pipeline scope; consumed by APEX agents/services across HLS.
+practices:
+- hls
+primary_entities:
+- Study
+- Subject
+- Visit
+- AdverseEvent
+standards_alignment:
+- CDISC SDTM
+- CDASH
+governance_classification: phi
+appendix_a_section: Appendix A — Schema family StudyML
+package_implementation: apex-studyml

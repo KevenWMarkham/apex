@@ -1,0 +1,16 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.cascade.003
+family: cascade
+name: Approval Cascade
+description: Multi-step approval routing with parallel and sequential gates per policy.
+canonical_inputs:
+- ApprovalRequest
+- Policy
+canonical_outputs:
+- ApprovalDecision
+typical_hitl_gate: Final approver
+typical_oversight: HITL
+typical_model_tier: lightweight
+example_agents: []
+appendix_d_section: Appendix D — Archetype family cascade

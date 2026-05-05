@@ -1,0 +1,12 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: mcp_tool
+tool_id: apex.er.mcp.external.get_weather_forecast
+practice: er
+sor_or_layer: external
+purpose: Read 7-day wind forecast
+write: false
+inputs_schema: ''
+outputs_schema: ''
+classification_required: []
+related_canonical_schemas: []
+appendix_f_section: Appendix F — ER MCP Tools

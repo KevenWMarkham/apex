@@ -1,0 +1,12 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: product
+product_id: ms.fabric.f128
+family: fabric
+display_name: Microsoft Fabric F128 Capacity
+sku_or_tier: F128
+description: Reserved Fabric capacity (~64 vcores). Standard for reference-deployment
+  Wave-1.
+list_price_basis: reserved-capacity-monthly
+typical_use: Reference deployments + medium prod
+apex_role: Sprint 18 reference-deployment default
+appendix_g_section: Appendix G — fabric

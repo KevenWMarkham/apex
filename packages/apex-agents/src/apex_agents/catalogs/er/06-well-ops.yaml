@@ -1,0 +1,35 @@
+kind: agent
+name: apex.er.agents.well-ops
+version: 0.1.0
+practice: er
+persona: Production Engineer
+service_codes: [ER-OG-01]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Upstream well-operations agent. Detects production anomalies (drops,
+  surges, GOR shifts) from PI tag streams and recommends interventions.
+archetype_id: F1-continuous-monitor-hitl-alert
+primary_contact: er-og-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.er.mcp.uogml.get_well_telemetry
+    purpose: Read PI-sourced well telemetry
+  - tool_id: apex.er.mcp.uogml.get_well_history
+    purpose: Read well production history
+  - tool_id: apex.er.mcp.uogml.create_workover_request
+    purpose: Create workover work order
+    write: true
+
+hitl_gates:
+  - name: workover_approval
+    description: Workover work-order creation requires production engineer approval
+    fires_when: Recommendation to schedule workover
+    surface: teams_card
+    sla_minutes: 240
+
+oversight_modes: [HITL, HOTL]
+kpis:
+  - { name: production decline, direction: down }
+  - { name: NPT (non-productive time), direction: down }

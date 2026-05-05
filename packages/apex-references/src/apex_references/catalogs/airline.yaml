@@ -1,0 +1,208 @@
+kind: reference_deployment
+name: airline
+version: 0.1.0
+practice: th
+display_name: Airline — Network Carrier Reference Deployment
+description: >
+  Turnkey Wave-1 blueprint for a hub-and-spoke network airline
+  (mainline + regional). Composes Sprint 14 capacity (per-workload
+  isolation for ops-control vs. commercial), Sprint 15 SOR adapters
+  (Sabre / Amadeus DCS + Salesforce + analytics platforms), Sprint 16
+  anchor agents (IROPS recovery, traveler 360, yield management,
+  loyalty personalization, crew scheduling, ground ops, disruption
+  comms), and Sprint 17 productized services (TH-AIR). Per Sellers
+  Guide §14.8 reference deployment.
+
+sellers_guide_section: "§14.8"
+demo_script_path: airline.md
+primary_contact: th-practice-lead@deloitte.com
+
+sponsor_personas:
+  - SVP Operations Control
+  - SVP Customer Experience
+  - VP Revenue Management
+
+triggering_scenarios:
+  - name: IROPS cascade from hub-station weather
+    description: >
+      Convective weather closes hub for two hours during rolling bank;
+      cascading delays threaten 200+ flights, 30,000+ passengers, and
+      crew-legality limits across the next 24 hours. Ops control needs
+      integrated recovery plan (cancellations, swaps, crew, customer
+      rebook) under 60 minutes.
+    pain: operational + financial + customer-experience + crew-legal
+    sponsor_persona: SVP Operations Control
+
+  - name: Yield erosion versus low-cost competitor
+    description: >
+      Low-cost competitor entered three core leisure markets; yield is
+      bleeding in trailing 30 days. VP Revenue Management needs
+      market-by-market dynamic response without giving up corporate-
+      contract margin.
+    pain: financial + competitive
+    sponsor_persona: VP Revenue Management
+
+  - name: Loyalty disengagement in elite tier
+    description: >
+      Top-tier loyalty members showing reduced flight frequency post-
+      service event. SVP CX wants service-recovery + targeted
+      personalization to retain elite revenue base.
+    pain: financial + brand
+    sponsor_persona: SVP Customer Experience
+
+architecture:
+  capacity_blueprint: per-workload-isolation
+  fabric_sku: F128
+  bronze_workspaces:
+    - apex-th-opsctrl-bronze
+    - apex-th-commercial-bronze
+  silver_workspaces:
+    - apex-th-opsctrl-silver
+    - apex-th-commercial-silver
+  gold_workspaces:
+    - apex-th-prod-gold
+  governance_workspace: apex-th-governance
+
+  adapters:
+    - salesforce
+    - salesforce-marketing-cloud
+    - servicenow
+    - analytics-platforms
+    - workday-hcm
+
+  canonical_schemas:
+    - TravelerML
+    - OpsML
+    - LoyaltyML
+
+  foundry_model_pins:
+    - gpt-4o-2024-11-20
+    - gpt-4o-mini-2024-07-18
+    - o1-2024-12-17
+
+  purview_classifications:
+    - pii
+    - payment-card
+    - operations
+
+use_cases:
+  - name: IROPS recovery with crew + customer integration
+    description: >
+      Reasoning-tier agent fuses flight-leg state, crew-legality,
+      aircraft availability, customer rebook options, and gate
+      capacity into integrated recovery plan; ops-control duty
+      manager HITL approves before commit. Disruption-comms agent
+      cascades messages across customer + crew + ground channels.
+    service_codes:
+      - TH-AIR-01
+    agents:
+      - apex.th.agents.irops-recovery
+      - apex.th.agents.crew-scheduling
+      - apex.th.agents.disruption-comms
+    triggering_event: hub-station closure OR cascading-delay threshold
+    expected_decision_latency: under 60 minutes from trigger to HITL gate
+
+  - name: Yield management with competitor watch
+    description: >
+      Competitive fare scrape + booking-curve + capacity utilization
+      → per-O&D price-action recommendation; revenue analyst HITL on
+      magnitude > threshold; Salesforce loyalty hooks ensure elite
+      protection.
+    service_codes:
+      - TH-AIR-02
+    agents:
+      - apex.th.agents.yield-management
+      - apex.th.agents.demand-disruption
+    triggering_event: competitor fare delta OR booking-curve anomaly
+    expected_decision_latency: under 4 hours
+
+  - name: Traveler 360 + loyalty personalization
+    description: >
+      Cross-channel traveler profile assembly (PNRs, loyalty,
+      service contacts) feeds personalization agent; service-recovery
+      offers and next-best-offer routed to customer-care or marketing
+      channels with PII-redaction at every boundary.
+    service_codes:
+      - TH-AIR-03
+    agents:
+      - apex.th.agents.traveler-360
+      - apex.th.agents.loyalty-personalization
+    triggering_event: service-event closure OR loyalty-tier evaluation cycle
+    expected_decision_latency: same-day
+
+  - name: Ground-ops on-time performance
+    description: >
+      Turn-time prediction + ramp-resource availability + gate
+      assignment surfaces at-risk turns; ground-ops supervisor digest
+      with prioritized intervention list.
+    service_codes:
+      - TH-AIR-04
+    agents:
+      - apex.th.agents.ground-ops
+    triggering_event: gate-arrival or planned-pushback deltas
+    expected_decision_latency: real-time
+
+  - name: Guest-experience on-board recommendation
+    description: >
+      F&B + ancillary recommendation agent personalizes inflight
+      experience by traveler profile + previous purchases + cabin
+      mix; flight attendant tablet HITL on ambiguous cases.
+    service_codes:
+      - TH-AIR-05
+    agents:
+      - apex.th.agents.guest-experience
+      - apex.th.agents.fnb-recommendation
+    triggering_event: pre-flight loading OR boarding completion
+    expected_decision_latency: pre-departure window
+
+kpi_targets:
+  - name: D0 (on-time departure within scheduled minute) %
+    direction: up
+    wave1_commitment: ground-ops + IROPS instrumentation in HOTL
+    wave2_target: "+2-4pp on pilot stations"
+    wave3_target: "+5pp network-wide"
+    measurement_pattern: D0 from internal ops data, station-level pilot vs. control
+
+  - name: IROPS recovery cycle time
+    direction: down
+    wave1_commitment: IROPS recovery agent live in HITL
+    wave2_target: median 35 minutes
+    wave3_target: median 20 minutes
+    measurement_pattern: trigger-to-HITL-approved-plan delta
+
+  - name: Yield per ASM (revenue per available seat mile)
+    direction: money
+    wave1_commitment: yield-management agent live in HITL on subset of O&Ds
+    wave2_target: "+1-3% on instrumented O&Ds"
+    wave3_target: "+3-5% network"
+    measurement_pattern: O&D revenue with capacity normalization, attribution-ledger
+
+  - name: Top-tier loyalty retention
+    direction: up
+    wave1_commitment: traveler-360 + service-recovery offers live for elite
+    wave2_target: "+2-3pp 12-month elite retention"
+    wave3_target: "+5pp sustained"
+    measurement_pattern: cohort retention with control group
+
+wave1_scope:
+  duration_weeks_low: 8
+  duration_weeks_high: 12
+  fee_band_usd_low: 900000
+  fee_band_usd_high: 1750000
+  deliverables:
+    - F128 Fabric capacity provisioned with ops-control / commercial workload isolation
+    - Salesforce + ServiceNow + Workday + analytics-platforms adapters live in Bronze
+    - TravelerML + OpsML + LoyaltyML canonical schemas in Silver
+    - IROPS recovery agent live in HITL for one hub
+    - Crew-scheduling + disruption-comms agents wired into ops-control workflow
+    - Yield-management agent in HITL for one revenue region
+    - Traveler-360 + loyalty-personalization agents live for elite tier
+    - Ground-ops agent live for one hub station
+    - PII + payment-card classifications + DLP per Sprint 13
+    - Sellers Guide §14.8 demo deck + SVP Ops Control / SVP CX readout
+  success_criteria:
+    - IROPS recovery plan generated under 60 minutes for ≥ 3 live IROPS events
+    - Yield agent acceptance rate ≥ 65% on pilot O&Ds
+    - Top-tier traveler service-recovery offers achieve ≥ 80% engagement
+    - Ground-ops at-risk-turn precision ≥ 70% on pilot station
+    - Wave-2 commercial proposal signed with named KPI commitments

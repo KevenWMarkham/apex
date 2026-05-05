@@ -1,0 +1,42 @@
+kind: service
+service_code: TH-AIR-05
+version: 0.1.0
+practice: th
+display_name: Ground Operations Coordination
+brief: "Gate, baggage, fuel, catering coordination during arrival/departure peaks."
+description: >
+  AIR ground-handling service. Improves on-time departure and reduces baggage mishandle.
+
+personas:
+  - { name: "Ground Operations Lead", role: primary }
+  - { name: "Operations Director", role: secondary }
+
+kpis:
+  - name: "on-time departure"
+    direction: up
+    wave2_target: "+2-4 pp"
+  - name: "baggage mishandle rate"
+    direction: down
+    wave2_target: "-15 to -25%"
+
+waves:
+  - wave: wave_1
+    duration: "6-10 weeks"
+    fee_band_low_usd: 400000
+    fee_band_high_usd: 1100000
+  - wave: wave_2
+    duration: "9-12 months"
+    fee_band_low_usd: 3500000
+    fee_band_high_usd: 11000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.th.agents.ground-ops
+
+linked_archetypes:
+  - F2-event-cluster-pattern-match
+
+schemas_touched: [OpsML-TH]
+primary_contact: th-practice-lead@deloitte.com

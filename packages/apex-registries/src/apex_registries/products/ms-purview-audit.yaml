@@ -1,0 +1,11 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: product
+product_id: ms.purview.audit
+family: purview
+display_name: Microsoft Purview — Audit Premium
+sku_or_tier: premium
+description: Long-retention audit log with crypto-preservation.
+list_price_basis: per-user/month
+typical_use: Regulator-grade audit
+apex_role: Sprint 18 PSPS / SEP-1 audit retention
+appendix_g_section: Appendix G — purview

@@ -1,0 +1,77 @@
+# Reference J1939 mapping for an ER mining haul-truck telematics adapter
+# Sprint 25 Task 25.3 reference workspace.
+#
+# Each entry maps (PGN, SPN) → canonical AssetTelemetry / VehicleEvent
+# fields. Throttle-policy entries set per-PGN min-emit intervals so high-
+# frequency engine PGNs don't flood Bronze.
+
+protocol: j1939
+name: haul-truck-cat-797f-fleet
+
+nodes:
+  - node_id: "65253/247"
+    canonical_entity: AssetTelemetry
+    canonical_field: engine_hours
+    classification: operations
+    units: "h"
+    description: "PGN 65253 SPN 247 — Engine Total Hours of Operation"
+    sampling_hint_ms: 5000
+
+  - node_id: "61444/190"
+    canonical_entity: AssetTelemetry
+    canonical_field: engine_speed_rpm
+    classification: operations
+    units: "rpm"
+    description: "PGN 61444 SPN 190 — Engine Speed"
+    sampling_hint_ms: 1000
+
+  - node_id: "61443/92"
+    canonical_entity: AssetTelemetry
+    canonical_field: engine_load_pct
+    classification: operations
+    units: "%"
+    description: "PGN 61443 SPN 92 — Engine Percent Load"
+    sampling_hint_ms: 1000
+
+  - node_id: "65276/96"
+    canonical_entity: AssetTelemetry
+    canonical_field: fuel_level_pct
+    classification: operations
+    units: "%"
+    description: "PGN 65276 SPN 96 — Fuel Level"
+    sampling_hint_ms: 5000
+
+  - node_id: "65248/244"
+    canonical_entity: AssetTelemetry
+    canonical_field: total_distance_km
+    classification: operations
+    units: "km"
+    description: "PGN 65248 SPN 244 — Total Vehicle Distance"
+    sampling_hint_ms: 5000
+
+  - node_id: "65257/250"
+    canonical_entity: AssetTelemetry
+    canonical_field: fuel_total_l
+    classification: operations
+    units: "L"
+    description: "PGN 65257 SPN 250 — Engine Total Fuel Used"
+    sampling_hint_ms: 5000
+
+  - node_id: "65266/183"
+    canonical_entity: AssetTelemetry
+    canonical_field: fuel_rate_lph
+    classification: operations
+    units: "L/h"
+    description: "PGN 65266 SPN 183 — Engine Fuel Rate"
+    sampling_hint_ms: 1000
+
+# Throttle policy per Sprint 25 §25.3.3 — high-frequency PGNs throttled
+# to sane Bronze ingestion intervals.
+throttle:
+  default_min_interval_ms: 1000
+  per_pgn_min_interval_ms:
+    65253: 5000   # engine hours: change slowly, 0.2 Hz is fine
+    61444: 200    # engine speed: 5 Hz max for live monitoring
+    65276: 5000   # fuel level: slow-changing
+    65248: 5000   # distance: slow-changing
+    65257: 5000   # cumulative fuel

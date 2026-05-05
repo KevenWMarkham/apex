@@ -446,6 +446,7 @@
 <li><a href="#appendix-h">Appendix H. Partner Ecosystem</a></li>
 <li><a href="#appendix-i">Appendix I. Glossary</a></li>
 <li><a href="#appendix-j">Appendix J. Exercise Solutions</a></li>
+<li><a href="#appendix-k">Appendix K. Independence, the Tech Stack Posture &amp; Competitive Differentiation</a></li>
 </ul>
 </nav>
     <main>
@@ -803,6 +804,243 @@ L4  TENANT      a client instance; pins a Practice release; subscribes to servic
 <p><strong>What you'll leave with:</strong></p>
 <ul><li>A mental model for where each APEX concept physically runs in Fabric vs. Azure</li><li>Workspace naming and topology rules (Dev/Test/Prod × Practice/Tenant)</li><li>A worked end-to-end example: provisioning a new L4 tenant workspace</li><li>Fabric-specific gotchas that will eat your Tuesday if you don't know them</li></ul>
 <hr class="section-rule">
+<h2 id="3-8-arch-fabric-architecture">Architecture — Fabric Data Platform</h2>
+
+<p>Before we layer APEX on top of Fabric, the architect's mental model of Fabric itself needs to be sharp. Fabric is not "Azure Synapse reorganised" and it is not "Power BI Premium extended." It is a SaaS data platform that consolidates what used to be eight separate Azure products — Synapse, Data Factory, Power BI, Event Hubs / Stream Analytics, Purview integration, Data Activator, ML, and Databricks-adjacent patterns — into a single tenant-scoped capacity model with unified storage, unified governance, and unified billing. This architectural consolidation is load-bearing for APEX: the four-layer manifest model assumes these capabilities compose natively.</p>
+
+<h3 id="3-8-arch-1-saas-model">The SaaS data-platform model</h3>
+
+<p>Fabric is delivered as SaaS, not PaaS. The implication for architects is concrete: no Azure resource group contains a "Fabric cluster," no ARM template provisions a "Fabric workspace" in the conventional Azure sense, and no VM or container hosts Fabric compute. The tenant's capacity reservation (an F-SKU) is the only billable Azure-side resource; everything else is tenant configuration inside the Fabric admin portal or the Fabric REST API surface.</p>
+
+<p>Three practical consequences follow:</p>
+
+<ul>
+  <li><strong>Workspace provisioning is API-driven, not Azure-template-driven.</strong> Terraform <code class="inline-code">azurerm</code> provider does not create Fabric workspaces directly; it creates the Fabric capacity. Workspaces are created through the Fabric REST API (<code class="inline-code">POST https://api.fabric.microsoft.com/v1/workspaces</code>) or PowerShell Az.Fabric. Infrastructure-as-code still applies, just through the Fabric-specific SDK layer.</li>
+  <li><strong>Compute is capacity-shared by default.</strong> An F64 capacity is a pool of Capacity Units (CUs) that every workload in every workspace assigned to that capacity draws from. Eventhouse queries, Warehouse queries, Power BI refreshes, and Data Factory pipeline runs all compete for the same CU pool unless workspace-to-capacity bindings isolate them.</li>
+  <li><strong>Storage is tenant-wide under OneLake.</strong> Every Fabric item writes to OneLake; there is no per-workspace storage account to manage, no ADLS Gen2 to provision. The tenant's OneLake is the storage substrate; workspaces are logical organisation within it.</li>
+</ul>
+
+<aside class="callout note"><div class="callout-label">Note — Fabric vs Azure Databricks vs Azure Synapse</div><p>If you are coming from Synapse or Databricks, the mental shift is this: in Synapse/Databricks you provisioned <em>clusters</em>. In Fabric you provision <em>capacity</em>. In Synapse/Databricks you owned the storage account. In Fabric OneLake is provided. In Synapse/Databricks pipeline orchestration, analytics, ML, and BI were separate products. In Fabric they are workloads inside one capacity. Do not try to map Fabric concepts 1:1 onto Synapse; the model is different.</p></aside>
+
+<h3 id="3-8-arch-2-capacity-fsku">Capacity and the F-SKU family</h3>
+
+<p>Fabric capacity is purchased in F-SKUs. Each F-SKU is a pool of CUs (Capacity Units), and CU consumption per workload is documented per-workload. The F-SKU family and its characteristics:</p>
+
+<table>
+  <thead><tr><th>F-SKU</th><th>CUs</th><th>Approx. monthly list (pay-as-you-go, USD)</th><th>Approx. monthly list (1-year reserved, USD)</th><th>Typical APEX use</th></tr></thead>
+  <tbody>
+    <tr><td>F2</td><td>2</td><td>~$263</td><td>~$157</td><td>Development sandbox only; too small for real APEX</td></tr>
+    <tr><td>F4</td><td>4</td><td>~$525</td><td>~$315</td><td>Dev + small Practice reference workspaces</td></tr>
+    <tr><td>F8</td><td>8</td><td>~$1,050</td><td>~$630</td><td>Wave 1 pilot, single-tenant, one Practice, one SOR set</td></tr>
+    <tr><td>F16</td><td>16</td><td>~$2,100</td><td>~$1,260</td><td>Wave 1/2 small-multi-tenant, one Practice, 25–100 units</td></tr>
+    <tr><td>F32</td><td>32</td><td>~$4,200</td><td>~$2,520</td><td>Wave 2 mid-scale, one Practice 100–500 units or two Practices pilot</td></tr>
+    <tr><td>F64</td><td>64</td><td>~$8,400</td><td>~$5,040</td><td>Wave 2 full-scale, Practice at 500+ units, or multi-Practice mid-scale</td></tr>
+    <tr><td>F128</td><td>128</td><td>~$16,800</td><td>~$10,080</td><td>Wave 3 enterprise, multi-Practice at full scale</td></tr>
+    <tr><td>F256</td><td>256</td><td>~$33,600</td><td>~$20,160</td><td>Large enterprise, multi-Practice, real-time intensive</td></tr>
+    <tr><td>F512</td><td>512</td><td>~$67,200</td><td>~$40,320</td><td>Very large enterprise; multi-tenant platform workspace consolidation</td></tr>
+    <tr><td>F1024</td><td>1024</td><td>~$134,400</td><td>~$80,640</td><td>Top-tier enterprise; rare</td></tr>
+    <tr><td>F2048</td><td>2048</td><td>~$268,800</td><td>~$161,280</td><td>Exceptional; hyperscale retail / telecom / media enterprise</td></tr>
+  </tbody>
+</table>
+
+<aside class="callout warning"><div class="callout-label">Warning — Pricing is indicative</div><p>Fabric pricing changes; the Microsoft account team quotes the authoritative numbers. These indicative figures inform architectural sizing envelopes, not client-facing commercials. Deloitte never quotes Fabric pricing on Deloitte letterhead.</p></aside>
+
+<p>Three capacity patterns APEX deployments use:</p>
+
+<ol>
+  <li><strong>Single-capacity-per-tenant.</strong> All APEX workspaces (platform, practice-reference, tenant-dev, tenant-test, tenant-prod) share one capacity. Simple billing, simpler admin, but shared performance pool — noisy-neighbor risk between workloads.</li>
+  <li><strong>Split dev / prod capacities.</strong> One capacity for dev and test workspaces; separate capacity for production. Insulates production performance; doubles the capacity reservation cost.</li>
+  <li><strong>Per-workload capacity isolation.</strong> Separate capacities for Eventhouse-heavy real-time workloads (isolated CU pool), batch Lakehouse workloads, and BI / serving workloads. Used at F128+ scale; maximum isolation, maximum cost, usually only justified when SLOs demand.</li>
+</ol>
+
+<h3 id="3-8-arch-3-onelake">OneLake — the logical data lake</h3>
+
+<p>OneLake is Fabric's unified storage substrate. Architecturally it sits on Azure Data Lake Storage Gen2 as the physical store but presents as a logical, tenant-scoped, hierarchical filesystem with Delta / Parquet / Iceberg table format support and tenant-global namespacing.</p>
+
+<p>OneLake hierarchy:</p>
+
+<pre><code>OneLake (tenant root)
+├── Workspace 1/
+│   ├── Lakehouse A/
+│   │   ├── Tables/ (managed Delta tables)
+│   │   └── Files/ (unstructured, semistructured, raw)
+│   ├── Warehouse B/
+│   │   └── (T-SQL managed tables, backed by Delta on disk)
+│   └── Eventhouse C/
+│       └── (KQL databases, event-time indexed)
+├── Workspace 2/
+│   └── ...
+└── ...</code></pre>
+
+<p>Key OneLake architectural properties:</p>
+
+<ul>
+  <li><strong>Single copy of data across Fabric workloads.</strong> A Delta table written by a Spark notebook in the Lakehouse is queryable by T-SQL through the SQL Analytics Endpoint, by Power BI through Direct Lake, and by notebooks in any other workspace (with permission) — all reading the same Parquet files. No ETL between Fabric workloads.</li>
+  <li><strong>Delta Lake as the default table format.</strong> Delta format provides ACID transactions, time-travel, and schema evolution. All APEX Silver and Gold tables use Delta.</li>
+  <li><strong>Iceberg interop.</strong> Fabric supports Iceberg table format natively for interoperability with Snowflake, Databricks Iceberg, and other Iceberg-native engines. APEX uses Iceberg at the Bronze layer when the source system writes Iceberg natively (Snowflake Iceberg tables, Databricks Iceberg).</li>
+  <li><strong>Shortcut-native.</strong> A OneLake shortcut is a pointer, not a copy. Shortcuts reach ADLS Gen2, Amazon S3, Google Cloud Storage, Dataverse, and other OneLake workspaces. APEX uses shortcuts heavily for cross-cloud data access.</li>
+  <li><strong>Path-level ACLs via Entra.</strong> Every path in OneLake can carry fine-grained ACLs enforced against Entra identities. Managed-identity service principals (agents, MCP servers) receive path-specific reads.</li>
+</ul>
+
+<h3 id="3-8-arch-4-workload-engines">Workload engines</h3>
+
+<p>Fabric is a set of workload engines sharing OneLake storage. Each has specific compute and query semantics. APEX uses most but not all.</p>
+
+<table>
+  <thead><tr><th>Engine</th><th>Compute</th><th>Query language</th><th>APEX usage</th><th>Optimal for</th></tr></thead>
+  <tbody>
+    <tr><td>Lakehouse</td><td>Apache Spark</td><td>PySpark, Scala, Spark SQL</td><td>Bronze landing, Silver transforms</td><td>ELT, large-scale transforms, data engineering</td></tr>
+    <tr><td>Warehouse</td><td>MPP T-SQL engine</td><td>T-SQL</td><td>Gold materialisation, serving layer for BI, analytical views</td><td>SQL analytics, BI, reporting</td></tr>
+    <tr><td>SQL Analytics Endpoint</td><td>Read-only T-SQL over Lakehouse Delta tables</td><td>T-SQL (read-only)</td><td>Quick SQL access to Silver without Spark</td><td>Ad-hoc SQL, BI direct-query to Lakehouse</td></tr>
+    <tr><td>Eventhouse</td><td>Kusto (KQL) engine</td><td>KQL</td><td>Real-time Bronze landing, time-series agent queries, ops analytics</td><td>Time-series, logs, telemetry, event-indexed queries</td></tr>
+    <tr><td>Data Factory</td><td>Pipeline orchestrator (serverless)</td><td>JSON pipeline DSL</td><td>Orchestrating Bronze landing, Silver refresh, dependency chains</td><td>ETL/ELT orchestration, trigger-based workflows</td></tr>
+    <tr><td>Dataflow Gen2</td><td>Managed M (Power Query) ETL</td><td>M (Power Query)</td><td>REST/SaaS ingest from SORs without CDC</td><td>Low-code SaaS-API ingest, schedule-driven pull</td></tr>
+    <tr><td>Eventstream</td><td>Stream processor</td><td>No-code / SQL</td><td>Real-time event routing (e.g., Kafka → Eventhouse)</td><td>Streaming ingest, event routing, transforms in-flight</td></tr>
+    <tr><td>Real-Time Intelligence (RTI)</td><td>Umbrella over Eventhouse, Eventstream, Activator</td><td>KQL + event rules</td><td>Real-time APEX pipelines end-to-end</td><td>Real-time everything</td></tr>
+    <tr><td>Data Activator</td><td>Event-rule engine</td><td>Reflex rules</td><td>Trigger APEX agents from data conditions</td><td>Event-driven automation on data conditions</td></tr>
+    <tr><td>Mirrored Database</td><td>CDC replication runtime</td><td>(no query — replication only)</td><td>Near-real-time SOR replication to Bronze</td><td>CDC from supported databases</td></tr>
+    <tr><td>Data Science (Notebooks)</td><td>Spark / Python / R</td><td>PySpark, Python, R</td><td>Pre-measure calculations, model training adjacent to APEX</td><td>ML work, complex analytics</td></tr>
+    <tr><td>Power BI</td><td>Semantic model + viz</td><td>DAX</td><td>Gold serving, post-measure DAX authoring, exec dashboards</td><td>Interactive analytics, dashboards</td></tr>
+    <tr><td>Fabric SQL Database</td><td>Azure SQL DB compatible</td><td>T-SQL</td><td>Small operational data stores adjacent to APEX (not primary Bronze)</td><td>Operational DB for app-side state</td></tr>
+  </tbody>
+</table>
+
+<h3 id="3-8-arch-5-query-path-triangle">The query-path triangle — Import, DirectQuery, Direct Lake</h3>
+
+<p>Power BI over Fabric supports three query modes. The choice has architectural consequences for Gold serving.</p>
+
+<ul>
+  <li><strong>Import mode.</strong> Power BI copies data into its in-memory model. Fast queries, stale data (refresh-bounded), memory-bound dataset size. Appropriate for small Gold tables with daily or hourly refresh cadence.</li>
+  <li><strong>DirectQuery mode.</strong> Power BI issues SQL (or KQL) against the Warehouse / Lakehouse / Eventhouse at query time. Always-fresh, slower queries, no size limit. Appropriate for large data where freshness matters more than speed.</li>
+  <li><strong>Direct Lake mode.</strong> Power BI reads Parquet directly from OneLake at query time with column-store optimisation. Near-Import speed, near-DirectQuery freshness, and no data duplication. This is the APEX default for Gold serving. Requires the data in OneLake as Delta / Parquet (which APEX Silver and Gold always are).</li>
+</ul>
+
+<aside class="callout best"><div class="callout-label">Best Practice — Default to Direct Lake for APEX Gold</div><p>Direct Lake is the best-of-both-worlds for APEX. Gold tables in Fabric Warehouse or Lakehouse are Delta on disk; Direct Lake Power BI models read them at query time with in-memory-class performance. No dataset refresh, no memory limits, no staleness. Fall back to Import only for Gold tables that need scheduled aggregation snapshots.</p></aside>
+
+<h3 id="3-8-arch-6-shortcuts-mirroring">Shortcuts, mirroring, and cross-cloud federation</h3>
+
+<p>Three architectural patterns let Fabric reach data that does not live natively in OneLake. All three are used by APEX depending on the SOR.</p>
+
+<ul>
+  <li><strong>OneLake shortcuts.</strong> Logical pointers to data elsewhere — another OneLake workspace, an ADLS Gen2 account, Amazon S3, Google Cloud Storage, or Dataverse. Shortcuts are read-through references: no copy, credentials stored centrally, queries traverse to the source. Ideal for cross-cloud read without data movement.</li>
+  <li><strong>Mirrored Database.</strong> CDC replication that materialises source tables as Delta tables in OneLake continuously. Supported sources include Azure SQL DB, Azure Cosmos DB, Snowflake, Azure Databricks Unity Catalog, PostgreSQL, MongoDB, and a growing list. Near-real-time (60–180 s typical); no ETL authoring.</li>
+  <li><strong>Cross-cloud federation via Iceberg.</strong> When a source writes Iceberg (Snowflake Iceberg, Databricks Iceberg), Fabric can read Iceberg tables in place through shortcuts. Both engines read the same storage with the same table format.</li>
+</ul>
+
+<h3 id="3-8-arch-7-integration-fabric">The Fabric–Azure–Microsoft 365 integration fabric</h3>
+
+<p>Fabric does not live alone. APEX's architecture depends on integration points with adjacent Microsoft products:</p>
+
+<ul>
+  <li><strong>Azure AI Foundry</strong> — APEX agents run here, consuming Gold data via MCP tools that query Fabric.</li>
+  <li><strong>Microsoft Purview</strong> — governs Fabric data; sensitivity labels and DLP apply across OneLake, Power BI, and Foundry agent outputs.</li>
+  <li><strong>Microsoft Entra ID</strong> — identity plane. Users, service principals, managed identities authenticate and authorise into Fabric workspaces.</li>
+  <li><strong>Microsoft 365 + Copilot</strong> — Copilot Studio agents ground on Fabric OneLake; M365 Copilot reads Fabric data via Power BI datasets; SharePoint / Teams reflect Fabric content through Power BI embeds.</li>
+  <li><strong>Azure infrastructure</strong> — Azure Functions, Logic Apps, Container Apps, Service Bus, Event Hubs often host APEX ingest bridges and orchestration glue around Fabric.</li>
+</ul>
+
+<h2 id="3-8-cap-capabilities-matrix">Capabilities Matrix</h2>
+
+<p>Six capability tables scan-readable by senior architects. Each table lists the capability, the Fabric artefact that delivers it, the maturity state as of 2026-Q2, the APEX usage pattern, and the alternative / adjacent capability path.</p>
+
+<h3 id="3-8-cap-1-ingest">Ingest capabilities</h3>
+
+<table>
+  <thead><tr><th>Capability</th><th>Fabric artefact</th><th>Maturity</th><th>APEX usage</th><th>Alternative</th></tr></thead>
+  <tbody>
+    <tr><td>CDC replication from database</td><td>Mirrored Database</td><td>GA for major DB sources</td><td>Pattern 1 — transactional SOR landing</td><td>Debezium + Event Hubs → Eventstream</td></tr>
+    <tr><td>Real-time event ingest</td><td>Eventstream + Eventhouse</td><td>GA</td><td>Pattern 2 — IoT / telemetry / high-freq ops</td><td>Event Hubs + custom consumer → Lakehouse</td></tr>
+    <tr><td>Scheduled batch ETL</td><td>Data Factory Pipeline</td><td>GA</td><td>Pattern 3 — batch files, scheduled extracts</td><td>Azure Data Factory v2 (separate)</td></tr>
+    <tr><td>Low-code REST/SaaS pull</td><td>Dataflow Gen2 (M / Power Query)</td><td>GA</td><td>Pattern 4 — SaaS APIs without CDC</td><td>Azure Functions with REST + write to ADLS</td></tr>
+    <tr><td>Webhook / push-only source</td><td>Custom endpoint (Azure Functions → Fabric)</td><td>GA (custom)</td><td>Pattern 5 — push-only SORs</td><td>Logic Apps webhook + Service Bus</td></tr>
+    <tr><td>SFTP / FTPS file pickup</td><td>Data Factory copy activity</td><td>GA</td><td>EDI drops, supplier files, partner feeds</td><td>Logic Apps SFTP trigger</td></tr>
+    <tr><td>Kafka / MSK ingest</td><td>Eventstream with Kafka source</td><td>GA</td><td>Kafka-native SOR landing</td><td>Custom Kafka consumer → Lakehouse</td></tr>
+    <tr><td>Cross-cloud (S3, GCS)</td><td>OneLake shortcut to S3 / GCS</td><td>GA</td><td>Read-through access without movement</td><td>azcopy to ADLS + pipeline</td></tr>
+    <tr><td>On-premises gateway</td><td>On-premises Data Gateway + Fabric</td><td>GA (Standard & Personal modes)</td><td>On-prem SQL, files, SAP BW, etc.</td><td>ExpressRoute direct + Fabric</td></tr>
+    <tr><td>SAP extraction</td><td>Data Factory SAP connectors + SAP CDC preview</td><td>GA (limited sources)</td><td>SAP BW, SAP ECC, SAP S/4HANA</td><td>SAP DataSphere bridge</td></tr>
+    <tr><td>Healthcare FHIR</td><td>Azure Health Data Services + Fabric</td><td>GA in HLS contexts</td><td>HLS Provider / Life Sciences feeds</td><td>HL7 FHIR server + custom landing</td></tr>
+  </tbody>
+</table>
+
+<h3 id="3-8-cap-2-storage">Storage capabilities</h3>
+
+<table>
+  <thead><tr><th>Capability</th><th>Fabric artefact</th><th>Maturity</th><th>APEX usage</th><th>Alternative</th></tr></thead>
+  <tbody>
+    <tr><td>Lakehouse Delta tables</td><td>Lakehouse</td><td>GA</td><td>Bronze, Silver storage</td><td>Azure Databricks Delta (separate)</td></tr>
+    <tr><td>T-SQL Warehouse tables</td><td>Warehouse</td><td>GA</td><td>Gold serving for BI and SQL consumers</td><td>Azure Synapse dedicated pool (legacy)</td></tr>
+    <tr><td>KQL databases (time-indexed)</td><td>Eventhouse</td><td>GA</td><td>Real-time event stores, ops telemetry</td><td>Azure Data Explorer (separate)</td></tr>
+    <tr><td>Unstructured / semistructured files</td><td>Lakehouse Files/</td><td>GA</td><td>Documents, images, JSON blobs, logs</td><td>ADLS Gen2</td></tr>
+    <tr><td>Operational SQL DB</td><td>Fabric SQL Database</td><td>GA</td><td>Small op stores adjacent to APEX</td><td>Azure SQL DB (separate)</td></tr>
+    <tr><td>Iceberg tables</td><td>Lakehouse with Iceberg format</td><td>GA</td><td>Snowflake / Databricks interop</td><td>—</td></tr>
+    <tr><td>Cross-cloud shortcut</td><td>OneLake shortcut to S3 / GCS / ADLS</td><td>GA</td><td>Read data in place across clouds</td><td>azcopy replication</td></tr>
+    <tr><td>Delta time travel</td><td>Delta Lake time-travel semantics</td><td>GA</td><td>Reproducibility, audit, rollback</td><td>Manual snapshots</td></tr>
+  </tbody>
+</table>
+
+<h3 id="3-8-cap-3-transform">Transform capabilities</h3>
+
+<table>
+  <thead><tr><th>Capability</th><th>Fabric artefact</th><th>Maturity</th><th>APEX usage</th><th>Alternative</th></tr></thead>
+  <tbody>
+    <tr><td>Spark-based ELT</td><td>Lakehouse Notebooks (PySpark, Scala)</td><td>GA</td><td>Silver transforms, pre-measure calculations</td><td>Databricks notebooks (separate)</td></tr>
+    <tr><td>T-SQL stored procedures</td><td>Warehouse</td><td>GA</td><td>Gold view materialisation, complex aggregates</td><td>Azure SQL or Synapse</td></tr>
+    <tr><td>Low-code transforms</td><td>Dataflow Gen2</td><td>GA</td><td>Simple reshaping during ingest</td><td>Power Query Desktop</td></tr>
+    <tr><td>KQL functions & materialised views</td><td>Eventhouse</td><td>GA</td><td>Real-time aggregates over event streams</td><td>—</td></tr>
+    <tr><td>Pipeline orchestration</td><td>Data Factory Pipeline</td><td>GA</td><td>Bronze → Silver → Gold dependencies</td><td>Azure Data Factory (separate)</td></tr>
+    <tr><td>Reflex rules (event-driven)</td><td>Data Activator</td><td>GA</td><td>Trigger APEX agent from data condition</td><td>Logic Apps triggers</td></tr>
+    <tr><td>Incremental refresh</td><td>Dataflow Gen2, Pipelines, Spark</td><td>GA</td><td>Watermark-based incremental processing</td><td>Custom state management</td></tr>
+    <tr><td>Schema evolution</td><td>Delta Lake schema evolution</td><td>GA</td><td>Additive-only change safely handled</td><td>Manual DDL alter</td></tr>
+  </tbody>
+</table>
+
+<h3 id="3-8-cap-4-serve">Serve capabilities</h3>
+
+<table>
+  <thead><tr><th>Capability</th><th>Fabric artefact</th><th>Maturity</th><th>APEX usage</th><th>Alternative</th></tr></thead>
+  <tbody>
+    <tr><td>Power BI Direct Lake</td><td>Power BI + OneLake Delta</td><td>GA</td><td>Exec dashboards, Copilot grounding, agent queries</td><td>Power BI Import or DirectQuery</td></tr>
+    <tr><td>T-SQL serving</td><td>Warehouse SQL endpoint</td><td>GA</td><td>Agent MCP tool queries, BI tools, ad-hoc SQL</td><td>Azure SQL / Synapse SQL</td></tr>
+    <tr><td>KQL serving</td><td>Eventhouse query endpoint</td><td>GA</td><td>Real-time agent queries, ops dashboards</td><td>Azure Data Explorer</td></tr>
+    <tr><td>REST API over data</td><td>Custom Azure Function over Warehouse / Lakehouse</td><td>GA (custom)</td><td>Agent-facing REST surfaces</td><td>Azure SQL REST (3rd party)</td></tr>
+    <tr><td>Power BI semantic model</td><td>Power BI Premium / Direct Lake</td><td>GA</td><td>DAX post-measures, certified datasets</td><td>Analysis Services</td></tr>
+    <tr><td>Fabric SQL endpoint (read-only)</td><td>Lakehouse SQL Analytics Endpoint</td><td>GA</td><td>Quick T-SQL over Lakehouse without Spark</td><td>Spark SQL notebook</td></tr>
+    <tr><td>Copilot grounding</td><td>M365 Copilot + Fabric data agent</td><td>GA / maturing</td><td>Knowledge-worker Copilot surfaces on APEX data</td><td>Custom Copilot Studio grounding</td></tr>
+  </tbody>
+</table>
+
+<h3 id="3-8-cap-5-governance">Governance capabilities</h3>
+
+<table>
+  <thead><tr><th>Capability</th><th>Fabric artefact</th><th>Maturity</th><th>APEX usage</th><th>Alternative</th></tr></thead>
+  <tbody>
+    <tr><td>Sensitivity labels</td><td>Purview integration in Fabric</td><td>GA</td><td>Classification taxonomy on entities / attributes</td><td>Custom metadata registry</td></tr>
+    <tr><td>Data Loss Prevention</td><td>Purview DLP on Fabric outputs</td><td>GA</td><td>Block cleartext PII/PHI in agent outputs</td><td>Custom output filters</td></tr>
+    <tr><td>Lineage</td><td>Purview Data Map + Fabric impact</td><td>GA</td><td>End-to-end lineage for GDPR / HIPAA evidence</td><td>OpenLineage + custom graph</td></tr>
+    <tr><td>Row-level security</td><td>Warehouse RLS, Lakehouse RLS</td><td>GA</td><td>Tenant / persona / classification scoping</td><td>Application-layer filtering</td></tr>
+    <tr><td>Object-level security</td><td>Power BI OLS on semantic model</td><td>GA</td><td>Hide classified columns from unauthorised viewers</td><td>Separate datasets per audience</td></tr>
+    <tr><td>Compliance Manager</td><td>Purview Compliance Manager</td><td>GA</td><td>HIPAA / GDPR / SOX pre-built assessments</td><td>Manual control mapping</td></tr>
+    <tr><td>Insider risk</td><td>Purview Insider Risk Management</td><td>GA</td><td>Anomalous agent / user behaviour detection</td><td>Custom SIEM rules</td></tr>
+    <tr><td>Workspace RBAC</td><td>Fabric workspace roles (Admin/Member/Contributor/Viewer)</td><td>GA</td><td>Coarse-grained access per workspace</td><td>—</td></tr>
+    <tr><td>Path-level ACLs</td><td>OneLake path ACLs (Entra-backed)</td><td>GA</td><td>Fine-grained per-path grants for agents</td><td>Workspace-level only (coarser)</td></tr>
+  </tbody>
+</table>
+
+<h3 id="3-8-cap-6-observability">Observability capabilities</h3>
+
+<table>
+  <thead><tr><th>Capability</th><th>Fabric artefact</th><th>Maturity</th><th>APEX usage</th><th>Alternative</th></tr></thead>
+  <tbody>
+    <tr><td>Capacity metrics</td><td>Fabric Capacity Metrics app</td><td>GA</td><td>CU consumption tracking, throttling detection</td><td>Azure Monitor (for some metrics)</td></tr>
+    <tr><td>Query-level metrics</td><td>Warehouse / Lakehouse query history</td><td>GA</td><td>Slow-query detection, agent query profiling</td><td>Custom logging</td></tr>
+    <tr><td>Pipeline run monitoring</td><td>Data Factory monitoring</td><td>GA</td><td>Bronze / Silver / Gold refresh success, retries</td><td>Azure Monitor</td></tr>
+    <tr><td>Real-time event observability</td><td>Eventhouse .show commands + KQL dashboards</td><td>GA</td><td>Event ingest rate, backpressure, late arrivals</td><td>Azure Monitor metrics</td></tr>
+    <tr><td>Power BI usage metrics</td><td>Power BI admin usage reports</td><td>GA</td><td>Dashboard / dataset consumption</td><td>Custom telemetry</td></tr>
+    <tr><td>Audit logs</td><td>Purview audit + Fabric admin logs</td><td>GA</td><td>Per-artefact access, admin actions, Entra sign-ins</td><td>Azure AD sign-in logs only</td></tr>
+    <tr><td>Cost attribution</td><td>Fabric Capacity Metrics + Cost Management</td><td>GA</td><td>Per-workspace / per-tenant cost reporting</td><td>Cross-workspace tagging</td></tr>
+  </tbody>
+</table>
+
 <h2 id="3-8-1-the-fabric-surface-area-apex-uses">1. The Fabric surface area APEX uses</h2>
 <p>Fabric is a large product. APEX uses a focused subset. Knowing what each piece is for — and what it <em>isn't</em> — saves you from building the wrong thing.</p>
 <div class="table-wrap"><table class="md-table"><thead><tr><th>Fabric item</th><th>APEX uses it for</th><th>APEX <strong>doesn't</strong> use it for</th></tr></thead><tbody><tr><td><strong>OneLake</strong></td><td>The storage substrate under all APEX data; cross-workspace shortcuts</td><td>Anything that needs a compute runtime</td></tr><tr><td><strong>Lakehouse</strong></td><td>Bronze and Silver tables (Delta) + PySpark notebooks</td><td>Gold reads (use Warehouse)</td></tr><tr><td><strong>Warehouse</strong></td><td>T-SQL endpoint for Gold feature views read by agents via MCP</td><td>Heavy PySpark transforms</td></tr><tr><td><strong>Eventstream</strong></td><td>Real-time ingest from Event Hubs / Kafka / Custom endpoints → Bronze Delta</td><td>Batch scheduling</td></tr><tr><td><strong>Data Pipeline</strong></td><td>Scheduled batch ingest (Copy Activity, orchestration of notebooks)</td><td>Streaming</td></tr><tr><td><strong>Notebook</strong></td><td>Bronze→Silver transforms in PySpark; ad-hoc exploration</td><td>Agent runtime (agents run in Azure AI Agent Service, not Fabric)</td></tr><tr><td><strong>Dataflow Gen2</strong></td><td>REST-pull ingest from SaaS SORs (ServiceNow, Coupa)</td><td>High-volume or low-latency paths</td></tr><tr><td><strong>Mirrored Database</strong></td><td>CDC mirror of SQL Server / Cosmos DB / Snowflake → Bronze Delta</td><td>Systems without CDC (use Data Pipeline)</td></tr><tr><td><strong>SQL endpoint</strong></td><td>Target for MCP tool reads of Gold</td><td>Row-level writes (writes go through notebooks + pipelines)</td></tr><tr><td><strong>Fabric Git</strong></td><td>Source-of-truth for workspace items (pipelines, notebooks, manifests)</td><td>Runtime config (use tenant-manifest.json)</td></tr></tbody></table></div>
@@ -883,6 +1121,814 @@ app.MapMcpTool("read_telemetry",
         // call Fabric SQL endpoint
         return new { rows = new object[] { /* ... */ } };
     });</code></pre></div>
+<hr class="section-rule">
+<h2 id="3-8-7-medallion-on-fabric-saas-deep-dive">7. Medallion on Fabric SaaS — Deep Dive</h2>
+
+<p>Medallion (Bronze / Silver / Gold) is not a folder structure in APEX. It is a contract governing how raw data becomes trusted data becomes agent-consumable data. This section specifies the contract in enough detail that senior architects can stand up the medallion for a Wave 1 deployment without guessing.</p>
+
+<h3 id="3-8-7-1-medallion-as-contract">7.1 Medallion as contract, not folder structure</h3>
+
+<p>Classical medallion implementations create Bronze, Silver, Gold folders and call it a day. APEX's medallion is stricter. Each layer has defined inputs, defined outputs, defined governance, and defined SLOs:</p>
+
+<table>
+  <thead><tr><th>Layer</th><th>Purpose</th><th>Format</th><th>Retention</th><th>Classification inheritance</th><th>SLO</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Bronze</strong></td><td>Source-fidelity raw landing</td><td>Delta (or Parquet where CDC source dictates), append-only with source timestamps</td><td>7 years default (regulatory minimum); longer where legal hold applies</td><td>Source-inherited; classified before the row is accepted</td><td>Landing within 60s of SOR emit for streamed; schedule-bounded for batch</td></tr>
+    <tr><td><strong>Silver</strong></td><td>Canonical, cleaned, typed, deduplicated, enriched, tokenised</td><td>Delta with SCD Type 2 where history matters; tokenised for PII/PHI</td><td>Regulatory minimum per Practice (7y HLS, 5y SOX, etc.)</td><td>Most-restrictive classification across sources + tokenisation guarantees</td><td>Silver ready within 5–15 min of Bronze for streaming; configurable for batch</td></tr>
+    <tr><td><strong>Gold</strong></td><td>Agent-consumable views and pre-measure computations</td><td>Delta (Warehouse or Lakehouse) + KQL functions for real-time</td><td>Inherits Silver</td><td>Classification plus any Gold-specific DLP policies</td><td>Gold freshness matched to agent query SLO (sub-second real-time, hourly batch)</td></tr>
+  </tbody>
+</table>
+
+<aside class="callout note"><div class="callout-label">Note — The contract is versioned</div><p>Every medallion table has a schema manifest in Git. Changes go through the APEX bump classification (PATCH / MINOR / MAJOR) described in <a class="external" href="./04-agent-lifecycle.md">Companion 04 — Agent Lifecycle</a>. A Silver schema change that removes a required field is a MAJOR bump — downstream agents pin to the previous schema version until migrated.</p></aside>
+
+<h3 id="3-8-7-2-bronze-landing-five-patterns">7.2 Bronze landing — the five ingestion patterns in depth</h3>
+
+<p>APEX Bronze uses five ingestion patterns chosen per SOR characteristics. Each has defined Fabric implementation, latency expectations, schema-evolution handling, and error semantics.</p>
+
+<h4 id="3-8-7-2-1-mirrored">7.2.1 Mirrored Database landing</h4>
+
+<p>Fabric Mirroring replicates source database tables continuously via CDC. Supported sources as of 2026-Q2 include Azure SQL DB, Cosmos DB, Azure Databricks Unity Catalog, Snowflake, PostgreSQL, MongoDB, Google BigQuery, and Oracle (preview for some deployment patterns).</p>
+
+<p><strong>Implementation.</strong> In the Fabric UI or via Fabric REST API, create a Mirrored Database artefact pointing at the source. Source credentials stored in Key Vault with managed-identity access. Mirror runs continuously; latency typically 60–180 s.</p>
+
+<p><strong>Schema evolution.</strong> Adding a nullable column to the source table propagates automatically to the mirror. Dropping a column requires a Mirror reconfiguration; APEX's change-management process stages the Silver transform change before the drop.</p>
+
+<p><strong>Error semantics.</strong> Mirror failures (source timeout, auth expiry, structural incompatibility) generate Purview-registered error events and route to the platform-ops Teams channel. The mirror auto-resumes on source recovery; during outages Silver consumers see last-good data flagged with a <code class="inline-code">mirror_lag_seconds</code> enrichment.</p>
+
+<p><strong>When APEX uses it.</strong> Any SOR exposing a database surface where sub-minute freshness matters. RC-E2E-Assortment ingests pricing from Oracle Retail Pricing via Mirroring; HLS-Provider ingests from Epic Clarity via Mirroring (where Epic supports it) or via FHIR API where Mirroring is not permitted.</p>
+
+<pre><code># Fabric REST — create Mirrored Database
+POST https://api.fabric.microsoft.com/v1/workspaces/{workspaceId}/items
+{
+  "displayName": "EpicClarity-Mirror",
+  "type": "MirroredDatabase",
+  "definition": {
+    "parts": [{
+      "path": "mirroring.json",
+      "payload": base64(JSON.stringify({
+        "properties": {
+          "source": {
+            "type": "EpicClarity",
+            "connectionId": "conn-epic-clarity-prod-001"
+          },
+          "target": {
+            "type": "OneLakeDelta",
+            "defaultSchema": "bronze_epic"
+          },
+          "mirroringSettings": {
+            "objects": [/* table list */],
+            "mode": "Continuous"
+          }
+        }
+      }))
+    }]
+  }
+}</code></pre>
+
+<h4 id="3-8-7-2-2-eventstream">7.2.2 Eventstream / Eventhouse landing</h4>
+
+<p>For real-time event data, Bronze lands in Eventhouse via Eventstream. Sources include Event Hubs, Kafka, MQTT (via Azure IoT Operations), Service Bus, and custom HTTP/webhook endpoints.</p>
+
+<p><strong>Implementation.</strong> Eventstream receives events with up-to-the-second routing. An Event Processor Service normalises and enriches in-flight (schema conform, deduplicate, tokenise PII where mandated). Routed to an Eventhouse KQL table — the Bronze analog for real-time.</p>
+
+<p><strong>Schema evolution.</strong> Eventhouse tolerates schema drift via <code class="inline-code">.ingest inline</code> ingestion mode; structural changes update table policy. Hard-type changes require operator approval.</p>
+
+<p><strong>Error semantics.</strong> Parse failures route to a dead-letter table (<code class="inline-code">bronze_raw_deadletter</code>) with original payload, parse error, and retry count. Platform-ops has a KQL dashboard surfacing dead-letter volume; sustained deadlettering pages the platform team.</p>
+
+<p><strong>When APEX uses it.</strong> IoT telemetry (cold-chain sensors, industrial historians), POS transaction streams, EHR ADT events, network alarms, clickstream. Any event stream with high volume and low-latency requirements.</p>
+
+<h4 id="3-8-7-2-3-data-pipeline">7.2.3 Data Pipeline (scheduled batch) landing</h4>
+
+<p>Fabric Data Pipeline handles scheduled batch ingestion — end-of-day files, reporting extracts, partner feeds, external data.</p>
+
+<p><strong>Implementation.</strong> Pipeline activities orchestrate Copy, Notebook, Stored Procedure, and conditional logic. Scheduled triggers (cron-style) or event triggers (arrival of a file in a monitored location). Activity retries, parameterisation, and parallel branches supported.</p>
+
+<p><strong>Schema evolution.</strong> Schema drift handled by the Copy activity's mapping — additive change tolerated; breaking change halts the pipeline with clear error. Notebook-based transforms explicitly validate schema at load.</p>
+
+<p><strong>Error semantics.</strong> Pipeline monitoring shows success/fail per run with detailed activity-level error. Retries configurable per activity; failed runs route to ops channel.</p>
+
+<p><strong>When APEX uses it.</strong> Supplier master refresh, overnight inventory snapshots, regulatory-report extracts, third-party market data, EDI drops (post-format-conversion).</p>
+
+<h4 id="3-8-7-2-4-dataflow-gen2">7.2.4 Dataflow Gen2 (REST/SaaS) landing</h4>
+
+<p>Dataflow Gen2 handles managed ETL for REST APIs and SaaS systems without CDC — Salesforce, Workday, ServiceNow, Jira, HubSpot, marketing platforms.</p>
+
+<p><strong>Implementation.</strong> Power Query (M) connectors for 100+ SaaS sources. Incremental-refresh via watermark; authentication via Fabric-managed credentials. Scheduled refresh or pipeline-triggered.</p>
+
+<p><strong>Schema evolution.</strong> Power Query mashups tolerate additive drift with column-order safety. SaaS schema changes flagged by the connector on next refresh.</p>
+
+<p><strong>Error semantics.</strong> Connector errors (rate limit, auth, source timeout) surface in Dataflow history. Automatic retry with exponential backoff; final failure routes to ops.</p>
+
+<p><strong>When APEX uses it.</strong> Salesforce CRM contact / opportunity pulls, Workday employee master, ServiceNow change-management feeds, marketing-platform campaign data.</p>
+
+<h4 id="3-8-7-2-5-custom-endpoint">7.2.5 Custom Endpoint (webhook) landing</h4>
+
+<p>For push-only SORs without pull APIs or CDC, APEX hosts a custom HTTP endpoint on Azure Functions or Azure Container Apps that receives webhooks and writes to Bronze.</p>
+
+<p><strong>Implementation.</strong> Azure Function with HTTP trigger, Entra-managed-identity authentication against source, writes to OneLake Bronze as Delta via the OneLake SDK. Optional Eventhouse parallel write for real-time consumption.</p>
+
+<p><strong>Schema evolution.</strong> Endpoint code enforces payload schema; additive drift passes through; breaking changes halt with 400-class response and alert.</p>
+
+<p><strong>Error semantics.</strong> Function logs via App Insights; failed ingests dead-letter to a Service Bus queue for manual reprocessing.</p>
+
+<p><strong>When APEX uses it.</strong> Legacy industrial equipment with only webhook emit, niche medical devices, third-party notification services, SMS/email event-tracking providers.</p>
+
+<h4 id="3-8-7-2-6-bronze-retention">7.2.6 Bronze retention, partitioning, and schema-on-read</h4>
+
+<p>Bronze storage discipline:</p>
+
+<ul>
+  <li><strong>Partitioning.</strong> Default partition by source-event date (<code class="inline-code">ingest_date</code>). Override where query pattern dictates — product-tracking Bronze partitions by <code class="inline-code">lot_id</code> for recall trace speed.</li>
+  <li><strong>Retention.</strong> 7 years default; Practice-specific overrides (10 years for certain HLS data; permanent with legal hold for recall-relevant). Purview-managed retention policies enforce.</li>
+  <li><strong>Schema-on-read discipline.</strong> Bronze Parquet / Delta tables carry canonical columns plus a JSON <code class="inline-code">_raw_payload</code> column preserving the exact source message. Silver transforms read the canonical columns; escape-hatch debugging reads the raw.</li>
+  <li><strong>Time-travel.</strong> Delta time-travel preserves reproducibility for audit — "what did the Bronze look like at 14:32:08?" answerable via <code class="inline-code">TIMESTAMP AS OF</code> syntax.</li>
+</ul>
+
+<h3 id="3-8-7-3-silver-apex-semantic-models">7.3 Silver — APEX semantic models as the canonical layer</h3>
+
+<p>Silver is where Bronze raw becomes canonical. APEX ships per-Practice semantic models (SCML, MERML, CXML, AXLEML, NetworkML, TravelerML, etc.) as Silver-layer artefacts. Each is an opinionated set of Delta tables with:</p>
+
+<ul>
+  <li>Stable entity keys (surrogate + natural)</li>
+  <li>Canonical attributes with enforced types and defaults</li>
+  <li>SCD Type 2 history where business change-tracking matters (Customer, Employee, Product)</li>
+  <li>Tokenisation at ingest boundary for PII/PHI — Purview-classified, DLP-enforced</li>
+  <li>Foreign-key relationships across entities via consistent canonical keys</li>
+  <li>Business-glossary registration in Purview Unified Catalog</li>
+</ul>
+
+<h4 id="3-8-7-3-1-tokenisation-at-silver">7.3.1 Tokenisation at the Bronze-Silver boundary</h4>
+
+<p>PII and PHI never cross the Bronze-Silver boundary in cleartext in an APEX deployment. The tokenisation pattern:</p>
+
+<ol>
+  <li>Bronze lands raw source data with cleartext PII per the source system's convention.</li>
+  <li>A Silver-transform PySpark notebook reads Bronze, identifies classified columns per Purview rules, and tokenises them using a deterministic token function. The token is reversible only by a service principal with explicit detokenise scope.</li>
+  <li>Silver stores tokens in the canonical attribute column. The cleartext lives in a vault Delta table (<code class="inline-code">silver_vault_tokens</code>) with row-level access restricted to privileged-identity-management identities.</li>
+  <li>Gold queries see tokens; agent outputs carry tokens; Copilot grounds on tokens.</li>
+  <li>Detokenisation happens only at user-surface time (e.g., rendering a customer name in a Power App) and only for authorised identities.</li>
+</ol>
+
+<p>This pattern ensures an agent seeing PII data cannot leak cleartext because the agent never holds cleartext. Even in a prompt-injection scenario, only tokens are reachable.</p>
+
+<h4 id="3-8-7-3-2-schema-reference-scml">7.3.2 Reference: SCML Silver schema excerpt</h4>
+
+<pre><code>-- Silver canonical SKU table
+CREATE TABLE silver_scml.sku (
+  sku_key              STRING NOT NULL,       -- surrogate key, UUID-based
+  sku_natural          STRING NOT NULL,       -- source natural key
+  sku_status           STRING NOT NULL,       -- ACTIVE / INACTIVE / DISCONTINUED
+  category_key         STRING NOT NULL,
+  supplier_key         STRING,
+  upc                  STRING,
+  description          STRING,
+  unit_cost_token      STRING,                 -- tokenised supplier-confidential
+  unit_retail          DECIMAL(10,2),
+  case_pack            INT,
+  weight_kg            DECIMAL(8,3),
+  lifecycle_start_dt   DATE,
+  lifecycle_end_dt     DATE,
+  scd2_valid_from      TIMESTAMP NOT NULL,
+  scd2_valid_to        TIMESTAMP,
+  scd2_is_current      BOOLEAN NOT NULL,
+  purview_label        STRING NOT NULL,       -- classification propagated
+  row_hash             STRING NOT NULL        -- for change detection
+)
+USING DELTA
+PARTITIONED BY (sku_status)
+TBLPROPERTIES (
+  'delta.enableChangeDataFeed' = 'true',
+  'delta.autoOptimize.optimizeWrite' = 'true',
+  'delta.autoOptimize.autoCompact' = 'true'
+);</code></pre>
+
+<h4 id="3-8-7-3-3-silver-refresh-patterns">7.3.3 Silver refresh patterns</h4>
+
+<p>Silver refresh cadence matches the Bronze pattern feeding it:</p>
+
+<ul>
+  <li><strong>Streaming Silver</strong> from Eventhouse Bronze — continuous KQL ingest with per-event transform. Sub-minute latency. Used for RC real-time inventory, ER telemetry, TMT alarm streams.</li>
+  <li><strong>Micro-batch Silver</strong> from Mirrored Bronze — Fabric Spark Structured Streaming with 5-minute triggers. Used for transactional data where sub-minute isn't required but fresh-within-5 is.</li>
+  <li><strong>Scheduled Silver</strong> from batch Bronze — nightly or hourly notebook runs via Data Pipeline. Used for reference data, regulatory extracts, supplier master.</li>
+  <li><strong>Reconciliation Silver</strong> — scheduled daily reconciliation pass over streaming Silver to fix late-arriving data, resolve out-of-order events, and stamp Silver with the reconciled timestamp.</li>
+</ul>
+
+<h3 id="3-8-7-4-gold-materialisation-serving">7.4 Gold — materialisation and serving</h3>
+
+<h4 id="3-8-7-4-1-gold-materialisation-strategies">7.4.1 Gold view materialisation strategies</h4>
+
+<p>Gold views manifest as one of four Fabric artefacts depending on consumer:</p>
+
+<table>
+  <thead><tr><th>Consumer pattern</th><th>Gold artefact</th><th>Refresh</th><th>Example</th></tr></thead>
+  <tbody>
+    <tr><td>BI dashboards, Copilot grounding</td><td>Warehouse view or Direct Lake Power BI semantic model</td><td>Near-real-time via Direct Lake on underlying Delta</td><td>Exec margin dashboard</td></tr>
+    <tr><td>Agent MCP tool queries</td><td>Warehouse view with indexed attributes</td><td>Aligned to agent SLO (seconds)</td><td><code class="inline-code">get_sku_inventory</code> tool</td></tr>
+    <tr><td>Real-time dashboards / alert rules</td><td>Eventhouse KQL function</td><td>Streaming</td><td>Cold-chain excursion watch</td></tr>
+    <tr><td>ML training, batch scoring</td><td>Lakehouse Delta table with feature engineering</td><td>Nightly or ad-hoc</td><td>Demand-sense model retrain</td></tr>
+  </tbody>
+</table>
+
+<h4 id="3-8-7-4-2-gold-refresh-patterns">7.4.2 Gold refresh patterns</h4>
+
+<p>Gold refresh decisions are made per view based on consumer SLO. Default pattern matrix:</p>
+
+<ul>
+  <li><strong>Direct Lake over live Silver</strong> — no materialisation step; Gold is a view or semantic model that queries Silver Delta directly. Near-zero refresh lag. Used where Silver is already at the required grain.</li>
+  <li><strong>Hourly scheduled materialisation</strong> — Fabric Data Pipeline rebuilds a Warehouse table from Silver on the hour. Used for aggregated Gold views (7-day demand, 30-day supplier OTIF).</li>
+  <li><strong>Event-triggered materialisation</strong> — Data Activator rule fires on Silver change, triggering Gold refresh. Used where Silver changes are episodic but Gold consumers need freshness immediately after.</li>
+  <li><strong>Real-time KQL function</strong> — Gold is a KQL function that executes on each agent query against live Eventhouse. Sub-second. Used for real-time agent reasoning.</li>
+  <li><strong>On-demand via agent</strong> — agent invokes a pipeline via MCP action tool to generate a bespoke Gold artefact (e.g., recall-scope-Gold for a specific incident). One-off Gold for incident-specific reasoning.</li>
+</ul>
+
+<h4 id="3-8-7-4-3-direct-lake-warehouse">7.4.3 Direct Lake vs Warehouse vs materialised views</h4>
+
+<p>Three serving options with distinct trade-offs:</p>
+
+<ul>
+  <li><strong>Direct Lake</strong> — Power BI semantic model reads Parquet directly from OneLake. Near-Import performance with near-DirectQuery freshness. Best for BI + Copilot grounding. Limitation: Direct Lake model size bound by capacity SKU; composite models mitigate.</li>
+  <li><strong>Warehouse (T-SQL)</strong> — indexed Delta tables exposed via T-SQL SQL endpoint. Best for agent MCP tool queries needing indexed lookups. Supports complex joins, window functions, UDFs.</li>
+  <li><strong>Materialised Warehouse view</strong> — pre-computed Warehouse table refreshed on schedule. Best for aggregates queried hundreds of times per hour by agents.</li>
+</ul>
+
+<h4 id="3-8-7-4-4-cache-invalidation">7.4.4 Cache invalidation and refresh dependencies</h4>
+
+<p>Gold refresh dependencies are declared in the service manifest and orchestrated by Data Factory. Silver schema change triggers Gold-rebuild where the schema change affects Gold view definition. Data Activator rules can chain dependency refreshes: Silver.SKU update → Gold.SKU_with_inventory refresh → Power BI semantic model refresh → Copilot cache invalidation.</p>
+
+<h3 id="3-8-7-5-purview-across-layers">7.5 Purview governance across the medallion layers</h3>
+
+<p>Purview sits alongside every medallion layer:</p>
+
+<ul>
+  <li><strong>Bronze scanning</strong> catalogues raw SOR data; applies classification rules from per-Practice patterns; flags unexpected sensitive data patterns for review.</li>
+  <li><strong>Silver classification</strong> preserves source classification, adds canonical-schema labels (e.g., "CustomerPII", "SupplierConfidential"), and registers lineage from Bronze.</li>
+  <li><strong>Gold DLP policies</strong> apply at the Gold-to-consumer boundary — Power BI viewer sees masked PII, Copilot grounding excludes classified data from responses, MCP tool returns classification-tagged results that agents respect.</li>
+  <li><strong>Lineage registration</strong> at every transform — end-to-end trace from SOR row to agent output queryable via Purview.</li>
+</ul>
+
+<h3 id="3-8-7-6-cdc-time-travel">7.6 Change data capture, time-travel, and reproducibility</h3>
+
+<p>Three mechanisms ensure reproducibility — every past agent decision can be reconstructed exactly.</p>
+
+<ul>
+  <li><strong>Delta Change Data Feed</strong> on Silver and Gold tables captures every row-level change. Consumed by downstream incremental processes; also available for audit queries ("show me every change to this SKU's price in the last 90 days").</li>
+  <li><strong>Delta time-travel</strong> lets queries access historical table states via <code class="inline-code">TIMESTAMP AS OF</code> or <code class="inline-code">VERSION AS OF</code>. Regulatory queries ("what did Gold look like at the moment the agent made decision X") resolve in seconds.</li>
+  <li><strong>Purview audit</strong> records every access plus classification state, providing the complete "who-saw-what-when" trail.</li>
+</ul>
+
+<h3 id="3-8-7-7-reference-ddl">7.7 Reference DDL and transform patterns</h3>
+
+<p>Canonical Silver-to-Gold transform pattern for a pre-aggregated measure (PySpark notebook):</p>
+
+<pre><code>from pyspark.sql import functions as F
+from pyspark.sql.window import Window
+
+# 1. Read Silver with change feed for incremental
+silver_inv = (spark.readStream
+    .format("delta")
+    .option("readChangeFeed", "true")
+    .table("silver_scml.inventory_position"))
+
+# 2. Compute stock-days-remaining with window over daily demand
+window = Window.partitionBy("sku_key", "store_key").orderBy("snapshot_dt")
+gold = (silver_inv
+    .join(silver_demand_7d, ["sku_key", "store_key"], "left")
+    .withColumn("stock_days_remaining",
+        F.col("on_hand_units") / F.col("demand_7d_avg"))
+    .withColumn("stock_out_risk_flag",
+        F.when(F.col("stock_days_remaining") < 3, F.lit("HIGH"))
+         .when(F.col("stock_days_remaining") < 7, F.lit("MEDIUM"))
+         .otherwise(F.lit("LOW"))))
+
+# 3. Write to Gold with classification propagation
+(gold.writeStream
+    .format("delta")
+    .outputMode("append")
+    .option("checkpointLocation", "/checkpoints/gold_sku_stock_risk")
+    .trigger(processingTime="5 minutes")
+    .toTable("gold_scml.sku_stock_risk"))
+
+# 4. Register lineage with Purview (explicit; auto where supported)
+purview_client.register_lineage(
+    source_entity="silver_scml.inventory_position",
+    target_entity="gold_scml.sku_stock_risk",
+    transform="gold_stock_risk_notebook:v1.3.0"
+)</code></pre>
+
+<hr class="section-rule">
+<h2 id="3-8-8-sor-integration-strategies">8. SOR Integration Strategies — Deep Dive</h2>
+
+<p>APEX Bronze feeds from tens to hundreds of systems of record per enterprise. This section is the architect's decision framework for connecting to external SORs and the worked-example catalogue of how APEX connects to the dominant SORs encountered in production.</p>
+
+<h3 id="3-8-8-1-integration-strategy-decision-matrix">8.1 The integration strategy decision matrix</h3>
+
+<p>Five source-system attributes drive integration-strategy selection:</p>
+
+<table>
+  <thead><tr><th>Attribute</th><th>Values</th><th>Pattern implication</th></tr></thead>
+  <tbody>
+    <tr><td>CDC capable?</td><td>Yes / No / Partial</td><td>Yes → Mirroring (if supported) or custom CDC. No → pull-based.</td></tr>
+    <tr><td>Exposure</td><td>SQL / REST / SOAP / file / event-stream / webhook-only</td><td>Drives ingestion Fabric artefact (Mirrored DB / Dataflow / Pipeline / Eventstream / Custom)</td></tr>
+    <tr><td>Latency requirement</td><td>Real-time / near-real-time / minute / hour / day</td><td>Drives Bronze pattern and Silver refresh cadence</td></tr>
+    <tr><td>Security posture</td><td>Public API / IP allow-list / Private Link / on-prem gateway / Express Route</td><td>Drives connection topology and authentication</td></tr>
+    <tr><td>Volume / complexity</td><td>Small schema &lt;10 tables / medium &lt;100 / large 100+</td><td>Drives resource sizing and migration strategy</td></tr>
+  </tbody>
+</table>
+
+<p>APEX architects fill this matrix for every in-scope SOR during Wave 1 envisioning. The completed matrix determines the Bronze-landing approach and the ingest-cost envelope.</p>
+
+<h3 id="3-8-8-2-rest-api-patterns">8.2 REST API integration patterns</h3>
+
+<p>Most modern SaaS SORs expose REST APIs. APEX's canonical REST integration pattern runs through Dataflow Gen2 for schedule-driven pulls and Azure Functions for push/webhook.</p>
+
+<h4>8.2.1 Authentication</h4>
+<ul>
+  <li><strong>OAuth 2.0 client-credentials</strong> — majority of enterprise SaaS. Token cached in Fabric-managed credential store with refresh on expiry.</li>
+  <li><strong>Bearer tokens / API keys</strong> — static credentials stored in Key Vault, rotated per Deloitte policy.</li>
+  <li><strong>mTLS</strong> — certificate-based; cert in Key Vault, managed-identity retrieval.</li>
+  <li><strong>Entra-federated auth</strong> — where the SOR supports Entra identity, the cleanest pattern; managed identity on the Fabric side authenticates without explicit secret management.</li>
+</ul>
+
+<h4>8.2.2 Pagination and rate limits</h4>
+<p>Every REST connector respects source rate limits. Common patterns:</p>
+<ul>
+  <li>Cursor / token-based pagination (Salesforce, ServiceNow, Workday)</li>
+  <li>Offset / limit pagination (legacy SaaS)</li>
+  <li>Link-header pagination (GitHub-style)</li>
+</ul>
+<p>APEX connectors implement exponential back-off on 429 responses and schedule sliding-window pulls to stay within rate budgets.</p>
+
+<h4>8.2.3 Incremental pull via watermarks</h4>
+<p>Every REST connector pulls only changed records since last successful run. Watermark stored in a Fabric Lakehouse metadata table; pull query uses <code class="inline-code">modified_after</code> / <code class="inline-code">updated_since</code> / <code class="inline-code">last_modified_datetime</code> parameter per SOR convention. Watermark advances on successful load; resumes from last-known on failure.</p>
+
+<h4>8.2.4 Webhook reception</h4>
+<p>Azure Function with HTTP trigger authenticates the inbound webhook (HMAC signature verification, Entra-federated callback, or IP allow-list). Payload validated against expected schema; validated rows write to OneLake Bronze as Delta with source-timestamp preservation.</p>
+
+<h4>8.2.5 Error handling, retries, and dead-letter queues</h4>
+<p>Every connector has three error tiers:</p>
+<ul>
+  <li><strong>Transient (retry immediately)</strong> — 5xx from source, timeout, rate-limit response. Exponential back-off with ceiling.</li>
+  <li><strong>Recoverable (retry with delay)</strong> — auth expiry (refresh and retry), transient network issue.</li>
+  <li><strong>Permanent (dead-letter)</strong> — 4xx from source (other than rate limit), schema violation, payload malformation. Failed row or request routes to Service Bus queue; ops team triages.</li>
+</ul>
+
+<h3 id="3-8-8-3-database-integration-patterns">8.3 Database integration patterns</h3>
+
+<p>Three approaches for database SORs in order of preference:</p>
+
+<ol>
+  <li><strong>Fabric Mirroring</strong> (where supported) — zero ETL, CDC-driven, near-real-time.</li>
+  <li><strong>Debezium + Event Hubs → Eventstream</strong> — self-hosted CDC for databases Fabric does not yet natively mirror.</li>
+  <li><strong>JDBC/ODBC batch extraction</strong> — legacy databases or large historical backfills.</li>
+</ol>
+
+<p>On-premises databases require Fabric's on-premises data gateway (Standard or VNet), with Private Link preferred where cloud-hosted.</p>
+
+<h3 id="3-8-8-4-event-bus-integration">8.4 Event-bus integration patterns</h3>
+
+<p>Event Hubs, Azure Service Bus, and Kafka are first-class Bronze sources via Eventstream. Kafka consumer configuration supports both managed Kafka (Confluent Cloud) and self-hosted. MQTT for OT/IoT uses Azure IoT Operations as the broker; Azure IoT Hub remains supported for legacy scenarios. Legacy message brokers (IBM MQ, TIBCO) front-end through Azure Logic Apps or Service Bus bridges.</p>
+
+<h3 id="3-8-8-5-file-based-integration">8.5 File-based integration patterns</h3>
+
+<p>File-based ingestion handles SFTP drops, ADLS / S3 / GCS landings, and EDI formats. Fabric Pipeline's Copy activity connects to SFTP / ADLS / S3 / GCS natively; GetFile triggers arrival events. EDI (X12, EDIFACT, HL7 v2) parsing uses dedicated Azure Logic Apps or Functions pre-ingest; canonical normalised records write to Bronze.</p>
+
+<h3 id="3-8-8-6-worked-sor-examples">8.6 Worked SOR examples</h3>
+
+<p>Concrete integration strategies for the dominant SORs encountered in APEX deployments.</p>
+
+<h4>8.6.1 Epic Clarity (HLS Provider EHR)</h4>
+<ul>
+  <li><strong>Integration pattern.</strong> Fabric Mirrored Database where the health system's Clarity instance supports it; otherwise custom CDC via Epic's native replication and Debezium.</li>
+  <li><strong>Authentication.</strong> Service account with Epic-granted read scope; credentials in Key Vault. Client-direct integration per HIPAA.</li>
+  <li><strong>Connectivity.</strong> Private Link to the health system's Epic environment; ExpressRoute backup.</li>
+  <li><strong>Bronze target.</strong> <code class="inline-code">bronze_epic_clarity.*</code> tables preserving Epic's denormalised schema.</li>
+  <li><strong>Silver target.</strong> <code class="inline-code">silver_hls_provider.patient / encounter / order / note</code> using PatientML canonical.</li>
+  <li><strong>Classification.</strong> Purview PHI classification applied at Bronze landing. Tokenisation at Silver boundary.</li>
+  <li><strong>Refresh.</strong> Near-real-time via CDC; ADT events streamed to Eventhouse for real-time.</li>
+</ul>
+
+<h4>8.6.2 SAP S/4HANA ERP</h4>
+<ul>
+  <li><strong>Integration pattern.</strong> SAP Datasphere bridge (preferred for SAP-blessed extraction), fallback SAP BW extractors via Fabric Pipeline, or Mirroring (preview) where licensed.</li>
+  <li><strong>Authentication.</strong> SAP technical user with read-only scope on relevant modules.</li>
+  <li><strong>Connectivity.</strong> On-premises data gateway for on-prem S/4 or Private Link for RISE.</li>
+  <li><strong>Bronze target.</strong> <code class="inline-code">bronze_sap_s4.*</code> preserving SAP table names.</li>
+  <li><strong>Silver target.</strong> Multiple per Practice — SCML inventory from MARD / EKPO / EKKO; financial from BKPF / BSEG; etc.</li>
+  <li><strong>Refresh.</strong> CDC where supported; else hourly batch via extractors.</li>
+</ul>
+
+<h4>8.6.3 Salesforce CRM</h4>
+<ul>
+  <li><strong>Integration pattern.</strong> Dataflow Gen2 Salesforce connector with Bulk API 2.0 for large objects. For high-volume tenants, supplement with Salesforce Change Data Capture events via Platform Events → Event Hubs → Eventstream.</li>
+  <li><strong>Authentication.</strong> Salesforce Connected App with OAuth; service-account identity.</li>
+  <li><strong>Bronze target.</strong> <code class="inline-code">bronze_sfdc.*</code> preserving Salesforce sObject structure.</li>
+  <li><strong>Silver target.</strong> <code class="inline-code">silver_cxml.account / contact / opportunity</code> via resolution agents where cross-system identity matters.</li>
+  <li><strong>Refresh.</strong> Watermarked incremental pull every 15 minutes for standard data; CDC streams for real-time objects.</li>
+</ul>
+
+<h4>8.6.4 Manhattan Active WMS</h4>
+<ul>
+  <li><strong>Integration pattern.</strong> REST API (Manhattan Active APIs) via Dataflow Gen2 for batch; webhook subscriptions for real-time events (receiving, pick, ship).</li>
+  <li><strong>Authentication.</strong> Manhattan-issued OAuth bearer tokens.</li>
+  <li><strong>Bronze target.</strong> <code class="inline-code">bronze_manhattan.*</code>.</li>
+  <li><strong>Silver target.</strong> SCML inventory-position, shipment, lot entities.</li>
+  <li><strong>Refresh.</strong> Webhook-driven for real-time operational events; hourly batch for master data.</li>
+</ul>
+
+<h4>8.6.5 Workday HCM</h4>
+<ul>
+  <li><strong>Integration pattern.</strong> Workday REST API with OAuth client-credentials; incremental via Workday's Transaction Log Service where available.</li>
+  <li><strong>Bronze / Silver.</strong> Employee master, organisation hierarchy, compensation data into <code class="inline-code">silver_workforce</code>.</li>
+  <li><strong>Classification.</strong> PII + HR-confidential.</li>
+  <li><strong>Refresh.</strong> Daily master; near-real-time for certain lifecycle events.</li>
+</ul>
+
+<h4>8.6.6 ServiceNow</h4>
+<ul>
+  <li><strong>Integration pattern.</strong> ServiceNow Table API via Dataflow Gen2 with watermarked pagination.</li>
+  <li><strong>Bronze / Silver.</strong> Change management, incident, CMDB data.</li>
+  <li><strong>Refresh.</strong> Every 5–15 min via watermark.</li>
+</ul>
+
+<h4>8.6.7 OSIsoft PI / AVEVA PI Historian</h4>
+<ul>
+  <li><strong>Integration pattern.</strong> PI Web API via custom Azure Function reader → Eventhouse; alternatively, Azure IoT Operations with PI Integrator.</li>
+  <li><strong>Authentication.</strong> PI System authentication via managed identity federated.</li>
+  <li><strong>Bronze target.</strong> Eventhouse KQL tables partitioned by tag and time.</li>
+  <li><strong>Silver target.</strong> ER AssetML and ProcessML canonical entities.</li>
+  <li><strong>Refresh.</strong> Streaming; sub-second for agent real-time reasoning.</li>
+</ul>
+
+<h4>8.6.8 GE Proficy / AVEVA Wonderware</h4>
+<ul>
+  <li><strong>Integration pattern.</strong> OPC-UA via Azure IoT Operations → Eventhouse; or vendor-specific connectors where available.</li>
+  <li><strong>Silver target.</strong> AXLE Manufacturing sub-model (work orders, operations, quality events).</li>
+</ul>
+
+<h4>8.6.9 Legacy AS/400 / DB2</h4>
+<ul>
+  <li><strong>Integration pattern.</strong> JDBC extraction via Fabric Pipeline Copy activity; staging area preserves legacy schema.</li>
+  <li><strong>Silver.</strong> Transform legacy records into canonical entities; often a custom Python notebook for code-table resolution.</li>
+  <li><strong>Refresh.</strong> Hourly or daily batch; legacy systems rarely support real-time.</li>
+</ul>
+
+<h4>8.6.10 Adobe Analytics / Google Analytics</h4>
+<ul>
+  <li><strong>Integration pattern.</strong> Bulk Export API (Adobe) or BigQuery Export (GA4) → Fabric Shortcut or Dataflow Gen2.</li>
+  <li><strong>Silver.</strong> CXML Interaction and Session entities.</li>
+  <li><strong>Refresh.</strong> Near-real-time (Live Stream) or daily export.</li>
+</ul>
+
+<h4>8.6.11 Salesforce Marketing Cloud</h4>
+<ul>
+  <li><strong>Integration pattern.</strong> SFMC REST + SOAP API via Dataflow Gen2.</li>
+  <li><strong>Silver.</strong> CXML campaign, interaction, preference entities.</li>
+</ul>
+
+<h4>8.6.12 HL7 v2 / FHIR healthcare feeds</h4>
+<ul>
+  <li><strong>Integration pattern.</strong> Azure Health Data Services FHIR API for FHIR-native; Logic Apps HL7 v2 parsing for legacy HL7.</li>
+  <li><strong>Silver.</strong> HLS PatientML, EncounterML, OrderML.</li>
+</ul>
+
+<h4>8.6.13 SAP Ariba / Coupa procurement</h4>
+<ul>
+  <li><strong>Integration pattern.</strong> Ariba / Coupa REST API via Dataflow Gen2; EDI X12 810 / 850 via Logic Apps for trading partners.</li>
+  <li><strong>Silver.</strong> SCML supplier, purchase order, contract entities.</li>
+</ul>
+
+<h4>8.6.14 Oracle EBS / Oracle Fusion</h4>
+<ul>
+  <li><strong>Integration pattern.</strong> Oracle-native CDC (GoldenGate or Oracle Streams) → Event Hubs → Eventstream, or Mirroring preview where supported.</li>
+  <li><strong>Silver.</strong> Multiple per Practice — financial, HR, procurement.</li>
+</ul>
+
+<h4>8.6.15 Snowflake / Databricks interop</h4>
+<ul>
+  <li><strong>Integration pattern.</strong> Fabric Mirroring (Snowflake) or OneLake Shortcut (Databricks Delta). See the Sellers Guide Appendix G for co-existence patterns.</li>
+  <li><strong>Silver.</strong> Whatever Practice canonical the source data feeds.</li>
+</ul>
+
+<h3 id="3-8-8-7-on-prem-connectivity">8.7 On-premises connectivity</h3>
+
+<p>Where SORs are on-prem:</p>
+<ul>
+  <li><strong>On-premises Data Gateway (Standard mode)</strong> — multi-user gateway with Entra federation; preferred for most scenarios.</li>
+  <li><strong>VNet Data Gateway</strong> — for sources in VNet-integrated on-prem-adjacent networks.</li>
+  <li><strong>ExpressRoute</strong> — dedicated-circuit connectivity for large-scale or latency-sensitive deployments.</li>
+  <li><strong>Private Link</strong> — for cloud-hosted SORs that support private endpoints.</li>
+</ul>
+
+<h3 id="3-8-8-8-refresh-orchestration">8.8 Refresh orchestration and dependency management</h3>
+
+<p>APEX uses Fabric Data Factory as the master orchestrator across all medallion layers. A typical refresh chain:</p>
+
+<ol>
+  <li>Bronze ingestion pipeline (Mirror / Eventstream / Dataflow / Copy) completes successfully.</li>
+  <li>Data Activator rule fires on Bronze table watermark update.</li>
+  <li>Silver transform notebook runs, produces canonical entity.</li>
+  <li>Second Activator rule fires on Silver update.</li>
+  <li>Gold materialisation notebook runs.</li>
+  <li>Power BI semantic model refreshes (Direct Lake models are automatic; Import models trigger XMLA endpoint refresh).</li>
+  <li>Copilot cache invalidates.</li>
+</ol>
+
+<p>Late-arriving data and out-of-order events are handled at the Silver reconciliation pass (typically nightly) which re-sorts event streams by source timestamp and rewrites affected Silver rows with correct ordering.</p>
+
+<h3 id="3-8-8-9-connection-security">8.9 Connection security and secret management</h3>
+
+<p>Every connection to every SOR follows these rules:</p>
+
+<ul>
+  <li>Credentials stored in Azure Key Vault; access via managed identity only. No secrets in pipeline JSON or code.</li>
+  <li>Credentials rotated per Deloitte policy — 90 days for secrets, 1 year for certificates with early-renewal triggers.</li>
+  <li>Network path restricted to Private Link or ExpressRoute where source supports; public-internet connections have IP allow-list on the source side.</li>
+  <li>Source accounts use least-privilege scopes — read-only where APEX is consume-only; explicit write scopes only for action-execute tools.</li>
+  <li>Every connection audited through Purview; anomalous authentication patterns flagged by Insider Risk.</li>
+</ul>
+
+<hr class="section-rule">
+<h2 id="3-8-9-apex-schemas-mapping-agent-alignment">9. APEX Schemas in Fabric — Mapping, Canonical Views, and Agent Alignment</h2>
+
+<p>This section covers how APEX's Practice semantic models are authored, how source data maps into the canonical entities, how classifications attach, how pre-measure and post-measure calculations are structured, and how agents consume the resulting Gold views.</p>
+
+<h3 id="3-8-9-1-schemas-in-manifest-model">9.1 APEX schemas in the four-layer manifest model</h3>
+
+<p>APEX Practice schemas are one of the four manifest types, governed identically to event, orchestration, and agent manifests:</p>
+
+<ul>
+  <li><strong>Authored in Git</strong> as YAML schema definitions; every change is a pull request with schema-lint validation.</li>
+  <li><strong>Versioned</strong> with APEX bump classification (PATCH / MINOR / MAJOR).</li>
+  <li><strong>L3 Practice reference</strong> schemas ship with APEX; clients extend them as L4 tenant-scoped manifests without modifying the L3 reference.</li>
+  <li><strong>Compatible additive changes</strong> flow as MINOR bumps; breaking changes (field removal, type narrowing) flow as MAJOR with forced-migration procedure.</li>
+</ul>
+
+<h3 id="3-8-9-2-schema-structure">9.2 Schema structure</h3>
+
+<p>Every APEX schema entity specifies:</p>
+
+<ul>
+  <li><strong>Name</strong> — canonical entity name (SKU, Patient, Well, Unit, Traveler, etc.)</li>
+  <li><strong>Keys</strong> — natural key (source-system identifier), surrogate key (APEX-assigned UUID)</li>
+  <li><strong>Attributes</strong> — typed columns with nullability, defaults, allowed-value enumerations where applicable</li>
+  <li><strong>Pre-measure attributes</strong> — derived columns computed during Silver → Gold transform (stock-days-remaining, days-since-last-encounter, time-on-reefer)</li>
+  <li><strong>Post-measure attributes</strong> — computed at query time or in Gold view layer (period-over-period, rolling average, attainment vs target)</li>
+  <li><strong>Classifications</strong> — Purview sensitivity tags per attribute (PII, PHI, PCI, SOX-controlled, supplier-confidential, etc.)</li>
+  <li><strong>Relationships</strong> — foreign-key links to other canonical entities, cardinality (1:1, 1:N, N:N), temporal validity</li>
+  <li><strong>Business-term bindings</strong> — Purview Unified Catalog glossary term each attribute implements</li>
+</ul>
+
+<h3 id="3-8-9-3-registering-schemas-in-fabric">9.3 Registering APEX schemas in Fabric</h3>
+
+<p>Schema registration produces the Fabric Delta DDL. A typical pipeline:</p>
+
+<ol>
+  <li>APEX schema YAML committed to Git.</li>
+  <li>CI pipeline lint-validates, generates Delta CREATE TABLE statements, generates Purview registration payload.</li>
+  <li>Fabric Deployment Pipeline promotes Lakehouse table definitions from dev → test → prod.</li>
+  <li>Purview scan registers the tables and applies classifications per the YAML.</li>
+  <li>Drift detector compares actual Fabric schema against YAML; drift generates alert.</li>
+</ol>
+
+<h3 id="3-8-9-4-source-to-canonical-mapping">9.4 Source-to-canonical mapping</h3>
+
+<h4>9.4.1 Entity mapping patterns</h4>
+<ul>
+  <li><strong>Single-source</strong> — one SOR feeds one canonical entity (Epic Clarity → HLS Patient).</li>
+  <li><strong>Union</strong> — multiple SORs federate into one entity with source-system discriminator (Salesforce + SAP → Customer, with <code class="inline-code">source_system</code> attribute).</li>
+  <li><strong>Resolved</strong> — identity-resolution agent merges source identities into one canonical (multi-PSS airline data → one Traveler).</li>
+</ul>
+
+<h4>9.4.2 Field-level mapping</h4>
+<ul>
+  <li><strong>Direct</strong> — 1:1 source field to canonical attribute with type coercion.</li>
+  <li><strong>Derived</strong> — computed from one or more source fields (concatenation, extraction, case-folding).</li>
+  <li><strong>Lookup</strong> — reference-table lookup (source "active" / "inactive" → canonical status code).</li>
+</ul>
+
+<h4>9.4.3 Join resolution and identity reconciliation</h4>
+<p>Identity-resolution uses deterministic (exact-match on natural keys) where possible, probabilistic (fuzzy match with confidence score) where source identifiers are ambiguous. Probabilistic matches below a confidence threshold route to HITL review via Teams Copilot.</p>
+
+<h4>9.4.4 Idempotency and late-arriving data</h4>
+<p>Every Silver transform is idempotent — replaying the same Bronze rows produces the same Silver output. Late-arriving data (source row dated yesterday arriving today) writes with source timestamp; downstream aggregations read via windowed logic that accounts for the source date.</p>
+
+<h4>9.4.5 Schema-evolution handling</h4>
+<p>Additive source-schema changes are auto-ingested; the Silver transform ignores unmapped fields. Breaking source changes halt ingestion with a clear alert; Silver transform is versioned and upgraded with the source.</p>
+
+<h3 id="3-8-9-5-canonical-views-classification">9.5 Canonical views of data classification</h3>
+
+<h4>9.5.1 Classification taxonomy</h4>
+<p>APEX ships standard classification taxonomy used across Practices (see Appendix H of the sellers guide for the full taxonomy), extended with Practice-specific patterns:</p>
+<ul>
+  <li><strong>PII</strong> — GDPR / CCPA / state-specific privacy data</li>
+  <li><strong>PHI</strong> — HIPAA / HITECH</li>
+  <li><strong>PCI</strong> — payment card data</li>
+  <li><strong>SOX-controlled</strong> — financial attributes material to public reporting</li>
+  <li><strong>Export-controlled</strong> — EAR / ITAR</li>
+  <li><strong>Trade-secret</strong> — confidential commercial terms, engineering IP</li>
+  <li><strong>Member-only</strong> — loyalty identity</li>
+</ul>
+
+<h4>9.5.2 Classification on entities and attributes</h4>
+<p>Entity-level classification is the default; attribute-level classification overrides when specific attributes carry different sensitivity (e.g., Customer entity is PII; Customer's payment-method attribute is PCI).</p>
+
+<h4>9.5.3 Purview label propagation</h4>
+<p>Labels propagate through Silver → Gold → Power BI semantic model → Copilot response → Foundry agent output. DLP policies enforce label-based redaction at each surface.</p>
+
+<h4>9.5.4 Visibility lattice and agent scopes</h4>
+<p>Classification-driven row-level security (RLS), object-level security (OLS), and per-agent scope combine into a visibility lattice: a specific agent accessing a specific entity sees only the attributes the lattice permits. Lattice evaluation is at tool-call time; cached scopes are short-lived (minutes).</p>
+
+<h3 id="3-8-9-6-pre-post-measure">9.6 Pre-measure and post-measure calculations</h3>
+
+<h4>9.6.1 Pre-measure — input-side calculated columns</h4>
+<p>Computed during Silver → Gold transform; embodied in Gold table columns. Examples: <code class="inline-code">effective_margin_pct</code> per SKU, <code class="inline-code">stock_days_remaining</code> per SKU-store, <code class="inline-code">time_since_last_event</code> per Well, weather-adjusted demand signal. Authored in PySpark notebooks; Git-versioned.</p>
+
+<h4>9.6.2 Post-measure — output-side calculated measures</h4>
+<p>Computed at query time in the Power BI semantic model (DAX), Warehouse view (SQL), or Eventhouse function (KQL). Examples: period-over-period, rolling average, attainment vs target, actionability score, confidence interval. Measure definitions Git-versioned in semantic-model or view artefacts.</p>
+
+<h4>9.6.3 Authoring language choice</h4>
+<ul>
+  <li><strong>DAX</strong> for Power BI / Direct Lake consumption</li>
+  <li><strong>T-SQL</strong> for Warehouse-served measures consumed by agents via MCP</li>
+  <li><strong>KQL</strong> for real-time measures over Eventhouse event streams</li>
+  <li><strong>PySpark</strong> for complex pre-measures requiring joins, windows, or ML-derived attributes</li>
+</ul>
+
+<h4>9.6.4 Measure versioning and governance</h4>
+<p>Every measure has an owner, a definition, a consumer map, and a change-control history. Deprecation procedure: mark as <code class="inline-code">deprecated_v1.2</code>, surface warning in consumers for 2 quarters, retire.</p>
+
+<h3 id="3-8-9-7-agent-alignment">9.7 Alignment of data for agentic agents</h3>
+
+<h4>9.7.1 What agents need from Gold</h4>
+<ul>
+  <li>Structured, typed, signed, scope-bounded responses</li>
+  <li>Low latency (sub-500ms for interactive agents, sub-5s for reasoning-tier)</li>
+  <li>Reproducibility (same query returns same result or carries version stamp)</li>
+  <li>Classification-aware (agent output inherits classification labels)</li>
+</ul>
+
+<h4>9.7.2 Agent-facing semantic contracts</h4>
+<p>Every agent reads Gold through a contract — a named Gold view or MCP tool — not through raw Lakehouse access. The contract carries schema, SLO, and classification declarations. Contract is Git-versioned with the agent manifest; agents pin to contract versions.</p>
+
+<h4>9.7.3 MCP tool mapping to Gold views</h4>
+<p>Each MCP tool's inputSchema maps to canonical entity keys. Tool output is bound to a Gold view structure. Parameter validation (value domain, type, range) enforced at the tool boundary before the Gold query executes.</p>
+
+<h4>9.7.4 Grounding and retrieval patterns</h4>
+<ul>
+  <li><strong>Full-entity retrieval</strong> for simple agents (get an entity by key)</li>
+  <li><strong>Vector-embedding retrieval</strong> for semantic-search agents (similar-to)</li>
+  <li><strong>Hybrid</strong> (structured key + embedding) for complex agents</li>
+  <li>Azure AI Search integrated with Fabric OneLake for embedding indices</li>
+</ul>
+
+<h4>9.7.5 Pre-aggregated measures for agent low-latency</h4>
+<p>Rollup Gold tables pre-compute common aggregates so agents receive sub-second responses. Direct Lake serving for sub-second query. Cache-warming strategy for agent fleets running predictable patterns.</p>
+
+<h4>9.7.6 Agent-safe views — masked, scoped, signed</h4>
+<p>The agent's view of Gold is a derivative of raw Gold with classification-appropriate masking. Agent never sees cleartext PII/PHI unless classification permits. View scoped to agent's tenant, practice, persona. Response signed by the agent's service principal for audit traceability.</p>
+
+<h3 id="3-8-9-8-walkthrough-binding">9.8 Implementation walkthrough — binding a Practice semantic model</h3>
+
+<ol>
+  <li>Author schema YAML (L3 Practice reference; extend to L4 for tenant-specific fields).</li>
+  <li>Generate Fabric Lakehouse DDL via CI pipeline.</li>
+  <li>Author mapping notebooks from Bronze sources to Silver canonical.</li>
+  <li>Implement pre-measure calculations in PySpark Silver transforms.</li>
+  <li>Build Gold view (Warehouse SQL or Direct Lake semantic model) with post-measure DAX.</li>
+  <li>Register classification labels in Purview; validate propagation.</li>
+  <li>Publish Power BI semantic model; validate Direct Lake query path.</li>
+  <li>Bind MCP tools to Gold views with managed-identity scope.</li>
+  <li>Canary deploy agent fleet in test tenant; run smoke tests.</li>
+  <li>Validate agent consumption: latency SLO, groundedness score, classification enforcement.</li>
+</ol>
+
+<hr class="section-rule">
+<h2 id="3-8-10-implementation-walkthrough">10. Implementation Walkthrough — End-to-End</h2>
+
+<p>This section is the architect's end-to-end implementation reference — pre-requisites, Terraform / PowerShell / REST to provision the environment, workload setup, ingestion wiring, Purview configuration, CI/CD, and smoke tests.</p>
+
+<h3 id="3-8-10-1-prerequisites">10.1 Pre-requisites</h3>
+<ul>
+  <li>Azure tenant with appropriate subscription and Entra ID P2 licensing</li>
+  <li>Fabric capacity reservation (F-SKU sized for Wave 1 scope)</li>
+  <li>Purview account provisioned</li>
+  <li>Azure AI Foundry workspace</li>
+  <li>Copilot licensing available (M365 Copilot and Copilot Studio)</li>
+  <li>Key Vault for credential storage</li>
+  <li>Private Link / ExpressRoute as required for SOR connectivity</li>
+  <li>Deloitte delivery team Entra identities provisioned in the tenant</li>
+</ul>
+
+<h3 id="3-8-10-2-terraform-bootstrap">10.2 Terraform bootstrap</h3>
+
+<p>Fabric capacity, Key Vault, Container App environments, and Purview are all Azure resources and deploy via Terraform. A representative module skeleton:</p>
+
+<pre><code>terraform {
+  required_providers {
+    azurerm = { source = "hashicorp/azurerm", version = "~&gt; 4.0" }
+    fabric  = { source = "microsoft/fabric",  version = "~&gt; 1.0" }
+  }
+}
+
+resource "azurerm_resource_group" "apex" {
+  name     = "rg-apex-${var.tenant_suffix}-${var.env}"
+  location = var.location
+}
+
+resource "azurerm_fabric_capacity" "cap" {
+  name                = "fc-apex-${var.env}"
+  resource_group_name = azurerm_resource_group.apex.name
+  location            = var.location
+  sku { name = var.fabric_sku tier = "Fabric" }
+  administrators = var.fabric_admin_upns
+}
+
+resource "azurerm_key_vault" "kv" {
+  name                = "kv-apex-${var.tenant_suffix}-${var.env}"
+  resource_group_name = azurerm_resource_group.apex.name
+  location            = var.location
+  tenant_id           = var.entra_tenant_id
+  sku_name            = "standard"
+  enable_rbac_authorization = true
+}
+
+resource "azurerm_purview_account" "pv" {
+  name                = "pv-apex-${var.env}"
+  resource_group_name = azurerm_resource_group.apex.name
+  location            = var.location
+}</code></pre>
+
+<h3 id="3-8-10-3-powershell-provisioning">10.3 PowerShell Az.Fabric provisioning</h3>
+
+<p>Fabric workspaces created via PowerShell (some artefacts require Fabric SDK rather than Terraform):</p>
+
+<pre><code># Authenticate
+Connect-AzAccount -TenantId $env:AZURE_TENANT_ID
+Set-AzContext -SubscriptionId $env:AZURE_SUBSCRIPTION_ID
+
+# Create practice workspaces
+$capacityId = (Get-AzFabricCapacity -Name "fc-apex-prod").Id
+$workspaces = @(
+  "ws-apex-platform-prod",
+  "ws-apex-rc-dev", "ws-apex-rc-test", "ws-apex-rc-prod"
+)
+foreach ($name in $workspaces) {
+  New-AzFabricWorkspace -Name $name -CapacityId $capacityId
+}</code></pre>
+
+<h3 id="3-8-10-4-rest-api">10.4 Fabric REST API automation</h3>
+
+<p>For operations not yet in PowerShell / Terraform — Mirrored Databases, Eventstreams, custom Lakehouse artefacts. REST pattern:</p>
+
+<pre><code># Get bearer token
+TOKEN=$(curl -s -X POST "https://login.microsoftonline.com/$TENANT/oauth2/v2.0/token" \
+  -d "client_id=$CID&amp;client_secret=$CSECRET&amp;grant_type=client_credentials&amp;scope=https://api.fabric.microsoft.com/.default" \
+  | jq -r .access_token)
+
+# Create a Lakehouse
+curl -X POST "https://api.fabric.microsoft.com/v1/workspaces/$WS_ID/items" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"displayName":"bronze-rc","type":"Lakehouse"}'</code></pre>
+
+<h3 id="3-8-10-5-onelake-acls">10.5 OneLake path-level ACL configuration</h3>
+<p>Path-level ACLs via the <code class="inline-code">OneLake Data Plane</code> REST API set read / write permissions at Lakehouse folder granularity for service-principal identities. Every agent's managed identity receives scoped read on its required Gold paths only.</p>
+
+<h3 id="3-8-10-6-workload-provisioning">10.6 Lakehouse + Warehouse + Eventhouse provisioning</h3>
+<p>Within each practice workspace, the three workloads are provisioned via Fabric SDK or the portal. Default convention: one Lakehouse for Bronze + Silver; one Warehouse for Gold serving; one Eventhouse per Practice for real-time Bronze + Silver + Gold KQL.</p>
+
+<h3 id="3-8-10-7-shortcuts-mirroring-cdc">10.7 Shortcuts, mirroring, and CDC setup</h3>
+<p>Shortcuts created via OneLake Shortcut API or UI for cross-workspace and cross-cloud reads. Mirrored Databases created via Fabric REST per §7.2.1. CDC custom implementations use Debezium containers deployed into the APEX platform Container App environment.</p>
+
+<h3 id="3-8-10-8-purview-configuration">10.8 Purview scanning and classification</h3>
+
+<p>Post-provisioning Purview steps:</p>
+<ol>
+  <li>Register Fabric capacity as a Purview data source.</li>
+  <li>Configure scan rules per Practice classification taxonomy.</li>
+  <li>Load Practice business glossary (RC ships ~200 terms, HLS ships ~250, etc.).</li>
+  <li>Define DLP policies per classification — Gold query output masking, Copilot grounding restrictions, Foundry agent output redaction.</li>
+  <li>Register Compliance Manager assessments relevant to Practice (HIPAA for HLS, SOX for public companies, etc.).</li>
+  <li>Schedule scans: Bronze daily, Silver + Gold on change, plus monthly full.</li>
+</ol>
+
+<h3 id="3-8-10-9-cicd">10.9 CI/CD via Fabric Deployment Pipelines + Git</h3>
+
+<p>Every Fabric artefact (Lakehouse, Warehouse, Eventhouse, Notebook, Pipeline, Dataflow, Semantic Model) bound to Git. Branch-per-developer pattern. Promotion via Fabric Deployment Pipeline: dev → test → prod with gate-at-test for QR approval.</p>
+
+<h3 id="3-8-10-10-validation-smoke-test">10.10 Validation and smoke test</h3>
+
+<p>Go-live validation checklist:</p>
+<ul>
+  <li>End-to-end event flow from one SOR → Bronze → Silver → Gold → MCP tool → agent → audit row</li>
+  <li>Classification propagates; Purview reports lineage</li>
+  <li>DLP blocks the expected classifications in agent output</li>
+  <li>Agent-scoped Entra identity can read its Gold paths; cannot read restricted paths</li>
+  <li>Latency SLOs met for each MCP tool call pattern</li>
+  <li>Failure modes — SOR disconnection, auth expiry, agent timeout — produce correct error behaviour</li>
+  <li>Rollback procedure validated on at least one deployment</li>
+</ul>
+
 <hr class="section-rule">
 <h2 id="3-8-5-fabric-specific-gotchas-the-list-that-will-save-your-t">5. Fabric-specific gotchas (the list that will save your Tuesday)</h2>
 <ol><li><strong>Shortcut vs. copy.</strong> Shortcuts are pointers; they don't duplicate storage. Use shortcuts from tenant workspaces to practice reference tables. Don't copy them — you'll drift.</li><li><strong>Mirrored Databases lag.</strong> CDC via Mirrored DB is typically &lt; 60 seconds but can drift to minutes under load. If your agent SLO is "decision within 2 minutes," you need end-to-end latency budgets that include mirror lag.</li><li><strong>Capacity bursting isn't free.</strong> Fabric capacity auto-bursts but accrues "smoothing debt." An agent fleet that bursts at 15:00 every weekday will pay for smoothing on weekends. Right-size base capacity for the p95 concurrent agent invocations.</li><li><strong>Workspace Git integration is one-way at a time.</strong> You can't develop in two workspaces bound to the same Git branch. Use feature branches per dev.</li><li><strong>OneLake file paths are case-sensitive</strong> in shortcuts, even though Windows clients aren't. <code class="inline-code">Bronze/raw_events</code> ≠ <code class="inline-code">bronze/raw_events</code>. Decide on lowercase-only early.</li><li><strong><code class="inline-code">%</code> in identifiers breaks SQL endpoint queries</strong> even when escaped. If your SOR uses <code class="inline-code">%</code> in IDs, tokenise them at Bronze.</li><li><strong>The SQL endpoint caches schema aggressively.</strong> After a <code class="inline-code">MINOR</code> bump adds a column, queries from existing connections don't see it until the connection is recycled. Include a <code class="inline-code">sql_endpoint_recycle</code> step in your Silver migration notebooks.</li><li><strong>Purview labels don't auto-propagate through SELECT queries.</strong> If you SELECT from a labelled Silver table into an unlabelled Gold view, the label is lost. Apply labels explicitly on the view.</li><li><strong>Fabric capacity units ≠ Azure reserved capacity.</strong> They bill differently. CFO and infra architect both need the bill layout before go-live.</li><li><strong>The <code class="inline-code">fabric_capacity</code> field on a service-manifest is advisory</strong>, not enforced at deploy time. A practice admin has to verify capacity is sufficient before accepting a new tenant subscription.</li></ol>
@@ -1229,7 +2275,7 @@ node apex-core/tools/classify-bump.js \
 <hr class="section-rule">
 <h2 id="3-9-8-cross-references">8. Cross-references</h2>
 <ul><li>Fabric workspace setup: <a class="external" href="./01-fabric-layering.md">Companion 01</a></li><li>How agents actually call Gold views through MCP: <a class="external" href="./03-mcp-servers.md">Companion 03</a></li><li>What bumps trigger what gates: <a class="external" href="./04-agent-lifecycle.md">Companion 04</a></li><li>Purview label application: <a class="external" href="./05-observability-security.md">Companion 05</a></li><li>Fixture recording from real SORs: <a class="external" href="./06-testing-topology.md">Companion 06</a></li><li>Which SORs each service needs: <a class="external" href="./07-service-catalog.md">Companion 07</a></li></ul>
-<h2 id="3-9-chapter-8a-sor-integration-data-flow-atlas">Chapter 8A: SOR Integration &amp; Data Flow Atlas</h2>
+<h2 id="3-9-chapter-8a-sor-integration-data-flow-atlas">SOR Integration &amp; Data Flow Atlas</h2>
 <p>Every APEX service's quality is bounded by the quality of its upstream data. This chapter is the platform-level atlas of Systems of Record — what they are, how their data shape looks at the source, which Fabric integration pattern APEX uses for each, how the data lands in Bronze, how it canonicalises into Silver, how it materialises into Gold, and which agents ultimately consume it. It is the single most-referenced chapter for Practice-delivery teams during the first six weeks of any new engagement.</p>
 <p>The atlas is organised in four layers: the <strong>integration pattern taxonomy</strong> (§8A.1 – 8A.4) common to all SORs, the <strong>per-Practice SOR atlas</strong> (§8A.5 – 8A.11) covering each Practice's specific sources, <strong>cross-Practice SOR patterns</strong> (§8A.12) where one SOR class serves multiple Practices, and the <strong>agent read-path</strong> architecture (§8A.13 – 8A.15) that shows how integration decisions ripple forward into agent latency and quality.</p>
 <h3 id="3-9-8a1-fabric-integration-pattern-taxonomy">8A.1 Fabric Integration Pattern Taxonomy</h3>
@@ -2514,7 +3560,7 @@ labeler.label_table(
     <ul><li>Understand the five-ring defence-in-depth</li><li>Learn APEX's threat model and pentest scope</li><li>Map Practice-specific regulatory overlays to security controls</li></ul>
   </aside>
     <div class="chapter-body">
-      <h2 id="3-13-chapter-10a-security-architecture">Chapter 10A: Security Architecture</h2>
+      <h2 id="3-13-chapter-10a-security-architecture">Security Architecture Deep-Dive</h2>
 <p>APEX's security posture is a dedicated chapter because every service depends on it and because clients' security and compliance teams are among the hardest stakeholders to satisfy.</p>
 <h3 id="3-13-10a1-defence-in-depth">10A.1 Defence-in-Depth</h3>
 <p>Five concentric rings of defence:</p>
@@ -2864,7 +3910,7 @@ python tools/compensate-canary.py \
     <ul><li>Understand the eight GA RC services and their KPIs</li><li>Design the E2E product tracking service from first principles</li><li>Plan the three-wave rollout for a regional grocer</li></ul>
   </aside>
     <div class="chapter-body">
-      <h2 id="4-15-chapter-2-retail-consumer-rc-practice">Chapter 2: Retail &amp; Consumer (RC) Practice</h2>
+      <h2 id="4-15-chapter-2-retail-consumer-rc-practice">Retail &amp; Consumer (RC) Practice — Detail</h2>
 <h3 id="4-15-21-the-story">2.1 The Story</h3>
 <p>At 8:36 on a Tuesday morning, at a regional grocery chain, customers begin ringing up promotional pricing on a SKU that shouldn't be on promotion. The electronic shelf label gateway has been stale since 03:00; the ERP scheduled the regular price to take effect at 06:00; 127 tags never received the update. Four rings later — four customers, four price complaints just waiting to happen — the POS anomaly detector flags the pattern, the <code class="inline-code">APEX-RC-ESL-03</code> service activates, the pricing analyst gets a HITL card naming exactly which gateway is affected and which 127 SKUs to force-refresh, and the issue is contained before a fifth ring.</p>
 <p>Retail runs on hundreds of signals per store per minute. Without APEX, a handful of them reach a human in time to matter. With APEX, the ones that are consequential are triaged, staged, and presented; the rest are auto-resolved or logged for review.</p>
@@ -2959,7 +4005,7 @@ python tools/compensate-canary.py \
 <p><strong>Wave 3 — Optimisation</strong> (months 13–18) · $3–5M</p>
 <ul><li>National rollout</li><li>SHK-07 and RCL-05 (highest-consequence services) added</li><li>Pilot Level-5 autonomous on OSA-04 for low-$ thresholds</li></ul>
 <hr class="section-rule">
-<h2 id="4-15-chapter-2a-implementation-deep-dive-product-end-to-end-">Chapter 2A: Implementation Deep-Dive — Product End-to-End Tracking</h2>
+<h2 id="4-15-chapter-2a-implementation-deep-dive-product-end-to-end-">Implementation Deep-Dive — Product End-to-End Tracking</h2>
 <p>This chapter is the implementation reference for <code class="inline-code">APEX-RC-E2E-09 Product End-to-End Tracking</code>. It is intentionally deeper than the other service entries because E2E tracking is a cross-cutting capability that every other RC service leans on, and because clients frequently ask for detailed technical evidence before they commit to the Enterprise-tier commercial envelope.</p>
 <p>Developers implementing the service should read this chapter alongside Companion 02 (Medallion + SOR) and Companion 03 (MCP Servers) in the <em>APEX Developer Implementation Guide</em>.</p>
 <h3 id="4-15-2a1-the-business-problem">2A.1 The Business Problem</h3>
@@ -3110,7 +4156,7 @@ WHERE COALESCE(asn_ship_ts, received_ts, ring_ts) &gt; DATEADD(day, -730, SYSUTC
     <ul><li>Understand the six GA HLS services</li><li>Plan the Epic EHR integration critical path</li><li>Design HIPAA-compliant tokenisation patterns</li></ul>
   </aside>
     <div class="chapter-body">
-      <h2 id="4-16-chapter-3-healthcare-life-sciences-hls-practice">Chapter 3: Healthcare &amp; Life Sciences (HLS) Practice</h2>
+      <h2 id="4-16-chapter-3-healthcare-life-sciences-hls-practice">Healthcare &amp; Life Sciences (HLS) Practice — Detail</h2>
 <h3 id="4-16-31-the-story">3.1 The Story</h3>
 <p>At 14:32 on a Wednesday, at an urban academic medical centre, a customer-reported food-safety style pattern surfaces — but in healthcare it is different: a patient has been transferred to ICU with early-sepsis indicators that were visible in the vitals-and-labs stream six hours earlier. The labs that should have triggered an alert were buried in a queue reviewed once per shift.</p>
 <p>With <code class="inline-code">APEX-HLS-SEP-02</code> running, the pattern is triangulated across vitals, labs, and the encounter record four to six hours earlier than clinical recognition. A HITL card lands on the charge nurse's device with the suggested escalation — respect the nurse's judgement, but present the pattern. Early detection of sepsis at this margin saves lives and reduces length-of-stay by days.</p>
@@ -3208,7 +4254,7 @@ WHERE COALESCE(asn_ship_ts, received_ts, ring_ts) &gt; DATEADD(day, -730, SYSUTC
     <ul><li>Understand the five ER services and their SLO intensity</li><li>Map SCADA integration for sub-30-second grid anomaly SLOs</li><li>Plan the FERC regulatory evidence pipeline</li></ul>
   </aside>
     <div class="chapter-body">
-      <h2 id="4-17-chapter-4-energy-resources-er-practice">Chapter 4: Energy &amp; Resources (ER) Practice</h2>
+      <h2 id="4-17-chapter-4-energy-resources-er-practice">Energy &amp; Resources (ER) Practice — Detail</h2>
 <h3 id="4-17-41-the-story">4.1 The Story</h3>
 <p>At 03:47 on a Monday morning, a grid anomaly propagates across three substations in a utility's northern region. The signal appears in SCADA nine seconds after the event. Traditional practice would hand it to a grid-ops engineer for manual classification — a task that takes minutes under load. With <code class="inline-code">APEX-ER-GRD-02</code> running, the anomaly is classified in seconds as a line-to-ground fault with high load-shed probability, a recommended operator action (breaker sequence) is staged, and a HITL card lands on the lead dispatcher. Total time to decision: 38 seconds. Customer-minutes-interrupted reduced by two orders of magnitude relative to the manual path.</p>
 <h3 id="4-17-42-forces-driving-change">4.2 Forces Driving Change</h3>
@@ -3294,7 +4340,7 @@ WHERE COALESCE(asn_ship_ts, received_ts, ring_ts) &gt; DATEADD(day, -730, SYSUTC
     <ul><li>Understand AXLE Practice's relationship to the separate AXLE programme</li><li>Plan the Plex MES + SAP QM integration</li><li>Design Line-Down Triage with 60-second classification</li></ul>
   </aside>
     <div class="chapter-body">
-      <h2 id="4-18-chapter-5-industrial-manufacturing-axle-practice">Chapter 5: Industrial &amp; Manufacturing (AXLE) Practice</h2>
+      <h2 id="4-18-chapter-5-industrial-manufacturing-axle-practice">Industrial &amp; Manufacturing (AXLE) Practice — Detail</h2>
 <h3 id="4-18-51-the-story">5.1 The Story</h3>
 <p>At 09:14 on a Thursday, Line 6 at a tier-1 automotive stamping facility halts. The press is down. Every minute costs the plant between $3,000 and $8,000 depending on the model running. Traditionally the triage is manual: the plant supervisor calls the tool-and-die lead, they walk down, they look, they discuss, they call maintenance. Ten to twenty minutes before root-cause hypothesis. With <code class="inline-code">APEX-AXLE-LDT-01</code> running, the classification — mechanical vs. material vs. quality vs. operator — lands on the supervisor's device within 60 seconds of the halt, with specific recommendations and a HITL card.</p>
 <h3 id="4-18-52-the-relationship-to-the-axle-programme">5.2 The Relationship to the AXLE Programme</h3>
@@ -3326,11 +4372,96 @@ WHERE COALESCE(asn_ship_ts, received_ts, ring_ts) &gt; DATEADD(day, -730, SYSUTC
 <p>KPI impact: <code class="inline-code">oee_improvement_pct</code> maximise · <code class="inline-code">drift_detected_pct ≥ 90%</code> · <code class="inline-code">false_alarm_rate_pct ≤ 5%</code>. Artifacts: AXLECML.PRODUCTION_EVENT/KPI_SNAPSHOT/ASSET_HEALTH. Prereqs: Plex + SAP + historian + F16 + <code class="inline-code">plant-manager</code> group.</p>
 <h3 id="4-18-55-implementation-roadmap-axle-practice">5.5 Implementation Roadmap (AXLE Practice)</h3>
 <p>Typical Wave 1 · $4–6M · LDT-01 + KPI-05 at one plant Typical Wave 2 · $6–10M · Add QEX-02 + SCD-03 at plant-group level Typical Wave 3 · $4–6M · RCL-04 enterprise-wide; consider graduating into the full AXLE programme if the client commits to that trajectory.</p>
+
+<h3 id="4-18-56-axle-framework-schema-detail">5.6 AXLE Framework Schema Detail and Federated Coexistence</h3>
+
+<p>Architects designing for clients who span pure automotive manufacturing and broader industrial portfolios need to understand both the AXLE framework's 9-schema detail and APEX's AXLEML unified canonical. This section covers the schema-level detail from the AXLE framework and the federated coexistence pattern when both frameworks land together on one Fabric tenant.</p>
+
+<h4 id="4-18-561-the-9-axle-canonical-ml-schemas">5.6.1 The 9 AXLE Canonical ML Schemas</h4>
+
+<p>AXLE — the Automotive eXchange Layer for Enterprise — ships 9 canonical ML schemas, each a complete Lakehouse with Bronze / Silver / Gold layers. Key entities and the orchestrations they drive:</p>
+
+<table>
+  <thead><tr><th>Schema</th><th>Domain</th><th>Key Entities</th><th>Anchor Orchestration</th></tr></thead>
+  <tbody>
+    <tr><td><strong>AAML</strong></td><td>Assembly Analytics</td><td>CycleEvent, StationStatus, LineMetric, ShiftSummary</td><td>ORCH-01 Real-Time OEE Optimization; ORCH-03 Downtime Root-Cause</td></tr>
+    <tr><td><strong>QEML</strong></td><td>Quality Engineering</td><td>InspectionResult, DefectEvent, SPCReading, NCR</td><td>ORCH-04 Quality Escape Prevention</td></tr>
+    <tr><td><strong>PDML</strong></td><td>Predictive Maintenance</td><td>SensorReading, AssetHealth, RULPrediction, WorkOrder</td><td>ORCH-02 Predictive Maintenance Dispatch</td></tr>
+    <tr><td><strong>SCML</strong></td><td>Supply Chain Intelligence</td><td>PurchaseOrder, ShipmentTrack, InventoryPosition, SupplierScore</td><td>ORCH-06 Supply Chain Disruption Response</td></tr>
+    <tr><td><strong>WOSFML</strong></td><td>Workforce Operations / Shift</td><td>ShiftAssignment, SkillMatrix, ErgoExposureLog, TrainingRecord</td><td>ORCH-07 Workforce Rotation Optimization</td></tr>
+    <tr><td><strong>DTML</strong></td><td>Digital Twin &amp; Simulation</td><td>AssetModel, ProcessSimulation, ScenarioResult, DTDLExport</td><td>ORCH-08 Digital Twin Scenario Evaluation</td></tr>
+    <tr><td><strong>CVML</strong></td><td>Connected Vehicle</td><td>TelemetryEvent, DTCLog, OTADeployment, ServiceEvent</td><td>ORCH-10 Connected Vehicle Fleet Intelligence</td></tr>
+    <tr><td><strong>ESML</strong></td><td>ESG &amp; Sustainability</td><td>CarbonFootprint, EnergyConsumption, WasteStream, ComplianceLog</td><td>ORCH-09 Energy Consumption Optimization</td></tr>
+    <tr><td><strong>WLML</strong></td><td>Warranty Lifecycle</td><td>WarrantyClaim, PartGenealogy, FailureMode, CostAllocation</td><td>ORCH-05 Warranty-to-Plant Feedback Loop</td></tr>
+  </tbody>
+</table>
+
+<p>Each schema is Fabric-native — Delta tables in Bronze and Silver, Warehouse views in Gold, KQL functions where real-time is required. AXLE's 7 MCP servers expose approximately 60 tools that bridge the agentic layer (AXLE-ORCH master orchestrator) to these schemas. The reference architecture runs across 6 layers: Ingestion, Storage, Processing, Intelligence, Orchestration, Presentation.</p>
+
+<h4 id="4-18-562-axleml-sub-model-structure">5.6.2 AXLEML — APEX's Unified Canonical for the AXLE Practice</h4>
+
+<p>AXLEML is APEX's canonical semantic model for the AXLE Practice, which spans Automotive + Aerospace + Industrial Products + Discrete Manufacturing. AXLEML is structured as a unified canonical layer with eight domain-bounded sub-models:</p>
+
+<ul>
+  <li><strong>Product sub-model</strong> — item master, BOM, engineering change, PLM integration</li>
+  <li><strong>Manufacturing sub-model</strong> — work-order, operation, quality event, MES integration</li>
+  <li><strong>Aftermarket sub-model</strong> — service history, warranty claim, part genealogy</li>
+  <li><strong>Supply sub-model</strong> — supplier, component, tier-n, logistics</li>
+  <li><strong>Connected sub-model</strong> — in-service telemetry, OTA deployment, fleet signals</li>
+  <li><strong>Quality sub-model</strong> — inspection, non-conformance, SPC, 8D</li>
+  <li><strong>Workforce sub-model</strong> — skill matrix, shift, training, ergonomics</li>
+  <li><strong>Sustainability sub-model</strong> — scope 1–3 emissions, energy, compliance</li>
+</ul>
+
+<p>The sub-model structure is deliberate: cross-domain reasoning is a first-class use case. APEX's 47 cross-Practice orchestration patterns consume AXLEML alongside other Practice semantic models, reasoning (for example) from an aerospace warranty claim through an automotive supplier component to a discrete-manufacturing quality event — one canonical reasoning path, one audit-row attribution.</p>
+
+<h4 id="4-18-563-federated-coexistence-pattern">5.6.3 The Federated Coexistence Pattern</h4>
+
+<p>For diversified industrial clients that span automotive and adjacent sectors, AXLE and APEX AXLEML coexist on one Fabric tenant. The architectural pattern:</p>
+
+<ul>
+  <li><strong>AXLE's 9 schemas land in their dedicated Lakehouses.</strong> AXLE continues to own the deep automotive-manufacturing specialisation. AAML, QEML, PDML etc. produce Gold views optimised for AXLE orchestrations and automotive-specific MCP tools.</li>
+  <li><strong>AXLEML federates AXLE schemas via OneLake shortcuts.</strong> AXLEML sub-models (Manufacturing, Quality, Supply, etc.) reference AXLE's Silver and Gold tables through shortcuts — no duplication, no ETL. AXLEML adds aerospace, industrial-products, and discrete-manufacturing coverage that AXLE alone does not provide.</li>
+  <li><strong>Purview governs both sets uniformly.</strong> Classification rules, lineage registration, and DLP policies apply across AXLE-resident and AXLEML-resident data through one Purview deployment.</li>
+  <li><strong>Entra identity spans both.</strong> AXLE agents authenticate as Entra managed identities; APEX agents authenticate as Entra managed identities; the same RBAC and conditional-access policies govern both.</li>
+  <li><strong>Foundry hosts both agent fleets.</strong> AXLE-ORCH master orchestrator coordinates AXLE's 10 orchestrations; APEX orchestrations run alongside using the 47 cross-Practice patterns. No overlap enforced at deploy-time; engagement design resolves ownership.</li>
+  <li><strong>One Microsoft platform contract.</strong> Client contracts Microsoft once for the combined Fabric capacity, Foundry consumption, Purview entitlements, and Entra licensing. Deloitte's services contracts remain separate but can be coordinated across AXLE and APEX Practice engagements.</li>
+</ul>
+
+<aside class="callout note"><div class="callout-label">Note — Naming collision</div><p>AXLE's SCML (Supply Chain ML) and APEX RC's SCML (Supply-Chain Merchandising Language in retail semantics) share the acronym but are distinct schemas. Architects working cross-Practice should prefix with the framework (<code class="inline-code">AXLE.SCML</code> vs <code class="inline-code">APEX.RC.SCML</code>) in design artefacts to avoid confusion.</p></aside>
+
+<h4 id="4-18-564-when-to-deploy-which">5.6.4 When to Deploy Which — Architect Decision Matrix</h4>
+
+<table>
+  <thead><tr><th>Client Profile</th><th>Deploy</th><th>Rationale</th></tr></thead>
+  <tbody>
+    <tr><td>Pure-play automotive OEM or tier-1</td><td>AXLE framework standalone</td><td>Vertical depth; 9-schema coverage directly matches client scope; Wave-1 4-month reference plant pattern fits</td></tr>
+    <tr><td>Pure-play aerospace or pure-play industrial-products</td><td>APEX AXLE Practice (AXLEML) standalone</td><td>AXLE is automotive-specific; AXLEML's aerospace / industrial coverage is what the client needs</td></tr>
+    <tr><td>Diversified industrial with heavy automotive</td><td>Federated: AXLE + APEX AXLEML</td><td>AXLE for auto-plant depth; APEX AXLEML for cross-sector coverage and cross-Practice reasoning</td></tr>
+    <tr><td>Diversified industrial with minor automotive</td><td>APEX AXLE Practice (AXLEML) standalone</td><td>AXLE framework overhead not justified; AXLEML's Manufacturing and Quality sub-models adequate for the smaller automotive footprint</td></tr>
+    <tr><td>Discrete-manufacturing white-goods / electronics</td><td>APEX AXLE Practice (AXLEML)</td><td>AXLE framework is automotive-specific; AXLEML covers discrete mfg in the Practice scope</td></tr>
+    <tr><td>Multi-Practice diversified (AXLE + RC + TMT + ...)</td><td>APEX-led; AXLE federated if heavy automotive</td><td>APEX frames the total engagement; AXLE contributes where automotive depth matters</td></tr>
+  </tbody>
+</table>
+
+<h4 id="4-18-565-shared-platform-disciplines">5.6.5 Shared Platform Disciplines</h4>
+
+<p>Architects working with both frameworks should note disciplines that apply to both:</p>
+
+<ul>
+  <li><strong>Medallion layering.</strong> Both use Bronze / Silver / Gold with Fabric-native Delta storage. Silver is canonical; Gold is cross-schema (AXLE) or cross-sub-model (AXLEML).</li>
+  <li><strong>MCP as the tool interface.</strong> AXLE uses 7 MCP servers with ~60 tools; APEX uses 165+ MCP tools across Practices. Both follow the open MCP standard.</li>
+  <li><strong>HITL gates governed in manifests.</strong> AXLE-ORCH runs HITL approval gates at orchestration boundaries; APEX manifest-driven gates operate equivalently. Shared discipline; different manifest formats.</li>
+  <li><strong>Audit-row attribution.</strong> Every orchestration and every APEX service writes an audit row with input, reasoning, model version, HITL status, and downstream effect. Both frameworks produce regulator-defensible attribution.</li>
+  <li><strong>Purview classification taxonomy.</strong> PII, PHI (where HLS-adjacent), PCI-adjacent (payment data in aftermarket finance), export-controlled (defence aerospace), SOX-controlled, trade-secret engineering IP — classified identically across both frameworks.</li>
+  <li><strong>Independence compliance.</strong> Same DMTSP discipline: no ECIF, DCIF / direct / ISV-Marketplace / SI-teaming funding paths, language rules, audit-client pre-clearance.</li>
+</ul>
+
 <hr class="section-rule">
     </div>
     <section class="chapter-summary" id="ch18-summary">
     <h2>Summary</h2>
-    <ul><li>Five AXLE Practice services: Line-Down, Quality, Supply-Chain, Recall, KPI Drift</li><li>APEX AXLE Practice is complementary to the standalone AXLE programme</li><li>Clients typically graduate from APEX-AXLE to the full programme if deep automotive transformation</li></ul>
+    <ul><li>Five AXLE Practice services: Line-Down, Quality, Supply-Chain, Recall, KPI Drift</li><li>APEX AXLE Practice is complementary to the standalone AXLE programme</li><li>AXLE ships 9 canonical ML schemas (AAML, QEML, PDML, SCML, WOSFML, DTML, CVML, ESML, WLML); APEX AXLEML provides a unified canonical with eight domain-bounded sub-models</li><li>Federated coexistence pattern lands both on one Fabric tenant for diversified industrial clients</li><li>Clients typically graduate from APEX-AXLE to the full programme if deep automotive transformation</li></ul>
   </section>
     <section class="chapter-exercises" id="ch18-exercises">
     <h2>Exercises</h2>
@@ -3349,7 +4480,7 @@ WHERE COALESCE(asn_ship_ts, received_ts, ring_ts) &gt; DATEADD(day, -730, SYSUTC
     <ul><li>Understand the seven TMT services (preview)</li><li>Plan network-incident-response integration</li><li>Consider Level 5 autonomy candidates for ad-fraud and cloud-cost anomalies</li></ul>
   </aside>
     <div class="chapter-body">
-      <h2 id="4-19-chapter-6-technology-media-telecom-tmt-practice">Chapter 6: Technology, Media &amp; Telecom (TMT) Practice</h2>
+      <h2 id="4-19-chapter-6-technology-media-telecom-tmt-practice">Technology, Media &amp; Telecom (TMT) Practice — Detail</h2>
 <h3 id="4-19-61-the-story">6.1 The Story</h3>
 <p>At 02:17 on a Saturday morning, a telco network operations centre lights up. A regional 5G core experiences elevated packet loss; customer-facing symptoms are beginning to manifest as dropped calls and slow data sessions. Traditional NOC workflows spend the first thirty minutes classifying the incident: is it RAN, core, transport, backhaul, or a cloud provider problem? Each answer has a different on-call page, and the wrong first page wastes critical minutes.</p>
 <p>With <code class="inline-code">APEX-TMT-NET-01 Network Incident Response</code> running, the first classification lands in ninety seconds. <code class="inline-code">TMT-A01 Incident Classifier</code> fuses streams from the NMS, alarm correlator, and customer-impact signal. <code class="inline-code">TMT-A02 Remediation Recommender</code> proposes the specific action — a specific element-manager reset, a BGP re-announce, a cloud-provider ticket. The HITL card lands on the on-call NOC engineer with pre-assembled context: engineering already halfway done. Mean-time-to-recovery on classifiable incidents drops 40-60% in pilot.</p>
@@ -3419,7 +4550,7 @@ WHERE COALESCE(asn_ship_ts, received_ts, ring_ts) &gt; DATEADD(day, -730, SYSUTC
     <ul><li>Understand the seven TH services and disruption recovery</li><li>Design the Traveler, Profile &amp; Preferences three-tier privacy architecture</li><li>Wire consent across data classes and purposes</li></ul>
   </aside>
     <div class="chapter-body">
-      <h2 id="4-20-chapter-7-travel-hospitality-th-practice">Chapter 7: Travel &amp; Hospitality (TH) Practice</h2>
+      <h2 id="4-20-chapter-7-travel-hospitality-th-practice">Travel &amp; Hospitality (TH) Practice — Detail</h2>
 <h3 id="4-20-71-the-story">7.1 The Story</h3>
 <p>At 14:22 on a Friday afternoon before a long weekend, a flight from a major US hub cancels. 187 passengers are stranded. The legacy disruption-recovery process — rebooking, hotel vouchers, transportation coordination, loyalty-customer prioritisation — runs sequentially through four different teams and takes hours. Meanwhile, Twitter is lighting up and the customer satisfaction hit to the airline is real.</p>
 <p>With <code class="inline-code">APEX-TH-DRO-02 Disruption Recovery Orchestration</code> running, the four workstreams run in parallel. <code class="inline-code">TH-A01 Disruption Scope Assessor</code> produces the affected-passenger list with their tier, connecting flights, baggage status, and downline commitments. <code class="inline-code">TH-A02 Rebooking Optimiser</code> proposes rebook itineraries prioritised by tier and connection feasibility. <code class="inline-code">TH-A03 Recovery Comms Agent</code> drafts personalised outbound communications. <code class="inline-code">TH-A04 Hotel & Ground Coordinator</code> pre-books inventory at nearby partner hotels. All four streams produce HITL-ready packages for the Operations Control Center within twelve minutes. The recovery ships at a quality the legacy sequence simply cannot match.</p>
@@ -3466,7 +4597,7 @@ WHERE COALESCE(asn_ship_ts, received_ts, ring_ts) &gt; DATEADD(day, -730, SYSUTC
 <h3 id="4-20-77-implementation-roadmap-th">7.7 Implementation Roadmap (TH)</h3>
 <p>Typical TH engagements start with HER-06 (low-stakes, quick win) + LGR-03 or OBI-01 (higher value) in Wave 1; DRO-02 and GIT-05 added in Wave 2 after trust is established; RMA-04 in Wave 3.</p>
 <hr class="section-rule">
-<h2 id="4-20-chapter-7a-implementation-deep-dive-traveler-profile-pr">Chapter 7A: Implementation Deep-Dive — Traveler, Profile &amp; Preferences Tracking</h2>
+<h2 id="4-20-chapter-7a-implementation-deep-dive-traveler-profile-pr">Implementation Deep-Dive — Traveler, Profile &amp; Preferences Tracking</h2>
 <p>Parallel to Chapter 2A (RC Product E2E Tracking), this chapter is the implementation reference for <code class="inline-code">APEX-TH-TTP-07 Traveler, Profile & Preferences Tracking</code>. Where the RC deep-dive can treat the subject (a product lot) as effectively non-sensitive, this chapter's subject is a <em>person</em>. Privacy, consent, and anonymity define the architecture rather than decorate it.</p>
 <p>Developers implementing the service should read this chapter alongside <strong>Companion 02</strong> (Medallion + SOR) and <strong>Companion 05</strong> (Observability &amp; Security) in the <em>APEX Developer Implementation Guide</em>, because the PII handling discipline here is the strictest in the APEX platform.</p>
 <h3 id="4-20-7a1-the-business-problem">7A.1 The Business Problem</h3>
@@ -3657,7 +4788,7 @@ WHERE   booked_ts &gt; DATEADD(day, -1095, SYSUTCDATETIME());    -- 3-year rolli
     <ul><li>Understand the six ICE services</li><li>Plan field-asset-failure coordination across dealer networks</li><li>Design as-a-service utilisation optimisation</li></ul>
   </aside>
     <div class="chapter-body">
-      <h2 id="4-21-chapter-8-industrial-commercial-equipment-ice-practice">Chapter 8: Industrial &amp; Commercial Equipment (ICE) Practice</h2>
+      <h2 id="4-21-chapter-8-industrial-commercial-equipment-ice-practice">Industrial &amp; Commercial Equipment (ICE) Practice — Detail</h2>
 <h3 id="4-21-81-the-story">8.1 The Story</h3>
 <p>At 09:03 on a Tuesday, an agricultural OEM's telematics feed shows an engine failure on a harvesting combine in the field at a customer farm. Harvest is time-critical; every hour of downtime during the window costs the farmer tens of thousands in yield risk. The dealer is 120 miles away; the nearest certified technician is at a neighbouring dealer 45 miles the other direction. The right part may or may not be on the technician's truck.</p>
 <p><code class="inline-code">APEX-ICE-FAF-01 Field Asset Failure Response</code> runs the end-to-end coordination. <code class="inline-code">ICE-A01 Fault Classifier</code> identifies the engine-fault code and its typical root causes. <code class="inline-code">ICE-A02 Parts Availability Matcher</code> queries the parts inventory of every dealer within a 200-mile radius. <code class="inline-code">ICE-A03 Technician Dispatch Recommender</code> pairs the fault with the closest certified technician who has (or can carry) the right part. The HITL card goes to the Service Dispatcher at the OEM with a complete plan: technician, parts, route, ETA, customer communication draft. Dispatch time drops from hours to minutes; first-time-fix rate improves materially.</p>
@@ -3728,7 +4859,7 @@ WHERE   booked_ts &gt; DATEADD(day, -1095, SYSUTCDATETIME());    -- 3-year rolli
     <ul><li>Plan Wave 1 month-by-month with exit criteria</li><li>Know when to move from Wave 1 to Wave 2</li><li>Run the seven standard operational runbooks</li></ul>
   </aside>
     <div class="chapter-body">
-      <h2 id="5-22-chapter-12-the-three-wave-deployment">Chapter 12: The Three-Wave Deployment</h2>
+      <h2 id="5-22-chapter-12-the-three-wave-deployment">The Three-Wave Deployment Model</h2>
 <p>The APEX delivery pattern is three waves of roughly six months each. Each wave has crisp exit criteria tied to measurable outcomes, not tooling milestones.</p>
 <h3 id="5-22-wave-1-foundation-months-16">Wave 1 — Foundation (months 1–6)</h3>
 <p><strong>Investment envelope:</strong> $3–8M per Practice, typically $4–6M for the first Practice.</p>
@@ -3769,7 +4900,7 @@ WHERE   booked_ts &gt; DATEADD(day, -1095, SYSUTCDATETIME());    -- 3-year rolli
 <ol><li>Enterprise-scale KPI trends on-target across the first Practice</li><li>Second Practice subscribed (if client path includes multi-Practice)</li><li>Autonomous pilot cleared by audit review and either in production or formally deferred</li><li>Steady-state handover signed off by client run function</li><li>Multi-year roadmap drafted and approved</li></ol>
 <h4 id="5-22-wave-3-risks-and-mitigations">Wave 3 Risks and Mitigations</h4>
 <ul><li><strong>Rollout fatigue in laggard regions</strong> — early regions succeed; later regions feel pressured or behind. Mitigation: rollout cadence is region-paced, not calendar-paced; laggards get tailored support.</li><li><strong>Autonomy pilot over-reach</strong> — the temptation to move too fast on Level-5. Mitigation: autonomy-review process requires explicit audit sign-off; no silent gate changes.</li></ul>
-<h2 id="5-22-chapter-12a-wave-1-operational-runbook">Chapter 12A: Wave 1 Operational Runbook</h2>
+<h2 id="5-22-chapter-12a-wave-1-operational-runbook">Wave 1 Operational Runbook</h2>
 <p>Every Wave 1 ships with an operational runbook that captures the specific decisions, checks, and escalations that keep the programme on track. The runbook is a living document; it evolves as the programme learns.</p>
 <h3 id="5-22-12a1-daily-operations-first-30-days-post-go-live">12A.1 Daily Operations (First 30 Days Post Go-Live)</h3>
 <p><strong>06:00 daily</strong> — automated smoke test runs against the pilot tenant's first service. A synthetic event is seeded; the expected orchestration fires; the expected HITL card lands (at a test-recipient, not a live one). Any failure pages the on-call SRE.</p>
@@ -3809,14 +4940,14 @@ WHERE   booked_ts &gt; DATEADD(day, -1095, SYSUTCDATETIME());    -- 3-year rolli
     <ul><li>Onboard a new tenant in 4–6 weeks</li><li>Estimate the cost of adding each additional service</li><li>Understand the client's service-catalog growth curve</li></ul>
   </aside>
     <div class="chapter-body">
-      <h2 id="5-23-chapter-13-onboarding-a-new-tenant">Chapter 13: Onboarding a New Tenant</h2>
+      <h2 id="5-23-chapter-13-onboarding-a-new-tenant">Onboarding a New Tenant</h2>
 <p>The onboarding of a new tenant is a defined sequence with known durations. A typical tenant onboarding runs 4–6 weeks end-to-end.</p>
 <p><strong>Week 1 — Provision.</strong> Create the three tenant workspaces (dev/test/prod). Apply identity groups. Shortcut the Practice workspace's reference tables. Deploy the tenant manifest.</p>
 <p><strong>Week 2 — Connect.</strong> Stand up SOR connectors (Eventstream / Mirrored DB / Data Pipeline / Dataflow Gen2 depending on SOR). Land Bronze data. Verify row counts and latency.</p>
 <p><strong>Weeks 3–4 — Canonicalise.</strong> Run Silver transforms; apply PII tokenisation; verify canonical envelope compliance. Deploy Gold feature views. Agents can now read.</p>
 <p><strong>Week 5 — Shadow.</strong> Run the subscribed services in shadow mode (decisions generated, logged, but not acted). Calibrate against the client's prior human decisions. Tune thresholds.</p>
 <p><strong>Week 6 — Go live.</strong> First live HITL decisions. Monitor hourly for three days, daily for three weeks. Hand over to steady-state operations.</p>
-<h2 id="5-23-chapter-14-scaling-the-service-portfolio">Chapter 14: Scaling the Service Portfolio</h2>
+<h2 id="5-23-chapter-14-scaling-the-service-portfolio">Scaling the Service Portfolio</h2>
 <p>Once Wave 1 is live, adding services to an existing tenant follows a much shorter cadence — typically 2–4 weeks per service, because the workspace topology, identity, and monitoring are reusable.</p>
 <p>The cost envelope for adding a service to a running tenant is <strong>$200K–$600K</strong> depending on SOR connections required. This is the math that makes the catalogue's growth pattern realistic: clients don't add services one a year; they add them two or three a quarter once the platform is live.</p>
 <h3 id="5-23-111-the-service-catalog-growth-curve">11.1 The Service Catalog Growth Curve</h3>
@@ -3844,13 +4975,13 @@ WHERE   booked_ts &gt; DATEADD(day, -1095, SYSUTCDATETIME());    -- 3-year rolli
     <ul><li>Staff a Wave 1 delivery team with correct role ratios</li><li>Stand up the three-body governance structure</li><li>Run effective Decision Audit Reviews</li></ul>
   </aside>
     <div class="chapter-body">
-      <h2 id="5-24-chapter-15-resource-model">Chapter 15: Resource Model</h2>
+      <h2 id="5-24-chapter-15-resource-model">Resource Model</h2>
 <p>The APEX delivery model balances three skill types: data engineering, agent/orchestration engineering, and change management. A typical Wave 1 team looks like this:</p>
 <div class="table-wrap"><table class="md-table"><thead><tr><th>Role</th><th>Count</th><th>Allocation</th></tr></thead><tbody><tr><td>Delivery principal</td><td>1</td><td>50% — executive steward, client-facing</td></tr><tr><td>Platform architect</td><td>1</td><td>100% — Fabric + Azure AI + MCP design</td></tr><tr><td>Data engineer</td><td>2–3</td><td>100% — Medallion transforms, SOR integration</td></tr><tr><td>Agent engineer</td><td>2</td><td>100% — agent prompts, orchestrations, gates</td></tr><tr><td>SRE</td><td>1</td><td>50% — observability, release discipline</td></tr><tr><td>Change-management lead</td><td>1</td><td>50% — persona training, comms</td></tr><tr><td>Client-side programme sponsor</td><td>1</td><td>25% — authority, escalation</td></tr><tr><td>Client-side technical lead</td><td>1</td><td>75% — IT continuity, identity, infra</td></tr></tbody></table></div>
 <p>Total Deloitte-side headcount for a first-Practice Wave 1: roughly <strong>5.5 FTE</strong>. This scales sub-linearly with Wave 2 because the patterns are repeatable; Wave 2 typically runs with 4–5 FTE while shipping more services.</p>
 <h3 id="5-24-121-why-agent-engineering-is-a-named-role">12.1 Why Agent Engineering Is a Named Role</h3>
 <p>"Agent engineer" is not a rebrand of "data scientist" or "prompt engineer." It is the specialist who understands the full agent lifecycle: writing the system prompt's contract preamble, defining the tool allow-list, selecting the model tier (cost vs. quality), authoring the DAG, wiring the HITL gate, and running the fixture-replay discipline on every change. This role did not exist four years ago. Building a pipeline of agent engineers is part of the programme's own success — a mature APEX practice graduates a couple of them each quarter from the client's own staff.</p>
-<h2 id="5-24-chapter-16-governance-model">Chapter 16: Governance Model</h2>
+<h2 id="5-24-chapter-16-governance-model">Governance Model</h2>
 <p>Every APEX programme stands up a three-layer governance structure on day one.</p>
 <p><strong>Steering committee</strong> — meets monthly. Quorum: programme sponsor, CIO or delegate, practice lead, Deloitte delivery principal. Agenda: KPI review, service roadmap, investment checkpoints, risk &amp; escalation.</p>
 <p><strong>Architecture review board (ARB)</strong> — meets weekly in Wave 1, biweekly thereafter. Quorum: platform architect, data engineering lead, agent engineering lead, SRE, security representative. Agenda: manifest changes above MINOR, new service proposals, cross-practice integration decisions, Core edition pins.</p>
@@ -3862,7 +4993,7 @@ WHERE   booked_ts &gt; DATEADD(day, -1095, SYSUTCDATETIME());    -- 3-year rolli
 <h3 id="5-24-132-dar-discipline-and-gate-tuning">13.2 DAR Discipline and Gate-Tuning</h3>
 <p>Decision audit review is how the programme earns the right to tune gates down. A typical trajectory: service ships at HITL, runs four weeks, DAR reviews the decision log, sees 97% unanimous approval with low-variance rationale, proposes tuning to ACK_ONLY for decisions below a specific dollar threshold. Steering approves, ARB ratifies, the gate change ships with a 72-hour canary.</p>
 <p>This discipline is how APEX avoids both perpetual-HITL-fatigue (everything stays HITL forever, approval queues back up, organisation pushes back) and dangerous over-automation (too-early gate-tuning on services where decision quality isn't proven).</p>
-<h2 id="5-24-chapter-17b-entity-priority-build-sequencing">Chapter 17B: Entity Priority &amp; Build Sequencing</h2>
+<h2 id="5-24-chapter-17b-entity-priority-build-sequencing">Entity Priority &amp; Build Sequencing</h2>
 <p>APEX's schema catalogue has <strong>112 canonical entities</strong> across six GA schema families (SCML, MERML, CXML, HLSCML, ERCML, AXLECML) and three preview families (TMTML, THML, ICEML). Delivery teams who try to land all of them in Wave 1 fail. Delivery teams who land the right 4–8 entities per Practice in Wave 1 succeed. This chapter is the deep-dive on which entities to land first, and why.</p>
 <p>The priority guidance here is the single most-consulted operational chapter of the APEX reference after a kickoff workshop. It is also the chapter most-revised between Core editions because the priority calculus evolves as Practices mature and as service demand shifts.</p>
 <h3 id="5-24-17b1-why-entity-priority-matters">17B.1 Why Entity Priority Matters</h3>
@@ -3994,7 +5125,7 @@ WHERE   booked_ts &gt; DATEADD(day, -1095, SYSUTCDATETIME());    -- 3-year rolli
     <ul><li>Deliver persona-appropriate training curricula</li><li>Run the communication-milestones cadence</li><li>Handle predictable resistance patterns</li></ul>
   </aside>
     <div class="chapter-body">
-      <h2 id="5-25-chapter-17-change-management">Chapter 17: Change Management</h2>
+      <h2 id="5-25-chapter-17-change-management">Change Management Framework</h2>
 <p>Every APEX programme is as much a change management programme as a technology programme. A service that works technically but that the persona doesn't trust is a failed service.</p>
 <h3 id="5-25-141-training-curriculum">14.1 Training Curriculum</h3>
 <p><strong>For the frontline persona</strong> (Store MOD, Charge Nurse, Plant Supervisor, Grid Engineer, etc.): three 45-minute live sessions plus office hours during Wave 1.</p>
@@ -4036,7 +5167,7 @@ WHERE   booked_ts &gt; DATEADD(day, -1095, SYSUTCDATETIME());    -- 3-year rolli
     <ul><li>Understand Essentials/Pro/Enterprise tier boundaries</li><li>Read the SLA-credit schedule</li><li>Position value-based upside for select services</li></ul>
   </aside>
     <div class="chapter-body">
-      <h2 id="5-26-chapter-17a-commercial-model">Chapter 17A: Commercial Model</h2>
+      <h2 id="5-26-chapter-17a-commercial-model">Commercial Model</h2>
 <p>APEX's commercial structure is designed to align vendor and client incentives: the vendor only succeeds when the client's KPIs move.</p>
 <h3 id="5-26-17a1-subscription-structure">17A.1 Subscription Structure</h3>
 <p>Each service is priced on a two-part model:</p>
@@ -4087,9 +5218,9 @@ WHERE   booked_ts &gt; DATEADD(day, -1095, SYSUTCDATETIME());    -- 3-year rolli
     <ul><li>Distinguish Tier 1 Predictive/Causal, Tier 2 Self-Healing, Tier 3 Agentic Contact, Tier 4 Autonomous</li><li>Recognise per-Practice tier trajectories</li><li>Understand why autonomy is earned, not designed</li></ul>
   </aside>
     <div class="chapter-body">
-      <h2 id="6-27-chapter-19-the-four-tier-innovation-model">Chapter 19: The Four-Tier Innovation Model</h2>
+      <h2 id="6-27-chapter-19-the-four-tier-innovation-model">The Four-Tier Innovation Model</h2>
 <p>APEX's forward-looking solution catalog organises post-Wave-3 capabilities into four tiers of increasing sophistication. Tiers are not linear; a client can adopt Tier 3 solutions while still operating at Tier 1 or Tier 2 on other services. The tier denotes the <strong>pattern</strong>, not the maturity of a specific deployment.</p>
-<h2 id="6-27-chapter-20-tier-1-predictive-causal-intelligence">Chapter 20: Tier 1 — Predictive &amp; Causal Intelligence</h2>
+<h2 id="6-27-chapter-20-tier-1-predictive-causal-intelligence">Tier 1 — Predictive &amp; Causal Intelligence</h2>
 <p>Tier 1 adds predictive and causal-inference capabilities to services that currently operate on reactive signals.</p>
 <h3 id="6-27-171-causal-ai-for-decisions">17.1 Causal AI for Decisions</h3>
 <p>Reactive service: "An excursion has occurred; recommend the disposition." Predictive/causal service: "These conditions tend to precede excursions; here is a preventive action with predicted impact."</p>
@@ -4103,7 +5234,7 @@ WHERE   booked_ts &gt; DATEADD(day, -1095, SYSUTCDATETIME());    -- 3-year rolli
 <h3 id="6-27-174-demand-sensing-services">17.4 Demand-Sensing Services</h3>
 <p>Agents that sense and respond to demand shifts at the Practice-appropriate granularity:</p>
 <ul><li><strong>RC:</strong> store-SKU-day demand forecasting with promo and weather signals</li><li><strong>HLS:</strong> bed capacity forecasting and inter-facility patient-flow</li><li><strong>ER:</strong> load-shape forecasting and renewable-integration modelling</li><li><strong>AXLE:</strong> schedule-adherence forecasting and supplier-lead-time prediction</li><li><strong>TMT:</strong> subscription-demand forecasting and capacity-plan anticipation</li><li><strong>TH:</strong> booking-curve forecasting with event-and-weather overlays</li><li><strong>ICE:</strong> field-service demand and parts-consumption forecasting</li></ul>
-<h2 id="6-27-chapter-21-tier-2-self-healing-operations">Chapter 21: Tier 2 — Self-Healing Operations</h2>
+<h2 id="6-27-chapter-21-tier-2-self-healing-operations">Tier 2 — Self-Healing Operations</h2>
 <p>Tier 2 services close the loop — they detect, decide, and act with reduced or zero HITL, producing measurable improvement on their own metrics over time.</p>
 <h3 id="6-27-181-self-healing-services-portfolio">18.1 Self-Healing Services Portfolio</h3>
 <p><strong>Self-Healing Cold Chain (RC).</strong> Beyond excursion response, the service manages reefer health continuously: when a unit's telemetry drifts, predictive maintenance ticket is raised; when maintenance is done, the healing confirmation closes the loop. The store never has an excursion because the compressor never failed.</p>
@@ -4125,7 +5256,7 @@ WHERE   booked_ts &gt; DATEADD(day, -1095, SYSUTCDATETIME());    -- 3-year rolli
 <p>Self-healing services require additional discipline:</p>
 <ul><li><strong>Outcome attribution</strong> — the service must be able to attribute improvement to its own action, not just to time passing</li><li><strong>Dampening</strong> — the service must avoid over-correcting on noise</li><li><strong>Drift detection</strong> — the service must notice when its own model of effectiveness is wrong</li></ul>
 <p>APEX's audit-row architecture makes attribution possible because every action is tied to a specific agent decision with a measurable downstream effect. Self-healing is not just a technical concept — it is an audit-backed one.</p>
-<h2 id="6-27-chapter-22-tier-3-agentic-contact-service-to-service">Chapter 22: Tier 3 — Agentic Contact &amp; Service-to-Service</h2>
+<h2 id="6-27-chapter-22-tier-3-agentic-contact-service-to-service">Tier 3 — Agentic Contact &amp; Service-to-Service</h2>
 <p>Tier 3 extends APEX's decision surface to <strong>customer-facing</strong> and <strong>agent-to-agent</strong> interaction patterns.</p>
 <h3 id="6-27-191-agentic-contact-center">19.1 Agentic Contact Center</h3>
 <p>Voice, chat, and text interactions handled by agents with escalation to human when confidence drops below threshold. APEX's contribution is the <strong>contract backing</strong> — the contact-center agent queries APEX services to give customer-specific, up-to-the-second answers rather than generic knowledge-base responses.</p>
@@ -4140,7 +5271,7 @@ WHERE   booked_ts &gt; DATEADD(day, -1095, SYSUTCDATETIME());    -- 3-year rolli
 <p>The most novel Tier 3 pattern is <strong>cross-practice A2A</strong>: agents in one Practice calling services in another.</p>
 <ul><li>HLS Supply Expiry (SUP-04) querying AXLE Recall Traceability (RCL-04) for cross-industry lot overlaps</li><li>RC Recall Response (RCL-05) querying TMT ad-fraud for cross-industry fraud-pattern correlation</li><li>ER Regulatory Response (REG-05) querying TH Disruption Recovery for cross-industry incident coordination during major weather events</li></ul>
 <p>These cross-practice flows are Tier 3's commercial differentiator. A client with multiple Practices subscribed gets capabilities that no single-Practice vendor can match.</p>
-<h2 id="6-27-chapter-23-tier-4-autonomous-operations-north-star">Chapter 23: Tier 4 — Autonomous Operations (North Star)</h2>
+<h2 id="6-27-chapter-23-tier-4-autonomous-operations-north-star">Tier 4 — Autonomous Operations (North Star)</h2>
 <p>Tier 4 is the aspirational end-state: bounded autonomy with continuous audit. No APEX deployment reaches Tier 4 in full; selected services reach it for selected decision classes.</p>
 <h3 id="6-27-201-bounded-autonomy">20.1 Bounded Autonomy</h3>
 <p>Level 5 on selected services — services where the cost-benefit of a gate has been measurably negative (false-positive rate low, human-approval rate near-unanimous, per-decision consequence low) and where removing the gate produces measurable latency and capacity benefit.</p>
@@ -4176,7 +5307,7 @@ WHERE   booked_ts &gt; DATEADD(day, -1095, SYSUTCDATETIME());    -- 3-year rolli
     <ul><li>Identify specific flagship solutions across the four tiers</li><li>Read investment envelopes and payback horizons</li><li>Compose a multi-year flagship roadmap for a client</li></ul>
   </aside>
     <div class="chapter-body">
-      <h2 id="6-28-chapter-19a-flagship-named-solutions-portfolio">Chapter 19A: Flagship Named Solutions Portfolio</h2>
+      <h2 id="6-28-chapter-19a-flagship-named-solutions-portfolio">Flagship Named Solutions Portfolio</h2>
 <p>This chapter is APEX's forward-looking solutions catalogue: named flagship solutions across all four tiers, each with a scope, target Practices, investment envelope, expected payback horizon, and dependency prerequisites. These are the "what does Year 2 look like?" conversations with an executive sponsor once the Wave-1 reactive services are proving out.</p>
 <p>The investment envelopes below are <strong>programme-level</strong> — they cover multi-quarter builds, typically 9–18 months from greenfield to flagship-ready. They assume a mature APEX platform underneath (Wave 1–3 of the affected Practices already live); they do not include the underlying Wave 1–3 costs which are covered in Chapter 12.</p>
 <p>Dollar ranges reflect the engagement variability seen in reference work: low end is single-site / single-tenant / mid-market; high end is enterprise-scale / multi-region / multi-tenant deployments. Every envelope assumes the prerequisites listed are met.</p>
@@ -4298,7 +5429,7 @@ WHERE   booked_ts &gt; DATEADD(day, -1095, SYSUTCDATETIME());    -- 3-year rolli
     <ul><li>Learn the seven non-skippable chain rules</li><li>Identify tempting-but-false shortcuts</li><li>Structure a five-year executive roadmap conversation</li></ul>
   </aside>
     <div class="chapter-body">
-      <h2 id="6-29-chapter-23a-the-innovation-dependency-chain">Chapter 23A: The Innovation Dependency Chain</h2>
+      <h2 id="6-29-chapter-23a-the-innovation-dependency-chain">The Innovation Dependency Chain</h2>
 <p>Tiers are not a pick-list. They are a dependency chain. Shipping a Tier-3 flagship requires the Tier-2 foundations under it; shipping Tier 2 requires mature Tier 1; Tier 1 requires the Wave-1-through-Wave-3 reactive services producing clean, audit-rich decision data. This chapter makes the dependency chain explicit so that investment conversations don't jump the chain.</p>
 <p>The chain exists because each tier's confidence signal is earned from the prior tier's track record. Self-healing is only trustworthy when the underlying predictive model has been proven. Cross-service orchestration is only trustworthy when the individual services have been proven. Autonomy is only trustworthy when its supervised equivalent has been proven.</p>
 <h3 id="6-29-23a1-the-chain-in-one-diagram">23A.1 The Chain in One Diagram</h3>
@@ -4381,11 +5512,11 @@ WHERE   booked_ts &gt; DATEADD(day, -1095, SYSUTCDATETIME());    -- 3-year rolli
     <ul><li>Understand the 2026-2028 APEX platform roadmap</li><li>Read the ‘From One Tenant to Every Tenant' scaling arc</li><li>Articulate what Level 5 autonomous means in practice</li></ul>
   </aside>
     <div class="chapter-body">
-      <h2 id="6-30-chapter-24-innovation-timeline">Chapter 24: Innovation Timeline</h2>
+      <h2 id="6-30-chapter-24-innovation-timeline">Innovation Timeline</h2>
 <p>A realistic trajectory for a client committing to APEX's full arc:</p>
 <ul><li><strong>Year 1 (Waves 1–2):</strong> Reactive services live, Wave 3 complete on first Practice</li><li><strong>Year 2:</strong> Tier 1 predictive services piloted on proven reactive services; second Practice Wave 1</li><li><strong>Year 3:</strong> Tier 2 self-healing services ship on mature Tier 1 services; third Practice considered</li><li><strong>Year 4:</strong> Tier 3 A2A and S2S across multiple Practices; contact center agents in production</li><li><strong>Year 5+:</strong> Tier 4 bounded autonomy on selected services; single-pane-of-glass operational</li></ul>
 <p>This is a multi-year commitment. The programme business case is structured so that each wave's ROI funds the next one's investment.</p>
-<h2 id="6-30-chapter-25-platform-roadmap-20262028">Chapter 25: Platform Roadmap (2026–2028)</h2>
+<h2 id="6-30-chapter-25-platform-roadmap-20262028">Platform Roadmap (2026–2028)</h2>
 <p>APEX's multi-year roadmap is published and reviewed quarterly. Key items by year:</p>
 <h3 id="6-30-251-2026-completing-the-core-seven">25.1 2026 — Completing the Core Seven</h3>
 <ul><li>Q2: TH Practice GA (6 services), TMT Preview services graduate to GA one by one</li><li>Q3: TMT Practice GA (7 services), ICE Practice GA (6 services)</li><li>Q4: First cross-practice orchestrations in production</li><li>Target: all seven Practices in GA with ≥ 30 clients across them by year-end</li></ul>
@@ -4395,12 +5526,12 @@ WHERE   booked_ts &gt; DATEADD(day, -1095, SYSUTCDATETIME());    -- 3-year rolli
 <ul><li>Tier 2 (self-healing) the default deployment pattern for mature services</li><li>Tier 3 (A2A, S2S, Agentic Contact Center) in production for at least 10 named clients</li><li>Industry benchmarks published for APEX KPIs versus non-APEX baselines</li><li>Next-generation reasoning models integrated as they reach production viability</li></ul>
 <h3 id="6-30-254-beyond-2028-the-autonomous-frontier">25.4 Beyond 2028 — The Autonomous Frontier</h3>
 <p>Tier 4 (autonomous, cross-practice, single-pane-of-glass) reaches flagship-client status. APEX becomes the operational backbone of decision-making for 50+ Fortune-500-class enterprises across every industry the Practices cover. The market question shifts from "why APEX?" to "what's your APEX maturity?"</p>
-<h2 id="6-30-chapter-25-the-autonomous-enterprise">Chapter 25: The Autonomous Enterprise</h2>
+<h2 id="6-30-chapter-25-the-autonomous-enterprise">The Autonomous Enterprise</h2>
 <p>By the end of Wave 3, a client's APEX deployment looks like this:</p>
 <ul><li>Two to three Practices live with their full service catalogues</li><li>Consistent Level 4 operation on the majority of services; Level 5 pilot on two to four</li><li>Manager touch-time 60–80% below baseline across services</li><li>Decision audit rows as the single source of truth for compliance reconstruction</li><li>Cross-practice orchestrations introducing genuinely novel decision flows (a supply-expiry event in HLS that queries the pharma-recall feed and opens a case in the AXLE recall-traceability service)</li></ul>
 <p>What comes next is incremental. Level 5 is not a step-change; it is a graduated trust reallocation where specific services, on the evidence of 6–12 months of Level 4 quality, have their gates removed with audit approval. No dramatic product launch. Just continued, disciplined movement up the maturity ladder.</p>
 <p>The autonomous enterprise is not "no humans in the loop." It is <strong>humans in the loop on the decisions that warrant them</strong>, with everything else running silently, audibly, and correctly.</p>
-<h2 id="6-30-chapter-26-from-one-tenant-to-every-tenant">Chapter 26: From One Tenant to Every Tenant</h2>
+<h2 id="6-30-chapter-26-from-one-tenant-to-every-tenant">From One Tenant to Every Tenant</h2>
 <p>APEX's multi-tenant model is the commercial arc. The first tenant absorbs the programme cost. The second and third tenants' onboarding costs drop 60-80% because the patterns, SOR connectors, and training curriculum are reusable. By the time a client has ten tenants on the same Practice, each new tenant adds less than a week's onboarding effort.</p>
 <p>This matters at scale. A retail chain with 400 stores doesn't onboard one store at a time; it onboards one tenant (the chain) and scales services within that tenant. A health system with 15 hospitals onboards one per region initially and propagates learnings laterally.</p>
 <p>The platform thesis becomes real when the 20th service at the 3rd tenant ships in a week and produces the same decision-quality as the 1st service at the 1st tenant. APEX's architecture is designed to deliver on that promise.</p>
@@ -5062,6 +6193,160 @@ WHERE   booked_ts &gt; DATEADD(day, -1095, SYSUTCDATETIME());    -- 3-year rolli
 <aside class="callout note"><div class="callout-label">Note</div><p><strong>Discussion.</strong> This exercise is intentionally open-ended. A strong response draws on the material covered in the chapter and, where applicable, references the specific APEX artefact (schema, service, orchestration, or persona) named in the problem. Discuss trade-offs; avoid claiming a single correct answer.</p></aside>
 <p><strong>30.2</strong> Propose what "Level 5.1" might look like beyond the current model.</p>
 <aside class="callout note"><div class="callout-label">Note</div><p><strong>Discussion.</strong> This exercise is intentionally open-ended. A strong response draws on the material covered in the chapter and, where applicable, references the specific APEX artefact (schema, service, orchestration, or persona) named in the problem. Discuss trade-offs; avoid claiming a single correct answer.</p></aside></div>
+  </article>
+
+<article class="appendix" id="appendix-k">
+    <header class="appendix-header">
+      <div class="appendix-label">Appendix K</div>
+      <h1 class="appendix-title">Independence, the Tech Stack Posture &amp; Competitive Differentiation</h1>
+    </header>
+    <div class="appendix-body">
+
+<p>APEX is a Deloitte framework that <em>leverages</em> the Microsoft technology stack. It is not a Microsoft product, a Microsoft offering, or a joint Deloitte-Microsoft deliverable. This distinction is both architecturally accurate and regulatorily required. Deloitte &amp; Touche LLP is the external auditor of Microsoft Corporation, and that audit relationship imposes strict independence rules on how the Deloitte-Microsoft relationship is described, structured, and compensated. This appendix states the posture plainly, describes how APEX differentiates against competing cloud stacks (AWS, Google Cloud, IBM Cloud, Oracle Cloud, Salesforce Platform), and codifies the language and boundary rules practitioners must apply on every engagement.</p>
+
+<aside class="callout warning"><div class="callout-label">Warning — Independence First</div><p>Every APEX engagement sits under Deloitte's auditor-independence obligations. Before any outbound commercial conversation, confirm the client's audit status, confirm that the proposed scope is pre-cleared (if the client is a Deloitte audit client), and confirm funding paths comply with SEC Rule 2-01, PCAOB Rule 3520, and Deloitte Independence policy. Violations of independence are career-ending and can impair Deloitte's entire audit practice.</p></aside>
+
+<h2 id="app-k-1-the-posture">K.1 The Posture: APEX Leverages the Stack, Does Not Sell the Stack</h2>
+
+<p>APEX is Deloitte intellectual property: a framework of 45+ services across 7 industry Practices, 47 orchestration patterns, 165+ MCP tools, semantic models, agent libraries, runbooks, and delivery methodology. The Microsoft technology stack — Microsoft Fabric, Azure AI Foundry, Microsoft 365 Copilot with Copilot Studio, Microsoft Purview, and Microsoft Entra — is the substrate APEX runs on. The client licenses that substrate directly from Microsoft. Deloitte does not resell it, does not price it, and does not commit to it on Microsoft's behalf.</p>
+
+<p>Engagements therefore use a <strong>two-contract model</strong>:</p>
+
+<ol>
+  <li><strong>Client ↔ Microsoft</strong> — the platform licences (Fabric capacity, Copilot licences, Foundry consumption, Purview entitlements, Entra licences). Negotiated and contracted directly with Microsoft.</li>
+  <li><strong>Client ↔ Deloitte</strong> — the services agreement (advisory, envisioning, implementation, managed services, sustain). Negotiated and contracted directly with Deloitte.</li>
+</ol>
+
+<p>The two contracts are complementary but independent. This separation is essential for three reasons: it is what architectural honesty requires (Deloitte sells IP and delivery, not platform licences); it is what Deloitte's Independence framework requires (no financial flows from Microsoft to Deloitte on audit-client accounts); and it is what creates clean contractual off-ramps for the client.</p>
+
+<aside class="callout note"><div class="callout-label">Note</div><p>Deloitte does not accept ECIF (Microsoft Enterprise Customer Investment Fund) dollars. The approved funding paths for APEX engagements are BVA (Business Value Assessments), DCIF (Digital Cloud Investment Fund), ISV Marketplace co-sell, and SI Teaming arrangements. Any Microsoft field representative offering ECIF to a Deloitte team must be redirected to a compliant path.</p></aside>
+
+<h2 id="app-k-2-language-rules">K.2 Language Rules on the Deloitte-Microsoft Relationship</h2>
+
+<p>Language that a lay reader might treat as marketing flourish is, in a Deloitte-audits-Microsoft context, regulatorily material. The SEC's Regulation S-X and the PCAOB's independence rules interpret language describing the relationship as evidence of the relationship's actual character. Practitioners therefore use the following vocabulary at all times in written and oral communication:</p>
+
+<table>
+<thead><tr><th>Avoid</th><th>Use</th></tr></thead>
+<tbody>
+<tr><td>"Partner" or "partnership" (between Deloitte and Microsoft)</td><td>"Relationship", "collaboration", "teaming arrangement"</td></tr>
+<tr><td>"Alliance"</td><td>"Technology platform provider"</td></tr>
+<tr><td>"Joint venture"</td><td>"Two-contract engagement"</td></tr>
+<tr><td>"Joint offering"</td><td>"APEX services leveraging the Microsoft stack"</td></tr>
+<tr><td>"Co-branded solution"</td><td>"APEX built on Microsoft technologies"</td></tr>
+<tr><td>"Microsoft-authorized Deloitte services"</td><td>"Deloitte APEX services delivered on Microsoft platforms"</td></tr>
+</tbody>
+</table>
+
+<p>These are not stylistic preferences. They are the defensible language the Deloitte Independence Office has approved for external-facing materials. Proposals, decks, case studies, and thought-leadership publications referencing Microsoft require Independence Office review before release on audit-client accounts.</p>
+
+<h2 id="app-k-3-why-microsoft-architecturally">K.3 Why APEX is Native to Microsoft (Architecturally, Not Commercially)</h2>
+
+<p>APEX chose the Microsoft stack on architectural grounds, not commercial ones. Four properties of the Microsoft stack are load-bearing for APEX:</p>
+
+<ol>
+  <li><strong>Fabric as the data plane.</strong> OneLake provides a single logical data lake across the enterprise, Direct Lake lets Power BI read Parquet without ETL, and shortcuts let APEX reference data in place across clouds. APEX's per-Practice semantic models (SCML, MERML, CXML, and their peers across HLS, ER, AXLE, TMT, TH, ICE) are authored against Fabric primitives (Lakehouse, Warehouse, Eventhouse, Real-Time Intelligence).</li>
+  <li><strong>Azure AI Foundry as the reasoning plane.</strong> Foundry Agents, model catalog, agent orchestration with observability, evaluation, and monitoring give APEX a production-grade runtime for its 45+ services and 47 orchestration patterns. APEX agents are authored against Foundry's agent contract.</li>
+  <li><strong>Purview as the governance plane.</strong> The Data Map, DLP, classification, lineage, and compliance controls let APEX demonstrate PHI/PII/PCI handling to auditors and regulators. In HLS engagements Purview is often the first workload deployed.</li>
+  <li><strong>Entra as the identity plane.</strong> Conditional access, identity governance, service-principal controls, and the Entra agent-identity roadmap give APEX a coherent identity story for users, agents, and service principals in a single tenant.</li>
+</ol>
+
+<p>Re-authoring APEX to an equivalent four-plane pattern on another hyperscaler is theoretically possible but not on the roadmap. APEX is Microsoft-native by design. Clients whose strategic platform commitment is elsewhere may receive platform-agnostic Deloitte advisory services, but APEX itself is not the right fit.</p>
+
+<aside class="callout best"><div class="callout-label">Best Practice — Respectful Disqualification</div><p>When a prospect's platform commitment is not Microsoft, the correct response is respectful disqualification rather than hostile competition. State plainly: "APEX is Microsoft-native. We do not re-author it for other clouds. If your platform commitment is elsewhere, we are not the right team for this workload, but Deloitte's broader advisory practice remains available." This preserves relationships and protects Deloitte's credibility on future opportunities.</p></aside>
+
+<h2 id="app-k-4-competitive-differentiation">K.4 Competitive Differentiation vs Non-Microsoft Stacks</h2>
+
+<p>Clients evaluating APEX frequently have incumbent footprints on other clouds. Differentiation in these conversations is architectural, not commercial or promotional. Each sub-section below positions APEX against a specific alternative stack with honest acknowledgement of where the alternative is strong and where the APEX four-plane posture differs.</p>
+
+<h3 id="app-k-4-1-aws">K.4.1 Amazon Web Services</h3>
+
+<p><strong>AWS strength.</strong> Breadth of primitive services, largest third-party ecosystem, mature data services (Redshift, Athena, Glue, Lake Formation), foundational agent work in Bedrock, and category-leading operational tooling (CloudWatch, EventBridge). Many APEX-candidate clients have deep AWS investment.</p>
+
+<p><strong>APEX architectural difference.</strong> AWS's data plane is composed of several specialised services that the client integrates (S3 + Lake Formation + Redshift + Athena + Glue). APEX's data plane is Fabric, which unifies the equivalent capabilities in a single product with integrated governance (Purview) and native reasoning grounding (Foundry, Copilot). The architectural integration across data, intelligence, governance, and identity is the differentiator — not any individual component. On AWS, an equivalent APEX-style solution would require the client and system integrator to author the integration; on Microsoft, APEX inherits it.</p>
+
+<p><strong>Co-existence pattern.</strong> Many APEX clients keep AWS workloads where AWS is load-bearing (e.g., media-encoding pipelines, consumer-facing mobile backends) and add Fabric for the APEX workload. Fabric's Shortcuts feature lets the APEX semantic model reference data in place on S3 without duplication.</p>
+
+<h3 id="app-k-4-2-gcp">K.4.2 Google Cloud Platform</h3>
+
+<p><strong>GCP strength.</strong> BigQuery is a category-leading analytics warehouse; Vertex AI and Gemini represent serious foundation-model investment; Google's data engineering heritage is deep. Several large retail and technology clients run core analytics on GCP.</p>
+
+<p><strong>APEX architectural difference.</strong> GCP's agent surface (Agent Space, Vertex Agent Builder) is maturing, but the integrated story across data plane, reasoning plane, governance plane, and identity plane is less consolidated than Microsoft's Fabric + Foundry + Purview + Entra stack. APEX's Purview-led trust architecture — which is load-bearing for HLS, financial-services, and regulated RC engagements — does not have a direct equivalent in the GCP stack with the same enterprise-identity integration.</p>
+
+<p><strong>Co-existence pattern.</strong> BigQuery-centric clients commonly federate Fabric onto BigQuery via Shortcuts, keeping analytical processing in BigQuery while APEX services orchestrate through Foundry. The federation pattern preserves client investment in GCP.</p>
+
+<h3 id="app-k-4-3-ibm">K.4.3 IBM Cloud and watsonx</h3>
+
+<p><strong>IBM strength.</strong> watsonx.ai, watsonx.data, and watsonx.governance represent a serious integrated AI-and-governance play, particularly strong in regulated financial-services and public-sector clients with existing IBM relationships. IBM's consulting scale and domain depth are material.</p>
+
+<p><strong>APEX architectural difference.</strong> IBM's watsonx stack runs most effectively on IBM Cloud or Red Hat OpenShift. APEX is Microsoft-tenant-native, which aligns with the many enterprises whose knowledge-worker productivity platform is already Microsoft 365. The Copilot surface — where APEX agents appear to end users — is naturally integrated with Microsoft 365 Copilot in a way watsonx Orchestrate cannot match for Microsoft-centric enterprises.</p>
+
+<p><strong>Co-existence pattern.</strong> Clients with watsonx investments in regulated analytical workloads continue those workloads on watsonx; APEX handles the agent-and-experience surface on Microsoft 365.</p>
+
+<h3 id="app-k-4-4-oracle">K.4.4 Oracle Cloud Infrastructure (OCI)</h3>
+
+<p><strong>Oracle strength.</strong> Deep vertical integration for Oracle application customers (ERP, HCM, SCM, EBS); OCI's performance economics are competitive; Oracle's ecosystem of application connectors is rich for large-enterprise back-office workloads.</p>
+
+<p><strong>APEX architectural difference.</strong> APEX is agent-platform-first, not application-first. For a client whose primary transformation target is the Oracle-application estate, Oracle's own AI embedments and OCI-resident agents are the natural starting point. APEX enters where the reasoning-and-governance architecture across a diverse SOR estate (Oracle plus non-Oracle) requires a platform-neutral semantic layer — which is exactly what Fabric + Foundry + Purview provides.</p>
+
+<p><strong>Co-existence pattern.</strong> Oracle Fusion apps remain on OCI; APEX leverages Fabric mirroring or shortcut patterns to bring Oracle data into the APEX semantic model without moving the transactional system.</p>
+
+<h3 id="app-k-4-5-salesforce">K.4.5 Salesforce Platform (Data Cloud, Agentforce, Einstein)</h3>
+
+<p><strong>Salesforce strength.</strong> Data Cloud + Agentforce is rapidly maturing as an agent platform for the CRM and front-office; Einstein Trust Layer addresses enterprise concerns; clients with large Salesforce footprints find the Salesforce agent story increasingly compelling for customer-facing workflows.</p>
+
+<p><strong>APEX architectural difference.</strong> Salesforce Agentforce is a front-office agent platform tuned to Salesforce's transactional model. APEX is an enterprise agent platform whose scope spans all Practices and crosses front-office, middle-office, and back-office. APEX semantic models integrate CRM data alongside ERP, HR, OT, and industry-specific SORs; Agentforce is naturally CRM-centric.</p>
+
+<p><strong>Co-existence pattern.</strong> Clients use Agentforce for Salesforce-resident workflows (sales cloud, service cloud, marketing cloud agents) and APEX for cross-SOR orchestration that reaches beyond Salesforce's transactional boundary.</p>
+
+<h2 id="app-k-5-what-to-say-what-not-to-say">K.5 What to Say, What Not to Say</h2>
+
+<p>In audit-sensitive contexts, improvised language creates regulatory exposure. The table below is the practitioner's pocket reference for client-facing conversations.</p>
+
+<table>
+<thead><tr><th>Situation</th><th>Correct framing</th></tr></thead>
+<tbody>
+<tr><td>Client asks "are you a Microsoft partner?"</td><td>"Deloitte has a teaming relationship with Microsoft as a technology platform provider. APEX is Deloitte IP built to leverage Microsoft's platform."</td></tr>
+<tr><td>Client asks "is APEX a Microsoft product?"</td><td>"No. APEX is Deloitte IP. We deliver it on the Microsoft stack because the Microsoft four-plane architecture (Fabric, Foundry, Purview, Entra) is the best fit for agent-platform workloads."</td></tr>
+<tr><td>Client asks "can you get us Microsoft discounting?"</td><td>"Microsoft licensing is between you and Microsoft. Our role is services. The Microsoft account team handles platform commercial terms."</td></tr>
+<tr><td>Client asks "why not AWS/GCP?"</td><td>"APEX is architecturally native to the Microsoft four-plane stack. On alternative clouds, an equivalent platform would require re-authoring. If your commitment is elsewhere, we're honest that APEX is not the right fit."</td></tr>
+<tr><td>Microsoft field asks "can we fund this with ECIF?"</td><td>"Deloitte does not accept ECIF because of the audit relationship. Approved paths are BVA, DCIF, ISV Marketplace, or SI Teaming. Please route accordingly."</td></tr>
+<tr><td>Client asks about independence</td><td>"Deloitte audits Microsoft. For audit clients we follow SEC Rule 2-01 and PCAOB independence rules, with Audit Committee pre-clearance. Services we can and cannot perform are defined explicitly; we do not work around them."</td></tr>
+</tbody>
+</table>
+
+<aside class="callout warning"><div class="callout-label">Warning — Never Improvise on Independence</div><p>Responses to independence questions MUST use the Independence Office's approved language. Practitioners do not improvise. When in doubt, stop the conversation, document the question, and route to the Independence Office before responding.</p></aside>
+
+<h2 id="app-k-6-operational-checklist">K.6 Pre-Engagement Operational Checklist</h2>
+
+<ol>
+  <li><strong>Audit status check.</strong> Confirm via internal tooling whether the prospect is a Deloitte audit client. If yes, proceed to step 2; if no, proceed to step 5.</li>
+  <li><strong>Scope pre-clearance.</strong> Confirm the proposed APEX scope is within pre-cleared categories for the Audit Committee. If not, route to Independence Office for pre-clearance BEFORE any commercial discussion.</li>
+  <li><strong>Funding path confirmation.</strong> Confirm the funding path is BVA, DCIF, ISV Marketplace, or SI Teaming. ECIF is prohibited.</li>
+  <li><strong>Personnel screening.</strong> Confirm all engagement staff have current independence certifications and no disqualifying Microsoft investments or family relationships.</li>
+  <li><strong>Language compliance.</strong> Ensure all outbound collateral uses approved language. Route materials referencing Microsoft through Independence Office review.</li>
+  <li><strong>Platform commitment check.</strong> Confirm the client's strategic platform commitment. If non-Microsoft, respectfully disqualify APEX and offer platform-agnostic advisory.</li>
+  <li><strong>Two-contract framing.</strong> Brief the client that platform licences are contracted directly with Microsoft and services are contracted directly with Deloitte.</li>
+</ol>
+
+<h2 id="app-k-7-regulatory-references">K.7 Regulatory References</h2>
+
+<ul>
+  <li><strong>SEC Rule 2-01 of Regulation S-X</strong> — Qualifications of Accountants; the foundational SEC rule on auditor independence, including the audit-client definition, covered persons, restricted entities, and prohibited non-audit services.</li>
+  <li><strong>PCAOB Rule 3520</strong> — Auditor Independence; the PCAOB's companion rule requiring independence in both fact and appearance throughout the audit and professional-engagement period.</li>
+  <li><strong>PCAOB Rule 3526</strong> — Communication with Audit Committees concerning independence.</li>
+  <li><strong>SOX §201</strong> — Services outside the scope of practice of auditors (enumerates prohibited non-audit services).</li>
+  <li><strong>SOX §203</strong> — Audit partner rotation requirements.</li>
+  <li><strong>SOX §206</strong> — Conflicts of interest; one-year cooling-off for engagement team members joining the audit client.</li>
+  <li><strong>SOX §301</strong> — Audit Committee composition, independence, and oversight responsibilities.</li>
+  <li><strong>SOX §302 and §404</strong> — CEO/CFO certifications and Internal Controls over Financial Reporting; framed here because the audit services to which APEX engagements are boundary-adjacent derive from these obligations.</li>
+  <li><strong>NYSE Listing Standards §303A.07</strong> — Audit Committee requirements for listed issuers.</li>
+  <li><strong>Deloitte Independence Policy</strong> — Internal Deloitte policy implementing the above; the authoritative source for practitioner conduct.</li>
+  <li><strong>DMTSP Operating Guidelines</strong> — Internal operating guidelines for the Deloitte Microsoft Technology Services Practice, including funding paths, language rules, and pre-engagement procedures.</li>
+</ul>
+
+<aside class="callout note"><div class="callout-label">Note — This Appendix is Not Legal Advice</div><p>This appendix summarises independence obligations for practitioner awareness. It is not a substitute for Independence Office consultation or legal review. When practitioner judgement encounters an edge case, route the question through the Independence Office. Independence is the most expensive thing Deloitte can get wrong.</p></aside>
+
+</div>
   </article>
     </main>
   </div>

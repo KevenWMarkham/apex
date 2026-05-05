@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: mcp_tool
+tool_id: apex.er.mcp.gridml.get_feeder_topology
+practice: er
+sor_or_layer: gridml
+purpose: Read feeder topology in at-risk zones
+write: false
+inputs_schema: ''
+outputs_schema: ''
+classification_required: []
+related_canonical_schemas:
+- GRIDML
+appendix_f_section: Appendix F — ER MCP Tools

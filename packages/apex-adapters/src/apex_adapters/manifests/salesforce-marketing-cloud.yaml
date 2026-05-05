@@ -1,0 +1,32 @@
+kind: adapter
+name: salesforce-marketing-cloud
+version: 0.1.0
+sor_name: Salesforce Marketing Cloud
+sor_vendor: Salesforce
+practice: rc
+connection_method: dataflow_gen2
+schedule: daily 04:00 UTC
+bronze_workspace: apex-rc-prod-bronze
+description: >
+  SFMC ingest via Power Query — Email, Journey, Subscriber tables.
+  Subscriber-level PII tokenized at Silver. Engagement / send / open
+  events pulled from Tracking-Extract files.
+standards: []
+schema_mappings:
+  - source_table: Subscriber
+    bronze_table: bronze_sfmc_subscriber
+    primary_key: [SubscriberKey]
+    fields:
+      - { source_field: SubscriberKey, bronze_column: subscriber_key,   bronze_type: string, nullable: false, classification: pii }
+      - { source_field: EmailAddress,  bronze_column: email_address,    bronze_type: string, classification: pii }
+      - { source_field: Status,        bronze_column: status,           bronze_type: string }
+  - source_table: SentEvent
+    bronze_table: bronze_sfmc_sent_event
+    primary_key: [SubscriberKey, EventTimestamp]
+    fields:
+      - { source_field: SubscriberKey,    bronze_column: subscriber_key,    bronze_type: string, nullable: false, classification: pii }
+      - { source_field: EventTimestamp,   bronze_column: event_ts,          bronze_type: timestamp, nullable: false }
+      - { source_field: EmailName,        bronze_column: email_name,        bronze_type: string }
+runbook:
+  primary_contact: rc-data-platform@deloitte.com
+  sla_recovery_minutes: 240

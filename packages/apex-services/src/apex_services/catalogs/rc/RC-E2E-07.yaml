@@ -1,0 +1,52 @@
+kind: service
+service_code: RC-E2E-07
+version: 0.1.0
+practice: rc
+display_name: Store Operations Intelligence
+brief: "Shift-level command center fusing labor, traffic, service, and incident signals into store-leader decision view."
+description: >
+  COO-led service. Surfaces decisions store leadership currently spends 65% of shift gathering information for; APEX inverts that to 25%.
+
+personas:
+  - { name: "Chief Operating Officer", role: primary }
+  - { name: "Chief Stores Officer", role: secondary }
+  - { name: "Regional Operations VP", role: secondary }
+
+kpis:
+  - name: "labor productivity"
+    direction: up
+    wave2_target: "+5-10%"
+  - name: "information-gathering time per shift"
+    direction: down
+    baseline: "65%"
+    wave2_target: "25%"
+    wave3_target: "20%"
+
+slos:
+  - { name: "dashboard refresh", target: "< 30s lag", enforcement: soft }
+
+waves:
+  - wave: wave_1
+    duration: "4-12 weeks"
+    fee_band_low_usd: 300000
+    fee_band_high_usd: 900000
+  - wave: wave_2
+    duration: "6-15 months"
+    fee_band_low_usd: 3500000
+    fee_band_high_usd: 12000000
+  - wave: wave_3
+    duration: "multi-year"
+    fee_band_low_usd: 5000000
+    fee_band_high_usd: 18000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.rc.agents.store-ops-intelligence
+
+linked_archetypes:
+  - F2-event-cluster-pattern-match
+
+schemas_touched: [SCML, CXML]
+primary_contact: rc-practice-lead@deloitte.com

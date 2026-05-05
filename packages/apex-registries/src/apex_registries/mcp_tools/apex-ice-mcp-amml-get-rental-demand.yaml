@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: mcp_tool
+tool_id: apex.ice.mcp.amml.get_rental_demand
+practice: ice
+sor_or_layer: amml
+purpose: Read rental demand by yard
+write: false
+inputs_schema: ''
+outputs_schema: ''
+classification_required: []
+related_canonical_schemas:
+- AMML
+appendix_f_section: Appendix F — ICE MCP Tools

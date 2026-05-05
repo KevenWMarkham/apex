@@ -1,0 +1,19 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: schema
+schema_code: PatientML
+name: Patient Management Lineage
+description: Patient Management Lineage canonical schema family. Bronze to Silver
+  to Gold pipeline scope; consumed by APEX agents/services across HLS.
+practices:
+- hls
+primary_entities:
+- Patient
+- Encounter
+- Observation
+- Order
+standards_alignment:
+- HL7 FHIR R4
+- HIPAA
+governance_classification: phi
+appendix_a_section: Appendix A — Schema family PatientML
+package_implementation: apex-patientml

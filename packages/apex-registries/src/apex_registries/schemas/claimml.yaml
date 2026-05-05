@@ -1,0 +1,20 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: schema
+schema_code: ClaimML
+name: Claim Management Lineage
+description: Claim Management Lineage canonical schema family. Bronze to Silver to
+  Gold pipeline scope; consumed by APEX agents/services across HLS.
+practices:
+- hls
+primary_entities:
+- Claim
+- Adjudication
+- Denial
+- Remittance
+standards_alignment:
+- HIPAA 837
+- '835'
+- 270/271
+governance_classification: phi
+appendix_a_section: Appendix A — Schema family ClaimML
+package_implementation: apex-claimml

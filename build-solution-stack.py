@@ -13,7 +13,7 @@ from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
 
-OUT = r"docs/APEX-RC-Solution-Stack-Chart.xlsx"
+OUT = r"docs/reference/APEX-RC-Solution-Stack-Chart.xlsx"
 
 # ============================================================================
 # SHEET 1: SOLUTION STACK

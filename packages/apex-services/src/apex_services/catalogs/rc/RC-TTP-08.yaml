@@ -1,0 +1,40 @@
+kind: service
+service_code: RC-TTP-08
+version: 0.1.0
+practice: rc
+display_name: Returns & Reverse Logistics
+brief: "Disposition optimization for returned merchandise with restock / liquidate / scrap recommendations."
+description: >
+  VP Reverse Logistics service. Reduces returns-related write-offs while protecting brand on resold items.
+
+personas:
+  - { name: "VP Reverse Logistics", role: primary }
+  - { name: "VP Asset Protection", role: secondary }
+  - { name: "VP Merchandising", role: secondary }
+
+kpis:
+  - name: "returns write-off"
+    direction: money
+    wave2_target: "-$3-7M/yr typical"
+
+waves:
+  - wave: wave_1
+    duration: "4-6 weeks"
+    fee_band_low_usd: 200000
+    fee_band_high_usd: 500000
+  - wave: wave_2
+    duration: "6-12 months"
+    fee_band_low_usd: 2000000
+    fee_band_high_usd: 6000000
+
+commercial_model: hybrid
+value_share_eligible: true
+
+linked_agents:
+  - apex.rc.agents.shrink-detection
+
+linked_archetypes:
+  - F2-event-cluster-pattern-match
+
+schemas_touched: [SCML]
+primary_contact: rc-practice-lead@deloitte.com

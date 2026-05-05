@@ -1,0 +1,24 @@
+kind: agent
+name: apex.er.agents.fleet-mining
+version: 0.1.0
+practice: er
+persona: Mine Operations Manager
+service_codes: [ER-MN-01]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Mine fleet optimization. Sequences haul-truck loading + routing across
+  active pits using ore-grade samples and crusher availability.
+archetype_id: F3-predictive-trigger-workflow-aware
+primary_contact: er-mn-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.er.mcp.miningml.get_haul_fleet_state
+    purpose: Read live fleet telemetry (Cat MineStar / Komatsu Komtrax)
+  - tool_id: apex.er.mcp.miningml.get_ore_grade_samples
+    purpose: Read latest pit-face grade samples
+
+oversight_modes: [HOTL]
+kpis:
+  - { name: tons-per-truck-hour, direction: up, target_band: "+5 to +10%" }

@@ -1,0 +1,46 @@
+kind: service
+service_code: ER-PU-02
+version: 0.1.0
+practice: er
+display_name: Public Safety Power Shutoff
+brief: "PSPS decision support with regulator-ready package assembly for at-risk feeders."
+description: >
+  Reasoning-tier service for P&U operations leadership. CEO + ops director sign-off HITL gate.
+
+personas:
+  - { name: "Operations Director", role: primary }
+  - { name: "CEO", role: secondary }
+  - { name: "Chief Compliance Officer", role: secondary }
+
+kpis:
+  - name: "ignition events"
+    direction: down
+  - name: "regulator-ready package"
+    direction: neutral
+    wave2_target: "100% PSPS events"
+
+slos:
+  - { name: "FERC + state PUC retention", target: "7 years", enforcement: regulatory }
+
+waves:
+  - wave: wave_1
+    duration: "8-12 weeks"
+    fee_band_low_usd: 600000
+    fee_band_high_usd: 1500000
+  - wave: wave_2
+    duration: "9-15 months"
+    fee_band_low_usd: 5000000
+    fee_band_high_usd: 18000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.er.agents.psps-decision
+
+linked_archetypes:
+  - F4-regulatory-trigger-audit-preserve
+
+schemas_touched: [P&UML]
+standards: ['FERC', 'NERC CIP', 'PUC']
+primary_contact: er-practice-lead@deloitte.com

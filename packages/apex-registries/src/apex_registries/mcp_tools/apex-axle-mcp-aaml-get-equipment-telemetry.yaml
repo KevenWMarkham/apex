@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: mcp_tool
+tool_id: apex.axle.mcp.aaml.get_equipment_telemetry
+practice: axle
+sor_or_layer: aaml
+purpose: Read OPC-UA + vibration + temp telemetry
+write: false
+inputs_schema: ''
+outputs_schema: ''
+classification_required: []
+related_canonical_schemas:
+- AAML
+appendix_f_section: Appendix F — AXLE MCP Tools

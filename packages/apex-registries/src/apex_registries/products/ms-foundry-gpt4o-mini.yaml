@@ -1,0 +1,11 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: product
+product_id: ms.foundry.gpt4o-mini
+family: foundry
+display_name: Azure AI Foundry — GPT-4o-mini
+sku_or_tier: gpt-4o-mini-2024-07-18
+description: Lightweight model for classification + simple summarization.
+list_price_basis: consumption-tokens
+typical_use: High-volume routine tasks
+apex_role: Sprint 16 ModelTier.LIGHTWEIGHT default pin
+appendix_g_section: Appendix G — foundry

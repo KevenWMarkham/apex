@@ -1,0 +1,44 @@
+kind: service
+service_code: HLS-PAY-01
+version: 0.1.0
+practice: hls
+display_name: Member 360 & Engagement
+brief: "Unified member view across claims + clinical + benefit + engagement signals with consent enforcement."
+description: >
+  Payer sub-segment service. Powers care-management outreach, churn prediction, and engagement personalization.
+
+personas:
+  - { name: "Chief Marketing Officer (Payer)", role: primary }
+  - { name: "Chief Member Experience Officer", role: secondary }
+  - { name: "VP Care Management", role: secondary }
+
+kpis:
+  - name: "engagement rate"
+    direction: up
+    wave2_target: "+20-30%"
+  - name: "churn rate"
+    direction: down
+    wave2_target: "-2 to -4 pp"
+
+waves:
+  - wave: wave_1
+    duration: "4-8 weeks"
+    fee_band_low_usd: 400000
+    fee_band_high_usd: 1000000
+  - wave: wave_2
+    duration: "6-12 months"
+    fee_band_low_usd: 3000000
+    fee_band_high_usd: 10000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.hls.agents.patient-identity
+
+linked_archetypes:
+  - F5-identity-resolution-confidence-merge
+
+schemas_touched: [PatientML, ClaimML]
+standards: ['HIPAA']
+primary_contact: hls-practice-lead@deloitte.com

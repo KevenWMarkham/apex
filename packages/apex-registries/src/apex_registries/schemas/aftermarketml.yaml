@@ -1,0 +1,18 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: schema
+schema_code: AftermarketML
+name: Vehicle Aftermarket Lineage
+description: Vehicle Aftermarket Lineage canonical schema family. Bronze to Silver
+  to Gold pipeline scope; consumed by APEX agents/services across AXLE.
+practices:
+- axle
+primary_entities:
+- Vehicle
+- Owner
+- ServiceHistory
+standards_alignment:
+- VIN ISO 3779
+- SAE J2735
+governance_classification: pii
+appendix_a_section: Appendix A — Schema family AftermarketML
+package_implementation: apex-aftermarketml

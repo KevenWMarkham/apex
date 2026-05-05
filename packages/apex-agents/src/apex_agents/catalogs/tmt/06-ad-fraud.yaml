@@ -1,0 +1,22 @@
+kind: agent
+name: apex.tmt.agents.ad-fraud
+version: 0.1.0
+practice: tmt
+persona: Ad Operations Lead
+service_codes: [TMT-MED-02]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Ad-fraud detection across DSP/SSP impression and click streams. Identifies bot patterns and IVT signatures.
+archetype_id: F2-event-cluster-pattern-match
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.audienceml.get_impression_stream
+    purpose: Read impression event stream
+
+oversight_modes: [HOTL]
+
+kpis:
+  - { name: IVT rate, direction: down, target_band: "-30 to -45%" }

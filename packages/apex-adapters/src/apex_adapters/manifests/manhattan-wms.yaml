@@ -1,0 +1,45 @@
+kind: adapter
+name: manhattan-wms
+version: 0.1.0
+sor_name: Manhattan Active Warehouse Management
+sor_vendor: Manhattan Associates
+practice: rc
+connection_method: data_pipeline
+schedule: every 15 minutes
+bronze_workspace: apex-rc-prod-bronze
+description: >
+  Manhattan Active WMS ingest via Fabric Data Pipeline with REST batch
+  pulls + scheduled file drops for high-volume tables (Inventory_Snapshot,
+  Inbound_LPN). Activated for both supply-chain and store-replenishment
+  use cases.
+standards: [GS1, EPCIS, EDI X12]
+schema_mappings:
+  - source_table: InventoryByLocation
+    bronze_table: bronze_manh_inventory_by_location
+    primary_key: [LocationId, ItemId]
+    fields:
+      - { source_field: LocationId,    bronze_column: location_id,    bronze_type: string, nullable: false }
+      - { source_field: ItemId,        bronze_column: item_id,        bronze_type: string, nullable: false }
+      - { source_field: OnHandQuantity, bronze_column: on_hand_qty,   bronze_type: decimal }
+      - { source_field: AllocatedQuantity, bronze_column: allocated_qty, bronze_type: decimal }
+  - source_table: ShipmentEvent
+    bronze_table: bronze_manh_shipment_event
+    primary_key: [ShipmentId]
+    fields:
+      - { source_field: ShipmentId, bronze_column: shipment_id, bronze_type: string, nullable: false }
+      - { source_field: EventType,  bronze_column: event_type,  bronze_type: string }
+      - { source_field: EventTimestamp, bronze_column: event_ts, bronze_type: timestamp }
+runbook:
+  primary_contact: rc-data-platform@deloitte.com
+  sla_recovery_minutes: 30
+  failure_modes:
+    - code: PIPELINE_TIMEOUT
+      description: Fabric pipeline run exceeded 20 minutes
+      severity: warning
+      retry: true
+      retry_max: 2
+      backoff_seconds: 120
+    - code: SCHEMA_DRIFT
+      description: New column or removed column detected
+      severity: error
+      retry: false

@@ -1,0 +1,24 @@
+{
+  "PATIENT": [
+    {
+      "PAT_ID": "Z00012345",
+      "PAT_MRN_ID": "MRN-TKN-A8F4",
+      "PAT_NAME": "Patient, Alpha-Test",
+      "BIRTH_DATE": "1972-04-12"
+    },
+    {
+      "PAT_ID": "Z00012346",
+      "PAT_MRN_ID": "MRN-TKN-B6E1",
+      "PAT_NAME": "Patient, Beta-Test",
+      "BIRTH_DATE": "1985-09-30"
+    }
+  ],
+  "PAT_ENC": [
+    {
+      "PAT_ENC_CSN_ID": 99001,
+      "PAT_ID": "Z00012345",
+      "CONTACT_DATE": "2026-04-30T08:14:00Z",
+      "ENC_TYPE_C": "OFFICE_VISIT"
+    }
+  ]
+}

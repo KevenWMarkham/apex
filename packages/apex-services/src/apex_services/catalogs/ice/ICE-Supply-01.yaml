@@ -1,0 +1,40 @@
+kind: service
+service_code: ICE-Supply-01
+version: 0.1.0
+practice: ice
+display_name: Supply Shortage Early Warning
+brief: "Parts-and-component shortage detection from supplier signals + historical patterns."
+description: >
+  ICE supply-chain service. Surfaces emerging shortages early enough for mitigation.
+
+personas:
+  - { name: "Supply Chain Manager", role: primary }
+  - { name: "VP Procurement", role: secondary }
+  - { name: "Chief Operating Officer", role: secondary }
+
+kpis:
+  - name: "stock-out events"
+    direction: down
+    wave2_target: "-20 to -35%"
+
+waves:
+  - wave: wave_1
+    duration: "4-8 weeks"
+    fee_band_low_usd: 300000
+    fee_band_high_usd: 800000
+  - wave: wave_2
+    duration: "6-12 months"
+    fee_band_low_usd: 2000000
+    fee_band_high_usd: 7000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.ice.agents.supply-shortage
+
+linked_archetypes:
+  - F1-continuous-monitor-hitl-alert
+
+schemas_touched: [SupplyML-ICE]
+primary_contact: ice-practice-lead@deloitte.com

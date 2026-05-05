@@ -1,0 +1,11 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: product
+product_id: ms.azure-openai.gpt4o
+family: azure-openai
+display_name: Azure OpenAI Service — GPT-4o
+sku_or_tier: gpt-4o
+description: Direct Azure OpenAI deployment for clients not on Foundry.
+list_price_basis: consumption-tokens
+typical_use: Legacy / non-Foundry deployments
+apex_role: Fallback to Sprint 16 reasoning
+appendix_g_section: Appendix G — azure-openai

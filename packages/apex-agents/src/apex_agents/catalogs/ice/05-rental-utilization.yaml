@@ -1,0 +1,24 @@
+kind: agent
+name: apex.ice.agents.rental-utilization
+version: 0.1.0
+practice: ice
+persona: Rental Operations Manager
+service_codes: [ICE-EaaS-01]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Rental-fleet utilization optimization. Identifies under-utilized units and recommends repositioning.
+archetype_id: F3-predictive-trigger-workflow-aware
+primary_contact: ice-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.ice.mcp.connectedml.get_rental_fleet_state
+    purpose: Read rental-fleet state
+  - tool_id: apex.ice.mcp.amml.get_rental_demand
+    purpose: Read rental demand by yard
+
+oversight_modes: [HOTL]
+
+kpis:
+  - { name: rental utilization, direction: up }

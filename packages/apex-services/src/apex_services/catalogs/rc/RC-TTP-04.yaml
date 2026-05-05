@@ -1,0 +1,46 @@
+kind: service
+service_code: RC-TTP-04
+version: 0.1.0
+practice: rc
+display_name: Replenishment Optimization
+brief: "Store-level replenishment optimization fusing demand-sensing forecasts with stock and lead-time signals."
+description: >
+  VP Supply Chain Planning + Store Operations service. HITL gate on order totals above threshold.
+
+personas:
+  - { name: "VP Supply Chain Planning", role: primary }
+  - { name: "VP Store Operations", role: secondary }
+
+kpis:
+  - name: "stock-out rate"
+    direction: down
+    wave2_target: "-25 to -40%"
+  - name: "inventory days on hand"
+    direction: down
+
+waves:
+  - wave: wave_1
+    duration: "4-8 weeks"
+    fee_band_low_usd: 300000
+    fee_band_high_usd: 800000
+  - wave: wave_2
+    duration: "6-15 months"
+    fee_band_low_usd: 3000000
+    fee_band_high_usd: 10000000
+  - wave: wave_3
+    duration: "multi-year"
+    fee_band_low_usd: 5000000
+    fee_band_high_usd: 14000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.rc.agents.inventory-replenishment
+  - apex.rc.agents.demand-sensing
+
+linked_archetypes:
+  - F3-predictive-trigger-workflow-aware
+
+schemas_touched: [SCML]
+primary_contact: rc-practice-lead@deloitte.com

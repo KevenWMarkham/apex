@@ -1,0 +1,25 @@
+kind: agent
+name: apex.th.agents.ground-ops
+version: 0.1.0
+practice: th
+persona: Ground Operations Lead
+service_codes: [TH-AIR-05]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Ground-handling agent (gate, baggage, fuel, catering) coordination during arrival/departure peaks.
+archetype_id: F2-event-cluster-pattern-match
+primary_contact: th-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.th.mcp.opsml.get_gate_state
+    purpose: Read gate / aircraft state
+  - tool_id: apex.th.mcp.opsml.get_baggage_state
+    purpose: Read baggage handling state
+
+oversight_modes: [HOTL]
+
+kpis:
+  - { name: on-time departure, direction: up }
+  - { name: baggage mishandle rate, direction: down }

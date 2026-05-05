@@ -1,0 +1,27 @@
+[project]
+name = "apex-ercml"
+version = "0.1.0"
+description = "APEX ERCML — Energy & Resources canonical entities (Meter, MeterReading, GridEvent, Asset, WorkOrder, ReliabilityRecord). Pattern C over CIM + ISO 14224."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Proprietary — Deloitte Internal" }
+dependencies = [
+    "apex-core",
+    "apex-schemas-common",
+    "apex-standards-cim",
+    "apex-standards-iso14224",
+    "pydantic>=2.9.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/apex_ercml"]
+
+[tool.uv.sources]
+apex-core = { workspace = true }
+apex-schemas-common = { workspace = true }
+apex-standards-cim = { workspace = true }
+apex-standards-iso14224 = { workspace = true }

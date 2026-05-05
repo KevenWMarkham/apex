@@ -1,0 +1,17 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: competitive
+entry_id: comp.bcg-x
+competitor: BCG
+competitor_offering: BCG X / Gen-AI offerings
+apex_differentiators:
+- BCG plays consulting-led; APEX is package-led (shippable Python + Fabric infra +
+  agents)
+- APEX Sprint 18 references collapse 6-month BCG engagements into 8-12 week Wave-1
+  fixed-fee
+independence_concerns:
+- BCG independence-clean for Deloitte-audit clients
+win_themes:
+- Time-to-value
+- Fixed-fee predictability
+- Audit-grade artifacts
+appendix_k_section: Appendix K — Independence and Competitive Posture

@@ -1,0 +1,32 @@
+kind: agent
+name: apex.axle.agents.supplier-quality
+version: 0.1.0
+practice: axle
+persona: Supplier Quality Engineer
+service_codes: [AXLE-Supply-02]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Supplier quality monitoring across PPM, on-time delivery, and quality
+  incidents. Triggers supplier-development action plans.
+archetype_id: F1-continuous-monitor-hitl-alert
+primary_contact: axle-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.axle.mcp.qmsml.get_supplier_performance
+    purpose: Read supplier scorecard
+  - tool_id: apex.axle.mcp.qmsml.create_supplier_action_plan
+    purpose: Initiate supplier development plan
+    write: true
+
+hitl_gates:
+  - name: action_plan
+    description: Supplier development plan requires SQE + procurement approval
+    fires_when: Performance below threshold for 3 consecutive periods
+    surface: dashboard
+    sla_minutes: 1440
+
+oversight_modes: [HITL]
+kpis:
+  - { name: supplier PPM, direction: down }

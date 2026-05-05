@@ -396,7 +396,7 @@ children.push(
     children: [
       new TextRun({ text: "Deep-dive reference: ", bold: true, color: "0D7D70" }),
       plain("Each of the 34 RC agents is documented on its own card (purpose, primary ORCH, primary schema, inputs, outputs, decomposition, HITL gate, wave availability) in the companion catalog "),
-      new TextRun({ text: "docs/APEX-RC-agent-catalog.docx", font: "Consolas", size: 20 }),
+      new TextRun({ text: "docs/reference/APEX-RC-agent-catalog.docx", font: "Consolas", size: 20 }),
       plain(". That catalog also includes the full Agent × ORCH cross-reference matrix and a decision-cadence summary.")
     ]
   }),
@@ -670,7 +670,7 @@ children.push(
     spacing: { before: 140 },
     children: [
       new TextRun({
-        text: "For the full Core specification, read apex-core-build-spec.md. For the v1.2 manifest system design, read docs/plans/2026-04-17-schema-versioning-manifest-design.md.",
+        text: "For the full Core specification, read docs/build-specs/apex-core-build-spec.md. For the v1.2 amendment, read docs/build-specs/apex-core-v1.2-amendment.md.",
         italics: true,
         size: 20,
         color: "56627C"
@@ -780,7 +780,7 @@ const doc = new Document({
 });
 
 Packer.toBuffer(doc).then(buffer => {
-  const out = "docs/APEX-solution-overview.docx";
+  const out = "docs/guides/APEX-solution-overview.docx";
   fs.writeFileSync(out, buffer);
   console.log(`wrote ${out} (${buffer.length.toLocaleString()} bytes)`);
 }).catch(err => {

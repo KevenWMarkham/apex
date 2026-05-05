@@ -1,0 +1,11 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: product
+product_id: ms.azure.storage.adls
+family: azure-storage
+display_name: Azure Data Lake Storage Gen2
+sku_or_tier: ADLS Gen2
+description: Underlying storage for Fabric workspaces.
+list_price_basis: consumption
+typical_use: Bronze/Silver/Gold storage
+apex_role: Sprint 14 capacity backbone
+appendix_g_section: Appendix G — azure-storage

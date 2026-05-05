@@ -1,0 +1,217 @@
+kind: reference_deployment
+name: plant
+version: 0.1.0
+practice: axle
+display_name: Plant — Discrete Manufacturing Reference Deployment
+description: >
+  Turnkey Wave-1 blueprint for a discrete-manufacturing plant
+  (automotive Tier-1 supplier or industrial OEM). Composes Sprint 14
+  capacity (per-workload isolation for OT vs. IT), Sprint 15 SOR
+  adapters (GE Proficy + SAP S/4HANA + analytics platforms), Sprint 16
+  anchor agents (OEE monitor, predictive maintenance, quality defect,
+  andon RCA, supplier quality, production scheduling, energy
+  optimization), and Sprint 17 productized services (AXLE-Connected-
+  Factory, AXLE-QMS, AXLE-Ops). Per Sellers Guide §12.9A reference
+  deployment.
+
+sellers_guide_section: "§12.9A"
+demo_script_path: plant.md
+primary_contact: axle-practice-lead@deloitte.com
+
+sponsor_personas:
+  - VP Manufacturing Operations
+  - Plant Manager
+  - Director of Quality
+
+triggering_scenarios:
+  - name: OEE under-performance on flagship line
+    description: >
+      Flagship assembly line OEE has sat at 68% for two quarters
+      against a 78% target. Plant Manager faces budget review;
+      need a defensible attribution of losses (availability vs.
+      performance vs. quality) and a closed-loop improvement program.
+    pain: financial + operational
+    sponsor_persona: Plant Manager
+
+  - name: Quality-escape from supplier defect cluster
+    description: >
+      Field warranty claims trace to a defective sub-component from
+      one Tier-2 supplier; quality spike was masked by current
+      sampling regime. Director of Quality needs supplier-quality
+      surveillance and proactive andon RCA capability.
+    pain: financial + brand + warranty-cost
+    sponsor_persona: Director of Quality
+
+  - name: Energy-cost spike eroding margin
+    description: >
+      Industrial electricity rates jumped 22%; plant energy bill is
+      eating a full point of operating margin. VP Operations wants
+      load-shifting + compressed-air optimization to recover spend
+      without touching production schedule.
+    pain: financial
+    sponsor_persona: VP Manufacturing Operations
+
+architecture:
+  capacity_blueprint: per-workload-isolation
+  fabric_sku: F128
+  bronze_workspaces:
+    - apex-axle-ot-bronze
+    - apex-axle-it-bronze
+  silver_workspaces:
+    - apex-axle-ot-silver
+    - apex-axle-it-silver
+  gold_workspaces:
+    - apex-axle-prod-gold
+  governance_workspace: apex-axle-governance
+
+  adapters:
+    - ge-proficy
+    - sap-s4hana
+    - osi-pi
+    - analytics-platforms
+    - servicenow
+
+  canonical_schemas:
+    - MERML
+    - QMSML
+    - SCML
+
+  foundry_model_pins:
+    - gpt-4o-2024-11-20
+    - gpt-4o-mini-2024-07-18
+    - o1-2024-12-17
+
+  purview_classifications:
+    - operations
+    - intellectual-property
+    - controlled-unclassified
+
+use_cases:
+  - name: OEE attribution + closed-loop improvement
+    description: >
+      Real-time OEE monitor decomposes losses (availability,
+      performance, quality) per equipment + shift; surfaces top-3
+      improvement levers with confidence; routes to plant manager
+      digest with andon-history correlation.
+    service_codes:
+      - AXLE-Connected-Factory-01
+    agents:
+      - apex.axle.agents.oee-monitor
+      - apex.axle.agents.andon-rca
+    triggering_event: shift-change boundary OR OEE delta > threshold
+    expected_decision_latency: same-shift
+
+  - name: Predictive maintenance with HITL work-order release
+    description: >
+      Vibration + temperature + power-draw signatures fed into
+      predictive model; impending-failure score crossing threshold
+      opens work-order proposal with parts pre-staged. Maintenance
+      planner HITL approves before CMMS write-back.
+    service_codes:
+      - AXLE-Connected-Factory-02
+    agents:
+      - apex.axle.agents.predictive-maintenance
+    triggering_event: equipment-health score crosses threshold
+    expected_decision_latency: under 4 hours
+
+  - name: Quality defect detection + supplier surveillance
+    description: >
+      Vision + dimensional inspection + SPC chart anomalies fused
+      with supplier-lot trace; suspected defect cluster routed to
+      quality engineer with supplier corrective-action draft.
+    service_codes:
+      - AXLE-QMS-01
+    agents:
+      - apex.axle.agents.quality-defect
+      - apex.axle.agents.supplier-quality
+    triggering_event: defect-rate spike OR vision-system anomaly cluster
+    expected_decision_latency: same-day
+
+  - name: Production-scheduling under constraint
+    description: >
+      Demand fluctuation, material constraint, or equipment downtime
+      triggers scheduler agent to propose re-sequence; planner HITL
+      approves; ERP work-order writes back via SAP adapter.
+    service_codes:
+      - AXLE-Ops-01
+    agents:
+      - apex.axle.agents.production-scheduling
+    triggering_event: demand variance OR constraint event
+    expected_decision_latency: under 2 hours
+
+  - name: Energy-optimization load shifting
+    description: >
+      Real-time tariff feed + production schedule + ambient + on-site
+      generation → load-shift recommendation (compressed-air, HVAC,
+      auxiliaries). Operator HITL on aggregate movement.
+    service_codes:
+      - AXLE-Ops-03
+    agents:
+      - apex.axle.agents.energy-optimization
+    triggering_event: tariff window OR demand-charge approach
+    expected_decision_latency: under 15 minutes
+
+  - name: Warranty-cost attribution
+    description: >
+      Field warranty claims + manufacturing genealogy + supplier lot
+      → root-cause attribution + corrective action; intellectual
+      property classification on engineering surface.
+    service_codes:
+      - AXLE-Aftermarket-01
+    agents:
+      - apex.axle.agents.warranty-cost
+      - apex.axle.agents.vehicle-dtc
+    triggering_event: warranty-claim cluster OR DTC-pattern emergence
+    expected_decision_latency: 24 hours
+
+kpi_targets:
+  - name: Overall Equipment Effectiveness (OEE)
+    direction: up
+    wave1_commitment: instrumentation + OEE attribution dashboard
+    wave2_target: "+5-8pp on pilot line"
+    wave3_target: "+10pp plant-wide"
+    measurement_pattern: shift-level OEE pilot vs. baseline-equivalent line
+
+  - name: Unplanned downtime hours
+    direction: down
+    wave1_commitment: predictive-maintenance shadow-mode
+    wave2_target: "-20-30% on instrumented assets"
+    wave3_target: "-40% sustained"
+    measurement_pattern: CMMS unplanned-downtime ledger pilot vs. control
+
+  - name: Field-defect parts-per-million
+    direction: down
+    wave1_commitment: quality-defect agent live + supplier-quality surveillance
+    wave2_target: "-25-40% on monitored part numbers"
+    wave3_target: "-50% sustained"
+    measurement_pattern: warranty PPM with manufacturing-genealogy attribution
+
+  - name: Energy cost per produced unit
+    direction: down
+    wave1_commitment: load-shifting recommendations live
+    wave2_target: "-8-12%"
+    wave3_target: "-15-20% sustained"
+    measurement_pattern: kWh per produced unit normalized for product mix
+
+wave1_scope:
+  duration_weeks_low: 8
+  duration_weeks_high: 12
+  fee_band_usd_low: 850000
+  fee_band_usd_high: 1750000
+  deliverables:
+    - F128 Fabric capacity provisioned with OT/IT workload isolation per Sprint 14
+    - GE Proficy + SAP S/4HANA + OSI PI adapters live in Bronze
+    - MERML + QMSML + SCML canonical schemas in Silver
+    - OEE monitor + andon RCA agents live for one flagship line
+    - Predictive-maintenance agent in shadow + HITL work-order proposal
+    - Quality-defect + supplier-quality agents live for top-5 part numbers
+    - Production-scheduling agent in HITL for one cell
+    - Energy-optimization agent in HOTL for compressed-air + HVAC
+    - Intellectual-property + controlled-unclassified classifications applied
+    - Sellers Guide §12.9A demo deck + Plant Manager / VP Operations readout
+  success_criteria:
+    - OEE attribution dashboard validated by plant manager for 4 weeks running
+    - Predictive maintenance hit-rate ≥ 70% precision on impending-failure alerts
+    - Quality defect agent surfaces ≥ 1 supplier-lot correlation that prior process missed
+    - Energy load-shift produces ≥ 5% measurable demand-charge reduction
+    - Wave-2 commercial proposal signed with named KPI commitments

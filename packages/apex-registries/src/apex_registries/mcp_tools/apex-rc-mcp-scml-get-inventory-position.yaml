@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: mcp_tool
+tool_id: apex.rc.mcp.scml.get_inventory_position
+practice: rc
+sor_or_layer: scml
+purpose: Read current stock and in-transit
+write: false
+inputs_schema: ''
+outputs_schema: ''
+classification_required: []
+related_canonical_schemas:
+- SCML
+appendix_f_section: Appendix F — RC MCP Tools

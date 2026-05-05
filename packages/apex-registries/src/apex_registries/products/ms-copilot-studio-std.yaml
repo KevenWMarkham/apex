@@ -1,0 +1,11 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: product
+product_id: ms.copilot-studio.std
+family: copilot-studio
+display_name: Copilot Studio — Standard
+sku_or_tier: messages-pack
+description: Low-code copilot authoring + Teams surface.
+list_price_basis: messages-bundle
+typical_use: HITL surface for agents
+apex_role: Sprint 16 default surface for Teams cards
+appendix_g_section: Appendix G — copilot-studio

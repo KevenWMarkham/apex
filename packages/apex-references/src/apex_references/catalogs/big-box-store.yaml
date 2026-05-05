@@ -1,0 +1,196 @@
+kind: reference_deployment
+name: big-box-store
+version: 0.1.0
+practice: rc
+display_name: Big Box Store — Retail Operations Reference Deployment
+description: >
+  Turnkey Wave-1 blueprint for a multi-format big-box retailer
+  (omnichannel grocery + GM + pharmacy). Composes Sprint 14 capacity
+  (single-tenant F128), Sprint 15 SOR adapters (SAP S/4HANA + Manhattan
+  WMS + Salesforce Marketing Cloud), Sprint 16 anchor agents (assortment
+  pricing, demand sensing, markdown cadence, cold-chain response,
+  inventory replenishment, store-ops intelligence), and Sprint 17
+  productized services (RC-E2E, RC-TTP) into a single demoable
+  engagement. Per Sellers Guide §16.13 reference deployment.
+
+sellers_guide_section: "§16.13"
+demo_script_path: big-box-store.md
+primary_contact: rc-practice-lead@deloitte.com
+
+sponsor_personas:
+  - Chief Merchant
+  - Chief Supply Chain Officer
+  - VP Store Operations
+
+triggering_scenarios:
+  - name: Cold-chain excursion at 220 stores
+    description: >
+      Refrigeration telemetry shows multi-store temperature excursion
+      across the Mid-Atlantic during a heat dome event. Store managers
+      need disposition guidance within 30 minutes to preserve FSMA 204
+      audit posture and prevent five-figure shrink loss per location.
+    pain: regulatory + financial + brand
+    sponsor_persona: Chief Supply Chain Officer
+
+  - name: Markdown cadence under-performing on private-label apparel
+    description: >
+      Q3 markdown cadence on private-label apparel is hitting wave-2
+      sell-through 9pp below plan. Chief Merchant needs an evidence-based
+      reset by next week or the season closes underwater.
+    pain: financial + competitive
+    sponsor_persona: Chief Merchant
+
+  - name: Demand spike on top-200 SKUs ahead of regional event
+    description: >
+      Hurricane forecast triggers anticipatory buying on water, batteries,
+      and shelf-stable proteins across coastal Carolinas. Replenishment
+      lead times must compress and substitution playbooks pre-stage.
+    pain: operational + brand
+    sponsor_persona: VP Store Operations
+
+architecture:
+  capacity_blueprint: single-capacity-tenant
+  fabric_sku: F128
+  bronze_workspaces:
+    - apex-rc-prod-bronze
+  silver_workspaces:
+    - apex-rc-prod-silver
+  gold_workspaces:
+    - apex-rc-prod-gold
+  governance_workspace: apex-rc-prod-governance
+
+  adapters:
+    - sap-s4hana
+    - manhattan-wms
+    - salesforce-marketing-cloud
+    - oracle-ebs-fusion
+    - snowflake-databricks
+
+  canonical_schemas:
+    - SCML
+    - CXML
+    - MERML
+
+  foundry_model_pins:
+    - gpt-4o-2024-11-20
+    - gpt-4o-mini-2024-07-18
+    - o1-2024-12-17
+
+  purview_classifications:
+    - pii
+    - payment-card
+    - operations
+
+use_cases:
+  - name: Cold-chain disposition at store level
+    description: >
+      When a cold-chain excursion is detected, the agent fuses telemetry,
+      shelf-life model, FSMA 204 lot trace, and store labor availability
+      into a per-SKU disposition recommendation (sell, mark down, donate,
+      destroy) and routes to store manager for HITL approval.
+    service_codes:
+      - RC-E2E-04
+    agents:
+      - apex.rc.agents.cold-chain-response
+    triggering_event: refrigeration excursion > 4 hours OR > threshold delta
+    expected_decision_latency: under 30 minutes from alert to HITL gate
+
+  - name: Markdown cadence reset
+    description: >
+      Weekly markdown cadence agent reads sell-through, weather, competitor
+      pricing, and inventory position; proposes per-style markdown plan
+      with elasticity confidence intervals; merchant approves at category level.
+    service_codes:
+      - RC-E2E-05
+    agents:
+      - apex.rc.agents.markdown-cadence
+      - apex.rc.agents.assortment-pricing
+    triggering_event: weekly merchandising cadence
+    expected_decision_latency: same-day
+
+  - name: Demand-sense replenishment
+    description: >
+      Multi-horizon demand forecast triggers replenishment proposals
+      against allocation constraints, store DC capacity, and safety stock.
+      Substitution recommender pre-stages alternates for at-risk SKUs.
+    service_codes:
+      - RC-E2E-03
+    agents:
+      - apex.rc.agents.demand-sensing
+      - apex.rc.agents.inventory-replenishment
+      - apex.rc.agents.substitution-recommendation
+    triggering_event: demand signal delta > 2 sigma OR forecasted weather event
+    expected_decision_latency: under 4 hours
+
+  - name: Shrink-detection ring closure
+    description: >
+      POS + video + ERP triangulation flags suspected shrink rings;
+      LP team gets evidence packet and recommended store-cluster action.
+    service_codes:
+      - RC-E2E-06
+    agents:
+      - apex.rc.agents.shrink-detection
+    triggering_event: anomalous shrink delta on category-store pair
+    expected_decision_latency: 24 hours
+
+  - name: Store-ops intelligence digest
+    description: >
+      Morning digest for store managers: top-3 actions, labor variance,
+      shelf-availability anomalies, expected weather impact, planogram drift.
+    service_codes:
+      - RC-E2E-07
+    agents:
+      - apex.rc.agents.store-ops-intelligence
+    triggering_event: daily 0500 local
+    expected_decision_latency: ambient
+
+kpi_targets:
+  - name: Gross margin
+    direction: up
+    wave1_commitment: baseline + measurement instrumentation
+    wave2_target: "+150-300 bps in pilot category cluster"
+    wave3_target: "+200-400 bps chain-wide"
+    measurement_pattern: audit-row attribution against pre-engagement 13-week trailing baseline
+
+  - name: Shrink as % of sales
+    direction: down
+    wave1_commitment: baseline + ring-detection model in HITL mode
+    wave2_target: "-15-25% in pilot store cluster"
+    wave3_target: "-30-40% chain-wide"
+    measurement_pattern: holdout-store control against pilot cluster
+
+  - name: Out-of-stock rate (top-200 SKUs)
+    direction: down
+    wave1_commitment: instrumentation + replenishment agent in shadow mode
+    wave2_target: "-20% during pilot"
+    wave3_target: "-40% mature"
+    measurement_pattern: shelf-scan compliance versus weekly ePOS
+
+  - name: Cold-chain disposition decision latency
+    direction: down
+    wave1_commitment: instrumentation + alert routing
+    wave2_target: median 25 minutes
+    wave3_target: median 12 minutes
+    measurement_pattern: alert-timestamp to HITL-approved-disposition delta
+
+wave1_scope:
+  duration_weeks_low: 8
+  duration_weeks_high: 12
+  fee_band_usd_low: 750000
+  fee_band_usd_high: 1500000
+  deliverables:
+    - F128 Fabric capacity provisioned via Sprint 14 single-tenant blueprint
+    - SAP S/4HANA + Manhattan WMS + Salesforce Marketing Cloud adapters live (Bronze)
+    - SCML + CXML + MERML canonical schemas instantiated (Silver)
+    - Cold-chain response agent deployed in HITL mode for one regional cluster (50 stores)
+    - Markdown cadence agent deployed in HOTL mode for one merchandise division
+    - Demand-sense + replenishment shadow-mode for top-200 SKUs
+    - Store-ops digest live for pilot 50 stores
+    - Purview classifications + DLP rules applied per Sprint 13 governance
+    - Sellers Guide §16.13 demo deck + executive readout
+  success_criteria:
+    - End-to-end cold-chain excursion → HITL disposition < 30 minutes in pilot cluster
+    - Markdown cadence proposals approved by Chief Merchant for ≥ 2 cycles
+    - Replenishment shadow-mode hit-rate ≥ 80% versus current planner choices
+    - All audit rows emitted to Purview-governed governance workspace
+    - Wave-2 commercial proposal signed with named KPI commitments

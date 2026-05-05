@@ -1,0 +1,11 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: partner
+partner_id: ptr.aws
+name: Amazon Web Services
+category: infrastructure
+practices:
+- cross
+description: Some clients dual-clouded; bridges supported but not encouraged.
+apex_integration_pattern: Bridge-only
+contracts_in_place: []
+appendix_h_section: Appendix H — infrastructure

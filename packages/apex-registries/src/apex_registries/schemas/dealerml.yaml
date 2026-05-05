@@ -1,0 +1,20 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: schema
+schema_code: DealerML
+name: Dealer Channel Mgmt Lineage
+description: Dealer Channel Mgmt Lineage canonical schema family. Bronze to Silver
+  to Gold pipeline scope; consumed by APEX agents/services across ICE, AXLE.
+practices:
+- ice
+- axle
+primary_entities:
+- Dealer
+- Allocation
+- SalesEvent
+- Service
+standards_alignment:
+- AAIA
+- RAPID
+governance_classification: operations
+appendix_a_section: Appendix A — Schema family DealerML
+package_implementation: apex-dealerml

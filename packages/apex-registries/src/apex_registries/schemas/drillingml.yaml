@@ -1,0 +1,18 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: schema
+schema_code: DrillingML
+name: Drilling Operations Lineage
+description: Drilling Operations Lineage canonical schema family. Bronze to Silver
+  to Gold pipeline scope; consumed by APEX agents/services across ER.
+practices:
+- er
+primary_entities:
+- Rig
+- Bore
+- SafetyEvent
+standards_alignment:
+- WITSML
+- IADC
+governance_classification: operations
+appendix_a_section: Appendix A — Schema family DrillingML
+package_implementation: apex-drillingml

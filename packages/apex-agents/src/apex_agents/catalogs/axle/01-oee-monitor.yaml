@@ -1,0 +1,24 @@
+kind: agent
+name: apex.axle.agents.oee-monitor
+version: 0.1.0
+practice: axle
+persona: Plant Manager
+service_codes: [AXLE-Connected-Factory-01]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Real-time Overall Equipment Effectiveness monitoring with bottleneck
+  identification + downtime classification.
+archetype_id: F1-continuous-monitor-hitl-alert
+primary_contact: axle-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.axle.mcp.aaml.get_station_state
+    purpose: Read live station availability + performance
+  - tool_id: apex.axle.mcp.aaml.get_quality_yield
+    purpose: Read first-pass-yield signals
+
+oversight_modes: [HOTL]
+kpis:
+  - { name: OEE, direction: up, target_band: "+6 to +9pp" }

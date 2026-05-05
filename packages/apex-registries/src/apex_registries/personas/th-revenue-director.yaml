@@ -1,0 +1,12 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: persona
+persona_id: persona.th.revenue-director
+name: Revenue Director
+practice: th
+seniority: director
+function: agent
+description: Revenue Director (TH). Persona referenced by APEX agent manifests.
+typical_decisions: []
+pains: []
+metrics_owned: []
+appendix_e_section: Appendix E — TH Personas

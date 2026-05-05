@@ -1,0 +1,234 @@
+# Sprint 29 Task 29.10 — Pre-publish CI lane for APEX visual artifacts.
+#
+# Four sequential lanes — failure of any blocks merge. Report posted as
+# PR comment via the `actions/github-script` step (Task 29.10.6).
+#
+# Lane 1: Independence-language linter (Task 29.10.2)
+# Lane 2: Typography correctness (Task 29.10.3)
+# Lane 3: Color-token compliance (Task 29.10.4)
+# Lane 4: Responsive-layout smoke test via Playwright (Task 29.10.5)
+#
+# Cross-references:
+#   - apex-workspace/APEX-CORE.md §7 hard limit #8 (Independence)
+#   - docs/APEX-Appendix-N-Design-System.md (typography + color tokens)
+#   - packages/apex-compliance-lint (Lane 1 implementation)
+#   - tools/check_typography_tokens.py (Lane 2)
+#   - tools/check_color_tokens.py (Lane 3)
+
+name: Artifact Compliance
+
+on:
+  pull_request:
+    paths:
+      - "**/*.html"
+      - "**/*.htm"
+      - "**/*.md"
+      - "**/*.docx"
+      - "**/*.pptx"
+      - "**/*.css"
+      - "tools/check_*.py"
+      - "packages/apex-compliance-lint/**"
+      - ".github/workflows/artifact-compliance.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  independence-lint:
+    name: "Lane 1 — Independence language"
+    runs-on: ubuntu-latest
+    outputs:
+      summary: ${{ steps.lint.outputs.summary }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install apex-compliance-lint
+        run: |
+          pip install --upgrade pip
+          pip install -e packages/apex-compliance-lint
+
+      - name: Determine changed artifacts
+        id: changed
+        run: |
+          set -e
+          BASE_SHA=${{ github.event.pull_request.base.sha }}
+          HEAD_SHA=${{ github.event.pull_request.head.sha }}
+          if [ -z "$BASE_SHA" ] || [ -z "$HEAD_SHA" ]; then
+            FILES=$(git ls-files '*.html' '*.htm' '*.md' '*.docx' '*.pptx' | tr '\n' ' ')
+          else
+            FILES=$(git diff --name-only --diff-filter=AMR "$BASE_SHA" "$HEAD_SHA" -- '*.html' '*.htm' '*.md' '*.docx' '*.pptx' | tr '\n' ' ')
+          fi
+          echo "files=${FILES}" >> "$GITHUB_OUTPUT"
+          echo "::notice::Changed artifacts: ${FILES:-<none>}"
+
+      - name: Run apex-compliance-lint on changed artifacts
+        id: lint
+        if: steps.changed.outputs.files != ''
+        run: |
+          set +e
+          apex-compliance-lint ${{ steps.changed.outputs.files }} \
+            --severity warning \
+            > lint-output.txt 2>&1
+          RC=$?
+          cat lint-output.txt
+          {
+            echo "summary<<EOF"
+            tail -n 12 lint-output.txt
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+          exit $RC
+
+      - name: No changed artifacts
+        if: steps.changed.outputs.files == ''
+        run: echo "No HTML/MD/DOCX/PPTX artifacts changed in this PR."
+
+  typography-tokens:
+    name: "Lane 2 — Typography correctness"
+    runs-on: ubuntu-latest
+    needs: independence-lint
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run typography-token check
+        run: python tools/check_typography_tokens.py docs
+
+  color-tokens:
+    name: "Lane 3 — Color-token compliance"
+    runs-on: ubuntu-latest
+    needs: independence-lint
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run color-token check
+        run: python tools/check_color_tokens.py docs
+
+  responsive-smoke:
+    name: "Lane 4 — Responsive smoke (Playwright)"
+    runs-on: ubuntu-latest
+    needs: independence-lint
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install Playwright (Chromium only)
+        run: |
+          npm init -y
+          npm install --save-dev @playwright/test
+          npx playwright install --with-deps chromium
+
+      - name: Run responsive smoke test
+        run: |
+          mkdir -p tools/responsive
+          cat > tools/responsive/responsive.spec.js <<'JS'
+          // Sprint 29 Task 29.10.5 — responsive smoke test
+          // Loads each shipped HTML artifact at 360 / 900 / 1440 px and
+          // asserts no JavaScript errors + basic structural elements present.
+          const { test, expect } = require('@playwright/test');
+          const { glob } = require('glob');
+          const path = require('path');
+          const fs = require('fs');
+
+          const VIEWPORTS = [
+            { name: 'phone-portrait', width: 360, height: 740 },
+            { name: 'tablet', width: 900, height: 1024 },
+            { name: 'desktop', width: 1440, height: 900 },
+          ];
+
+          // Discover HTML artifacts under docs/ (excluding legacy docs/book/)
+          function listHtml() {
+            const matches = [];
+            const walk = (d) => {
+              for (const e of fs.readdirSync(d, { withFileTypes: true })) {
+                const full = path.join(d, e.name);
+                if (e.isDirectory()) {
+                  if (e.name === 'book' || e.name === 'node_modules' || e.name.startsWith('.')) continue;
+                  walk(full);
+                } else if (e.name.endsWith('.html') || e.name.endsWith('.htm')) {
+                  matches.push(full);
+                }
+              }
+            };
+            walk('docs');
+            return matches;
+          }
+
+          const artifacts = listHtml();
+          if (artifacts.length === 0) {
+            test('placeholder when no HTML artifacts present', async () => {
+              expect(true).toBeTruthy();
+            });
+          }
+
+          for (const artifact of artifacts) {
+            for (const vp of VIEWPORTS) {
+              test(`${artifact} @ ${vp.name}`, async ({ page }) => {
+                const errors = [];
+                page.on('pageerror', (err) => errors.push(String(err)));
+                page.on('console', (msg) => {
+                  if (msg.type() === 'error') errors.push(msg.text());
+                });
+                await page.setViewportSize({ width: vp.width, height: vp.height });
+                await page.goto('file://' + path.resolve(artifact));
+                await page.waitForLoadState('domcontentloaded');
+                expect(errors, `JS errors in ${artifact} @ ${vp.name}`).toEqual([]);
+                const bodyHandle = await page.$('body');
+                expect(bodyHandle).not.toBeNull();
+              });
+            }
+          }
+          JS
+
+          npx playwright test tools/responsive/responsive.spec.js \
+            --reporter=list \
+            --output=tools/responsive/results
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: responsive-smoke-results
+          path: tools/responsive/results
+          retention-days: 14
+
+  pr-comment:
+    name: "Post compliance summary to PR"
+    runs-on: ubuntu-latest
+    needs: [independence-lint, typography-tokens, color-tokens, responsive-smoke]
+    if: always()
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const lanes = [
+              ['Lane 1 — Independence', '${{ needs.independence-lint.result }}'],
+              ['Lane 2 — Typography',  '${{ needs.typography-tokens.result }}'],
+              ['Lane 3 — Color tokens', '${{ needs.color-tokens.result }}'],
+              ['Lane 4 — Responsive',  '${{ needs.responsive-smoke.result }}'],
+            ];
+            const ok = lanes.every(([_, r]) => r === 'success');
+            const icon = (r) => r === 'success' ? '✅' : (r === 'skipped' ? '⏭️' : '❌');
+            const body = [
+              `## APEX Artifact Compliance — ${ok ? 'PASS' : 'FAIL'}`,
+              '',
+              ...lanes.map(([n, r]) => `- ${icon(r)} ${n}: \`${r}\``),
+              '',
+              `Source of truth for the rules in this lane: [Appendix N — Design System](../blob/${context.sha}/docs/APEX-Appendix-N-Design-System.md). ` +
+              `Lane 1 implementation: \`packages/apex-compliance-lint\`. Sprint 29 Task 29.10.`,
+            ].join('\n');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body,
+            });

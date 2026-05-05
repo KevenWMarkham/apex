@@ -1,0 +1,32 @@
+kind: adapter
+name: oracle-ebs-fusion
+version: 0.1.0
+sor_name: Oracle E-Business Suite / Oracle Fusion
+sor_vendor: Oracle
+practice: rc
+connection_method: mirrored_db
+schedule: continuous
+bronze_workspace: apex-rc-prod-bronze
+description: >
+  Oracle EBS or Oracle Fusion ingest via Fabric Mirroring. Replaces ABAP-style
+  custom extracts with CDC at the database layer. Supports both 11i / R12
+  EBS schemas and Fusion BIP-data feed schemas, switched per spec.
+standards: [EDI X12, OAGIS]
+schema_mappings:
+  - source_table: HZ_PARTIES
+    bronze_table: bronze_oracle_hz_parties
+    primary_key: [PARTY_ID]
+    fields:
+      - { source_field: PARTY_ID,   bronze_column: party_id,   bronze_type: long,   nullable: false }
+      - { source_field: PARTY_NAME, bronze_column: party_name, bronze_type: string, classification: pii }
+      - { source_field: PARTY_TYPE, bronze_column: party_type, bronze_type: string }
+  - source_table: MTL_SYSTEM_ITEMS_B
+    bronze_table: bronze_oracle_mtl_system_items
+    primary_key: [INVENTORY_ITEM_ID, ORGANIZATION_ID]
+    fields:
+      - { source_field: INVENTORY_ITEM_ID, bronze_column: item_id,         bronze_type: long,   nullable: false }
+      - { source_field: ORGANIZATION_ID,   bronze_column: organization_id, bronze_type: long,   nullable: false }
+      - { source_field: SEGMENT1,          bronze_column: item_code,       bronze_type: string }
+runbook:
+  primary_contact: rc-data-platform@deloitte.com
+  sla_recovery_minutes: 60

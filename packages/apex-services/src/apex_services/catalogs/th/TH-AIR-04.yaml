@@ -1,0 +1,46 @@
+kind: service
+service_code: TH-AIR-04
+version: 0.1.0
+practice: th
+display_name: Crew Scheduling Optimization
+brief: "Crew-roster optimization respecting union rules + duty-time + qualification constraints."
+description: >
+  AIR crew operations service. Reasoning-tier with crew-management-approval HITL on roster publish.
+
+personas:
+  - { name: "Crew Scheduling Manager", role: primary }
+  - { name: "VP Operations", role: secondary }
+
+kpis:
+  - name: "crew-legality violations"
+    direction: down
+    wave2_target: "0 violations"
+  - name: "crew utilization"
+    direction: up
+    wave2_target: "+3-5%"
+
+slos:
+  - { name: "DOT crew-legality audit", target: "permanent", enforcement: regulatory }
+
+waves:
+  - wave: wave_1
+    duration: "6-10 weeks"
+    fee_band_low_usd: 500000
+    fee_band_high_usd: 1300000
+  - wave: wave_2
+    duration: "9-15 months"
+    fee_band_low_usd: 4000000
+    fee_band_high_usd: 13000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.th.agents.crew-scheduling
+
+linked_archetypes:
+  - F3-predictive-trigger-workflow-aware
+
+schemas_touched: [OpsML-TH]
+standards: ['DOT', 'FAA']
+primary_contact: th-practice-lead@deloitte.com

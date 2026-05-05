@@ -1,0 +1,15 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.match.002
+family: match
+name: Lot / Trace Match
+description: Match lot genealogy across upstream-downstream movements.
+canonical_inputs:
+- LotMovements
+canonical_outputs:
+- TraceGraph
+typical_hitl_gate: QA traceability sign-off
+typical_oversight: HITL
+typical_model_tier: standard
+example_agents: []
+appendix_d_section: Appendix D — Archetype family match

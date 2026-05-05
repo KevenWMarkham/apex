@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: exercise
+exercise_id: ex.2.6.a
+sellers_guide_section: §2.6
+chapter: 2. APEX Foundations
+prompt: When does a service ship as value-share vs. fixed-fee?
+canonical_solution: Value-share when (a) the KPI is money-direction, (b) attribution
+  is contractually clean, (c) Deloitte-independence rules permit. Fixed-fee otherwise.
+teaching_points:
+- Three conditions must all hold for value-share
+- Independence is gate, not preference
+related_kpi_ids: []
+related_archetype_ids: []

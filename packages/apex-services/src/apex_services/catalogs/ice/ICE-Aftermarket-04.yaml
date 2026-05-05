@@ -1,0 +1,39 @@
+kind: service
+service_code: ICE-Aftermarket-04
+version: 0.1.0
+practice: ice
+display_name: Dealer Network Performance
+brief: "Dealer-performance scorecard agent across parts attach + service revenue + customer satisfaction."
+description: >
+  ICE dealer-network service. Aggregates performance metrics into HIC dashboards for network leadership.
+
+personas:
+  - { name: "Dealer Network Director", role: primary }
+  - { name: "Aftermarket Director", role: secondary }
+
+kpis:
+  - name: "dealer-network revenue"
+    direction: money
+    wave2_target: "$15-30M/yr typical 1K-dealer network"
+
+waves:
+  - wave: wave_1
+    duration: "4-6 weeks"
+    fee_band_low_usd: 250000
+    fee_band_high_usd: 700000
+  - wave: wave_2
+    duration: "6-9 months"
+    fee_band_low_usd: 1800000
+    fee_band_high_usd: 6000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.ice.agents.dealer-performance
+
+linked_archetypes:
+  - F1-continuous-monitor-hitl-alert
+
+schemas_touched: [DealerML, AMML-ICE]
+primary_contact: ice-practice-lead@deloitte.com

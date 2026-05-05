@@ -1,0 +1,44 @@
+kind: service
+service_code: TH-AIR-02
+version: 0.1.0
+practice: th
+display_name: Traveler 360 & Identity
+brief: "Unified traveler profile across PSS + loyalty + service interactions with consent enforcement."
+description: >
+  TH foundational service across airlines + hotels. Most Wave-1 engagements anchor here.
+
+personas:
+  - { name: "Customer Operations Director", role: primary }
+  - { name: "Loyalty Director", role: secondary }
+  - { name: "Chief Marketing Officer", role: secondary }
+
+kpis:
+  - name: "loyalty member value"
+    direction: up
+    wave2_target: "+10-20%"
+  - name: "identity-merge precision"
+    direction: up
+    wave2_target: "≥ 95%"
+
+waves:
+  - wave: wave_1
+    duration: "6-10 weeks"
+    fee_band_low_usd: 500000
+    fee_band_high_usd: 1500000
+  - wave: wave_2
+    duration: "9-15 months"
+    fee_band_low_usd: 5000000
+    fee_band_high_usd: 20000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.th.agents.traveler-360
+
+linked_archetypes:
+  - F5-identity-resolution-confidence-merge
+
+schemas_touched: [TravelerML]
+standards: ['GDPR', 'CCPA', 'PCI DSS']
+primary_contact: th-practice-lead@deloitte.com

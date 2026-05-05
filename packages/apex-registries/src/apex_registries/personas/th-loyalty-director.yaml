@@ -1,0 +1,12 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: persona
+persona_id: persona.th.loyalty-director
+name: Loyalty Director
+practice: th
+seniority: director
+function: agent
+description: Loyalty Director (TH). Persona referenced by APEX agent manifests.
+typical_decisions: []
+pains: []
+metrics_owned: []
+appendix_e_section: Appendix E — TH Personas

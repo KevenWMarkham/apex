@@ -1,0 +1,26 @@
+kind: agent
+name: apex.tmt.agents.developer-experience
+version: 0.1.0
+practice: tmt
+persona: Developer Experience Lead
+service_codes: [TMT-TEC-02]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Developer-experience signal aggregation across PR cycle time + CI failure rate + incident MTTR. Surfaces emerging team-level risks.
+archetype_id: F2-event-cluster-pattern-match
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.devopsml.get_pr_metrics
+    purpose: Read PR cycle metrics
+  - tool_id: apex.tmt.mcp.devopsml.get_ci_results
+    purpose: Read CI build/test results
+  - tool_id: apex.tmt.mcp.devopsml.get_incident_history
+    purpose: Read incident history
+
+oversight_modes: [HOTL]
+
+kpis:
+  - { name: DORA metrics, direction: up }

@@ -1,0 +1,34 @@
+kind: agent
+name: apex.th.agents.disruption-comms
+version: 0.1.0
+practice: th
+persona: Customer Communications Director
+service_codes: [TH-AIR-07]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Disruption-event communications drafting. Composes tier-personalized notifications via traveler's preferred channel during IROPs.
+archetype_id: F1-continuous-monitor-hitl-alert
+primary_contact: th-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.th.mcp.travelerml.get_unified_profile
+    purpose: Read traveler profile
+  - tool_id: apex.th.mcp.opsml.get_disruption_state
+    purpose: Read disruption detail
+  - tool_id: apex.th.mcp.travelerml.send_disruption_notification
+    purpose: Send disruption notification
+    write: true
+
+hitl_gates:
+  - name: comms_publish
+    description: Notification batch requires comms-director approval before send
+    fires_when: Batch > 1000 notifications
+    surface: dashboard
+    sla_minutes: 15
+
+oversight_modes: [HITL]
+
+kpis:
+  - { name: disruption NPS, direction: up }

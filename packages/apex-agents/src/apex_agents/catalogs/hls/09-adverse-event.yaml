@@ -1,0 +1,39 @@
+kind: agent
+name: apex.hls.agents.adverse-event
+version: 0.1.0
+practice: hls
+persona: Pharmacovigilance Specialist
+service_codes: [HLS-LS-03]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Detect potential adverse events from clinical-note free text + lab
+  signals + medication-administration history. Pre-classifies severity
+  per FDA reporting requirements.
+archetype_id: F4-regulatory-trigger-audit-preserve
+primary_contact: hls-ls-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.hls.mcp.patientml.get_clinical_notes
+    purpose: Read clinical free-text notes
+  - tool_id: apex.hls.mcp.patientml.get_lab_results
+    purpose: Read lab abnormalities
+  - tool_id: apex.hls.mcp.patientml.get_medication_admin
+    purpose: Read medication administration history
+
+hitl_gates:
+  - name: ae_review
+    description: All flagged AEs require pharmacovigilance review before submission
+    fires_when: AE candidate identified
+    surface: dashboard
+    sla_minutes: 1440
+
+oversight_modes: [HITL]
+
+kpis:
+  - name: AE-detection precision
+    direction: up
+  - name: time-to-detection
+    direction: down
+    target_band: "from days to hours"

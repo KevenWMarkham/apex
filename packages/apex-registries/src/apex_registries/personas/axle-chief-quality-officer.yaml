@@ -1,0 +1,12 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: persona
+persona_id: persona.axle.chief-quality-officer
+name: Chief Quality Officer
+practice: axle
+seniority: c-suite
+function: service
+description: Chief Quality Officer (AXLE). Persona referenced by APEX service manifests.
+typical_decisions: []
+pains: []
+metrics_owned: []
+appendix_e_section: Appendix E — AXLE Personas

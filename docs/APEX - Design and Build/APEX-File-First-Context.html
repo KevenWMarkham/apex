@@ -1,0 +1,823 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>APEX · File-First Context — Beyond Graphs &amp; Vectors</title>
+<meta name="description" content="The SOUL.md paradigm translated for enterprise APEX deployments. File-first context over index-first retrieval.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root[data-theme="dark"]{
+  --bg:#0E0B08;--bg-1:#15110C;--bg-2:#1C1711;
+  --surface:#201A13;--surface-2:#28211A;
+  --border:#2E2619;--border-2:#3D3324;
+  --ink:#EFE6DB;--ink-2:#B8AB99;--ink-3:#85785F;
+  --teal:#5DCAA5;--teal-dim:#2E8568;--teal-bg:#0D2A22;
+  --purple:#AFA9EC;--purple-dim:#6860B8;--purple-bg:#1E1B3A;
+  --amber:#F2A623;--amber-dim:#B07715;--amber-bg:#3A2608;
+  --crimson:#E24B4A;--crimson-dim:#A32D2D;--crimson-bg:#341414;
+  --gold:#E8C547;--gold-dim:#A6892C;--gold-bg:#2D2308;
+}
+:root[data-theme="light"]{
+  --bg:#FAF6EF;--bg-1:#F2ECE0;--bg-2:#EBE3D1;
+  --surface:#FFFCF5;--surface-2:#F5EEDD;
+  --border:#D5C9B3;--border-2:#BBAD92;
+  --ink:#2A1F14;--ink-2:#554838;--ink-3:#8A7965;
+  --teal:#0F6E56;--teal-dim:#1D9E75;--teal-bg:#E1F5EE;
+  --purple:#3C3489;--purple-dim:#534AB7;--purple-bg:#EEEDFE;
+  --amber:#854F0B;--amber-dim:#BA7517;--amber-bg:#FAEEDA;
+  --crimson:#791F1F;--crimson-dim:#A32D2D;--crimson-bg:#FCEBEB;
+  --gold:#6B5412;--gold-dim:#A6892C;--gold-bg:#F5EAC7;
+}
+*{box-sizing:border-box}html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:"Instrument Sans",system-ui,sans-serif;font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;transition:background .25s ease,color .25s ease}
+.wrap{max-width:1240px;margin:0 auto;padding:0 32px}
+.mono{font-family:"JetBrains Mono",monospace;font-size:.88em}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+nav.top{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+nav.top .wrap{display:flex;align-items:center;gap:24px;padding:16px 32px}
+.brand{font-family:"Fraunces",serif;font-size:22px;font-weight:500;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.brand .sub{color:var(--purple);font-style:italic;font-weight:400;font-size:14px;margin-left:8px}
+button.theme-toggle{margin-left:auto;background:var(--surface);border:1px solid var(--border);color:var(--ink-2);font-family:inherit;font-size:12px;padding:7px 14px;border-radius:8px;cursor:pointer;font-weight:500;transition:all .15s ease}
+button.theme-toggle:hover{color:var(--ink);border-color:var(--border-2)}
+
+.hero{padding:100px 0 56px}
+.kicker{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--purple);margin-bottom:22px}
+.hero h1{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(48px,7vw,88px);line-height:.98;letter-spacing:-.03em;margin:0 0 28px;color:var(--ink)}
+.hero h1 em{font-style:italic;color:var(--purple);font-weight:300}
+.hero .lede{font-size:18px;line-height:1.6;max-width:800px;color:var(--ink-2);margin:0 0 44px}
+.hero .lede strong{color:var(--ink);font-weight:500}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.stat{padding:22px 26px 22px 0;border-right:1px solid var(--border)}
+.stat:last-child{border-right:0}
+.stat .n{font-family:"Fraunces",serif;font-size:40px;line-height:1;color:var(--ink);letter-spacing:-.02em}
+.stat .label{font-size:11.5px;color:var(--ink-3);margin-top:7px;letter-spacing:.05em;text-transform:uppercase;font-weight:500}
+@media (max-width:900px){.stats{grid-template-columns:repeat(2,1fr)}.stat{border-bottom:1px solid var(--border)}}
+
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;margin-top:16px;position:sticky;top:61px;z-index:40;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.tabs::-webkit-scrollbar{display:none}
+.tab{background:none;border:0;border-bottom:2px solid transparent;padding:16px 18px;font-family:inherit;font-size:13.5px;font-weight:500;color:var(--ink-3);cursor:pointer;white-space:nowrap;transition:color .15s,border-color .15s}
+.tab .tn{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--purple);margin-right:8px}
+.tab:hover{color:var(--ink-2)}
+.tab.active{color:var(--ink);border-color:var(--purple)}
+.tab:focus-visible{outline:1px solid var(--purple-dim);outline-offset:-4px;border-radius:4px}
+
+.panel{display:none;padding:56px 0 96px}
+.panel.active{display:block}
+.p-kicker{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);margin-bottom:14px}
+.p-title{font-family:"Fraunces",serif;font-weight:400;font-size:42px;line-height:1.08;letter-spacing:-.02em;margin:0 0 20px;color:var(--ink)}
+.p-title em{font-style:italic;color:var(--purple)}
+.p-lede{font-size:17px;color:var(--ink-2);max-width:800px;margin:0 0 44px;line-height:1.65}
+.p-lede strong{color:var(--ink);font-weight:500}
+
+h3.sh{font-family:"Fraunces",serif;font-weight:400;font-size:26px;letter-spacing:-.01em;margin:44px 0 16px;color:var(--ink)}
+h3.sh em{font-style:italic;color:var(--purple)}
+h4.ssh{font-family:"Instrument Sans",sans-serif;font-weight:600;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin:28px 0 12px}
+
+p{color:var(--ink-2);line-height:1.65;margin:0 0 14px}
+p strong{color:var(--ink);font-weight:500}
+code{font-family:"JetBrains Mono",monospace;font-size:.9em;background:var(--bg-1);border:1px solid var(--border);padding:1px 6px;border-radius:4px;color:var(--teal)}
+
+.cards-2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.cards-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media (max-width:900px){.cards-2,.cards-3{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;transition:border-color .15s}
+.card:hover{border-color:var(--border-2)}
+.card .ctag{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--purple);letter-spacing:.1em;margin-bottom:10px}
+.card h4{font-family:"Fraunces",serif;font-weight:400;font-size:21px;letter-spacing:-.005em;color:var(--ink);margin:0 0 12px;line-height:1.2}
+.card p{font-size:14px;line-height:1.6}
+.card p:last-child{margin-bottom:0}
+.card.focal{border-color:var(--purple-dim);background:var(--purple-bg)}
+
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px;margin:16px 0 24px;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.tbl th,.tbl td{text-align:left;padding:12px 16px;border-top:1px solid var(--border);vertical-align:top}
+.tbl thead th{background:var(--bg-1);border-top:0;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:500;padding:13px 16px}
+.tbl tbody tr{background:var(--surface)}
+.tbl tbody tr:nth-child(even){background:var(--surface-2)}
+.tbl td.mono{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--teal)}
+.tbl td strong{color:var(--ink);font-weight:500}
+.tbl td{color:var(--ink-2)}
+
+/* head-to-head contrast */
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:24px 0}
+@media (max-width:900px){.vs{grid-template-columns:1fr}}
+.vs-col{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;position:relative}
+.vs-col::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;border-radius:14px 14px 0 0}
+.vs-col.old::before{background:var(--crimson)}
+.vs-col.new::before{background:var(--teal)}
+.vs-col .vl{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;margin-bottom:10px}
+.vs-col.old .vl{color:var(--crimson)}
+.vs-col.new .vl{color:var(--teal)}
+.vs-col h4{font-family:"Fraunces",serif;font-weight:400;font-size:22px;margin:0 0 14px;color:var(--ink);line-height:1.2}
+.vs-col ul{padding-left:18px;margin:10px 0}
+.vs-col li{color:var(--ink-2);font-size:13.5px;margin-bottom:6px;line-height:1.55}
+
+.badge{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:10px;padding:2px 8px;border-radius:4px;letter-spacing:.05em;font-weight:500;border:1px solid transparent;vertical-align:middle}
+.badge.teal{background:var(--teal-bg);color:var(--teal);border-color:var(--teal-dim)}
+.badge.purple{background:var(--purple-bg);color:var(--purple);border-color:var(--purple-dim)}
+.badge.amber{background:var(--amber-bg);color:var(--amber);border-color:var(--amber-dim)}
+.badge.crimson{background:var(--crimson-bg);color:var(--crimson);border-color:var(--crimson-dim)}
+.badge.gold{background:var(--gold-bg);color:var(--gold);border-color:var(--gold-dim)}
+.badge.muted{background:var(--bg-2);color:var(--ink-2);border-color:var(--border-2)}
+
+.callout{background:var(--surface);border-left:3px solid var(--purple);border-radius:0 10px 10px 0;padding:20px 24px;margin:24px 0}
+.callout .clabel{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--purple);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;font-weight:500}
+.callout p{margin:0;font-size:14.5px;color:var(--ink)}
+.callout.amber{border-left-color:var(--amber)}
+.callout.amber .clabel{color:var(--amber)}
+.callout.crimson{border-left-color:var(--crimson)}
+.callout.crimson .clabel{color:var(--crimson)}
+.callout.teal{border-left-color:var(--teal)}
+.callout.teal .clabel{color:var(--teal)}
+
+/* diagram box */
+.dbox{background:var(--bg-1);border:1px solid var(--border);border-radius:14px;padding:32px;margin:24px 0;overflow:hidden}
+.dbox svg{width:100%;height:auto;display:block}
+
+/* file tree */
+.tree{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px 24px;font-family:"JetBrains Mono",monospace;font-size:13px;line-height:1.75;margin:16px 0 24px;color:var(--ink-2);overflow-x:auto}
+.tree .t-dir{color:var(--purple);font-weight:500}
+.tree .t-file{color:var(--teal)}
+.tree .t-anno{color:var(--ink-3);font-style:italic;font-size:12px}
+
+/* boot steps */
+.boot{counter-reset:step}
+.boot-step{display:grid;grid-template-columns:52px 1fr;gap:20px;padding:20px 0;border-top:1px solid var(--border);position:relative}
+.boot-step:first-child{border-top:0}
+.boot-step .snum{font-family:"Fraunces",serif;font-size:36px;line-height:1;color:var(--purple);font-weight:400;letter-spacing:-.02em}
+.boot-step .sbody h4{font-family:"Fraunces",serif;font-weight:400;font-size:19px;color:var(--ink);margin:0 0 6px;line-height:1.2}
+.boot-step .sbody .sfile{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--teal);display:inline-block;margin-bottom:8px;padding:2px 8px;background:var(--bg-1);border:1px solid var(--border);border-radius:4px}
+.boot-step .sbody p{font-size:14px;line-height:1.55;margin:0 0 6px;color:var(--ink-2)}
+
+/* code block */
+.code{background:var(--bg-1);border:1px solid var(--border);border-radius:10px;padding:20px 24px;font-family:"JetBrains Mono",monospace;font-size:12.5px;line-height:1.65;color:var(--ink-2);overflow-x:auto;margin:16px 0 24px;white-space:pre}
+.code .c-h{color:var(--purple);font-weight:500}
+.code .c-k{color:var(--amber)}
+.code .c-v{color:var(--teal)}
+.code .c-c{color:var(--ink-3);font-style:italic}
+.code .c-s{color:var(--ink)}
+
+/* primitives from soul pattern */
+.prim-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:24px 0}
+@media (max-width:900px){.prim-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:600px){.prim-grid{grid-template-columns:1fr}}
+.prim{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center}
+.prim .picon{font-family:"Fraunces",serif;font-size:32px;color:var(--purple);line-height:1;margin-bottom:8px;letter-spacing:-.02em}
+.prim h5{font-family:"Instrument Sans",sans-serif;font-weight:600;font-size:13px;color:var(--ink);margin:0 0 6px;letter-spacing:-.005em}
+.prim p{font-size:12px;color:var(--ink-3);line-height:1.5;margin:0}
+
+/* footer */
+footer{border-top:1px solid var(--border);padding:40px 0 56px;margin-top:40px;background:var(--bg-1)}
+footer .fgrid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px}
+@media (max-width:800px){footer .fgrid{grid-template-columns:1fr}}
+footer .indepth{background:var(--crimson-bg);border:1px solid var(--crimson-dim);border-radius:10px;padding:18px 22px}
+footer .indepth .iptag{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--crimson);letter-spacing:.1em;margin-bottom:8px;font-weight:500}
+footer .indepth p{margin:0;font-size:12.5px;color:var(--ink);line-height:1.6}
+footer .meta-col .mt{font-size:11px;color:var(--ink-3);letter-spacing:.08em;text-transform:uppercase;font-weight:500;margin-bottom:6px}
+footer .meta-col .mv{font-size:13px;color:var(--ink);margin-bottom:14px}
+footer .meta-col .mv.mono{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--ink-2)}
+
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<nav class="top" aria-label="Primary">
+  <div class="wrap">
+    <a href="#top" class="brand">APEX <span class="sub">· File-First Context</span></a>
+    <button class="theme-toggle" id="themeBtn" aria-label="Toggle color theme">Light</button>
+  </div>
+</nav>
+
+<section class="hero" id="top">
+  <div class="wrap">
+    <div class="kicker">Beyond knowledge graphs · Beyond vector retrieval</div>
+    <h1>The agent <em>reads itself</em><br>into being.</h1>
+    <p class="lede">
+      OpenClaw's <code>SOUL.md</code> showed the industry a different paradigm: the agent's identity lives in plain markdown files that are <strong>injected at every session start</strong>, not retrieved on demand. File-first, not index-first. For enterprise APEX — where the canonical schema, tool catalog, ORCH patterns, and governance rules are already authored, versioned, and reviewed — this paradigm is not just applicable. It's the right default.
+    </p>
+    <div class="stats" role="list">
+      <div class="stat" role="listitem"><div class="n">5</div><div class="label">APEX context files</div></div>
+      <div class="stat" role="listitem"><div class="n">8</div><div class="label">Boot sequence steps</div></div>
+      <div class="stat" role="listitem"><div class="n">4</div><div class="label">Primitives from SOUL.md</div></div>
+      <div class="stat" role="listitem"><div class="n">2</div><div class="label">Paradigms, coexisting</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="tabs" role="tablist" aria-label="File-first context topics">
+    <button class="tab active" role="tab" aria-selected="true" aria-controls="p-shift" id="t-shift" data-tab="shift"><span class="tn">§1</span>The shift</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-files" id="t-files" data-tab="files"><span class="tn">§2</span>File hierarchy</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-boot" id="t-boot" data-tab="boot"><span class="tn">§3</span>Boot sequence</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-charter" id="t-charter" data-tab="charter"><span class="tn">§4</span>Charter anatomy</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-sec" id="t-sec" data-tab="sec"><span class="tn">§5</span>Governance</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="p-hybrid" id="t-hybrid" data-tab="hybrid"><span class="tn">§6</span>Hybrid model</button>
+  </div>
+
+  <!-- ========== TAB 1 · THE SHIFT ========== -->
+  <section class="panel active" id="p-shift" role="tabpanel" aria-labelledby="t-shift">
+    <div class="p-kicker">§1 · The paradigm</div>
+    <h2 class="p-title">Index-first retrieval vs. <em>file-first</em> identity</h2>
+    <p class="p-lede">The dominant enterprise AI architecture treats context as something to <strong>retrieve when needed</strong> — embed everything, query against vectors, traverse a graph. SOUL.md inverts this: the agent's identity, values, and operational frame are injected <strong>every session, every time, unconditionally</strong>. What you care about is in the file. What you might ever want to look up is in the index. Two different jobs.</p>
+
+    <div class="vs">
+      <div class="vs-col old">
+        <div class="vl">Index-first · RAG / K-graph / vectors</div>
+        <h4>Retrieve when asked</h4>
+        <ul>
+          <li>Embed the corpus; query at runtime</li>
+          <li>Chunking, re-ranking, similarity thresholds</li>
+          <li>Context varies with the query</li>
+          <li>Identity and operational frame emerge from retrieval — inconsistent</li>
+          <li>Debuggability is low: why did it retrieve that?</li>
+          <li>Operator cannot author the agent's identity directly — has to influence the index</li>
+        </ul>
+      </div>
+      <div class="vs-col new">
+        <div class="vl">File-first · SOUL.md paradigm</div>
+        <h4>Inject at session start</h4>
+        <ul>
+          <li>Plain markdown on disk; no embedding pipeline</li>
+          <li>Human-authored, human-readable, Git-versioned</li>
+          <li>Same cognitive baseline every session</li>
+          <li>Identity is explicit and authoritative</li>
+          <li>Debuggability is high: read the file</li>
+          <li>Operator writes identity directly — no intermediary</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="sh">The four <em>primitives</em> that make it work</h3>
+    <p>OpenClaw proved that four simple primitives are sufficient for persistent agent identity across sessions. They translate to enterprise APEX directly.</p>
+
+    <div class="prim-grid">
+      <div class="prim">
+        <div class="picon">01</div>
+        <h5>Persistent identity</h5>
+        <p>Files survive restarts. Agent wakes up as the same agent.</p>
+      </div>
+      <div class="prim">
+        <div class="picon">02</div>
+        <h5>Periodic autonomy</h5>
+        <p>Scheduled tasks run without prompts. Agent acts on its own cadence.</p>
+      </div>
+      <div class="prim">
+        <div class="picon">03</div>
+        <h5>Accumulated memory</h5>
+        <p>Learnings curated into files over time. Not regenerated.</p>
+      </div>
+      <div class="prim">
+        <div class="picon">04</div>
+        <h5>Social context</h5>
+        <p>Who the operator is, who the peers are, what the rules are.</p>
+      </div>
+    </div>
+
+    <h3 class="sh">Why this is <em>natural</em> for APEX</h3>
+    <p>You already have the raw materials. The RC canonical schema registry is 34 entities authored in a markdown document. The MCP tool catalog is 44 tools with a naming convention. The governance rules are five classes with declared oversight defaults. These artifacts <strong>were already file-first</strong> — they were just being used as documentation for humans. The SOUL.md paradigm says: inject them into the agent's context every session. No embedding, no retrieval, no graph traversal. The agent wakes up already knowing what an <code>InventoryPosition</code> is.</p>
+
+    <div class="callout teal">
+      <div class="clabel">The reframe</div>
+      <p>If the canonical schema is the acceleration kernel (Tier 0 argument from the marketing playbook), then the kernel belongs <em>in the context window at session start</em>, not in a vector database the agent queries when it guesses it might need to. You already did the hard work of authoring it. Don't make the agent re-discover it through retrieval every time.</p>
+    </div>
+  </section>
+
+  <!-- ========== TAB 2 · FILE HIERARCHY ========== -->
+  <section class="panel" id="p-files" role="tabpanel" aria-labelledby="t-files">
+    <div class="p-kicker">§2 · The APEX workspace</div>
+    <h2 class="p-title">Five files. <em>Layered identity.</em></h2>
+    <p class="p-lede">OpenClaw uses <code>SOUL.md</code> + <code>USER.md</code> + <code>AGENTS.md</code> + <code>MEMORY.md</code> + <code>HEARTBEAT.md</code>. APEX maps these to an enterprise hierarchy — each file has a defined role, a defined author, and a defined governance class. The hierarchy cascades: Core is authored once per release, Charter per edition, Context per engagement, Operator per human-in-the-loop, Memory per run.</p>
+
+    <div class="tree">
+<span class="t-dir">apex-workspace/</span>
+├── <span class="t-file">APEX-CORE.md</span>              <span class="t-anno"># cross-edition principles · authored by DMTSP</span>
+├── <span class="t-file">CHARTER.md</span>                <span class="t-anno"># industry-edition identity · authored per edition (RC, TH, HLS...)</span>
+├── <span class="t-file">ENGAGEMENT.md</span>             <span class="t-anno"># client-specific context · authored per engagement (Nike, Samsonite...)</span>
+├── <span class="t-file">OPERATOR.md</span>               <span class="t-anno"># current human-in-the-loop · who approves, what thresholds</span>
+├── <span class="t-dir">memory/</span>
+│   ├── <span class="t-file">MEMORY.md</span>             <span class="t-anno"># curated long-term learnings</span>
+│   ├── <span class="t-file">2026-04-22.md</span>         <span class="t-anno"># today's run log · appended as events happen</span>
+│   └── <span class="t-file">2026-04-21.md</span>         <span class="t-anno"># prior day · read-only at startup</span>
+├── <span class="t-dir">registry/</span>                  <span class="t-anno"># referenced by CHARTER — not directly injected</span>
+│   ├── <span class="t-file">entities.md</span>           <span class="t-anno"># 34 RC canonical entities</span>
+│   ├── <span class="t-file">tools.md</span>              <span class="t-anno"># 44 MCP tools</span>
+│   └── <span class="t-file">orchs.md</span>              <span class="t-anno"># ORCH catalog</span>
+└── <span class="t-file">manifest.json</span>             <span class="t-anno"># version pins · integrity hashes · Purview classes</span>
+    </div>
+
+    <h3 class="sh">What each file <em>does</em></h3>
+
+    <table class="tbl">
+      <thead><tr><th>File</th><th>Author</th><th>Cadence</th><th>What belongs in it</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="mono">APEX-CORE.md</td>
+          <td>DMTSP practice</td>
+          <td>Per release</td>
+          <td><strong>Cross-edition principles.</strong> Independence language rules. Governance posture. The three orchestration primitives. What APEX is and is not. Never edition-specific.</td>
+        </tr>
+        <tr>
+          <td class="mono">CHARTER.md</td>
+          <td>Edition steward</td>
+          <td>Per edition release</td>
+          <td><strong>Industry identity.</strong> Which canonical entities exist. Which MCP tools are authorized. Which ORCHs are in catalog. Which standards bodies ground the schema (ARTS, HL7, GS1). Oversight defaults per layer.</td>
+        </tr>
+        <tr>
+          <td class="mono">ENGAGEMENT.md</td>
+          <td>Engagement lead</td>
+          <td>Per engagement</td>
+          <td><strong>Client-specific context.</strong> Client name, domain extensions, overrides to Charter defaults, named source systems, integration boundaries, client-specific governance additions.</td>
+        </tr>
+        <tr>
+          <td class="mono">OPERATOR.md</td>
+          <td>Human-in-the-loop</td>
+          <td>Per session / per shift</td>
+          <td><strong>Current approver.</strong> Entra identity of the active HITL. Approval thresholds they're authorized for. Escalation chain if unreachable. Deadline policies.</td>
+        </tr>
+        <tr>
+          <td class="mono">memory/*.md</td>
+          <td>Agent itself (append-only) + operator (curation)</td>
+          <td>Per run (log) · per week (curation)</td>
+          <td><strong>Accumulated learnings.</strong> Daily logs appended by the agent during runs. Weekly curation by the operator promotes durable facts to <code>MEMORY.md</code>.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 class="sh">The <em>cascade</em></h3>
+    <div class="dbox" aria-label="Cascade from Core to Memory">
+      <svg viewBox="0 0 1000 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="cascade-title">
+        <title id="cascade-title">APEX context file cascade — Core to Memory</title>
+        <defs>
+          <marker id="ca" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="var(--ink-3)"/>
+          </marker>
+        </defs>
+        <style>
+          .bx{fill:var(--surface);stroke-width:1.5}
+          .bx.core{stroke:var(--purple-dim);fill:var(--purple-bg)}
+          .bx.ch{stroke:var(--teal-dim);fill:var(--teal-bg)}
+          .bx.en{stroke:var(--amber-dim);fill:var(--amber-bg)}
+          .bx.op{stroke:var(--gold-dim);fill:var(--gold-bg)}
+          .bx.mem{stroke:var(--border-2);fill:var(--bg-2)}
+          .tl{font-family:"Fraunces",serif;font-size:15px;fill:var(--ink);font-weight:500}
+          .ts{font-family:"JetBrains Mono",monospace;font-size:10px;fill:var(--ink-3);letter-spacing:.08em;text-transform:uppercase}
+          .tf{font-family:"JetBrains Mono",monospace;font-size:11px}
+          .tf.p{fill:var(--purple)}.tf.t{fill:var(--teal)}.tf.a{fill:var(--amber)}.tf.g{fill:var(--gold)}.tf.m{fill:var(--ink-2)}
+          .arr{stroke:var(--ink-3);stroke-width:1.2;fill:none}
+          .sc{font-family:"Instrument Sans",sans-serif;font-size:11px;fill:var(--ink-3);font-style:italic}
+        </style>
+
+        <g transform="translate(20,80)">
+          <rect class="bx core" x="0" y="0" width="170" height="90" rx="10"/>
+          <text x="85" y="22" text-anchor="middle" class="ts">Layer 1 · widest</text>
+          <text x="85" y="44" text-anchor="middle" class="tf p">APEX-CORE.md</text>
+          <text x="85" y="62" text-anchor="middle" class="sc">cross-edition</text>
+          <text x="85" y="77" text-anchor="middle" class="sc">principles</text>
+        </g>
+
+        <g transform="translate(215,80)">
+          <rect class="bx ch" x="0" y="0" width="170" height="90" rx="10"/>
+          <text x="85" y="22" text-anchor="middle" class="ts">Layer 2 · industry</text>
+          <text x="85" y="44" text-anchor="middle" class="tf t">CHARTER.md</text>
+          <text x="85" y="62" text-anchor="middle" class="sc">canonical schema</text>
+          <text x="85" y="77" text-anchor="middle" class="sc">+ tool catalog</text>
+        </g>
+
+        <g transform="translate(410,80)">
+          <rect class="bx en" x="0" y="0" width="170" height="90" rx="10"/>
+          <text x="85" y="22" text-anchor="middle" class="ts">Layer 3 · client</text>
+          <text x="85" y="44" text-anchor="middle" class="tf a">ENGAGEMENT.md</text>
+          <text x="85" y="62" text-anchor="middle" class="sc">overrides &amp;</text>
+          <text x="85" y="77" text-anchor="middle" class="sc">extensions</text>
+        </g>
+
+        <g transform="translate(605,80)">
+          <rect class="bx op" x="0" y="0" width="170" height="90" rx="10"/>
+          <text x="85" y="22" text-anchor="middle" class="ts">Layer 4 · human</text>
+          <text x="85" y="44" text-anchor="middle" class="tf g">OPERATOR.md</text>
+          <text x="85" y="62" text-anchor="middle" class="sc">approval</text>
+          <text x="85" y="77" text-anchor="middle" class="sc">authority</text>
+        </g>
+
+        <g transform="translate(800,80)">
+          <rect class="bx mem" x="0" y="0" width="170" height="90" rx="10"/>
+          <text x="85" y="22" text-anchor="middle" class="ts">Layer 5 · time</text>
+          <text x="85" y="44" text-anchor="middle" class="tf m">memory/*.md</text>
+          <text x="85" y="62" text-anchor="middle" class="sc">accumulated</text>
+          <text x="85" y="77" text-anchor="middle" class="sc">learnings</text>
+        </g>
+
+        <path class="arr" d="M 190 125 L 210 125" marker-end="url(#ca)"/>
+        <path class="arr" d="M 385 125 L 405 125" marker-end="url(#ca)"/>
+        <path class="arr" d="M 580 125 L 600 125" marker-end="url(#ca)"/>
+        <path class="arr" d="M 775 125 L 795 125" marker-end="url(#ca)"/>
+
+        <text x="500" y="30" text-anchor="middle" class="tl" font-size="14">Cascade: each layer refines, never contradicts</text>
+        <text x="500" y="48" text-anchor="middle" class="sc">If a layer disagrees with the one before it, the later layer wins. Layers never silently override — conflicts are logged.</text>
+
+        <text x="500" y="225" text-anchor="middle" class="sc">Total injection at session start: ~6,000–12,000 tokens depending on edition &amp; engagement complexity</text>
+        <text x="500" y="245" text-anchor="middle" class="sc" font-weight="bold" fill="var(--ink-2)">This is the deliberate tradeoff — token cost for persona consistency.</text>
+      </svg>
+    </div>
+
+    <div class="callout">
+      <div class="clabel">Why cascade order matters</div>
+      <p>Core rules like Independence language cannot be overridden by Engagement. Edition rules like "RC canonical schema applies" cannot be overridden by Operator. The cascade direction ensures the authority chain matches Deloitte's governance — DMTSP sets what no engagement can reverse; engagement leads set what no operator can reverse.</p>
+    </div>
+  </section>
+
+  <!-- ========== TAB 3 · BOOT SEQUENCE ========== -->
+  <section class="panel" id="p-boot" role="tabpanel" aria-labelledby="t-boot">
+    <div class="p-kicker">§3 · What happens on wake</div>
+    <h2 class="p-title">Eight steps, <em>same order</em>, every session.</h2>
+    <p class="p-lede">OpenClaw's boot sequence is: read SOUL.md → read USER.md → read today's memory → read recent memory → read MEMORY.md → begin. The APEX version adds enterprise steps for manifest verification and Purview classification gating. The critical property: <strong>this sequence is identical every time</strong>. Same cognitive baseline, same identity, same rules — no matter what triggered the wake.</p>
+
+    <div class="boot">
+      <div class="boot-step">
+        <div class="snum">01</div>
+        <div class="sbody">
+          <h4>Verify manifest integrity</h4>
+          <div class="sfile">manifest.json</div>
+          <p>Before reading anything else, validate that <code>manifest.json</code> hashes match. Any file whose hash has drifted is treated as compromised. Fail closed — refuse to wake if integrity check fails.</p>
+        </div>
+      </div>
+
+      <div class="boot-step">
+        <div class="snum">02</div>
+        <div class="sbody">
+          <h4>Load cross-edition principles</h4>
+          <div class="sfile">APEX-CORE.md</div>
+          <p>Independence language rules. Governance posture. The three control-plane primitives. Non-negotiable limits that no later file can override.</p>
+        </div>
+      </div>
+
+      <div class="boot-step">
+        <div class="snum">03</div>
+        <div class="sbody">
+          <h4>Load industry charter</h4>
+          <div class="sfile">CHARTER.md</div>
+          <p>The canonical schema entity registry. The authorized MCP tool catalog. The ORCH catalog. Standards basis. Oversight defaults per layer. This is where the agent learns what an <code>InventoryPosition</code> is — not from an embedding, from a document.</p>
+        </div>
+      </div>
+
+      <div class="boot-step">
+        <div class="snum">04</div>
+        <div class="sbody">
+          <h4>Load engagement context</h4>
+          <div class="sfile">ENGAGEMENT.md</div>
+          <p>Client name. Source system specifics. Domain extensions (e.g. Nike-specific sub-domains under D05). Override tables for any Charter default the client has negotiated.</p>
+        </div>
+      </div>
+
+      <div class="boot-step">
+        <div class="snum">05</div>
+        <div class="sbody">
+          <h4>Load current operator</h4>
+          <div class="sfile">OPERATOR.md</div>
+          <p>Entra identity of the human currently on-shift. Approval thresholds they're authorized for. Escalation chain. HITL deadline defaults. If the operator is not resolvable at boot time, the agent enters read-only mode until one is.</p>
+        </div>
+      </div>
+
+      <div class="boot-step">
+        <div class="snum">06</div>
+        <div class="sbody">
+          <h4>Read today's run log</h4>
+          <div class="sfile">memory/2026-04-22.md</div>
+          <p>If today's log exists, read it. Prior runs in the same day may have logged state the agent should know about. First run of the day creates the file on first write.</p>
+        </div>
+      </div>
+
+      <div class="boot-step">
+        <div class="snum">07</div>
+        <div class="sbody">
+          <h4>Read curated long-term memory</h4>
+          <div class="sfile">memory/MEMORY.md</div>
+          <p>Durable facts promoted by the operator during weekly curation. "The Nike R2R close window ends on day 8." "Samsonite's SAP instance uses EU1 region." Facts that changed how past runs went and remain true.</p>
+        </div>
+      </div>
+
+      <div class="boot-step">
+        <div class="snum">08</div>
+        <div class="sbody">
+          <h4>Enter operational readiness</h4>
+          <div class="sfile">—</div>
+          <p>The agent emits a <code>booted</code> event to the Event Hubs status channel, logs its context fingerprint (the manifest version it loaded under), and is ready to receive work. Every tool call from here forward carries this fingerprint for audit.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout purple">
+      <div class="clabel">The fingerprint is the audit hook</div>
+      <p>Every tool call the agent makes is tagged with its context fingerprint — the manifest version, the Charter version, the Engagement version, the Operator identity. When something goes wrong in production, the first diagnostic question is "what context was loaded?" and the answer is deterministically recoverable from the fingerprint. This is what makes file-first inspectable in a way that retrieval-based context never is.</p>
+    </div>
+
+    <h3 class="sh">Token cost is <em>real</em> and worth paying</h3>
+    <p>The honest tradeoff from OpenClaw's approach: every session pays 6,000–12,000 tokens on context load before doing any useful work. In exchange, you get <strong>perfect persona consistency</strong>, perfect identity stability, and perfect audit recoverability. For an enterprise agent acting on governed financial or customer data, this tradeoff is obviously worth it — token costs are a rounding error against the cost of an agent that silently drifted because its retrieval happened to return something different today.</p>
+  </section>
+
+  <!-- ========== TAB 4 · CHARTER ANATOMY ========== -->
+  <section class="panel" id="p-charter" role="tabpanel" aria-labelledby="t-charter">
+    <div class="p-kicker">§4 · RC-CHARTER.md, concretely</div>
+    <h2 class="p-title">The <em>heart</em> of the file-first shift</h2>
+    <p class="p-lede">The Charter is where file-first becomes specific. This is the concrete content that replaces what a generic-horizontal approach would solve with vectors and graphs. Below is the skeleton of what <code>RC-CHARTER.md</code> contains — the actual artifact you'd commit to a Git repo and inject at every RC-edition agent wake.</p>
+
+<div class="code"><span class="c-h"># RC-CHARTER.md</span>
+<span class="c-c"># APEX Retail &amp; Consumer edition · v0.1 · hash: sha256:a7b3c9...</span>
+
+<span class="c-h">## Identity</span>
+
+You are an APEX Retail &amp; Consumer agent. You operate on the Microsoft
+platform under Deloitte DMTSP delivery. Your canonical data model is the
+RC schema; you do not negotiate your own model with source systems.
+
+<span class="c-h">## Canonical entities — 34</span>
+
+The following entities are <span class="c-k">authoritative</span>. When you reference any of
+these concepts, you mean the canonical definition, not the source-system
+definition. If source systems disagree with the canonical, the canonical
+wins and the disagreement is logged.
+
+  <span class="c-v">InventoryPosition</span>   grain: item × location × date
+                      SCD: snapshot + SCD2
+                      class: Internal
+                      standards: ARTS ODM
+
+  <span class="c-v">Customer</span>            grain: customer
+                      SCD: SCD2
+                      class: Restricted · PII
+                      standards: GDPR, CCPA
+
+  <span class="c-c"># ... 32 more entities, same form ...</span>
+
+<span class="c-h">## Authorized MCP tools — 44</span>
+
+You may only reach the canonical schema through these tools. Direct
+queries against Fabric Gold, OneLake, or source systems are forbidden.
+
+  <span class="c-v">rc.inventory.position</span>   reads InventoryPosition
+                          oversight: HIC · class: Internal
+                          latency target: &lt;100ms
+
+  <span class="c-v">rc.customer.get</span>         reads Customer
+                          oversight: HOTL · class: Restricted
+                          latency target: &lt;150ms
+
+  <span class="c-c"># ... 42 more tools, same form ...</span>
+
+<span class="c-h">## Governance inheritance</span>
+
+Every tool inherits the maximum classification of the entities it
+touches. Every orchestration inherits the maximum classification of its
+component tool calls. You may never downgrade a classification at
+composition time.
+
+<span class="c-h">## Oversight defaults by layer</span>
+
+  L7 Experience   HOTL   you are the consumer of output; HITL for commits
+  L6 Reasoning    HIC    model policy and RAI rules are pre-set
+  L5 Agents       varies declared per ORCH
+  L4 Schema       HIC    data steward sets definitions
+  L3 Data plane   HIC    data engineer sets quality
+  L2 Sources      HITL   any agent-originated write requires approval
+  L1 Platform     HIC    not a runtime decision point
+
+<span class="c-h">## Hard limits</span>
+
+  <span class="c-k">You will never</span> describe the Deloitte-Microsoft relationship as
+    "partner," "partnership," "alliance," or "strategic alliance."
+  <span class="c-k">You will never</span> reveal PCI data. Tender lines return tokens only.
+  <span class="c-k">You will never</span> write to a source system without HITL approval.
+  <span class="c-k">You will never</span> invoke a tool not in the authorized catalog above.
+  <span class="c-k">You will never</span> modify your own charter. Charter updates flow
+    through the release process and require Edition Steward sign-off.
+
+<span class="c-h">## Self-description for auditors</span>
+
+If asked to identify yourself for audit purposes, respond with your
+context fingerprint: manifest version, charter version, engagement
+version, operator identity. Do not speculate about content outside
+your loaded context.</div>
+
+    <div class="callout teal">
+      <div class="clabel">What just happened</div>
+      <p>The agent now knows — without any retrieval, any embedding, any graph traversal — the 34 canonical entities, the 44 tool signatures with their governance posture, the Independence language rules, the oversight matrix, and the hard limits. All from one file. That file can be code-reviewed, signed, versioned, and diffed across releases. A question like <em>"does the agent know that rc.tender.summary requires HITL?"</em> is answered by searching the file, not by probing the agent.</p>
+    </div>
+
+    <h3 class="sh">Compare the <em>same knowledge</em> in the index-first world</h3>
+    <p>In the generic-horizontal paradigm, every one of those 34 entity definitions and 44 tool contracts lives in embeddings. The agent has to retrieve them at query time. Whether it retrieves the right ones depends on the similarity math, the chunking strategy, the re-ranker, and the question phrasing. The governance rules live somewhere else entirely — often in a system prompt that can be 4KB or 40KB depending on who last edited it. There's no diff. There's no version. There's no audit.</p>
+
+    <div class="callout amber">
+      <div class="clabel">The trap to avoid</div>
+      <p>"Just embed the canonical schema and retrieve it" sounds attractive — same content, cheaper context. It doesn't work. The governance rules, Independence language, and hard limits must be always-on, not probabilistically retrieved. And the entity and tool definitions must match <em>exactly</em> — not "close enough based on vector similarity." File-first is the right place to draw this line.</p>
+    </div>
+  </section>
+
+  <!-- ========== TAB 5 · GOVERNANCE ========== -->
+  <section class="panel" id="p-sec" role="tabpanel" aria-labelledby="t-sec">
+    <div class="p-kicker">§5 · What SOUL.md doesn't solve</div>
+    <h2 class="p-title">Enterprise requires the file-first model to <em>harden</em></h2>
+    <p class="p-lede">The OpenClaw community has already discovered that file-first context is a new attack surface — the ClawHavoc campaign targeted SOUL.md precisely because modifying it creates persistent behavioral changes that survive restarts. For enterprise APEX under Deloitte Independence, this is the first-order concern. The paradigm is right; the file-first model in its consumer form is not hardened enough for regulated deployment.</p>
+
+    <div class="cards-2">
+      <div class="card">
+        <div class="ctag">G1 · Integrity</div>
+        <h4>Signed manifests</h4>
+        <p>Every file carries a SHA-256 hash in <code>manifest.json</code>. Boot step 01 verifies. Any drift fails the wake. Manifest is signed by the Edition Steward's key; signature is verified at boot. This is the single most important hardening step.</p>
+      </div>
+      <div class="card">
+        <div class="ctag">G2 · Classification</div>
+        <h4>Purview class per file</h4>
+        <p>Every context file declares its Purview class in the manifest. <code>CHARTER.md</code> is Internal. <code>ENGAGEMENT.md</code> is typically Confidential. <code>OPERATOR.md</code> carries the highest class the operator is cleared for. DLP policies apply to the files themselves.</p>
+      </div>
+      <div class="card">
+        <div class="ctag">G3 · Provenance</div>
+        <h4>Author identity at every commit</h4>
+        <p>Every file carries a frontmatter block with author Entra ID, commit timestamp, and review record. An unreviewed CHARTER.md cannot be loaded in production — the boot-step validator rejects it.</p>
+      </div>
+      <div class="card">
+        <div class="ctag">G4 · Scope</div>
+        <h4>Entra-gated read access</h4>
+        <p>Files are not world-readable on disk. Each file's read permission is scoped to a specific Entra group. The agent service principal has exactly the scope it needs — nothing more. An agent running under a scope that doesn't include <code>ENGAGEMENT.md</code> fails the wake explicitly.</p>
+      </div>
+      <div class="card">
+        <div class="ctag">G5 · Version pinning</div>
+        <h4>Manifest-declared versions</h4>
+        <p>The manifest pins exact versions of every context file. Agents boot against the manifest, not against "whatever is currently in the repo." This is how you survive a mid-day CHARTER update without agents silently shifting behavior.</p>
+      </div>
+      <div class="card">
+        <div class="ctag">G6 · Immutability in-run</div>
+        <h4>No self-modification</h4>
+        <p>A running agent cannot write to <code>APEX-CORE.md</code>, <code>CHARTER.md</code>, <code>ENGAGEMENT.md</code>, or <code>OPERATOR.md</code>. It can only append to its own <code>memory/YYYY-MM-DD.md</code>. Promotion to <code>MEMORY.md</code> is an operator action outside the agent's own scope.</p>
+      </div>
+    </div>
+
+    <h3 class="sh">The <em>audit chain</em> — end to end</h3>
+    <p>With the six governance primitives in place, every agent action can be traced back to a deterministic context. When a SteerCo partner asks "why did the agent do that?" the answer is constructive — not speculative.</p>
+
+    <table class="tbl">
+      <thead><tr><th>Question</th><th>How file-first answers it</th></tr></thead>
+      <tbody>
+        <tr><td><strong>What did the agent know?</strong></td><td>Read the files in the manifest version the agent booted under. They contain exactly what it knew.</td></tr>
+        <tr><td><strong>Who authored that rule?</strong></td><td>File frontmatter carries author Entra ID, commit SHA, review record.</td></tr>
+        <tr><td><strong>When did this change?</strong></td><td><code>git log</code> on the file. Every diff is visible.</td></tr>
+        <tr><td><strong>Who approved the change?</strong></td><td>Git PR review record, tied to the manifest version bump.</td></tr>
+        <tr><td><strong>Was the file tampered with?</strong></td><td>Manifest signature verification at boot. Drift fails the wake.</td></tr>
+        <tr><td><strong>Is this agent authorized to read this file?</strong></td><td>Entra group membership of the service principal is recorded at boot.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout crimson">
+      <div class="clabel">What the consumer SOUL.md paradigm misses</div>
+      <p>In the OpenClaw consumer setting, <code>SOUL.md</code> is a file on disk with local filesystem permissions. <a href="#">Zenity Labs demonstrated a zero-click attack where a malicious document could rewrite SOUL.md through an agent backdoor, establishing persistent behavioral control</a>. For enterprise APEX under Deloitte Independence, the six governance primitives above are not optional — they are the price of bringing file-first context into a regulated environment. Get them right and you inherit all the benefits with none of the exposure.</p>
+    </div>
+  </section>
+
+  <!-- ========== TAB 6 · HYBRID MODEL ========== -->
+  <section class="panel" id="p-hybrid" role="tabpanel" aria-labelledby="t-hybrid">
+    <div class="p-kicker">§6 · The honest framing</div>
+    <h2 class="p-title">File-first wins identity. <em>Vectors and graphs</em><br>still win the other things.</h2>
+    <p class="p-lede">The point isn't to abolish knowledge graphs or vector retrieval. It's to put each paradigm where it actually does useful work. File-first owns <strong>identity and authority</strong>. Vectors own <strong>unstructured semantic search</strong>. Graphs own <strong>deep relationship traversal</strong>. Using one paradigm for all three is the mistake — and the mistake you're specifically trying to correct by moving beyond knowledge graphs as the default.</p>
+
+    <table class="tbl">
+      <thead><tr><th>Question the agent faces</th><th>Right paradigm</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Who am I? What are my rules?</td>
+          <td><span class="badge purple">File-first</span></td>
+          <td>Must be always-on, must be authoritative, must be inspectable. Never retrieval-gated.</td>
+        </tr>
+        <tr>
+          <td>What is the canonical definition of <code>Customer</code>?</td>
+          <td><span class="badge purple">File-first</span></td>
+          <td>Definitions don't vary by query phrasing. Retrieval is the wrong tool for authoritative definitions.</td>
+        </tr>
+        <tr>
+          <td>Find the three policy paragraphs relevant to this return</td>
+          <td><span class="badge teal">Vectors</span></td>
+          <td>Policy corpus is large and unstructured. Similarity retrieval is exactly what this is for.</td>
+        </tr>
+        <tr>
+          <td>What are similar past customer complaints?</td>
+          <td><span class="badge teal">Vectors</span></td>
+          <td>Unstructured text, open-ended similarity, no canonical answer. Vector retrieval wins.</td>
+        </tr>
+        <tr>
+          <td>Find all vendors three hops upstream from this SKU</td>
+          <td><span class="badge amber">Graphs</span></td>
+          <td>Deep relationship traversal is graph-native. Vector embedding flattens the structure that matters.</td>
+        </tr>
+        <tr>
+          <td>Identify fraud patterns spanning multiple accounts and locations</td>
+          <td><span class="badge amber">Graphs</span></td>
+          <td>The pattern lives in the topology of relationships, not in the content of individual records.</td>
+        </tr>
+        <tr>
+          <td>What were the last three approvals this operator made?</td>
+          <td><span class="badge purple">File-first (memory)</span></td>
+          <td>Time-ordered, agent-logged, durable. The memory file is literally a log of this.</td>
+        </tr>
+        <tr>
+          <td>Describe this product in detail</td>
+          <td><span class="badge teal">Vectors + MCP tool</span></td>
+          <td>MCP tool returns canonical product entity; vector search fills in unstructured marketing copy.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 class="sh">The hybrid architecture in <em>one sentence</em></h3>
+    <div class="callout teal">
+      <div class="clabel">The rule</div>
+      <p><strong>Files define the agent. MCP tools expose the canonical data. Vectors and graphs inform the world the agent acts in.</strong> All three coexist. The generic-horizontal failure is to collapse all three into one paradigm — usually vector retrieval — and hope it works. The APEX position is that each deserves its proper layer, and the acceleration comes from having the identity and canonical layers already built and injected, so the retrieval layer can focus on the genuinely unstructured work it's best at.</p>
+    </div>
+
+    <h3 class="sh">What I'd build <em>next</em></h3>
+    <div class="cards-3">
+      <div class="card focal">
+        <div class="ctag">NEXT · A</div>
+        <h4>APEX-CORE.md v0.1</h4>
+        <p>The concrete first file. Cross-edition principles, Independence rules, governance posture, the three orchestration primitives from the previous guide. ~2000 words, reviewable in an afternoon.</p>
+      </div>
+      <div class="card focal">
+        <div class="ctag">NEXT · B</div>
+        <h4>RC-CHARTER.md v0.1</h4>
+        <p>Generated from the existing RC Logical Architecture spec — the 34 entities, 44 tools, and governance inheritance formatted for file-first injection rather than human reading. Same content, different consumer.</p>
+      </div>
+      <div class="card focal">
+        <div class="ctag">NEXT · C</div>
+        <h4>The manifest contract</h4>
+        <p>Specification for <code>manifest.json</code>: schema, hash format, signing approach, version pinning, Purview class declarations, Entra scope assertions. The governance spine for everything else.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="clabel">Why this belongs in APEX now</div>
+      <p>The three manifest-versioning questions from the RC Architecture open-threads section (scope, scheme, compatibility tracking) are actually the same questions the file-first paradigm forces you to answer. Solving them for the manifest solves them for file-first context too. What was an architecture-spec open thread is also a foundational choice for the cognitive baseline of every APEX agent. Resolve it once; two things fall out.</p>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="indepth">
+        <div class="iptag">Independence note</div>
+        <p>This document is an internal Deloitte working artifact. It references OpenClaw's <code>SOUL.md</code> paradigm as a public open-source pattern being translated to enterprise APEX on the Microsoft platform. It references Microsoft platform capabilities (Entra, Purview, Fabric) that clients license directly from Microsoft. Deloitte delivers agentic AI services on the Microsoft platform, accelerated internally by APEX. APEX is never licensed, sold, or invoiced to a client. No &ldquo;partner,&rdquo; &ldquo;alliance,&rdquo; or &ldquo;strategic alliance&rdquo; language is used anywhere in this document.</p>
+      </div>
+      <div class="meta-col">
+        <div class="mt">Owner</div>
+        <div class="mv">Keven Markham</div>
+        <div class="mt">Practice</div>
+        <div class="mv">Deloitte DMTSP &middot; Consumer Industry</div>
+      </div>
+      <div class="meta-col">
+        <div class="mt">Version</div>
+        <div class="mv mono">v0.1 · working draft</div>
+        <div class="mt">Context</div>
+        <div class="mv">File-first paradigm for APEX · candidate for APEX Core inclusion</div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const tabs = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('.panel');
+  function activate(name){
+    tabs.forEach(t=>{
+      const on = t.dataset.tab===name;
+      t.classList.toggle('active', on);
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    panels.forEach(p=>p.classList.toggle('active', p.id==='p-'+name));
+    if(history.replaceState){ history.replaceState(null,'','#'+name); }
+  }
+  tabs.forEach((tab, i)=>{
+    tab.addEventListener('click', ()=>activate(tab.dataset.tab));
+    tab.addEventListener('keydown', (e)=>{
+      if(e.key==='ArrowRight' || e.key==='ArrowLeft'){
+        e.preventDefault();
+        const dir = e.key==='ArrowRight' ? 1 : -1;
+        const next = tabs[(i + dir + tabs.length) % tabs.length];
+        next.focus(); activate(next.dataset.tab);
+      }
+    });
+  });
+  if(location.hash){
+    const name = location.hash.slice(1);
+    if(document.getElementById('p-'+name)) activate(name);
+  }
+  const btn = document.getElementById('themeBtn');
+  btn.addEventListener('click', ()=>{
+    const cur = document.documentElement.getAttribute('data-theme');
+    const next = cur==='dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    btn.textContent = next==='dark' ? 'Light' : 'Dark';
+  });
+</script>
+
+</body>
+</html>

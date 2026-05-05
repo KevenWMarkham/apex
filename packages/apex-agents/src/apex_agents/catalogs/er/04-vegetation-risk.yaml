@@ -1,0 +1,34 @@
+kind: agent
+name: apex.er.agents.vegetation-risk
+version: 0.1.0
+practice: er
+persona: Vegetation Manager
+service_codes: [ER-PU-03]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Vegetation-contact prediction agent processing CV feeds from inspection
+  drones to identify limbs likely to contact feeders under forecast wind.
+archetype_id: F2-event-cluster-pattern-match
+primary_contact: er-pu-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.er.mcp.external.get_drone_imagery
+    purpose: Read scheduled drone-inspection imagery + CV detections
+  - tool_id: apex.er.mcp.external.get_weather_forecast
+    purpose: Read 7-day wind forecast
+  - tool_id: apex.er.mcp.gridml.dispatch_vegetation_crew
+    purpose: Dispatch pre-emptive vegetation clear
+    write: true
+
+hitl_gates:
+  - name: dispatch_high_risk
+    description: Pre-emptive crew dispatch requires vegetation manager approval
+    fires_when: Risk score above threshold
+    surface: teams_card
+    sla_minutes: 240
+
+oversight_modes: [HITL, HOTL]
+kpis:
+  - { name: vegetation-caused outages, direction: down, target_band: "-30 to -40%" }

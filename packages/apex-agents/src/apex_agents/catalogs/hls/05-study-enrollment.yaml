@@ -1,0 +1,39 @@
+kind: agent
+name: apex.hls.agents.study-enrollment
+version: 0.1.0
+practice: hls
+persona: Clinical Research Coordinator
+service_codes: [HLS-LS-03]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Match candidate patients to clinical-trial protocols using inclusion /
+  exclusion criteria, EHR-derived signals, and consent context. Surfaces
+  candidate matches for CRC review.
+archetype_id: F5-identity-resolution-confidence-merge
+primary_contact: hls-ls-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.hls.mcp.studyml.get_protocol_criteria
+    purpose: Read inclusion / exclusion criteria from CDISC protocol
+  - tool_id: apex.hls.mcp.patientml.get_clinical_profile
+    purpose: Read patient profile relevant to criteria
+  - tool_id: apex.hls.mcp.patientml.get_consent_state
+    purpose: Read research consent record
+
+hitl_gates:
+  - name: candidate_outreach
+    description: Reaching out to candidate patient requires CRC approval
+    fires_when: Match identified above confidence threshold
+    surface: dashboard
+    sla_minutes: 1440
+
+oversight_modes: [HITL]
+
+forbidden_classifications: [pci]
+
+kpis:
+  - name: enrollment rate
+    direction: up
+    target_band: "+30 to +50% of trials hitting target enrollment"

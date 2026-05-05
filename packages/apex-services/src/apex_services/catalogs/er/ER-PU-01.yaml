@@ -1,0 +1,49 @@
+kind: service
+service_code: ER-PU-01
+version: 0.1.0
+practice: er
+display_name: Outage Triage & Restoration
+brief: "Real-time outage triage + restoration sequencing with critical-customer prioritization."
+description: >
+  P&U sub-segment service. Reduces SAIDI / CAIDI via dispatcher-supported sequencing with crew dispatch HITL.
+
+personas:
+  - { name: "Distribution Dispatcher", role: primary }
+  - { name: "Operations Director", role: secondary }
+  - { name: "Chief Reliability Officer", role: secondary }
+
+kpis:
+  - name: "SAIDI"
+    direction: down
+    wave2_target: "-15 to -25%"
+  - name: "customer-minutes lost"
+    direction: down
+
+slos:
+  - { name: "dispatch latency", target: "< 60 seconds", enforcement: hard }
+  - { name: "NERC CIP audit retention", target: "7 years", enforcement: regulatory }
+
+waves:
+  - wave: wave_1
+    duration: "6-12 weeks"
+    fee_band_low_usd: 500000
+    fee_band_high_usd: 1500000
+  - wave: wave_2
+    duration: "9-15 months"
+    fee_band_low_usd: 5000000
+    fee_band_high_usd: 20000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.er.agents.outage-triage
+  - apex.er.agents.restoration-sequencing
+
+linked_archetypes:
+  - F1-continuous-monitor-hitl-alert
+  - F3-predictive-trigger-workflow-aware
+
+schemas_touched: [P&UML, GridML]
+standards: ['NERC CIP', 'FERC', 'CIM (IEC 61970)']
+primary_contact: er-practice-lead@deloitte.com

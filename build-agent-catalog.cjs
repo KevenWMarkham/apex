@@ -796,7 +796,7 @@ children.push(
     alignment: AlignmentType.CENTER,
     spacing: { before: 140 },
     children: [new TextRun({
-      text: "For the full RC edition specification, read apex-rc-build-spec-v2.md. For the APEX framework overview, read docs/APEX-solution-overview.docx.",
+      text: "For the full RC edition specification, read docs/build-specs/apex-rc-build-spec-v2.md. For the APEX framework overview, read docs/guides/APEX-solution-overview.docx.",
       italics: true, size: 20, color: "56627C"
     })]
   })
@@ -865,7 +865,7 @@ const doc = new Document({
 });
 
 Packer.toBuffer(doc).then(buffer => {
-  const out = "docs/APEX-RC-agent-catalog.docx";
+  const out = "docs/reference/APEX-RC-agent-catalog.docx";
   fs.writeFileSync(out, buffer);
   console.log(`wrote ${out} (${buffer.length.toLocaleString()} bytes)`);
   console.log(`  agents: ${ALL_AGENTS.length}`);

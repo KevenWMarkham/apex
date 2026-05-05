@@ -2,8 +2,8 @@
 // to one .docx using the same Aptos/Cascadia typography and Mermaid-to-PNG
 // pipeline as build-dev-guide-docx.cjs.
 //
-// Input:  docs/APEX-comprehensive-solutions-reference.md
-// Output: docs/APEX-comprehensive-solutions-reference.docx
+// Input:  docs/reference/APEX-comprehensive-solutions-reference.md
+// Output: docs/reference/APEX-comprehensive-solutions-reference.docx
 //
 // Run:   node build-reference-docx.cjs
 
@@ -19,8 +19,8 @@ const {
 } = require('docx');
 
 // -------- Config --------
-const INPUT_MD   = 'docs/APEX-comprehensive-solutions-reference.md';
-const OUTPUT_DOCX = 'docs/APEX-comprehensive-solutions-reference.docx';
+const INPUT_MD   = 'docs/reference/APEX-comprehensive-solutions-reference.md';
+const OUTPUT_DOCX = 'docs/reference/APEX-comprehensive-solutions-reference.docx';
 const GUIDE_TITLE = 'APEX Comprehensive Solutions Reference';
 const GUIDE_SUBTITLE = 'Reinventing Enterprise Decision-Making on Microsoft';
 

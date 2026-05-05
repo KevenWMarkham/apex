@@ -1,0 +1,17 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.triage.001
+family: triage
+name: Event-Cluster Triage
+description: Group inbound events into similarity clusters and rank by impact.
+canonical_inputs:
+- EventStream
+- SeverityRubric
+canonical_outputs:
+- RankedClusters
+typical_hitl_gate: Cluster acceptance > N events
+typical_oversight: HITL
+typical_model_tier: standard
+example_agents:
+- apex.er.agents.outage-triage
+appendix_d_section: Appendix D — Archetype family triage

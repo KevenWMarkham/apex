@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: mcp_tool
+tool_id: apex.ice.mcp.equipml.get_serial_history
+practice: ice
+sor_or_layer: equipml
+purpose: Read serial-number history
+write: false
+inputs_schema: ''
+outputs_schema: ''
+classification_required: []
+related_canonical_schemas:
+- EQUIPML
+appendix_f_section: Appendix F — ICE MCP Tools

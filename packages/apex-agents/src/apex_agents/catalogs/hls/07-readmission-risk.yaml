@@ -1,0 +1,37 @@
+kind: agent
+name: apex.hls.agents.readmission-risk
+version: 0.1.0
+practice: hls
+persona: Discharge Planning Nurse
+service_codes: [HLS-E2E-04]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  30-day readmission-risk prediction with intervention recommendation
+  (home-health, follow-up, medication-reconciliation depth). Targets
+  Medicare HRRP penalties.
+archetype_id: F3-predictive-trigger-workflow-aware
+primary_contact: hls-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.hls.mcp.patientml.get_admission_history
+    purpose: Read prior admissions
+  - tool_id: apex.hls.mcp.patientml.get_clinical_summary
+    purpose: Read current admission summary
+  - tool_id: apex.hls.mcp.patientml.get_social_determinants
+    purpose: Read SDoH signals
+
+hitl_gates:
+  - name: high-risk intervention
+    description: High-risk score with proposed intervention requires nurse review
+    fires_when: Risk score crosses high-risk threshold
+    surface: teams_card
+    sla_minutes: 60
+
+oversight_modes: [HITL, HOTL]
+
+kpis:
+  - name: 30-day readmission rate
+    direction: down
+    target_band: "-10 to -15% in cohort"

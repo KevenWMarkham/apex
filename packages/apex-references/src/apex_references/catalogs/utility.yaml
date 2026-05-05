@@ -1,0 +1,202 @@
+kind: reference_deployment
+name: utility
+version: 0.1.0
+practice: er
+display_name: Utility — Electric Distribution Reference Deployment
+description: >
+  Turnkey Wave-1 blueprint for an investor-owned electric utility serving
+  a wildfire-prone service territory. Composes Sprint 14 capacity
+  (dev-prod split with regulatory-grade audit), Sprint 15 SOR adapters
+  (OSI PI + OSIsoft historian + ServiceNow + AS/400 CIS), Sprint 16
+  anchor agents (outage triage, restoration sequencing, PSPS decision,
+  vegetation risk, DER orchestration), and Sprint 17 productized
+  services (ER-PU, ER-MN). Per Sellers Guide §11.9 reference deployment.
+
+sellers_guide_section: "§11.9"
+demo_script_path: utility.md
+primary_contact: er-practice-lead@deloitte.com
+
+sponsor_personas:
+  - VP Distribution Operations
+  - Chief Reliability Officer
+  - VP Wildfire & Vegetation Management
+
+triggering_scenarios:
+  - name: PSPS decision under red-flag warning
+    description: >
+      Red-flag warning + dry fuel + projected wind gusts approach
+      PSPS-trigger thresholds. VP Operations needs evidence-based
+      de-energization recommendation by circuit segment within 6 hours,
+      with regulator-defensible audit trail.
+    pain: regulatory + safety + financial + reputational
+    sponsor_persona: VP Wildfire & Vegetation Management
+
+  - name: Storm-driven outage surge
+    description: >
+      Severe weather event causes 80,000-customer outage surge.
+      Restoration sequencing currently uses static crew dispatch
+      heuristics; Chief Reliability Officer wants live ETR + crew
+      routing optimized against critical-customer load and crew safety.
+    pain: operational + customer-experience + regulatory
+    sponsor_persona: Chief Reliability Officer
+
+  - name: AMI billing anomaly cluster
+    description: >
+      Customer-care escalations spike on suspected mis-bills in one
+      district; AMI meter data shows anomaly cluster. Need root-cause
+      triage in days, not weeks, before regulatory complaint volume
+      threatens PUC scrutiny.
+    pain: regulatory + customer-experience
+    sponsor_persona: VP Distribution Operations
+
+architecture:
+  capacity_blueprint: dev-prod-split
+  fabric_sku: F128
+  bronze_workspaces:
+    - apex-er-prod-bronze
+    - apex-er-dev-bronze
+  silver_workspaces:
+    - apex-er-prod-silver
+    - apex-er-dev-silver
+  gold_workspaces:
+    - apex-er-prod-gold
+  governance_workspace: apex-er-governance
+
+  adapters:
+    - osi-pi
+    - servicenow
+    - as400-db2
+    - oracle-ebs-fusion
+
+  canonical_schemas:
+    - GridML
+    - OutageML
+    - MeterML
+
+  foundry_model_pins:
+    - gpt-4o-2024-11-20
+    - gpt-4o-mini-2024-07-18
+    - o1-2024-12-17
+
+  purview_classifications:
+    - critical-infrastructure
+    - cip-014
+    - pii
+
+use_cases:
+  - name: PSPS decision support with regulator-grade audit
+    description: >
+      Multi-source fusion (weather, fuel moisture, asset health,
+      customer criticality, prior incidents) produces per-circuit
+      de-energization recommendation. PSPS decision agent uses
+      reasoning-tier model; HITL gate requires VP-level approval
+      and emits FERC/PUC-defensible audit row.
+    service_codes:
+      - ER-PU-01
+    agents:
+      - apex.er.agents.psps-decision
+      - apex.er.agents.vegetation-risk
+    triggering_event: red-flag warning + multi-factor PSPS pre-trigger
+    expected_decision_latency: under 6 hours from pre-trigger to HITL gate
+
+  - name: Outage triage + restoration sequencing
+    description: >
+      Outage cluster fed into triage agent (root-cause likelihood,
+      affected critical customers, expected restoration complexity);
+      restoration sequencing agent generates crew dispatch with
+      load-restoration plan. ETR auto-publishes to customer channels.
+    service_codes:
+      - ER-PU-02
+    agents:
+      - apex.er.agents.outage-triage
+      - apex.er.agents.restoration-sequencing
+    triggering_event: outage event detected via SCADA + AMI confirmation
+    expected_decision_latency: under 30 minutes to crew dispatch
+
+  - name: Vegetation-risk inspection prioritization
+    description: >
+      LiDAR + satellite imagery + work-order history → vegetation
+      risk score per span; routes high-risk spans to inspection
+      crews with photo-evidence requirements pre-staged.
+    service_codes:
+      - ER-PU-03
+    agents:
+      - apex.er.agents.vegetation-risk
+    triggering_event: weekly inspection cycle OR seasonal trigger
+    expected_decision_latency: same-day
+
+  - name: DER orchestration during stress events
+    description: >
+      Distributed energy resource (solar, batteries, V2G) dispatch
+      during peak demand or constraint. DER orchestration agent
+      proposes dispatch with grid-stability constraints; operator
+      HITL on aggregate magnitude.
+    service_codes:
+      - ER-PU-04
+    agents:
+      - apex.er.agents.der-orchestration
+    triggering_event: forecasted peak / distribution constraint / market signal
+    expected_decision_latency: under 15 minutes
+
+  - name: AMI billing-anomaly RCA
+    description: >
+      Cluster detection on AMI bill exceptions; meter telemetry +
+      tariff lookup + CIS account history → root-cause hypothesis +
+      remediation playbook. Customer-care HITL before customer contact.
+    service_codes:
+      - ER-MN-01
+    agents:
+      - apex.er.agents.ami-billing-anomaly
+    triggering_event: anomaly-cluster detection on bill exceptions
+    expected_decision_latency: 24 hours
+
+kpi_targets:
+  - name: SAIDI (System Average Interruption Duration Index)
+    direction: down
+    wave1_commitment: instrumentation + restoration sequencing in HOTL
+    wave2_target: "-8-12% in pilot region"
+    wave3_target: "-15-20% system-wide"
+    measurement_pattern: pilot region versus system-baseline difference-in-differences
+
+  - name: PSPS-decision audit completeness
+    direction: up
+    wave1_commitment: 100% audit-row emission for all PSPS decisions
+    wave2_target: 100% maintained
+    wave3_target: 100% maintained + regulator-attested
+    measurement_pattern: PUC audit response sampling
+
+  - name: Vegetation-risk inspection yield
+    direction: up
+    wave1_commitment: instrumentation + risk-prioritized inspection list
+    wave2_target: "+30-50% defect-find rate"
+    wave3_target: "+60% sustained"
+    measurement_pattern: defects-per-inspection ratio
+
+  - name: AMI billing-complaint cycle time
+    direction: down
+    wave1_commitment: anomaly-cluster detection live
+    wave2_target: "-50% RCA cycle time"
+    wave3_target: "-75% sustained"
+    measurement_pattern: ticket-open to RCA-confirmed delta
+
+wave1_scope:
+  duration_weeks_low: 10
+  duration_weeks_high: 14
+  fee_band_usd_low: 1000000
+  fee_band_usd_high: 2000000
+  deliverables:
+    - F128 Fabric capacity provisioned with dev-prod isolation per Sprint 14
+    - OSI PI + ServiceNow + AS/400 CIS adapters live in Bronze
+    - GridML + OutageML + MeterML canonical schemas in Silver
+    - Outage triage + restoration sequencing agents live in HOTL
+    - PSPS decision agent in HITL with VP-level gate (regulator-grade audit)
+    - Vegetation-risk agent live for one operating district
+    - AMI billing-anomaly agent live for top-2 customer-care escalation patterns
+    - CIP-014 + critical-infrastructure classifications + DLP per Sprint 13
+    - Sellers Guide §11.9 demo deck + Operations + Reliability readout
+  success_criteria:
+    - PSPS decision audit row emitted for every model run, regardless of disposition
+    - Outage triage agent suggestion accepted by dispatcher ≥ 75% of the time
+    - Vegetation inspection defect-find rate ≥ +25% versus prior cycle
+    - AMI anomaly RCA cycle time < 5 days median in pilot district
+    - Wave-2 commercial proposal signed with named KPI commitments

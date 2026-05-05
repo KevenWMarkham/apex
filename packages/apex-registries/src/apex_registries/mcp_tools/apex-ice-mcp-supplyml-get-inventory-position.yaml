@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: mcp_tool
+tool_id: apex.ice.mcp.supplyml.get_inventory_position
+practice: ice
+sor_or_layer: supplyml
+purpose: Read parts inventory
+write: false
+inputs_schema: ''
+outputs_schema: ''
+classification_required: []
+related_canonical_schemas:
+- SUPPLYML
+appendix_f_section: Appendix F — ICE MCP Tools

@@ -1,0 +1,39 @@
+kind: agent
+name: apex.hls.agents.supply-cold-chain
+version: 0.1.0
+practice: hls
+persona: Pharmacy Director
+service_codes: [HLS-E2E-02]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Cold-chain monitoring for biologic + vaccine + specialty drug supply.
+  Detects temperature excursions and recommends quarantine + replacement
+  with DSCSA-aligned audit row.
+archetype_id: F4-regulatory-trigger-audit-preserve
+primary_contact: hls-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.hls.mcp.patientml.get_pharmacy_inventory
+    purpose: Read pharmacy stock and lot detail
+  - tool_id: apex.hls.mcp.patientml.get_temperature_log
+    purpose: Read storage temperature monitoring
+  - tool_id: apex.hls.mcp.patientml.post_quarantine_disposition
+    purpose: Mark stock as quarantined
+    write: true
+
+hitl_gates:
+  - name: quarantine_action
+    description: Quarantine of biologic stock requires pharmacy director confirmation
+    fires_when: Recommendation to quarantine
+    surface: teams_card
+    sla_minutes: 30
+
+oversight_modes: [HITL, HOTL]
+
+kpis:
+  - name: stock-write-off
+    direction: down
+  - name: regulator-ready DSCSA audit row
+    direction: neutral

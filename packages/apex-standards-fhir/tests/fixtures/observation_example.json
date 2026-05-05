@@ -1,0 +1,33 @@
+{
+  "resourceType": "Observation",
+  "id": "bp-systolic",
+  "status": "final",
+  "category": [
+    {
+      "coding": [
+        {
+          "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+          "code": "vital-signs",
+          "display": "Vital Signs"
+        }
+      ]
+    }
+  ],
+  "code": {
+    "coding": [
+      {
+        "system": "http://loinc.org",
+        "code": "85354-9",
+        "display": "Blood pressure panel"
+      }
+    ]
+  },
+  "subject": {"reference": "Patient/example"},
+  "effectiveDateTime": "2026-04-19T08:30:00Z",
+  "valueQuantity": {
+    "value": 120.0,
+    "unit": "mmHg",
+    "system": "http://unitsofmeasure.org",
+    "code": "mm[Hg]"
+  }
+}

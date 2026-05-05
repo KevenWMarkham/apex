@@ -1,0 +1,15 @@
+kind: schema
+name: bad-class
+version: 1.0.0
+owner: test
+practice: rc
+family: scml
+entities:
+  - name: sku
+    natural_key: [sku_natural]
+    surrogate_key: sku_key
+    classification: sparklepants   # unknown classification — emitter must reject
+    attributes:
+      - name: sku_key
+        data_type: string
+        nullable: false

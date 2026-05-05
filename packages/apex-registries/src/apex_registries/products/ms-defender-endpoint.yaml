@@ -1,0 +1,11 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: product
+product_id: ms.defender.endpoint
+family: defender
+display_name: Microsoft Defender for Endpoint
+sku_or_tier: P2
+description: EDR for engagement laptops.
+list_price_basis: per-user/month
+typical_use: Workforce endpoint protection
+apex_role: Engagement perimeter
+appendix_g_section: Appendix G — defender

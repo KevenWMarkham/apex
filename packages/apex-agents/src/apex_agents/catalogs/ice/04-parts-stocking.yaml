@@ -1,0 +1,34 @@
+kind: agent
+name: apex.ice.agents.parts-stocking
+version: 0.1.0
+practice: ice
+persona: Parts Operations Director
+service_codes: [ICE-Aftermarket-03]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Dealer-level parts-stocking optimization fusing connected-fleet population, prior-failure signatures, and lead-time reality.
+archetype_id: F3-predictive-trigger-workflow-aware
+primary_contact: ice-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.ice.mcp.amml.get_parts_consumption
+    purpose: Read dealer parts consumption
+  - tool_id: apex.ice.mcp.amml.get_dealer_population
+    purpose: Read dealer fleet population
+  - tool_id: apex.ice.mcp.amml.recommend_stock_level
+    purpose: Propose stock-level adjustment
+    write: true
+
+hitl_gates:
+  - name: dealer_stock_change
+    description: Stock-level changes > $50K require dealer-relations approval
+    fires_when: Recommended adjustment value > $50K
+    surface: teams_card
+    sla_minutes: 1440
+
+oversight_modes: [HITL]
+
+kpis:
+  - { name: parts-fill rate, direction: up }

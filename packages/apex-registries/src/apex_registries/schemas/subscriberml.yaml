@@ -1,0 +1,18 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: schema
+schema_code: SubscriberML
+name: Subscriber Lineage
+description: Subscriber Lineage canonical schema family. Bronze to Silver to Gold
+  pipeline scope; consumed by APEX agents/services across TMT.
+practices:
+- tmt
+primary_entities:
+- Subscriber
+- Account
+- Service
+- Usage
+standards_alignment:
+- TM Forum SID
+governance_classification: pii
+appendix_a_section: Appendix A — Schema family SubscriberML
+package_implementation: apex-subscriberml

@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: mcp_tool
+tool_id: apex.ice.mcp.connectedml.get_fleet_telemetry
+practice: ice
+sor_or_layer: connectedml
+purpose: Read live telematics
+write: false
+inputs_schema: ''
+outputs_schema: ''
+classification_required: []
+related_canonical_schemas:
+- CONNECTEDML
+appendix_f_section: Appendix F — ICE MCP Tools

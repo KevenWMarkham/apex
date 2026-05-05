@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: mcp_tool
+tool_id: apex.er.mcp.uogml.get_well_history
+practice: er
+sor_or_layer: uogml
+purpose: Read well production history
+write: false
+inputs_schema: ''
+outputs_schema: ''
+classification_required: []
+related_canonical_schemas:
+- UOGML
+appendix_f_section: Appendix F — ER MCP Tools

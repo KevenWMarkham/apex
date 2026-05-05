@@ -1,0 +1,31 @@
+kind: agent
+name: apex.er.agents.restoration-sequencing
+version: 0.1.0
+practice: er
+persona: Distribution Dispatcher
+service_codes: [ER-PU-01]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Rank remaining outages by critical-customer status (hospital, life-support
+  residential), crew proximity, and repair-complexity estimates.
+archetype_id: F3-predictive-trigger-workflow-aware
+primary_contact: er-pu-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.er.mcp.gridml.get_open_outages
+    purpose: Read current open outage list
+  - tool_id: apex.er.mcp.gridml.get_critical_customer_index
+    purpose: Read priority-customer flags (hospitals, water pumps, life-support)
+
+hitl_gates:
+  - name: sequence_approval
+    description: Recommended sequence requires dispatcher confirmation before issuing work orders
+    fires_when: Always — restoration sequence is consequential
+    surface: dashboard
+    sla_minutes: 10
+
+oversight_modes: [HITL]
+kpis:
+  - { name: CAIDI, direction: down }

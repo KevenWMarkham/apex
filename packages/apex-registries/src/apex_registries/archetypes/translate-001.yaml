@@ -1,0 +1,16 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.translate.001
+family: translate
+name: Format Translator
+description: Translate between message formats (HL7v2 to FHIR, EDI to JSON, etc.).
+canonical_inputs:
+- SourceMessage
+- TargetFormat
+canonical_outputs:
+- TargetMessage
+typical_hitl_gate: Sample-quality review
+typical_oversight: HOTL
+typical_model_tier: lightweight
+example_agents: []
+appendix_d_section: Appendix D — Archetype family translate

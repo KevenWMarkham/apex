@@ -1,0 +1,19 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: schema
+schema_code: TECML
+name: Telematics Edge Compute Lineage
+description: Telematics Edge Compute Lineage canonical schema family. Bronze to Silver
+  to Gold pipeline scope; consumed by APEX agents/services across AXLE, ICE.
+practices:
+- axle
+- ice
+primary_entities:
+- EdgeDevice
+- Function
+- DataChunk
+standards_alignment:
+- AUTOSAR
+- SAE J3016
+governance_classification: operations
+appendix_a_section: Appendix A — Schema family TECML
+package_implementation: apex-tecml

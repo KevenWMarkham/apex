@@ -580,10 +580,10 @@ children.push(
     ["Artifact", "Path", "When to reach for it"],
     [
       ["Store 100 HTML walkthrough", "…/Walmart/02_projects/apex-rc-store-100-shift-walkthrough.html", "Primary narrative — open on the screen."],
-      ["APEX Solution Overview (Word)", "docs/APEX-solution-overview.docx", "When the client asks \"what is APEX?\" — point to Part 1–4."],
-      ["RC Agent Catalog (Word)", "docs/APEX-RC-agent-catalog.docx", "When the client asks about a specific agent — look up the card live."],
-      ["This facilitator guide", "docs/APEX-Store-100-facilitator-guide.docx", "Your own side-monitor. Not shown to the client."],
-      ["RC build spec", "apex-rc-build-spec-v2.md", "If pushed on a definition or convention — the source of truth."]
+      ["APEX Solution Overview (Word)", "docs/guides/APEX-solution-overview.docx", "When the client asks \"what is APEX?\" — point to Part 1–4."],
+      ["RC Agent Catalog (Word)", "docs/reference/APEX-RC-agent-catalog.docx", "When the client asks about a specific agent — look up the card live."],
+      ["This facilitator guide", "docs/guides/APEX-Store-100-facilitator-guide.docx", "Your own side-monitor. Not shown to the client."],
+      ["RC build spec", "docs/build-specs/apex-rc-build-spec-v2.md", "If pushed on a definition or convention — the source of truth."]
     ]
   ),
   p([bold("One rule: "), plain("never lead with the catalog or the build spec. Those are reference; the HTML is the story. Pull the reference forward only when the client asks a question the story doesn't answer.")])
@@ -688,7 +688,7 @@ children.push(
     alignment: AlignmentType.CENTER,
     spacing: { before: 140 },
     children: [new TextRun({
-      text: "Reference implementation narrative: apex-rc-store-100-shift-walkthrough.html. Framework source: apex-core-build-spec.md · apex-rc-build-spec-v2.md. Companion: APEX-solution-overview.docx · APEX-RC-agent-catalog.docx.",
+      text: "Reference implementation narrative: apex-rc-store-100-shift-walkthrough.html. Framework source: docs/build-specs/apex-core-build-spec.md · docs/build-specs/apex-rc-build-spec-v2.md. Companion: docs/guides/APEX-solution-overview.docx · docs/reference/APEX-RC-agent-catalog.docx.",
       italics: true, size: 20, color: "56627C"
     })]
   })
@@ -757,7 +757,7 @@ const doc = new Document({
 });
 
 Packer.toBuffer(doc).then(buffer => {
-  const out = "docs/APEX-Store-100-facilitator-guide.docx";
+  const out = "docs/guides/APEX-Store-100-facilitator-guide.docx";
   fs.writeFileSync(out, buffer);
   console.log(`wrote ${out} (${buffer.length.toLocaleString()} bytes)`);
   console.log(`  events: ${EVENTS.length}`);

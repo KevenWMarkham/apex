@@ -1,0 +1,17 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.rca.001
+family: rca
+name: Anomaly Root-Cause
+description: Hypothesize root cause from telemetry signature + change correlation.
+canonical_inputs:
+- TelemetryWindow
+- ChangeLog
+canonical_outputs:
+- RootCauseHypotheses
+typical_hitl_gate: Engineer reviews hypotheses
+typical_oversight: HITL
+typical_model_tier: reasoning
+example_agents:
+- apex.axle.agents.andon-rca
+appendix_d_section: Appendix D — Archetype family rca

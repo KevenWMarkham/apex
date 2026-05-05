@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: mcp_tool
+tool_id: apex.th.mcp.opsml.publish_revised_roster
+practice: th
+sor_or_layer: opsml
+purpose: Publish revised roster
+write: true
+inputs_schema: ''
+outputs_schema: ''
+classification_required: []
+related_canonical_schemas:
+- OPSML
+appendix_f_section: Appendix F — TH MCP Tools

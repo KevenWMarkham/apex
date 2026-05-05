@@ -1,0 +1,18 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.match.001
+family: match
+name: Identity Resolution
+description: Cross-system identity resolution with HITL gate on conflicts.
+canonical_inputs:
+- RecordSet
+- MatchRules
+canonical_outputs:
+- IdentityMap
+typical_hitl_gate: HIM / data-steward
+typical_oversight: HITL
+typical_model_tier: standard
+example_agents:
+- apex.hls.agents.patient-identity
+- apex.rc.agents.customer-identity
+appendix_d_section: Appendix D — Archetype family match

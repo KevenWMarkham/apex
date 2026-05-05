@@ -1,0 +1,17 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: exercise
+exercise_id: ex.11.4.a
+sellers_guide_section: §11.4
+chapter: 11. Energy & Resources Practice
+prompt: Walk through a PSPS decision audit row.
+canonical_solution: 'Audit row pins: model version, weather-data provenance + timestamp,
+  fuel-moisture provider + reading time, vegetation-risk last-cycle data, decision-maker
+  UPN, decision timestamp, segments included, segments excluded, justification narrative,
+  customer-notification window.'
+teaching_points:
+- Regulator-defensible audit requires every input timestamp + provenance
+- Decision and decision-maker are both in-row
+related_kpi_ids:
+- kpi.er.psps-decision-audit-completeness
+related_archetype_ids:
+- arch.explain.002

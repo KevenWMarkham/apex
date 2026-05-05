@@ -1,0 +1,34 @@
+kind: agent
+name: apex.ice.agents.warranty-claim-triage
+version: 0.1.0
+practice: ice
+persona: Warranty Operations Manager
+service_codes: [ICE-Aftermarket-02]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Triage inbound warranty claims into auto-pay / dealer-review / engineering-review lanes with severity assessment.
+archetype_id: F2-event-cluster-pattern-match
+primary_contact: ice-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.ice.mcp.qmsml.get_warranty_claim
+    purpose: Read inbound claim
+  - tool_id: apex.ice.mcp.connectedml.get_dtc_history
+    purpose: Read DTC history for the unit
+  - tool_id: apex.ice.mcp.qmsml.post_triage_decision
+    purpose: Set triage lane
+    write: true
+
+hitl_gates:
+  - name: engineering_review
+    description: Engineering-review lane requires warranty manager approval
+    fires_when: Triage to engineering
+    surface: dashboard
+    sla_minutes: 1440
+
+oversight_modes: [HITL]
+
+kpis:
+  - { name: warranty cycle time, direction: down }

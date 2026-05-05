@@ -1,0 +1,16 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.negotiate.001
+family: negotiate
+name: Contract Negotiation Support
+description: Support negotiation with comparables + concession analysis.
+canonical_inputs:
+- DealContext
+- Comparables
+canonical_outputs:
+- NegotiationGuide
+typical_hitl_gate: Deal team review
+typical_oversight: HITL
+typical_model_tier: reasoning
+example_agents: []
+appendix_d_section: Appendix D — Archetype family negotiate

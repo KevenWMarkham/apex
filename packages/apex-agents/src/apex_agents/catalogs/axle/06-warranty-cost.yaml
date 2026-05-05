@@ -1,0 +1,27 @@
+kind: agent
+name: apex.axle.agents.warranty-cost
+version: 0.1.0
+practice: axle
+persona: Warranty Operations Manager
+service_codes: [AXLE-Aftermarket-02]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Warranty-cost agent. Detects warranty-claim spikes, isolates likely
+  root cause (part lot, plant, vendor), and surfaces recall risk.
+archetype_id: F2-event-cluster-pattern-match
+primary_contact: axle-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.axle.mcp.qmsml.get_warranty_claims
+    purpose: Read warranty claim feed
+  - tool_id: apex.axle.mcp.engml.get_part_lineage
+    purpose: Read part-to-lot lineage
+  - tool_id: apex.axle.mcp.connectedml.get_dtc_history
+    purpose: Read connected-product DTC history
+
+oversight_modes: [HITL, HOTL]
+kpis:
+  - { name: warranty cost per unit, direction: down }
+  - { name: time-to-recall identification, direction: down }

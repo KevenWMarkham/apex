@@ -1,0 +1,47 @@
+kind: service
+service_code: RC-E2E-08
+version: 0.1.0
+practice: rc
+display_name: Stockout Substitution & Recovery
+brief: "Real-time shelf-edge substitution recommendation when SKU out-of-stock, with shopper personalization."
+description: >
+  COO + CMO joint service. Captures revenue that would otherwise walk; uses lightweight-tier model on associate's mobile.
+
+personas:
+  - { name: "Chief Operating Officer", role: primary }
+  - { name: "Store Manager", role: secondary }
+  - { name: "VP Merchandising", role: secondary }
+
+kpis:
+  - name: "stockout-saved revenue"
+    direction: money
+    wave2_target: "+$2-5M/yr per chain"
+
+slos:
+  - { name: "recommendation latency", target: "p95 < 1s", enforcement: hard }
+
+waves:
+  - wave: wave_1
+    duration: "4-6 weeks"
+    fee_band_low_usd: 200000
+    fee_band_high_usd: 500000
+  - wave: wave_2
+    duration: "6-9 months"
+    fee_band_low_usd: 1500000
+    fee_band_high_usd: 5000000
+  - wave: wave_3
+    duration: "multi-year"
+    fee_band_low_usd: 3000000
+    fee_band_high_usd: 9000000
+
+commercial_model: hybrid
+value_share_eligible: true
+
+linked_agents:
+  - apex.rc.agents.substitution-recommendation
+
+linked_archetypes:
+  - F1-continuous-monitor-hitl-alert
+
+schemas_touched: [SCML, CXML]
+primary_contact: rc-practice-lead@deloitte.com

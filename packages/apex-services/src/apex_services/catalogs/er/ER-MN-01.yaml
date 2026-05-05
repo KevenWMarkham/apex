@@ -1,0 +1,41 @@
+kind: service
+service_code: ER-MN-01
+version: 0.1.0
+practice: er
+display_name: Mine Fleet Optimization
+brief: "Haul-fleet routing + loading sequencing across active pits using ore-grade and crusher availability."
+description: >
+  Mining sub-segment service. Optimizes tons-per-truck-hour across the deployed fleet.
+
+personas:
+  - { name: "Mine Operations Manager", role: primary }
+  - { name: "Chief Operating Officer", role: secondary }
+
+kpis:
+  - name: "tons-per-truck-hour"
+    direction: up
+    wave2_target: "+5-10%"
+  - name: "crusher utilization"
+    direction: up
+
+waves:
+  - wave: wave_1
+    duration: "6-12 weeks"
+    fee_band_low_usd: 500000
+    fee_band_high_usd: 1300000
+  - wave: wave_2
+    duration: "9-15 months"
+    fee_band_low_usd: 4000000
+    fee_band_high_usd: 13000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.er.agents.fleet-mining
+
+linked_archetypes:
+  - F3-predictive-trigger-workflow-aware
+
+schemas_touched: [MiningML]
+primary_contact: er-practice-lead@deloitte.com

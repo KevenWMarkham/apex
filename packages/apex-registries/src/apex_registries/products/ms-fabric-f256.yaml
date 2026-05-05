@@ -1,0 +1,11 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: product
+product_id: ms.fabric.f256
+family: fabric
+display_name: Microsoft Fabric F256 Capacity
+sku_or_tier: F256
+description: Reserved Fabric capacity for large multi-Practice tenants.
+list_price_basis: reserved-capacity-monthly
+typical_use: Multi-Practice prod
+apex_role: Sprint 14 per-workload-isolation
+appendix_g_section: Appendix G — fabric

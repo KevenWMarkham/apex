@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: mcp_tool
+tool_id: apex.th.mcp.groundml.get_service_events
+practice: th
+sor_or_layer: groundml
+purpose: Read service-event log
+write: false
+inputs_schema: ''
+outputs_schema: ''
+classification_required: []
+related_canonical_schemas:
+- GROUNDML
+appendix_f_section: Appendix F — TH MCP Tools

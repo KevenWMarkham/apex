@@ -1,0 +1,11 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: partner
+partner_id: ptr.openai
+name: OpenAI
+category: model-provider
+practices:
+- cross
+description: Reasoning-tier and standard models via Azure AI Foundry.
+apex_integration_pattern: Foundry-pinned-deployment
+contracts_in_place: []
+appendix_h_section: Appendix H — model-provider

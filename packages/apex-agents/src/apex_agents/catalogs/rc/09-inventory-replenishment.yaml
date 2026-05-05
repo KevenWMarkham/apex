@@ -1,0 +1,40 @@
+kind: agent
+name: apex.rc.agents.inventory-replenishment
+version: 0.1.0
+practice: rc
+persona: VP Supply Chain Planning
+service_codes: [RC-TTP-02]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Store-level replenishment optimization fusing demand-sensing forecasts
+  with current stock and lead-time signals. Recommends order quantities
+  per SKU-store-day.
+archetype_id: F3-predictive-trigger-workflow-aware
+primary_contact: rc-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.rc.mcp.scml.get_inventory_position
+    purpose: Read current stock and pipeline
+  - tool_id: apex.rc.mcp.scml.get_lead_time
+    purpose: Read supplier lead times
+  - tool_id: apex.rc.mcp.scml.recommend_replenishment
+    purpose: Propose replenishment order
+    write: true
+
+hitl_gates:
+  - name: order_above_threshold
+    description: Replenishment order > $50K total requires merchant approval
+    fires_when: Order total > $50,000
+    surface: teams_card
+    sla_minutes: 60
+
+oversight_modes: [HITL, HOTL]
+
+kpis:
+  - name: stock-out rate
+    direction: down
+    target_band: "-25 to -40% reduction"
+  - name: inventory days on hand
+    direction: down

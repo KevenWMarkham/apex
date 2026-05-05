@@ -1,0 +1,12 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: partner
+partner_id: ptr.ge-digital
+name: GE Digital (Proficy)
+category: sor-vendor
+practices:
+- axle
+- er
+description: Industrial historian / MES.
+apex_integration_pattern: Mirroring-via-Sprint15
+contracts_in_place: []
+appendix_h_section: Appendix H — sor-vendor

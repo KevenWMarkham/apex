@@ -1,0 +1,21 @@
+[project]
+name = "apex-audit"
+version = "0.1.0"
+description = "APEX Decision Audit Row — 14-field immutable record, trace-ID discipline, three-version rule, reasoning-trace capture, content-addressed I/O, HMAC-signed rows."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Proprietary - Deloitte Internal" }
+dependencies = [
+    "apex-core",
+    "pydantic>=2.9.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/apex_audit"]
+
+[tool.uv.sources]
+apex-core = { workspace = true }

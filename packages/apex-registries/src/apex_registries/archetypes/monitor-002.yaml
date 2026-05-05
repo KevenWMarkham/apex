@@ -1,0 +1,16 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.monitor.002
+family: monitor
+name: Threshold Monitor
+description: Continuous threshold check with hysteresis + suppression.
+canonical_inputs:
+- MetricStream
+- Thresholds
+canonical_outputs:
+- AlertEvents
+typical_hitl_gate: Threshold breach
+typical_oversight: HOTL
+typical_model_tier: lightweight
+example_agents: []
+appendix_d_section: Appendix D — Archetype family monitor

@@ -1,0 +1,11 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: product
+product_id: ms.purview.compliance
+family: purview
+display_name: Microsoft Purview — Compliance Manager
+sku_or_tier: add-on
+description: Policy assessment + DLP authoring.
+list_price_basis: per-user/month
+typical_use: Compliance teams
+apex_role: Sprint 13 DLP authoring
+appendix_g_section: Appendix G — purview

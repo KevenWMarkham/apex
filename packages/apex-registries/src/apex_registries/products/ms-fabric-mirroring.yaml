@@ -1,0 +1,11 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: product
+product_id: ms.fabric.mirroring
+family: fabric
+display_name: Microsoft Fabric Mirroring
+sku_or_tier: feature
+description: Real-time CDC ingest from supported SOR databases.
+list_price_basis: no-additional-cost-with-fabric
+typical_use: Bronze ingestion
+apex_role: Sprint 15 adapter primary path
+appendix_g_section: Appendix G — fabric

@@ -1,0 +1,19 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: schema
+schema_code: GridML
+name: Grid Operations Lineage
+description: Grid Operations Lineage canonical schema family. Bronze to Silver to
+  Gold pipeline scope; consumed by APEX agents/services across ER.
+practices:
+- er
+primary_entities:
+- Substation
+- Feeder
+- Section
+- Asset
+standards_alignment:
+- IEC CIM
+- MultiSpeak
+governance_classification: critical-infrastructure
+appendix_a_section: Appendix A — Schema family GridML
+package_implementation: apex-gridml

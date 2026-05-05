@@ -1,0 +1,26 @@
+[project]
+name = "scml-mcp"
+version = "0.1.0"
+description = "APEX scml-mcp — Supply Chain canonical reads (SKU / Location / Shipment)."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Proprietary — Deloitte Internal" }
+dependencies = [
+    "apex-core", "apex-scml", "fabric-mcp", "mcp-common", "pydantic>=2.9.0",
+]
+
+[project.scripts]
+scml-mcp = "scml_mcp.server:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/scml_mcp"]
+
+[tool.uv.sources]
+apex-core = { workspace = true }
+apex-scml = { workspace = true }
+fabric-mcp = { workspace = true }
+mcp-common = { workspace = true }

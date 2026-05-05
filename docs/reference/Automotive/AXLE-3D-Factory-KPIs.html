@@ -1,0 +1,3121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AXLE 3D Factory Intelligence</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+body{font-family:'Inter',system-ui,sans-serif;background:#0a0c14;color:#e2e8f0;overflow-x:hidden}
+#header{background:linear-gradient(135deg,#0a0c14 0%,#141828 100%);border-bottom:1px solid rgba(99,102,241,0.2);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;position:relative;z-index:20}
+#header h1{font-size:18px;font-weight:700;background:linear-gradient(135deg,#818cf8,#6366f1,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-0.5px}
+#header .stats{display:flex;gap:8px;font-size:11px;color:#94a3b8;flex-wrap:wrap;align-items:center}
+#header .stats .live{color:#22c55e;animation:livePulse 2s infinite;padding:3px 10px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);border-radius:20px}
+.stat-dd{position:relative;display:inline-block}
+.stat-dd .stat-btn{padding:3px 10px;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.15);border-radius:20px;cursor:pointer;transition:all .2s;user-select:none;display:inline-flex;align-items:center;gap:4px}
+.stat-dd .stat-btn:hover{background:rgba(99,102,241,0.2);border-color:rgba(99,102,241,0.35)}
+.stat-dd .stat-btn::after{content:'\25BE';font-size:8px;opacity:0.5}
+.stat-dd.open .stat-btn{background:rgba(99,102,241,0.25);border-color:#6366f1}
+.stat-dd.open .stat-btn::after{content:'\25B4'}
+.stat-dd .dd-list{display:none;position:absolute;top:100%;left:0;margin-top:4px;background:#161822;border:1px solid #2a2e42;border-radius:8px;min-width:220px;max-height:300px;overflow-y:auto;z-index:200;box-shadow:0 12px 40px rgba(0,0,0,0.5);padding:4px 0}
+.stat-dd.open .dd-list{display:block}
+.dd-item{padding:6px 12px;font-size:11px;color:#e2e4ed;cursor:pointer;display:flex;align-items:center;gap:8px;transition:background .15s;border:none;background:none;width:100%;text-align:left;font-family:inherit}
+.dd-item:hover{background:rgba(99,102,241,0.1)}
+.dd-item .dd-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dd-item .dd-name{flex:1}
+.dd-item .dd-meta{font-size:9px;color:#6b7190}
+@keyframes livePulse{0%,100%{opacity:1}50%{opacity:0.5}}
+#canvas-container{width:100%;height:65vh;position:relative;cursor:grab;background:#0a0c14}
+#canvas-container:active{cursor:grabbing}
+#tooltip{position:absolute;background:rgba(10,12,20,0.95);border:1px solid rgba(99,102,241,0.3);border-radius:8px;padding:10px 14px;pointer-events:none;display:none;z-index:30;font-size:12px;backdrop-filter:blur(8px);min-width:180px;box-shadow:0 8px 32px rgba(0,0,0,0.5)}
+#tooltip .tt-name{font-weight:700;font-size:13px;margin-bottom:4px}
+#tooltip .tt-status{font-size:10px;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+#tooltip .tt-kpi{display:flex;justify-content:space-between;font-size:11px;padding:2px 0;border-top:1px solid rgba(255,255,255,0.05)}
+#labels-overlay{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:5}
+.building-label{position:absolute;color:#cbd5e1;font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:1.2px;text-align:center;white-space:nowrap;text-shadow:0 0 8px rgba(0,0,0,0.9),0 0 16px rgba(0,0,0,0.7);transform:translate(-50%,-50%);pointer-events:none;transition:opacity 0.3s}
+#reset-btn{position:absolute;top:12px;right:12px;z-index:15;background:rgba(99,102,241,0.2);border:1px solid rgba(99,102,241,0.3);color:#a5b4fc;padding:6px 14px;border-radius:6px;font-size:11px;cursor:pointer;font-family:inherit;display:none;transition:all 0.2s}
+#reset-btn:hover{background:rgba(99,102,241,0.35)}
+#time-control{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);z-index:15;display:flex;align-items:center;gap:8px;background:rgba(10,12,20,0.9);border:1px solid rgba(99,102,241,0.2);border-radius:24px;padding:6px 16px;backdrop-filter:blur(8px)}
+#time-control button{background:none;border:none;color:#94a3b8;cursor:pointer;font-size:14px;padding:2px 4px;transition:color 0.2s;font-family:inherit}
+#time-control button:hover,#time-control button.active{color:#a5b4fc}
+#speed-label{font-size:11px;font-weight:600;color:#818cf8;min-width:32px;text-align:center}
+#time-slider{width:120px;accent-color:#6366f1;height:3px;cursor:pointer}
+#time-control .tc-text{font-size:10px;color:#64748b;text-transform:uppercase;letter-spacing:0.5px}
+#kpi-section{padding:16px 20px;min-height:35vh;overflow-x:auto;background:linear-gradient(180deg,#0a0c14,#0f1117)}
+#kpi-section h2{font-size:14px;font-weight:600;color:#94a3b8;margin-bottom:12px;text-transform:uppercase;letter-spacing:1px}
+#kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.area-card{background:rgba(30,32,48,0.6);border:1px solid rgba(99,102,241,0.12);border-radius:10px;padding:14px;transition:all 0.3s;cursor:pointer;position:relative;overflow:hidden}
+.area-card:hover,.area-card.active{border-color:rgba(99,102,241,0.4);background:rgba(40,42,60,0.7)}
+.area-card.active{box-shadow:0 0 20px rgba(99,102,241,0.15)}
+.area-card .card-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.area-card .card-title{font-size:12px;font-weight:700;color:#e2e8f0}
+.area-card .card-schema{font-size:9px;padding:2px 6px;border-radius:4px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
+.schema-aaml{background:rgba(56,167,234,0.15);color:#38a7ea}
+.schema-brml{background:rgba(244,196,48,0.15);color:#f4c430}
+.schema-wosfml{background:rgba(5,217,160,0.15);color:#05d9a0}
+.schema-scml{background:rgba(249,115,22,0.15);color:#f97316}
+.schema-qeml{background:rgba(239,68,68,0.15);color:#ef4444}
+.schema-pmml{background:rgba(167,139,250,0.15);color:#a78bfa}
+.schema-cvml{background:rgba(6,182,212,0.15);color:#06b6d4}
+.schema-esml{background:rgba(34,197,94,0.15);color:#22c55e}
+.schema-all{background:rgba(99,102,241,0.15);color:#818cf8}
+.card-gold{font-size:8px;color:#d97706;margin-top:2px;line-height:1.3}
+.card-orch{font-size:8px;color:#a78bfa;margin-top:1px}
+.kpi-entity{font-size:8px;color:#6b7190;font-family:'Cascadia Code','Fira Code',monospace}
+.kpi-target{font-size:9px;color:#6b7190;margin-left:4px}
+.area-card .card-status{display:flex;align-items:center;gap:6px;margin-bottom:10px}
+.status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.status-dot.green{background:#22c55e;box-shadow:0 0 6px rgba(34,197,94,0.5)}
+.status-dot.amber{background:#f59e0b;box-shadow:0 0 6px rgba(245,158,11,0.5)}
+.status-dot.red{background:#ef4444;box-shadow:0 0 6px rgba(239,68,68,0.5)}
+.card-status-text{font-size:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:0.5px}
+.kpi-row{display:flex;justify-content:space-between;align-items:center;font-size:11px;padding:3px 0}
+.kpi-row .kpi-name{color:#94a3b8}
+.kpi-row .kpi-val{font-weight:600;color:#e2e8f0}
+.kpi-bar{height:3px;background:rgba(255,255,255,0.06);border-radius:2px;margin-top:2px;overflow:hidden}
+.kpi-bar-fill{height:100%;border-radius:2px;transition:width 1s ease}
+
+#equipment-panel {
+  font-size:12px;
+  background: linear-gradient(180deg, #0d0f18, #0f1117);
+  border-top: 2px solid rgba(99,102,241,0.3);
+  padding: 16px 24px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-height: 32vh;
+  overflow-y: auto;
+  z-index: 50;
+  transition: transform 0.3s ease;
+}
+#equip-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px }
+#equip-header h3 { font-size:16px; color:#e2e4ed }
+#equip-header button { background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.3); color:#ef4444; padding:4px 12px; border-radius:6px; cursor:pointer; font-family:inherit }
+#equip-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:6px }
+
+.equip-card {
+  padding:8px;
+  background: #161822;
+  border: 1px solid #2a2e42;
+  border-radius: 10px;
+  padding: 12px;
+  transition: all 0.2s;
+}
+.equip-card:hover { border-color: rgba(99,102,241,0.4); box-shadow: 0 4px 20px rgba(0,0,0,0.3) }
+.equip-card.status-running { border-left: 3px solid #22c55e }
+.equip-card.status-warning { border-left: 3px solid #f59e0b }
+.equip-card.status-critical { border-left: 3px solid #ef4444 }
+.equip-card.status-idle { border-left: 3px solid #6b7190 }
+.equip-card.selected { border-color: #818cf8; box-shadow: 0 0 15px rgba(99,102,241,0.5), 0 0 30px rgba(99,102,241,0.2), inset 0 0 15px rgba(99,102,241,0.05); animation: equipPulse 1.5s ease-in-out infinite; }
+@keyframes equipPulse { 0%,100% { box-shadow: 0 0 15px rgba(99,102,241,0.5), 0 0 30px rgba(99,102,241,0.2); } 50% { box-shadow: 0 0 20px rgba(99,102,241,0.7), 0 0 40px rgba(99,102,241,0.3), 0 0 60px rgba(99,102,241,0.1); } }
+
+.equip-name { font-weight:700; font-size:11px; color:#e2e4ed }
+.equip-type { font-size:9px; color:#6b7190; margin-bottom:4px }
+.equip-status { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px }
+.equip-status.running { color:#22c55e }
+.equip-status.warning { color:#f59e0b }
+.equip-status.critical { color:#ef4444 }
+.equip-status.idle { color:#6b7190 }
+
+.gauge-row { display:flex; align-items:center; gap:4px; margin:2px 0; padding:2px 0; border-bottom:1px solid #1e2133 }
+.gauge-label { font-size:9px; color:#9da3b8; width:55px; flex-shrink:0 }
+.gauge-wrap { flex:1; height:18px; position:relative; background:#1a1c2e; border-radius:9px; overflow:hidden }
+.gauge-fill { height:100%; border-radius:9px; transition:width 0.5s ease }
+.gauge-warn { position:absolute; top:0; bottom:0; width:2px; background:rgba(245,158,11,0.6) }
+.gauge-crit { position:absolute; top:0; bottom:0; width:2px; background:rgba(239,68,68,0.6) }
+.gauge-needle { position:absolute; top:-2px; bottom:-2px; width:3px; background:#fff; border-radius:2px; transition:left 0.5s ease; box-shadow:0 0 6px rgba(255,255,255,0.5) }
+.gauge-wrap { height:12px }
+.gauge-value { font-size:10px; font-weight:700; width:55px; text-align:right; flex-shrink:0; font-family:'Cascadia Code','Fira Code',monospace }
+.gauge-value.good { color:#22c55e }
+.gauge-value.warn { color:#f59e0b }
+.gauge-value.crit { color:#ef4444 }
+.gauge-value.neutral { color:#e2e4ed }
+
+#orch-panel {
+  position:fixed; top:60px; right:0; width:380px; bottom:0;
+  background:#12141e; border-left:2px solid rgba(99,102,241,0.3);
+  padding:16px; overflow-y:auto; z-index:100;
+  box-shadow:-8px 0 30px rgba(0,0,0,0.4);
+  transition: transform 0.3s ease;
+}
+#orch-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px }
+#orch-badge { font-size:10px; font-weight:700; padding:2px 8px; border-radius:4px; background:rgba(239,68,68,0.15); color:#ef4444; margin-right:8px }
+#orch-title { font-size:14px; font-weight:700; color:#e2e4ed }
+#orch-header button { background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.3); color:#ef4444; padding:3px 10px; border-radius:6px; cursor:pointer; font-family:inherit; font-size:11px }
+
+.dag-step { padding:10px; margin:6px 0; border-radius:8px; border-left:3px solid #2a2e42; background:#161822; font-size:11px; transition:all 0.3s }
+.dag-step.active { border-left-color:#818cf8; background:rgba(99,102,241,0.06) }
+.dag-step.success { border-left-color:#22c55e; background:rgba(34,197,94,0.06) }
+.dag-step.failed { border-left-color:#ef4444; background:rgba(239,68,68,0.06) }
+.dag-step.waiting { border-left-color:#f59e0b; background:rgba(245,158,11,0.06) }
+.dag-step .step-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:4px }
+.dag-step .step-agent { font-weight:600; color:#e2e4ed }
+.dag-step .step-status { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px }
+.dag-step .step-status.running { color:#818cf8 }
+.dag-step .step-status.done { color:#22c55e }
+.dag-step .step-status.fail { color:#ef4444 }
+.dag-step .step-status.wait { color:#f59e0b }
+.dag-step .step-detail { font-size:10px; color:#9da3b8; margin-top:2px }
+.dag-step .step-tool { font-family:monospace; font-size:9px; color:#6b7190; margin-top:2px }
+
+.hitl-box { margin:12px 0; padding:14px; background:rgba(245,158,11,0.08); border:1px solid rgba(245,158,11,0.25); border-radius:8px }
+.hitl-title { font-size:12px; font-weight:700; color:#f59e0b; margin-bottom:8px }
+.hitl-context { font-size:11px; color:#9da3b8; margin-bottom:10px; line-height:1.5 }
+.hitl-buttons { display:flex; gap:8px }
+.hitl-btn { padding:6px 16px; border-radius:6px; cursor:pointer; font-family:inherit; font-size:11px; font-weight:600; border:none; transition:all .2s }
+.hitl-approve { background:#22c55e; color:#fff }
+.hitl-approve:hover { background:#16a34a }
+.hitl-reject { background:#ef4444; color:#fff }
+.hitl-reject:hover { background:#dc2626 }
+.hitl-escalate { background:#f59e0b; color:#000 }
+.hitl-escalate:hover { background:#d97706 }
+
+.ticket-box { margin-top:12px; padding:10px; background:#161822; border:1px solid #2a2e42; border-radius:8px; font-size:10px }
+.ticket-id { font-family:monospace; color:#818cf8; font-weight:700 }
+.ticket-status { font-size:9px; font-weight:700; padding:1px 6px; border-radius:4px; margin-left:6px }
+.ticket-status.resolved { background:rgba(34,197,94,0.15); color:#22c55e }
+.ticket-status.pending { background:rgba(245,158,11,0.15); color:#f59e0b }
+.ticket-status.escalated { background:rgba(239,68,68,0.15); color:#ef4444 }
+
+@keyframes dagPulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+.dag-step.active .step-status { animation: dagPulse 1s ease-in-out infinite }
+</style>
+</head>
+<body>
+<div id="header">
+  <div style="display:flex;align-items:center;gap:12px">
+    <h1>AXLE 3D Factory Intelligence</h1>
+    <div style="display:flex;border-radius:6px;overflow:hidden;border:1px solid rgba(99,102,241,0.25)">
+      <button id="toggleFactory" onclick="switchView('factory')" style="padding:4px 12px;font-size:10px;font-weight:700;border:none;cursor:pointer;font-family:inherit;transition:all .2s;background:rgba(99,102,241,0.3);color:#e2e4ed">&#127981; 3D Factory</button>
+      <button id="toggleDashboard" onclick="switchView('dashboard')" style="padding:4px 12px;font-size:10px;font-weight:700;border:none;cursor:pointer;font-family:inherit;transition:all .2s;background:transparent;color:#6b7190">&#128202; Dashboard</button>
+      <a href="AXLE-Journey-Navigator.html" style="padding:4px 12px;font-size:10px;font-weight:700;border:none;cursor:pointer;font-family:inherit;transition:all .2s;background:rgba(239,68,68,0.15);color:#ef4444;text-decoration:none;display:inline-block;border-radius:0 6px 6px 0;border-left:1px solid rgba(239,68,68,0.2)" title="Return to the Journey Navigator">&#10094; Exit Demo</a>
+    </div>
+    <span style="margin-left:auto;padding:4px 14px;background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.25);border-radius:20px;font-size:11px;font-weight:700;color:#22c55e;animation:livePulse 2s infinite;display:flex;align-items:center;gap:5px"><span style="width:7px;height:7px;border-radius:50%;background:#22c55e;display:inline-block"></span>LIVE</span>
+  </div>
+  <div class="stats">
+    <div class="stat-dd" id="dd-areas"><span class="stat-btn" onclick="toggleDD('dd-areas')">12 Areas</span><div class="dd-list" id="dd-areas-list"></div></div>
+    <div class="stat-dd" id="dd-equip"><span class="stat-btn" onclick="toggleDD('dd-equip')">42 Equipment</span><div class="dd-list" id="dd-equip-list"></div></div>
+    <div class="stat-dd" id="dd-kpis"><span class="stat-btn" onclick="toggleDD('dd-kpis')">36 KPIs</span><div class="dd-list" id="dd-kpis-list"></div></div>
+    <div class="stat-dd" id="dd-schemas"><span class="stat-btn" onclick="toggleDD('dd-schemas')">5 Schemas</span><div class="dd-list" id="dd-schemas-list"></div></div>
+    <div class="stat-dd" id="dd-vehicles"><span class="stat-btn" onclick="toggleDD('dd-vehicles')">15 Vehicles</span><div class="dd-list" id="dd-vehicles-list"></div></div>
+    <div class="stat-dd" id="dd-kanban"><span class="stat-btn" onclick="toggleDD('dd-kanban')" style="border-color:rgba(249,115,22,0.25)">&#9635; Kanban</span><div class="dd-list" id="dd-kanban-list"></div></div>
+    <div class="stat-dd" id="dd-inventory"><span class="stat-btn" onclick="toggleDD('dd-inventory')" style="border-color:rgba(249,115,22,0.25)">&#128230; Inventory</span><div class="dd-list" id="dd-inventory-list"></div></div>
+    <div class="stat-dd" id="dd-bom"><span class="stat-btn" onclick="toggleDD('dd-bom')" style="border-color:rgba(244,196,48,0.25)">&#128209; BOM</span><div class="dd-list" id="dd-bom-list"></div></div>
+    <div class="stat-dd" id="dd-suppliers"><span class="stat-btn" onclick="toggleDD('dd-suppliers')" style="border-color:rgba(249,115,22,0.25)">&#127981; Suppliers</span><div class="dd-list" id="dd-suppliers-list" style="min-width:320px"></div></div>
+    <div class="stat-dd" id="dd-demand"><span class="stat-btn" onclick="toggleDD('dd-demand')" style="border-color:rgba(6,182,212,0.25)">&#128200; Demand</span><div class="dd-list" id="dd-demand-list" style="min-width:340px"></div></div>
+  </div>
+</div>
+<div id="canvas-container">
+  <canvas id="factory-canvas"></canvas>
+  <div id="labels-overlay"></div>
+  <div id="tooltip"></div>
+  <button id="reset-btn">Reset View</button>
+  <button onclick="simulateIncident()" style="position:absolute;top:12px;right:220px;z-index:15;padding:4px 12px;border-radius:6px;border:1px solid rgba(239,68,68,0.3);background:rgba(239,68,68,0.1);color:#ef4444;font-size:10px;cursor:pointer;font-family:inherit;font-weight:600" title="Manually trigger an orchestration event">&#9889; Incident</button>
+  <button onclick="toggleAuditPanel()" style="position:absolute;top:12px;right:120px;z-index:15;padding:4px 12px;border-radius:6px;border:1px solid rgba(167,139,250,0.3);background:rgba(167,139,250,0.1);color:#a78bfa;font-size:10px;cursor:pointer;font-family:inherit;font-weight:600" title="View audit &amp; governance log">&#128220; Audit <span id="audit-count" style="background:rgba(167,139,250,0.3);padding:0 5px;border-radius:8px;font-size:9px;margin-left:2px">0</span></button>
+  <div id="time-control">
+    <span class="tc-text">Speed</span>
+    <button id="tc-slower" title="Slower">&#9664;</button>
+    <button id="tc-pause" title="Pause/Play">&#9208;</button>
+    <span id="speed-label">1x</span>
+    <input type="range" id="time-slider" min="0" max="8" value="3" step="1">
+    <button id="tc-faster" title="Faster">&#9654;</button>
+  </div>
+</div>
+<div id="kpi-section">
+  <h2>Production Area KPIs</h2>
+  <div id="kpi-grid"></div>
+</div>
+
+<!-- Dashboard View (toggled with 3D Factory) -->
+<div id="dashboard-view" style="display:none;padding:16px 20px;background:#0f1117;min-height:calc(100vh - 60px);overflow-y:auto">
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px">
+    <div style="background:#161822;border:1px solid #2a2e42;border-radius:8px;padding:12px;border-left:3px solid #22c55e">
+      <div style="font-size:9px;color:#6b7190;text-transform:uppercase;font-weight:700">Pipeline Health</div>
+      <div id="dash-pipeline" style="font-size:22px;font-weight:700;color:#22c55e;margin:4px 0">HEALTHY</div>
+      <div style="font-size:10px;color:#9da3b8">Bronze &lt;2min | Silver &lt;8min | Gold &lt;47min</div>
+    </div>
+    <div style="background:#161822;border:1px solid #2a2e42;border-radius:8px;padding:12px;border-left:3px solid #22c55e">
+      <div style="font-size:9px;color:#6b7190;text-transform:uppercase;font-weight:700">MCP Servers</div>
+      <div style="font-size:22px;font-weight:700;color:#22c55e;margin:4px 0">8/8 Online</div>
+      <div style="font-size:10px;color:#9da3b8">p95: 0.8s | Errors: 0 | Gateway: OK</div>
+    </div>
+    <div style="background:#161822;border:1px solid #2a2e42;border-radius:8px;padding:12px;border-left:3px solid #f59e0b">
+      <div style="font-size:9px;color:#6b7190;text-transform:uppercase;font-weight:700">Orchestrations</div>
+      <div style="font-size:22px;font-weight:700;color:#f59e0b;margin:4px 0">3 Running</div>
+      <div style="font-size:10px;color:#9da3b8">10 Active | 0 Failed | 1 HITL waiting</div>
+    </div>
+    <div style="background:#161822;border:1px solid #2a2e42;border-radius:8px;padding:12px;border-left:3px solid #22c55e">
+      <div style="font-size:9px;color:#6b7190;text-transform:uppercase;font-weight:700">Data Activator</div>
+      <div style="font-size:22px;font-weight:700;color:#22c55e;margin:4px 0">9 Rules</div>
+      <div style="font-size:10px;color:#9da3b8">247 fires/day | 2 alerts active</div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:2fr 1fr;gap:12px">
+    <div>
+      <h3 style="font-size:12px;color:#6b7190;text-transform:uppercase;margin-bottom:8px;letter-spacing:1px">Area Status</h3>
+      <table style="width:100%;border-collapse:collapse;font-size:11px">
+        <tr style="border-bottom:1px solid #2a2e42;background:#161822">
+          <th style="text-align:left;padding:6px 10px;color:#6b7190;font-size:9px;text-transform:uppercase">Area</th>
+          <th style="text-align:left;padding:6px 10px;color:#6b7190;font-size:9px;text-transform:uppercase">Schema</th>
+          <th style="text-align:left;padding:6px 10px;color:#6b7190;font-size:9px;text-transform:uppercase">Status</th>
+          <th style="text-align:left;padding:6px 10px;color:#6b7190;font-size:9px;text-transform:uppercase">Top KPI</th>
+          <th style="text-align:left;padding:6px 10px;color:#6b7190;font-size:9px;text-transform:uppercase">Gold View</th>
+          <th style="text-align:left;padding:6px 10px;color:#6b7190;font-size:9px;text-transform:uppercase">ORCH</th>
+        </tr>
+        <tbody id="dash-area-table"></tbody>
+      </table>
+    </div>
+    <div>
+      <h3 style="font-size:12px;color:#6b7190;text-transform:uppercase;margin-bottom:8px;letter-spacing:1px">KPI Heatmap (36)</h3>
+      <div id="dash-kpi-heatmap" style="display:grid;grid-template-columns:repeat(6,1fr);gap:3px"></div>
+      <h3 style="font-size:12px;color:#6b7190;text-transform:uppercase;margin:16px 0 8px;letter-spacing:1px">Gold Views (13)</h3>
+      <div id="dash-gold-views" style="display:flex;flex-wrap:wrap;gap:4px"></div>
+    </div>
+  </div>
+</div>
+
+<div id="equipment-panel" style="display:none">
+  <div id="equip-header">
+    <h3 id="equip-title">Equipment — Stamping Shop</h3>
+    <button onclick="closeEquipPanel()">&#10005; Close</button>
+  </div>
+  <div id="equip-grid"></div>
+</div>
+
+<div id="orch-panel" style="display:none">
+  <div id="orch-header">
+    <div>
+      <span id="orch-badge">ORCH-02</span>
+      <span id="orch-title">Predictive Maintenance Intervention</span>
+    </div>
+    <button onclick="closeOrchPanel()">&#10005;</button>
+  </div>
+  <div id="orch-status"></div>
+  <div id="orch-dag"></div>
+  <div id="orch-hitl" style="display:none"></div>
+  <div id="orch-ticket"></div>
+</div>
+
+<!-- Audit & Governance Log Panel -->
+<div id="audit-panel" style="display:none;position:fixed;top:60px;left:0;width:420px;bottom:0;background:#12141e;border-right:2px solid rgba(167,139,250,0.3);overflow-y:auto;z-index:100;box-shadow:8px 0 30px rgba(0,0,0,0.4)">
+  <div style="padding:12px 16px;border-bottom:1px solid #2a2e42;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#12141e;z-index:1">
+    <div>
+      <div style="font-size:10px;color:#a78bfa;text-transform:uppercase;letter-spacing:1px;font-weight:700">Audit &amp; Governance Log</div>
+      <div style="font-size:12px;color:#9da3b8">Agent activity, HITL decisions, tickets — Purview linked</div>
+    </div>
+    <button onclick="toggleAuditPanel()" style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);color:#ef4444;padding:3px 10px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:10px">&#10005; Close</button>
+  </div>
+  <div style="padding:8px 12px;background:rgba(167,139,250,0.04);border-bottom:1px solid #2a2e42;display:flex;gap:6px;flex-wrap:wrap;font-size:9px;position:sticky;top:52px;background:#12141e;z-index:1">
+    <span style="padding:2px 6px;border-radius:4px;background:rgba(34,197,94,0.1);color:#22c55e;cursor:pointer" onclick="filterAudit('SELF_HEAL')">Self-Heal</span>
+    <span style="padding:2px 6px;border-radius:4px;background:rgba(245,158,11,0.1);color:#f59e0b;cursor:pointer" onclick="filterAudit('HITL')">HITL</span>
+    <span style="padding:2px 6px;border-radius:4px;background:rgba(239,68,68,0.1);color:#ef4444;cursor:pointer" onclick="filterAudit('ORCH')">Orchestration</span>
+    <span style="padding:2px 6px;border-radius:4px;background:rgba(129,140,248,0.1);color:#818cf8;cursor:pointer" onclick="filterAudit('AGENT')">Agent</span>
+    <span style="padding:2px 6px;border-radius:4px;background:rgba(255,255,255,0.05);color:#9da3b8;cursor:pointer" onclick="filterAudit('ALL')">All</span>
+  </div>
+  <div id="audit-list"></div>
+</div>
+
+<script>
+/* ========== AREA DATA ========== */
+const AREAS = [
+  {id:'stamping',name:'Stamping Shop',schema:'AAML',goldView:'Station_Intelligence',orch:'ORCH-01',status:'warning',kpis:[
+    {id:'K001',n:'OEE',v:78,t:85,u:'%',entity:'AAML.OEERecord',mcp:'get_oee_current'},
+    {id:'K006',n:'Downtime',v:12,t:5,u:'%',entity:'AAML.OEERecord',mcp:'get_oee_history'},
+    {id:'K010',n:'Scrap Rate',v:2.4,t:1.5,u:'%',entity:'AAML.OEERecord',mcp:'get_station_live'}]},
+  {id:'body',name:'Body Shop',schema:'AAML+PMML',goldView:'Station_Intelligence',orch:'ORCH-01,02',status:'good',kpis:[
+    {id:'K001',n:'OEE',v:87,t:85,u:'%',entity:'AAML.OEERecord',mcp:'get_oee_current'},
+    {id:'K036',n:'MTBF',v:440,t:425,u:'hrs',entity:'PMML.EquipHealthProfile',mcp:'get_equipment_health'},
+    {id:'K005',n:'JPH',v:54,t:55,u:'j/h',entity:'AAML.OEERecord',mcp:'get_oee_current'}]},
+  {id:'paint',name:'Paint Shop',schema:'AAML+ESML',goldView:'Station_Intelligence+Plant_Sustainability',orch:'ORCH-01,09',status:'critical',kpis:[
+    {id:'K001',n:'OEE',v:68,t:85,u:'%',entity:'AAML.OEERecord',mcp:'get_oee_current'},
+    {id:'K101',n:'VOC',v:242,t:250,u:'ppm',entity:'ESML.EmissionRecord',mcp:'get_emissions'},
+    {id:'K104',n:'kWh/Veh',v:192,t:153,u:'kWh',entity:'ESML.EnergyConsumption',mcp:'get_energy_by_zone'}]},
+  {id:'assembly',name:'General Assembly',schema:'AAML+BRML+WOSFML',goldView:'Station_Intelligence+Vehicle_360+Worker_360',orch:'ORCH-01,06',status:'warning',kpis:[
+    {id:'K001',n:'OEE',v:82,t:85,u:'%',entity:'AAML.OEERecord',mcp:'get_oee_current'},
+    {id:'K012',n:'FPY',v:93,t:96,u:'%',entity:'QEML.DefectRecord',mcp:'get_defect_summary'},
+    {id:'K059',n:'Cert%',v:88,t:98,u:'%',entity:'WOSFML.WorkerCert',mcp:'get_training_gaps'},
+    {id:'K005',n:'JPH',v:51,t:55,u:'j/h',entity:'AAML.OEERecord',mcp:'get_oee_current'}]},
+  {id:'quality',name:'Quality Lab',schema:'QEML+BRML',goldView:'Quality_Closed_Loop+Vehicle_360',orch:'ORCH-03,08',status:'critical',kpis:[
+    {id:'K013',n:'DPPM',v:580,t:400,u:'ppm',entity:'QEML.DefectRecord',mcp:'get_defect_summary'},
+    {id:'K016',n:'Escape%',v:1.4,t:0.4,u:'%',entity:'QEML.DefectRecord',mcp:'search_similar_defects'},
+    {id:'K023',n:'CAPA',v:22,t:12,u:'days',entity:'QEML.CorrectiveAction',mcp:'get_capa_actions'}]},
+  {id:'maintenance',name:'Maintenance Bay',schema:'PMML+AAML',goldView:'PdM_Loop+Station_Intelligence',orch:'ORCH-02',status:'critical',kpis:[
+    {id:'K036',n:'MTBF',v:310,t:425,u:'hrs',entity:'PMML.EquipHealthProfile',mcp:'get_equipment_health'},
+    {id:'K037',n:'MTTR',v:3.2,t:1.5,u:'hrs',entity:'PMML.WorkOrder',mcp:'get_work_orders'},
+    {id:'K039',n:'PM%',v:72,t:95,u:'%',entity:'PMML.WorkOrder',mcp:'get_work_orders'}]},
+  {id:'warehouse',name:'Warehouse & Logistics',schema:'SCML',goldView:'Supply_Chain_Risk',orch:'ORCH-04,05',status:'warning',kpis:[
+    {id:'K048',n:'Stockout',v:4,t:2,u:'/mo',entity:'SCML.InventoryPosition',mcp:'get_stockout_risk'},
+    {id:'K047',n:'OTD',v:88,t:96,u:'%',entity:'SCML.SupplierScorecard',mcp:'get_supplier'},
+    {id:'K053',n:'DOH',v:4.8,t:2,u:'days',entity:'SCML.InventoryPosition',mcp:'get_inventory'}]},
+  {id:'shipping',name:'Shipping Yard',schema:'SCML+BRML',goldView:'Supply_Chain_Risk',orch:'ORCH-04',status:'critical',kpis:[
+    {id:'K_FILL',n:'Fill%',v:79,t:95,u:'%',entity:'SCML.InventoryPosition',mcp:'get_inventory'},
+    {id:'K_DWELL',n:'Dwell',v:7.1,t:3,u:'days',entity:'SCML.LogisticsLane',mcp:'get_logistics_lanes'},
+    {id:'K_DMG',n:'Damage',v:2.1,t:0.8,u:'%',entity:'SCML.LogisticsLane',mcp:'get_logistics_lanes'}]},
+  {id:'charging',name:'Battery Charging Depot',schema:'CVML+ESML',goldView:'Charging_Intelligence',orch:'ORCH-09',status:'warning',kpis:[
+    {id:'K090',n:'$/Mile',v:0.044,t:0.035,u:'$/mi',entity:'CVML.DepotChargingSession',mcp:'get_charging_session'},
+    {id:'K095',n:'Grid%',v:82,t:90,u:'%',entity:'ESML.EnergyMeter',mcp:'get_depot_grid_status'},
+    {id:'K088',n:'SOH',v:91,t:98,u:'%',entity:'CVML.BatteryHealthRecord',mcp:'get_battery_health'}]},
+  {id:'energy',name:'Energy Center',schema:'ESML+AAML',goldView:'Plant_Sustainability',orch:'ORCH-09',status:'warning',kpis:[
+    {id:'K099',n:'CO2e',v:4400,t:3500,u:'t',entity:'ESML.CarbonFootprint',mcp:'get_carbon_footprint'},
+    {id:'K104',n:'kWh/V',v:178,t:153,u:'kWh',entity:'ESML.EnergyConsumption',mcp:'get_energy_by_zone'},
+    {id:'K_REN',n:'Renew%',v:31,t:45,u:'%',entity:'ESML.SustainabilityInit',mcp:'get_sustainability'}]},
+  {id:'connected',name:'Connected Vehicle Ops',schema:'CVML',goldView:'Fleet_360+Truck_Health_360+Autonomous_Ops',orch:'ORCH-10',status:'critical',kpis:[
+    {id:'K082',n:'Uptime',v:91.8,t:98.5,u:'%',entity:'CVML.FleetHealthScore',mcp:'get_fleet_summary'},
+    {id:'K083',n:'SubAtt',v:64,t:75,u:'%',entity:'CVML.SubscriptionService',mcp:'get_subscription_status'},
+    {id:'K092',n:'OTA%',v:88,t:99.5,u:'%',entity:'CVML.OTACampaign',mcp:'get_ota_status'},
+    {id:'K089',n:'MPI',v:340,t:500,u:'mi',entity:'CVML.AutonomousOpLog',mcp:'get_autonomous_session'}]},
+  {id:'admin',name:'Admin / Executive',schema:'ALL 9',goldView:'All 13 Gold Views',orch:'ORCH-01..10',status:'warning',kpis:[
+    {id:'K_REV',n:'Rev/$E',v:410,t:520,u:'$K',entity:'Cross-schema',mcp:'axle_vehicle_360'},
+    {id:'K_ROI',n:'ROIC',v:9.8,t:14,u:'%',entity:'Cross-schema',mcp:'axle_station_intelligence'},
+    {id:'K_TCO',n:'TCO',v:9.1,t:6,u:'$M',entity:'Platform',mcp:'gateway'}]}
+];
+
+const EQUIPMENT = {
+  stamping: [
+    {id:'SP-01',name:'Stamping Press #1',type:'Hydraulic Press',status:'running',metrics:[
+      {name:'Force',value:2400,unit:'tons',min:0,max:3000,warn:2700,crit:2900},
+      {name:'Cycle Time',value:11.8,unit:'sec',min:8,max:18,warn:14,crit:16},
+      {name:'Temperature',value:142,unit:'\u00b0F',min:100,max:200,warn:175,crit:190},
+      {name:'Vibration',value:2.1,unit:'mm/s',min:0,max:8,warn:4.5,crit:6}
+    ]},
+    {id:'SP-02',name:'Stamping Press #2',type:'Hydraulic Press',status:'running',metrics:[
+      {name:'Force',value:2380,unit:'tons',min:0,max:3000,warn:2700,crit:2900},
+      {name:'Cycle Time',value:12.1,unit:'sec',min:8,max:18,warn:14,crit:16},
+      {name:'Temperature',value:148,unit:'\u00b0F',min:100,max:200,warn:175,crit:190},
+      {name:'Vibration',value:3.8,unit:'mm/s',min:0,max:8,warn:4.5,crit:6}
+    ]},
+    {id:'SP-03',name:'Stamping Press #3',type:'Transfer Press',status:'warning',metrics:[
+      {name:'Force',value:1800,unit:'tons',min:0,max:2500,warn:2100,crit:2300},
+      {name:'Cycle Time',value:15.2,unit:'sec',min:8,max:18,warn:14,crit:16},
+      {name:'Temperature',value:178,unit:'\u00b0F',min:100,max:200,warn:175,crit:190},
+      {name:'Vibration',value:5.2,unit:'mm/s',min:0,max:8,warn:4.5,crit:6}
+    ]},
+    {id:'CR-01',name:'Overhead Crane',type:'Bridge Crane',status:'idle',metrics:[
+      {name:'Load',value:0,unit:'tons',min:0,max:50,warn:40,crit:45},
+      {name:'Position',value:42,unit:'%',min:0,max:100,warn:null,crit:null}
+    ]}
+  ],
+  body: [
+    {id:'WR-01',name:'Fanuc R-2000 #1',type:'Spot Weld Robot',status:'running',metrics:[
+      {name:'Weld Current',value:12400,unit:'A',min:8000,max:16000,warn:14000,crit:15000},
+      {name:'Electrode Force',value:680,unit:'lbs',min:400,max:900,warn:800,crit:850},
+      {name:'Cycle Time',value:4.2,unit:'sec',min:2,max:8,warn:6,crit:7},
+      {name:'Joint Temp',value:1420,unit:'\u00b0F',min:1000,max:1800,warn:1600,crit:1700}
+    ]},
+    {id:'WR-02',name:'Fanuc R-2000 #2',type:'Spot Weld Robot',status:'running',metrics:[
+      {name:'Weld Current',value:12200,unit:'A',min:8000,max:16000,warn:14000,crit:15000},
+      {name:'Electrode Force',value:690,unit:'lbs',min:400,max:900,warn:800,crit:850},
+      {name:'Cycle Time',value:4.0,unit:'sec',min:2,max:8,warn:6,crit:7},
+      {name:'Joint Temp',value:1380,unit:'\u00b0F',min:1000,max:1800,warn:1600,crit:1700}
+    ]},
+    {id:'WR-03',name:'ABB IRB 6700 #1',type:'Arc Weld Robot',status:'warning',metrics:[
+      {name:'Wire Feed',value:280,unit:'in/min',min:100,max:400,warn:350,crit:380},
+      {name:'Voltage',value:24.5,unit:'V',min:18,max:32,warn:28,crit:30},
+      {name:'Gas Flow',value:38,unit:'CFH',min:20,max:50,warn:45,crit:48},
+      {name:'Vibration',value:4.8,unit:'mm/s',min:0,max:8,warn:4.5,crit:6}
+    ]},
+    {id:'WR-04',name:'ABB IRB 6700 #2',type:'Arc Weld Robot',status:'running',metrics:[
+      {name:'Wire Feed',value:275,unit:'in/min',min:100,max:400,warn:350,crit:380},
+      {name:'Voltage',value:23.8,unit:'V',min:18,max:32,warn:28,crit:30},
+      {name:'Gas Flow',value:36,unit:'CFH',min:20,max:50,warn:45,crit:48},
+      {name:'Vibration',value:2.1,unit:'mm/s',min:0,max:8,warn:4.5,crit:6}
+    ]},
+    {id:'FX-01',name:'Fixture Clamp Station',type:'Pneumatic Fixture',status:'running',metrics:[
+      {name:'Clamp Force',value:4200,unit:'N',min:3000,max:6000,warn:5000,crit:5500},
+      {name:'Air Pressure',value:85,unit:'PSI',min:60,max:100,warn:92,crit:96}
+    ]}
+  ],
+  paint: [
+    {id:'PB-01',name:'E-Coat Tank',type:'Electrodeposition',status:'running',metrics:[
+      {name:'Bath Temp',value:86,unit:'\u00b0F',min:78,max:92,warn:89,crit:91},
+      {name:'Voltage',value:280,unit:'V',min:200,max:350,warn:320,crit:340},
+      {name:'pH Level',value:4.2,unit:'pH',min:3.5,max:5.5,warn:5.0,crit:5.3},
+      {name:'Film Thickness',value:22,unit:'\u03bcm',min:15,max:30,warn:26,crit:28}
+    ]},
+    {id:'PB-02',name:'Spray Booth #1',type:'Robotic Spray',status:'warning',metrics:[
+      {name:'Booth Temp',value:74,unit:'\u00b0F',min:68,max:78,warn:76,crit:77},
+      {name:'Humidity',value:62,unit:'%RH',min:45,max:70,warn:65,crit:68},
+      {name:'Paint Flow',value:340,unit:'cc/min',min:200,max:500,warn:420,crit:460},
+      {name:'VOC Level',value:242,unit:'ppm',min:0,max:300,warn:250,crit:280}
+    ]},
+    {id:'OV-01',name:'Curing Oven',type:'Convection Oven',status:'running',metrics:[
+      {name:'Zone 1 Temp',value:310,unit:'\u00b0F',min:280,max:340,warn:330,crit:336},
+      {name:'Zone 2 Temp',value:325,unit:'\u00b0F',min:300,max:350,warn:340,crit:346},
+      {name:'Conveyor Speed',value:4.2,unit:'ft/min',min:3,max:6,warn:5.2,crit:5.6},
+      {name:'Exhaust Flow',value:8400,unit:'CFM',min:6000,max:12000,warn:10000,crit:11000}
+    ]}
+  ],
+  assembly: [
+    {id:'ST-01',name:'Station A-01 Chassis',type:'Manual + Assist',status:'running',metrics:[
+      {name:'Takt',value:57,unit:'sec',min:0,max:90,warn:65,crit:75},
+      {name:'Torque Gun #1',value:42,unit:'Nm',min:35,max:50,warn:47,crit:49},
+      {name:'Cycle Count',value:423,unit:'',min:0,max:500,warn:null,crit:null}
+    ]},
+    {id:'ST-02',name:'Station A-05 Engine',type:'Robotic + Manual',status:'running',metrics:[
+      {name:'Takt',value:59,unit:'sec',min:0,max:90,warn:65,crit:75},
+      {name:'Torque Gun #1',value:85,unit:'Nm',min:75,max:95,warn:90,crit:93},
+      {name:'Torque Gun #2',value:120,unit:'Nm',min:110,max:135,warn:128,crit:132},
+      {name:'Alignment',value:0.12,unit:'mm',min:0,max:0.5,warn:0.3,crit:0.4}
+    ]},
+    {id:'ST-03',name:'Station A-09 Doors',type:'Robotic Hang',status:'warning',metrics:[
+      {name:'Takt',value:68,unit:'sec',min:0,max:90,warn:65,crit:75},
+      {name:'Gap Measure',value:3.8,unit:'mm',min:2.5,max:5,warn:4.2,crit:4.6},
+      {name:'Flush',value:0.9,unit:'mm',min:0,max:2,warn:1.4,crit:1.7}
+    ]},
+    {id:'ST-04',name:'Station A-12 Final',type:'Inspection',status:'running',metrics:[
+      {name:'Takt',value:54,unit:'sec',min:0,max:90,warn:65,crit:75},
+      {name:'Brake Test',value:98.4,unit:'%',min:95,max:100,warn:null,crit:null},
+      {name:'Headlamp Aim',value:99.1,unit:'%',min:95,max:100,warn:null,crit:null}
+    ]},
+    {id:'EOL-01',name:'End-of-Line Dyno',type:'Chassis Dynamometer',status:'running',metrics:[
+      {name:'Speed Test',value:62,unit:'mph',min:0,max:80,warn:null,crit:null},
+      {name:'Noise dB',value:72,unit:'dB',min:50,max:90,warn:82,crit:86},
+      {name:'Pass Rate',value:97.8,unit:'%',min:90,max:100,warn:null,crit:null}
+    ]}
+  ],
+  quality: [
+    {id:'CMM-01',name:'Zeiss CMM',type:'Coordinate Measure',status:'running',metrics:[
+      {name:'Accuracy',value:0.002,unit:'mm',min:0,max:0.01,warn:0.005,crit:0.008},
+      {name:'Throughput',value:12,unit:'parts/hr',min:0,max:20,warn:null,crit:null}
+    ]},
+    {id:'VIS-01',name:'Cognex Vision #1',type:'Inline Inspection',status:'running',metrics:[
+      {name:'Detect Rate',value:99.4,unit:'%',min:95,max:100,warn:null,crit:null},
+      {name:'False Pos',value:0.3,unit:'%',min:0,max:5,warn:2,crit:3},
+      {name:'Frame Rate',value:30,unit:'fps',min:15,max:60,warn:null,crit:null}
+    ]}
+  ],
+  maintenance: [
+    {id:'CNC-01',name:'Haas CNC Lathe',type:'Spare Parts Machining',status:'running',metrics:[
+      {name:'Spindle RPM',value:4200,unit:'rpm',min:0,max:8000,warn:6000,crit:7000},
+      {name:'Coolant Temp',value:68,unit:'\u00b0F',min:60,max:80,warn:75,crit:78},
+      {name:'Tool Wear',value:62,unit:'%',min:0,max:100,warn:80,crit:90}
+    ]}
+  ],
+  warehouse: [
+    {id:'FK-01',name:'Toyota Forklift #1',type:'Electric Forklift',status:'running',metrics:[
+      {name:'Battery',value:72,unit:'%',min:0,max:100,warn:25,crit:15},
+      {name:'Load',value:1800,unit:'lbs',min:0,max:4000,warn:3500,crit:3800}
+    ]},
+    {id:'AS-01',name:'Dematic AS/RS',type:'Automated Storage',status:'running',metrics:[
+      {name:'Throughput',value:120,unit:'picks/hr',min:0,max:200,warn:null,crit:null},
+      {name:'Accuracy',value:99.8,unit:'%',min:98,max:100,warn:null,crit:null}
+    ]}
+  ],
+  shipping: [
+    {id:'DC-01',name:'Dock Door #1',type:'Loading Bay',status:'running',metrics:[
+      {name:'Vehicles Loaded',value:18,unit:'',min:0,max:24,warn:null,crit:null},
+      {name:'Wait Time',value:22,unit:'min',min:0,max:60,warn:35,crit:45}
+    ]}
+  ],
+  charging: [
+    {id:'CH-01',name:'ABB Terra HP',type:'DC Fast 350kW',status:'running',metrics:[
+      {name:'Power',value:285,unit:'kW',min:0,max:350,warn:null,crit:null},
+      {name:'SOC',value:64,unit:'%',min:0,max:100,warn:null,crit:null},
+      {name:'Temp',value:94,unit:'\u00b0F',min:60,max:120,warn:105,crit:112}
+    ]},
+    {id:'CH-02',name:'MCS Megawatt #1',type:'MCS 1MW+',status:'running',metrics:[
+      {name:'Power',value:820,unit:'kW',min:0,max:1200,warn:null,crit:null},
+      {name:'SOC',value:38,unit:'%',min:0,max:100,warn:null,crit:null},
+      {name:'Grid Load',value:78,unit:'%',min:0,max:100,warn:85,crit:92}
+    ]}
+  ],
+  energy: [
+    {id:'SOL-01',name:'Solar Array',type:'PV 500kW',status:'running',metrics:[
+      {name:'Output',value:340,unit:'kW',min:0,max:500,warn:null,crit:null},
+      {name:'Efficiency',value:18.2,unit:'%',min:0,max:25,warn:null,crit:null}
+    ]},
+    {id:'XFR-01',name:'Main Transformer',type:'2MVA',status:'running',metrics:[
+      {name:'Load',value:1420,unit:'kW',min:0,max:2000,warn:1700,crit:1850},
+      {name:'Temp',value:148,unit:'\u00b0F',min:80,max:200,warn:175,crit:190}
+    ]}
+  ],
+  connected: [
+    {id:'SRV-01',name:'Telemetry Ingest',type:'Eventhouse Cluster',status:'running',metrics:[
+      {name:'Events/sec',value:48200,unit:'',min:0,max:100000,warn:80000,crit:90000},
+      {name:'Latency',value:12,unit:'ms',min:0,max:100,warn:50,crit:80},
+      {name:'Queue Depth',value:340,unit:'',min:0,max:10000,warn:5000,crit:8000}
+    ]},
+    {id:'SRV-02',name:'MCP Gateway',type:'API Management',status:'running',metrics:[
+      {name:'Req/sec',value:1240,unit:'',min:0,max:5000,warn:3500,crit:4500},
+      {name:'p95 Latency',value:0.8,unit:'sec',min:0,max:3,warn:1.5,crit:2.5},
+      {name:'Error Rate',value:0.02,unit:'%',min:0,max:5,warn:1,crit:3}
+    ]}
+  ],
+  admin: [
+    {id:'BI-01',name:'Power BI Service',type:'DirectLake',status:'running',metrics:[
+      {name:'Active Users',value:142,unit:'',min:0,max:500,warn:null,crit:null},
+      {name:'Report Loads',value:2.1,unit:'sec',min:0,max:10,warn:5,crit:8}
+    ]}
+  ]
+};
+
+const STATUS_COLORS = {green:0x22c55e,amber:0xf59e0b,red:0xef4444};
+const PAINT_COLORS = [0x3b82f6,0xef4444,0xffffff,0x111111,0x22c55e,0xf59e0b];
+const SPEED_STEPS = [0,0.25,0.5,1,2,3,5,7,10];
+let timeScale = 1, speedIndex = 3;
+
+/* ========== THREE.JS SETUP ========== */
+const canvas = document.getElementById('factory-canvas');
+const container = document.getElementById('canvas-container');
+let W = container.clientWidth, H = container.clientHeight;
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0a0c14);
+scene.fog = new THREE.FogExp2(0x0a0c14, 0.006);
+
+const camera = new THREE.PerspectiveCamera(45, W/H, 0.1, 500);
+camera.position.set(0, 40, 45);
+
+const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+renderer.setSize(W, H);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.2;
+
+const controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.05;
+controls.maxPolarAngle = Math.PI/2.2;
+controls.autoRotate = true;
+controls.autoRotateSpeed = 0.3;
+controls.target.set(0, 2, 0);
+
+/* ========== LIGHTING ========== */
+const ambientLight = new THREE.AmbientLight(0x404050, 0.4);
+scene.add(ambientLight);
+const sunLight = new THREE.DirectionalLight(0xfff5e6, 0.8);
+sunLight.position.set(30, 40, 20);
+sunLight.castShadow = true;
+sunLight.shadow.mapSize.set(2048, 2048);
+sunLight.shadow.camera.left = -50; sunLight.shadow.camera.right = 50;
+sunLight.shadow.camera.top = 50; sunLight.shadow.camera.bottom = -50;
+scene.add(sunLight);
+const fillLight = new THREE.DirectionalLight(0x6366f1, 0.15);
+fillLight.position.set(-20, 10, -10);
+scene.add(fillLight);
+
+/* ========== HELPERS ========== */
+function mat(color, opts){
+  const o = Object.assign({color}, opts||{});
+  return new THREE.MeshPhongMaterial(o);
+}
+function box(w,h,d,c,opts){return new THREE.Mesh(new THREE.BoxGeometry(w,h,d), mat(c,opts));}
+function cyl(rt,rb,h,c,seg,opts){return new THREE.Mesh(new THREE.CylinderGeometry(rt,rb,h,seg||8), mat(c,opts));}
+function sph(r,c,opts){return new THREE.Mesh(new THREE.SphereGeometry(r,8,8), mat(c,opts));}
+
+/* ========== GROUND ========== */
+const ground = new THREE.Mesh(
+  new THREE.PlaneGeometry(120, 80),
+  new THREE.MeshPhongMaterial({color:0x12141e, side:THREE.DoubleSide})
+);
+ground.rotation.x = -Math.PI/2;
+ground.receiveShadow = true;
+scene.add(ground);
+
+// Grid lines
+const gridHelper = new THREE.GridHelper(120, 60, 0x1a1c28, 0x1a1c28);
+gridHelper.position.y = 0.01;
+scene.add(gridHelper);
+
+// Road network
+function createRoad(x1,z1,x2,z2,w){
+  const dx=x2-x1, dz=z2-z1, len=Math.sqrt(dx*dx+dz*dz);
+  const road = box(len, 0.02, w, 0x1e2030);
+  road.position.set((x1+x2)/2, 0.02, (z1+z2)/2);
+  road.rotation.y = Math.atan2(dx, dz) + Math.PI/2;
+  scene.add(road);
+  // Center line
+  const line = box(len-0.5, 0.025, 0.08, 0xf59e0b, {emissive:0xf59e0b, emissiveIntensity:0.2});
+  line.position.set((x1+x2)/2, 0.03, (z1+z2)/2);
+  line.rotation.y = Math.atan2(dx, dz) + Math.PI/2;
+  scene.add(line);
+}
+createRoad(-40,15,40,15,2);
+createRoad(-40,-15,40,-15,2);
+createRoad(-40,-15,-40,15,2);
+createRoad(40,-15,40,15,2);
+
+// Landscaping patches
+[[-45,0],[-45,20],[45,20],[45,-20],[0,25],[0,-25]].forEach(([x,z])=>{
+  const g = box(5,0.05,3,0x1a3a1a);
+  g.position.set(x,0.02,z);
+  scene.add(g);
+});
+
+/* ========== BUILDING FACTORY ========== */
+const buildings = {};
+const buildingMeshes = [];
+
+function createBuilding(id, x, z, w, d, h, wallColor){
+  const group = new THREE.Group();
+  group.position.set(x, 0, z);
+  group.userData = {id, w, d, h, originalOpacity: 0.2};
+
+  // Floor
+  const floor = box(w, 0.08, d, 0x1a1c2a);
+  floor.position.y = 0.04;
+  floor.receiveShadow = true;
+  group.add(floor);
+
+  // Lane markings on floor
+  for(let lz = -d/2+1; lz < d/2; lz += 2){
+    const lane = box(w-0.5, 0.01, 0.04, 0x2a2c3a);
+    lane.position.set(0, 0.09, lz);
+    group.add(lane);
+  }
+
+  // Walls (transparent)
+  const wallMat = mat(wallColor || 0x3344aa, {transparent:true, opacity:0.2, side:THREE.DoubleSide});
+  // Front
+  const wf = new THREE.Mesh(new THREE.PlaneGeometry(w, h), wallMat.clone());
+  wf.position.set(0, h/2, d/2);
+  group.add(wf);
+  // Back
+  const wb = new THREE.Mesh(new THREE.PlaneGeometry(w, h), wallMat.clone());
+  wb.position.set(0, h/2, -d/2);
+  wb.rotation.y = Math.PI;
+  group.add(wb);
+  // Left
+  const wl = new THREE.Mesh(new THREE.PlaneGeometry(d, h), wallMat.clone());
+  wl.position.set(-w/2, h/2, 0);
+  wl.rotation.y = Math.PI/2;
+  group.add(wl);
+  // Right
+  const wr = new THREE.Mesh(new THREE.PlaneGeometry(d, h), wallMat.clone());
+  wr.position.set(w/2, h/2, 0);
+  wr.rotation.y = -Math.PI/2;
+  group.add(wr);
+
+  // Roof (slightly transparent)
+  const roof = box(w, 0.1, d, 0x222438, {transparent:true, opacity:0.4});
+  roof.position.y = h;
+  group.add(roof);
+
+  // Roof edge trim
+  const trimMat = mat(0x6366f1, {emissive:0x6366f1, emissiveIntensity:0.3});
+  [[-w/2,d/2],[w/2,d/2],[w/2,-d/2],[-w/2,-d/2]].forEach(([ex,ez],i)=>{
+    const next = [[-w/2,d/2],[w/2,d/2],[w/2,-d/2],[-w/2,-d/2]][(i+1)%4];
+    const edgeLen = Math.sqrt((next[0]-ex)**2+(next[1]-ez)**2);
+    const edge = new THREE.Mesh(new THREE.BoxGeometry(edgeLen,0.06,0.06), trimMat);
+    edge.position.set((ex+next[0])/2, h+0.05, (ez+next[1])/2);
+    if(i%2===0) edge.rotation.y=0; else edge.rotation.y=Math.PI/2;
+    group.add(edge);
+  });
+
+  // Interior light
+  const intLight = new THREE.PointLight(0xffe8cc, 0.5, 15);
+  intLight.position.set(0, h-0.5, 0);
+  group.add(intLight);
+
+  // Status light on roof
+  const area = AREAS.find(a=>a.id===id);
+  if(area){
+    const sColor = STATUS_COLORS[area.status];
+    const sLight = new THREE.PointLight(sColor, 0.6, 8);
+    sLight.position.set(0, h+0.5, 0);
+    group.add(sLight);
+    group.userData.statusLight = sLight;
+  }
+
+  group.userData.walls = [wf, wb, wl, wr];
+  scene.add(group);
+  buildings[id] = group;
+  buildingMeshes.push(group);
+  return group;
+}
+
+/* ========== CONVEYOR SYSTEM ========== */
+const conveyorSegments = [];
+function createConveyor(startX, endX, z, y, parentGroup){
+  const length = endX - startX;
+  const target = parentGroup || scene;
+  const belt = box(length, 0.05, 0.8, 0x333340, {shininess:80});
+  belt.position.set(startX + length/2, y, z);
+  target.add(belt);
+  // Side rails
+  const rail1 = box(length, 0.12, 0.04, 0x444455);
+  rail1.position.set(startX+length/2, y+0.06, z+0.42);
+  target.add(rail1);
+  const rail2 = box(length, 0.12, 0.04, 0x444455);
+  rail2.position.set(startX+length/2, y+0.06, z-0.42);
+  target.add(rail2);
+  // Rollers
+  for(let x = startX+0.3; x < endX; x += 0.6){
+    const roller = cyl(0.03, 0.03, 0.78, 0x555560, 6);
+    roller.rotation.z = Math.PI/2;
+    roller.position.set(x, y+0.03, z);
+    target.add(roller);
+  }
+  conveyorSegments.push({startX, endX, z, y});
+}
+
+/* ========== CAR BODY ========== */
+function createCarBody(color, stage){
+  const group = new THREE.Group();
+  if(stage === 'blank'){
+    const blank = box(2.0, 0.06, 1.0, 0x888899);
+    blank.position.y = 0.15;
+    group.add(blank);
+    return group;
+  }
+  if(stage === 'stamped'){
+    const panel = box(2.2, 0.15, 1.0, 0x7a7a8a);
+    panel.position.y = 0.2;
+    group.add(panel);
+    return group;
+  }
+  const bodyColor = color || 0x888888;
+  const cabinOpacity = stage === 'framed' ? 0.3 : 0.7;
+  const bodyMat = stage === 'framed'
+    ? mat(0x666677, {wireframe:true})
+    : mat(bodyColor, {shininess:100});
+  // Lower body
+  const body = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.6, 1.2), bodyMat);
+  body.position.y = 0.3;
+  body.castShadow = true;
+  group.add(body);
+  // Cabin
+  const cabin = new THREE.Mesh(
+    new THREE.BoxGeometry(1.4, 0.5, 1.1),
+    mat(stage==='framed'?0x555566:0x224488, {transparent:true, opacity:cabinOpacity})
+  );
+  cabin.position.set(-0.1, 0.85, 0);
+  group.add(cabin);
+  // Wheels (only for assembled/shipped)
+  if(stage === 'assembled' || stage === 'shipped'){
+    const wGeo = new THREE.CylinderGeometry(0.2, 0.2, 0.15, 8);
+    const wMat = mat(0x222222);
+    [[-0.7,-0.65],[-0.7,0.65],[0.7,-0.65],[0.7,0.65]].forEach(([wx,wz])=>{
+      const wheel = new THREE.Mesh(wGeo, wMat);
+      wheel.rotation.x = Math.PI/2;
+      wheel.position.set(wx, 0.05, wz);
+      group.add(wheel);
+    });
+  }
+  group.userData.bodyMesh = body;
+  return group;
+}
+
+/* ========== WELDING ROBOT ========== */
+function createRobot(){
+  const group = new THREE.Group();
+  const base = cyl(0.25, 0.3, 0.4, 0xf59e0b, 8);
+  group.add(base);
+  const arm1 = box(0.12, 0.8, 0.12, 0xf59e0b);
+  arm1.position.y = 0.6;
+  group.add(arm1);
+  const joint = sph(0.1, 0x333333);
+  joint.position.y = 1.0;
+  group.add(joint);
+  const arm2 = box(0.1, 0.6, 0.1, 0xf59e0b);
+  arm2.position.y = 1.3;
+  arm2.rotation.z = 0.3;
+  group.add(arm2);
+  const tool = box(0.08, 0.08, 0.15, 0x888888);
+  tool.position.set(0.15, 1.55, 0);
+  group.add(tool);
+  const weldLight = new THREE.PointLight(0xffff00, 0, 2);
+  weldLight.position.set(0.15, 1.55, 0);
+  group.add(weldLight);
+  // Spark sphere
+  const spark = sph(0.04, 0xffff00, {emissive:0xffff00, emissiveIntensity:1, transparent:true, opacity:0});
+  spark.position.set(0.15, 1.55, 0);
+  group.add(spark);
+  group.userData = {arm1, arm2, weldLight, spark, phase:Math.random()*Math.PI*2};
+  return group;
+}
+
+/* ========== STAMPING PRESS ========== */
+function createPress(){
+  const group = new THREE.Group();
+  // Frame
+  const frame = box(1.5, 2.5, 1.2, 0x3a3a4a);
+  frame.position.y = 1.25;
+  group.add(frame);
+  // Ram (moves up/down)
+  const ram = cyl(0.3, 0.3, 1.5, 0x5a5a6a, 8);
+  ram.position.y = 3.2;
+  group.add(ram);
+  // Bed
+  const bed = box(1.6, 0.2, 1.3, 0x4a4a5a);
+  bed.position.y = 0.1;
+  group.add(bed);
+  // Scrap bin
+  const bin = box(0.6, 0.4, 0.5, 0x2a2a3a);
+  bin.position.set(1.2, 0.2, 0.5);
+  group.add(bin);
+  group.userData = {ram, phase:Math.random()*Math.PI*2};
+  return group;
+}
+
+/* ========== BUILD MAIN PRODUCTION BUILDINGS ========== */
+// 1. STAMPING SHOP
+const stampingBldg = createBuilding('stamping', -24, 0, 12, 8, 6, 0x3344aa);
+createConveyor(-5.5, 5.5, 0, 0.3, stampingBldg);
+const presses = [];
+for(let i = 0; i < 3; i++){
+  const press = createPress();
+  press.position.set(-3 + i*3, 0.1, -1.5);
+  stampingBldg.add(press);
+  presses.push(press);
+}
+// Overhead crane rail
+const craneRail = cyl(0.05, 0.05, 11, 0x555566, 6);
+craneRail.rotation.z = Math.PI/2;
+craneRail.position.set(0, 5.5, 0);
+stampingBldg.add(craneRail);
+
+// 2. BODY SHOP
+const bodyBldg = createBuilding('body', -8, 0, 12, 8, 5, 0x4444aa);
+createConveyor(-5.5, 5.5, 0, 0.3, bodyBldg);
+const robots = [];
+for(let i = 0; i < 4; i++){
+  const r1 = createRobot();
+  r1.position.set(-4 + i*2.5, 0.1, -2);
+  r1.rotation.y = Math.PI;
+  bodyBldg.add(r1);
+  robots.push(r1);
+  const r2 = createRobot();
+  r2.position.set(-4 + i*2.5, 0.1, 2);
+  bodyBldg.add(r2);
+  robots.push(r2);
+}
+
+// 3. PAINT SHOP
+const paintBldg = createBuilding('paint', 8, 0, 12, 8, 5, 0x4466aa);
+createConveyor(-5.5, 5.5, 0, 0.3, paintBldg);
+// Paint booth enclosure
+const boothWallMat = mat(0x334488, {transparent:true, opacity:0.12});
+const booth = box(6, 3.5, 5, 0x334488, {transparent:true, opacity:0.12});
+booth.position.set(-1, 2, 0);
+paintBldg.add(booth);
+// Spray arms
+const sprayArms = [];
+for(let i = 0; i < 4; i++){
+  const arm = cyl(0.04, 0.04, 1.5, 0x8888aa, 6);
+  arm.position.set(-3+i*1.8, 3, (i%2===0?1.5:-1.5));
+  arm.rotation.z = (i%2===0?0.4:-0.4);
+  paintBldg.add(arm);
+  sprayArms.push(arm);
+}
+// Spray mist particles
+const sprayMists = [];
+for(let i = 0; i < 12; i++){
+  const mist = sph(0.08, 0x6688cc, {transparent:true, opacity:0.3, emissive:0x4466aa, emissiveIntensity:0.3});
+  mist.position.set(-3+Math.random()*6, 1+Math.random()*2, -1.5+Math.random()*3);
+  paintBldg.add(mist);
+  sprayMists.push(mist);
+}
+// Drying oven section
+const oven = box(3, 3, 5.5, 0xcc6622, {transparent:true, opacity:0.1, emissive:0xff6600, emissiveIntensity:0.15});
+oven.position.set(3.5, 1.8, 0);
+paintBldg.add(oven);
+// Ventilation ducts
+for(let i = 0; i < 3; i++){
+  const duct = cyl(0.15, 0.15, 5, 0x444455, 6);
+  duct.rotation.z = Math.PI/2;
+  duct.position.set(-2+i*3, 4.5, 0);
+  paintBldg.add(duct);
+}
+
+// 4. GENERAL ASSEMBLY
+const assemblyBldg = createBuilding('assembly', 26, 0, 16, 8, 4.5, 0x3355aa);
+createConveyor(-7.5, 7.5, 0, 0.3, assemblyBldg);
+// Workstations
+const workers = [];
+for(let i = 0; i < 6; i++){
+  // Left side stations
+  const ws1 = box(0.8, 0.6, 0.6, 0x3a3a4a);
+  ws1.position.set(-6+i*2.2, 0.3, -2.2);
+  assemblyBldg.add(ws1);
+  // Right side stations
+  const ws2 = box(0.8, 0.6, 0.6, 0x3a3a4a);
+  ws2.position.set(-6+i*2.2, 0.3, 2.2);
+  assemblyBldg.add(ws2);
+  // Parts bins
+  const bin1 = box(0.4, 0.3, 0.3, 0x2244aa, {transparent:true, opacity:0.5});
+  bin1.position.set(-6+i*2.2+0.5, 0.15, -2.8);
+  assemblyBldg.add(bin1);
+  // Workers (cylinder body + sphere head)
+  [[-2.2],[2.2]].forEach(zOff=>{
+    const wGroup = new THREE.Group();
+    const wBody = cyl(0.12, 0.12, 0.6, 0x2255cc, 6);
+    wBody.position.y = 0.8;
+    wGroup.add(wBody);
+    const wHead = sph(0.1, 0xddbb99);
+    wHead.position.y = 1.2;
+    wGroup.add(wHead);
+    wGroup.position.set(-6+i*2.2, 0, zOff[0]);
+    wGroup.userData = {phase: Math.random()*Math.PI*2};
+    assemblyBldg.add(wGroup);
+    workers.push(wGroup);
+  });
+}
+// Andon board
+const andon = box(2, 0.8, 0.05, 0x22c55e, {emissive:0x22c55e, emissiveIntensity:0.5});
+andon.position.set(0, 3.5, -3.98);
+assemblyBldg.add(andon);
+// Overhead parts rail
+const overheadRail = cyl(0.03, 0.03, 15, 0x555566, 6);
+overheadRail.rotation.z = Math.PI/2;
+overheadRail.position.set(0, 4, 1.5);
+assemblyBldg.add(overheadRail);
+
+/* ========== BRIDGE CONVEYORS BETWEEN BUILDINGS ========== */
+// Stamping to Body
+createConveyor(-18, -14, 0, 0.6);
+const bridge1 = box(4, 0.04, 0.9, 0x2a2a3a);
+bridge1.position.set(-16, 0.55, 0);
+scene.add(bridge1);
+// Supports
+[-17.5,-14.5].forEach(bx=>{
+  const sup = cyl(0.06,0.06,0.5,0x444455,6);
+  sup.position.set(bx,0.3,0.5);
+  scene.add(sup);
+  const sup2 = cyl(0.06,0.06,0.5,0x444455,6);
+  sup2.position.set(bx,0.3,-0.5);
+  scene.add(sup2);
+});
+
+// Body to Paint
+createConveyor(-2, 2, 0, 0.6);
+const bridge2 = box(4, 0.04, 0.9, 0x2a2a3a);
+bridge2.position.set(0, 0.55, 0);
+scene.add(bridge2);
+
+// Paint to Assembly
+createConveyor(14, 18, 0, 0.6);
+const bridge3 = box(4, 0.04, 0.9, 0x2a2a3a);
+bridge3.position.set(16, 0.55, 0);
+scene.add(bridge3);
+
+/* ========== SUPPORTING BUILDINGS ========== */
+// 5. Quality Lab
+const qualityBldg = createBuilding('quality', -24, -10, 8, 6, 4, 0x22aa44);
+// Inspection tables
+for(let i=0;i<3;i++){
+  const tbl = box(1.5,0.1,1,0x3a3a4a);
+  tbl.position.set(-2+i*2, 0.8, 0);
+  qualityBldg.add(tbl);
+  const leg1 = cyl(0.05,0.05,0.75,0x444455,4);
+  leg1.position.set(-2+i*2-0.5,0.4,-0.3);
+  qualityBldg.add(leg1);
+  const leg2 = cyl(0.05,0.05,0.75,0x444455,4);
+  leg2.position.set(-2+i*2+0.5,0.4,0.3);
+  qualityBldg.add(leg2);
+}
+// Measurement probe
+const probe = cyl(0.03,0.03,2,0x888899,6);
+probe.position.set(0,1.5,0);
+qualityBldg.add(probe);
+// Display screens
+for(let i=0;i<2;i++){
+  const scr = box(1.2,0.7,0.04,0x2244cc, {emissive:0x2244cc, emissiveIntensity:0.4});
+  scr.position.set(-1.5+i*3, 2.5, -2.95);
+  qualityBldg.add(scr);
+}
+
+// 6. Maintenance Bay
+const maintBldg = createBuilding('maintenance', -12, -10, 8, 6, 4, 0xaa8822);
+// Tool cabinets along walls
+for(let i=0;i<4;i++){
+  const cab = box(0.4,2,1.5,0x3a3a4a);
+  cab.position.set(-3.8, 1, -1.5+i*1.2);
+  maintBldg.add(cab);
+}
+// Disassembled robot on stand
+const standBot = createRobot();
+standBot.position.set(1, 0.5, 0);
+standBot.rotation.z = 0.3;
+maintBldg.add(standBot);
+// Spare parts shelving
+const shelf = box(3,2.5,0.5,0x2a2a3a);
+shelf.position.set(0,1.25,2.7);
+maintBldg.add(shelf);
+
+// 7. Warehouse
+const warehouseBldg = createBuilding('warehouse', -24, 10, 8, 6, 5, 0x6644aa);
+// Shelving racks
+for(let r=0;r<3;r++){
+  for(let lev=0;lev<3;lev++){
+    const rack = box(6,0.08,0.8,0x3a3a4a);
+    rack.position.set(0, 0.8+lev*1.4, -1.5+r*1.5);
+    warehouseBldg.add(rack);
+    // Uprights
+    [-2.8,2.8].forEach(ux=>{
+      const up = box(0.06,4.2,0.06,0x444455);
+      up.position.set(ux,2.1,-1.5+r*1.5);
+      warehouseBldg.add(up);
+    });
+  }
+}
+// Forklift
+const forklift = box(0.6,0.5,0.4,0xf59e0b);
+forklift.position.set(2,0.3,2);
+warehouseBldg.add(forklift);
+const forkMast = box(0.06,1.2,0.3,0x555566);
+forkMast.position.set(2.4,0.7,2);
+warehouseBldg.add(forkMast);
+
+// 8. Shipping Yard (open area)
+const shippingBldg = createBuilding('shipping', 26, 12, 12, 8, 3, 0x4488aa);
+// Loading dock
+const dock = box(4,0.5,2,0x2a2a3a);
+dock.position.set(-3,0.25,3.5);
+shippingBldg.add(dock);
+// Truck
+const truck = box(3,1.5,1.5,0xdddddd);
+truck.position.set(-3,0.8,5.5);
+scene.add(truck);
+truck.position.set(26-3, 0.8, 12+5.5);
+// Rail track
+for(let i=0;i<12;i++){
+  const tie = box(0.15,0.06,1.5,0x443322);
+  tie.position.set(20+i*1, 0.03, 18);
+  scene.add(tie);
+}
+const rail1 = box(12,0.05,0.06,0x888899);
+rail1.position.set(25.5,0.06,17.5);
+scene.add(rail1);
+const rail2 = box(12,0.05,0.06,0x888899);
+rail2.position.set(25.5,0.06,18.5);
+scene.add(rail2);
+// Completed vehicles in shipping (static display)
+for(let r=0;r<2;r++){
+  for(let c=0;c<3;c++){
+    const sCar = createCarBody(PAINT_COLORS[(r*3+c)%PAINT_COLORS.length], 'assembled');
+    sCar.scale.set(0.4,0.4,0.4);
+    sCar.position.set(-4+c*2.5, 0.1, -2+r*2);
+    shippingBldg.add(sCar);
+  }
+}
+
+// 9. Battery Charging Depot
+const chargingBldg = createBuilding('charging', 12, -10, 7, 5, 3.5, 0x22aacc);
+for(let i=0;i<4;i++){
+  const post = cyl(0.08,0.08,1.5,0x555566,6);
+  post.position.set(-2+i*1.4,0.75,0);
+  chargingBldg.add(post);
+  const tip = sph(0.1,0x22c55e,{emissive:0x22c55e,emissiveIntensity:0.8});
+  tip.position.set(-2+i*1.4,1.55,0);
+  chargingBldg.add(tip);
+  // Small AGV truck
+  const agv = box(0.6,0.3,0.4,0x3366cc);
+  agv.position.set(-2+i*1.4,0.15,0.8);
+  chargingBldg.add(agv);
+}
+// Cable runs
+const cable = box(5.5,0.02,0.1,0xcc8822);
+cable.position.set(0,0.01,0.4);
+chargingBldg.add(cable);
+
+// 10. Energy Center (exterior features)
+const energyBldg = createBuilding('energy', 0, -12, 6, 5, 3, 0x44aa44);
+// Solar panels
+for(let i=0;i<4;i++){
+  const panel = box(1.2,0.04,0.8,0x223366,{emissive:0x112244,emissiveIntensity:0.2});
+  panel.rotation.x = -0.4;
+  panel.position.set(-2+i*1.3, 2, -4);
+  energyBldg.add(panel);
+  const poleP = cyl(0.04,0.04,1.5,0x555566,4);
+  poleP.position.set(-2+i*1.3,1,  -4);
+  energyBldg.add(poleP);
+}
+// Wind turbine
+const turbinePole = cyl(0.1,0.12,4,0xdddddd,8);
+turbinePole.position.set(3,2,  -5);
+scene.add(turbinePole);
+// Position relative to energy building world pos
+turbinePole.position.set(3, 2, -12-5);
+const turbineHub = sph(0.15,0xdddddd);
+turbineHub.position.set(3,4.1,-17);
+scene.add(turbineHub);
+// Blades
+const turbineBlades = new THREE.Group();
+turbineBlades.position.set(3,4.1,-17);
+for(let i=0;i<3;i++){
+  const blade = box(0.08,1.8,0.02,0xeeeeee);
+  blade.position.y = 0.9;
+  const bPivot = new THREE.Group();
+  bPivot.rotation.z = i*(Math.PI*2/3);
+  bPivot.add(blade);
+  turbineBlades.add(bPivot);
+}
+scene.add(turbineBlades);
+// Power meter
+const meter = box(0.5,0.7,0.3,0x333344,{emissive:0x22cc22,emissiveIntensity:0.3});
+meter.position.set(1, 0.5, -2.3);
+energyBldg.add(meter);
+
+// 11. Connected Vehicle Ops
+const connectedBldg = createBuilding('connected', 0, 12, 7, 5, 4, 0x2288cc);
+// Wall of screens
+for(let r=0;r<2;r++){
+  for(let c=0;c<3;c++){
+    const scr = box(1.5,0.9,0.04,0x1144aa,{emissive:0x1144aa,emissiveIntensity:0.5});
+    scr.position.set(-2+c*2, 1.5+r*1.2, -2.45);
+    connectedBldg.add(scr);
+  }
+}
+// Server racks
+for(let i=0;i<3;i++){
+  const rack = box(0.5,2.5,0.8,0x222233);
+  rack.position.set(-2+i*1.5, 1.25, 1.5);
+  connectedBldg.add(rack);
+  // Blinking lights
+  for(let l=0;l<4;l++){
+    const led = sph(0.03,0x22c55e,{emissive:0x22c55e,emissiveIntensity:1});
+    led.position.set(-2+i*1.5+0.26, 0.5+l*0.5, 1.1);
+    connectedBldg.add(led);
+  }
+}
+// Satellite dish outside
+const dish = cyl(0.6,0.1,0.3,0xcccccc,8);
+dish.rotation.x = -0.6;
+dish.position.set(2, 4.5, 2);
+connectedBldg.add(dish);
+
+// 12. Admin Building
+const adminBldg = createBuilding('admin', -12, 12, 8, 6, 3.5, 0x5555aa);
+// Glass front (extra transparent)
+adminBldg.userData.walls[0].material.opacity = 0.1;
+// Office desks
+for(let r=0;r<2;r++){
+  for(let c=0;c<3;c++){
+    const desk = box(1,0.05,0.6,0x4a3a2a);
+    desk.position.set(-2+c*2, 0.6, -1+r*2);
+    adminBldg.add(desk);
+  }
+}
+// Meeting table
+const mtable = box(2.5,0.06,1.2,0x3a2a1a);
+mtable.position.set(0,0.7,0.5);
+adminBldg.add(mtable);
+// Executive dashboard
+const dashboard = box(3,1.2,0.04,0x1133aa,{emissive:0x1133aa,emissiveIntensity:0.4});
+dashboard.position.set(0, 2, -2.95);
+adminBldg.add(dashboard);
+// Parking lot nearby
+const parking = box(8,0.02,4,0x181a24);
+parking.position.set(-12, 0.015, 18);
+scene.add(parking);
+// Parking lines
+for(let i=0;i<6;i++){
+  const pline = box(0.04,0.015,1.8,0x444455);
+  pline.position.set(-15+i*1.5, 0.02, 18);
+  scene.add(pline);
+}
+
+/* ========== PRODUCT FLOW ========== */
+const PRODUCTS = [];
+const TOTAL_PATH = 80; // approximate total conveyor path length
+
+function stageForPosition(pos){
+  if(pos < 12) return 'blank';
+  if(pos < 20) return 'stamped';
+  if(pos < 32) return 'framed';
+  if(pos < 48) return 'painted';
+  if(pos < 70) return 'assembled';
+  return 'shipped';
+}
+
+function worldPosForProduct(pos){
+  // Conveyor path: Stamping(-30 to -18) -> bridge(-18 to -14) -> Body(-14 to -2) -> bridge(-2 to 2) -> Paint(2 to 14) -> bridge(14 to 18) -> Assembly(18 to 34)
+  const t = (pos / TOTAL_PATH) * 64; // map to world x from -30 to 34
+  const wx = -30 + t;
+  const wy = (wx > -18 && wx < -14) || (wx > -2 && wx < 2) || (wx > 14 && wx < 18) ? 0.75 : 0.45;
+  return {x: wx, y: wy, z: 0};
+}
+
+function spawnProduct(){
+  const color = PAINT_COLORS[Math.floor(Math.random()*PAINT_COLORS.length)];
+  const p = {
+    position: 0,
+    color: color,
+    stage: 'blank',
+    group: null,
+    mesh: null
+  };
+  rebuildProductMesh(p);
+  scene.add(p.group);
+  PRODUCTS.push(p);
+}
+
+function rebuildProductMesh(p){
+  if(p.group) scene.remove(p.group);
+  const stage = stageForPosition(p.position);
+  const color = (stage === 'painted' || stage === 'assembled' || stage === 'shipped') ? p.color : null;
+  p.stage = stage;
+  p.group = createCarBody(color, stage);
+  p.group.scale.set(0.35, 0.35, 0.35);
+  const wp = worldPosForProduct(p.position);
+  p.group.position.set(wp.x, wp.y, wp.z);
+  scene.add(p.group);
+}
+
+// Initial products spread along the line
+for(let i = 0; i < 15; i++){
+  const color = PAINT_COLORS[Math.floor(Math.random()*PAINT_COLORS.length)];
+  const pos = (i / 15) * TOTAL_PATH;
+  const stage = stageForPosition(pos);
+  const p = {
+    position: pos,
+    color: color,
+    stage: stage,
+    group: null
+  };
+  rebuildProductMesh(p);
+  PRODUCTS.push(p);
+}
+
+/* ========== RAYCASTING & INTERACTION ========== */
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+let focusedBuilding = null;
+let cameraTarget = null;
+let cameraLerping = false;
+
+function getBuildingFromClick(event){
+  const rect = canvas.getBoundingClientRect();
+  mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+  mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+  raycaster.setFromCamera(mouse, camera);
+  for(const id in buildings){
+    const b = buildings[id];
+    const bBox = new THREE.Box3().setFromObject(b);
+    if(raycaster.ray.intersectsBox(bBox)){
+      return id;
+    }
+  }
+  return null;
+}
+
+// ── Vehicle Birth Record Data (generated per product) ──
+const WORKER_NAMES = ['J. Martinez','K. Williams','R. Chen','D. Thompson','M. Kowalski','S. Patel','A. Johnson','T. Nguyen','L. Brown','C. Davis','P. Rodriguez','H. Kim','B. Wilson','N. Garcia','F. Lee'];
+const WORKER_CERTS = ['HV Battery','Torque Spec A','Weld Cert III','Paint Booth','Final Insp','Chassis Assy','Engine Mount','Door Hang','Brake Test','Headlamp Aim'];
+const SHIFTS = ['A','B','C'];
+
+function generateBirthRecord(product, idx) {
+  const vin = 'AXLE' + (2026).toString() + String(idx).padStart(5,'0') + 'VIN';
+  const model = ['Silverado HD','Sierra 2500','Tahoe','Suburban','Escalade'][idx % 5];
+  const shift = SHIFTS[idx % 3];
+  const buildWeek = '2026-W' + (14 + Math.floor(idx/10));
+  const stations = [
+    {id:'A-01',name:'Chassis Set',status:'complete',worker:WORKER_NAMES[idx%15],cert:WORKER_CERTS[0],torque:'42.1 Nm',time:'56s',quality:'PASS'},
+    {id:'A-02',name:'Underbody Weld',status:'complete',worker:WORKER_NAMES[(idx+1)%15],cert:WORKER_CERTS[2],torque:'—',time:'4.2s/weld',quality:'PASS'},
+    {id:'A-03',name:'Frame Rails',status:'complete',worker:WORKER_NAMES[(idx+2)%15],cert:WORKER_CERTS[5],torque:'85 Nm',time:'62s',quality:'PASS'},
+    {id:'A-04',name:'Body Mount',status:'complete',worker:WORKER_NAMES[(idx+3)%15],cert:WORKER_CERTS[5],torque:'120 Nm',time:'58s',quality:'PASS'},
+    {id:'A-05',name:'Engine Install',status: product.stage==='blank'||product.stage==='stamped'?'pending':'complete',worker:WORKER_NAMES[(idx+4)%15],cert:WORKER_CERTS[6],torque:'85 Nm',time:'59s',quality:'PASS'},
+    {id:'A-06',name:'Transmission',status: product.stage==='blank'||product.stage==='stamped'||product.stage==='framed'?'pending':'complete',worker:WORKER_NAMES[(idx+5)%15],cert:WORKER_CERTS[6],torque:'110 Nm',time:'64s',quality:'PASS'},
+    {id:'A-07',name:'Paint Prep',status: product.stage==='painted'||product.stage==='assembled'?'complete':'pending',worker:WORKER_NAMES[(idx+6)%15],cert:WORKER_CERTS[3],torque:'—',time:'45s',quality:'PASS'},
+    {id:'A-08',name:'Paint Apply',status: product.stage==='painted'||product.stage==='assembled'?'complete':'pending',worker:WORKER_NAMES[(idx+7)%15],cert:WORKER_CERTS[3],torque:'—',time:'90s',quality: Math.random()>0.95?'REWORK':'PASS'},
+    {id:'A-09',name:'Door Hang',status: product.stage==='assembled'?'complete':'pending',worker:WORKER_NAMES[(idx+8)%15],cert:WORKER_CERTS[7],torque:'35 Nm',time:'68s',quality:'PASS'},
+    {id:'A-10',name:'Glass Install',status: product.stage==='assembled'?'complete':'pending',worker:WORKER_NAMES[(idx+9)%15],cert:WORKER_CERTS[5],torque:'—',time:'52s',quality:'PASS'},
+    {id:'A-11',name:'Final Wire',status: product.stage==='assembled'?'complete':'pending',worker:WORKER_NAMES[(idx+10)%15],cert:WORKER_CERTS[5],torque:'—',time:'71s',quality:'PASS'},
+    {id:'A-12',name:'EOL Test',status: product.stage==='assembled'?'complete':'pending',worker:WORKER_NAMES[(idx+11)%15],cert:WORKER_CERTS[8],torque:'—',time:'120s',quality: Math.random()>0.98?'FAIL':'PASS'}
+  ];
+  const completedCount = stations.filter(s=>s.status==='complete').length;
+  return {vin, model, shift, buildWeek, stage: product.stage, color: '#'+product.color.toString(16).padStart(6,'0'), stations, completedCount, totalStations: stations.length};
+}
+
+function showBirthRecord(productIdx) {
+  const p = PRODUCTS[productIdx];
+  if (!p) return;
+  const br = generateBirthRecord(p, productIdx);
+  const stageColors = {blank:'#6b7190',stamped:'#f59e0b',framed:'#a78bfa',painted:'#3b82f6',assembled:'#22c55e',shipped:'#06b6d4'};
+  let html = `
+    <div style="position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:10000;display:flex;align-items:center;justify-content:center" onclick="if(event.target===this)this.remove()" id="birth-modal">
+      <div style="background:#12141e;border:1px solid #2a2e42;border-radius:12px;width:680px;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.6)">
+        <div style="padding:14px 18px;border-bottom:1px solid #2a2e42;display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-size:10px;color:#f4c430;text-transform:uppercase;letter-spacing:1px;font-weight:700">BRML — Vehicle Birth Record</div>
+            <div style="font-size:16px;font-weight:700;color:#e2e4ed">${br.vin}</div>
+            <div style="font-size:11px;color:#9da3b8">${br.model} | Shift ${br.shift} | ${br.buildWeek}</div>
+          </div>
+          <div style="text-align:right">
+            <span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:${br.color};border:2px solid #fff;vertical-align:middle"></span>
+            <span style="font-size:11px;color:${stageColors[br.stage]};font-weight:700;text-transform:uppercase;margin-left:6px">${br.stage}</span>
+            <div style="font-size:10px;color:#6b7190;margin-top:2px">${br.completedCount}/${br.totalStations} stations complete</div>
+          </div>
+        </div>
+        <div style="padding:8px 18px">
+          <div style="display:flex;gap:2px;margin-bottom:10px;height:6px;border-radius:3px;overflow:hidden">
+            ${br.stations.map(s=>`<div style="flex:1;background:${s.status==='complete'?(s.quality==='PASS'?'#22c55e':s.quality==='REWORK'?'#f59e0b':'#ef4444'):'#1e2133'}"></div>`).join('')}
+          </div>
+          <table style="width:100%;border-collapse:collapse;font-size:11px">
+            <tr style="border-bottom:1px solid #2a2e42">
+              <th style="text-align:left;padding:4px 6px;color:#6b7190;font-size:9px;text-transform:uppercase">Station</th>
+              <th style="text-align:left;padding:4px 6px;color:#6b7190;font-size:9px;text-transform:uppercase">Operation</th>
+              <th style="text-align:left;padding:4px 6px;color:#6b7190;font-size:9px;text-transform:uppercase">Status</th>
+              <th style="text-align:left;padding:4px 6px;color:#6b7190;font-size:9px;text-transform:uppercase">Worker</th>
+              <th style="text-align:left;padding:4px 6px;color:#6b7190;font-size:9px;text-transform:uppercase">Torque</th>
+              <th style="text-align:left;padding:4px 6px;color:#6b7190;font-size:9px;text-transform:uppercase">Time</th>
+              <th style="text-align:left;padding:4px 6px;color:#6b7190;font-size:9px;text-transform:uppercase">QC</th>
+            </tr>
+            ${br.stations.map(s=>{
+              const rowBg = s.status==='pending'?'rgba(107,113,144,0.05)':s.quality==='REWORK'?'rgba(245,158,11,0.08)':s.quality==='FAIL'?'rgba(239,68,68,0.08)':'';
+              const statusIcon = s.status==='complete'?'<span style="color:#22c55e">&#10003;</span>':'<span style="color:#6b7190">&#9711;</span>';
+              const qcBadge = s.quality==='PASS'?'<span style="color:#22c55e;font-size:9px;font-weight:700">PASS</span>':s.quality==='REWORK'?'<span style="color:#f59e0b;font-size:9px;font-weight:700">REWORK</span>':'<span style="color:#ef4444;font-size:9px;font-weight:700">FAIL</span>';
+              return `<tr style="border-bottom:1px solid #1e2133;background:${rowBg};${s.status==='pending'?'opacity:0.4':''}">
+                <td style="padding:5px 6px;font-weight:600;color:#818cf8;font-family:monospace;font-size:10px">${s.id}</td>
+                <td style="padding:5px 6px;color:#e2e4ed">${s.name}</td>
+                <td style="padding:5px 6px">${statusIcon}</td>
+                <td style="padding:5px 6px"><span style="color:#38a7ea;cursor:pointer;text-decoration:underline" onclick="event.stopPropagation();showWorkerDetail('${s.worker}','${s.cert}','${s.id}')">${s.worker}</span></td>
+                <td style="padding:5px 6px;font-family:monospace;font-size:10px;color:#9da3b8">${s.torque}</td>
+                <td style="padding:5px 6px;font-family:monospace;font-size:10px;color:#9da3b8">${s.time}</td>
+                <td style="padding:5px 6px">${s.status==='complete'?qcBadge:'—'}</td>
+              </tr>`;
+            }).join('')}
+          </table>
+          <div style="margin-top:10px;padding:8px 10px;background:rgba(56,167,234,0.06);border:1px solid rgba(56,167,234,0.15);border-radius:6px;font-size:10px;color:#9da3b8">
+            <strong style="color:#38a7ea">Data Lineage:</strong> MES (Rockwell) &rarr; axle-bronze-brml &rarr; BRML.VehicleBuild (SCD2) + BuildStep + PartInstallation &rarr; axle-build &rarr; trace_vin &rarr; Vehicle_360 Gold View
+          </div>
+        </div>
+        <div style="padding:10px 18px;border-top:1px solid #2a2e42;display:flex;justify-content:flex-end">
+          <button onclick="document.getElementById('birth-modal').remove()" style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);color:#ef4444;padding:5px 14px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:11px">Close</button>
+        </div>
+      </div>
+    </div>`;
+  document.body.insertAdjacentHTML('beforeend', html);
+}
+
+function showWorkerDetail(name, cert, stationId) {
+  const yearsExp = 5 + Math.floor(Math.random()*20);
+  const shiftPref = SHIFTS[Math.floor(Math.random()*3)];
+  const qualStations = 3 + Math.floor(Math.random()*6);
+  const defectRate = (Math.random()*0.5).toFixed(2);
+  const fatigueScore = Math.floor(20 + Math.random()*60);
+  const ergoRisk = ['Low','Low','Medium','Medium','High'][Math.floor(Math.random()*5)];
+  const certList = [];
+  for(let i=0;i<3+Math.floor(Math.random()*3);i++) certList.push(WORKER_CERTS[(i*3)%WORKER_CERTS.length]);
+  const ergoColor = ergoRisk==='Low'?'#22c55e':ergoRisk==='Medium'?'#f59e0b':'#ef4444';
+  const fatigueColor = fatigueScore<40?'#22c55e':fatigueScore<70?'#f59e0b':'#ef4444';
+
+  let html = `
+    <div style="position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:10001;display:flex;align-items:center;justify-content:center" onclick="if(event.target===this)this.remove()" id="worker-modal">
+      <div style="background:#12141e;border:1px solid #05d9a0;border-radius:12px;width:400px;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.6)">
+        <div style="padding:14px 18px;border-bottom:1px solid #2a2e42">
+          <div style="font-size:10px;color:#05d9a0;text-transform:uppercase;letter-spacing:1px;font-weight:700">WOSFML — Worker Profile</div>
+          <div style="font-size:16px;font-weight:700;color:#e2e4ed">${name}</div>
+          <div style="font-size:11px;color:#9da3b8">Current Station: ${stationId} | Shift ${shiftPref} | ${yearsExp} years</div>
+        </div>
+        <div style="padding:12px 18px;font-size:11px">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+            <div style="background:#161822;border-radius:6px;padding:8px;text-align:center">
+              <div style="font-size:9px;color:#6b7190;text-transform:uppercase">Qualified Stations</div>
+              <div style="font-size:18px;font-weight:700;color:#e2e4ed">${qualStations}</div>
+            </div>
+            <div style="background:#161822;border-radius:6px;padding:8px;text-align:center">
+              <div style="font-size:9px;color:#6b7190;text-transform:uppercase">Defect Rate</div>
+              <div style="font-size:18px;font-weight:700;color:${parseFloat(defectRate)<0.2?'#22c55e':'#f59e0b'}">${defectRate}%</div>
+            </div>
+            <div style="background:#161822;border-radius:6px;padding:8px;text-align:center">
+              <div style="font-size:9px;color:#6b7190;text-transform:uppercase">Fatigue Score</div>
+              <div style="font-size:18px;font-weight:700;color:${fatigueColor}">${fatigueScore}/100</div>
+            </div>
+            <div style="background:#161822;border-radius:6px;padding:8px;text-align:center">
+              <div style="font-size:9px;color:#6b7190;text-transform:uppercase">Ergo Risk</div>
+              <div style="font-size:18px;font-weight:700;color:${ergoColor}">${ergoRisk}</div>
+            </div>
+          </div>
+          <div style="margin-bottom:8px">
+            <div style="font-size:9px;color:#6b7190;text-transform:uppercase;margin-bottom:4px;font-weight:700">Active Certifications</div>
+            <div style="display:flex;flex-wrap:wrap;gap:4px">
+              ${certList.map(c=>`<span style="font-size:9px;padding:2px 6px;border-radius:4px;background:rgba(5,217,160,0.1);color:#05d9a0;border:1px solid rgba(5,217,160,0.2)">${c}</span>`).join('')}
+              <span style="font-size:9px;padding:2px 6px;border-radius:4px;background:rgba(56,167,234,0.1);color:#38a7ea;border:1px solid rgba(56,167,234,0.2)">${cert}</span>
+            </div>
+          </div>
+          <div style="margin-top:8px;padding:6px 8px;background:rgba(5,217,160,0.06);border:1px solid rgba(5,217,160,0.15);border-radius:6px;font-size:9px;color:#9da3b8">
+            <strong style="color:#05d9a0">Data Lineage:</strong> HRIS (Kronos) &rarr; axle-bronze-wosfml &rarr; WOSFML.WorkerProfile (SCD2) + SkillMatrix + StationQualification &rarr; axle-workforce &rarr; get_worker &rarr; Worker_360 Gold View
+          </div>
+        </div>
+        <div style="padding:8px 18px;border-top:1px solid #2a2e42;display:flex;justify-content:flex-end">
+          <button onclick="document.getElementById('worker-modal').remove()" style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);color:#ef4444;padding:4px 12px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:10px">Close</button>
+        </div>
+      </div>
+    </div>`;
+  document.body.insertAdjacentHTML('beforeend', html);
+}
+
+// ── Vehicle click detection ──
+function getProductFromClick(event){
+  const rect = canvas.getBoundingClientRect();
+  mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+  mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+  raycaster.setFromCamera(mouse, camera);
+  for(let i = 0; i < PRODUCTS.length; i++){
+    const p = PRODUCTS[i];
+    if(!p.group) continue;
+    const bBox = new THREE.Box3().setFromObject(p.group);
+    if(raycaster.ray.intersectsBox(bBox)) return i;
+  }
+  return -1;
+}
+
+canvas.addEventListener('click', (e)=>{
+  // Check vehicle click first (more specific)
+  const prodIdx = getProductFromClick(e);
+  if(prodIdx >= 0){
+    showBirthRecord(prodIdx);
+    return;
+  }
+  // Then check building click
+  const id = getBuildingFromClick(e);
+  if(id && id !== focusedBuilding){
+    focusBuilding(id);
+  } else if(!id && focusedBuilding){
+    resetView();
+  }
+});
+
+canvas.addEventListener('mousemove', (e)=>{
+  const rect = canvas.getBoundingClientRect();
+  mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+  mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+  raycaster.setFromCamera(mouse, camera);
+  let hit = null;
+  for(const id in buildings){
+    const b = buildings[id];
+    const bBox = new THREE.Box3().setFromObject(b);
+    if(raycaster.ray.intersectsBox(bBox)){
+      hit = id; break;
+    }
+  }
+  const tooltip = document.getElementById('tooltip');
+  if(hit){
+    const area = AREAS.find(a=>a.id===hit);
+    if(area){
+      tooltip.style.display = 'block';
+      tooltip.style.left = e.clientX - container.getBoundingClientRect().left + 15 + 'px';
+      tooltip.style.top = e.clientY - container.getBoundingClientRect().top + 15 + 'px';
+      const sc = area.status;
+      tooltip.innerHTML = `<div class="tt-name">${area.name}</div>
+        <div class="tt-status" style="color:${sc==='green'?'#22c55e':sc==='amber'?'#f59e0b':'#ef4444'}">${sc.toUpperCase()}</div>
+        ${area.kpis.map(k=>`<div class="tt-kpi"><span>${k.n}</span><span>${k.v}${k.u}</span></div>`).join('')}`;
+    }
+  } else {
+    tooltip.style.display = 'none';
+  }
+});
+
+function focusBuilding(id){
+  focusedBuilding = id;
+  const b = buildings[id];
+  const wp = new THREE.Vector3();
+  b.getWorldPosition(wp);
+  cameraTarget = {
+    pos: new THREE.Vector3(wp.x + 8, 8, wp.z + 10),
+    lookAt: wp.clone().add(new THREE.Vector3(0,2,0))
+  };
+  cameraLerping = true;
+  controls.autoRotate = false;
+  // Make walls more transparent
+  for(const bid in buildings){
+    const bld = buildings[bid];
+    const op = bid === id ? 0.08 : 0.2;
+    bld.userData.walls.forEach(w => w.material.opacity = op);
+  }
+  document.getElementById('reset-btn').style.display = 'block';
+  showEquipPanel(id);
+  // Highlight KPI card
+  document.querySelectorAll('.area-card').forEach(c=>{
+    c.classList.toggle('active', c.dataset.id === id);
+  });
+}
+
+function resetView(){
+  focusedBuilding = null;
+  cameraTarget = {
+    pos: new THREE.Vector3(0, 40, 45),
+    lookAt: new THREE.Vector3(0, 2, 0)
+  };
+  cameraLerping = true;
+  controls.autoRotate = true;
+  for(const bid in buildings){
+    buildings[bid].userData.walls.forEach(w => w.material.opacity = 0.2);
+  }
+  document.getElementById('reset-btn').style.display = 'none';
+  closeEquipPanel();
+  document.querySelectorAll('.area-card').forEach(c => c.classList.remove('active'));
+}
+
+document.getElementById('reset-btn').addEventListener('click', resetView);
+
+/* ========== TIME CONTROLS ========== */
+const speedLabel = document.getElementById('speed-label');
+const timeSlider = document.getElementById('time-slider');
+
+function updateSpeed(){
+  timeScale = SPEED_STEPS[speedIndex];
+  speedLabel.textContent = timeScale === 0 ? 'Pause' : timeScale + 'x';
+  timeSlider.value = speedIndex;
+  controls.autoRotateSpeed = 0.3 * timeScale;
+}
+
+document.getElementById('tc-pause').addEventListener('click', ()=>{
+  if(speedIndex === 0) speedIndex = 3; else speedIndex = 0;
+  updateSpeed();
+});
+document.getElementById('tc-slower').addEventListener('click', ()=>{
+  if(speedIndex > 0) speedIndex--;
+  updateSpeed();
+});
+document.getElementById('tc-faster').addEventListener('click', ()=>{
+  if(speedIndex < SPEED_STEPS.length-1) speedIndex++;
+  updateSpeed();
+});
+timeSlider.addEventListener('input', ()=>{
+  speedIndex = parseInt(timeSlider.value);
+  updateSpeed();
+});
+
+/* ========== KPI PANEL ========== */
+const kpiGrid = document.getElementById('kpi-grid');
+AREAS.forEach(area => {
+  const card = document.createElement('div');
+  card.className = 'area-card';
+  card.dataset.id = area.id;
+  const primarySchema = area.schema.split('+')[0].trim().toLowerCase();
+  const schemaClass = 'schema-' + (primarySchema === 'all 9' ? 'all' : primarySchema);
+  const sc = area.status;
+  const statusLabel = sc === 'good' ? 'Operational' : sc === 'warning' ? 'Warning' : sc === 'critical' ? 'Critical' : 'Operational';
+  const schemaPills = area.schema.split('+').map(s => {
+    const sl = s.trim().toLowerCase();
+    return `<span class="card-schema schema-${sl === 'all 9' ? 'all' : sl}">${s.trim()}</span>`;
+  }).join(' ');
+  card.innerHTML = `
+    <div class="card-head">
+      <div class="card-title">${area.name}</div>
+      <div>${schemaPills}</div>
+    </div>
+    <div class="card-gold">Gold: ${area.goldView || 'N/A'}</div>
+    <div class="card-orch">${area.orch || ''}</div>
+    <div class="card-status">
+      <span class="status-dot ${sc}"></span>
+      <span class="card-status-text">${statusLabel}</span>
+    </div>
+    ${area.kpis.map(k => {
+      const hasTarget = k.t !== undefined;
+      const pct = hasTarget ? Math.min((k.v / k.t) * 100, 120) : (typeof k.v === 'number' ? Math.min(k.v, 100) : 50);
+      const isGood = hasTarget ? (k.u === '%' || k.u === 'j/h' || k.u === 'hrs' || k.u === 'mi' ? k.v >= k.t : k.v <= k.t) : true;
+      const barColor = isGood ? '#22c55e' : (pct > 70 ? '#f59e0b' : '#ef4444');
+      return `<div class="kpi-row">
+        <span class="kpi-name">${k.id ? '<span style="color:#6b7190;font-size:9px">'+k.id+'</span> ' : ''}${k.n}</span>
+        <span class="kpi-val">${k.v}${k.u}${hasTarget ? '<span class="kpi-target">\u2192'+k.t+k.u+'</span>' : ''}</span>
+      </div>
+      <div class="kpi-bar"><div class="kpi-bar-fill" style="width:${Math.min(pct,100)}%;background:${barColor}"></div></div>
+      ${k.entity ? '<div class="kpi-entity">\u2514 '+k.entity+' \u2192 '+k.mcp+'</div>' : ''}`;
+    }).join('')}`;
+  card.addEventListener('click', ()=>{
+    focusBuilding(area.id);
+  });
+  kpiGrid.appendChild(card);
+});
+
+/* ========== BUILDING LABELS ========== */
+const labelsOverlay = document.getElementById('labels-overlay');
+const labelElements = {};
+AREAS.forEach(area => {
+  const lbl = document.createElement('div');
+  lbl.className = 'building-label';
+  lbl.textContent = area.name;
+  labelsOverlay.appendChild(lbl);
+  labelElements[area.id] = lbl;
+});
+
+function updateLabels(){
+  for(const id in buildings){
+    const b = buildings[id];
+    const wp = new THREE.Vector3();
+    b.getWorldPosition(wp);
+    wp.y += (b.userData.h || 4) + 1;
+    const projected = wp.clone().project(camera);
+    const lbl = labelElements[id];
+    if(lbl){
+      if(projected.z > 1){
+        lbl.style.opacity = '0';
+      } else {
+        const x = (projected.x * 0.5 + 0.5) * W;
+        const y = (-projected.y * 0.5 + 0.5) * H;
+        lbl.style.left = x + 'px';
+        lbl.style.top = y + 'px';
+        lbl.style.opacity = '1';
+      }
+    }
+  }
+}
+
+/* ========== EQUIPMENT PANEL ========== */
+let equipPanelOpen = false;
+let currentEquipArea = null;
+
+function showEquipPanel(areaId) {
+  const area = AREAS.find(a => a.id === areaId);
+  const equips = EQUIPMENT[areaId];
+  if (!area || !equips) return;
+
+  currentEquipArea = areaId;
+  document.getElementById('equip-title').textContent = 'Equipment \u2014 ' + area.name + ' (' + equips.length + ' assets)';
+
+  const grid = document.getElementById('equip-grid');
+  grid.innerHTML = equips.map(eq => {
+    return `<div class="equip-card status-${eq.status}" data-equip="${eq.id}" onclick="selectEquipCard(this,'${eq.id}')"
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <div>
+          <div class="equip-name">${eq.name}</div>
+          <div class="equip-type">${eq.id} | ${eq.type}</div>
+        </div>
+        <span class="equip-status ${eq.status}">${eq.status.toUpperCase()}</span>
+      </div>
+      ${eq.metrics.map(m => renderGauge(m)).join('')}
+    </div>`;
+  }).join('');
+
+  document.getElementById('equipment-panel').style.display = 'block';
+  equipPanelOpen = true;
+}
+
+function renderGauge(m) {
+  const range = m.max - m.min;
+  const pct = range > 0 ? ((m.value - m.min) / range) * 100 : 50;
+  const warnPct = m.warn !== null ? ((m.warn - m.min) / range) * 100 : null;
+  const critPct = m.crit !== null ? ((m.crit - m.min) / range) * 100 : null;
+
+  let status = 'good';
+  let fillColor = '#22c55e';
+  if (m.crit !== null && m.value >= m.crit) { status = 'crit'; fillColor = '#ef4444'; }
+  else if (m.warn !== null && m.value >= m.warn) { status = 'warn'; fillColor = '#f59e0b'; }
+  else if (m.warn === null && m.crit === null) { status = 'neutral'; fillColor = '#6366f1'; }
+
+  return `<div class="gauge-row">
+    <span class="gauge-label">${m.name}</span>
+    <div class="gauge-wrap">
+      <div class="gauge-fill" style="width:${Math.min(pct,100)}%;background:${fillColor}"></div>
+      ${warnPct !== null ? `<div class="gauge-warn" style="left:${warnPct}%"></div>` : ''}
+      ${critPct !== null ? `<div class="gauge-crit" style="left:${critPct}%"></div>` : ''}
+      <div class="gauge-needle" style="left:${Math.min(pct,100)}%"></div>
+    </div>
+    <span class="gauge-value ${status}">${m.value} ${m.unit}</span>
+  </div>`;
+}
+
+let selectedEquipId = null;
+let highlightedMesh = null;
+let originalMaterials = [];
+
+// Map equipment IDs to 3D objects
+const EQUIP_3D_MAP = {};
+// Stamping presses: SP-01, SP-02, SP-03
+if (typeof presses !== 'undefined') {
+  presses.forEach((p, i) => { EQUIP_3D_MAP['SP-0'+(i+1)] = p; });
+}
+// Overhead crane
+if (typeof craneRail !== 'undefined') { EQUIP_3D_MAP['CR-01'] = craneRail; }
+// Body shop robots: WR-01 = robots[0], WR-02 = robots[2], WR-03 = robots[4], WR-04 = robots[6]
+// (robots are created in pairs: side A [0,2,4,6] and side B [1,3,5,7])
+if (typeof robots !== 'undefined') {
+  EQUIP_3D_MAP['WR-01'] = robots[0];
+  EQUIP_3D_MAP['WR-02'] = robots[2];
+  EQUIP_3D_MAP['WR-03'] = robots[4];
+  EQUIP_3D_MAP['WR-04'] = robots[6];
+  // Fixture clamp is not a robot — find it or use first available
+  if (robots.length > 1) EQUIP_3D_MAP['FX-01'] = robots[1];
+}
+// Paint shop equipment
+if (typeof booth !== 'undefined') { EQUIP_3D_MAP['PB-01'] = booth; }
+if (typeof sprayArms !== 'undefined' && sprayArms.length > 0) { EQUIP_3D_MAP['PB-02'] = sprayArms[0]; }
+
+// Highlight modes: 'select' (blue pulse) or 'alert' (red blink)
+let highlightMode = 'select';
+let orchAlertEquipId = null; // equipment blinking red during orchestration
+
+function highlightEquip3D(equipId, mode) {
+  clearEquipHighlight();
+  highlightMode = mode || 'select';
+
+  const obj = EQUIP_3D_MAP[equipId];
+  if (!obj) return;
+
+  highlightedMesh = obj;
+  originalMaterials = [];
+
+  const color = highlightMode === 'alert' ? 0xff2222 : 0x4488ff;
+
+  obj.traverse(function(child) {
+    if (child.isMesh && child.material) {
+      originalMaterials.push({mesh: child, origEmissive: child.material.emissive ? child.material.emissive.getHex() : 0, origIntensity: child.material.emissiveIntensity || 0});
+      child.material.emissive = new THREE.Color(color);
+      child.material.emissiveIntensity = 0.6;
+    }
+  });
+}
+
+function startAlertBlink(equipId) {
+  orchAlertEquipId = equipId;
+  highlightEquip3D(equipId, 'alert');
+}
+
+function stopAlertBlink() {
+  orchAlertEquipId = null;
+  clearEquipHighlight();
+}
+
+function clearEquipHighlight() {
+  if (highlightedMesh && originalMaterials.length > 0) {
+    originalMaterials.forEach(function(om) {
+      if (om.mesh && om.mesh.material) {
+        om.mesh.material.emissive = new THREE.Color(om.origEmissive);
+        om.mesh.material.emissiveIntensity = om.origIntensity;
+      }
+    });
+  }
+  highlightedMesh = null;
+  originalMaterials = [];
+}
+
+function selectEquipCard(el, equipId) {
+  // Deselect all cards
+  document.querySelectorAll('#equip-grid .equip-card').forEach(c => c.classList.remove('selected'));
+  // Toggle selection
+  if (selectedEquipId === equipId) {
+    selectedEquipId = null;
+    clearEquipHighlight();
+  } else {
+    selectedEquipId = equipId;
+    el.classList.add('selected');
+    el.scrollIntoView({behavior:'smooth', block:'nearest', inline:'center'});
+    // Highlight 3D object
+    highlightEquip3D(equipId);
+  }
+}
+
+function closeEquipPanel() {
+  selectedEquipId = null;
+  clearEquipHighlight();
+  document.getElementById('equipment-panel').style.display = 'none';
+  equipPanelOpen = false;
+  currentEquipArea = null;
+}
+
+// Equipment simulation — throttled to once per 2 seconds at 1x speed
+let equipSimAccum = 0;
+const EQUIP_SIM_INTERVAL = 2000; // 2 seconds at 1x
+
+function simulateEquipmentTick() {
+  Object.values(EQUIPMENT).forEach(equips => {
+    equips.forEach(eq => {
+      let worstStatus = 'running';
+      eq.metrics.forEach(m => {
+        const range = m.max - m.min;
+        // Very gentle drift — 0.3% of range per tick
+        const drift = (Math.random() - 0.5) * range * 0.003;
+        // Slight mean-reversion toward 60% of range (keeps values realistic)
+        const center = m.min + range * 0.6;
+        const revert = (center - m.value) * 0.002;
+        m.value = Math.max(m.min, Math.min(m.max, m.value + drift + revert));
+        m.value = Math.round(m.value * 1000) / 1000;
+
+        if (m.crit !== null && m.value >= m.crit) worstStatus = 'critical';
+        else if (m.warn !== null && m.value >= m.warn && worstStatus !== 'critical') worstStatus = 'warning';
+      });
+      eq.status = worstStatus;
+
+      // Trigger orchestration if critical and not already running
+      if(worstStatus === 'critical' && !orchActive && Math.random() < 0.02) {
+        const critMetric = eq.metrics.find(m => m.crit !== null && m.value >= m.crit);
+        if(critMetric) {
+          let triggerArea = null;
+          Object.entries(EQUIPMENT).forEach(([aid, eqs]) => {
+            if(eqs.includes(eq)) triggerArea = aid;
+          });
+          if(triggerArea) triggerOrchestration(triggerArea, eq.id, critMetric);
+        }
+      }
+    });
+  });
+
+  // Only re-render gauges if panel is open (avoid unnecessary DOM thrash)
+  if (equipPanelOpen && currentEquipArea) {
+    updateGaugeValues();
+  }
+}
+
+// Update gauge values in-place without full re-render (smooth transitions via CSS)
+function updateGaugeValues() {
+  const equips = EQUIPMENT[currentEquipArea];
+  if (!equips) return;
+  const cards = document.querySelectorAll('#equip-grid .equip-card');
+  cards.forEach((card, ci) => {
+    if (ci >= equips.length) return;
+    const eq = equips[ci];
+    // Update status class (preserve selected state)
+    const isSelected = card.classList.contains('selected');
+    card.className = 'equip-card status-' + eq.status + (isSelected ? ' selected' : '');
+    const statusEl = card.querySelector('.equip-status');
+    if (statusEl) { statusEl.textContent = eq.status.toUpperCase(); statusEl.className = 'equip-status ' + eq.status; }
+    // Update each gauge
+    const rows = card.querySelectorAll('.gauge-row');
+    rows.forEach((row, mi) => {
+      if (mi >= eq.metrics.length) return;
+      const m = eq.metrics[mi];
+      const range = m.max - m.min;
+      const pct = range > 0 ? ((m.value - m.min) / range) * 100 : 50;
+      const fill = row.querySelector('.gauge-fill');
+      const needle = row.querySelector('.gauge-needle');
+      const valEl = row.querySelector('.gauge-value');
+      let status = 'good', color = '#22c55e';
+      if (m.crit !== null && m.value >= m.crit) { status = 'crit'; color = '#ef4444'; }
+      else if (m.warn !== null && m.value >= m.warn) { status = 'warn'; color = '#f59e0b'; }
+      else if (m.warn === null && m.crit === null) { status = 'neutral'; color = '#6366f1'; }
+      if (fill) { fill.style.width = Math.min(pct,100) + '%'; fill.style.background = color; }
+      if (needle) needle.style.left = Math.min(pct,100) + '%';
+      if (valEl) { valEl.textContent = m.value + ' ' + m.unit; valEl.className = 'gauge-value ' + status; }
+    });
+  });
+}
+
+/* ========== ANIMATION LOOP ========== */
+let lastTime = 0;
+
+function animate(time){
+  requestAnimationFrame(animate);
+  try {
+  const rawDt = Math.min((time - lastTime) / 1000, 0.1);
+  lastTime = time;
+  const dt = rawDt * timeScale;
+
+  // Camera lerp
+  if(cameraLerping && cameraTarget){
+    camera.position.lerp(cameraTarget.pos, 0.04);
+    controls.target.lerp(cameraTarget.lookAt, 0.04);
+    if(camera.position.distanceTo(cameraTarget.pos) < 0.5){
+      cameraLerping = false;
+    }
+  }
+
+  controls.update();
+
+  // Stamping press animation
+  presses.forEach(press => {
+    const d = press.userData;
+    d.phase += dt * 2;
+    const ram = d.ram;
+    ram.position.y = 3.2 + Math.sin(d.phase) * 0.8;
+  });
+
+  // Highlighted equipment pulse glow or alert blink
+  if (highlightedMesh && originalMaterials.length > 0) {
+    if (highlightMode === 'alert') {
+      // Red blink: sharp on/off every 0.4 seconds
+      const blink = Math.sin(time * 8) > 0;
+      originalMaterials.forEach(function(om) {
+        if (om.mesh && om.mesh.material) {
+          om.mesh.material.emissiveIntensity = blink ? 0.9 : 0.05;
+          om.mesh.material.emissive.setHex(blink ? 0xff2222 : 0x440000);
+        }
+      });
+    } else {
+      // Blue pulse: smooth sine wave
+      const pulse = 0.4 + Math.sin(time * 4) * 0.3;
+      originalMaterials.forEach(function(om) {
+        if (om.mesh && om.mesh.material) {
+          om.mesh.material.emissiveIntensity = pulse;
+        }
+      });
+    }
+  }
+
+  // Robot arm animation
+  robots.forEach(robot => {
+    const d = robot.userData;
+    d.phase += dt * 1.5;
+    if(d.arm1) d.arm1.rotation.z = Math.sin(d.phase) * 0.3;
+    if(d.arm2) d.arm2.rotation.z = 0.3 + Math.sin(d.phase * 1.3) * 0.4;
+    // Welding flash
+    if(d.weldLight){
+      const flash = Math.random() > 0.5 && timeScale > 0;
+      d.weldLight.intensity = flash ? 1.5 : 0;
+      if(d.spark) d.spark.material.opacity = flash ? 0.9 : 0;
+    }
+  });
+
+  // Spray arm oscillation
+  sprayArms.forEach((arm, i) => {
+    arm.rotation.z = (i % 2 === 0 ? 0.4 : -0.4) + Math.sin(time * 0.001 * timeScale + i) * 0.2;
+  });
+
+  // Spray mist drift
+  sprayMists.forEach((mist, i) => {
+    mist.position.y = 1 + Math.sin(time * 0.002 * timeScale + i * 0.5) * 0.5;
+    mist.position.x += (Math.random() - 0.5) * 0.01 * timeScale;
+    mist.material.opacity = 0.15 + Math.sin(time * 0.003 * timeScale + i) * 0.15;
+    if(mist.position.y < 0.5 || mist.position.y > 3){
+      mist.position.y = 1.5;
+      mist.position.x = -3 + Math.random() * 6;
+    }
+  });
+
+  // Worker idle animation
+  workers.forEach(w => {
+    w.userData.phase += dt * 0.8;
+    w.rotation.y = Math.sin(w.userData.phase) * 0.15;
+  });
+
+  // Wind turbine rotation
+  turbineBlades.rotation.z += dt * 0.5;
+
+  // Product flow
+  PRODUCTS.forEach(p => {
+    p.position += dt * 1.5;
+    if(p.position > TOTAL_PATH){
+      p.position = 0;
+      const newStage = stageForPosition(0);
+      if(p.stage !== newStage){
+        rebuildProductMesh(p);
+      }
+    }
+    const currentStage = stageForPosition(p.position);
+    if(currentStage !== p.stage){
+      rebuildProductMesh(p);
+    }
+    if(p.group){
+      const wp = worldPosForProduct(p.position);
+      p.group.position.set(wp.x, wp.y, wp.z);
+    }
+  });
+
+  // Simulate equipment metrics (throttled — every 2 seconds at 1x, scales with timeScale)
+  if (timeScale > 0) {
+    equipSimAccum += rawDt * 1000 * timeScale;
+    if (equipSimAccum >= EQUIP_SIM_INTERVAL) {
+      equipSimAccum -= EQUIP_SIM_INTERVAL;
+      simulateEquipmentTick();
+    }
+  }
+
+  // Update labels
+  updateLabels();
+
+  renderer.render(scene, camera);
+  } catch(e) { console.error('Animate error:', e); }
+}
+
+/* ========== VIEW TOGGLE: 3D Factory <-> Dashboard ========== */
+let currentView = 'factory';
+
+function switchView(view){
+  currentView = view;
+  const factoryBtn = document.getElementById('toggleFactory');
+  const dashBtn = document.getElementById('toggleDashboard');
+  const canvasEl = document.getElementById('canvas-container');
+  const kpiEl = document.getElementById('kpi-section');
+  const dashEl = document.getElementById('dashboard-view');
+  const equipEl = document.getElementById('equipment-panel');
+
+  if(view === 'factory'){
+    canvasEl.style.display = 'block';
+    kpiEl.style.display = 'block';
+    dashEl.style.display = 'none';
+    if(equipEl) equipEl.style.display = equipPanelOpen ? 'block' : 'none';
+    factoryBtn.style.background = 'rgba(99,102,241,0.3)';
+    factoryBtn.style.color = '#e2e4ed';
+    dashBtn.style.background = 'transparent';
+    dashBtn.style.color = '#6b7190';
+  } else {
+    canvasEl.style.display = 'none';
+    kpiEl.style.display = 'none';
+    dashEl.style.display = 'block';
+    if(equipEl) equipEl.style.display = 'none';
+    dashBtn.style.background = 'rgba(99,102,241,0.3)';
+    dashBtn.style.color = '#e2e4ed';
+    factoryBtn.style.background = 'transparent';
+    factoryBtn.style.color = '#6b7190';
+    renderDashboard();
+  }
+}
+
+function renderDashboard(){
+  // Area status table
+  const tbody = document.getElementById('dash-area-table');
+  if(tbody){
+    const statusDots = {good:'#22c55e',warning:'#f59e0b',critical:'#ef4444'};
+    tbody.innerHTML = AREAS.map(a=>{
+      const topKpi = a.kpis[0];
+      const dot = statusDots[a.status]||'#6b7190';
+      return `<tr style="border-bottom:1px solid #1e2133;cursor:pointer" onclick="switchView('factory');focusBuilding('${a.id}')" onmouseover="this.style.background='rgba(99,102,241,0.06)'" onmouseout="this.style.background=''">
+        <td style="padding:6px 10px;font-weight:500;color:#e2e4ed">${a.name}</td>
+        <td style="padding:6px 10px"><span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(99,102,241,0.1);color:${SCHEMA_COLORS_MAP[a.schema.split('+')[0].trim()]||'#818cf8'}">${a.schema}</span></td>
+        <td style="padding:6px 10px"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${dot};margin-right:4px"></span><span style="color:${dot};font-size:10px;text-transform:uppercase">${a.status}</span></td>
+        <td style="padding:6px 10px;font-family:monospace;font-size:10px;color:#9da3b8">${topKpi?topKpi.n+': '+topKpi.v+topKpi.u:'-'}</td>
+        <td style="padding:6px 10px;font-size:9px;color:#d97706">${a.goldView||'-'}</td>
+        <td style="padding:6px 10px;font-size:9px;color:#a78bfa">${a.orch||'-'}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  // KPI heatmap
+  const heatmap = document.getElementById('dash-kpi-heatmap');
+  if(heatmap){
+    let html = '';
+    AREAS.forEach(a=>{
+      a.kpis.forEach(k=>{
+        const isGood = k.t ? (k.u==='%'||k.u==='j/h'||k.u==='hrs'||k.u==='mi' ? k.v>=k.t : k.v<=k.t) : true;
+        const bg = isGood ? 'rgba(34,197,94,0.25)' : (k.t && Math.abs(k.v/k.t - 1) < 0.15 ? 'rgba(245,158,11,0.25)' : 'rgba(239,68,68,0.25)');
+        const color = isGood ? '#22c55e' : (k.t && Math.abs(k.v/k.t - 1) < 0.15 ? '#f59e0b' : '#ef4444');
+        html += `<div style="background:${bg};border-radius:4px;padding:4px;text-align:center;cursor:pointer;transition:all .15s" onclick="switchView('factory');focusBuilding('${a.id}')" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform=''">
+          <div style="font-size:8px;color:#6b7190;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${k.n}</div>
+          <div style="font-size:11px;font-weight:700;color:${color}">${k.v}</div>
+        </div>`;
+      });
+    });
+    heatmap.innerHTML = html;
+  }
+
+  // Gold views
+  const goldDiv = document.getElementById('dash-gold-views');
+  if(goldDiv){
+    const views = ['Station_Intelligence','Vehicle_360','Worker_360','Supply_Chain_Risk','Plant_Sustainability','Fleet_360','Truck_Health_360','Warranty_Trace','Charging_Intelligence','Autonomous_Ops','Quality_Closed_Loop','PdM_Loop','Executive_Scorecard'];
+    goldDiv.innerHTML = views.map(v=>`<span style="font-size:9px;padding:3px 8px;border-radius:4px;background:rgba(217,119,6,0.1);color:#d97706;border:1px solid rgba(217,119,6,0.2)">${v}</span>`).join('');
+  }
+}
+
+/* ========== DROPDOWN MENUS ========== */
+const STATUS_DOTS = {good:'#22c55e',warning:'#f59e0b',critical:'#ef4444',running:'#22c55e',idle:'#6b7190'};
+const SCHEMA_COLORS_MAP = {AAML:'#38a7ea',BRML:'#f4c430',WOSFML:'#05d9a0',SCML:'#f97316',QEML:'#ef4444',PMML:'#a78bfa',CVML:'#06b6d4',ESML:'#22c55e',ALL:'#818cf8'};
+
+function toggleDD(id){
+  const el = document.getElementById(id);
+  const wasOpen = el.classList.contains('open');
+  // Close all
+  document.querySelectorAll('.stat-dd').forEach(d=>d.classList.remove('open'));
+  if(!wasOpen) el.classList.add('open');
+}
+// Close dropdowns on outside click
+document.addEventListener('click', function(e){
+  if(!e.target.closest('.stat-dd')) document.querySelectorAll('.stat-dd').forEach(d=>d.classList.remove('open'));
+});
+
+// Populate Areas dropdown
+(function(){
+  const list = document.getElementById('dd-areas-list');
+  list.innerHTML = AREAS.map(a=>`<div class="dd-item" onclick="focusBuilding('${a.id}');toggleDD('dd-areas')">
+    <span class="dd-dot" style="background:${STATUS_DOTS[a.status]||'#6b7190'}"></span>
+    <span class="dd-name">${a.name}</span>
+    <span class="dd-meta">${a.schema}</span>
+  </div>`).join('');
+})();
+
+// Populate Equipment dropdown
+(function(){
+  const list = document.getElementById('dd-equip-list');
+  let html = '';
+  Object.entries(EQUIPMENT).forEach(([areaId, equips])=>{
+    const area = AREAS.find(a=>a.id===areaId);
+    html += `<div style="padding:4px 12px;font-size:9px;color:#6b7190;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;border-top:1px solid #1e2133;margin-top:2px">${area?area.name:areaId}</div>`;
+    equips.forEach(eq=>{
+      html += `<div class="dd-item" onclick="focusBuilding('${areaId}');selectEquipById('${eq.id}');toggleDD('dd-equip')">
+        <span class="dd-dot" style="background:${STATUS_DOTS[eq.status]||'#6b7190'}"></span>
+        <span class="dd-name">${eq.name}</span>
+        <span class="dd-meta">${eq.id}</span>
+      </div>`;
+    });
+  });
+  list.innerHTML = html;
+})();
+
+// Populate KPIs dropdown
+(function(){
+  const list = document.getElementById('dd-kpis-list');
+  let html = '';
+  AREAS.forEach(a=>{
+    a.kpis.forEach(k=>{
+      const isGood = k.t ? (k.u==='%'||k.u==='j/h'||k.u==='hrs'||k.u==='mi' ? k.v>=k.t : k.v<=k.t) : true;
+      html += `<div class="dd-item" onclick="focusBuilding('${a.id}');toggleDD('dd-kpis')">
+        <span class="dd-dot" style="background:${isGood?'#22c55e':'#ef4444'}"></span>
+        <span class="dd-name">${k.id||''} ${k.n}</span>
+        <span class="dd-meta">${k.v}${k.u}${k.t?' →'+k.t+k.u:''}</span>
+      </div>`;
+    });
+  });
+  list.innerHTML = html;
+})();
+
+// Schema source system data
+const SCHEMA_SOURCES = {
+  AAML:{name:'AutomotiveAssemblyML',entities:13,sources:[
+    {sys:'Rockwell Plex',type:'MES',protocol:'REST API',data:'WorkCell, Equipment, OEERecord'},
+    {sys:'Siemens Opcenter',type:'MES',protocol:'OPC UA',data:'Line config, station state'},
+    {sys:'OSIsoft PI',type:'Historian',protocol:'PI Integrator → OneLake',data:'SensorPoint, anomaly baselines'},
+    {sys:'IoT Sensors',type:'Native',protocol:'MQTT/OPC UA → IoT Edge → IoT Hub',data:'SensorObservation (2.4M events/day)'},
+    {sys:'SAP S/4HANA',type:'ERP',protocol:'API/RFC → Fabric Pipeline',data:'Facility master, zone config'}
+  ],mcpServer:'axle-factory',mcpPort:3001,tools:9,goldViews:['Station_Intelligence'],scd2:['Equipment','OEERecord']},
+  BRML:{name:'BuildRecordML',entities:10,sources:[
+    {sys:'Rockwell Plex',type:'MES',protocol:'Build event stream → Bronze',data:'VehicleBuild, BuildStep'},
+    {sys:'NI / Marposs',type:'EOL Test',protocol:'API → Bronze',data:'EndOfLineTest results'},
+    {sys:'Oracle TMS',type:'TMS',protocol:'EDI/API → Bronze',data:'ShipmentRecord'},
+    {sys:'Barcode Scanners',type:'Native',protocol:'IoT Edge → IoT Hub',data:'PartInstallation, BuildStep scan events'}
+  ],mcpServer:'axle-build',mcpPort:3002,tools:9,goldViews:['Vehicle_360','Warranty_Trace'],scd2:['VehicleBuild']},
+  WOSFML:{name:'WorkerOrgSafetyML',entities:12,sources:[
+    {sys:'Kronos (UKG)',type:'HRIS',protocol:'API → Fabric Pipeline',data:'WorkerProfile, ShiftLog'},
+    {sys:'Cornerstone',type:'LMS',protocol:'API → Bronze',data:'TrainingRecord, Certifications'},
+    {sys:'Kinetic / StrongArm',type:'Wearables',protocol:'IoT Hub → EventStream',data:'ErgoExposureLog, FatigueIndicator'},
+    {sys:'HID Global',type:'Badge',protocol:'API → Bronze',data:'StationAssignment (badge-in/out)'}
+  ],mcpServer:'axle-workforce',mcpPort:3003,tools:9,goldViews:['Worker_Performance_360'],scd2:['WorkerProfile','SkillMatrix']},
+  SCML:{name:'SupplyChainML',entities:10,sources:[
+    {sys:'SAP S/4HANA',type:'ERP',protocol:'API/RFC → Fabric Pipeline',data:'Supplier, Part, BOM'},
+    {sys:'SPS Commerce',type:'EDI Gateway',protocol:'EDI 850/856/810 → Bronze',data:'InventoryPosition, PurchaseOrder'},
+    {sys:'Manhattan WMS',type:'WMS',protocol:'API → Bronze',data:'InventoryPosition, warehouse moves'},
+    {sys:'Oracle TMS',type:'TMS',protocol:'API → Bronze',data:'LogisticsLane, carrier performance'},
+    {sys:'Coupa / SAP Ariba',type:'Procurement',protocol:'API → Bronze',data:'SupplierScorecard'},
+    {sys:'Kinaxis / o9',type:'Planning',protocol:'API → Bronze',data:'Demand signals, BOMConfiguration'}
+  ],mcpServer:'axle-supply',mcpPort:3004,tools:8,goldViews:['Supply_Chain_Risk'],scd2:['SupplierScorecard','InventoryPosition']},
+  QEML:{name:'QualityEngineeringML',entities:8,sources:[
+    {sys:'ETQ / Sparta',type:'QMS',protocol:'API → Bronze',data:'DefectRecord, RCA, CAPA'},
+    {sys:'SAP QM',type:'Warranty',protocol:'DB extract → Bronze',data:'WarrantyClaim'},
+    {sys:'Cognex / Keyence',type:'Vision',protocol:'IoT Edge → IoT Hub → Bronze',data:'DefectRecord (auto-detected)'},
+    {sys:'InfinityQS',type:'SPC',protocol:'API → Bronze',data:'SPCRecord, control charts'},
+    {sys:'Zeiss / Mitutoyo',type:'Gauge/CMM',protocol:'API → Bronze',data:'InspectionPoint measurements'}
+  ],mcpServer:'axle-quality',mcpPort:3005,tools:12,goldViews:['Quality_Closed_Loop','Warranty_Trace'],scd2:['DefectTaxonomy']},
+  PMML:{name:'PredictiveMaintenanceML',entities:6,sources:[
+    {sys:'SAP PM / Maximo',type:'CMMS',protocol:'API → Bronze',data:'WorkOrder, SparePartConsumption'},
+    {sys:'OSIsoft PI / Aveva',type:'Historian',protocol:'PI Integrator → OneLake',data:'Vibration, thermal baselines'},
+    {sys:'IoT Sensors',type:'Native',protocol:'IoT Edge ML → IoT Hub',data:'AnomalyScore (edge-scored)'},
+    {sys:'Fanuc / ABB manuals',type:'OEM',protocol:'Manual load (DIRECT)',data:'FailureMode library'}
+  ],mcpServer:'axle-maintenance',mcpPort:3006,tools:11,goldViews:['PdM_Loop','Truck_Health_360'],scd2:['EquipmentHealthProfile']},
+  CVML:{name:'ConnectedVehicleML',entities:12,sources:[
+    {sys:'Detroit Connect',type:'Telematics',protocol:'REST/Streaming → IoT Hub',data:'TelemetryStream, Fleet (500K+ trucks)'},
+    {sys:'Fleetboard',type:'Telematics EU',protocol:'REST/Streaming → IoT Hub',data:'TelemetryStream (EU fleet)'},
+    {sys:'Torc Robotics',type:'ADS',protocol:'REST/Streaming → EventStream',data:'AutonomousOperationLog'},
+    {sys:'CDK Global / R&R',type:'DMS',protocol:'API → Bronze',data:'ServiceEvent'},
+    {sys:'OTA Platform',type:'OTA',protocol:'API → Bronze',data:'OTACampaign, ECUManifest'},
+    {sys:'Snowflake',type:'Mirror',protocol:'OneLake Mirror (sub-5 min)',data:'Fleet master, contracts (cold data)'}
+  ],mcpServer:'axle-fleet',mcpPort:3007,tools:12,goldViews:['Fleet_360','Truck_Health_360','Autonomous_Ops'],scd2:['VehicleAsset','ECUInventory']},
+  ESML:{name:'EnergySustainabilityML',entities:8,sources:[
+    {sys:'Schneider / Siemens',type:'Energy Meters',protocol:'IoT Hub → EventStream',data:'EnergyMeter, EnergyConsumption'},
+    {sys:'ABB / Honeywell',type:'CEMS',protocol:'IoT Hub → EventStream',data:'EmissionSource, EmissionRecord'},
+    {sys:'Utility bills',type:'Manual',protocol:'Manual/API → Bronze',data:'EnergyConsumption (utility)'},
+    {sys:'Persefoni / Watershed',type:'Sustainability',protocol:'API → Bronze (DIRECT)',data:'CarbonFootprintSummary (Scope 3)'},
+    {sys:'MS Sustainability Mgr',type:'Microsoft',protocol:'Dataverse → zero-copy link (DIRECT)',data:'CarbonFootprintSummary'}
+  ],mcpServer:'axle-sustainability',mcpPort:3008,tools:6,goldViews:['Plant_Sustainability','Charging_Intelligence'],scd2:[]}
+};
+
+// Populate Schemas dropdown — click to expand source detail
+let expandedSchema = null;
+(function(){
+  renderSchemaDropdown();
+})();
+
+function renderSchemaDropdown(){
+  const list = document.getElementById('dd-schemas-list');
+  const schemas = Object.keys(SCHEMA_SOURCES).sort();
+  let html = '';
+  schemas.forEach(s=>{
+    const sd = SCHEMA_SOURCES[s];
+    const areas = AREAS.filter(a=>a.schema.includes(s));
+    const isExpanded = expandedSchema === s;
+    const color = SCHEMA_COLORS_MAP[s]||'#818cf8';
+    html += `<div class="dd-item" onclick="event.stopPropagation();toggleSchemaExpand('${s}')" style="flex-wrap:wrap;${isExpanded?'background:rgba(99,102,241,0.08);border-left:2px solid '+color:''}">
+      <span class="dd-dot" style="background:${color}"></span>
+      <span class="dd-name" style="font-weight:${isExpanded?'700':'400'}">${s}</span>
+      <span class="dd-meta">${sd.entities} ent | ${areas.length} areas</span>
+    </div>`;
+    if(isExpanded){
+      html += `<div style="padding:4px 12px 8px 12px;background:rgba(99,102,241,0.04);border-left:2px solid ${color}">
+        <div style="font-size:9px;color:${color};font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">${sd.name} \u2014 Source Systems</div>
+        <table style="width:100%;border-collapse:collapse;font-size:10px">
+          <tr style="border-bottom:1px solid #1e2133">
+            <td style="padding:2px 4px;color:#6b7190;font-size:8px;font-weight:700">SYSTEM</td>
+            <td style="padding:2px 4px;color:#6b7190;font-size:8px;font-weight:700">TYPE</td>
+            <td style="padding:2px 4px;color:#6b7190;font-size:8px;font-weight:700">PROTOCOL</td>
+            <td style="padding:2px 4px;color:#6b7190;font-size:8px;font-weight:700">DATA FED</td>
+          </tr>
+          ${sd.sources.map(src=>{
+            const isDirect = src.protocol.includes('DIRECT');
+            return `<tr style="border-bottom:1px solid #161822">
+              <td style="padding:3px 4px;color:#e2e4ed;font-weight:500">${src.sys}</td>
+              <td style="padding:3px 4px"><span style="font-size:8px;padding:1px 4px;border-radius:3px;background:rgba(99,102,241,0.1);color:#818cf8">${src.type}</span></td>
+              <td style="padding:3px 4px;color:#9da3b8;font-size:9px">${src.protocol}${isDirect?' <span style="color:#f59e0b;font-size:8px">\u25C6 DIRECT</span>':''}</td>
+              <td style="padding:3px 4px;color:#6b7190;font-size:9px;font-family:monospace">${src.data}</td>
+            </tr>`;
+          }).join('')}
+        </table>
+        <div style="margin-top:6px;display:flex;gap:8px;flex-wrap:wrap;font-size:9px">
+          <span style="color:#9da3b8">MCP: <strong style="color:${color}">${sd.mcpServer}</strong> :${sd.mcpPort} (${sd.tools} tools)</span>
+          <span style="color:#9da3b8">Gold: <strong style="color:#d97706">${sd.goldViews.join(', ')}</strong></span>
+          ${sd.scd2.length>0?`<span style="color:#9da3b8">SCD2: <strong style="color:#a78bfa">${sd.scd2.join(', ')}</strong></span>`:''}
+        </div>
+      </div>`;
+    }
+  });
+  list.innerHTML = html;
+}
+
+function toggleSchemaExpand(s){
+  expandedSchema = expandedSchema===s ? null : s;
+  renderSchemaDropdown();
+}
+
+// Populate Vehicles dropdown
+(function(){
+  const list = document.getElementById('dd-vehicles-list');
+  let html = '';
+  PRODUCTS.forEach((p,i)=>{
+    const vin = 'AXLE2026'+String(i).padStart(5,'0');
+    const stageColors = {blank:'#6b7190',stamped:'#f59e0b',framed:'#a78bfa',painted:'#3b82f6',assembled:'#22c55e',shipped:'#06b6d4'};
+    html += `<div class="dd-item" onclick="showBirthRecord(${i});toggleDD('dd-vehicles')">
+      <span class="dd-dot" style="background:${stageColors[p.stage]||'#6b7190'}"></span>
+      <span class="dd-name">${vin}</span>
+      <span class="dd-meta" style="text-transform:uppercase">${p.stage}</span>
+    </div>`;
+  });
+  list.innerHTML = html;
+})();
+
+// ═══════════════════════ KANBAN DATA (AAML.KanbanCard) ═══════════════════════
+const KANBAN_CARDS = [
+  {id:'KBN-001',part:'Brake Caliper Assy LH',partNum:'GM-BC-4420-L',station:'A-01',supplier:'Brembo',status:'active',qty:24,reorderPt:12,leadTime:'4hr',schema:'AAML',entity:'KanbanCard',mcp:'axle_get_station_live'},
+  {id:'KBN-002',part:'Brake Caliper Assy RH',partNum:'GM-BC-4420-R',station:'A-01',supplier:'Brembo',status:'active',qty:22,reorderPt:12,leadTime:'4hr',schema:'AAML',entity:'KanbanCard',mcp:'axle_get_station_live'},
+  {id:'KBN-003',part:'Engine Block V8 6.6L',partNum:'GM-EB-6600',station:'A-05',supplier:'GM Flint Engine',status:'active',qty:8,reorderPt:4,leadTime:'2hr',schema:'AAML',entity:'KanbanCard',mcp:'axle_get_station_live'},
+  {id:'KBN-004',part:'Transmission 10-Speed',partNum:'GM-TX-10AT',station:'A-05',supplier:'Allison',status:'replenishing',qty:3,reorderPt:6,leadTime:'6hr',schema:'AAML',entity:'KanbanCard',mcp:'axle_get_station_live'},
+  {id:'KBN-005',part:'Door Panel LH',partNum:'GM-DP-2200-L',station:'A-09',supplier:'Magna',status:'active',qty:18,reorderPt:8,leadTime:'3hr',schema:'AAML',entity:'KanbanCard',mcp:'axle_get_station_live'},
+  {id:'KBN-006',part:'Windshield',partNum:'GM-WS-5500',station:'A-10',supplier:'AGC Glass',status:'active',qty:15,reorderPt:6,leadTime:'8hr',schema:'AAML',entity:'KanbanCard',mcp:'axle_get_station_live'},
+  {id:'KBN-007',part:'Wiring Harness Main',partNum:'GM-WH-9900',station:'A-11',supplier:'Yazaki',status:'low',qty:5,reorderPt:10,leadTime:'12hr',schema:'AAML',entity:'KanbanCard',mcp:'axle_get_station_live'},
+  {id:'KBN-008',part:'Seat Assy Driver',partNum:'GM-SA-1100-D',station:'A-08',supplier:'Lear Corp',status:'active',qty:12,reorderPt:6,leadTime:'4hr',schema:'AAML',entity:'KanbanCard',mcp:'axle_get_station_live'},
+  {id:'KBN-009',part:'Steering Column',partNum:'GM-SC-3300',station:'A-03',supplier:'Nexteer',status:'active',qty:16,reorderPt:8,leadTime:'6hr',schema:'AAML',entity:'KanbanCard',mcp:'axle_get_station_live'},
+  {id:'KBN-010',part:'Exhaust System',partNum:'GM-EX-7700',station:'A-06',supplier:'Tenneco',status:'replenishing',qty:2,reorderPt:8,leadTime:'8hr',schema:'AAML',entity:'KanbanCard',mcp:'axle_get_station_live'}
+];
+
+// ═══════════════════════ INVENTORY DATA (SCML.InventoryPosition) ═══════════════════════
+const INVENTORY_POSITIONS = [
+  {id:'INV-001',part:'Steel Coil HR-440',partNum:'STL-HR-440',location:'Warehouse Bay A1',supplier:'Nucor Steel',doh:4.2,qty:12400,unit:'lbs',reorderPt:8000,status:'adequate',schema:'SCML',entity:'InventoryPosition',mcp:'axle_get_inventory'},
+  {id:'INV-002',part:'Aluminum Sheet 6061',partNum:'ALU-6061-T6',location:'Warehouse Bay A3',supplier:'Novelis',doh:2.8,qty:6200,unit:'lbs',status:'warning',schema:'SCML',entity:'InventoryPosition',mcp:'axle_get_inventory'},
+  {id:'INV-003',part:'Fastener Kit M8',partNum:'FST-M8-KIT',location:'Warehouse Bay B2',supplier:'Wurth',doh:12.5,qty:48000,unit:'pcs',reorderPt:20000,status:'adequate',schema:'SCML',entity:'InventoryPosition',mcp:'axle_get_inventory'},
+  {id:'INV-004',part:'Paint Base Coat White',partNum:'PNT-BC-WHT',location:'Paint Store',supplier:'PPG',doh:3.1,qty:820,unit:'gal',reorderPt:500,status:'adequate',schema:'SCML',entity:'InventoryPosition',mcp:'axle_get_inventory'},
+  {id:'INV-005',part:'E-Coat Solution',partNum:'PNT-EC-001',location:'Paint Store',supplier:'PPG',doh:1.8,qty:340,unit:'gal',reorderPt:400,status:'critical',schema:'SCML',entity:'InventoryPosition',mcp:'axle_get_inventory'},
+  {id:'INV-006',part:'Weld Wire ER70S-6',partNum:'WLD-ER70S6',location:'Warehouse Bay C1',supplier:'Lincoln Electric',doh:6.4,qty:2400,unit:'lbs',reorderPt:1000,status:'adequate',schema:'SCML',entity:'InventoryPosition',mcp:'axle_get_inventory'},
+  {id:'INV-007',part:'Hydraulic Fluid HLP-46',partNum:'HYD-HLP46',location:'Maint Store',supplier:'Shell',doh:8.2,qty:550,unit:'gal',reorderPt:200,status:'adequate',schema:'SCML',entity:'InventoryPosition',mcp:'axle_get_inventory'},
+  {id:'INV-008',part:'Robot Bearing #7210',partNum:'BRG-7210-B',location:'Maint Store',supplier:'SKF',doh:14.0,qty:28,unit:'pcs',reorderPt:10,status:'adequate',schema:'SCML',entity:'InventoryPosition',mcp:'axle_get_spare_parts_forecast'},
+  {id:'INV-009',part:'Battery Pack 100kWh',partNum:'BAT-100KWH',location:'EV Store',supplier:'LG Energy',doh:1.2,qty:6,unit:'pcs',reorderPt:8,status:'critical',schema:'SCML',entity:'InventoryPosition',mcp:'axle_get_stockout_risk'},
+  {id:'INV-010',part:'Tire 275/65R18',partNum:'TIR-275-65-18',location:'Warehouse Bay D1',supplier:'Goodyear',doh:5.6,qty:480,unit:'pcs',reorderPt:200,status:'adequate',schema:'SCML',entity:'InventoryPosition',mcp:'axle_get_inventory'}
+];
+
+// ═══════════════════════ BOM DATA (SCML.BOMConfiguration) ═══════════════════════
+const BOM_CONFIGS = [
+  {id:'BOM-SIL-HD',model:'Silverado HD 2500',variant:'LTZ Crew Cab',parts:847,levels:4,t1:42,t2:128,t3:310,usmca:'94.2%',tariffExposure:'$1,240',schema:'SCML+BRML',entity:'BOMConfiguration + BOMEntry',mcp:'axle_explode_bom'},
+  {id:'BOM-SIE-2500',model:'Sierra 2500 HD',variant:'Denali Ultimate',parts:892,levels:4,t1:44,t2:135,t3:322,usmca:'93.8%',tariffExposure:'$1,480',schema:'SCML+BRML',entity:'BOMConfiguration + BOMEntry',mcp:'axle_explode_bom'},
+  {id:'BOM-TAH-Z71',model:'Tahoe',variant:'Z71 4WD',parts:724,levels:3,t1:38,t2:112,t3:285,usmca:'95.1%',tariffExposure:'$890',schema:'SCML+BRML',entity:'BOMConfiguration + BOMEntry',mcp:'axle_explode_bom'},
+  {id:'BOM-ESC-IQ',model:'Escalade IQ',variant:'BEV Sport',parts:612,levels:4,t1:35,t2:98,t3:248,usmca:'88.4%',tariffExposure:'$4,200',schema:'SCML+BRML',entity:'BOMConfiguration + BOMEntry',mcp:'axle_explode_bom'},
+  {id:'BOM-EQX-EV',model:'Equinox EV',variant:'3LT AWD',parts:548,levels:3,t1:32,t2:89,t3:220,usmca:'86.2%',tariffExposure:'$5,100',schema:'SCML+BRML',entity:'BOMConfiguration + BOMEntry',mcp:'axle_explode_bom'}
+];
+
+// ═══════════════════════ POPULATE KANBAN DROPDOWN ═══════════════════════
+(function(){
+  const list = document.getElementById('dd-kanban-list');
+  const statusColors = {active:'#22c55e',replenishing:'#f59e0b',low:'#ef4444',empty:'#ef4444'};
+  list.innerHTML = '<div style="padding:6px 12px;font-size:9px;color:#f97316;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid #1e2133">AAML.KanbanCard — Pull Signal Status</div>' +
+    KANBAN_CARDS.map(k=>{
+      const dot = statusColors[k.status]||'#6b7190';
+      const qtyWarn = k.qty <= k.reorderPt;
+      return `<div class="dd-item" onclick="showKanbanDetail('${k.id}');toggleDD('dd-kanban')">
+        <span class="dd-dot" style="background:${dot}"></span>
+        <span class="dd-name" style="${qtyWarn?'color:#ef4444;font-weight:700':''}">${k.part}</span>
+        <span class="dd-meta">${k.qty} @ ${k.station} ${qtyWarn?'⚠':''}</span>
+      </div>`;
+    }).join('') +
+    '<div style="padding:6px 12px;font-size:9px;color:#6b7190;border-top:1px solid #1e2133">Schema: AAML | MCP: axle_get_station_live | Gold: Station_Intelligence</div>';
+})();
+
+// ═══════════════════════ POPULATE INVENTORY DROPDOWN ═══════════════════════
+(function(){
+  const list = document.getElementById('dd-inventory-list');
+  const statusColors = {adequate:'#22c55e',warning:'#f59e0b',critical:'#ef4444'};
+  list.innerHTML = '<div style="padding:6px 12px;font-size:9px;color:#f97316;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid #1e2133">SCML.InventoryPosition — Stock Levels</div>' +
+    INVENTORY_POSITIONS.map(inv=>{
+      const dot = statusColors[inv.status]||'#6b7190';
+      return `<div class="dd-item" onclick="showInventoryDetail('${inv.id}');toggleDD('dd-inventory')">
+        <span class="dd-dot" style="background:${dot}"></span>
+        <span class="dd-name">${inv.part}</span>
+        <span class="dd-meta">${inv.doh}d DOH | ${inv.qty} ${inv.unit}</span>
+      </div>`;
+    }).join('') +
+    '<div style="padding:6px 12px;font-size:9px;color:#6b7190;border-top:1px solid #1e2133">Schema: SCML | MCP: axle_get_inventory, axle_get_stockout_risk | Gold: Supply_Chain_Risk</div>';
+})();
+
+// ═══════════════════════ POPULATE BOM DROPDOWN ═══════════════════════
+(function(){
+  const list = document.getElementById('dd-bom-list');
+  list.innerHTML = '<div style="padding:6px 12px;font-size:9px;color:#f4c430;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid #1e2133">SCML.BOMConfiguration — Bill of Materials</div>' +
+    BOM_CONFIGS.map(b=>{
+      const usmcaOk = parseFloat(b.usmca) >= 90;
+      return `<div class="dd-item" onclick="showBOMDetail('${b.id}');toggleDD('dd-bom')">
+        <span class="dd-dot" style="background:${usmcaOk?'#22c55e':'#f59e0b'}"></span>
+        <span class="dd-name">${b.model} <span style="color:#6b7190;font-weight:400">${b.variant}</span></span>
+        <span class="dd-meta">${b.parts} parts | USMCA ${b.usmca}</span>
+      </div>`;
+    }).join('') +
+    '<div style="padding:6px 12px;font-size:9px;color:#6b7190;border-top:1px solid #1e2133">Schema: SCML+BRML | MCP: axle_explode_bom | Gold: Supply_Chain_Risk + Vehicle_360</div>';
+})();
+
+// ═══════════════════════ DETAIL MODALS ═══════════════════════
+function showKanbanDetail(kbnId){
+  const k = KANBAN_CARDS.find(c=>c.id===kbnId);
+  if(!k) return;
+  const qtyPct = Math.min((k.qty/k.reorderPt)*100, 200);
+  const isLow = k.qty <= k.reorderPt;
+  document.body.insertAdjacentHTML('beforeend', `
+    <div style="position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:10000;display:flex;align-items:center;justify-content:center" onclick="if(event.target===this)this.remove()" id="kanban-modal">
+      <div style="background:#12141e;border:1px solid #f97316;border-radius:12px;width:480px;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.6)">
+        <div style="padding:14px 18px;border-bottom:1px solid #2a2e42">
+          <div style="font-size:10px;color:#f97316;text-transform:uppercase;letter-spacing:1px;font-weight:700">AAML — Kanban Card</div>
+          <div style="font-size:16px;font-weight:700;color:#e2e4ed">${k.part}</div>
+          <div style="font-size:11px;color:#9da3b8">${k.id} | Part#: ${k.partNum} | Station: ${k.station}</div>
+        </div>
+        <div style="padding:14px 18px">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
+            <div style="background:#161822;border-radius:6px;padding:8px;text-align:center">
+              <div style="font-size:8px;color:#6b7190;text-transform:uppercase">Qty on Hand</div>
+              <div style="font-size:20px;font-weight:700;color:${isLow?'#ef4444':'#22c55e'}">${k.qty}</div>
+            </div>
+            <div style="background:#161822;border-radius:6px;padding:8px;text-align:center">
+              <div style="font-size:8px;color:#6b7190;text-transform:uppercase">Reorder Point</div>
+              <div style="font-size:20px;font-weight:700;color:#e2e4ed">${k.reorderPt}</div>
+            </div>
+            <div style="background:#161822;border-radius:6px;padding:8px;text-align:center">
+              <div style="font-size:8px;color:#6b7190;text-transform:uppercase">Lead Time</div>
+              <div style="font-size:20px;font-weight:700;color:#e2e4ed">${k.leadTime}</div>
+            </div>
+          </div>
+          <div style="margin-bottom:8px">
+            <div style="font-size:9px;color:#6b7190;margin-bottom:4px">Stock Level vs Reorder Point</div>
+            <div style="height:14px;background:#1a1c2e;border-radius:7px;overflow:hidden;position:relative">
+              <div style="height:100%;width:${Math.min(qtyPct,100)}%;background:${isLow?'#ef4444':'#22c55e'};border-radius:7px;transition:width 0.5s"></div>
+              <div style="position:absolute;top:0;bottom:0;left:${Math.min(100/(qtyPct/100),100)}%;width:2px;background:#f59e0b" title="Reorder point"></div>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;margin-bottom:8px">
+            <div style="flex:1;font-size:10px;color:#9da3b8"><strong>Supplier:</strong> ${k.supplier}</div>
+            <div style="font-size:10px"><strong style="color:${k.status==='active'?'#22c55e':k.status==='replenishing'?'#f59e0b':'#ef4444'}">${k.status.toUpperCase()}</strong></div>
+          </div>
+          <div style="padding:6px 8px;background:rgba(249,115,22,0.06);border:1px solid rgba(249,115,22,0.15);border-radius:6px;font-size:9px;color:#9da3b8">
+            <strong style="color:#f97316">Data Lineage:</strong> MES (Rockwell) → axle-bronze-aaml → AAML.KanbanCard → axle-factory → axle_get_station_live → Station_Intelligence Gold View
+          </div>
+        </div>
+        <div style="padding:8px 18px;border-top:1px solid #2a2e42;display:flex;justify-content:flex-end">
+          <button onclick="document.getElementById('kanban-modal').remove()" style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);color:#ef4444;padding:4px 12px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:10px">Close</button>
+        </div>
+      </div>
+    </div>
+  `);
+}
+
+function showInventoryDetail(invId){
+  const inv = INVENTORY_POSITIONS.find(i=>i.id===invId);
+  if(!inv) return;
+  const statusColor = inv.status==='adequate'?'#22c55e':inv.status==='warning'?'#f59e0b':'#ef4444';
+  document.body.insertAdjacentHTML('beforeend', `
+    <div style="position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:10000;display:flex;align-items:center;justify-content:center" onclick="if(event.target===this)this.remove()" id="inventory-modal">
+      <div style="background:#12141e;border:1px solid #f97316;border-radius:12px;width:480px;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.6)">
+        <div style="padding:14px 18px;border-bottom:1px solid #2a2e42">
+          <div style="font-size:10px;color:#f97316;text-transform:uppercase;letter-spacing:1px;font-weight:700">SCML — Inventory Position</div>
+          <div style="font-size:16px;font-weight:700;color:#e2e4ed">${inv.part}</div>
+          <div style="font-size:11px;color:#9da3b8">${inv.id} | Part#: ${inv.partNum} | Location: ${inv.location}</div>
+        </div>
+        <div style="padding:14px 18px">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
+            <div style="background:#161822;border-radius:6px;padding:8px;text-align:center">
+              <div style="font-size:8px;color:#6b7190;text-transform:uppercase">Qty on Hand</div>
+              <div style="font-size:20px;font-weight:700;color:${statusColor}">${inv.qty.toLocaleString()} ${inv.unit}</div>
+            </div>
+            <div style="background:#161822;border-radius:6px;padding:8px;text-align:center">
+              <div style="font-size:8px;color:#6b7190;text-transform:uppercase">Days on Hand</div>
+              <div style="font-size:20px;font-weight:700;color:${inv.doh<3?'#ef4444':inv.doh<5?'#f59e0b':'#22c55e'}">${inv.doh}d</div>
+            </div>
+            <div style="background:#161822;border-radius:6px;padding:8px;text-align:center">
+              <div style="font-size:8px;color:#6b7190;text-transform:uppercase">Status</div>
+              <div style="font-size:16px;font-weight:700;color:${statusColor};text-transform:uppercase">${inv.status}</div>
+            </div>
+          </div>
+          <div style="font-size:10px;color:#9da3b8;margin-bottom:8px"><strong>Supplier:</strong> ${inv.supplier} | <strong>Reorder Point:</strong> ${inv.reorderPt?inv.reorderPt.toLocaleString()+' '+inv.unit:'N/A'}</div>
+          ${inv.status==='critical'?'<div style="padding:6px 8px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:6px;font-size:10px;color:#ef4444;margin-bottom:8px"><strong>⚠ STOCKOUT RISK:</strong> DOH below safety stock. ORCH-04 may trigger expedite. axle_get_stockout_risk predicts depletion in '+Math.round(inv.doh*24)+'h.</div>':''}
+          <div style="padding:6px 8px;background:rgba(249,115,22,0.06);border:1px solid rgba(249,115,22,0.15);border-radius:6px;font-size:9px;color:#9da3b8">
+            <strong style="color:#f97316">Data Lineage:</strong> ${inv.mcp==='axle_get_stockout_risk'?'Fabric ML →':''} WMS (Manhattan) + EDI → axle-bronze-scml → SCML.InventoryPosition (SCD2) → axle-supply → ${inv.mcp} → Supply_Chain_Risk Gold View
+          </div>
+        </div>
+        <div style="padding:8px 18px;border-top:1px solid #2a2e42;display:flex;justify-content:flex-end">
+          <button onclick="document.getElementById('inventory-modal').remove()" style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);color:#ef4444;padding:4px 12px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:10px">Close</button>
+        </div>
+      </div>
+    </div>
+  `);
+}
+
+function showBOMDetail(bomId){
+  const b = BOM_CONFIGS.find(c=>c.id===bomId);
+  if(!b) return;
+  const usmcaOk = parseFloat(b.usmca) >= 90;
+  document.body.insertAdjacentHTML('beforeend', `
+    <div style="position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:10000;display:flex;align-items:center;justify-content:center" onclick="if(event.target===this)this.remove()" id="bom-modal">
+      <div style="background:#12141e;border:1px solid #f4c430;border-radius:12px;width:520px;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.6)">
+        <div style="padding:14px 18px;border-bottom:1px solid #2a2e42">
+          <div style="font-size:10px;color:#f4c430;text-transform:uppercase;letter-spacing:1px;font-weight:700">SCML + BRML — Bill of Materials</div>
+          <div style="font-size:16px;font-weight:700;color:#e2e4ed">${b.model}</div>
+          <div style="font-size:11px;color:#9da3b8">${b.id} | Variant: ${b.variant}</div>
+        </div>
+        <div style="padding:14px 18px">
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px">
+            <div style="background:#161822;border-radius:6px;padding:8px;text-align:center">
+              <div style="font-size:8px;color:#6b7190;text-transform:uppercase">Total Parts</div>
+              <div style="font-size:18px;font-weight:700;color:#e2e4ed">${b.parts}</div>
+            </div>
+            <div style="background:#161822;border-radius:6px;padding:8px;text-align:center">
+              <div style="font-size:8px;color:#6b7190;text-transform:uppercase">BOM Levels</div>
+              <div style="font-size:18px;font-weight:700;color:#e2e4ed">${b.levels}</div>
+            </div>
+            <div style="background:#161822;border-radius:6px;padding:8px;text-align:center">
+              <div style="font-size:8px;color:#6b7190;text-transform:uppercase">USMCA %</div>
+              <div style="font-size:18px;font-weight:700;color:${usmcaOk?'#22c55e':'#f59e0b'}">${b.usmca}</div>
+            </div>
+            <div style="background:#161822;border-radius:6px;padding:8px;text-align:center">
+              <div style="font-size:8px;color:#6b7190;text-transform:uppercase">Tariff $</div>
+              <div style="font-size:18px;font-weight:700;color:${parseFloat(b.tariffExposure.replace(/[$,]/g,''))>2000?'#ef4444':'#22c55e'}">${b.tariffExposure}</div>
+            </div>
+          </div>
+          <div style="margin-bottom:12px">
+            <div style="font-size:10px;font-weight:700;color:#9da3b8;margin-bottom:6px">Supplier Tier Breakdown</div>
+            <div style="display:flex;gap:2px;height:20px;border-radius:4px;overflow:hidden">
+              <div style="flex:${b.t1};background:#38a7ea;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff">T1: ${b.t1}</div>
+              <div style="flex:${b.t2};background:#a78bfa;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff">T2: ${b.t2}</div>
+              <div style="flex:${b.t3};background:#f59e0b;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff">T3: ${b.t3}</div>
+            </div>
+          </div>
+          ${!usmcaOk?'<div style="padding:6px 8px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:6px;font-size:10px;color:#f59e0b;margin-bottom:8px"><strong>⚠ USMCA RISK:</strong> Regional value content below 90% threshold. Tariff exposure: '+b.tariffExposure+'/vehicle. ORCH-05 may trigger alternate sourcing analysis via axle_explode_bom.</div>':''}
+          <div style="padding:6px 8px;background:rgba(244,196,48,0.06);border:1px solid rgba(244,196,48,0.15);border-radius:6px;font-size:9px;color:#9da3b8">
+            <strong style="color:#f4c430">Data Lineage:</strong> ERP (SAP) → axle-bronze-scml → SCML.BOMConfiguration + BOMEntry (${b.parts} rows) → axle-supply → axle_explode_bom → Supply_Chain_Risk + Vehicle_360 Gold Views<br>
+            <strong style="color:#f4c430">BRML Link:</strong> BOM resolved from BRML.VehicleOrder option codes → installed parts traced via BRML.PartInstallation
+          </div>
+        </div>
+        <div style="padding:8px 18px;border-top:1px solid #2a2e42;display:flex;justify-content:flex-end">
+          <button onclick="document.getElementById('bom-modal').remove()" style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);color:#ef4444;padding:4px 12px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:10px">Close</button>
+        </div>
+      </div>
+    </div>
+  `);
+}
+
+// ═══════════════════════ SUPPLIER DATA (SCML.Supplier + SupplierScorecard) ═══════════════════════
+const SUPPLIERS = [
+  {id:'SUP-001',name:'Brembo',tier:'T1',category:'Brake Systems',otd:96.2,quality:42,risk:'Low',spend:'$18.4M',parts:12,plants:['Stamping','Assembly'],schema:'SCML',entity:'Supplier+SupplierScorecard',mcp:'axle_get_supplier'},
+  {id:'SUP-002',name:'Allison Transmission',tier:'T1',category:'Powertrain',otd:91.8,quality:85,risk:'Medium',spend:'$42.1M',parts:4,plants:['Assembly'],schema:'SCML',entity:'Supplier+SupplierScorecard',mcp:'axle_get_supplier'},
+  {id:'SUP-003',name:'Magna International',tier:'T1',category:'Body & Chassis',otd:94.5,quality:58,risk:'Low',spend:'$31.7M',parts:28,plants:['Body Shop','Assembly'],schema:'SCML',entity:'Supplier+SupplierScorecard',mcp:'axle_get_supplier'},
+  {id:'SUP-004',name:'LG Energy Solution',tier:'T1',category:'EV Battery',otd:88.2,quality:120,risk:'High',spend:'$67.3M',parts:6,plants:['EV Store'],schema:'SCML',entity:'Supplier+SupplierScorecard',mcp:'axle_get_supplier_impact',singleSource:true},
+  {id:'SUP-005',name:'Yazaki',tier:'T1',category:'Wiring',otd:93.1,quality:64,risk:'Medium',spend:'$14.2M',parts:18,plants:['Assembly'],schema:'SCML',entity:'Supplier+SupplierScorecard',mcp:'axle_get_supplier'},
+  {id:'SUP-006',name:'PPG Industries',tier:'T1',category:'Paint & Coatings',otd:97.8,quality:15,risk:'Low',spend:'$8.9M',parts:8,plants:['Paint Shop'],schema:'SCML',entity:'Supplier+SupplierScorecard',mcp:'axle_get_supplier'},
+  {id:'SUP-007',name:'Nucor Steel',tier:'T2',category:'Raw Material',otd:89.4,quality:0,risk:'Medium',spend:'$22.6M',parts:3,plants:['Stamping'],schema:'SCML',entity:'Supplier+SupplierScorecard',mcp:'axle_get_supplier'},
+  {id:'SUP-008',name:'Nexteer Automotive',tier:'T1',category:'Steering',otd:95.1,quality:38,risk:'Low',spend:'$12.8M',parts:6,plants:['Assembly'],schema:'SCML',entity:'Supplier+SupplierScorecard',mcp:'axle_get_supplier'},
+  {id:'SUP-009',name:'Goodyear',tier:'T1',category:'Tires',otd:98.4,quality:8,risk:'Low',spend:'$9.1M',parts:4,plants:['Shipping'],schema:'SCML',entity:'Supplier+SupplierScorecard',mcp:'axle_get_supplier'},
+  {id:'SUP-010',name:'Novelis (China)',tier:'T2',category:'Aluminum',otd:82.6,quality:0,risk:'High',spend:'$28.4M',parts:2,plants:['Stamping'],schema:'SCML',entity:'Supplier+SupplierScorecard',mcp:'axle_get_supplier_impact',tariffRisk:true}
+];
+
+// ═══════════════════════ DEMAND FORECAST DATA (SCML + BRML) ═══════════════════════
+const DEMAND_FORECAST = [
+  {model:'Silverado HD 2500',period:'Apr W15',forecast:1240,actual:1182,variance:-4.7,trend:'down',dealerOrders:1340,daysSupply:42,schema:'SCML+BRML',entity:'BOMConfiguration+VehicleOrder',mcp:'axle_explode_bom'},
+  {model:'Sierra 2500 HD',period:'Apr W15',forecast:860,actual:892,variance:3.7,trend:'up',dealerOrders:920,daysSupply:38,schema:'SCML+BRML',entity:'BOMConfiguration+VehicleOrder',mcp:'axle_explode_bom'},
+  {model:'Tahoe',period:'Apr W15',forecast:1580,actual:1545,variance:-2.2,trend:'flat',dealerOrders:1610,daysSupply:56,schema:'SCML+BRML',entity:'BOMConfiguration+VehicleOrder',mcp:'axle_explode_bom'},
+  {model:'Escalade IQ (BEV)',period:'Apr W15',forecast:320,actual:285,variance:-10.9,trend:'down',dealerOrders:380,daysSupply:72,schema:'SCML+BRML+CVML',entity:'BOMConfiguration+VehicleOrder+BatteryHealthRecord',mcp:'axle_explode_bom',evFlag:true},
+  {model:'Equinox EV',period:'Apr W15',forecast:680,actual:null,variance:null,trend:'planned',dealerOrders:740,daysSupply:null,schema:'SCML+BRML+CVML',entity:'BOMConfiguration+VehicleOrder',mcp:'axle_explode_bom',evFlag:true,upcoming:true},
+  {model:'All Models (Plant)',period:'Apr W15',forecast:4680,actual:4904,variance:-1.4,trend:'flat',dealerOrders:4990,daysSupply:48,schema:'AAML+BRML+SCML',entity:'Aggregate',mcp:'axle_get_production_summary',isTotal:true}
+];
+
+// ═══════════════════════ POPULATE SUPPLIERS DROPDOWN ═══════════════════════
+(function(){
+  const list = document.getElementById('dd-suppliers-list');
+  list.innerHTML = '<div style="padding:6px 12px;font-size:9px;color:#f97316;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid #1e2133">SCML.Supplier + SupplierScorecard</div>' +
+    SUPPLIERS.map(s=>{
+      const riskColor = s.risk==='Low'?'#22c55e':s.risk==='Medium'?'#f59e0b':'#ef4444';
+      const otdColor = s.otd>=95?'#22c55e':s.otd>=90?'#f59e0b':'#ef4444';
+      return `<div class="dd-item" onclick="showSupplierDetail('${s.id}');toggleDD('dd-suppliers')" style="padding:6px 10px">
+        <span class="dd-dot" style="background:${riskColor}"></span>
+        <div style="flex:1;min-width:0">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span style="font-weight:600;color:#e2e4ed;font-size:11px">${s.name}</span>
+            <span style="font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(99,102,241,0.1);color:#818cf8">${s.tier}</span>
+          </div>
+          <div style="display:flex;gap:8px;font-size:9px;color:#6b7190;margin-top:1px">
+            <span>OTD: <strong style="color:${otdColor}">${s.otd}%</strong></span>
+            <span>DPPM: <strong>${s.quality}</strong></span>
+            <span>${s.spend}</span>
+            ${s.singleSource?'<span style="color:#ef4444;font-weight:700">SINGLE SRC</span>':''}
+            ${s.tariffRisk?'<span style="color:#f59e0b;font-weight:700">TARIFF</span>':''}
+          </div>
+        </div>
+      </div>`;
+    }).join('') +
+    '<div style="padding:6px 12px;font-size:9px;color:#6b7190;border-top:1px solid #1e2133">MCP: axle_get_supplier, axle_get_supplier_impact | Gold: Supply_Chain_Risk | ORCH: ORCH-04, ORCH-05</div>';
+})();
+
+// ═══════════════════════ POPULATE DEMAND DROPDOWN ═══════════════════════
+(function(){
+  const list = document.getElementById('dd-demand-list');
+  list.innerHTML = '<div style="padding:6px 12px;font-size:9px;color:#06b6d4;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid #1e2133">Demand Forecast — SCML + BRML + AAML</div>' +
+    DEMAND_FORECAST.map(d=>{
+      const varColor = d.variance===null?'#6b7190':d.variance>0?'#22c55e':d.variance>-5?'#f59e0b':'#ef4444';
+      const trendIcon = d.trend==='up'?'▲':d.trend==='down'?'▼':d.trend==='flat'?'▬':'◆';
+      const trendColor = d.trend==='up'?'#22c55e':d.trend==='down'?'#ef4444':d.trend==='flat'?'#f59e0b':'#06b6d4';
+      return `<div class="dd-item" onclick="showDemandDetail('${d.model}');toggleDD('dd-demand')" style="padding:6px 10px;${d.isTotal?'border-top:2px solid #2a2e42;background:rgba(99,102,241,0.04)':''}">
+        <span style="color:${trendColor};font-size:10px;width:14px;text-align:center;flex-shrink:0">${trendIcon}</span>
+        <div style="flex:1;min-width:0">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span style="font-weight:${d.isTotal?'700':'500'};color:#e2e4ed;font-size:11px">${d.model}${d.evFlag?' ⚡':''}</span>
+            <span style="font-size:9px;color:#6b7190">${d.period}</span>
+          </div>
+          <div style="display:flex;gap:8px;font-size:9px;color:#6b7190;margin-top:1px">
+            <span>Fcst: <strong style="color:#e2e4ed">${d.forecast.toLocaleString()}</strong></span>
+            <span>Act: <strong style="color:${d.actual?'#e2e4ed':'#6b7190'}">${d.actual?d.actual.toLocaleString():'TBD'}</strong></span>
+            <span>Var: <strong style="color:${varColor}">${d.variance!==null?d.variance+'%':'—'}</strong></span>
+            <span>Dlr: ${d.dealerOrders.toLocaleString()}</span>
+            <span>${d.daysSupply?d.daysSupply+'d supply':'—'}</span>
+          </div>
+        </div>
+      </div>`;
+    }).join('') +
+    '<div style="padding:6px 12px;font-size:9px;color:#6b7190;border-top:1px solid #1e2133">MCP: axle_explode_bom, axle_get_production_summary | Gold: Supply_Chain_Risk + Vehicle_360 | Schema: SCML+BRML+AAML</div>';
+})();
+
+// ═══════════════════════ SUPPLIER & DEMAND DETAIL MODALS ═══════════════════════
+function showSupplierDetail(supId){
+  const s = SUPPLIERS.find(x=>x.id===supId);
+  if(!s) return;
+  const riskColor = s.risk==='Low'?'#22c55e':s.risk==='Medium'?'#f59e0b':'#ef4444';
+  const otdColor = s.otd>=95?'#22c55e':s.otd>=90?'#f59e0b':'#ef4444';
+  document.body.insertAdjacentHTML('beforeend', `
+    <div style="position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:10000;display:flex;align-items:center;justify-content:center" onclick="if(event.target===this)this.remove()" id="supplier-modal">
+      <div style="background:#12141e;border:1px solid #f97316;border-radius:12px;width:520px;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.6)">
+        <div style="padding:14px 18px;border-bottom:1px solid #2a2e42">
+          <div style="font-size:10px;color:#f97316;text-transform:uppercase;letter-spacing:1px;font-weight:700">SCML — Supplier Scorecard</div>
+          <div style="font-size:16px;font-weight:700;color:#e2e4ed">${s.name}</div>
+          <div style="font-size:11px;color:#9da3b8">${s.id} | ${s.tier} | ${s.category}</div>
+        </div>
+        <div style="padding:14px 18px">
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px">
+            <div style="background:#161822;border-radius:6px;padding:8px;text-align:center">
+              <div style="font-size:8px;color:#6b7190;text-transform:uppercase">OTD %</div>
+              <div style="font-size:18px;font-weight:700;color:${otdColor}">${s.otd}%</div>
+            </div>
+            <div style="background:#161822;border-radius:6px;padding:8px;text-align:center">
+              <div style="font-size:8px;color:#6b7190;text-transform:uppercase">DPPM</div>
+              <div style="font-size:18px;font-weight:700;color:${s.quality>100?'#ef4444':s.quality>50?'#f59e0b':'#22c55e'}">${s.quality}</div>
+            </div>
+            <div style="background:#161822;border-radius:6px;padding:8px;text-align:center">
+              <div style="font-size:8px;color:#6b7190;text-transform:uppercase">Risk Level</div>
+              <div style="font-size:16px;font-weight:700;color:${riskColor}">${s.risk}</div>
+            </div>
+            <div style="background:#161822;border-radius:6px;padding:8px;text-align:center">
+              <div style="font-size:8px;color:#6b7190;text-transform:uppercase">Annual Spend</div>
+              <div style="font-size:16px;font-weight:700;color:#e2e4ed">${s.spend}</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;font-size:10px;color:#9da3b8;margin-bottom:8px">
+            <span><strong>${s.parts}</strong> parts supplied</span>
+            <span>Plants: <strong>${s.plants.join(', ')}</strong></span>
+          </div>
+          ${s.singleSource?'<div style="padding:6px 8px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:6px;font-size:10px;color:#ef4444;margin-bottom:8px"><strong>⚠ SINGLE SOURCE RISK:</strong> No alternate supplier qualified. ORCH-05 Disruption War Room should evaluate alternate sourcing via axle_get_supplier_impact.</div>':''}
+          ${s.tariffRisk?'<div style="padding:6px 8px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:6px;font-size:10px;color:#f59e0b;margin-bottom:8px"><strong>⚠ TARIFF EXPOSURE:</strong> China-sourced material subject to 25%+ tariff. USMCA rules-of-origin impact on downstream BOMs. axle_explode_bom shows affected vehicle models.</div>':''}
+          <div style="padding:6px 8px;background:rgba(249,115,22,0.06);border:1px solid rgba(249,115,22,0.15);border-radius:6px;font-size:9px;color:#9da3b8">
+            <strong style="color:#f97316">Data Lineage:</strong> ERP (SAP) + EDI → axle-bronze-scml → SCML.Supplier + SCML.SupplierScorecard (SCD2) → axle-supply → ${s.mcp} → Supply_Chain_Risk Gold View<br>
+            <strong style="color:#f97316">Orchestration:</strong> ORCH-04 (Inventory Replenishment) | ORCH-05 (Disruption War Room)
+          </div>
+        </div>
+        <div style="padding:8px 18px;border-top:1px solid #2a2e42;display:flex;justify-content:flex-end">
+          <button onclick="document.getElementById('supplier-modal').remove()" style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);color:#ef4444;padding:4px 12px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:10px">Close</button>
+        </div>
+      </div>
+    </div>
+  `);
+}
+
+function showDemandDetail(modelName){
+  const d = DEMAND_FORECAST.find(x=>x.model===modelName);
+  if(!d) return;
+  const varColor = d.variance===null?'#6b7190':d.variance>0?'#22c55e':d.variance>-5?'#f59e0b':'#ef4444';
+  const fulfillPct = d.actual && d.forecast ? Math.round((d.actual/d.forecast)*100) : null;
+  document.body.insertAdjacentHTML('beforeend', `
+    <div style="position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:10000;display:flex;align-items:center;justify-content:center" onclick="if(event.target===this)this.remove()" id="demand-modal">
+      <div style="background:#12141e;border:1px solid #06b6d4;border-radius:12px;width:520px;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.6)">
+        <div style="padding:14px 18px;border-bottom:1px solid #2a2e42">
+          <div style="font-size:10px;color:#06b6d4;text-transform:uppercase;letter-spacing:1px;font-weight:700">Demand Forecast — ${d.period}</div>
+          <div style="font-size:16px;font-weight:700;color:#e2e4ed">${d.model}${d.evFlag?' ⚡':''}</div>
+          <div style="font-size:11px;color:#9da3b8">${d.isTotal?'Plant-wide aggregate':'Vehicle model forecast'}</div>
+        </div>
+        <div style="padding:14px 18px">
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px">
+            <div style="background:#161822;border-radius:6px;padding:8px;text-align:center">
+              <div style="font-size:8px;color:#6b7190;text-transform:uppercase">Forecast</div>
+              <div style="font-size:20px;font-weight:700;color:#e2e4ed">${d.forecast.toLocaleString()}</div>
+            </div>
+            <div style="background:#161822;border-radius:6px;padding:8px;text-align:center">
+              <div style="font-size:8px;color:#6b7190;text-transform:uppercase">Actual</div>
+              <div style="font-size:20px;font-weight:700;color:${d.actual?'#e2e4ed':'#6b7190'}">${d.actual?d.actual.toLocaleString():'TBD'}</div>
+            </div>
+            <div style="background:#161822;border-radius:6px;padding:8px;text-align:center">
+              <div style="font-size:8px;color:#6b7190;text-transform:uppercase">Variance</div>
+              <div style="font-size:20px;font-weight:700;color:${varColor}">${d.variance!==null?d.variance+'%':'—'}</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px">
+            <div style="background:#161822;border-radius:6px;padding:8px;text-align:center">
+              <div style="font-size:8px;color:#6b7190;text-transform:uppercase">Dealer Orders</div>
+              <div style="font-size:16px;font-weight:700;color:#38a7ea">${d.dealerOrders.toLocaleString()}</div>
+            </div>
+            <div style="background:#161822;border-radius:6px;padding:8px;text-align:center">
+              <div style="font-size:8px;color:#6b7190;text-transform:uppercase">Days Supply</div>
+              <div style="font-size:16px;font-weight:700;color:${d.daysSupply?d.daysSupply<30?'#ef4444':d.daysSupply>60?'#f59e0b':'#22c55e':'#6b7190'}">${d.daysSupply?d.daysSupply+'d':'—'}</div>
+            </div>
+          </div>
+          ${fulfillPct!==null?`<div style="margin-bottom:8px">
+            <div style="font-size:9px;color:#6b7190;margin-bottom:3px">Fulfillment Rate: <strong style="color:${fulfillPct>=95?'#22c55e':fulfillPct>=85?'#f59e0b':'#ef4444'}">${fulfillPct}%</strong></div>
+            <div style="height:10px;background:#1a1c2e;border-radius:5px;overflow:hidden">
+              <div style="height:100%;width:${Math.min(fulfillPct,100)}%;background:${fulfillPct>=95?'#22c55e':fulfillPct>=85?'#f59e0b':'#ef4444'};border-radius:5px"></div>
+            </div>
+          </div>`:''}
+          ${d.evFlag?'<div style="padding:6px 8px;background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.2);border-radius:6px;font-size:10px;color:#06b6d4;margin-bottom:8px"><strong>⚡ EV Model:</strong> Battery supply from LG Energy (single source). Demand sensing critical for BOM explosion + battery pack allocation. CVML.BatteryHealthRecord feeds warranty exposure forecast.</div>':''}
+          ${d.upcoming?'<div style="padding:6px 8px;background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.2);border-radius:6px;font-size:10px;color:#a78bfa;margin-bottom:8px"><strong>◆ UPCOMING LAUNCH:</strong> Pre-production. Dealer orders represent pre-orders. NPI simulation via DTML.SimulationScenario required for ramp planning.</div>':''}
+          <div style="padding:6px 8px;background:rgba(6,182,212,0.06);border:1px solid rgba(6,182,212,0.15);border-radius:6px;font-size:9px;color:#9da3b8">
+            <strong style="color:#06b6d4">Data Lineage:</strong> ERP (SAP) + Dealer DMS → axle-bronze-scml + axle-bronze-brml → SCML.BOMConfiguration + BRML.VehicleOrder → axle-supply → ${d.mcp} → Supply_Chain_Risk + Vehicle_360 Gold Views<br>
+            <strong style="color:#06b6d4">Schema:</strong> ${d.schema} | <strong>Entity:</strong> ${d.entity}
+          </div>
+        </div>
+        <div style="padding:8px 18px;border-top:1px solid #2a2e42;display:flex;justify-content:flex-end">
+          <button onclick="document.getElementById('demand-modal').remove()" style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);color:#ef4444;padding:4px 12px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:10px">Close</button>
+        </div>
+      </div>
+    </div>
+  `);
+}
+
+function selectEquipById(equipId){
+  setTimeout(()=>{
+    const card = document.querySelector('[data-equip="'+equipId+'"]');
+    if(card) selectEquipCard(card, equipId);
+  }, 300);
+}
+
+/* ========== ORCHESTRATION SIMULATION ========== */
+let orchActive = false;
+let orchTimeout = null;
+
+const ORCH_DEFS = {
+  'ORCH-01': {
+    name:'Production Throughput Recovery',
+    trigger:'OEE below threshold',
+    steps:[
+      {agent:'SA-FACTORY',action:'Identify bottleneck cell',tool:'axle_get_oee_current → axle_get_station_live',duration:2000},
+      {agent:'SA-MAINTENANCE',action:'Check equipment RUL on bottleneck',tool:'axle_get_equipment_health → axle_get_anomaly_history',duration:3000},
+      {agent:'SA-WORKFORCE',action:'Find qualified available worker',tool:'axle_match_worker_station',duration:2000},
+      {agent:'SA-SUPPLY',action:'Confirm parts availability',tool:'axle_get_inventory → axle_get_stockout_risk',duration:1500}
+    ],
+    selfHealAction:'Auto-rebalance line by shifting worker from adjacent station',
+    hitlGate:'Line stop authorization required',
+    hitlApprover:'Shift Lead + Plant Manager'
+  },
+  'ORCH-02': {
+    name:'Predictive Maintenance Intervention',
+    trigger:'Anomaly score exceeds threshold',
+    steps:[
+      {agent:'SA-MAINTENANCE',action:'Detect anomaly signature and match failure mode',tool:'axle_get_anomaly_history → axle_get_failure_modes',duration:2500},
+      {agent:'SA-MAINTENANCE',action:'Calculate remaining useful life (RUL)',tool:'axle_get_equipment_health',duration:2000},
+      {agent:'SA-SUPPLY',action:'Check spare parts stock',tool:'axle_get_inventory',duration:1500},
+      {agent:'SA-WORKFORCE',action:'Identify nearest qualified maintenance tech',tool:'axle_match_worker_station',duration:1500},
+      {agent:'SA-FACTORY',action:'Calculate throughput impact of downtime',tool:'axle_get_oee_current',duration:1000}
+    ],
+    selfHealAction:'Schedule preventive WO during next shift change (no production impact)',
+    hitlGate:'Emergency shutdown authorization',
+    hitlApprover:'Maintenance Supervisor'
+  },
+  'ORCH-03': {
+    name:'Quality Containment & Correction',
+    trigger:'Defect spike detected (SPC drift)',
+    steps:[
+      {agent:'SA-QUALITY',action:'Analyze defect pattern and search similar historical',tool:'axle_get_defect_summary → axle_search_similar_defects',duration:3000},
+      {agent:'SA-BUILD',action:'Trace affected VINs to station/shift/worker',tool:'axle_trace_vin → axle_get_parts_installed',duration:2500},
+      {agent:'SA-WORKFORCE',action:'Check worker training status for affected station',tool:'axle_get_training_gaps',duration:1500},
+      {agent:'SA-SUPPLY',action:'Identify causal supplier lot',tool:'axle_get_supplier → axle_get_supplier_impact',duration:2000}
+    ],
+    selfHealAction:'Auto-tighten SPC limits and trigger retraining for affected workers',
+    hitlGate:'Quality hold on production line',
+    hitlApprover:'Quality Director'
+  },
+  'ORCH-10': {
+    name:'Fleet Health Proactive Intervention',
+    trigger:'Battery SOH / DTC pattern threshold',
+    steps:[
+      {agent:'SA-FLEET',action:'Identify affected vehicles and fleet',tool:'axle_get_fleet_summary → axle_get_battery_health',duration:2000},
+      {agent:'SA-QUALITY',action:'Match DTC to known defect taxonomy',tool:'axle_search_similar_defects',duration:2500},
+      {agent:'SA-BUILD',action:'Trace to factory build conditions',tool:'axle_trace_vin',duration:2000},
+      {agent:'SA-FLEET',action:'Evaluate OTA fix availability',tool:'axle_get_ota_status',duration:1500}
+    ],
+    selfHealAction:'Push OTA software update to affected vehicles',
+    hitlGate:'OTA campaign release authorization',
+    hitlApprover:'OTA Manager + Quality Director'
+  }
+};
+
+const AREA_ORCH_MAP = {
+  stamping:'ORCH-01', body:'ORCH-01', paint:'ORCH-01', assembly:'ORCH-01',
+  quality:'ORCH-03', maintenance:'ORCH-02', warehouse:'ORCH-01',
+  shipping:'ORCH-01', charging:'ORCH-10', energy:'ORCH-01',
+  connected:'ORCH-10', admin:'ORCH-01'
+};
+
+function triggerOrchestration(areaId, equipId, metric) {
+  if(orchActive) return;
+  orchActive = true;
+
+  const orchId = AREA_ORCH_MAP[areaId] || 'ORCH-02';
+  const orch = ORCH_DEFS[orchId];
+  if(!orch) return;
+
+  const area = AREAS.find(a=>a.id===areaId);
+  const ticketId = 'TKT-' + Date.now().toString(36).toUpperCase();
+  const willSelfHeal = Math.random() > 0.4;
+
+  const panel = document.getElementById('orch-panel');
+  panel.style.display = 'block';
+
+  document.getElementById('orch-badge').textContent = orchId;
+  document.getElementById('orch-badge').style.background = 'rgba(239,68,68,0.15)';
+  document.getElementById('orch-title').textContent = orch.name;
+
+  // Start red blink on the 3D equipment
+  startAlertBlink(equipId);
+
+  // Find equipment details
+  const equipList = EQUIPMENT[areaId] || [];
+  const equipObj = equipList.find(e=>e.id===equipId);
+  const equipName = equipObj ? equipObj.name : equipId;
+  const equipType = equipObj ? equipObj.type : '';
+
+  document.getElementById('orch-status').innerHTML = `
+    <div style="padding:10px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);border-radius:8px;margin-bottom:10px;font-size:11px">
+      <div style="color:#ef4444;font-weight:700;font-size:12px;margin-bottom:6px">⚠ TRIGGER: ${orch.trigger}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px">
+        <div style="background:rgba(239,68,68,0.06);padding:6px 8px;border-radius:6px;border:1px solid rgba(239,68,68,0.15)">
+          <div style="font-size:8px;color:#6b7190;text-transform:uppercase;font-weight:700">Area</div>
+          <div style="color:#e2e4ed;font-weight:600">${area?area.name:areaId}</div>
+        </div>
+        <div style="background:rgba(239,68,68,0.06);padding:6px 8px;border-radius:6px;border:1px solid rgba(239,68,68,0.15)">
+          <div style="font-size:8px;color:#6b7190;text-transform:uppercase;font-weight:700">Schema</div>
+          <div style="color:${SCHEMA_COLORS_MAP[(area?area.schema:'').split('+')[0].trim()]||'#818cf8'};font-weight:600">${area?area.schema:''}</div>
+        </div>
+      </div>
+      <div style="background:rgba(239,68,68,0.1);padding:8px;border-radius:6px;border:1px solid rgba(239,68,68,0.2);margin-bottom:6px">
+        <div style="font-size:8px;color:#ef4444;text-transform:uppercase;font-weight:700;margin-bottom:2px">&#128308; Equipment (blinking red in 3D)</div>
+        <div style="font-size:14px;font-weight:700;color:#ff6666">${equipName}</div>
+        <div style="font-size:10px;color:#9da3b8">${equipId} | ${equipType}</div>
+      </div>
+      <div style="background:rgba(239,68,68,0.06);padding:6px 8px;border-radius:6px;border:1px solid rgba(239,68,68,0.15)">
+        <div style="font-size:8px;color:#6b7190;text-transform:uppercase;font-weight:700">Metric Breached</div>
+        <div style="color:#ef4444;font-weight:700;font-size:13px">${metric?metric.name:''}: <span style="font-size:16px">${metric?metric.value:''}</span> ${metric?metric.unit:''}</div>
+        <div style="font-size:9px;color:#6b7190;margin-top:2px">Threshold: ${metric&&metric.crit!==null?'critical at '+metric.crit+' '+metric.unit:'N/A'} | ${metric&&metric.warn!==null?'warning at '+metric.warn+' '+metric.unit:''}</div>
+      </div>
+    </div>
+  `;
+
+  let dagHtml = '<div style="font-size:10px;color:#6b7190;margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px">Orchestration DAG</div>';
+  orch.steps.forEach((step,i) => {
+    dagHtml += `<div class="dag-step" id="dag-step-${i}">
+      <div class="step-header">
+        <span class="step-agent">${step.agent}</span>
+        <span class="step-status" id="dag-status-${i}">PENDING</span>
+      </div>
+      <div class="step-detail">${step.action}</div>
+      <div class="step-tool">→ ${step.tool}</div>
+    </div>`;
+  });
+  document.getElementById('orch-dag').innerHTML = dagHtml;
+  document.getElementById('orch-hitl').style.display = 'none';
+  document.getElementById('orch-hitl').innerHTML = '';
+  document.getElementById('orch-ticket').innerHTML = '';
+
+  // Log orchestration trigger
+  logAuditEvent('ORCH_TRIGGER', 'AXLE-ORCH', {orchId, equipment:equipId+' ('+equipName+')', area:area?area.name:'', metric:metric?metric.name+'='+metric.value+metric.unit:'', ticketId});
+
+  let currentStep = 0;
+  function runNextStep(){
+    if(currentStep >= orch.steps.length){
+      if(willSelfHeal){
+        showSelfHealSuccess(orch, ticketId, areaId, metric);
+      } else {
+        logAuditEvent('HITL_GATE', orch.hitlApprover, {orchId, gate:orch.hitlGate, equipment:equipId, ticketId, status:'AWAITING_DECISION'});
+        showHITLGate(orch, ticketId, areaId, metric);
+      }
+      return;
+    }
+    const step = orch.steps[currentStep];
+    const stepEl = document.getElementById('dag-step-'+currentStep);
+    const statusEl = document.getElementById('dag-status-'+currentStep);
+    stepEl.className = 'dag-step active';
+    statusEl.className = 'step-status running';
+    statusEl.textContent = 'RUNNING...';
+
+    // Log agent call
+    logAuditEvent('AGENT_CALL', step.agent, {orchId, action:step.action, tool:step.tool, step:currentStep+1+'/'+orch.steps.length});
+
+    const dur = orch.steps[currentStep].duration / (timeScale || 1);
+    orchTimeout = setTimeout(()=>{
+      stepEl.className = 'dag-step success';
+      statusEl.className = 'step-status done';
+      statusEl.textContent = '✓ DONE';
+      // Log step completion
+      logAuditEvent('DAG_STEP', step.agent, {orchId, step:currentStep+1, result:'SUCCESS', tool:step.tool});
+      currentStep++;
+      runNextStep();
+    }, Math.max(dur, 500));
+  }
+  runNextStep();
+}
+
+function showSelfHealSuccess(orch, ticketId, areaId, metric) {
+  const healStep = document.createElement('div');
+  healStep.className = 'dag-step success';
+  healStep.innerHTML = `
+    <div class="step-header">
+      <span class="step-agent">AXLE-ORCH</span>
+      <span class="step-status done">✓ SELF-HEALED</span>
+    </div>
+    <div class="step-detail" style="color:#22c55e">${orch.selfHealAction}</div>
+    <div class="step-tool">→ Action executed autonomously (within approved bounds)</div>
+  `;
+  document.getElementById('orch-dag').appendChild(healStep);
+
+  if(metric && metric.crit !== null){
+    metric.value = metric.warn ? metric.warn * 0.85 : metric.value * 0.8;
+    metric.value = Math.round(metric.value * 100) / 100;
+  }
+
+  stopAlertBlink();
+  showTicket(ticketId, 'resolved', 'Self-healed by AXLE-ORCH. No human intervention required.', orch);
+  logAuditEvent('SELF_HEAL', orch.name, {ticketId, action:orch.selfHealAction, area:areaId});
+
+  setTimeout(()=>{ orchActive = false; }, 2000);
+}
+
+function showHITLGate(orch, ticketId, areaId, metric) {
+  const hitlDiv = document.getElementById('orch-hitl');
+  hitlDiv.style.display = 'block';
+  hitlDiv.innerHTML = `
+    <div class="hitl-box">
+      <div class="hitl-title">⚠ HUMAN-IN-THE-LOOP GATE</div>
+      <div class="hitl-context">
+        Self-healing could not resolve this issue autonomously.<br>
+        <strong>Gate:</strong> ${orch.hitlGate}<br>
+        <strong>Approver:</strong> ${orch.hitlApprover}<br>
+        <strong>Context:</strong> ${orch.selfHealAction} was attempted but conditions exceed autonomous authority bounds.
+      </div>
+      <div class="hitl-buttons">
+        <button class="hitl-btn hitl-approve" onclick="resolveHITL('approve','${ticketId}','${areaId}')">✓ Approve Action</button>
+        <button class="hitl-btn hitl-reject" onclick="resolveHITL('reject','${ticketId}','${areaId}')">✕ Reject</button>
+        <button class="hitl-btn hitl-escalate" onclick="resolveHITL('escalate','${ticketId}','${areaId}')">↑ Escalate to VP</button>
+      </div>
+    </div>
+  `;
+
+  showTicket(ticketId, 'pending', 'Awaiting HITL decision. Approver: ' + orch.hitlApprover, orch);
+}
+
+function resolveHITL(decision, ticketId, areaId) {
+  const hitlDiv = document.getElementById('orch-hitl');
+  stopAlertBlink();
+
+  if(decision === 'approve'){
+    hitlDiv.innerHTML = `<div class="dag-step success"><div class="step-header"><span class="step-agent">HITL GATE</span><span class="step-status done">✓ APPROVED</span></div><div class="step-detail" style="color:#22c55e">Action approved and executed. Metric recovering.</div></div>`;
+    const area = AREAS.find(a=>a.id===areaId);
+    if(area) area.kpis.forEach(k=>{ if(k.t && k.v < k.t*0.9) k.v = k.t * 0.95; });
+    updateTicketStatus(ticketId, 'resolved', 'Approved by HITL. Action executed successfully.');
+    logAuditEvent('HITL_APPROVE', 'Shift Lead', {ticketId, area:areaId, decision:'APPROVED', action:'Execute recommended action'});
+  } else if(decision === 'reject'){
+    hitlDiv.innerHTML = `<div class="dag-step failed"><div class="step-header"><span class="step-agent">HITL GATE</span><span class="step-status fail">✕ REJECTED</span></div><div class="step-detail" style="color:#ef4444">Action rejected. Manual intervention required.</div></div>`;
+    updateTicketStatus(ticketId, 'escalated', 'Rejected by HITL. Manual intervention required.');
+    logAuditEvent('HITL_REJECT', 'Shift Lead', {ticketId, area:areaId, decision:'REJECTED', reason:'Manual intervention preferred'});
+  } else {
+    hitlDiv.innerHTML = `<div class="dag-step waiting"><div class="step-header"><span class="step-agent">HITL GATE</span><span class="step-status wait">↑ ESCALATED</span></div><div class="step-detail" style="color:#f59e0b">Escalated to VP Manufacturing for decision.</div></div>`;
+    updateTicketStatus(ticketId, 'escalated', 'Escalated to VP Manufacturing.');
+    logAuditEvent('HITL_ESCALATE', 'Shift Lead', {ticketId, area:areaId, decision:'ESCALATED', target:'VP Manufacturing'});
+  }
+
+  orchActive = false;
+}
+
+function showTicket(ticketId, status, description, orch) {
+  const statusClass = status === 'resolved' ? 'resolved' : status === 'pending' ? 'pending' : 'escalated';
+  document.getElementById('orch-ticket').innerHTML = `
+    <div class="ticket-box">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span class="ticket-id">${ticketId}</span>
+        <span class="ticket-status ${statusClass}" id="ticket-${ticketId}-status">${status.toUpperCase()}</span>
+      </div>
+      <div style="color:#9da3b8;margin-bottom:4px">${description}</div>
+      <div style="color:#6b7190;font-size:9px">
+        Orchestration: ${orch.name} | Created: ${new Date().toLocaleTimeString()} |
+        <span style="color:#818cf8">Audit logged to Purview</span>
+      </div>
+    </div>
+  `;
+}
+
+function updateTicketStatus(ticketId, newStatus, newDesc) {
+  const statusEl = document.getElementById('ticket-'+ticketId+'-status');
+  if(statusEl){
+    statusEl.textContent = newStatus.toUpperCase();
+    statusEl.className = 'ticket-status ' + (newStatus==='resolved'?'resolved':newStatus==='pending'?'pending':'escalated');
+  }
+}
+
+function closeOrchPanel(){
+  document.getElementById('orch-panel').style.display = 'none';
+  orchActive = false;
+  if(orchTimeout) clearTimeout(orchTimeout);
+}
+
+function simulateIncident(){
+  if(orchActive) return;
+  const areaIds = Object.keys(EQUIPMENT);
+  const areaId = areaIds[Math.floor(Math.random()*areaIds.length)];
+  const equips = EQUIPMENT[areaId];
+  const eq = equips[Math.floor(Math.random()*equips.length)];
+  const m = eq.metrics[0];
+  if(m.crit !== null) m.value = m.crit * 1.05;
+  else m.value = m.max * 0.95;
+  eq.status = 'critical';
+  focusBuilding(areaId);
+  setTimeout(()=> triggerOrchestration(areaId, eq.id, m), 500);
+}
+
+/* ========== AUDIT & GOVERNANCE LOG ========== */
+const AUDIT_LOG = [];
+
+function logAuditEvent(type, actor, details){
+  AUDIT_LOG.unshift({
+    id: 'AUD-' + Date.now().toString(36).toUpperCase(),
+    timestamp: new Date().toISOString(),
+    timeDisplay: new Date().toLocaleTimeString(),
+    type: type,
+    actor: actor,
+    details: details || {},
+    purviewRef: 'PRV-' + Math.random().toString(36).substr(2,8).toUpperCase()
+  });
+  updateAuditBadge();
+  if(document.getElementById('audit-panel').style.display !== 'none') renderAuditLog();
+}
+
+function updateAuditBadge(){
+  const badge = document.getElementById('audit-count');
+  if(badge) badge.textContent = AUDIT_LOG.length;
+}
+
+function toggleAuditPanel(){
+  const panel = document.getElementById('audit-panel');
+  if(panel.style.display === 'none'){
+    panel.style.display = 'block';
+    renderAuditLog();
+  } else {
+    panel.style.display = 'none';
+  }
+}
+
+function renderAuditLog(){
+  const list = document.getElementById('audit-list');
+  if(!list) return;
+  const typeIcons = {
+    'ORCH_TRIGGER':'⚡','SELF_HEAL':'✓','HITL_APPROVE':'✓','HITL_REJECT':'✕','HITL_ESCALATE':'↑',
+    'HITL_GATE':'⚠','AGENT_CALL':'→','DA_RULE':'⚡','THRESHOLD':'⚠','ORCH_COMPLETE':'✓'
+  };
+  const typeColors = {
+    'ORCH_TRIGGER':'#ef4444','SELF_HEAL':'#22c55e','HITL_APPROVE':'#22c55e','HITL_REJECT':'#ef4444',
+    'HITL_ESCALATE':'#f59e0b','HITL_GATE':'#f59e0b','AGENT_CALL':'#818cf8','DA_RULE':'#ef4444',
+    'THRESHOLD':'#f59e0b','ORCH_COMPLETE':'#22c55e'
+  };
+  list.innerHTML = AUDIT_LOG.map(a=>{
+    const icon = typeIcons[a.type]||'•';
+    const color = typeColors[a.type]||'#9da3b8';
+    const detailStr = Object.entries(a.details).map(([k,v])=>`<span style="color:#6b7190">${k}:</span> <span style="color:#9da3b8">${v}</span>`).join(' | ');
+    return `<div style="padding:8px 10px;border-bottom:1px solid #1e2133;font-size:10px;display:flex;gap:8px;align-items:flex-start">
+      <span style="font-size:12px;color:${color};flex-shrink:0;width:16px;text-align:center">${icon}</span>
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;gap:6px;align-items:center;margin-bottom:2px">
+          <span style="font-weight:700;color:${color};text-transform:uppercase;font-size:9px;letter-spacing:0.3px">${a.type.replace(/_/g,' ')}</span>
+          <span style="color:#6b7190;font-size:9px">${a.timeDisplay}</span>
+          <span style="color:#6b7190;font-size:8px;font-family:monospace">${a.id}</span>
+        </div>
+        <div style="color:#e2e4ed;font-size:10px;margin-bottom:2px">Actor: <strong>${a.actor}</strong></div>
+        <div style="font-size:9px;line-height:1.4">${detailStr}</div>
+        <div style="font-size:8px;color:#818cf8;margin-top:2px">Purview: ${a.purviewRef}</div>
+      </div>
+    </div>`;
+  }).join('') || '<div style="padding:20px;text-align:center;color:#6b7190;font-size:11px">No events yet. Trigger an incident to see audit entries.</div>';
+}
+
+// Also log DAG step completions
+const _origRunNextStep = null; // patched via triggerOrchestration
+
+let auditFilter = 'ALL';
+
+function filterAudit(type){
+  auditFilter = type;
+  renderAuditLog();
+}
+
+function renderAuditLog(){
+  const list = document.getElementById('audit-list');
+  if(!list) return;
+  const typeIcons = {
+    'ORCH_TRIGGER':'⚡','SELF_HEAL':'✓','HITL_APPROVE':'✓','HITL_REJECT':'✕','HITL_ESCALATE':'↑',
+    'HITL_GATE':'⚠','AGENT_CALL':'→','DA_RULE':'⚡','THRESHOLD':'⚠','ORCH_COMPLETE':'✓','DAG_STEP':'→'
+  };
+  const typeColors = {
+    'ORCH_TRIGGER':'#ef4444','SELF_HEAL':'#22c55e','HITL_APPROVE':'#22c55e','HITL_REJECT':'#ef4444',
+    'HITL_ESCALATE':'#f59e0b','HITL_GATE':'#f59e0b','AGENT_CALL':'#818cf8','DA_RULE':'#ef4444',
+    'THRESHOLD':'#f59e0b','ORCH_COMPLETE':'#22c55e','DAG_STEP':'#818cf8'
+  };
+  let filtered = AUDIT_LOG;
+  if(auditFilter !== 'ALL'){
+    filtered = AUDIT_LOG.filter(a=>a.type.includes(auditFilter));
+  }
+  list.innerHTML = filtered.map(a=>{
+    const icon = typeIcons[a.type]||'•';
+    const color = typeColors[a.type]||'#9da3b8';
+    const detailStr = Object.entries(a.details).map(([k,v])=>`<span style="color:#6b7190">${k}:</span> <span style="color:#9da3b8">${v}</span>`).join(' | ');
+    return `<div style="padding:8px 10px;border-bottom:1px solid #1e2133;font-size:10px;display:flex;gap:8px;align-items:flex-start">
+      <span style="font-size:12px;color:${color};flex-shrink:0;width:16px;text-align:center">${icon}</span>
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;gap:6px;align-items:center;margin-bottom:2px;flex-wrap:wrap">
+          <span style="font-weight:700;color:${color};text-transform:uppercase;font-size:9px;letter-spacing:0.3px">${a.type.replace(/_/g,' ')}</span>
+          <span style="color:#6b7190;font-size:9px">${a.timeDisplay}</span>
+          <span style="color:#6b7190;font-size:8px;font-family:monospace">${a.id}</span>
+        </div>
+        <div style="color:#e2e4ed;font-size:10px;margin-bottom:2px">Actor: <strong>${a.actor}</strong></div>
+        <div style="font-size:9px;line-height:1.4">${detailStr}</div>
+        <div style="font-size:8px;color:#818cf8;margin-top:2px">Purview: ${a.purviewRef}</div>
+      </div>
+    </div>`;
+  }).join('') || '<div style="padding:20px;text-align:center;color:#6b7190;font-size:11px">No matching events.</div>';
+}
+
+/* ========== RESIZE ========== */
+window.addEventListener('resize', ()=>{
+  W = container.clientWidth;
+  H = container.clientHeight;
+  camera.aspect = W / H;
+  camera.updateProjectionMatrix();
+  renderer.setSize(W, H);
+});
+
+/* ========== START ========== */
+animate(0);
+</script>
+</body>
+</html>

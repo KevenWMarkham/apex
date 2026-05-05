@@ -1,0 +1,19 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: schema
+schema_code: AMML-ICE
+name: Asset Mgmt for ICE Lineage
+description: Asset Mgmt for ICE Lineage canonical schema family. Bronze to Silver
+  to Gold pipeline scope; consumed by APEX agents/services across ICE.
+practices:
+- ice
+primary_entities:
+- Asset
+- WorkOrder
+- Spare
+- Telemetry
+standards_alignment:
+- ISO 14224
+- ISO 55000
+governance_classification: operations
+appendix_a_section: Appendix A — Schema family AMML-ICE
+package_implementation: apex-amml-ice

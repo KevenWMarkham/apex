@@ -1,0 +1,11 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: product
+product_id: ms.azure.network.private
+family: azure-network
+display_name: Azure Private Endpoints + Private Link
+sku_or_tier: feature
+description: Network isolation for Fabric / Foundry / Purview.
+list_price_basis: per-endpoint/month
+typical_use: Regulated workload network isolation
+apex_role: Sprint 14 isolation pattern
+appendix_g_section: Appendix G — azure-network

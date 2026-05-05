@@ -1,0 +1,40 @@
+kind: service
+service_code: AXLE-Ops-03
+version: 0.1.0
+practice: axle
+display_name: Plant Energy Optimization
+brief: "Plant energy-consumption optimization across compressed air, lighting, HVAC against production schedule."
+description: >
+  Plant Energy Manager service. Reduces $/unit energy cost; supports ESG reporting.
+
+personas:
+  - { name: "Plant Energy Manager", role: primary }
+  - { name: "Chief Sustainability Officer", role: secondary }
+  - { name: "Plant Manager", role: secondary }
+
+kpis:
+  - name: "energy cost per unit"
+    direction: money
+    wave2_target: "$2.5M/yr typical 8-plant deployment"
+
+waves:
+  - wave: wave_1
+    duration: "4-6 weeks"
+    fee_band_low_usd: 250000
+    fee_band_high_usd: 700000
+  - wave: wave_2
+    duration: "6-9 months"
+    fee_band_low_usd: 2000000
+    fee_band_high_usd: 6500000
+
+commercial_model: value_share
+value_share_eligible: true
+
+linked_agents:
+  - apex.axle.agents.energy-optimization
+
+linked_archetypes:
+  - F3-predictive-trigger-workflow-aware
+
+schemas_touched: [AAML]
+primary_contact: axle-practice-lead@deloitte.com

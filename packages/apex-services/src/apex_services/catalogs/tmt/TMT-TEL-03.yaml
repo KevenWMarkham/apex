@@ -1,0 +1,42 @@
+kind: service
+service_code: TMT-TEL-03
+version: 0.1.0
+practice: tmt
+display_name: Billing Dispute Automation
+brief: "Billing-dispute triage into auto-resolve / examiner / escalate lanes."
+description: >
+  TEL billing service. Reduces dispute cycle time + examiner workload while preserving examiner review on high-dollar.
+
+personas:
+  - { name: "Billing Operations Lead", role: primary }
+  - { name: "Customer Operations VP", role: secondary }
+
+kpis:
+  - name: "dispute cycle time"
+    direction: down
+    wave2_target: "-40 to -60%"
+  - name: "auto-resolve rate"
+    direction: up
+    wave2_target: "+25-40 pp"
+
+waves:
+  - wave: wave_1
+    duration: "4-8 weeks"
+    fee_band_low_usd: 350000
+    fee_band_high_usd: 1000000
+  - wave: wave_2
+    duration: "9-12 months"
+    fee_band_low_usd: 3500000
+    fee_band_high_usd: 12000000
+
+commercial_model: fixed_fee
+value_share_eligible: false
+
+linked_agents:
+  - apex.tmt.agents.billing-dispute
+
+linked_archetypes:
+  - F2-event-cluster-pattern-match
+
+schemas_touched: [BSSML]
+primary_contact: tmt-practice-lead@deloitte.com

@@ -1,0 +1,18 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: archetype
+archetype_id: arch.recovery.003
+family: recovery
+name: Service Recovery
+description: Compose customer service-recovery offers from prior preferences + tier
+  value.
+canonical_inputs:
+- ServiceEvent
+- TravelerProfile
+canonical_outputs:
+- RecoveryOfferSet
+typical_hitl_gate: CSR approves offer
+typical_oversight: HITL
+typical_model_tier: standard
+example_agents:
+- apex.th.agents.loyalty-personalization
+appendix_d_section: Appendix D — Archetype family recovery

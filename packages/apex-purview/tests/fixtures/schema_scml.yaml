@@ -1,0 +1,35 @@
+kind: schema
+name: scml
+version: 1.0.0
+owner: rc-practice-lead
+practice: rc
+description: Supply Chain Markup Language — canonical entities for RC supply chain.
+family: scml
+standards: [GS1, EPCIS, GDSN]
+entities:
+  - name: sku
+    natural_key: [sku_natural]
+    surrogate_key: sku_key
+    scd2: true
+    classification: internal
+    attributes:
+      - name: sku_key
+        data_type: string
+        nullable: false
+        description: Surrogate UUID.
+      - name: sku_natural
+        data_type: string
+        nullable: false
+      - name: sku_status
+        data_type: string
+        nullable: false
+        enum: [ACTIVE, INACTIVE, DISCONTINUED]
+      - name: unit_cost_token
+        data_type: string
+        nullable: true
+        classification: trade_secret
+        description: Tokenised supplier-confidential unit cost.
+    relationships:
+      - name: supplier
+        target_entity: supplier
+        cardinality: N:1

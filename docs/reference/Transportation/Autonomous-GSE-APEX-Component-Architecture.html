@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autonomous GSE · APEX Component Architecture (Top-Down) | DMTSP</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f172a;
+  --surface: #1e293b;
+  --surface-2: #334155;
+  --surface-3: #475569;
+  --border: #475569;
+  --azure: #0078D4;
+  --azure-light: #50e6ff;
+  --teal: #008272;
+  --teal-light: #00B294;
+  --green: #86BC25;
+  --amber: #f59e0b;
+  --red: #ef4444;
+  --purple: #7B4BC4;
+  --fabric: #B23CD0;
+  --pink: #ec4899;
+  --cyan: #22d3ee;
+  --power-orange: #F2B600;
+  --power-yellow: #F2C811;
+  --d365-pink: #E74694;
+  --copilot: #2B88D8;
+  --defender: #4CAF50;
+  --purview: #C77FFF;
+  --text: #f1f5f9;
+  --text-2: #94a3b8;
+  --text-3: #64748b;
+  --white: #ffffff;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  padding: 32px 48px;
+  min-height: 100vh;
+}
+
+.brand {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 16px;
+}
+.brand-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.brand-name {
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--azure);
+  letter-spacing: 1.5px;
+}
+.title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.5px;
+  margin-top: 4px;
+}
+.subtitle {
+  font-size: 14px;
+  color: var(--text-2);
+  font-weight: 500;
+}
+.brand-right {
+  text-align: right;
+  font-size: 12px;
+  color: var(--text-3);
+  line-height: 1.6;
+}
+.brand-right strong { color: var(--text-2); }
+
+/* Architecture container */
+.architecture {
+  display: grid;
+  grid-template-columns: 1fr 240px;
+  gap: 16px;
+  margin-top: 16px;
+}
+.layers { display: flex; flex-direction: column; gap: 10px; }
+.crosscut { display: flex; flex-direction: column; gap: 10px; }
+
+/* Layer */
+.layer {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  position: relative;
+}
+.layer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.layer-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.layer-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  font-family: 'Outfit', sans-serif;
+}
+.layer-desc {
+  font-size: 11px;
+  color: var(--text-2);
+  font-style: italic;
+}
+
+/* Layer accents */
+.layer.l7 .layer-tag { background: var(--copilot); color: white; }
+.layer.l7 { border-left: 4px solid var(--copilot); }
+.layer.l6 .layer-tag { background: var(--azure); color: white; }
+.layer.l6 { border-left: 4px solid var(--azure); }
+.layer.l5 .layer-tag { background: var(--teal); color: white; }
+.layer.l5 { border-left: 4px solid var(--teal); }
+.layer.l4 .layer-tag { background: var(--fabric); color: white; }
+.layer.l4 { border-left: 4px solid var(--fabric); }
+.layer.l3 .layer-tag { background: var(--purple); color: white; }
+.layer.l3 { border-left: 4px solid var(--purple); }
+.layer.l2 .layer-tag { background: var(--green); color: var(--bg); }
+.layer.l2 { border-left: 4px solid var(--green); }
+.layer.l1 .layer-tag { background: var(--amber); color: var(--bg); }
+.layer.l1 { border-left: 4px solid var(--amber); }
+
+/* Component cards */
+.components {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
+}
+.component {
+  background: var(--surface-2);
+  border: 1px solid var(--surface-3);
+  border-radius: 8px;
+  padding: 10px 10px 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: transform 0.15s, border-color 0.15s;
+}
+.component:hover {
+  transform: translateY(-1px);
+  border-color: var(--azure-light);
+}
+.component .icon {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+}
+.component .body {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+  min-width: 0;
+}
+.component .name {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: 0.1px;
+}
+.component .role {
+  font-size: 10px;
+  color: var(--text-2);
+  margin-top: 2px;
+  letter-spacing: 0.1px;
+}
+.component .gse-tag {
+  font-size: 9px;
+  color: var(--amber);
+  margin-top: 2px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+/* Cross-cutting band */
+.cc-header {
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-2);
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.cc-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--cyan);
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.cc-card .icon { width: 28px; height: 28px; flex-shrink: 0; }
+.cc-card .name { font-size: 12px; font-weight: 700; color: var(--white); }
+.cc-card .role { font-size: 10px; color: var(--text-2); margin-top: 2px; }
+.cc-card.cc-identity { border-left-color: var(--azure); }
+.cc-card.cc-purview { border-left-color: var(--purview); }
+.cc-card.cc-monitor { border-left-color: var(--power-orange); }
+.cc-card.cc-defender { border-left-color: var(--defender); }
+
+/* Flow arrow between layers */
+.flow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 16px;
+  position: relative;
+}
+.flow::before {
+  content: '';
+  width: 2px;
+  height: 16px;
+  background: linear-gradient(to bottom, var(--azure), var(--teal));
+  opacity: 0.5;
+}
+.flow::after {
+  content: '↕';
+  position: absolute;
+  font-size: 14px;
+  color: var(--text-3);
+  background: var(--bg);
+  padding: 0 8px;
+}
+
+/* Footer with legend */
+.legend {
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 32px;
+  font-size: 12px;
+}
+.legend h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 10px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.legend-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.legend-list li { color: var(--text-2); padding-left: 16px; position: relative; }
+.legend-list li::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--azure);
+  position: absolute;
+  left: 0; top: 6px;
+}
+.legend-list li.gse::before { background: var(--amber); }
+.legend-list li.cc::before { background: var(--cyan); }
+
+.foot {
+  margin-top: 16px;
+  font-size: 10px;
+  color: var(--text-3);
+  text-align: center;
+  font-style: italic;
+}
+</style>
+</head>
+<body>
+
+<!-- ====================== SVG ICON DEFINITIONS ====================== -->
+<svg width="0" height="0" style="position:absolute;display:none;">
+  <defs>
+
+    <!-- Generic Azure cube gradient -->
+    <linearGradient id="g-azure" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#50e6ff"/>
+      <stop offset="100%" stop-color="#0078D4"/>
+    </linearGradient>
+    <linearGradient id="g-teal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00B294"/>
+      <stop offset="100%" stop-color="#008272"/>
+    </linearGradient>
+    <linearGradient id="g-fabric" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D45BFA"/>
+      <stop offset="100%" stop-color="#7B2CBF"/>
+    </linearGradient>
+    <linearGradient id="g-purple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9B6FE0"/>
+      <stop offset="100%" stop-color="#5C2D91"/>
+    </linearGradient>
+    <linearGradient id="g-power" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F7C93A"/>
+      <stop offset="100%" stop-color="#D7A302"/>
+    </linearGradient>
+    <linearGradient id="g-d365" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF80B4"/>
+      <stop offset="100%" stop-color="#C2185B"/>
+    </linearGradient>
+    <linearGradient id="g-amber" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFC857"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+
+    <!-- Microsoft Copilot (sparkle/ribbon) -->
+    <symbol id="ico-copilot" viewBox="0 0 32 32">
+      <path d="M16 4 L20 12 L28 16 L20 20 L16 28 L12 20 L4 16 L12 12 Z" fill="url(#g-azure)" stroke="#50e6ff" stroke-width="0.5"/>
+      <circle cx="16" cy="16" r="3" fill="#fff" opacity="0.4"/>
+    </symbol>
+
+    <!-- Power Apps (puzzle-like badge) -->
+    <symbol id="ico-powerapps" viewBox="0 0 32 32">
+      <path d="M6 8 L20 6 L26 14 L24 26 L10 28 L4 20 Z" fill="url(#g-power)"/>
+      <path d="M14 14 h6 v8 h-6 z" fill="#fff" opacity="0.85"/>
+      <circle cx="11" cy="13" r="2.5" fill="#fff" opacity="0.85"/>
+    </symbol>
+
+    <!-- Power BI bars -->
+    <symbol id="ico-powerbi" viewBox="0 0 32 32">
+      <rect x="4" y="20" width="6" height="8" rx="1" fill="url(#g-power)"/>
+      <rect x="13" y="14" width="6" height="14" rx="1" fill="url(#g-power)"/>
+      <rect x="22" y="6" width="6" height="22" rx="1" fill="url(#g-power)"/>
+    </symbol>
+
+    <!-- Microsoft Teams -->
+    <symbol id="ico-teams" viewBox="0 0 32 32">
+      <rect x="4" y="6" width="20" height="20" rx="2" fill="url(#g-purple)"/>
+      <text x="14" y="22" font-family="Outfit, sans-serif" font-size="14" font-weight="800" text-anchor="middle" fill="#fff">T</text>
+      <circle cx="26" cy="14" r="5" fill="url(#g-purple)" opacity="0.7"/>
+    </symbol>
+
+    <!-- D365 Field Service -->
+    <symbol id="ico-fieldservice" viewBox="0 0 32 32">
+      <circle cx="16" cy="16" r="11" fill="url(#g-d365)"/>
+      <path d="M11 15 l3 3 6-6" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="16" cy="16" r="11" fill="none" stroke="#fff" stroke-width="0.8" opacity="0.4"/>
+    </symbol>
+
+    <!-- Power Pages -->
+    <symbol id="ico-powerpages" viewBox="0 0 32 32">
+      <rect x="4" y="6" width="24" height="20" rx="2" fill="url(#g-power)"/>
+      <rect x="6" y="11" width="20" height="2" fill="#fff" opacity="0.85"/>
+      <rect x="6" y="15" width="14" height="1.5" fill="#fff" opacity="0.85"/>
+      <rect x="6" y="18" width="16" height="1.5" fill="#fff" opacity="0.85"/>
+      <rect x="6" y="21" width="10" height="1.5" fill="#fff" opacity="0.85"/>
+    </symbol>
+
+    <!-- Azure AI Agent Service (gear+brain) -->
+    <symbol id="ico-aiagent" viewBox="0 0 32 32">
+      <circle cx="16" cy="16" r="10" fill="url(#g-azure)"/>
+      <path d="M16 8 v3 M16 21 v3 M8 16 h3 M21 16 h3 M10.3 10.3 l2.1 2.1 M19.6 19.6 l2.1 2.1 M10.3 21.7 l2.1-2.1 M19.6 12.4 l2.1-2.1" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
+      <circle cx="16" cy="16" r="4" fill="#fff" opacity="0.85"/>
+    </symbol>
+
+    <!-- Logic Apps -->
+    <symbol id="ico-logicapps" viewBox="0 0 32 32">
+      <path d="M6 8 L26 8 L22 16 L26 24 L6 24 L10 16 Z" fill="url(#g-azure)"/>
+      <circle cx="11" cy="16" r="2" fill="#fff"/>
+      <circle cx="21" cy="16" r="2" fill="#fff"/>
+      <line x1="13" y1="16" x2="19" y2="16" stroke="#fff" stroke-width="1.4"/>
+    </symbol>
+
+    <!-- Azure Functions (lightning) -->
+    <symbol id="ico-functions" viewBox="0 0 32 32">
+      <path d="M18 4 L8 18 L15 18 L13 28 L24 13 L17 13 L18 4 Z" fill="url(#g-azure)"/>
+    </symbol>
+
+    <!-- Azure AI Foundry -->
+    <symbol id="ico-foundry" viewBox="0 0 32 32">
+      <circle cx="16" cy="16" r="12" fill="url(#g-teal)"/>
+      <path d="M16 8 a4 4 0 0 1 4 4 a4 4 0 0 1-4 4 a4 4 0 0 0-4 4 a4 4 0 0 0 4 4" stroke="#fff" stroke-width="1.8" fill="none"/>
+      <circle cx="16" cy="12" r="1.5" fill="#fff"/>
+      <circle cx="16" cy="20" r="1.5" fill="#fff"/>
+    </symbol>
+
+    <!-- Azure OpenAI -->
+    <symbol id="ico-openai" viewBox="0 0 32 32">
+      <circle cx="16" cy="16" r="11" fill="url(#g-teal)"/>
+      <path d="M11 13 q5-5 10 0 q5 5 0 10 q-5 5-10 0 q-5-5 0-10 z" stroke="#fff" stroke-width="1.4" fill="none"/>
+      <circle cx="16" cy="16" r="2" fill="#fff"/>
+    </symbol>
+
+    <!-- Azure AI Search -->
+    <symbol id="ico-aisearch" viewBox="0 0 32 32">
+      <circle cx="13" cy="13" r="7" fill="none" stroke="url(#g-azure)" stroke-width="3"/>
+      <line x1="18" y1="18" x2="26" y2="26" stroke="url(#g-azure)" stroke-width="3" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- Azure ML -->
+    <symbol id="ico-ml" viewBox="0 0 32 32">
+      <circle cx="8" cy="10" r="3" fill="url(#g-azure)"/>
+      <circle cx="8" cy="22" r="3" fill="url(#g-azure)"/>
+      <circle cx="20" cy="16" r="3" fill="url(#g-azure)"/>
+      <circle cx="28" cy="10" r="2" fill="url(#g-teal)"/>
+      <circle cx="28" cy="22" r="2" fill="url(#g-teal)"/>
+      <line x1="11" y1="11" x2="17" y2="15" stroke="#94a3b8" stroke-width="1.2"/>
+      <line x1="11" y1="21" x2="17" y2="17" stroke="#94a3b8" stroke-width="1.2"/>
+      <line x1="23" y1="15" x2="26" y2="11" stroke="#94a3b8" stroke-width="1.2"/>
+      <line x1="23" y1="17" x2="26" y2="21" stroke="#94a3b8" stroke-width="1.2"/>
+    </symbol>
+
+    <!-- Microsoft Fabric -->
+    <symbol id="ico-fabric" viewBox="0 0 32 32">
+      <path d="M16 4 L26 10 L26 22 L16 28 L6 22 L6 10 Z" fill="url(#g-fabric)"/>
+      <path d="M16 10 L22 13 L22 19 L16 22 L10 19 L10 13 Z" fill="#fff" opacity="0.4"/>
+    </symbol>
+
+    <!-- OneLake -->
+    <symbol id="ico-onelake" viewBox="0 0 32 32">
+      <ellipse cx="16" cy="10" rx="11" ry="3.5" fill="url(#g-fabric)"/>
+      <path d="M5 10 v12 a11 3.5 0 0 0 22 0 v-12" fill="url(#g-fabric)" opacity="0.6"/>
+      <ellipse cx="16" cy="22" rx="11" ry="3.5" fill="none" stroke="#fff" stroke-width="0.8" opacity="0.5"/>
+    </symbol>
+
+    <!-- Azure Data Explorer -->
+    <symbol id="ico-adx" viewBox="0 0 32 32">
+      <rect x="6" y="6" width="20" height="20" rx="2" fill="url(#g-azure)"/>
+      <path d="M10 22 L14 14 L18 18 L22 10" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="10" cy="22" r="1.5" fill="#fff"/>
+      <circle cx="14" cy="14" r="1.5" fill="#fff"/>
+      <circle cx="18" cy="18" r="1.5" fill="#fff"/>
+      <circle cx="22" cy="10" r="1.5" fill="#fff"/>
+    </symbol>
+
+    <!-- Azure Blob Storage -->
+    <symbol id="ico-blob" viewBox="0 0 32 32">
+      <rect x="4" y="10" width="24" height="14" rx="2" fill="url(#g-azure)"/>
+      <ellipse cx="16" cy="10" rx="12" ry="3" fill="url(#g-azure)" stroke="#50e6ff" stroke-width="0.6"/>
+      <ellipse cx="16" cy="10" rx="6" ry="1.5" fill="#fff" opacity="0.5"/>
+    </symbol>
+
+    <!-- Cosmos DB -->
+    <symbol id="ico-cosmos" viewBox="0 0 32 32">
+      <circle cx="16" cy="16" r="12" fill="none" stroke="url(#g-azure)" stroke-width="2"/>
+      <ellipse cx="16" cy="16" rx="12" ry="5" fill="none" stroke="url(#g-azure)" stroke-width="2"/>
+      <ellipse cx="16" cy="16" rx="5" ry="12" fill="none" stroke="url(#g-azure)" stroke-width="2"/>
+      <circle cx="16" cy="16" r="2.5" fill="#50e6ff"/>
+    </symbol>
+
+    <!-- Event Hubs -->
+    <symbol id="ico-eventhubs" viewBox="0 0 32 32">
+      <circle cx="16" cy="16" r="3" fill="url(#g-azure)"/>
+      <circle cx="16" cy="16" r="7" fill="none" stroke="url(#g-azure)" stroke-width="1.6" opacity="0.7"/>
+      <circle cx="16" cy="16" r="11" fill="none" stroke="url(#g-azure)" stroke-width="1.4" opacity="0.4"/>
+      <circle cx="16" cy="16" r="14" fill="none" stroke="url(#g-azure)" stroke-width="1.2" opacity="0.2"/>
+    </symbol>
+
+    <!-- IoT Hub -->
+    <symbol id="ico-iothub" viewBox="0 0 32 32">
+      <rect x="11" y="11" width="10" height="10" rx="1" fill="url(#g-azure)"/>
+      <circle cx="6" cy="6" r="2" fill="url(#g-azure)"/>
+      <circle cx="26" cy="6" r="2" fill="url(#g-azure)"/>
+      <circle cx="6" cy="26" r="2" fill="url(#g-azure)"/>
+      <circle cx="26" cy="26" r="2" fill="url(#g-azure)"/>
+      <line x1="8" y1="8" x2="11" y2="11" stroke="#94a3b8" stroke-width="1"/>
+      <line x1="24" y1="8" x2="21" y2="11" stroke="#94a3b8" stroke-width="1"/>
+      <line x1="8" y1="24" x2="11" y2="21" stroke="#94a3b8" stroke-width="1"/>
+      <line x1="24" y1="24" x2="21" y2="21" stroke="#94a3b8" stroke-width="1"/>
+    </symbol>
+
+    <!-- IoT Edge -->
+    <symbol id="ico-iotedge" viewBox="0 0 32 32">
+      <rect x="6" y="10" width="20" height="14" rx="2" fill="url(#g-azure)"/>
+      <rect x="9" y="13" width="4" height="3" rx="0.5" fill="#fff" opacity="0.85"/>
+      <rect x="14" y="13" width="4" height="3" rx="0.5" fill="#fff" opacity="0.85"/>
+      <rect x="19" y="13" width="4" height="3" rx="0.5" fill="#fff" opacity="0.85"/>
+      <rect x="9" y="18" width="14" height="3" rx="0.5" fill="#fff" opacity="0.5"/>
+      <circle cx="16" cy="6" r="2" fill="url(#g-azure)"/>
+    </symbol>
+
+    <!-- Data Factory -->
+    <symbol id="ico-adf" viewBox="0 0 32 32">
+      <rect x="4" y="13" width="9" height="9" rx="1" fill="url(#g-azure)"/>
+      <rect x="19" y="13" width="9" height="9" rx="1" fill="url(#g-azure)"/>
+      <path d="M13 17.5 L19 17.5" stroke="#94a3b8" stroke-width="1.6"/>
+      <polygon points="17,16 19,17.5 17,19" fill="#94a3b8"/>
+      <circle cx="16" cy="8" r="2" fill="url(#g-teal)"/>
+      <line x1="16" y1="10" x2="16" y2="13" stroke="#94a3b8" stroke-width="1"/>
+    </symbol>
+
+    <!-- API Management -->
+    <symbol id="ico-apim" viewBox="0 0 32 32">
+      <rect x="6" y="6" width="20" height="20" rx="2" fill="url(#g-azure)"/>
+      <text x="16" y="22" font-family="Outfit, sans-serif" font-size="11" font-weight="800" text-anchor="middle" fill="#fff" letter-spacing="-0.5">API</text>
+      <rect x="6" y="6" width="20" height="6" rx="1" fill="#fff" opacity="0.18"/>
+    </symbol>
+
+    <!-- Synapse / OneLake link -->
+    <symbol id="ico-synapse" viewBox="0 0 32 32">
+      <circle cx="16" cy="16" r="12" fill="url(#g-fabric)"/>
+      <path d="M16 6 a10 10 0 0 1 0 20" stroke="#fff" stroke-width="1.6" fill="none"/>
+      <circle cx="16" cy="6" r="2" fill="#fff"/>
+      <circle cx="16" cy="26" r="2" fill="#fff"/>
+    </symbol>
+
+    <!-- Generic device / vehicle -->
+    <symbol id="ico-vehicle" viewBox="0 0 32 32">
+      <rect x="4" y="14" width="24" height="10" rx="2" fill="url(#g-amber)"/>
+      <rect x="8" y="9" width="16" height="6" rx="1" fill="url(#g-amber)" opacity="0.85"/>
+      <circle cx="10" cy="25" r="2.5" fill="#1e293b" stroke="#FFC857" stroke-width="1.4"/>
+      <circle cx="22" cy="25" r="2.5" fill="#1e293b" stroke="#FFC857" stroke-width="1.4"/>
+      <rect x="11" y="11" width="3" height="3" fill="#1e293b" opacity="0.8"/>
+      <rect x="18" y="11" width="3" height="3" fill="#1e293b" opacity="0.8"/>
+    </symbol>
+
+    <!-- Sensor / radar -->
+    <symbol id="ico-sensor" viewBox="0 0 32 32">
+      <circle cx="16" cy="16" r="3" fill="url(#g-amber)"/>
+      <path d="M16 16 m-7 0 a7 7 0 0 1 14 0" stroke="url(#g-amber)" stroke-width="1.6" fill="none"/>
+      <path d="M16 16 m-11 0 a11 11 0 0 1 22 0" stroke="url(#g-amber)" stroke-width="1.4" fill="none" opacity="0.6"/>
+      <line x1="16" y1="16" x2="22" y2="10" stroke="url(#g-amber)" stroke-width="1.4"/>
+    </symbol>
+
+    <!-- AODB / database stack -->
+    <symbol id="ico-aodb" viewBox="0 0 32 32">
+      <ellipse cx="16" cy="8" rx="10" ry="3" fill="url(#g-amber)"/>
+      <path d="M6 8 v6 a10 3 0 0 0 20 0 v-6" fill="url(#g-amber)" opacity="0.7"/>
+      <path d="M6 14 v6 a10 3 0 0 0 20 0 v-6" fill="url(#g-amber)" opacity="0.55"/>
+      <path d="M6 20 v4 a10 3 0 0 0 20 0 v-4" fill="url(#g-amber)" opacity="0.4"/>
+    </symbol>
+
+    <!-- Weather/cloud -->
+    <symbol id="ico-weather" viewBox="0 0 32 32">
+      <path d="M9 22 a5 5 0 0 1 1-9.5 a6 6 0 0 1 11.5 1 a4 4 0 0 1-1 8 z" fill="url(#g-amber)"/>
+      <line x1="11" y1="24" x2="10" y2="28" stroke="#50e6ff" stroke-width="1.6" stroke-linecap="round"/>
+      <line x1="16" y1="24" x2="15" y2="28" stroke="#50e6ff" stroke-width="1.6" stroke-linecap="round"/>
+      <line x1="21" y1="24" x2="20" y2="28" stroke="#50e6ff" stroke-width="1.6" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- Entra ID -->
+    <symbol id="ico-entra" viewBox="0 0 32 32">
+      <path d="M16 4 L28 10 L28 18 Q28 25 16 28 Q4 25 4 18 L4 10 Z" fill="url(#g-azure)"/>
+      <path d="M16 11 L20 22 L18 22 L17 19 L15 19 L14 22 L12 22 Z" fill="#fff"/>
+    </symbol>
+
+    <!-- Microsoft Purview -->
+    <symbol id="ico-purview" viewBox="0 0 32 32">
+      <rect x="5" y="9" width="22" height="14" rx="2" fill="url(#g-purple)"/>
+      <circle cx="11" cy="16" r="2.5" fill="#fff"/>
+      <circle cx="21" cy="16" r="2.5" fill="#fff"/>
+      <line x1="13.5" y1="16" x2="18.5" y2="16" stroke="#fff" stroke-width="1.4"/>
+    </symbol>
+
+    <!-- App Insights -->
+    <symbol id="ico-appinsights" viewBox="0 0 32 32">
+      <circle cx="16" cy="16" r="11" fill="url(#g-amber)"/>
+      <path d="M16 7 v9 l6 4" stroke="#1e293b" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+      <circle cx="16" cy="16" r="2" fill="#1e293b"/>
+    </symbol>
+
+    <!-- Defender -->
+    <symbol id="ico-defender" viewBox="0 0 32 32">
+      <path d="M16 4 L26 8 L26 18 Q26 25 16 28 Q6 25 6 18 L6 8 Z" fill="#4CAF50"/>
+      <path d="M11 16 l3 3 7-7" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+
+  </defs>
+</svg>
+
+<!-- ====================== HEADER ====================== -->
+<div class="brand">
+  <div class="brand-left">
+    <div class="brand-name">DELOITTE  ·  DMTSP  ·  AUTONOMOUS GSE</div>
+    <div class="title">APEX Component Architecture — Top-Down View</div>
+    <div class="subtitle">Microsoft-native reference architecture for autonomous Ground Support Equipment, mapped to APEX 7-layer model and ICE / TH-airline / AXLE practices.</div>
+  </div>
+  <div class="brand-right">
+    <strong>Prepared for:</strong> Nagataka Asa, Deloitte Japan<br>
+    <strong>Author:</strong> Keven Markham, DMTSP<br>
+    <strong>Version:</strong> v1.0  ·  2026-05-01<br>
+    <strong>Classification:</strong> Internal — Deloitte Global
+  </div>
+</div>
+
+<!-- ====================== ARCHITECTURE ====================== -->
+<div class="architecture">
+
+  <div class="layers">
+
+    <!-- L7 EXPERIENCE -->
+    <div class="layer l7">
+      <div class="layer-header">
+        <div class="layer-title">
+          <span class="layer-tag">L7</span> Experience &amp; Decision Surfaces
+        </div>
+        <div class="layer-desc">Where humans and agents collaborate — OCC dispatch, ramp coordination, maintenance, regulator</div>
+      </div>
+      <div class="components">
+        <div class="component">
+          <svg class="icon"><use href="#ico-copilot"/></svg>
+          <div class="body">
+            <span class="name">Copilot for OCC</span>
+            <span class="role">Conversational ops assistant</span>
+            <span class="gse-tag">Disruption · Turn risk Q&amp;A</span>
+          </div>
+        </div>
+        <div class="component">
+          <svg class="icon"><use href="#ico-powerapps"/></svg>
+          <div class="body">
+            <span class="name">Power Apps</span>
+            <span class="role">Ramp coordinator HMI</span>
+            <span class="gse-tag">GSE allocation · HITL gates</span>
+          </div>
+        </div>
+        <div class="component">
+          <svg class="icon"><use href="#ico-fieldservice"/></svg>
+          <div class="body">
+            <span class="name">D365 Field Service</span>
+            <span class="role">Maintenance dispatch</span>
+            <span class="gse-tag">Hub-tech 1st-time-fix</span>
+          </div>
+        </div>
+        <div class="component">
+          <svg class="icon"><use href="#ico-teams"/></svg>
+          <div class="body">
+            <span class="name">Microsoft Teams</span>
+            <span class="role">Channels + adaptive cards</span>
+            <span class="gse-tag">IRROPS · ramp shift bridge</span>
+          </div>
+        </div>
+        <div class="component">
+          <svg class="icon"><use href="#ico-powerbi"/></svg>
+          <div class="body">
+            <span class="name">Power BI</span>
+            <span class="role">KPIs + uptime dashboards</span>
+            <span class="gse-tag">Fleet utilisation · OTP</span>
+          </div>
+        </div>
+        <div class="component">
+          <svg class="icon"><use href="#ico-powerpages"/></svg>
+          <div class="body">
+            <span class="name">Power Pages</span>
+            <span class="role">Regulator audit portal</span>
+            <span class="gse-tag">Part 139 / Annex 14 evidence</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow"></div>
+
+    <!-- L6 ORCHESTRATION -->
+    <div class="layer l6">
+      <div class="layer-header">
+        <div class="layer-title">
+          <span class="layer-tag">L6</span> Orchestration &amp; Agent Fleet
+        </div>
+        <div class="layer-desc">Decision composition · ORCH-01..12 · HITL/ACK_ONLY/ZERO_TOUCH gates</div>
+      </div>
+      <div class="components">
+        <div class="component">
+          <svg class="icon"><use href="#ico-aiagent"/></svg>
+          <div class="body">
+            <span class="name">Azure AI Agent Service</span>
+            <span class="role">DAG runtime for agents</span>
+            <span class="gse-tag">ICE-FAF-01 · TH-DRO-02</span>
+          </div>
+        </div>
+        <div class="component">
+          <svg class="icon"><use href="#ico-logicapps"/></svg>
+          <div class="body">
+            <span class="name">Logic Apps</span>
+            <span class="role">Workflow orchestration</span>
+            <span class="gse-tag">Approvals · case routing</span>
+          </div>
+        </div>
+        <div class="component">
+          <svg class="icon"><use href="#ico-functions"/></svg>
+          <div class="body">
+            <span class="name">Durable Functions</span>
+            <span class="role">Long-running orchestrations</span>
+            <span class="gse-tag">Multi-stage turn recovery</span>
+          </div>
+        </div>
+        <div class="component">
+          <svg class="icon"><use href="#ico-apim"/></svg>
+          <div class="body">
+            <span class="name">API Management</span>
+            <span class="role">External agent endpoints</span>
+            <span class="gse-tag">OEM · handler · ANSP</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow"></div>
+
+    <!-- L5 INTELLIGENCE -->
+    <div class="layer l5">
+      <div class="layer-header">
+        <div class="layer-title">
+          <span class="layer-tag">L5</span> Intelligence — Models, Retrieval, Evals
+        </div>
+        <div class="layer-desc">Foundation models, RAG, predictive ML, AXLE V&amp;V harness</div>
+      </div>
+      <div class="components">
+        <div class="component">
+          <svg class="icon"><use href="#ico-foundry"/></svg>
+          <div class="body">
+            <span class="name">Azure AI Foundry</span>
+            <span class="role">Model serving + evals</span>
+            <span class="gse-tag">AXLE V&amp;V harness</span>
+          </div>
+        </div>
+        <div class="component">
+          <svg class="icon"><use href="#ico-openai"/></svg>
+          <div class="body">
+            <span class="name">Azure OpenAI</span>
+            <span class="role">Reasoning + planning</span>
+            <span class="gse-tag">Disruption planner</span>
+          </div>
+        </div>
+        <div class="component">
+          <svg class="icon"><use href="#ico-aisearch"/></svg>
+          <div class="body">
+            <span class="name">Azure AI Search</span>
+            <span class="role">Vector + hybrid retrieval</span>
+            <span class="gse-tag">SOPs · safety case · part docs</span>
+          </div>
+        </div>
+        <div class="component">
+          <svg class="icon"><use href="#ico-ml"/></svg>
+          <div class="body">
+            <span class="name">Azure ML</span>
+            <span class="role">Predictive maintenance</span>
+            <span class="gse-tag">Battery + drivetrain forecasts</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow"></div>
+
+    <!-- L4 SEMANTIC -->
+    <div class="layer l4">
+      <div class="layer-header">
+        <div class="layer-title">
+          <span class="layer-tag">L4</span> Semantic — Canonical Schemas
+        </div>
+        <div class="layer-desc">ICE schemas (ASSET_HEALTH, WORK_ORDER, INSPECTION) · TH airline schemas · AHM 950/956 conformant</div>
+      </div>
+      <div class="components">
+        <div class="component">
+          <svg class="icon"><use href="#ico-fabric"/></svg>
+          <div class="body">
+            <span class="name">Fabric Lakehouse</span>
+            <span class="role">Gold semantic models</span>
+            <span class="gse-tag">ICEML · THML schemas</span>
+          </div>
+        </div>
+        <div class="component">
+          <svg class="icon"><use href="#ico-synapse"/></svg>
+          <div class="body">
+            <span class="name">Fabric SQL Endpoint</span>
+            <span class="role">Star-schema queries</span>
+            <span class="gse-tag">Fleet KPI marts</span>
+          </div>
+        </div>
+        <div class="component">
+          <svg class="icon"><use href="#ico-powerbi"/></svg>
+          <div class="body">
+            <span class="name">Semantic Models</span>
+            <span class="role">Power BI semantic layer</span>
+            <span class="gse-tag">Utilisation · SLA conformance</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow"></div>
+
+    <!-- L3 STORAGE -->
+    <div class="layer l3">
+      <div class="layer-header">
+        <div class="layer-title">
+          <span class="layer-tag">L3</span> Storage — Bronze / Silver / Gold
+        </div>
+        <div class="layer-desc">OneLake medallion · ADX hot path · Blob for sensor recordings · Cosmos for operational state</div>
+      </div>
+      <div class="components">
+        <div class="component">
+          <svg class="icon"><use href="#ico-onelake"/></svg>
+          <div class="body">
+            <span class="name">OneLake</span>
+            <span class="role">Bronze→Silver→Gold</span>
+            <span class="gse-tag">Telemetry medallion</span>
+          </div>
+        </div>
+        <div class="component">
+          <svg class="icon"><use href="#ico-adx"/></svg>
+          <div class="body">
+            <span class="name">Azure Data Explorer</span>
+            <span class="role">Time-series hot path</span>
+            <span class="gse-tag">Vehicle bus · ramp events</span>
+          </div>
+        </div>
+        <div class="component">
+          <svg class="icon"><use href="#ico-blob"/></svg>
+          <div class="body">
+            <span class="name">Azure Blob Storage</span>
+            <span class="role">Raw sensor recordings</span>
+            <span class="gse-tag">LiDAR · cam · incident clips</span>
+          </div>
+        </div>
+        <div class="component">
+          <svg class="icon"><use href="#ico-cosmos"/></svg>
+          <div class="body">
+            <span class="name">Cosmos DB</span>
+            <span class="role">Operational state store</span>
+            <span class="gse-tag">Asset lifecycle · jobs</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow"></div>
+
+    <!-- L2 INGEST -->
+    <div class="layer l2">
+      <div class="layer-header">
+        <div class="layer-title">
+          <span class="layer-tag">L2</span> Ingest &amp; Integration
+        </div>
+        <div class="layer-desc">Streaming + CDC + API mediation across vehicle, AODB, AHM, weather, ATC</div>
+      </div>
+      <div class="components">
+        <div class="component">
+          <svg class="icon"><use href="#ico-iothub"/></svg>
+          <div class="body">
+            <span class="name">Azure IoT Hub</span>
+            <span class="role">Vehicle bus ingestion</span>
+            <span class="gse-tag">CAN · J1939 · OEM bus</span>
+          </div>
+        </div>
+        <div class="component">
+          <svg class="icon"><use href="#ico-eventhubs"/></svg>
+          <div class="body">
+            <span class="name">Event Hubs</span>
+            <span class="role">High-rate streaming</span>
+            <span class="gse-tag">A-CDM · TOBT/TSAT events</span>
+          </div>
+        </div>
+        <div class="component">
+          <svg class="icon"><use href="#ico-iotedge"/></svg>
+          <div class="body">
+            <span class="name">Azure IoT Edge</span>
+            <span class="role">On-vehicle gateway</span>
+            <span class="gse-tag">Buffering · OTA agent</span>
+          </div>
+        </div>
+        <div class="component">
+          <svg class="icon"><use href="#ico-adf"/></svg>
+          <div class="body">
+            <span class="name">Fabric Data Factory</span>
+            <span class="role">CDC + batch ingestion</span>
+            <span class="gse-tag">AODB · ERP · CMMS</span>
+          </div>
+        </div>
+        <div class="component">
+          <svg class="icon"><use href="#ico-apim"/></svg>
+          <div class="body">
+            <span class="name">API Management</span>
+            <span class="role">Inbound/outbound APIs</span>
+            <span class="gse-tag">Handler · OEM contracts</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow"></div>
+
+    <!-- L1 EDGE -->
+    <div class="layer l1">
+      <div class="layer-header">
+        <div class="layer-title">
+          <span class="layer-tag">L1</span> Edge &amp; Source — Airside
+        </div>
+        <div class="layer-desc">Autonomous GSE · airport systems · weather/ATC · OEM telemetry</div>
+      </div>
+      <div class="components">
+        <div class="component">
+          <svg class="icon"><use href="#ico-vehicle"/></svg>
+          <div class="body">
+            <span class="name">Autonomous GSE</span>
+            <span class="role">Tugs · loaders · GPUs</span>
+            <span class="gse-tag">L1 source — primary</span>
+          </div>
+        </div>
+        <div class="component">
+          <svg class="icon"><use href="#ico-sensor"/></svg>
+          <div class="body">
+            <span class="name">Sensor Stack</span>
+            <span class="role">LiDAR · radar · cam · IMU</span>
+            <span class="gse-tag">ODD · safe-stop evidence</span>
+          </div>
+        </div>
+        <div class="component">
+          <svg class="icon"><use href="#ico-aodb"/></svg>
+          <div class="body">
+            <span class="name">AODB / A-CDM</span>
+            <span class="role">Airport ops database</span>
+            <span class="gse-tag">TOBT · TSAT · stand state</span>
+          </div>
+        </div>
+        <div class="component">
+          <svg class="icon"><use href="#ico-aodb"/></svg>
+          <div class="body">
+            <span class="name">AHM 950/956 Feeds</span>
+            <span class="role">IATA-conformant telemetry</span>
+            <span class="gse-tag">Equipment-independent</span>
+          </div>
+        </div>
+        <div class="component">
+          <svg class="icon"><use href="#ico-weather"/></svg>
+          <div class="body">
+            <span class="name">Weather / ATC</span>
+            <span class="role">METAR · TAF · clearance</span>
+            <span class="gse-tag">IRROPS triggers</span>
+          </div>
+        </div>
+        <div class="component">
+          <svg class="icon"><use href="#ico-apim"/></svg>
+          <div class="body">
+            <span class="name">OEM Cloud</span>
+            <span class="role">Manufacturer telemetry</span>
+            <span class="gse-tag">Warranty · diag codes</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ====================== CROSS-CUTTING ====================== -->
+  <div class="crosscut">
+    <div class="cc-header">Cross-Cutting Disciplines</div>
+
+    <div class="cc-card cc-identity">
+      <svg class="icon"><use href="#ico-entra"/></svg>
+      <div class="body">
+        <div class="name">Microsoft Entra ID</div>
+        <div class="role">Identity &amp; access · workload identities · CMK</div>
+      </div>
+    </div>
+
+    <div class="cc-card cc-purview">
+      <svg class="icon"><use href="#ico-purview"/></svg>
+      <div class="body">
+        <div class="name">Microsoft Purview</div>
+        <div class="role">Data governance · lineage · sensitivity labels · DSR</div>
+      </div>
+    </div>
+
+    <div class="cc-card cc-monitor">
+      <svg class="icon"><use href="#ico-appinsights"/></svg>
+      <div class="body">
+        <div class="name">App Insights + Fabric Monitor</div>
+        <div class="role">Telemetry · agent traces · SLO observability</div>
+      </div>
+    </div>
+
+    <div class="cc-card cc-defender">
+      <svg class="icon"><use href="#ico-defender"/></svg>
+      <div class="body">
+        <div class="name">Microsoft Defender for Cloud</div>
+        <div class="role">OT/IT segmentation · SBOM · supply chain · airside cyber</div>
+      </div>
+    </div>
+
+    <div class="cc-card">
+      <svg class="icon"><use href="#ico-foundry"/></svg>
+      <div class="body">
+        <div class="name">Foundry Evals + Red-Team</div>
+        <div class="role">Safety case evidence · prompt safety · PII detection</div>
+      </div>
+    </div>
+
+    <div class="cc-card">
+      <svg class="icon"><use href="#ico-onelake"/></svg>
+      <div class="body">
+        <div class="name">APEX Manifest Registry</div>
+        <div class="role">Schema versioning · gate taxonomy · agent contracts</div>
+      </div>
+    </div>
+
+    <div class="cc-header" style="margin-top: 12px;">APEX Service Bindings</div>
+
+    <div class="cc-card" style="border-left-color: var(--amber);">
+      <div class="body" style="display:flex;flex-direction:column;gap:4px;width:100%;">
+        <div style="font-size:11px;font-weight:700;color:var(--amber);letter-spacing:0.4px;">ICE — INDUSTRIAL &amp; COMMERCIAL EQUIPMENT</div>
+        <div style="font-size:10px;color:var(--text-2);">FAF-01 · SPA-02 · WCP-03 · CRP-04 · AaS-05 · CIR-06</div>
+      </div>
+    </div>
+    <div class="cc-card" style="border-left-color: var(--copilot);">
+      <div class="body" style="display:flex;flex-direction:column;gap:4px;width:100%;">
+        <div style="font-size:11px;font-weight:700;color:var(--copilot);letter-spacing:0.4px;">TH — TRAVEL &amp; HOSPITALITY (AIRLINE)</div>
+        <div style="font-size:10px;color:var(--text-2);">DRO-02 · HER-06 (ramp variant)</div>
+      </div>
+    </div>
+    <div class="cc-card" style="border-left-color: var(--green);">
+      <div class="body" style="display:flex;flex-direction:column;gap:4px;width:100%;">
+        <div style="font-size:11px;font-weight:700;color:var(--green);letter-spacing:0.4px;">ER — ENERGY &amp; RESOURCES</div>
+        <div style="font-size:10px;color:var(--text-2);">FWO-04 (field work-order optimisation)</div>
+      </div>
+    </div>
+    <div class="cc-card" style="border-left-color: var(--fabric);">
+      <div class="body" style="display:flex;flex-direction:column;gap:4px;width:100%;">
+        <div style="font-size:11px;font-weight:700;color:var(--fabric);letter-spacing:0.4px;">AXLE — AUTOMOTIVE DEPTH</div>
+        <div style="font-size:10px;color:var(--text-2);">ODD · V&amp;V · safety case · OTA</div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ====================== LEGEND ====================== -->
+<div class="legend">
+  <div>
+    <h3>Reading the Diagram</h3>
+    <ul class="legend-list">
+      <li>Top-down: human-facing decision surfaces (L7) sit at the top; airside source systems (L1) at the bottom.</li>
+      <li>Each layer is a discipline boundary — APEX Core defines the contract between layers, the edition (ICE / TH) populates it.</li>
+      <li class="gse">Amber tag on a component highlights the autonomous-GSE-specific responsibility within that generic Microsoft service.</li>
+      <li class="cc">Cross-cutting band on the right applies to every layer simultaneously — identity, governance, observability, and security are not optional.</li>
+      <li>Service bindings (lower right) name the catalogued APEX SKUs that this architecture instantiates for an autonomous-GSE engagement.</li>
+    </ul>
+  </div>
+  <div>
+    <h3>Microsoft Stack Coverage</h3>
+    <ul class="legend-list">
+      <li>22 distinct Microsoft services, all native to Azure / Fabric / Power Platform / D365.</li>
+      <li>Zero third-party runtime dependency in the data and intelligence planes.</li>
+      <li>Independence-compliant: client-tenant data plane; no Deloitte-side telemetry retention.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="foot">© 2026 Deloitte. APEX is DMTSP-authored IP. Microsoft, Azure, Fabric, Power Platform, D365 are trademarks of Microsoft Corporation. Diagram visualisation uses stylised icons inspired by the Microsoft Cloud and AI symbol set.</div>
+
+</body>
+</html>

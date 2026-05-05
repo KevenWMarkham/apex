@@ -1,0 +1,13 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: persona
+persona_id: persona.axle.director-of-quality
+name: Director of Quality
+practice: axle
+seniority: director
+function: reference-deployment
+description: Director of Quality (AXLE). Persona referenced by APEX reference-deployment
+  manifests.
+typical_decisions: []
+pains: []
+metrics_owned: []
+appendix_e_section: Appendix E — AXLE Personas

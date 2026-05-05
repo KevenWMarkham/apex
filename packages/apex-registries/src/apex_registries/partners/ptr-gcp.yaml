@@ -1,0 +1,11 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: partner
+partner_id: ptr.gcp
+name: Google Cloud
+category: infrastructure
+practices:
+- cross
+description: Same posture as AWS.
+apex_integration_pattern: Bridge-only
+contracts_in_place: []
+appendix_h_section: Appendix H — infrastructure

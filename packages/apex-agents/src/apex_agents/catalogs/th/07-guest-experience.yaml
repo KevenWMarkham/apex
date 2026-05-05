@@ -1,0 +1,24 @@
+kind: agent
+name: apex.th.agents.guest-experience
+version: 0.1.0
+practice: th
+persona: Guest Experience Director
+service_codes: [TH-HOT-02]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Guest-experience signal aggregation across check-in, room-service, housekeeping, and incident. Triggers proactive recovery.
+archetype_id: F1-continuous-monitor-hitl-alert
+primary_contact: th-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.th.mcp.travelerml.get_guest_journey
+    purpose: Read in-stay guest journey
+  - tool_id: apex.th.mcp.groundml.get_service_events
+    purpose: Read service-event log
+
+oversight_modes: [HITL]
+
+kpis:
+  - { name: guest NPS, direction: up, target_band: "+5 to +10pt" }

@@ -1,0 +1,18 @@
+# harvest:auto-generated — apex_registries.harvest
+kind: schema
+schema_code: NetworkML
+name: Network Operations Lineage
+description: Network Operations Lineage canonical schema family. Bronze to Silver
+  to Gold pipeline scope; consumed by APEX agents/services across TMT.
+practices:
+- tmt
+primary_entities:
+- Element
+- Alarm
+- Ticket
+- ChangeWindow
+standards_alignment:
+- TM Forum eTOM
+governance_classification: operations
+appendix_a_section: Appendix A — Schema family NetworkML
+package_implementation: apex-networkml

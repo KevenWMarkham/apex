@@ -1,0 +1,31 @@
+kind: orchestration
+name: cold-chain-response
+version: 1.0.0
+owner: rc-practice-lead
+practice: rc
+description: Detect → classify → disposition → notify → ticket → preserve evidence.
+archetype_id: "ARCH-01-anomaly-dispo-hitl"
+pattern: sequential
+triggers:
+  - cold-chain-excursion
+agents:
+  - agent: cold-chain-detection-agent
+    agent_version: 1.0.0
+    step_id: detect
+  - agent: cold-chain-disposition-agent
+    agent_version: 1.0.0
+    step_id: dispose
+    depends_on: [detect]
+  - agent: store-notification-agent
+    agent_version: 1.0.0
+    step_id: notify
+    depends_on: [dispose]
+gates:
+  - at_step: dispose
+    kind: HITL
+    variant: hard
+    approver_group: rc-store-ops-approvers
+stamps:
+  manifest_version: a1b2c3d4
+  policy_version: e5f6a7b8
+  prompt_version: 9c8b7a6d
