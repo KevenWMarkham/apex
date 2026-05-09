@@ -4770,6 +4770,86 @@ bicep lint $TemplateFile</code></pre></div>
 </article>
 
 <!-- ============================================================
+     CHAPTER M365 — SURFACING APEX-M IN MICROSOFT 365 + POWER PLATFORM
+     ============================================================ -->
+<article class="chapter" id="ch-m365">
+  <header class="chapter-header">
+    <div class="chapter-number">Chapter M365</div>
+    <h1 class="chapter-title">Surfacing APEX-M in Microsoft 365 + Power Platform</h1>
+  </header>
+  <aside class="chapter-objectives">
+    <div class="objectives-label">What This Chapter Does for You</div>
+    <ul>
+      <li>Documents the path to surface APEX-M agents inside Microsoft 365 Copilot, Microsoft Teams, and Microsoft Copilot Studio.</li>
+      <li>Maps APEX-M Foundry Hosted Agents to Microsoft 365 Custom Engine Agents via the Microsoft 365 Agents Toolkit.</li>
+      <li>Locates Power Platform integration points (Power Automate flows, Dataverse organizational context, Power BI dashboards).</li>
+    </ul>
+  </aside>
+  <aside class="callout tldr">
+    <div class="callout-label">TL;DR · 60 seconds</div>
+    <ul>
+      <li>APEX-M's <strong>Foundry Hosted Agent</strong> + <strong>Microsoft 365 Agents Toolkit</strong> = Custom Engine Agent for M365 Copilot — the same hosted agent surfaces in M365 Copilot Chat, Teams personal scope, and Outlook actions.</li>
+      <li>For lighter-touch read-from-knowledge agents, use <strong>Copilot Studio Declarative Agents</strong>; APEX-M agents stay on Foundry but expose MCP endpoints Copilot Studio consumes.</li>
+      <li>Power Automate is the natural orchestration substrate for non-agent workflow steps (HITL approval routing, ticket creation, Teams Adaptive Card publication). Dataverse is the M365-native organizational-context source.</li>
+    </ul>
+  </aside>
+  <div class="chapter-body">
+
+  <h2 id="ch-m365-1">M365.1 The four publishing paths</h2>
+  <p>Microsoft's 2026 release wave 1 documents four canonical paths for getting an enterprise agent in front of users. APEX-M agents fit the right-most column (pro-code, hosted on Foundry):</p>
+  <div class="table-wrap"><table class="md-table"><thead><tr><th>Feature</th><th>Copilot Studio</th><th>Teams AI</th><th>M365 Agents SDK</th><th>Foundry (APEX-M)</th></tr></thead><tbody>
+    <tr><td>Approach</td><td>Low-code</td><td>Pro-code</td><td>Pro-code</td><td>Pro-code</td></tr>
+    <tr><td>Tooling</td><td>Copilot Studio UI</td><td>Teams SDK + VS Code</td><td>M365 Agents Toolkit</td><td>M365 Agents Toolkit + Foundry portal</td></tr>
+    <tr><td>Channels</td><td>M365 Copilot, Teams, partner apps, mobile</td><td>M365 Copilot, Teams</td><td>M365 Copilot, Teams, partner apps, mobile</td><td>M365 Copilot, Teams (other channels via custom integration)</td></tr>
+    <tr><td>Orchestrator</td><td>Copilot Studio</td><td>Teams Action Planner</td><td>Bring your own (Semantic Kernel, LangChain, Agent Framework)</td><td>Foundry workflows + Microsoft Agent Framework / LangGraph</td></tr>
+    <tr><td>Models</td><td>Copilot Studio</td><td>Any</td><td>Any</td><td>Foundry model catalog (gpt-4o, Llama, DeepSeek, …)</td></tr>
+    <tr><td>APEX-M fit</td><td>Read-from-knowledge agents (declarative)</td><td>—</td><td>—</td><td><strong>Default</strong> for every featured-scenario agent</td></tr>
+  </tbody></table></div>
+
+  <h2 id="ch-m365-2">M365.2 Foundry Hosted Agent → M365 Custom Engine Agent</h2>
+  <p>The default APEX-M publishing path:</p>
+  <ol>
+    <li>Agent code (Microsoft Agent Framework or LangGraph) is built and deployed via <code class="inline-code">azd deploy</code> per Deployment Guide §11.5 (Layer 3 Surfacing via Foundry Agent Service).</li>
+    <li>Microsoft 365 Agents Toolkit packages the agent as a <strong>Custom Engine Agent</strong> manifest. The manifest references the Foundry-hosted endpoint and the agent's tool surface.</li>
+    <li>Deploy the package to the M365 admin center via <strong>Integrated Apps</strong>. Admins approve; the agent appears in M365 Copilot Chat + Teams personal scope.</li>
+    <li>Per-engagement: optionally submit to the Microsoft Commercial Marketplace for multi-tenant agents Deloitte ships across clients.</li>
+  </ol>
+  <p>The advantage of Custom Engine over Declarative agents: full control over orchestration, models, deterministic execution, multi-step workflow, HITL gates, and APEX-Core protocol composition. APEX-M's six-agent fleet per scenario relies on this model — declarative agents can't do the multi-agent orchestration the cold-chain or markdown scenarios require.</p>
+
+  <h2 id="ch-m365-3">M365.3 When to use a Declarative agent instead</h2>
+  <p>For specific use cases where the agent only retrieves and answers questions over a knowledge source (e.g., "what is RC-E2E-03's KPI envelope?"), a Copilot Studio Declarative Agent is the right shape:</p>
+  <ul>
+    <li>Lower setup cost — no Foundry project required for the lookup path</li>
+    <li>Native M365 Copilot orchestration (no APEX runtime intervention)</li>
+    <li>Automatic SharePoint / OneDrive grounding with sensitivity-label inheritance per <a href="https://learn.microsoft.com/purview/ai-copilot-studio">Purview for Copilot Studio</a></li>
+  </ul>
+  <p>APEX-M can publish a Declarative agent for the read-only lookup path while the Foundry-hosted Custom Engine Agent handles decision-making. Typical pattern: a single service code has both — RC-E2E-03's "what's our pricing policy?" Declarative agent and RC-E2E-03's "approve this markdown" Custom Engine Agent.</p>
+
+  <h2 id="ch-m365-4">M365.4 Power Platform integration</h2>
+  <p>Three Power Platform integrations every APEX-M tenant should plan for:</p>
+  <h3 id="ch-m365-4-1">M365.4.1 Power Automate — non-agent workflow steps</h3>
+  <p>Power Automate is the natural Microsoft-native target for parts of an APEX-M scenario that aren't agent decisions: HITL approval routing through Teams Adaptive Cards, ticket creation in ServiceNow, email notifications, scheduled refresh. Per the Power Platform 2026 wave 1 release plan, Power Automate now supports Copilot Studio-powered actions in cloud flows — APEX-M agents can call these actions as MCP tools.</p>
+  <h3 id="ch-m365-4-2">M365.4.2 Dataverse — organizational-context source</h3>
+  <p>Dataverse provides M365-native organizational context (people, Teams messages, Exchange inboxes, Loop pages) that APEX-M agents can read via MCP. Per Microsoft's 2026 wave 1 release plan, Dataverse exposes a native MCP server and a Python SDK; APEX-M's MCP composition layer (per book §10) consumes them as ordinary tools. Dataverse is also a clean fit for client-portal data models — Power Pages on Dataverse, with APEX-M agents reading Dataverse rows as they would Silver entities.</p>
+  <h3 id="ch-m365-4-3">M365.4.3 Power BI — KPI surfacing</h3>
+  <p>Per Services Guide §1.4, Gold marts are exposed via <strong>Power BI Direct Lake</strong> semantic models. APEX-M dashboards use the native Direct Lake connection — no data movement, no scheduled refresh. The merchandising director's weekly markdown review (RC-E2E-03 Daniel Chen persona) lives in Power BI; agents publish proposed markdowns to a Power BI report tile via the same Direct Lake model.</p>
+
+  <h2 id="ch-m365-5">M365.5 Independence + Microsoft 365 surfacing</h2>
+  <p>APEX-M's surfacing in Microsoft 365 + Power Platform is clean from an Independence perspective: the client already holds M365 + Power Platform licensing; APEX-M is integrating with the client's existing investment. Microsoft 365 Agents Toolkit is open-source tooling; Custom Engine Agent packaging is an industry-standard manifest pattern. Per <a href="../apex-core/Independence-Posture.md" class="xref">APEX-Core Independence Posture §Language standards</a>, APEX-M deliverables describe these integrations as honoring the client's existing Microsoft 365 / Power Platform investment — never as Deloitte–Microsoft co-marketing.</p>
+
+  </div>
+  <aside class="chapter-summary">
+    <h2>Key Takeaways</h2>
+    <ul>
+      <li>Default APEX-M publishing: Foundry Hosted Agent → M365 Agents Toolkit → Custom Engine Agent → M365 Copilot + Teams.</li>
+      <li>Use Copilot Studio Declarative agents for read-only knowledge lookups; same service can have both shapes.</li>
+      <li>Power Automate handles non-agent workflow; Dataverse provides M365-native context via MCP; Power BI Direct Lake surfaces Gold marts.</li>
+      <li>Surfacing in M365 honors the client's existing investment — no Independence concern.</li>
+    </ul>
+  </aside>
+</article>
+
+<!-- ============================================================
      CHAPTER (NEW) — COMPOSING CLIENT-APPROVED ADAPTERS WITH APEX-M
      ============================================================ -->
 <article class="chapter" id="ch-adapters">
