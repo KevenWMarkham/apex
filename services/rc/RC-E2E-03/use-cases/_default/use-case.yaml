@@ -1,0 +1,87 @@
+# services/rc/RC-E2E-03/use-cases/_default/use-case.yaml
+#
+# Default use case for RC-E2E-03 (Pricing & Revenue Decision Service).
+# Based on the canonical Services Guide §18.1 envelope. Clients clone this
+# and adjust client_approved_architecture per their CAB approval.
+
+use_case_id: rc-e2e-03--default
+service_code: RC-E2E-03
+primary_variant: APEX-M
+client_segment: Default — Microsoft-first deployment per Services Guide §18.1 envelope
+substrate: lab
+
+client_approved_architecture:
+  data_lake:
+    primary:
+      variant: APEX-M
+      target: fabric.onelake.rc-canonical
+    bronze_sources:
+      # Canonical Bronze sources per Services Guide §18.1. Replace adapter
+      # bindings per the client's actual data environment.
+      - { source: pos, adapter: REPLACE_WITH_CLIENT_POS_ADAPTER, dataset: REPLACE }
+      - { source: erp, adapter: REPLACE_WITH_CLIENT_ERP_ADAPTER, dataset: REPLACE }
+      - { source: refrigeration, adapter: REPLACE_WITH_CLIENT_TELEMETRY_ADAPTER, dataset: REPLACE }
+      - { source: competitor_pricing, adapter: REPLACE_WITH_CLIENT_PRICING_ADAPTER, dataset: REPLACE }
+
+  identity:
+    primary:
+      variant: APEX-M
+      source: entra-agent-id     # Microsoft Entra Agent ID (GA April 2026)
+    federation: []                # add identity.okta etc. per CAB
+
+  siem_audit:
+    primary:
+      variant: APEX-M
+      target: purview-audit       # Microsoft Purview Audit = system of record
+    secondary: []                 # add siem.splunk etc. per CAB
+
+  hitl_channel:
+    primary:
+      variant: APEX-M
+      target: teams               # Teams Adaptive Card per Services Guide §18.1 personas
+    fallback: []
+
+  message_bus:
+    primary:
+      variant: APEX-M
+      target: eventstream         # Fabric Eventstream + Activator destination
+    cross_cloud: []
+
+# Personas — resolve in services/_personas.yaml (Phase 0.7+ follow-up)
+personas_active:
+  - id: marisol-reyes-store-ops
+  - id: daniel-chen-merch-director
+
+# KPIs — resolve in services/_kpis.yaml (Phase 0.7+ follow-up)
+# Targets are the published Services Guide §18.1 envelope.
+kpis_targeted:
+  - { id: gm-pp-lift, target: 3.2 }
+  - { id: doh-reduction-pct, target: -28 }
+  - { id: markdown-to-clear-pct, target: 41 }
+  - { id: shrink-cost-reduction-pct, target: -18 }
+  - { id: decision-loop-time-sec, target: 90 }
+
+hitl_thresholds:
+  markdown_pct_above: 30          # > 30% markdown requires HITL approval
+  destroy_decision: any           # any destroy decision requires HITL
+  refund_usd_above: 500           # > $500 refund requires HITL
+
+agent_overrides:
+  pricing:                        # The Pricer specifically
+    model: gpt-4o-2024-11-20
+    redis_episodic_memory: true   # Services Guide §25.8 learning loop
+    learning_loop_window_days: 90
+  decide:
+    teams_webhook_secret: kv://apex-hitl-REPLACE-rc-e2e-03-decide
+
+# Foundry block — APEX-M only. Variant validator rejects this for
+# APEX-G or APEX-A use cases.
+foundry:
+  project_ref: REPLACE_WITH_FOUNDRY_PROJECT
+  hosted_agent_image_tag: rc-e2e-03/v0.1.0
+  workflow_def: workflows/excursion-triage.yaml
+
+deployment:
+  wave: w2
+  blueprint: apex-m/infra/bicep/blueprints/w2-pilot.bicep
+  parameters_path: REPLACE_WITH_GENERATED_PARAMETERS_FILE

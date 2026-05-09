@@ -20,6 +20,12 @@ SERVICES_ROOT = REPO_ROOT / "services"
 # that have a file present.
 BUILD_STATUS_GLOB = "*/_build-status.yaml"
 
+# Use-case YAMLs live at services/{ind}/{code}/use-cases/{slug}/use-case.yaml
+USE_CASE_GLOB = "*/*/use-cases/*/use-case.yaml"
+
+# Adapter root — wizard validates use-case adapter refs resolve here.
+ADAPTERS_ROOT = REPO_ROOT / "packages" / "apex-adapters" / "src" / "apex_adapters" / "protocol_adapters"
+
 # Canonical agent set per Professional-APEX-Deployment-Guide §7.2.
 # Most services compose this 5-persona set; some scenarios add a 6th.
 CANONICAL_AGENTS = [
@@ -94,6 +100,63 @@ def _scenario_agents(industry: str, service_code: str, scenario_id: str) -> list
                 pass
         found.append(meta)
     return found or CANONICAL_AGENTS
+
+
+def load_use_cases(*, service_code: str | None = None) -> list[dict]:
+    """Load every services/{ind}/{code}/use-cases/{slug}/use-case.yaml.
+
+    Each returned dict carries the full YAML content plus injected fields:
+    - `slug` (the directory name)
+    - `path` (relative path from repo root)
+    """
+    out: list[dict] = []
+    for path in SERVICES_ROOT.glob(USE_CASE_GLOB):
+        try:
+            with path.open("r", encoding="utf-8") as f:
+                data = yaml.safe_load(f) or {}
+            if not isinstance(data, dict):
+                continue
+        except Exception:
+            continue
+        # path: services/{ind}/{code}/use-cases/{slug}/use-case.yaml
+        slug = path.parent.name
+        code = path.parent.parent.parent.name
+        if service_code and code != service_code:
+            continue
+        data.setdefault("service_code", code)
+        data["slug"] = slug
+        data["path"] = str(path.relative_to(REPO_ROOT)).replace("\\", "/")
+        out.append(data)
+    return out
+
+
+def list_known_adapters() -> list[str]:
+    """Return dotted adapter names found under packages/apex-adapters/.../protocol_adapters/.
+
+    Used by the validator when a use-case references an adapter — must
+    resolve to a real protocols.py declaring SATISFIES.
+    """
+    if not ADAPTERS_ROOT.is_dir():
+        return []
+    out: list[str] = []
+    # Walk: protocol_adapters/{category}/[{cloud_subdir}/]{provider}/
+    for category in sorted(p for p in ADAPTERS_ROOT.iterdir() if p.is_dir()):
+        for entry in sorted(category.iterdir()):
+            if not entry.is_dir():
+                continue
+            # cloud has aws/gcp/azure subdirs; saas/siem/identity have providers directly
+            has_grandkids = any(
+                (sub / "protocols.py").exists()
+                for sub in entry.iterdir()
+                if sub.is_dir()
+            )
+            if has_grandkids:
+                for sub in sorted(entry.iterdir()):
+                    if (sub / "protocols.py").exists():
+                        out.append(f"{category.name}.{entry.name}.{sub.name}")
+            elif (entry / "protocols.py").exists():
+                out.append(f"{category.name}.{entry.name}")
+    return out
 
 
 def load_build_status() -> dict[str, dict]:

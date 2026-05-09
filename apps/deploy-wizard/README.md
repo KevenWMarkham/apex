@@ -70,7 +70,7 @@ apps/deploy-wizard/
 ## Wizard flow — Practice → Service → Scenario → Agent
 
 This is the canonical layered model from
-[`docs/book/Professional-APEX-Deployment-Guide.html`](../../docs/book/Professional-APEX-Deployment-Guide.html)
+[`docs/book/Professional-APEX-M-Deployment-Guide.html`](../../docs/book/Professional-APEX-M-Deployment-Guide.html)
 chapters 1 and 7. The wizard's treeview enforces it:
 
 1. Operator opens `/wizard` (the default route).

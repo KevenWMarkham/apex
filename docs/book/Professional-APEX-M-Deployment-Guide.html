@@ -4668,6 +4668,119 @@ bicep lint $TemplateFile</code></pre></div>
   </div>
 </article>
 
+<!-- ============================================================
+     CHAPTER (NEW) — COMPOSING CLIENT-APPROVED ADAPTERS WITH APEX-M
+     ============================================================ -->
+<article class="chapter" id="ch-adapters">
+  <header class="chapter-header">
+    <div class="chapter-number">Chapter A</div>
+    <h1 class="chapter-title">Composing Client-Approved Adapters with APEX-M</h1>
+  </header>
+  <aside class="chapter-objectives">
+    <div class="objectives-label">What This Chapter Does for You</div>
+    <ul>
+      <li>Shows how an APEX-M deployment honors a client's mixed-cloud or SaaS-heavy architecture without abandoning the Microsoft primary.</li>
+      <li>Walks the use-case <code class="inline-code">client_approved_architecture</code> block end-to-end against APEX-Core protocols.</li>
+      <li>Maps the 8 priority adapters (cloud / SaaS / SIEM / identity) to APEX-Core protocol slots and shows which to pick when.</li>
+    </ul>
+  </aside>
+  <aside class="callout tldr">
+    <div class="callout-label">TL;DR · 60 seconds</div>
+    <ul>
+      <li>APEX-M is the <strong>primary variant</strong> — it owns where agents run, where identity is rooted, and which IaC dialect (Bicep) deploys the platform.</li>
+      <li><strong>Adapters</strong> integrate everything else the client's CAB has approved — AWS RDS for POS data, Snowflake on AWS for analytics, Splunk for SIEM, Okta for federated identity.</li>
+      <li>Adapter bindings live in the use-case YAML's <code class="inline-code">client_approved_architecture</code> block. The wizard validates every adapter ref resolves and that each adapter satisfies the protocol the slot expects.</li>
+      <li>SEC Independence: every adapter has a <code class="inline-code">sec_independence.md</code> stating Deloitte does not resell, sublicense, or have an alliance posture with the integrated provider.</li>
+    </ul>
+  </aside>
+  <div class="chapter-body">
+
+  <h2 id="ch-adapters-1">A.1 The shape — primary variant + composed adapters</h2>
+  <p>A typical client APEX-M deployment looks like this in the wild:</p>
+  <pre><code>┌────────────────────────────────────────────────────────────┐
+│  APEX-M (primary)                                          │
+│   · Foundry Agent Service                                  │
+│   · Microsoft Entra Agent ID                               │
+│   · Microsoft Fabric (OneLake / Eventhouse)                │
+│   · Microsoft Purview Audit (system of record)             │
+│   · Microsoft Defender for AI                              │
+└────────────────────────────────────────────────────────────┘
+            │ composes
+            ▼
+┌────────────────────────────────────────────────────────────┐
+│  Client-approved adapters (per CAB)                        │
+│   · cloud.aws.rds       → Mirror POS + ERP from AWS        │
+│   · cloud.gcp.bigquery  → Read marketing analytics on GCP  │
+│   · saas.salesforce     → CRM as Silver source             │
+│   · saas.snowflake      → Snowflake-on-AWS Gold consumer   │
+│   · siem.splunk         → Parallel-write to client Splunk  │
+│   · identity.okta       → Federated IdP                    │
+└────────────────────────────────────────────────────────────┘</code></pre>
+  <p>The APEX-M primary owns the Microsoft layer. The adapters honor the rest of the client's existing investment without forcing migration.</p>
+
+  <h2 id="ch-adapters-2">A.2 Use case YAML — <code class="inline-code">client_approved_architecture</code></h2>
+  <p>Each use case under <code class="inline-code">services/{ind}/{code}/use-cases/{slug}/use-case.yaml</code> declares its adapter bindings:</p>
+  <div class="code-block"><div class="code-lang">YAML — example for contoso-rc-e2e-03-na-pilot</div><pre><code>primary_variant: APEX-M
+
+client_approved_architecture:
+  data_lake:
+    primary: { variant: APEX-M, target: fabric.onelake.rc-canonical }
+    bronze_sources:
+      - { source: pos, adapter: cloud.aws.rds, dataset: contoso-pos-prod }
+      - { source: erp, adapter: cloud.azure.adls_gen2, dataset: sap-s4-mirror }
+  identity:
+    primary: { variant: APEX-M, source: entra-agent-id }
+    federation: [ identity.okta ]
+  siem_audit:
+    primary: { variant: APEX-M, target: purview-audit }
+    secondary: [ siem.splunk ]
+  crm:
+    adapter: saas.salesforce
+    org: contoso-prod
+  hitl_channel:
+    primary: { variant: APEX-M, target: teams }
+    fallback: [ collaboration.slack ]</code></pre></div>
+  <p>The wizard's validator walks this block and confirms every <code class="inline-code">adapter:</code> reference resolves to a directory under <code class="inline-code">packages/apex-adapters/src/apex_adapters/protocol_adapters/</code>, and that the adapter's <code class="inline-code">SATISFIES</code> list includes the APEX-Core protocol the slot expects.</p>
+
+  <h2 id="ch-adapters-3">A.3 Picking adapters — the priority eight</h2>
+  <p>The Phase 0 stub catalog covers eight common client patterns. Implementations build per-engagement when the client's CAB has approved the integration.</p>
+
+  <div class="table-wrap"><table class="md-table"><thead><tr><th>Adapter</th><th>Satisfies</th><th>When to pick it</th></tr></thead><tbody>
+    <tr><td><code class="inline-code">cloud.aws.s3</code></td><td>DataLake (Bronze)</td><td>Client has POS / IoT / batch data landing in S3 — mirror to APEX-M Fabric Bronze</td></tr>
+    <tr><td><code class="inline-code">cloud.aws.rds</code></td><td>DataLake (Mirroring source)</td><td>Client runs RDS for the SOR (POS, ERP, CRM) — Fabric Mirroring brings it Silver-ready</td></tr>
+    <tr><td><code class="inline-code">cloud.gcp.bigquery</code></td><td>DataLake (Silver/Gold)</td><td>Client has marketing or analytics workloads on BigQuery — read as Silver</td></tr>
+    <tr><td><code class="inline-code">cloud.gcp.pubsub</code></td><td>MessageBus</td><td>Client publishes events from GCP — route into APEX-M Eventstream</td></tr>
+    <tr><td><code class="inline-code">saas.salesforce</code></td><td>DataLake (CRM)</td><td>Salesforce is the CRM SOR — RC-E2E-04 Loyalty + HLS Patient relationships</td></tr>
+    <tr><td><code class="inline-code">saas.snowflake</code></td><td>DataLake (Gold consumer)</td><td>Client's BI analysts run on Snowflake — feed APEX-M Gold into client Snowflake</td></tr>
+    <tr><td><code class="inline-code">siem.splunk</code></td><td>AuditLedger (secondary) + Observability</td><td>Client mandates Splunk SIEM — parallel-write while Purview Audit stays primary</td></tr>
+    <tr><td><code class="inline-code">identity.okta</code></td><td>AgentIdentityProvider (federation)</td><td>Client workforce sits in Okta — federate to Microsoft Entra Agent ID</td></tr>
+  </tbody></table></div>
+
+  <h2 id="ch-adapters-4">A.4 SEC Independence per adapter</h2>
+  <p>Every adapter has a <code class="inline-code">sec_independence.md</code> with Deloitte's verbatim Independence statement. The pre-publish CI lane (per <a href="../APEX%20-%20Design%20and%20Build/Roadmap.md" class="xref">Roadmap.md</a> BL.P.194) blocks any APEX deliverable using disallowed terminology — "preferred cloud," "alliance," "partnership" — across all variants and adapters.</p>
+  <aside class="callout bestpractice"><div class="callout-label">Best Practice — One adapter per CAB approval</div><p>Do not pre-deploy adapters "for future use." An adapter is only ever active when the client's Cloud Architecture Board has formally approved the integrated provider. The use-case YAML records the CAB approval in its commit history; auditors trace from <code class="inline-code">client_approved_architecture</code> back to the approval document.</p></aside>
+
+  <h2 id="ch-adapters-5">A.5 Cross-references</h2>
+  <ul>
+    <li><a href="../apex-core/Independence-Posture.md" class="xref">APEX-Core Independence Posture</a> — the variant equality + language standards story</li>
+    <li><a href="../apex-core/Adapter-Catalog.md" class="xref">APEX-Core Adapter Catalog</a> — full inventory of adapters + how to add one</li>
+    <li><a href="../apex-core/Protocols-Reference.md" class="xref">APEX-Core Protocols Reference</a> — what each adapter slot expects</li>
+    <li><a href="../apex-core/Variant-Comparison.md" class="xref">APEX-Core Variant Comparison</a> — when to switch primary variant entirely versus composing adapters</li>
+    <li><code class="inline-code">services/_use-case.schema.md</code> — the full use-case YAML schema</li>
+  </ul>
+
+  </div>
+  <aside class="chapter-summary">
+    <h2>Key Takeaways</h2>
+    <ul>
+      <li>APEX-M is the primary variant; adapters compose every non-Microsoft service the client's CAB has approved.</li>
+      <li>Adapter bindings live in the use-case YAML's <code class="inline-code">client_approved_architecture</code> block; the wizard validates every reference.</li>
+      <li>Eight priority adapters (cloud × 4, SaaS × 2, SIEM × 1, identity × 1) ship as stubs in Phase 0; concrete implementations build per-engagement.</li>
+      <li>SEC Independence: every adapter has its own <code class="inline-code">sec_independence.md</code>; APEX does not have an alliance posture with any cloud or SaaS provider.</li>
+    </ul>
+  </aside>
+</article>
+
     </main>
   </div>
   <script>

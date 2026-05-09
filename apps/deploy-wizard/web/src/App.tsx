@@ -1,4 +1,5 @@
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import Adapters from "./pages/Adapters";
 import Catalog from "./pages/Catalog";
 import Deploy from "./pages/Deploy";
 import Drift from "./pages/Drift";
@@ -16,6 +17,7 @@ export default function App() {
         <Link to="/wizard">Deploy Wizard</Link>
         <Link to="/roadmap">Roadmap</Link>
         <Link to="/catalog">Catalog</Link>
+        <Link to="/adapters">Adapters</Link>
         <Link to="/tenants">Tenants</Link>
         <Link to="/history">History</Link>
         <Link to="/drift">Drift</Link>
@@ -27,6 +29,7 @@ export default function App() {
           <Route path="/wizard" element={<Wizard />} />
           <Route path="/roadmap" element={<Roadmap />} />
           <Route path="/catalog" element={<Catalog />} />
+          <Route path="/adapters" element={<Adapters />} />
           <Route path="/tenants" element={<Tenants />} />
           <Route path="/deploy" element={<Deploy />} />
           <Route path="/history" element={<History />} />

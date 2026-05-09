@@ -48,6 +48,25 @@ def get_tree(featured_only: bool = Query(default=True)) -> list[dict]:
     return registry.tree(featured_only=featured_only)
 
 
+@router.get("/use-cases")
+def list_use_cases(service: str | None = Query(default=None)) -> list[dict]:
+    """List use cases under a service (or all services if `service` omitted).
+
+    Each entry is the full use-case.yaml content plus `slug` and `path`.
+    Phase 0.9: variant-aware via `primary_variant` field; per-tenant
+    `client_approved_architecture` block declares adapter bindings.
+    """
+    return registry.load_use_cases(service_code=service)
+
+
+@router.get("/adapters")
+def list_adapters() -> list[str]:
+    """Inventory of available APEX protocol adapters under
+    packages/apex-adapters/.../protocol_adapters/. Wizard's render endpoint
+    validates use-case adapter refs against this list."""
+    return registry.list_known_adapters()
+
+
 @router.get("/build-status")
 def get_build_status(practice: str | None = Query(default=None)) -> dict:
     """Per-practice build plan with sprint orchestration. Read by the
