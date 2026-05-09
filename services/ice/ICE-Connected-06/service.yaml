@@ -10,7 +10,7 @@ scenarios:
 deployment:
   wave_strategy: three-wave
   iac: bicep
-  module: infra/bicep/modules/service.bicep
+  module: apex-m/infra/bicep/modules/service.bicep
   service_module: services/ice/ICE-Connected-06/bicep/main.bicep
 agent_archetype:
   name: hierarchical-root + sequential-with-hitl-gate

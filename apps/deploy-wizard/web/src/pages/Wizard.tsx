@@ -93,7 +93,8 @@ export default function Wizard() {
             Azure tenant. Selections roll up: select a practice and every service
             beneath it is included; expand to deselect specific scenarios or
             agents. Output is a Bicep parameter file for{" "}
-            <code className="text-xs">infra/bicep/blueprints/&lt;wave&gt;.bicep</code>.
+            <code className="text-xs">apex-m/infra/bicep/blueprints/&lt;wave&gt;.bicep</code>{" "}
+            (APEX-M variant).
           </p>
         </header>
 

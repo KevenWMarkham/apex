@@ -291,7 +291,7 @@ appear only in `services/_registry.json` (zero scaffolding) until promoted.
             "deployment": {
                 "wave_strategy": "three-wave",
                 "iac": "bicep",
-                "module": f"infra/bicep/modules/service.bicep",
+                "module": f"apex-m/infra/bicep/modules/service.bicep",
                 "service_module": f"services/{ind_slug}/{scode}/bicep/main.bicep",
             },
             "agent_archetype": {
@@ -332,7 +332,7 @@ param agentIdentityId string
 
 var serviceCode = '{scode}'
 
-module fleet '../../../../infra/bicep/modules/agent-fleet.bicep' = [
+module fleet '../../../../apex-m/infra/bicep/modules/agent-fleet.bicep' = [
   for sid in featuredScenarios: {{
     name: 'fleet-${{sid}}'
     params: {{
@@ -352,7 +352,7 @@ output deployedScenarios array = featuredScenarios
 
         write(svc_dir / "bicep" / "agents.bicep", f"""// services/{ind_slug}/{scode}/bicep/agents.bicep
 // Override hook for service-specific agent configuration.
-// Default agent-fleet behavior is in infra/bicep/modules/agent-fleet.bicep.
+// Default agent-fleet behavior is in apex-m/infra/bicep/modules/agent-fleet.bicep.
 // Add only the deltas (custom tools, custom prompts, custom HITL gates) here.
 
 targetScope = 'resourceGroup'
@@ -508,7 +508,7 @@ adding their scenario folder + agent fleet here).
 2. Re-run `python tools/gen_services_tree.py`.
 3. Fill in the generated `service.yaml` (personas, schemas).
 4. If the service should be deployable: edit `bicep/main.bicep` to compose the
-   relevant `infra/bicep/modules/*` and add the service to the wizard registry
+   relevant `apex-m/infra/bicep/modules/*` and add the service to the wizard registry
    at `apps/deploy-wizard/api/services_catalog.py`.
 
 ## Promoting a catalog scenario to featured
@@ -522,7 +522,7 @@ adding their scenario folder + agent fleet here).
 This tree generates **Bicep** modules. Existing Terraform modules under
 `infra/terraform/` remain canonical for Fabric capacity, Key Vault, Container
 App environments, and Purview (per the architecture book §10). The Bicep modules
-under `infra/bicep/` and the per-service Bicep here layer on top — they deploy
+under `apex-m/infra/bicep/` and the per-service Bicep here layer on top — they deploy
 *services and agent fleets* into resource groups already provisioned by
 Terraform. The `apps/deploy-wizard/` control plane orchestrates both.
 """

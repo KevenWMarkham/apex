@@ -91,10 +91,12 @@ def render_parameters(sel: TreeSelection) -> RenderedParameters:
         for code, sids in sorted(by_service.items())
     ]
 
+    # APEX-M Bicep blueprints. APEX-G and APEX-A would substitute Terraform
+    # / CloudFormation modules at the same logical step.
     blueprint = {
-        "w1": "infra/bicep/blueprints/w1-foundation.bicep",
-        "w2": "infra/bicep/blueprints/w2-pilot.bicep",
-        "w3": "infra/bicep/blueprints/w3-scale-fuse.bicep",
+        "w1": "apex-m/infra/bicep/blueprints/w1-foundation.bicep",
+        "w2": "apex-m/infra/bicep/blueprints/w2-pilot.bicep",
+        "w3": "apex-m/infra/bicep/blueprints/w3-scale-fuse.bicep",
     }[sel.wave]
 
     parameters = {

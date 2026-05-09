@@ -44,7 +44,7 @@ sprints:
     items:
       - id: 30.1
         title: Provision Layer 1 (Container Apps env, identity, Key Vault, Log Analytics) for RC tenant
-        bicep_ref: infra/bicep/blueprints/w1-foundation.bicep
+        bicep_ref: apex-m/infra/bicep/blueprints/w1-foundation.bicep
         roadmap_ref: [BL.P.91, BL.P.92, BL.P.53]
         services_guide_ref: '§7.4 (Service module skeleton)'
         done: false
@@ -156,7 +156,7 @@ sprints:
     items:
       - id: 33.1
         title: Wizard deploy — RC-E2E-03 to Lab tenant via blueprints/w2-pilot.bicep
-        bicep_ref: infra/bicep/blueprints/w2-pilot.bicep
+        bicep_ref: apex-m/infra/bicep/blueprints/w2-pilot.bicep
         done: false
       - id: 33.2
         title: Cold-chain excursion smoke — synthetic excursion event → HITL approval → audit row
@@ -300,7 +300,7 @@ sprints:
     items:
       - id: 40.1
         title: Wire fusion edges in blueprints/w3-scale-fuse.bicep
-        bicep_ref: infra/bicep/blueprints/w3-scale-fuse.bicep
+        bicep_ref: apex-m/infra/bicep/blueprints/w3-scale-fuse.bicep
         done: false
       - id: 40.2
         title: LEDGER feedback loop — Pricing Agent reads approved-decision episodic memory

@@ -22,7 +22,7 @@ param agentIdentityId string
 
 var serviceCode = 'RC-E2E-06'
 
-module fleet '../../../../infra/bicep/modules/agent-fleet.bicep' = [
+module fleet '../../../../apex-m/infra/bicep/modules/agent-fleet.bicep' = [
   for sid in featuredScenarios: {
     name: 'fleet-${sid}'
     params: {

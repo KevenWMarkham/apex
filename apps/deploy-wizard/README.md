@@ -1,8 +1,13 @@
 # APEX Deploy Wizard — Control Plane
 
-A full control plane for deploying APEX onto an Azure tenant and managing it
-over time. The wizard is the operator-facing UX for everything covered by
-`infra/bicep/` and `services/`.
+A full control plane for deploying APEX onto a client tenant and managing
+it over time. The wizard is the operator-facing UX for everything covered
+by `apex-m/infra/bicep/` and `services/`.
+
+The wizard itself is provider-neutral but ships first against APEX-M
+(the Microsoft variant). When APEX-G and APEX-A variants ship, the
+wizard's render endpoint adds Terraform / CloudFormation paths alongside
+Bicep — same wizard, different IaC dialect.
 
 ## Scope (full control plane)
 
@@ -55,7 +60,7 @@ apps/deploy-wizard/
       components/
         TreeView.tsx               # recursive tri-state-checkbox treeview
   bicep/                           # the wizard's own Azure resources
-    main.bicep                     # references infra/bicep/control-plane/main.bicep
+    main.bicep                     # references apex-m/infra/bicep/control-plane/main.bicep
   parameters/                      # generated parameter files per deployment
     .gitignore                     # ignore generated; keep examples
     examples/
@@ -130,8 +135,10 @@ accidentally deploying a catalog stub that has no agent fleet.
   external dep) — see [`web/src/components/TreeView.tsx`](web/src/components/TreeView.tsx).
 - **State**: Azure Cosmos DB (NoSQL) for tenants, deployments, drift.
 - **IaC**: Bicep — wizard's own resources at [`bicep/main.bicep`](bicep/main.bicep);
-  the services it deploys at [`infra/bicep/blueprints/*.bicep`](../../infra/bicep/blueprints/).
-- **Auth**: Entra ID with managed identity for the API → Cosmos / Key Vault.
+  APEX-M services deploy via [`apex-m/infra/bicep/blueprints/*.bicep`](../../apex-m/infra/bicep/blueprints/).
+  When APEX-G / APEX-A ship, render endpoint also emits Terraform /
+  CloudFormation paths.
+- **Auth**: Microsoft Entra ID + Entra Agent ID for the API → Cosmos / Key Vault.
 
 ## Status
 

@@ -1,7 +1,11 @@
 // apps/deploy-wizard/bicep/main.bicep
-// Wraps infra/bicep/control-plane/main.bicep so the wizard can be deployed
-// from inside its own folder with a one-liner:
+// Wraps apex-m/infra/bicep/control-plane/main.bicep so the wizard can be
+// deployed from inside its own folder with a one-liner:
 //   az deployment group create -g rg-apex-... -f apps/deploy-wizard/bicep/main.bicep -p ...
+//
+// The wizard control plane is APEX-M-flavored Bicep because the wizard
+// itself is hosted on Azure Container Apps. (When APEX-G or APEX-A
+// ship, each gets its own control-plane IaC under the variant directory.)
 
 targetScope = 'resourceGroup'
 
@@ -10,7 +14,7 @@ param containerAppsEnvId string
 param wizardApiImage string
 param wizardWebImage string
 
-module cp '../../../infra/bicep/control-plane/main.bicep' = {
+module cp '../../../apex-m/infra/bicep/control-plane/main.bicep' = {
   name: 'apex-control-plane'
   params: {
     tenant: tenant

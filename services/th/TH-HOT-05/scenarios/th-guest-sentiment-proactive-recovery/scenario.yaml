@@ -190,14 +190,20 @@ chain_24:
     across the portfolio'.
 agents:
 - role: assess
+  label: Assess
   config: agents/assess/agent.yaml
 - role: classify
+  label: Classify
   config: agents/classify/agent.yaml
 - role: quantify
+  label: Quantify
   config: agents/quantify/agent.yaml
 - role: decide
+  label: Decide
   config: agents/decide/agent.yaml
 - role: act
+  label: Act
   config: agents/act/agent.yaml
 - role: learn
+  label: Learn
   config: agents/learn/agent.yaml

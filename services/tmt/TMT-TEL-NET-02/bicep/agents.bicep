@@ -1,6 +1,6 @@
 // services/tmt/TMT-TEL-NET-02/bicep/agents.bicep
 // Override hook for service-specific agent configuration.
-// Default agent-fleet behavior is in infra/bicep/modules/agent-fleet.bicep.
+// Default agent-fleet behavior is in apex-m/infra/bicep/modules/agent-fleet.bicep.
 // Add only the deltas (custom tools, custom prompts, custom HITL gates) here.
 
 targetScope = 'resourceGroup'
