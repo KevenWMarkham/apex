@@ -2,7 +2,7 @@
 
 **Source of truth:** [`services/rc/_build-status.yaml`](../../services/rc/_build-status.yaml)
 **Practice:** Retail & Consumer Products (RC)
-**Reference design:** [Professional APEX Services Guide §18](../book/Professional-APEX-Services-Guide.html#ch-18) — *Retail & Consumer (RC) — 7 Services*
+**Reference design:** [Professional APEX Services Guide §18](../book/Professional-APEX-M-Services-Guide.html#ch-18) — *Retail & Consumer (RC) — 7 Services*
 **Framework roadmap context:** [Roadmap.md](Roadmap.md) — RC items: BL.P.58 (RC agent catalog), BL.P.110 (RC service catalog), BL.P.117 (Big Box Store reference deployment)
 **Wizard surface:** `apps/deploy-wizard/` `/roadmap` page reads the YAML and renders this plan as live status; the treeview decorates each service / scenario / agent with a status badge.
 

@@ -1,9 +1,9 @@
-# Design: Fabric Chapter Deep-Dive Expansion (Professional-APEX.html)
+# Design: Fabric Chapter Deep-Dive Expansion (Professional-APEX-M.html)
 
 **Date:** 2026-04-18
 **Author:** APEX working session
 **Status:** Approved — proceeding to implementation
-**Target:** `docs/book/Professional-APEX.html` Chapter 8 (Fabric Layering)
+**Target:** `docs/book/Professional-APEX-M.html` Chapter 8 (Fabric Layering)
 
 ## Purpose
 
@@ -56,7 +56,7 @@ reference. Scope driven by user request across four prompts:
 ## Implementation Notes
 
 - All new content authored as inline HTML with existing chapter styling (callouts, code blocks, tables).
-- Inserted directly into `docs/book/Professional-APEX.html` before the existing gotchas / worked-example / cross-references sections.
+- Inserted directly into `docs/book/Professional-APEX-M.html` before the existing gotchas / worked-example / cross-references sections.
 - Existing section IDs preserved where practical to avoid breaking anchor links.
 - Independence-compliant language throughout: "leverages Microsoft platform", no "partner / alliance / joint venture" usage.
 

@@ -6,7 +6,7 @@
 
 **Architecture:** New `packages/apex-agentic-merch/` Python package composing existing framework (apex-references, apex-orchestrator, apex-agents, apex-services, apex-merml, apex-cxml, apex-scml, apex-audit, apex-compliance-lint). Local Docker + Ollama runtime; no Azure / Foundry / live Teams. Synthetic Apparel Week-16 fixtures only. Per Walkthrough §11.5.
 
-**Tech Stack:** Python 3.12, Pydantic v2, FastAPI, Ollama (`llama3.1:8b-instruct`), Docker Compose, pytest, hatchling, apex-design-tokens.css for cinematic styling, Web Speech API for narration.
+**Tech Stack:** Python 3.12, Pydantic v2, FastAPI, Ollama (`qwen2.5:7b-instruct`), Docker Compose, pytest, hatchling, apex-design-tokens.css for cinematic styling, Web Speech API for narration.
 
 **Source-of-truth scope:** `06-artifacts/MVP-Sprint Plan with Backlog/APEX-Agentic-Merch-Q1-Walkthrough.docx`
 **Brainstormed design:** `docs/plans/2026-05-05-agentic-merch-q1-mvp-design.md`
@@ -217,7 +217,7 @@ architecture:
   governance_workspace: apex-appretl-governance
   adapters: [sap-s4hana, salesforce, manhattan-wms]
   canonical_schemas: [MERML, CXML, SCML]
-  foundry_model_pins: ["llama3.1:8b-instruct (W1 local Ollama)"]
+  foundry_model_pins: ["qwen2.5:7b-instruct (W1 local Ollama)"]
   purview_classifications: [pii, operations, payment-card]
 
 use_cases:
@@ -529,7 +529,7 @@ Expected: parsed YAML output, no errors. (We're not running `up` yet — server.
 **Step 5: Pull the Ollama model in advance to avoid first-run delay**
 
 ```bash
-ollama pull llama3.1:8b-instruct
+ollama pull qwen2.5:7b-instruct
 ```
 
 Expected: ~5GB download; completes in 5-15 minutes depending on bandwidth.
@@ -1692,7 +1692,7 @@ Create `packages/apex-agentic-merch/src/apex_agentic_merch/runtime/demand_checke
 Wraps apex.rc.agents.demand-sensing (Sprint 16). Computes intent score
 from CXML.Signal; diagnoses supply vs. demand vs. mixed.
 
-Online mode: Ollama call to llama3.1:8b-instruct with structured prompt.
+Online mode: Ollama call to qwen2.5:7b-instruct with structured prompt.
 Offline mode: stub returns deterministic canned response per fixture.
 """
 
@@ -2249,7 +2249,7 @@ def test_build_row_has_all_14_fields() -> None:
         ledger_row_count=11,
         agent_name="analyst",
         prompt_sha="sha256:abc",
-        model_pin="llama3.1:8b-instruct",
+        model_pin="qwen2.5:7b-instruct",
     )
     for field in FOURTEEN_FIELDS:
         assert field in row, f"missing field: {field}"
@@ -2542,7 +2542,7 @@ from apex_agentic_merch.ollama_client import OllamaClient
 
 def test_client_default_model_pin() -> None:
     client = OllamaClient()
-    assert client.model == "llama3.1:8b-instruct"
+    assert client.model == "qwen2.5:7b-instruct"
 
 
 def test_client_temperature_zero_for_determinism() -> None:
@@ -2596,7 +2596,7 @@ import httpx
 @dataclass
 class OllamaClient:
     host: str = ""
-    model: str = "llama3.1:8b-instruct"
+    model: str = "qwen2.5:7b-instruct"
     temperature: float = 0.0
     timeout: float = 120.0
 
@@ -3159,7 +3159,7 @@ Commit: `feat(agentic-merch): 12 conformance markers (Sprint 18 acceptance bar)`
 
 Runbook covers:
 - Setup (docker-compose up, Ollama pull)
-- Troubleshoot: RAM constraints, fall back to llama3.2:3b
+- Troubleshoot: RAM constraints, fall back to qwen2.5:3b-instruct
 - How to run each demo path
 - Hot-key reference for deep-dive scenes
 - Common Q&A answers

@@ -359,7 +359,7 @@ Compliance pass (Sprint 29 4-lane CI green) + ~97 tests green + ~12 new conforma
 
 ### Risk mitigations
 
-- Ollama RAM on colleague laptops → fallback to `llama3.2:3b-instruct`
+- Ollama RAM on colleague laptops → fallback to `qwen2.5:3b-instruct`
 - The Pricer prompt drift → temperature=0 + `llm_stub` fallback for canned demos
 - Hash-chain edge cases → reuse Sprint 12 `apex-audit` battle-tested impl
 - Adaptive Card cross-browser → pin to Chromium engines

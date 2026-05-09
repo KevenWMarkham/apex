@@ -3,7 +3,7 @@
 **Document type:** Verbose design reference
 **Status:** Canonical design baseline
 **Date:** 2026-04-23 (v1.2 — Stacked Architecture, Scenario Library, Wave Ribbon pattern)
-**Source:** Synthesized from `docs/book/Professional-APEX.html` (the Wrox-style book), `docs/book/Professional-APEX-Sellers-Guide.html` (the sellers guide), and `docs/visualization/APEX-Stacked-Architecture-Narrated.html` (the narrated stacked-architecture cinematic)
+**Source:** Synthesized from `docs/book/Professional-APEX-M.html` (the Wrox-style book), `docs/book/Professional-APEX-M-Sellers-Guide.html` (the sellers guide), and `docs/visualization/APEX-Stacked-Architecture-Narrated.html` (the narrated stacked-architecture cinematic)
 **Audience:** Architects, Practice Leads, Delivery Leads, Platform Engineers, Governance Owners, Account Teams
 
 ---

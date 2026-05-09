@@ -362,6 +362,6 @@ The manifest library grows — but the orchestration graph is the same. That's t
 - Practice overview: [../README.md](../README.md)
 - Narrated architecture: [../../../reference/APEX-Stacked-Architecture-Narrated.html](../../../reference/APEX-Stacked-Architecture-Narrated.html)
 - APEX Design (audit row, LEDGER, commercial envelope): [../../../APEX%20-%20Design%20and%20Build/APEX_Design.md](../../../APEX%20-%20Design%20and%20Build/APEX_Design.md)
-- APEX Sellers Guide (Runtime Plane, LEDGER feedback loop): [../../../book/Professional-APEX-Sellers-Guide.html](../../../book/Professional-APEX-Sellers-Guide.html)
+- APEX Sellers Guide (Runtime Plane, LEDGER feedback loop): [../../../book/Professional-APEX-M-Sellers-Guide.html](../../../book/Professional-APEX-M-Sellers-Guide.html)
 - 47-archetype catalog: `packages/apex-orchestrator/src/apex_orchestrator/archetypes/catalog.py`
 - Nike account folder (reference client): `C:\Stage\Clients\Industries\Consumer\Brands-Lifestyle\Nike\01_account\`

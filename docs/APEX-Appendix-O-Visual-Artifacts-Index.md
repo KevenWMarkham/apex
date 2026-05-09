@@ -15,7 +15,7 @@ stale, and which compose into a given client deliverable.
 
 | Filename | Format | Audience | Purpose | Design-Reference §§ | Status |
 |----------|--------|----------|---------|---------------------|--------|
-| `Professional-APEX-Sellers-Guide.html` | HTML (single-file) | Sales lead, engagement counsel, practice steward | Comprehensive sales narrative + governance reference (v1.4) | §1, §2, §6.10, §6.11–§6.13, §10–§16 | Published |
+| `Professional-APEX-M-Sellers-Guide.html` | HTML (single-file) | Sales lead, engagement counsel, practice steward | Comprehensive sales narrative + governance reference (v1.4) | §1, §2, §6.10, §6.11–§6.13, §10–§16 | Published |
 | `APEX-Stacked-Architecture-Narrated.html` | HTML (single-file) | Executive briefing, client-facing demo | 11-tab cinematic narrated walk-through of the layered architecture | §1, §2, §6 | Published (Sprint 27) |
 | `APEX-Runtime-Addendum-Narrated.html` | HTML (single-file) | Engagement-team onboarding, technical pre-clearance | 5-scene narrated runtime walk-through (Orchestration · HITL · LEDGER · Audit Row · KPI Attribution) | §6.10, §6.11–§6.13 | **Pending Sprint 29 §29.6** (front-end track) |
 | `APEX-Seven-Practices-SteerCo-Deck.pptx` | PPTX | SteerCo / executive sponsor | One slide per Practice with full 6-row chain + Wave ribbon sidebar | §1, §6 | **Pending Sprint 29 §29.5** (front-end track via pptxgenjs) |

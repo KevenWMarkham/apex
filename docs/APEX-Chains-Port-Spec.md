@@ -2,7 +2,7 @@
 
 **Sprint 29 Task 29.8 (BL.P.193).** Build-instruction markdown for porting
 the **Chains tab** from `APEX-Stacked-Architecture-Narrated.html` (Sprint
-27) into the main `Professional-APEX-Sellers-Guide.html` build pipeline.
+27) into the main `Professional-APEX-M-Sellers-Guide.html` build pipeline.
 
 This document is the engineering brief — it lists every component to
 move, every dependency to embed-vs-reference, and every merge-conflict
@@ -157,7 +157,7 @@ diverge on:
 
 ## §7 Acceptance criteria
 
-- `Professional-APEX-Sellers-Guide.html` renders the §28 chapter with
+- `Professional-APEX-M-Sellers-Guide.html` renders the §28 chapter with
   all 7 Practice rails, all 35 featured chain cards, the 723-row
   modal, and the Wave Ribbon visualization on every chain.
 - All anchor IDs in §28 are namespaced (`#s28-...`) so they don't
@@ -178,7 +178,7 @@ If the merged HTML fails any of the §7 criteria post-merge, the
 front-end engineer:
 
 1. Reverts the `build-sellers-guide.cjs` change
-2. Restores the previous `Professional-APEX-Sellers-Guide.html` from
+2. Restores the previous `Professional-APEX-M-Sellers-Guide.html` from
    the published `outputs/` directory
 3. Files an issue in the engagement-tracker with the failing criterion
    and the diff of the failing build

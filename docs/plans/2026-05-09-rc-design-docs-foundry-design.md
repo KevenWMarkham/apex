@@ -114,9 +114,9 @@ The two levels cross-link: every co-located `DESIGN.md` has a *"See also"* foote
 
 Every generated `DESIGN.md` cross-references:
 
-- The Services Guide HTML chapter (`docs/book/Professional-APEX-Services-Guide.html#ch-18` for RC, `#ch-19` for HLS, etc.)
-- The Deployment Guide HTML chapter (`docs/book/Professional-APEX-Deployment-Guide.html#ch-7` for service module shape, `#ch-1` for the three-layer cake)
-- The Sellers Guide HTML where applicable (`docs/book/Professional-APEX-Sellers-Guide.html`)
+- The Services Guide HTML chapter (`docs/book/Professional-APEX-M-Services-Guide.html#ch-18` for RC, `#ch-19` for HLS, etc.)
+- The Deployment Guide HTML chapter (`docs/book/Professional-APEX-M-Deployment-Guide.html#ch-7` for service module shape, `#ch-1` for the three-layer cake)
+- The Sellers Guide HTML where applicable (`docs/book/Professional-APEX-M-Sellers-Guide.html`)
 - The Microsoft Learn URLs cited in §3 above
 - The framework `Roadmap.md` BL.* IDs the design depends on
 
@@ -265,7 +265,7 @@ Both registries are referenced **by id** from use cases, scenarios, and agents. 
 
 ## 8. Book updates
 
-### 8.1 Deployment Guide ([`docs/book/Professional-APEX-Deployment-Guide.html`](../book/Professional-APEX-Deployment-Guide.html))
+### 8.1 Deployment Guide ([`docs/book/Professional-APEX-M-Deployment-Guide.html`](../book/Professional-APEX-M-Deployment-Guide.html))
 
 - **Chapter 1 (The Three-Layer Cake)** — replace Layer 3 description: "Container image deployed as Container App" → "Foundry Hosted Agent on Microsoft Foundry Agent Service. Same image runs on Docker Desktop locally and Foundry on Azure." Cite [Foundry Hosted Agents](https://learn.microsoft.com/agent-framework/hosting/foundry-hosted-agent).
 - **Chapter 7 (Service module shape)** — update `agents.bicep` skeleton to show Foundry resource type; keep service module composition shape. Cite [AVM ai-foundry module](https://github.com/Azure/bicep-registry-modules/tree/main/avm/ptn/ai-ml/ai-foundry).
@@ -273,7 +273,7 @@ Both registries are referenced **by id** from use cases, scenarios, and agents. 
 - **Chapter 9 (HITL gates)** — note that HITL is an explicit Microsoft-listed reason for hosted-agent over prompt-agent. Cite [Foundry baseline chat](https://learn.microsoft.com/azure/architecture/ai-ml/architecture/baseline-microsoft-foundry-chat).
 - **Chapter 10 (MCP servers)** — explicitly cross-reference [host MCP servers on Container Apps](https://learn.microsoft.com/azure/container-apps/mcp-overview) and the [`azmcp-foundry-aca-mi`](https://github.com/Azure-Samples/azmcp-foundry-aca-mi) sample as the canonical pattern.
 
-### 8.2 Services Guide ([`docs/book/Professional-APEX-Services-Guide.html`](../book/Professional-APEX-Services-Guide.html))
+### 8.2 Services Guide ([`docs/book/Professional-APEX-M-Services-Guide.html`](../book/Professional-APEX-M-Services-Guide.html))
 
 - **Chapter 18 (RC services)** — append a §18.x sub-section to each service: *"Use Cases — How clients qualify this Service against their data."* Each lists 1–3 representative use cases with the persona × KPI × substrate variability called out. Link to the centralized `docs/APEX - Design and Build/services/{code}/index.md`.
 - **New Chapter 27 (Use Cases as the Variability Layer)** — explains the persona/KPI/substrate model and the `use-case.yaml` schema. Pattern repeats for HLS / ER / AXLE / TH / TMT / ICE.
@@ -345,10 +345,10 @@ Rollback path: revert the Bicep agent-fleet rewrite; everything else (DESIGN.md 
 ## 13. References
 
 **APEX books** (existing):
-- [Professional APEX Deployment Guide](../book/Professional-APEX-Deployment-Guide.html) — chapters 1, 7, 9, 10, 11
-- [Professional APEX Services Guide](../book/Professional-APEX-Services-Guide.html) — chapter 14, 18, 25
-- [Professional APEX Sellers Guide](../book/Professional-APEX-Sellers-Guide.html)
-- [Professional APEX (canonical)](../book/Professional-APEX.html) — §3.10, §3.11
+- [Professional APEX Deployment Guide](../book/Professional-APEX-M-Deployment-Guide.html) — chapters 1, 7, 9, 10, 11
+- [Professional APEX Services Guide](../book/Professional-APEX-M-Services-Guide.html) — chapter 14, 18, 25
+- [Professional APEX Sellers Guide](../book/Professional-APEX-M-Sellers-Guide.html)
+- [Professional APEX (canonical)](../book/Professional-APEX-M.html) — §3.10, §3.11
 
 **APEX repository** (existing):
 - [Roadmap.md](../APEX%20-%20Design%20and%20Build/Roadmap.md) — BL.P.91 / BL.P.92 (Fabric capacity), BL.P.110 (RC service catalog), BL.P.117 (Big Box reference deployment)

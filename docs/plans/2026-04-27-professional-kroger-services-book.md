@@ -10,7 +10,7 @@
 
 **Reference design doc:** `docs/plans/2026-04-27-professional-kroger-services-book-design.md`
 
-**Reference output:** `docs/book/Professional-APEX-Sellers-Guide.html` (look-and-feel target)
+**Reference output:** `docs/book/Professional-APEX-M-Sellers-Guide.html` (look-and-feel target)
 
 ---
 
@@ -95,7 +95,7 @@ Replace:
 // HTML book. Targets Deloitte Microsoft-practice sellers and GPLs pursuing
 // APEX revenue in named industry accounts.
 //
-// Output: docs/book/Professional-APEX-Sellers-Guide.html
+// Output: docs/book/Professional-APEX-M-Sellers-Guide.html
 // Run:   node build-sellers-guide.cjs
 ```
 
@@ -116,7 +116,7 @@ Change B — output path (line ~17):
 
 Replace:
 ```
-const OUTPUT_HTML = path.join(ROOT, 'docs', 'book', 'Professional-APEX-Sellers-Guide.html');
+const OUTPUT_HTML = path.join(ROOT, 'docs', 'book', 'Professional-APEX-M-Sellers-Guide.html');
 ```
 
 With:

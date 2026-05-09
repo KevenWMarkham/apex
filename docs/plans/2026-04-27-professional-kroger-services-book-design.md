@@ -12,7 +12,7 @@ into a coherent engagement narrative. The book is the read-front-to-back
 companion to the artifact set: a seller can read it cold to get smart on the
 Kroger pursuit, then click through to underlying deliverables for depth.
 
-The reference look-and-feel is `docs/book/Professional-APEX-Sellers-Guide.html`
+The reference look-and-feel is `docs/book/Professional-APEX-M-Sellers-Guide.html`
 (the Wrox-style 5-part book). This new book uses the same visual system,
 sidebar navigation, callouts, mermaid diagrams, search, and dark-mode toggle.
 

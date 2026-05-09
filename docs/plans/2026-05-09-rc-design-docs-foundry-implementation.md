@@ -556,7 +556,7 @@ git commit -m "feat(wizard-api): render merges use-case overrides into Bicep par
 ### Task G1: Deployment Guide ch 1 — Layer 3 description rewrite
 
 **Files:**
-- Modify: `docs/book/Professional-APEX-Deployment-Guide.html`
+- Modify: `docs/book/Professional-APEX-M-Deployment-Guide.html`
 
 **Step 1:** Find the Chapter 1 Layer 3 description block (Layer 3 paragraph + supporting cells in the SVG). Replace "Container image deployed as Container App" with the Foundry Hosted Agents narrative. Add inline link to [Foundry Hosted Agents docs](https://learn.microsoft.com/agent-framework/hosting/foundry-hosted-agent) and the [Foundry baseline reference](https://learn.microsoft.com/azure/architecture/ai-ml/architecture/baseline-microsoft-foundry-chat).
 
@@ -565,7 +565,7 @@ git commit -m "feat(wizard-api): render merges use-case overrides into Bicep par
 python -c "
 import xml.etree.ElementTree as ET
 import re
-content = open(r'docs/book/Professional-APEX-Deployment-Guide.html', encoding='utf-8').read()
+content = open(r'docs/book/Professional-APEX-M-Deployment-Guide.html', encoding='utf-8').read()
 # count opens vs closes for <article>
 print('article opens:', len(re.findall(r'<article\b', content)))
 print('article closes:', len(re.findall(r'</article>', content)))
@@ -575,7 +575,7 @@ Expected: opens == closes.
 
 **Step 3:** Commit.
 ```powershell
-git add docs/book/Professional-APEX-Deployment-Guide.html
+git add docs/book/Professional-APEX-M-Deployment-Guide.html
 git commit -m "docs(deploy-guide): ch 1 Layer 3 = Foundry Hosted Agents (Path C)"
 ```
 
@@ -584,7 +584,7 @@ git commit -m "docs(deploy-guide): ch 1 Layer 3 = Foundry Hosted Agents (Path C)
 ### Task G2: Deployment Guide ch 7 + new ch 11.5 + ch 9/10 cross-refs
 
 **Files:**
-- Modify: `docs/book/Professional-APEX-Deployment-Guide.html`
+- Modify: `docs/book/Professional-APEX-M-Deployment-Guide.html`
 
 **Step 1:** In ch 7 service module skeleton, update the Bicep example to use Foundry resource types. Cite [AVM ai-foundry module](https://github.com/Azure/bicep-registry-modules/tree/main/avm/ptn/ai-ml/ai-foundry).
 
@@ -596,7 +596,7 @@ git commit -m "docs(deploy-guide): ch 1 Layer 3 = Foundry Hosted Agents (Path C)
 
 **Step 5:** Commit.
 ```powershell
-git add docs/book/Professional-APEX-Deployment-Guide.html
+git add docs/book/Professional-APEX-M-Deployment-Guide.html
 git commit -m "docs(deploy-guide): ch 7 Bicep + new ch 11.5 Foundry surfacing + ch 9/10 cross-refs"
 ```
 
@@ -605,7 +605,7 @@ git commit -m "docs(deploy-guide): ch 7 Bicep + new ch 11.5 Foundry surfacing + 
 ### Task G3: Services Guide ch 18 — add Use Cases sub-sections
 
 **Files:**
-- Modify: `docs/book/Professional-APEX-Services-Guide.html`
+- Modify: `docs/book/Professional-APEX-M-Services-Guide.html`
 
 **Step 1:** Append a *"Use Cases"* sub-section to each of the 7 RC service profiles in ch 18 (`§18.1.x` through `§18.7.x`). Each lists representative use cases with persona × KPI × substrate variability. Link to `docs/APEX - Design and Build/services/{code}/index.md`.
 
@@ -613,7 +613,7 @@ git commit -m "docs(deploy-guide): ch 7 Bicep + new ch 11.5 Foundry surfacing + 
 
 **Step 3:** Commit.
 ```powershell
-git add docs/book/Professional-APEX-Services-Guide.html
+git add docs/book/Professional-APEX-M-Services-Guide.html
 git commit -m "docs(services-guide): ch 18 RC services get Use Cases sub-sections"
 ```
 
@@ -622,7 +622,7 @@ git commit -m "docs(services-guide): ch 18 RC services get Use Cases sub-section
 ### Task G4: Services Guide new ch 27 — Use Cases as the Variability Layer
 
 **Files:**
-- Modify: `docs/book/Professional-APEX-Services-Guide.html`
+- Modify: `docs/book/Professional-APEX-M-Services-Guide.html`
 
 **Step 1:** Add new ch 27 explaining the persona/KPI/substrate model + the `use-case.yaml` schema. Show worked example using `services/rc/RC-E2E-03/use-cases/_default/use-case.yaml`. Note pattern repeats for HLS/ER/AXLE/TH/TMT/ICE.
 
@@ -630,7 +630,7 @@ git commit -m "docs(services-guide): ch 18 RC services get Use Cases sub-section
 
 **Step 3:** Commit.
 ```powershell
-git add docs/book/Professional-APEX-Services-Guide.html
+git add docs/book/Professional-APEX-M-Services-Guide.html
 git commit -m "docs(services-guide): new ch 27 — Use Cases as the variability layer"
 ```
 
@@ -728,7 +728,7 @@ Expected: ~22 new commits since `7568fb8` (the design doc commit), all with `fea
 
 - Design: [`docs/plans/2026-05-09-rc-design-docs-foundry-design.md`](2026-05-09-rc-design-docs-foundry-design.md)
 - Source data: [`docs/reference/APEX-Scenario-Chains.xlsx`](../reference/APEX-Scenario-Chains.xlsx)
-- Existing books: [Deployment Guide](../book/Professional-APEX-Deployment-Guide.html), [Services Guide](../book/Professional-APEX-Services-Guide.html)
+- Existing books: [Deployment Guide](../book/Professional-APEX-M-Deployment-Guide.html), [Services Guide](../book/Professional-APEX-M-Services-Guide.html)
 - Microsoft Learn: see design doc §13 for full link table
 
 ---
@@ -741,7 +741,7 @@ Expected: ~22 new commits since `7568fb8` (the design doc commit), all with `fea
 
 **Files:**
 - Modify: `infra/bicep/platform/identity.bicep` — add Entra Agent ID parent identity provisioning
-- Modify: `docs/book/Professional-APEX-Deployment-Guide.html` — chapters 8 (identity), 13 (security), 9 (HITL CA)
+- Modify: `docs/book/Professional-APEX-M-Deployment-Guide.html` — chapters 8 (identity), 13 (security), 9 (HITL CA)
 - Create: `docs/APEX - Design and Build/agent-identity-blueprints.md` — per-service blueprint definitions
 
 **Steps:** see delta §A items A.1–A.6. Commit per book/file. Verify Entra Agent ID provisioning lints with AVM module (when available) or document as TODO if SDK is sidecar-only.
@@ -749,8 +749,8 @@ Expected: ~22 new commits since `7568fb8` (the design doc commit), all with `fea
 ### Task I2: Data tier — primary-workspace pattern + OneLake user identity mode
 
 **Files:**
-- Modify: `docs/book/Professional-APEX-Services-Guide.html` — ch 1 (medallion contract), ch 4 (SOR connections), ch 5 (Real-Time Hub), new §1.5 (primary-workspace pattern)
-- Modify: `docs/book/Professional-APEX.html` — ch 8 (Fabric layering)
+- Modify: `docs/book/Professional-APEX-M-Services-Guide.html` — ch 1 (medallion contract), ch 4 (SOR connections), ch 5 (Real-Time Hub), new §1.5 (primary-workspace pattern)
+- Modify: `docs/book/Professional-APEX-M.html` — ch 8 (Fabric layering)
 - Modify: `infra/bicep/modules/service.bicep` — workspace-identity-based output instead of SP secret
 - Modify: `services/{ind}/{code}/service.yaml` (via generator) — add `workspace_pattern: primary-with-shortcuts`
 
@@ -759,7 +759,7 @@ Expected: ~22 new commits since `7568fb8` (the design doc commit), all with `fea
 ### Task I3: Security — Purview + Defender integration
 
 **Files:**
-- Modify: `docs/book/Professional-APEX-Deployment-Guide.html` — ch 11 (audit), 13 (security), new ch 13.5 (Pre-deployment Security Gate)
+- Modify: `docs/book/Professional-APEX-M-Deployment-Guide.html` — ch 11 (audit), 13 (security), new ch 13.5 (Pre-deployment Security Gate)
 - Modify: `infra/bicep/platform/main.bicep` — Defender for Cloud + Defender for AI services enablement
 - Create: `infra/bicep/platform/security-baseline.bicep` — CMK, Customer Lockbox, MCSB AI Security policy assignments
 - Create: `docs/APEX - Design and Build/classification-mapping.md` — APEX T1–T4 → Purview sensitivity-label crosswalk
@@ -772,15 +772,15 @@ Expected: ~22 new commits since `7568fb8` (the design doc commit), all with `fea
 - Modify: `infra/bicep/platform/foundry.bicep` — pin AVM version, BYO Storage + AI Search + Cosmos DB + VNet, network injection at create
 - Create: `infra/bicep/platform/dns.bicep` — 7 private DNS zones
 - Create: `infra/bicep/platform/byo-resources.bicep` — Storage + AI Search + Cosmos with private endpoints
-- Modify: `docs/book/Professional-APEX-Deployment-Guide.html` — ch 7 (service module shape), ch 11.5 (new Foundry chapter)
+- Modify: `docs/book/Professional-APEX-M-Deployment-Guide.html` — ch 7 (service module shape), ch 11.5 (new Foundry chapter)
 
 **Steps:** see delta §D items D.1–D.7. Bicep updates only — no new APEX runtime code. Lint each module via `az bicep build`.
 
 ### Task I5: M365 + Power Platform surfacing (optional, post-pilot)
 
 **Files:**
-- Modify: `docs/book/Professional-APEX-Deployment-Guide.html` — new ch 11.5 (Surfacing APEX in M365)
-- Modify: `docs/book/Professional-APEX-Sellers-Guide.html` — surface notes per service envelope
+- Modify: `docs/book/Professional-APEX-M-Deployment-Guide.html` — new ch 11.5 (Surfacing APEX in M365)
+- Modify: `docs/book/Professional-APEX-M-Sellers-Guide.html` — surface notes per service envelope
 - Create: `apps/m365-publisher/` — Microsoft 365 Agents Toolkit packaging skeleton (TBD; later sprint)
 
 **Steps:** see delta §E items E.1–E.6. Documentation-only at this phase; M365 publishing tooling follows Wave 2 pilot success.

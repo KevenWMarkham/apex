@@ -79,4 +79,4 @@ Cross-Practice notes:
 - Nike account folder (reference client): `C:\Stage\Clients\Industries\Consumer\Brands-Lifestyle\Nike\01_account\`
 - Narrated architecture: [../../../reference/APEX-Stacked-Architecture-Narrated.html](../../../reference/APEX-Stacked-Architecture-Narrated.html)
 - APEX Design: [../../../APEX%20-%20Design%20and%20Build/APEX_Design.md](../../../APEX%20-%20Design%20and%20Build/APEX_Design.md)
-- APEX Sellers Guide (Runtime Plane, LEDGER feedback loop): [../../../book/Professional-APEX-Sellers-Guide.html](../../../book/Professional-APEX-Sellers-Guide.html)
+- APEX Sellers Guide (Runtime Plane, LEDGER feedback loop): [../../../book/Professional-APEX-M-Sellers-Guide.html](../../../book/Professional-APEX-M-Sellers-Guide.html)
