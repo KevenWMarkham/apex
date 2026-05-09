@@ -1666,6 +1666,36 @@ output appInsightsConnectionString string = observability.outputs.appInsightsCon
 
   <p>The Microsoft Entra ID token issued to a user-assigned identity is short-lived (default 1 hour). Containers re-authenticate transparently via the IMDS endpoint at <code class="inline-code">169.254.169.254</code> — a Microsoft platform contract documented in the Container Apps managed-identity guide. The agent code does not handle token acquisition; the Microsoft Entra ID SDK in <code class="inline-code">azure-identity</code> (or the language-equivalent) handles it.</p>
 
+  <h3 id="ch-5-1-1">5.1.1 Microsoft Entra Agent ID — Agent-Native Identity (GA April 2026)</h3>
+  <p>The four user-assigned managed identities in §4.3 cover <em>resource access</em> — they let a Container App reach Microsoft.ContainerRegistry, Microsoft.KeyVault, Microsoft Fabric, and the rest of the Microsoft platform. They do not, however, give an APEX agent its <em>own</em> identity for purposes of governance, conditional access, or agent-to-agent (A2A) authentication. Until April 2026, that gap was bridged with bespoke per-UAMI Conditional Access policies and ad-hoc OAuth dances.</p>
+  <p><strong>Microsoft Entra Agent ID</strong> closes that gap. Per the Microsoft Learn overview, "Microsoft Entra Agent ID is an identity and security framework that extends Microsoft Entra capabilities to AI agents… The Microsoft Entra Agent identity platform enables developers to create and manage agent identities, which are specialized identity constructs built for AI agents. Agent identity blueprints serve as templates for creating individual agent identities with parent-child relationships, enabling consistent security policies across large numbers of agents."</p>
+  <p>APEX-M adopts Entra Agent ID as the canonical identity layer for agents in production. The four UAMI identities from §4.3 stay — they remain how the Container App reaches Azure resources. Entra Agent ID sits <em>above</em> them, providing:</p>
+  <ul>
+    <li><strong>Blueprint-based provisioning</strong> — one parent blueprint per APEX-M tenant (<code class="inline-code">apex-m-tenant-root</code>), one per APEX service (<code class="inline-code">apex-m-rc-e2e-03-blueprint</code>, etc.), and concrete identities per agent role per scenario instantiated from the service blueprint.</li>
+    <li><strong>Policy inheritance</strong> — Conditional Access, RBAC, and lifecycle rules attached at the parent blueprint propagate to every child identity. Disable a blueprint and every identity beneath it disables in one operation — critical for incident response and tenant decommissioning.</li>
+    <li><strong>OAuth 2.0 + MCP + A2A</strong> — Entra Agent ID supports the standard agent protocols natively, including the on-behalf-of (OBO) flow that propagates an HITL approver's principal through the agent's API calls.</li>
+    <li><strong>Identity governance integration</strong> — access reviews, lifecycle management, and orphan-detection apply to agent identities the same way they apply to user identities.</li>
+  </ul>
+
+  <p><strong>The naming convention is deterministic</strong> so the wizard, the audit row, the Microsoft Entra portal, and the Foundry hosted-agent registration all stay in sync (see <code class="inline-code">docs/APEX - Design and Build/agent-identity-blueprints.md</code> §3):</p>
+  <div class="code-block"><div class="code-lang">APEX-M agent identity naming</div><pre><code>tenant root            : apex-m-tenant-root
+service blueprint      : apex-m-{service-code-lowercase}-blueprint
+agent identity         : apex-m:{service-code}:{scenario-id}:{role}
+
+Example for The Pricer:
+  blueprint            : apex-m-rc-e2e-03-blueprint
+  identity             : apex-m:RC-E2E-03:rc-cold-chain-excursion-mid-shift:pricing</code></pre></div>
+
+  <p><strong>Provisioning happens via Microsoft Graph.</strong> As of GA, Entra Agent ID resources are not yet exposed as native ARM resource types; the <code class="inline-code">apex-m/infra/bicep/platform/identity.bicep</code> module provisions the four UAMI identities natively and runs a deployment script that calls Microsoft Graph (<code class="inline-code">POST /agentIdentities/blueprints</code> and <code class="inline-code">POST /agentIdentities/blueprints/{id}/instances</code>) for the blueprints. When <code class="inline-code">Microsoft.Graph/agentIdentities</code> resource types land, the deployment script will be replaced with native Bicep resources.</p>
+
+  <p><strong>The APEX-Core protocol contract.</strong> APEX-Core defines an <code class="inline-code">AgentIdentityProvider</code> protocol (see <code class="inline-code">packages/apex-core/src/apex_core/protocols/agent_identity.py</code>). APEX-M's implementation is <code class="inline-code">apex_m.identity_entra.AgentIdentityProviderEntra</code>, wrapping the Microsoft Graph endpoints. The implementation is <em>variant-isolated</em> — when APEX-G or APEX-A ship, each provides its own concrete impl (Cloud IAM service-account impersonation for APEX-G; IAM Identity Center + STS AssumeRole for APEX-A) against the same protocol. Agent code that uses the protocol works unchanged across all three variants.</p>
+
+  <p><strong>Workload Identity Federation for the laptop substrate.</strong> Per Chapter 2, the same agent image runs on Docker Desktop locally and Foundry Hosted Agents on Azure. Local substrate uses Workload Identity Federation instead of stored secrets — the federated credential file at <code class="inline-code">$AZURE_FEDERATED_TOKEN_FILE</code> is a child of <code class="inline-code">apex-m-{service-code}-blueprint</code> in Entra Agent ID. Token exchange happens against the Microsoft identity platform; no static credential lives on the laptop. This satisfies the Microsoft Cloud Security Benchmark v2 AI-7 control (no long-lived secrets in development environments).</p>
+
+  <aside class="callout bestpractice"><div class="callout-label">Best Practice — Provision blueprints before agents</div><p>The wizard's deployment sequence creates the tenant root blueprint, then service blueprints, then per-agent identities — in that order. Skipping a level (e.g., creating an agent identity directly without a service blueprint) is rejected by the deployment script and the wizard's render endpoint. The hierarchy is the entire policy-inheritance argument; flat identity provisioning forfeits it.</p></aside>
+
+  <p>For the full blueprint hierarchy, per-service policy table, decommissioning sequence, and APEX-Core protocol mapping, see <code class="inline-code">docs/APEX - Design and Build/agent-identity-blueprints.md</code>.</p>
+
   <h2 id="ch-5-2">5.2 Secret Resolution via Microsoft.App secretRef</h2>
   <p>Secrets reach the Container App via two mechanisms, both Microsoft-native:</p>
 
