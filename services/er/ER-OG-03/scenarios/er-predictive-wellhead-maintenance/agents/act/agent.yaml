@@ -1,0 +1,11 @@
+role: act
+scenario_id: er-predictive-wellhead-maintenance
+service_code: ER-OG-03
+archetype: hierarchical-root + sequential-with-hitl-gate
+model: TBD
+tools: []
+schemas_read: []
+schemas_write: []
+hitl_gate: true
+audit_row_emit: true
+prompt_ref: prompts/act.md

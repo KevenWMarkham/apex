@@ -1,0 +1,11 @@
+role: quantify
+scenario_id: th-irops-re-accommodation
+service_code: TH-AIR-02
+archetype: hierarchical-root + sequential-with-hitl-gate
+model: TBD
+tools: []
+schemas_read: []
+schemas_write: []
+hitl_gate: false
+audit_row_emit: true
+prompt_ref: prompts/quantify.md

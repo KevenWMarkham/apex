@@ -1,0 +1,11 @@
+role: assess
+scenario_id: ice-field-service-dispatch-optimization
+service_code: ICE-Aftermarket-01
+archetype: hierarchical-root + sequential-with-hitl-gate
+model: TBD
+tools: []
+schemas_read: []
+schemas_write: []
+hitl_gate: false
+audit_row_emit: true
+prompt_ref: prompts/assess.md

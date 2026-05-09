@@ -1,0 +1,11 @@
+role: decide
+scenario_id: er-refinery-yield-optimization
+service_code: ER-OG-05
+archetype: hierarchical-root + sequential-with-hitl-gate
+model: TBD
+tools: []
+schemas_read: []
+schemas_write: []
+hitl_gate: true
+audit_row_emit: true
+prompt_ref: prompts/decide.md

@@ -1,0 +1,3 @@
+# Generated parameter files (one per deployment) — never check in
+*.json
+!examples/

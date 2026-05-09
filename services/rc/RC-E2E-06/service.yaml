@@ -1,0 +1,28 @@
+service_code: RC-E2E-06
+industry: rc
+industry_label: Retail & Consumer Products
+domains:
+- Operations & Workforce
+scenarios:
+  featured: 0
+  catalog: 16
+  total: 16
+deployment:
+  wave_strategy: three-wave
+  iac: bicep
+  module: infra/bicep/modules/service.bicep
+  service_module: services/rc/RC-E2E-06/bicep/main.bicep
+agent_archetype:
+  name: hierarchical-root + sequential-with-hitl-gate
+  fleet_size: 6
+  roles:
+  - assess
+  - classify
+  - quantify
+  - decide
+  - act
+  - learn
+schemas_consumed: []
+personas:
+  operator: TBD — see scenarios/*/scenario.yaml
+  hitl_approver: TBD — Teams Adaptive Card gate
