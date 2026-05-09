@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Professional APEX — Executive Summary</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Aptos:wght@400;600;700&family=Cascadia+Mono&display=swap" rel="stylesheet">
+  <style>
+  :root {
+    --gold: #C89D3A;
+    --wrox-red: #B8232F;
+    --apex-teal: #2DD4BF;
+    --navy: #1A2339;
+    --dim: #64748B;
+    --bg: #ffffff;
+    --text: #1F2937;
+    --code-bg: #F5F5F7;
+    --border: #E5E7EB;
+    --keyplay-purple: #8B5CF6;
+  }
+  body.dark {
+    --bg: #0F172A; --text: #E5E7EB; --code-bg: #1E293B;
+    --border: #334155; --dim: #94A3B8;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "Source Serif 4", Charter, Georgia, "Times New Roman", serif;
+    background: var(--bg); color: var(--text);
+    line-height: 1.6; font-size: 16px;
+  }
+  .topbar {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--navy); color: #fff;
+    padding: 12px 24px; display: flex; align-items: center; gap: 16px;
+    border-bottom: 2px solid var(--gold);
+  }
+  .topbar .book-brand {
+    font-family: Aptos, sans-serif; font-weight: 700; font-size: 15px;
+    color: #fff; text-decoration: none;
+  }
+  .topbar .book-brand .accent { color: var(--gold); }
+  .topbar .spacer { flex: 1; }
+  .trilogy-nav {
+    display: flex; align-items: center; gap: 4px;
+    font-family: Aptos, sans-serif; font-size: 12px;
+  }
+  .trilogy-nav .label {
+    color: #94A3B8; letter-spacing: 0.15em; font-size: 10px;
+    font-weight: 700; text-transform: uppercase; margin-right: 6px;
+  }
+  .trilogy-nav a {
+    display: inline-block; padding: 4px 10px;
+    border: 1px solid rgba(255,255,255,0.25); border-radius: 4px;
+    color: #fff; text-decoration: none; font-weight: 700;
+  }
+  .trilogy-nav a:hover { background: rgba(255,255,255,0.10); }
+  .topbar button {
+    background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.3);
+    padding: 6px 10px; border-radius: 6px; font-size: 13px; cursor: pointer;
+  }
+  main { max-width: 880px; margin: 0 auto; padding: 0 24px 60px; }
+
+  .hero {
+    margin: 0 -24px 32px;
+    padding: 56px 60px 48px;
+    background: linear-gradient(135deg, var(--navy) 0%, #0B111E 100%);
+    color: #fff; border-bottom: 3px solid var(--gold);
+  }
+  .hero .label {
+    font-family: Aptos, sans-serif;
+    font-size: 12px; letter-spacing: 0.4em; color: var(--gold);
+    text-transform: uppercase; font-weight: 700; margin-bottom: 14px;
+  }
+  .hero .title {
+    font-family: Aptos, sans-serif;
+    font-size: 42px; line-height: 1.1; margin: 0 0 8px; font-weight: 700;
+  }
+  .hero .title .accent { color: var(--gold); }
+  .hero .subtitle {
+    font-family: Aptos, sans-serif;
+    font-size: 19px; color: var(--apex-teal); margin: 4px 0 18px;
+  }
+  .hero .meta {
+    font-family: Aptos, sans-serif; font-size: 13px; color: #94A3B8;
+  }
+  .hero .meta strong { color: var(--gold); }
+
+  h1.section {
+    font-family: Aptos, sans-serif; font-size: 26px; color: var(--navy);
+    margin: 44px 0 8px; padding-bottom: 8px;
+    border-bottom: 3px solid var(--gold);
+  }
+  h2.subsection {
+    font-family: Aptos, sans-serif; font-size: 18px; color: var(--navy);
+    margin: 28px 0 8px;
+  }
+  p { margin: 0 0 12px; }
+  p.lead {
+    font-size: 17px; color: var(--text); font-style: italic;
+    margin-bottom: 18px;
+  }
+
+  /* Bottom-line / kicker */
+  .kicker {
+    border-left: 4px solid var(--gold);
+    background: rgba(200,157,58,0.08);
+    padding: 14px 20px; margin: 18px 0;
+    font-family: Aptos, sans-serif; font-size: 15px; color: var(--navy);
+  }
+  .kicker .lab {
+    font-size: 10px; letter-spacing: 0.2em; color: var(--gold);
+    text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 4px;
+  }
+  .kicker p { margin: 0; }
+
+  /* Numeric display */
+  .num-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 14px;
+    margin: 20px 0; font-family: Aptos, sans-serif;
+  }
+  @media (max-width: 700px) { .num-grid { grid-template-columns: 1fr 1fr; } }
+  .num-grid .num-card {
+    background: var(--code-bg); border-left: 4px solid var(--gold);
+    padding: 14px 16px; border-radius: 4px;
+  }
+  .num-grid .num-card .n {
+    font-size: 26px; font-weight: 700; color: var(--navy); line-height: 1;
+  }
+  .num-grid .num-card .n .unit { font-size: 14px; color: var(--dim); margin-left: 2px; }
+  .num-grid .num-card .lbl {
+    font-size: 11px; color: var(--dim); margin-top: 6px;
+    letter-spacing: 0.05em; text-transform: uppercase;
+  }
+
+  /* Compact tables */
+  table.compact {
+    width: 100%; border-collapse: collapse;
+    margin: 14px 0; font-size: 14px;
+  }
+  table.compact th {
+    background: var(--navy); color: #fff;
+    padding: 7px 10px; text-align: left;
+    font-family: Aptos, sans-serif; font-weight: 600; font-size: 12px;
+  }
+  table.compact td { padding: 7px 10px; border: 1px solid var(--border); }
+  table.compact tr:nth-child(even) td { background: var(--code-bg); }
+
+  /* Decision call-to-action */
+  .cta {
+    margin: 28px 0; padding: 18px 22px;
+    border: 2px solid var(--gold); border-radius: 6px;
+    background: rgba(200,157,58,0.06);
+  }
+  .cta h3 {
+    font-family: Aptos, sans-serif; font-size: 17px; color: var(--navy);
+    margin: 0 0 8px;
+  }
+  .cta ul { margin: 0 0 0 20px; padding: 0; font-size: 14px; }
+  .cta li { margin: 4px 0; }
+
+  a { color: var(--gold); }
+
+  footer.es-footer {
+    margin: 50px -24px -60px; padding: 24px 60px;
+    background: var(--navy); color: #94A3B8;
+    text-align: center;
+    border-top: 3px solid var(--gold);
+    font-size: 12px; font-family: Aptos, sans-serif;
+  }
+  footer.es-footer strong { color: var(--gold); }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a href="Professional-APEX-Library.html" class="book-brand">Professional <span class="accent">APEX</span> · Executive Summary</a>
+    <div class="spacer"></div>
+    <nav class="trilogy-nav" aria-label="APEX Trilogy navigation">
+      <a href="Professional-APEX-Library.html" class="label" style="text-decoration:none;">Trilogy</a>
+      <a href="Professional-APEX-Sellers-Guide.html" title="Volume I">I</a>
+      <a href="Professional-APEX-Services-Guide.html" title="Volume II">II</a>
+      <a href="Professional-APEX-Deployment-Guide.html" title="Volume III">III</a>
+    </nav>
+  </header>
+
+  <main>
+
+  <section class="hero">
+    <div class="label">Decision Brief</div>
+    <h1 class="title">Professional APEX · <span class="accent">Executive Summary</span></h1>
+    <p class="subtitle">Ten pages for the leader who won't read six thousand</p>
+    <p class="meta">Companion to the <a href="Professional-APEX-Library.html" style="color:var(--gold);">Trilogy</a> · April–May 2026 · <strong>Internal Use Only</strong></p>
+  </section>
+
+  <h1 class="section">1 · The One-Sentence Version</h1>
+  <p class="lead"><strong>APEX is a framework that accelerates the building of services and agents on the Microsoft Platform.</strong> Clients buy <em>Services</em> — productized envelopes with KPI commitments, sold to industry anchor accounts under a two-contract Independence model — and Deloitte's Microsoft practice builds those Services faster, more consistently, and with more rigorous governance by using the APEX framework. The current Service catalog runs to 38 productized Services across 7 industry practices, all built on APEX.</p>
+
+  <div class="kicker">
+    <span class="lab">What gets bought · what does the building</span>
+    <p>The client buys a Service with a KPI envelope. The Service is built using the APEX framework. APEX itself is not productized for sale; it is the framework Deloitte's Microsoft practice uses internally to deliver Services on the Microsoft Platform. This distinction is structural, not stylistic — the two-contract Independence model (client ↔ Microsoft for platform, client ↔ Deloitte for the Service engagement) makes the Service the contractable unit, not the framework.</p>
+  </div>
+
+  <div class="kicker">
+    <span class="lab">Why now</span>
+    <p>The reasoning runtime (Azure AI Foundry) and the data plane (Microsoft Fabric) are both production-ready in 2026. APEX is the framework that couples them under Independence-compatible Service-delivery patterns. Microsoft GTM teams want the Services; clients want the Services; APEX is what makes delivery teams able to ship them at the cadence the catalog implies.</p>
+  </div>
+
+  <h1 class="section">2 · The Numbers That Matter</h1>
+
+  <div class="num-grid">
+    <div class="num-card"><div class="n">38</div><div class="lbl">Services live</div></div>
+    <div class="num-card"><div class="n">7</div><div class="lbl">Practices</div></div>
+    <div class="num-card"><div class="n">~165</div><div class="lbl">MCP tools</div></div>
+    <div class="num-card"><div class="n">~14</div><div class="lbl">Schema families</div></div>
+  </div>
+
+  <p>Sample KPI envelopes (Sellers Guide cites the audit-anchored versions):</p>
+
+  <table class="compact">
+    <thead><tr><th>Service</th><th>Headline KPI lift</th><th>Year-3 trajectory</th></tr></thead>
+    <tbody>
+      <tr><td>RC-E2E-03 · Pricing &amp; Revenue Decision</td><td>GM +3.2pp · DoH −28% · Markdown-to-Clear +41%</td><td>→ +4.5pp / −34% / +52%</td></tr>
+      <tr><td>HLS-E2E-04 · Prior Authorization</td><td>Cycle 6.2d → 2.6d · Approval +28pp · Admin −71%</td><td>→ near-real-time auth</td></tr>
+      <tr><td>TMT-TEL-RAA-04 · Revenue Assurance</td><td>+$54M annualized · ≤ 3-day close · −62% audit-prep effort · −80% SOX deficiency</td><td>→ continuous attestation</td></tr>
+      <tr><td>ER-OG-07 · Pipeline Leak Detection</td><td>Unplanned shutdowns −41% · MTTD 47 → 4.2 min</td><td>→ predictive prevention</td></tr>
+      <tr><td>AXLE-Connected-Factory-01 · Predictive Maintenance</td><td>OEE +6–9pp · Unplanned downtime −41%</td><td>→ self-tuning lines</td></tr>
+    </tbody>
+  </table>
+
+  <h1 class="section">3 · The Architecture in 90 Seconds</h1>
+
+  <p>Three layers, decoupled by version and ownership:</p>
+
+  <table class="compact">
+    <thead><tr><th>Layer</th><th>What</th><th>Owner</th><th>Cadence</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Platform (Layer 1)</strong></td><td>Microsoft.ContainerRegistry · Microsoft.App/managedEnvironments · Microsoft.KeyVault Premium HSM · Microsoft Entra ID identities · Microsoft.OperationalInsights</td><td>Per client tenant</td><td>Quarterly</td></tr>
+      <tr><td><strong>Service (Layer 2)</strong></td><td>Bicep module composing Container Apps onto the Platform · per-Service data plane · KPI envelope · audit attribution</td><td>Per Service per tenant</td><td>Per upgrade window</td></tr>
+      <tr><td><strong>Agent (Layer 3)</strong></td><td>Container images (~12 across the catalog) · reused across Services · signed Microsoft Notation + cosign · pulled by SHA digest</td><td>Deloitte authoring</td><td>Continuous</td></tr>
+    </tbody>
+  </table>
+
+  <p>Data flows through a Microsoft Fabric medallion (Bronze → Silver → Gold), exposed to agents via Model Context Protocol (MCP) tools, orchestrated by n8n on the laptop tier and Azure Logic Apps Hybrid in production. Every decision lands a hash-chained LEDGER row anchored to the Microsoft.KeyVault HSM CMK.</p>
+
+  <h1 class="section">4 · The Commercial Argument</h1>
+
+  <p class="lead">First Service in a tenant is expensive; fortieth is cheap. The cost-per-decision drops two orders of magnitude as Services per tenant grow.</p>
+
+  <table class="compact">
+    <thead><tr><th>Scenario</th><th>Services</th><th>Decisions/day</th><th>Total $/mo</th><th>$/decision</th></tr></thead>
+    <tbody>
+      <tr><td>Small (pilot)</td><td>1</td><td>~50</td><td>~$1.4K</td><td>$0.93</td></tr>
+      <tr><td>Mid (regional)</td><td>3</td><td>~3,000</td><td>~$15K</td><td>$0.06</td></tr>
+      <tr><td>Enterprise (global)</td><td>8</td><td>~80,000</td><td>~$210K</td><td>$0.011</td></tr>
+    </tbody>
+  </table>
+
+  <p>The Layer 1 substrate amortizes across N Services in the same tenant. Adding the fourth Service to a Mid tenant changes Layer 1 cost trivially; only the Layer 2 marginal cost is added. This is what makes APEX a defensible commercial proposition: <strong>the architecture rewards land-and-expand</strong>.</p>
+
+  <h1 class="section">5 · The Three-Year Maturation Arc</h1>
+
+  <p>APEX is not a deploy-and-done system. It learns. The Sellers Guide commits a trajectory across three years that the Services Guide makes operational.</p>
+
+  <table class="compact">
+    <thead><tr><th>Year</th><th>What the system has</th><th>What HITL looks like</th></tr></thead>
+    <tbody>
+      <tr><td><strong>1 · Instincts</strong></td><td>Hand-authored prompts · static rule libraries</td><td>Operator approves most decisions</td></tr>
+      <tr><td><strong>2 · Record</strong></td><td>Year-1 LEDGER trains few-shot exemplars · per-persona personalization</td><td>Operator confirms most decisions; HITL is targeted exception-review</td></tr>
+      <tr><td><strong>3 · Superagent</strong></td><td>Cross-Service generalization · Redis episodic memory · proactive anticipation</td><td>Operator audits a sample; HITL is mostly confirmation; rare events get full attention</td></tr>
+    </tbody>
+  </table>
+
+  <div class="kicker">
+    <span class="lab">Why this is real, not aspirational</span>
+    <p>The maturation arc is enforced by two substrates that already exist: <strong>LEDGER</strong> (durable long-term memory · cryptographically anchored to Microsoft.KeyVault HSM) and <strong>Azure Cache for Redis Premium</strong> (hot working/episodic memory). Year-2 prompts are derived from Year-1 LEDGER. Year-3 prompts retrieve from Redis at runtime. The architecture <em>is</em> the curriculum.</p>
+  </div>
+
+  <h1 class="section">6 · The Independence Posture</h1>
+
+  <p class="lead">APEX is sold and deployed under a two-contract model: client ↔ Microsoft for the platform, client ↔ Deloitte for services, ECIF flowing direct from Microsoft. This is structural, not stylistic.</p>
+
+  <p>The architecture enforces Independence at four boundaries:</p>
+  <ul>
+    <li><strong>Two Container Registries</strong> · Deloitte authoring registry signs images; client tenant registry pulls verified images. Image bytes cross by mirror; no runtime path back.</li>
+    <li><strong>Per-tenant Microsoft Fabric workspace</strong> · client SOR data and the LEDGER never leave the client's Microsoft platform tenancy.</li>
+    <li><strong>Microsoft.KeyVault HSM CMK</strong> · client controls the cryptographic root; tokenization and HSM signing happen under client-owned keys.</li>
+    <li><strong>Microsoft Purview audit graph</strong> · the client's Purview is the regulator-walkable audit substrate.</li>
+  </ul>
+
+  <p>Cross-tenant learning is structurally forbidden (Services Guide ADR-025-01). Each client tenant is a closed superagent training universe. Federated learning is out of scope for v1 of the Trilogy.</p>
+
+  <h1 class="section">7 · Risk Surface and Mitigations</h1>
+
+  <table class="compact">
+    <thead><tr><th>Risk</th><th>Mitigation</th></tr></thead>
+    <tbody>
+      <tr><td>Silent agent regression (decisions get worse without health alerts firing)</td><td>Three-gate evaluation: golden set · LLM-as-judge · live shadow + canary (Services Guide §28.5). Microsoft Sentinel rules on HITL acceptance-rate drop and cost-per-decision spike.</td></tr>
+      <tr><td>LEDGER chain break (audit trail compromise · Sev-1)</td><td>WORM database enforcement · Microsoft.KeyVault HSM checkpoint signing · Microsoft Sentinel UEBA on break-glass identity (Appendix H.6).</td></tr>
+      <tr><td>PII / PHI leakage at HITL</td><td>4-tier classification · tokens-only in Bronze/Silver/Gold · JIT pii-unlock with dual-control for Tier 4 (§7).</td></tr>
+      <tr><td>Cross-tenant learning drift (commercial Independence violation)</td><td>Architectural enforcement at the mirror boundary (Layer 3) and Microsoft Fabric tenancy boundary (Layer 1) · ADR-025-01.</td></tr>
+      <tr><td>Microsoft Fabric capacity exhaustion · agent latency above target</td><td>F-SKU sizing matrix (Ch 29) with reservation pricing at Mid+ scenarios · prune signals when replicas idle ≥ 80%.</td></tr>
+      <tr><td>Vendor concentration (Microsoft platform dependence)</td><td>Acknowledged and intentional. The two-contract model prices APEX as Microsoft-native delivery; portability across hyperscalers is not a v1 commitment.</td></tr>
+    </tbody>
+  </table>
+
+  <h1 class="section">8 · The Three Decisions a Leader Makes</h1>
+
+  <div class="cta">
+    <h3>Decision 1 · Sponsor a pilot Service for one client</h3>
+    <ul>
+      <li>Pick a client where the two-contract model is already understood (existing Microsoft platform footprint · Microsoft Fabric in flight).</li>
+      <li>Pick one Service from the catalog where the KPI envelope is measurable in 90 days (RC-E2E-03 · HLS-E2E-04 · TMT-TEL-RAA-04 are good first picks).</li>
+      <li>Pre-cost: ~$1,500/month Small-tier infrastructure · plus delivery hours for the first Service onboarding (~75 minutes per the Day-Zero motion in Volume III Ch 13–14).</li>
+    </ul>
+  </div>
+
+  <div class="cta">
+    <h3>Decision 2 · Authorize the trilogy as the delivery standard</h3>
+    <ul>
+      <li>Three volumes as the canonical reference for Sellers · Service Architects · Delivery Leads.</li>
+      <li>The trilogy's cross-volume reference index (Volume II Appendix I) is the citation discipline for derived artifacts.</li>
+      <li>Library landing page · single entry point at <code style="font-family:'Cascadia Mono',monospace; background:var(--code-bg); padding:1px 6px; border-radius:3px;">Professional-APEX-Library.html</code>.</li>
+    </ul>
+  </div>
+
+  <div class="cta">
+    <h3>Decision 3 · Commit to the maturation arc</h3>
+    <ul>
+      <li>Year 1 is genuinely "instincts" — accept that Year-1 LEDGER is the curriculum for Year-2.</li>
+      <li>Don't pre-load prompts trained on synthetic or other-client data — that violates Independence (ADR-025-01).</li>
+      <li>Plan for Year-2 prompt refresh as a real engineering investment, not a "nice to have."</li>
+    </ul>
+  </div>
+
+  <h1 class="section">9 · How to Read the Trilogy from Here</h1>
+
+  <p>If you're going to read more than this summary, read in this order based on your role:</p>
+
+  <table class="compact">
+    <thead><tr><th>Role</th><th>Start here</th><th>Then</th></tr></thead>
+    <tbody>
+      <tr><td>Practice Leader / Industry GM</td><td>Sellers Guide · Parts I–III (the thesis &amp; industry plays)</td><td>Services Guide · Part VI (the realized 38-Service catalog as portfolio map)</td></tr>
+      <tr><td>Seller / Account Lead</td><td>Sellers Guide end-to-end</td><td>Services Guide Part VI for any Service the client cares about</td></tr>
+      <tr><td>CIO / CTO of a candidate client</td><td>This summary, then Sellers Guide Ch 16–28 (anchor playbooks)</td><td>Deployment Guide Ch 1 (three-layer cake) · Ch 13 (Day-Zero)</td></tr>
+      <tr><td>Service Architect / Data Engineer</td><td>Services Guide Parts I–IV</td><td>Services Guide Part VI for the assigned Service · Ch 26 (hands-on)</td></tr>
+      <tr><td>Delivery Lead</td><td>Deployment Guide Ch 13 (Day-Zero) · Appendix B (checklist)</td><td>Services Guide Part VI · Appendix H (operational runbooks)</td></tr>
+      <tr><td>Microsoft Sponsor / Alliance Lead</td><td>This summary</td><td>Sellers Guide · Part II (Four Microsoft Pillars) · §6.13 (Independence)</td></tr>
+    </tbody>
+  </table>
+
+  <h1 class="section">10 · One Last Thing</h1>
+
+  <p class="lead">The book is finished. The architecture works. The MVP runs on a laptop in eight hours (Services Guide Ch 26). The Microsoft platform substrate is generally available. The 38-Service catalog has KPI envelopes anchored on real-world W2 pilots. The Independence posture is structural.</p>
+
+  <p>What's left is delivery. Pick a client; pick a Service; ship Year-1; let Year-1 LEDGER train Year-2; let Year-2 train Year-3. By the end of Year 3 the operator no longer asks "do I trust this recommendation?" — she asks "where did the system get this right last time?" and walks the lineage.</p>
+
+  <p>That moment is the commercial argument made operational.</p>
+
+  <div class="kicker">
+    <span class="lab">Closing Independence reminder</span>
+    <p>Throughout this summary and any artifact derived from it, the relationship is described as <strong>"Deloitte's Microsoft practice," "DMTSP," "Microsoft platform capabilities,"</strong> or <strong>"Microsoft-native deployment."</strong> Never <em>partner</em>, <em>alliance</em>, or <em>strategic alliance</em>. The two-contract structure is enforced architecturally; the language reinforces what the architecture already does.</p>
+  </div>
+
+  </main>
+
+  <footer class="es-footer">
+    <strong>Professional APEX · Executive Summary</strong> &nbsp;·&nbsp; Companion to the Trilogy &nbsp;·&nbsp; Keven Markham · VP Enterprise Transformation · Deloitte's Microsoft Technology &amp; Services Practice &nbsp;·&nbsp; April–May 2026 &nbsp;·&nbsp; Internal Use Only
+  </footer>
+
+</body>
+</html>

@@ -107,6 +107,39 @@
   }
   .cover .tagline { font-size: 16px; color: #E5E7EB; max-width: 620px; margin: 0 auto 32px; }
   .cover .byline { font-size: 14px; color: #94A3B8; margin-top: 40px; }
+  /* Trilogy navigation chip — collection branding shared across all three volumes */
+  .trilogy-nav {
+    display: flex; align-items: center; gap: 4px;
+    font-family: Aptos, sans-serif; font-size: 12px;
+    margin-right: 10px;
+  }
+  .trilogy-nav .label {
+    color: #94A3B8; letter-spacing: 0.15em; font-size: 10px;
+    font-weight: 700; text-transform: uppercase; margin-right: 6px;
+  }
+  .trilogy-nav a {
+    display: inline-block; padding: 4px 10px;
+    border: 1px solid rgba(255,255,255,0.25); border-radius: 4px;
+    color: #fff; text-decoration: none; font-weight: 700;
+    transition: background 0.12s ease;
+  }
+  .trilogy-nav a.active {
+    background: var(--gold); color: var(--navy);
+    border-color: var(--gold);
+  }
+  .trilogy-nav a:hover:not(.active) {
+    background: rgba(255,255,255,0.10);
+  }
+  /* Volume badge on the cover — distinguishes each book within the trilogy */
+  .cover .volume-badge {
+    display: inline-block;
+    border: 1px solid var(--gold); color: var(--gold);
+    padding: 4px 14px; margin: 8px 0 4px;
+    font-family: Aptos, sans-serif; font-weight: 700;
+    letter-spacing: 0.25em; font-size: 12px;
+    text-transform: uppercase;
+  }
+
   .cover .wrox-label {
     display: inline-block;
     background: var(--gold); color: var(--navy); padding: 8px 20px;
@@ -268,6 +301,12 @@
   <header class="topbar">
     <a href="#cover" class="book-brand">Professional <span class="accent">APEX</span> · Sellers Guide</a>
     <div class="current-chapter" id="current-chapter">Pursuing Microsoft Revenue in Industry Accounts</div>
+    <nav class="trilogy-nav" aria-label="APEX Trilogy navigation">
+      <a href="Professional-APEX-Library.html" class="label" style="text-decoration:none;">Trilogy</a>
+      <a href="#" class="active" title="Volume I — The Sellers Guide (this volume)">I</a>
+      <a href="Professional-APEX-Services-Guide.html" title="Volume II — The Services Guide">II</a>
+      <a href="Professional-APEX-Deployment-Guide.html" title="Volume III — The Deployment Guide">III</a>
+    </nav>
     <input type="search" id="searchBox" class="search-box" placeholder="Search TOC (press /)">
     <button id="darkToggle" title="Toggle dark mode">◐</button>
   </header>
@@ -368,8 +407,9 @@
   <div class="brand">Professional</div>
   <h1 class="title"><span class="accent">APEX</span></h1>
   <div class="subtitle">The Sellers Guide</div>
+  <div class="volume-badge">Volume I · Commercial</div>
   <div class="edition">Pursuing Microsoft Revenue in Industry Accounts</div>
-  <p class="tagline">A field guide for Deloitte Microsoft-practice sellers, Global Practice Leaders, and co-selling account teams. Position APEX to drive Fabric, Copilot, Foundry, and Purview revenue at your industry's anchor accounts.</p>
+  <p class="tagline">A field guide for Deloitte Microsoft-practice sellers, Global Practice Leaders, and co-selling account teams. Position APEX-accelerated Services — the productized 38-Service catalog Deloitte's Microsoft practice delivers using the APEX framework — to drive Fabric, Copilot, Foundry, and Purview revenue at your industry's anchor accounts. Clients buy Services with KPI envelopes; APEX is the framework that builds them faster on the Microsoft Platform. <strong>Part of the <a href="Professional-APEX-Library.html" style="color:var(--gold);">APEX Trilogy</a></strong> — paired with the <a href="Professional-APEX-Services-Guide.html" style="color:var(--gold);">Services Guide</a> (Volume II) and the <a href="Professional-APEX-Deployment-Guide.html" style="color:var(--gold);">Deployment Guide</a> (Volume III).</p>
   <div class="wrox-label">WROX-STYLE EDITION · SELLERS VOLUME</div>
   <div class="byline">
     by the APEX GTM team · Deloitte Microsoft Technology &amp; Services Practice<br>
@@ -378,7 +418,14 @@
 </section>
 <section class="front-toc" id="front-matter">
   <h1>How to Use This Book</h1>
-  <p><em>Professional APEX: The Sellers Guide</em> is a Wrox-style field book for sellers pursuing APEX opportunities in named industry accounts. It is not the architect's reference — that book is <em>Professional APEX: Agentic Platforms on Microsoft Fabric</em>. This book is what you open before a client meeting, during a pursuit, or when the GPL asks "what's the play at Walmart?".</p>
+
+  <aside class="callout note" style="margin-bottom: 28px;">
+    <div class="callout-label">What APEX Is — read this first</div>
+    <p><strong>APEX is a framework that accelerates the building of services and agents on the Microsoft Platform.</strong> It is the architectural substrate Deloitte's Microsoft practice uses internally to deliver Services faster, more consistently, and with more rigorous governance. <strong>APEX is not a product and is not sold to clients.</strong> What clients buy are <em>Services</em> — productized envelopes with KPI commitments, scope, persona model, and two-contract Independence-compliant commercial structure. The 38-Service catalog this book repeatedly references (RC-E2E-03 · HLS-E2E-04 · TMT-TEL-RAA-04 · etc.) is the catalog of Services the framework can build; each individual Service is the contractable unit.</p>
+    <p style="margin-top: 6px;"><strong>What this means for sellers:</strong> when this book talks about "positioning APEX" at an anchor account, read "positioning the APEX-accelerated Service that fits the account's pursuit." When it talks about "selling APEX," read "winning a Service engagement that Deloitte will deliver using the APEX framework on the Microsoft Platform." The two-contract model (client ↔ Microsoft for platform · client ↔ Deloitte for the Service-delivery engagement) makes the Service the contractable unit, not the framework. Sellers position Services that APEX accelerates · GPLs prioritize Service pursuits · ECIF flows through the Microsoft contract for the platform consumption that the Service runs on. APEX is the means; the Service is what the client signs for.</p>
+  </aside>
+
+  <p><em>Professional APEX: The Sellers Guide</em> is a Wrox-style field book for sellers pursuing APEX-accelerated Service opportunities in named industry accounts. It is not the architect's reference — that book is the Services Guide (Volume II of the trilogy). This book is what you open before a client meeting, during a pursuit, or when the GPL asks "what's the play at Walmart?".</p>
   <p>The book is organised around three seller questions:</p>
   <ul>
     <li><strong>"What am I selling, and why does it move Microsoft revenue?"</strong> → Parts I and II.</li>
