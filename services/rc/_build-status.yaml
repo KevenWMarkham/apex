@@ -1,0 +1,404 @@
+# services/rc/_build-status.yaml
+#
+# Source of truth for the RC (Retail & Consumer) build plan.
+# - The deploy-wizard reads this via GET /api/catalog/build-status
+# - The Roadmap page renders the sprint table from this file
+# - The TreeView decorates services / scenarios / agents with the status here
+# - The Roadmap docs at docs/APEX - Design and Build/RC-Build-Plan.md
+#   reference this file as the authoritative "% done" view
+#
+# Status vocabulary (kept consistent across services / scenarios / agents):
+#   planned       — designed, scoped, not started
+#   scaffolded    — folder + yaml + Bicep stub generated (this repo)
+#   implemented   — agent prompts / tools / Bicep wired and unit-tested
+#   deployed      — successfully deployed to at least Lab tenant
+#   pilot         — running with real data behind HITL
+#   ga            — generally available (Wave 3)
+#
+# Sprint convention: continues the framework-wide Roadmap.md sprint cadence.
+# RC-specific sprints start at Sprint 30 (Sprints 1–29 covered framework
+# foundation; see Roadmap.md §1).
+
+practice: rc
+practice_label: Retail & Consumer Products
+services_guide_ref: docs/book/Professional-APEX-Services-Guide.html#ch-18
+roadmap_ref: docs/APEX - Design and Build/Roadmap.md
+plan_version: 1
+plan_owner: Keven Markham · DMTSP
+
+# ---------------------------------------------------------------------------
+# Sprint orchestration — checklist surfaced in the wizard's Roadmap page.
+# `done: true` flips the checkbox; the wizard sums these into a per-sprint
+# progress bar. Each item links back to the relevant Roadmap.md BL.* IDs and
+# the Services Guide section.
+# ---------------------------------------------------------------------------
+sprints:
+
+  - id: sprint-30
+    name: RC W1 Foundation — Tenant + Schemas + Medallion
+    range: 2026-Q3 W1 (proposed)
+    objective: >-
+      Stand up the Layer 1 platform for an RC tenant and land the SCML / MERML
+      / PROML / CRMML Silver entities the 7 RC services consume. Output is a
+      running medallion ready for any RC service to compose on top.
+    items:
+      - id: 30.1
+        title: Provision Layer 1 (Container Apps env, identity, Key Vault, Log Analytics) for RC tenant
+        bicep_ref: infra/bicep/blueprints/w1-foundation.bicep
+        roadmap_ref: [BL.P.91, BL.P.92, BL.P.53]
+        services_guide_ref: '§7.4 (Service module skeleton)'
+        done: false
+      - id: 30.2
+        title: Land Bronze for POS · ERP · refrigeration telemetry · competitor pricing
+        roadmap_ref: [BL.P.20, BL.P.21, BL.P.22, BL.P.25]
+        services_guide_ref: '§18.1 (Data sources)'
+        done: false
+      - id: 30.3
+        title: Stand up Silver SCML.Inventory · SCML.Lot · MERML.Markdown · MERML.Elasticity · MERML.Competitor
+        roadmap_ref: [BL.P.08, BL.P.09, BL.P.26, BL.P.27]
+        services_guide_ref: '§18.1 (Silver schemas)'
+        done: false
+      - id: 30.4
+        title: Stand up Silver PROML.Pricing · PROML.DiscountRule (read by The Pricer)
+        roadmap_ref: [BL.P.26]
+        services_guide_ref: '§18.1 (Silver schemas)'
+        done: false
+      - id: 30.5
+        title: Stand up Silver CRMML.Customer · CRMML.Loyalty · CRMML.Interaction (RC-E2E-04, -07, -08)
+        roadmap_ref: [BL.P.10]
+        services_guide_ref: '§18.2, §18.5, §18.6'
+        done: false
+      - id: 30.6
+        title: Materialize Gold marts for RC-E2E-03 (worked template — 6 marts)
+        roadmap_ref: [BL.P.29, BL.P.30, BL.P.31, BL.P.32]
+        services_guide_ref: '§18.1 (Gold marts), §12.2'
+        done: false
+
+  - id: sprint-31
+    name: RC-E2E-03 — Service + Agent Scaffolding
+    range: 2026-Q3 W2
+    objective: >-
+      Generate the full repo scaffold for RC-E2E-03 — service.yaml, two
+      featured scenarios, six-agent fleet (incl. The Pricer), Bicep service
+      module, agent.yaml stubs, and prompts/.
+    items:
+      - id: 31.1
+        title: services/rc/RC-E2E-03/ service.yaml + bicep/main.bicep + bicep/agents.bicep
+        services_guide_ref: '§18.1'
+        done: true                # scaffolded by tools/gen_services_tree.py
+      - id: 31.2
+        title: scenarios/rc-cold-chain-excursion-mid-shift/ scenario.yaml + 24-step chain
+        done: true
+      - id: 31.3
+        title: scenarios/rc-dynamic-markdown-optimization/ scenario.yaml + 24-step chain
+        done: true
+      - id: 31.4
+        title: 6-agent fleet scaffold per scenario (assess / classify / quantify / decide / act / learn)
+        done: true
+      - id: 31.5
+        title: The Pricer agent added via _extras.yaml — materialized into both featured scenarios
+        services_guide_ref: '§18.1 (Agents Composed → The Pricing Agent)'
+        done: true
+
+  - id: sprint-32
+    name: RC-E2E-03 — Agent Implementation
+    range: 2026-Q3 W3–W4
+    objective: >-
+      Replace the agent.yaml TBDs with real model / tools / schemas / prompts.
+      Wire the Pricing Agent's MCP tools for elasticity + competitor + price
+      register reads. HITL gate config in Key Vault.
+    items:
+      - id: 32.1
+        title: Author The Analyst prompt — severity-rank excursion events
+        services_guide_ref: '§18.1 (Agents Composed)'
+        done: false
+      - id: 32.2
+        title: Author The Demand Checker prompt — forward-demand impact
+        done: false
+      - id: 32.3
+        title: Author The Pricer prompt — elasticity + competitor + floor/MAP rules
+        services_guide_ref: '§18.1 (Pricing Agent), §25.8 (LEDGER + Redis learning loop)'
+        done: false
+      - id: 32.4
+        title: Author The Finance Lead prompt — margin-at-risk scoring
+        done: false
+      - id: 32.5
+        title: Author The Operations Lead prompt — HITL Adaptive Card synthesis
+        done: false
+      - id: 32.6
+        title: Author The Briefer prompt — end-of-shift digest
+        done: false
+      - id: 32.7
+        title: Wire MCP tool — rc_e2e_03.get_excursion_decision_panel
+        roadmap_ref: [BL.P.36, BL.P.51]
+        services_guide_ref: '§18.1 (MCP Tools)'
+        done: false
+      - id: 32.8
+        title: Wire MCP tool — rc_e2e_03.get_pricing_recommendation_basis
+        services_guide_ref: '§18.1 (Pricing Agent MCP tools)'
+        done: false
+      - id: 32.9
+        title: Wire MCP tool — rc_e2e_03.commit_markdown_decision (decision-emit)
+        roadmap_ref: [BL.P.45]
+        done: false
+      - id: 32.10
+        title: HITL threshold config in Key Vault (markdown % · destroy decisions)
+        roadmap_ref: [BL.P.69, BL.P.71, BL.P.74]
+        done: false
+
+  - id: sprint-33
+    name: RC-E2E-03 — Bicep Deploy + Smoke Tests
+    range: 2026-Q4 W1
+    objective: >-
+      Deploy RC-E2E-03's full agent fleet to Lab tenant via the wizard,
+      register agents with Agent Service, run smoke tests against both
+      featured scenarios, and confirm audit-row chain end-to-end.
+    items:
+      - id: 33.1
+        title: Wizard deploy — RC-E2E-03 to Lab tenant via blueprints/w2-pilot.bicep
+        bicep_ref: infra/bicep/blueprints/w2-pilot.bicep
+        done: false
+      - id: 33.2
+        title: Cold-chain excursion smoke — synthetic excursion event → HITL approval → audit row
+        services_guide_ref: '§14.3 (Triage-and-decide worked example)'
+        done: false
+      - id: 33.3
+        title: Dynamic markdown smoke — weekly batch run → Pricing Agent recommendation → Daniel Chen approves in Power BI
+        done: false
+      - id: 33.4
+        title: Drift detector cron wired against Lab tenant
+        services_guide_ref: '(Professional-APEX §3792 drift)'
+        done: false
+
+  # ----- Companion services follow the same scaffold → implement → deploy
+  # cadence. The Sprint 31 work (scaffolding) is already complete for all
+  # featured scenarios; the remaining sprints implement and deploy. -----
+
+  - id: sprint-34
+    name: RC-E2E-04 — Loyalty Churn Implementation + Deploy
+    range: 2026-Q4 W2
+    items:
+      - id: 34.1
+        title: Scaffold complete for rc-loyalty-churn-prediction-winback (1 featured scenario)
+        done: true
+      - id: 34.2
+        title: Author 5-agent prompts + MCP tools (rc_e2e_04.*)
+        services_guide_ref: '§18.2'
+        done: false
+      - id: 34.3
+        title: Tier-3 PII unlock at HITL (re-identification of customer)
+        services_guide_ref: '§18.2 (HITL Persona), §7.3'
+        done: false
+      - id: 34.4
+        title: Deploy to Lab + smoke test (winback offer above threshold)
+        done: false
+
+  - id: sprint-35
+    name: RC-E2E-05 — On-Shelf Availability Implementation + Deploy
+    range: 2026-Q4 W3
+    items:
+      - id: 35.1
+        title: Scaffold complete for rc-on-shelf-availability-oos-reduction
+        done: true
+      - id: 35.2
+        title: Author 4-agent prompts + MCP tools (rc_e2e_05.*)
+        services_guide_ref: '§18.3'
+        done: false
+      - id: 35.3
+        title: Deploy to Lab + smoke test (shelf-gap event → task dispatch)
+        done: false
+
+  - id: sprint-36
+    name: RC-E2E-06 — Workforce Operations
+    range: 2026-Q4 W4
+    note: 'Catalog scenario (no featured chain). Built only if a tenant prioritizes it; otherwise stays planned.'
+    items:
+      - id: 36.1
+        title: Decision — promote a workforce-ops scenario to featured (Featured? = ⭐ in xlsx)
+        done: false
+      - id: 36.2
+        title: Author 4-agent prompts + MCP tools
+        services_guide_ref: '§18.4'
+        done: false
+      - id: 36.3
+        title: Deploy + smoke test
+        done: false
+
+  - id: sprint-37
+    name: RC-E2E-07 — Returns Fraud Implementation + Deploy
+    range: 2027-Q1 W1
+    items:
+      - id: 37.1
+        title: Scaffold complete for rc-returns-fraud-detection
+        done: true
+      - id: 37.2
+        title: Author 4-agent prompts (incl. Fraud Specialist) + MCP tools (rc_e2e_07.*)
+        services_guide_ref: '§18.5'
+        done: false
+      - id: 37.3
+        title: Adaptive HITL threshold — auto-clear < 0.4 score · escalate > 0.7
+        services_guide_ref: '§18.5 (Workflow)'
+        done: false
+      - id: 37.4
+        title: Tier-3 PII unlock at hold-decision
+        services_guide_ref: '§18.5 (PII), §7.3'
+        done: false
+      - id: 37.5
+        title: Deploy to Lab + smoke test (fraud ring pattern match)
+        done: false
+
+  - id: sprint-38
+    name: RC-E2E-08 — Marketing & Growth
+    range: 2027-Q1 W2
+    note: 'Catalog scenario. Plan for promotion only after a tenant identifies a featured scenario.'
+    items:
+      - id: 38.1
+        title: Decision — pick a featured marketing scenario (uplift modeling / campaign mix)
+        done: false
+      - id: 38.2
+        title: Author 3-agent prompts + MCP tools
+        services_guide_ref: '§18.6'
+        done: false
+      - id: 38.3
+        title: Deploy + smoke test
+        done: false
+
+  - id: sprint-39
+    name: RC-E2E-09 — Product Tracking (FSMA 204)
+    range: 2027-Q1 W3
+    objective: >-
+      RC-E2E-09 is structurally a data-provider for RC-E2E-03 cold-chain.
+      Deployed second-to-last so RC-E2E-03 can switch from synthetic to real
+      lot provenance via the cross-Service MCP call.
+    items:
+      - id: 39.1
+        title: Scaffold complete for rc-perishable-waste-reduction (featured anchor)
+        done: true
+      - id: 39.2
+        title: Author 3-agent prompts (Analyst · Compliance Specialist · Briefer)
+        services_guide_ref: '§18.7'
+        done: false
+      - id: 39.3
+        title: Wire cross-Service MCP — rc_e2e_09.get_lot_provenance (consumed by RC-E2E-03)
+        services_guide_ref: '§18.7 (MCP Tools), §17.4 (Cross-Service)'
+        done: false
+      - id: 39.4
+        title: SCML.Lot ownership — RC-E2E-09 writes; RC-E2E-03 reads via MCP only
+        services_guide_ref: '§18.7'
+        done: false
+      - id: 39.5
+        title: Deploy + smoke test (recall traceability panel)
+        done: false
+
+  - id: sprint-40
+    name: RC W3 Fusion — Cross-Service Composition
+    range: 2027-Q2 W1
+    objective: >-
+      Wave 3. Composes RC-E2E-03 cold-chain × RC-E2E-04 loyalty-churn × RC-E2E-09
+      lot provenance into the Perishables Economics Mesh. Drives feedback into
+      LEDGER + Redis cache for the Pricer's learning loop (§25.8).
+    items:
+      - id: 40.1
+        title: Wire fusion edges in blueprints/w3-scale-fuse.bicep
+        bicep_ref: infra/bicep/blueprints/w3-scale-fuse.bicep
+        done: false
+      - id: 40.2
+        title: LEDGER feedback loop — Pricing Agent reads approved-decision episodic memory
+        roadmap_ref: [BL.C.30d (LEDGER feedback visualization)]
+        services_guide_ref: '§25.8'
+        done: false
+      - id: 40.3
+        title: Power BI Direct Lake unified KPI dashboard across the 5 deployed RC services
+        done: false
+
+
+# ---------------------------------------------------------------------------
+# Per-service status — surfaced as badges in the wizard treeview.
+# scaffolded means the on-disk folder structure exists (generator output);
+# implemented means agents + MCP + Bicep are wired; deployed means it runs.
+# ---------------------------------------------------------------------------
+services:
+
+  RC-E2E-03:
+    status: scaffolded
+    sprint: sprint-31
+    title: Pricing & Revenue Decision Service
+    flagship: true
+    services_guide_ref: '§18.1'
+    scenarios:
+      rc-cold-chain-excursion-mid-shift:
+        status: scaffolded
+        sprint: sprint-31
+        agents:
+          assess:    { status: scaffolded }
+          classify:  { status: scaffolded }
+          quantify:  { status: scaffolded }
+          decide:    { status: scaffolded }
+          act:       { status: scaffolded }
+          learn:     { status: scaffolded }
+          pricing:   { status: scaffolded, label: The Pricer, hitl_gate: true }
+      rc-dynamic-markdown-optimization:
+        status: scaffolded
+        sprint: sprint-31
+        agents:
+          assess:    { status: scaffolded }
+          classify:  { status: scaffolded }
+          quantify:  { status: scaffolded }
+          decide:    { status: scaffolded }
+          act:       { status: scaffolded }
+          learn:     { status: scaffolded }
+          pricing:   { status: scaffolded, label: The Pricer, hitl_gate: true }
+
+  RC-E2E-04:
+    status: scaffolded
+    sprint: sprint-34
+    title: Loyalty Churn Prediction & Winback
+    services_guide_ref: '§18.2'
+    scenarios:
+      rc-loyalty-churn-prediction-winback:
+        status: scaffolded
+        sprint: sprint-34
+
+  RC-E2E-05:
+    status: scaffolded
+    sprint: sprint-35
+    title: On-Shelf Availability / OOS Reduction
+    services_guide_ref: '§18.3'
+    scenarios:
+      rc-on-shelf-availability-oos-reduction:
+        status: scaffolded
+        sprint: sprint-35
+
+  RC-E2E-06:
+    status: planned
+    sprint: sprint-36
+    title: Workforce Operations
+    services_guide_ref: '§18.4'
+    note: Catalog scenario only — no featured chain yet.
+
+  RC-E2E-07:
+    status: scaffolded
+    sprint: sprint-37
+    title: Returns-Fraud Detection
+    services_guide_ref: '§18.5'
+    scenarios:
+      rc-returns-fraud-detection:
+        status: scaffolded
+        sprint: sprint-37
+
+  RC-E2E-08:
+    status: planned
+    sprint: sprint-38
+    title: Marketing & Growth
+    services_guide_ref: '§18.6'
+    note: Catalog scenario only — no featured chain yet.
+
+  RC-E2E-09:
+    status: scaffolded
+    sprint: sprint-39
+    title: Product Tracking (FSMA 204)
+    services_guide_ref: '§18.7'
+    scenarios:
+      rc-perishable-waste-reduction:
+        status: scaffolded
+        sprint: sprint-39

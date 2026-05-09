@@ -4,6 +4,7 @@ import Deploy from "./pages/Deploy";
 import Drift from "./pages/Drift";
 import History from "./pages/History";
 import HitlConfig from "./pages/HitlConfig";
+import Roadmap from "./pages/Roadmap";
 import Tenants from "./pages/Tenants";
 import Wizard from "./pages/Wizard";
 
@@ -13,6 +14,7 @@ export default function App() {
       <nav className="border-b p-4 flex gap-4">
         <Link to="/" className="font-bold">APEX Wizard</Link>
         <Link to="/wizard">Deploy Wizard</Link>
+        <Link to="/roadmap">Roadmap</Link>
         <Link to="/catalog">Catalog</Link>
         <Link to="/tenants">Tenants</Link>
         <Link to="/history">History</Link>
@@ -23,6 +25,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Wizard />} />
           <Route path="/wizard" element={<Wizard />} />
+          <Route path="/roadmap" element={<Roadmap />} />
           <Route path="/catalog" element={<Catalog />} />
           <Route path="/tenants" element={<Tenants />} />
           <Route path="/deploy" element={<Deploy />} />

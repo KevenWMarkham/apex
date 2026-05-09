@@ -15,6 +15,11 @@ REPO_ROOT = Path(__file__).resolve().parents[5]
 REGISTRY_PATH = REPO_ROOT / "services" / "_registry.json"
 SERVICES_ROOT = REPO_ROOT / "services"
 
+# Per-practice build-status files. Glob keyed (services/{practice}/_build-status.yaml).
+# The wizard /api/catalog/build-status endpoint aggregates across all practices
+# that have a file present.
+BUILD_STATUS_GLOB = "*/_build-status.yaml"
+
 # Canonical agent set per Professional-APEX-Deployment-Guide §7.2.
 # Most services compose this 5-persona set; some scenarios add a 6th.
 CANONICAL_AGENTS = [
@@ -91,6 +96,51 @@ def _scenario_agents(industry: str, service_code: str, scenario_id: str) -> list
     return found or CANONICAL_AGENTS
 
 
+def load_build_status() -> dict[str, dict]:
+    """Load every per-practice _build-status.yaml. Returns a dict keyed by
+    practice slug. Missing files are silently skipped — practices without a
+    plan just don't appear in the wizard's Roadmap page.
+    """
+    out: dict[str, dict] = {}
+    for path in SERVICES_ROOT.glob(BUILD_STATUS_GLOB):
+        practice = path.parent.name
+        try:
+            with path.open("r", encoding="utf-8") as f:
+                data = yaml.safe_load(f) or {}
+            if not isinstance(data, dict):
+                continue
+            out[practice] = data
+        except Exception:
+            # Bad YAML is non-fatal — surface in the API as missing-practice
+            # rather than 500 the whole catalog endpoint.
+            continue
+    return out
+
+
+def _status_for_service(plan: dict, service_code: str) -> str | None:
+    svc = (plan.get("services") or {}).get(service_code)
+    if isinstance(svc, dict):
+        return svc.get("status")
+    return None
+
+
+def _status_for_scenario(plan: dict, service_code: str, scenario_id: str) -> str | None:
+    svc = (plan.get("services") or {}).get(service_code) or {}
+    scn = (svc.get("scenarios") or {}).get(scenario_id)
+    if isinstance(scn, dict):
+        return scn.get("status")
+    return None
+
+
+def _status_for_agent(plan: dict, service_code: str, scenario_id: str, role: str) -> str | None:
+    svc = (plan.get("services") or {}).get(service_code) or {}
+    scn = (svc.get("scenarios") or {}).get(scenario_id) or {}
+    agent = (scn.get("agents") or {}).get(role)
+    if isinstance(agent, dict):
+        return agent.get("status")
+    return None
+
+
 def tree(featured_only: bool = True) -> list[dict[str, Any]]:
     """Practice → Service → Scenario → Agent hierarchy for the wizard treeview.
 
@@ -98,6 +148,7 @@ def tree(featured_only: bool = True) -> list[dict[str, Any]]:
     deployable ones. Set False to see catalog stubs too (read-only in the UI).
     """
     reg = load_registry()
+    plans = load_build_status()
     scns = scenarios(featured_only=featured_only)
     by_industry: dict[str, list[dict]] = {}
     for sc in scns:
@@ -113,6 +164,7 @@ def tree(featured_only: bool = True) -> list[dict[str, Any]]:
         ind_scenarios = by_industry.get(ind_slug, [])
         if featured_only and not ind_scenarios:
             continue
+        plan = plans.get(ind_slug, {})
         service_nodes: list[dict[str, Any]] = []
         svc_codes_for_ind = sorted({sc["service_code"] for sc in ind_scenarios})
         for code in svc_codes_for_ind:
@@ -129,6 +181,7 @@ def tree(featured_only: bool = True) -> list[dict[str, Any]]:
                     "domain": sc["domain"],
                     "kpi": sc["kpi"],
                     "featured": sc["featured"],
+                    "status": _status_for_scenario(plan, code, sc["scenario_id"]) or "planned",
                     "children": [
                         {
                             "id": f"agent:{sc['scenario_id']}:{a['role']}",
@@ -140,6 +193,7 @@ def tree(featured_only: bool = True) -> list[dict[str, Any]]:
                             "industry": ind_slug,
                             "description": a.get("description", ""),
                             "hitl_gate": a.get("hitl_gate", False),
+                            "status": _status_for_agent(plan, code, sc["scenario_id"], a["role"]) or "planned",
                             "children": [],
                         }
                         for a in _scenario_agents(ind_slug, code, sc["scenario_id"])
@@ -153,6 +207,7 @@ def tree(featured_only: bool = True) -> list[dict[str, Any]]:
                 "industry": ind_slug,
                 "domains": sorted({sc["domain"] for sc in svc_scenarios}),
                 "scenario_count": len(svc_scenarios),
+                "status": _status_for_service(plan, code) or "planned",
                 "children": scenario_nodes,
             })
         nodes.append({
@@ -161,6 +216,7 @@ def tree(featured_only: bool = True) -> list[dict[str, Any]]:
             "label": ind["label"],
             "industry": ind_slug,
             "service_count": len(service_nodes),
+            "has_plan": ind_slug in plans,
             "children": service_nodes,
         })
     return nodes

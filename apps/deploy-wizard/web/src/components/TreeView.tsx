@@ -1,5 +1,13 @@
 import { useMemo, useState } from "react";
 
+export type BuildStatus =
+  | "planned"
+  | "scaffolded"
+  | "implemented"
+  | "deployed"
+  | "pilot"
+  | "ga";
+
 export type TreeNode = {
   id: string;
   kind: "practice" | "service" | "scenario" | "agent";
@@ -17,6 +25,17 @@ export type TreeNode = {
   kpi?: string;
   scenario_count?: number;
   service_count?: number;
+  status?: BuildStatus;
+  has_plan?: boolean;
+};
+
+const STATUS_BADGE: Record<BuildStatus, { label: string; className: string }> = {
+  planned:     { label: "planned",     className: "text-gray-700 bg-gray-100 border-gray-300" },
+  scaffolded:  { label: "scaffolded",  className: "text-cyan-700 bg-cyan-50 border-cyan-200" },
+  implemented: { label: "built",       className: "text-indigo-700 bg-indigo-50 border-indigo-200" },
+  deployed:    { label: "deployed",    className: "text-green-700 bg-green-50 border-green-200" },
+  pilot:       { label: "pilot",       className: "text-amber-700 bg-amber-50 border-amber-200" },
+  ga:          { label: "GA",          className: "text-emerald-700 bg-emerald-50 border-emerald-300 font-semibold" },
 };
 
 type Props = {
@@ -139,6 +158,15 @@ function Row({
         </span>
 
         <span className="font-mono text-sm text-gray-900">{node.label}</span>
+
+        {node.status && node.kind !== "practice" && (
+          <span
+            className={`text-[10px] uppercase tracking-wide px-1.5 py-0.5 rounded border ${STATUS_BADGE[node.status].className}`}
+            title={`Build status: ${node.status}`}
+          >
+            {STATUS_BADGE[node.status].label}
+          </span>
+        )}
 
         {sub && <span className="text-xs text-gray-500 truncate">— {sub}</span>}
       </div>
