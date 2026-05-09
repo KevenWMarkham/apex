@@ -3092,6 +3092,77 @@ managed_identities:
 </article>
 
 <!-- ============================================================
+     CHAPTER 13.5 — PRE-DEPLOYMENT SECURITY GATE (APEX-M)
+     ============================================================ -->
+<article class="chapter" id="ch-13-5">
+  <header class="chapter-header">
+    <div class="chapter-number">Chapter 13.5</div>
+    <h1 class="chapter-title">Pre-deployment Security Gate</h1>
+  </header>
+  <aside class="chapter-objectives">
+    <div class="objectives-label">What This Chapter Does for You</div>
+    <ul>
+      <li>Defines the operator-facing checklist that every APEX-M tenant deployment must pass before Bicep apply.</li>
+      <li>Maps every checklist item to the Microsoft control that satisfies it (Defender for Cloud / Defender for AI / Purview / Entra Agent ID / Customer Lockbox / AI Model Security).</li>
+      <li>Cites the Microsoft Cloud Security Benchmark v2 (AI Security baseline) controls each item ties to.</li>
+    </ul>
+  </aside>
+  <aside class="callout tldr">
+    <div class="callout-label">TL;DR · 60 seconds</div>
+    <ul>
+      <li>The wizard's render endpoint refuses to emit Bicep parameters until every gate item is green for the target tenant.</li>
+      <li>Items split into <strong>structural</strong> (must be true forever) and <strong>per-deployment</strong> (must be true for this wave).</li>
+      <li>Microsoft Defender for Cloud CSPM with AI security posture, Defender for AI services, Microsoft Purview Information Protection + Audit, Microsoft Entra Agent ID, and AI Model Security scan are all required pre-prod.</li>
+    </ul>
+  </aside>
+  <div class="chapter-body">
+
+  <h2 id="ch-13-5-1">13.5.1 Structural gates (one-time per tenant)</h2>
+  <div class="table-wrap"><table class="md-table"><thead><tr><th>#</th><th>Gate</th><th>Microsoft control</th><th>MCSB v2</th></tr></thead><tbody>
+    <tr><td>1</td><td>Microsoft Defender for Cloud CSPM enabled with AI security posture</td><td>Defender CSPM plan + DSPM for AI</td><td>AI-1, AI-2</td></tr>
+    <tr><td>2</td><td>Microsoft Defender for AI services enabled on the Foundry project</td><td>Defender for AI services</td><td>AI-3</td></tr>
+    <tr><td>3</td><td>Microsoft Entra Agent ID tenant root blueprint provisioned</td><td>Entra Agent ID (per Deployment Guide §5.1.1)</td><td>AI-7</td></tr>
+    <tr><td>4</td><td>Microsoft Purview Information Protection sensitivity labels enabled for SharePoint and OneDrive</td><td>Purview Information Protection</td><td>AI-4</td></tr>
+    <tr><td>5</td><td>Microsoft Purview Audit retention configured per regulatory overlay (90d minimum, 7y default, 10y HLS)</td><td>Purview Audit</td><td>AI-5</td></tr>
+    <tr><td>6</td><td>Customer Managed Keys (CMK) configured for Storage Account + Cognitive Services account</td><td>Microsoft.KeyVault Premium HSM + CMK linkage</td><td>DP-2</td></tr>
+    <tr><td>7</td><td>Customer Lockbox enabled for the subscription</td><td>Customer Lockbox for Microsoft Azure</td><td>GS-7</td></tr>
+    <tr><td>8</td><td>Workspace-level IP Firewall rules configured for Fabric workspaces (preview)</td><td>Fabric workspace IP Firewall</td><td>NS-2</td></tr>
+  </tbody></table></div>
+
+  <h2 id="ch-13-5-2">13.5.2 Per-deployment gates (per wave)</h2>
+  <div class="table-wrap"><table class="md-table"><thead><tr><th>#</th><th>Gate</th><th>Microsoft control</th><th>MCSB v2</th></tr></thead><tbody>
+    <tr><td>9</td><td>AI Model Security scan green for every agent image</td><td>Defender for AI Model Security (preview)</td><td>AI-3</td></tr>
+    <tr><td>10</td><td>Conditional Access policies attached to the service blueprint cover compliant device + MFA for HITL approvers</td><td>Microsoft Entra Conditional Access</td><td>AC-2</td></tr>
+    <tr><td>11</td><td>HITL threshold config provisioned in Key Vault for every <code class="inline-code">decide</code> + <code class="inline-code">act</code> agent</td><td>Azure Key Vault + APEX-M HITL gate config</td><td>DP-3</td></tr>
+    <tr><td>12</td><td>The use case's <code class="inline-code">client_approved_architecture</code> block resolves — every adapter ref in scope, every persona id in <code class="inline-code">_personas.yaml</code>, every KPI id in <code class="inline-code">_kpis.yaml</code></td><td>APEX wizard validator</td><td>—</td></tr>
+    <tr><td>13</td><td>Foundry project private networking enabled (BYO VNet, delegated subnet) for any tenant in <code class="inline-code">stage</code> or <code class="inline-code">prod</code> substrate</td><td>Foundry Standard Setup with Private Networking (per ch 7)</td><td>NS-1</td></tr>
+    <tr><td>14</td><td>Per-engagement Independence consultation cleared for every adapter in scope (per <code class="inline-code">apex-adapters/.../sec_independence.md</code>)</td><td>Deloitte Independence Office</td><td>—</td></tr>
+  </tbody></table></div>
+
+  <h2 id="ch-13-5-3">13.5.3 Operator workflow</h2>
+  <p>The wizard's <code class="inline-code">/security-gate</code> page (Phase I.7 follow-up) renders this checklist with live-state per gate, polled from Defender for Cloud + Purview + Entra. Each gate has three states: <code class="inline-code">green</code>, <code class="inline-code">yellow</code> (action recommended), <code class="inline-code">red</code> (blocks render). The wizard's render endpoint refuses to emit Bicep parameters when any gate is <code class="inline-code">red</code>.</p>
+  <p>Operators MUST attach evidence (Defender posture report PDF, Purview labels report, AI Model Security scan output) before approving the gate. Evidence lands in the engagement's audit trail.</p>
+
+  <h2 id="ch-13-5-4">13.5.4 What this chapter is NOT</h2>
+  <ul>
+    <li>It is not a substitute for client information-security review. Client's CISO chain reviews APEX-M deployment posture independently; this gate is the tenant SRE's pre-flight check.</li>
+    <li>It is not a substitute for the Independence consultation per Deloitte's Microsoft Technology &amp; Services Practice. Item #14 is the gate; the consultation is the substance.</li>
+    <li>It is not optional for production tenants. Lab and Dev substrates may waive items 7, 8, 13 with documented sign-off. Stage and Prod must satisfy every item.</li>
+  </ul>
+
+  </div>
+  <aside class="chapter-summary">
+    <h2>Key Takeaways</h2>
+    <ul>
+      <li>14 gate items split between structural (one-time per tenant) and per-deployment (per wave); every Stage/Prod tenant must satisfy all.</li>
+      <li>Wizard render refuses to emit Bicep parameters when any gate is red.</li>
+      <li>Each gate cites the Microsoft control and the Microsoft Cloud Security Benchmark v2 AI Security baseline control id.</li>
+      <li>Independence consultation is gate #14 — Deloitte Independence Office signs off per adapter in scope.</li>
+    </ul>
+  </aside>
+</article>
+
+<!-- ============================================================
      CHAPTER 14 — ADDING A SERVICE TO A TENANT
      ============================================================ -->
 <article class="chapter" id="ch-14">
