@@ -1,0 +1,204 @@
+scenario_id: tmt-content-recommendation-personalization
+title: Content-recommendation personalization
+service_code: TMT-MED-01
+domain: Customer Experience
+featured: true
+moment: Streaming service has 24M subscribers . Monthly churn is 4.1%. Recommendation
+  engine is 3 years old; engagement per session is 31 min; cold-start for new content
+  is poor.
+solution: Recommendation agent learns viewing patterns, content embeddings, session
+  context; proposes personalized rails + surfaces cold-start content via content-similarity
+  reasoning. HITL on editorial overrides.
+use_case: Homepage + end-of-episode recommendation across the subscriber base. Reads
+  MEDML.Viewer , MEDML.Content , MEDML.Session .
+service_productized: TMT-MED-01 Subscriber Lifecycle. Wave 2 at mobile app; Wave 3
+  all surfaces.
+personas: Primary Li Jun · Subscriber Lifecycle Manager Reviews engagement dashboards;
+  approves editorial-override policies.
+kpi: Churn rate −19% · engagement per session +23% · cold-start engagement +41% .
+waves:
+  w1_foundation: 'SOR: CRM + Contact Center + Loyalty · Real-Time Hub · Bronze · Raw
+    Landing · Tokenizer · Silver · Canonical'
+  w2_pilot: 'Content recommendation & churn — media · Event Fires · DAG Orchestrator
+    · Agent 1: Assess · Agent 2: Classify · Agent 3: Quantify'
+  w3_scale_fuse: 'Enterprise Scale · Fuse: Contact center intelligence · Fuse: Network
+    fault prediction — tel · Purview Trust · Feedback Loop'
+chain_24:
+- step: 1
+  key: w1-sor
+  title: 'SOR: CRM + Contact Center + Loyalty'
+  layer: data
+  kind: source
+  purpose: The system-of-record stack for TMT — CRM + Contact Center + Loyalty — is
+    where the raw events enter APEX. Latency and completeness here set the ceiling
+    for the scenario.
+- step: 2
+  key: w1-rth
+  title: Real-Time Hub
+  layer: integration
+  kind: process
+  purpose: Bridges SOR streams into Bronze Eventhouse with minimal transformation
+    — event-time indexing, schema-on-read, dead-letter handling.
+- step: 3
+  key: w1-bronze
+  title: Bronze · Raw Landing
+  layer: data
+  kind: store
+  purpose: Immutable, schema-on-read raw landing zone. Every event arrives here untransformed.
+- step: 4
+  key: w1-tokenizer
+  title: Tokenizer
+  layer: governance
+  kind: process
+  purpose: Format-preserving tokenization at the Bronze→Silver boundary. PII/PHI never
+    crosses into Silver in raw form.
+- step: 5
+  key: w1-silver
+  title: Silver · Canonical
+  layer: data
+  kind: store
+  purpose: TMT canonical schemas land here — tokenized, deduplicated, typed, joinable.
+- step: 6
+  key: w1-gold
+  title: Gold · Agent-Safe Views
+  layer: schema
+  kind: store
+  purpose: Agent-safe, classification-aware, identity-scoped, output-signed Direct
+    Lake views. This is the layer agents actually read.
+- step: 7
+  key: w1-mcp
+  title: MCP Servers
+  layer: agent
+  kind: tool
+  purpose: MCP (Model Context Protocol) servers expose Gold views as typed, identity-scoped,
+    classification-aware tools for agents to call.
+- step: 8
+  key: w1-identity
+  title: Entra · Managed Identity
+  layer: identity
+  kind: process
+  purpose: Every agent runs under a managed Entra identity. The agent cannot reach
+    any data that identity is not authorized to see.
+- step: 9
+  key: w1-ledger
+  title: LEDGER · Audit Row Store
+  layer: governance
+  kind: store
+  purpose: Every agent decision writes a 14-field audit row. LEDGER is the append-only
+    store; it is the forensic record a regulator walks.
+- step: 10
+  key: w1-hitl-surface
+  title: HITL Surface · Teams
+  layer: experience
+  kind: process
+  purpose: When a gate fires, the approver gets a Teams Adaptive Card with the decision
+    summary, the evidence, and one-click Approve/Modify/Reject.
+- step: 11
+  key: w2-event
+  title: Content recommendation & churn — media · Event Fires
+  layer: integration
+  kind: event
+  purpose: This is the business event that kicks off the Content recommendation &
+    churn — media flow.
+- step: 12
+  key: w2-orchestrator
+  title: DAG Orchestrator
+  layer: agent
+  kind: process
+  purpose: Composes the agent DAG — sequential + parallel + HITL + feedback patterns
+    from APEX §10.2.
+- step: 13
+  key: w2-agent-assess
+  title: 'Agent 1: Assess'
+  layer: agent
+  kind: agent
+  purpose: First agent reads the event + relevant Gold views to establish situational
+    ground truth.
+- step: 14
+  key: w2-agent-classify
+  title: 'Agent 2: Classify'
+  layer: agent
+  kind: agent
+  purpose: Matches assessment against policy + regulation + business rules to categorise
+    the situation.
+- step: 15
+  key: w2-agent-quantify
+  title: 'Agent 3: Quantify'
+  layer: agent
+  kind: agent
+  purpose: Quantifies the commercial + risk impact. Produces the decision candidate
+    with confidence + expected value.
+- step: 16
+  key: w2-hitl
+  title: HITL Gate
+  layer: experience
+  kind: gate
+  purpose: A human with the right role + training reviews the agent's recommendation
+    and commits Approve / Modify / Reject.
+- step: 17
+  key: w2-agent-act
+  title: 'Agent 4: Act'
+  layer: agent
+  kind: agent
+  purpose: After HITL approval, the action agent executes the downstream effect —
+    write-back, notification, workflow kickoff.
+- step: 18
+  key: w2-kpi
+  title: KPI Attribution
+  layer: outcome
+  kind: outcome
+  purpose: The business KPI is attributed back to this specific decision via trace_id
+    — not estimated, not sampled.
+- step: 19
+  key: w3-scale
+  title: Enterprise Scale
+  layer: outcome
+  kind: process
+  purpose: W2 Pilot proved the pattern on one business unit. W3 scales it across the
+    enterprise footprint.
+- step: 20
+  key: w3-fuse-markdown
+  title: Fuse · adjacent scenarios
+  layer: Runtime · Fusion
+  kind: fuse
+  purpose: Cross-scenario fusion via shared canonical + capability tags
+- step: 21
+  key: w3-fuse-loyalty
+  title: Fuse · cross-Practice + loyalty
+  layer: Runtime · Fusion
+  kind: fuse
+  purpose: Loyalty / cross-practice fusion via A2A swarm
+- step: 22
+  key: w3-purview
+  title: Purview Trust
+  layer: governance
+  kind: store
+  purpose: At scale, Purview is where regulators walk. Lineage from SOR to decision,
+    DLP policies enforced, WORM retention applied.
+- step: 23
+  key: w3-ledger-feedback
+  title: Feedback Loop
+  layer: governance
+  kind: process
+  purpose: LEDGER is not a log — it is how the agent learns. Sampled rows become eval
+    cases; eval cases shape next-version prompts.
+- step: 24
+  key: w3-kpi-enterprise
+  title: Enterprise KPI
+  layer: outcome
+  kind: outcome
+  purpose: At enterprise scale the KPI is no longer 'this decision' but 'the rate-of-sound-decisions
+    across the portfolio'.
+agents:
+- role: assess
+  config: agents/assess/agent.yaml
+- role: classify
+  config: agents/classify/agent.yaml
+- role: quantify
+  config: agents/quantify/agent.yaml
+- role: decide
+  config: agents/decide/agent.yaml
+- role: act
+  config: agents/act/agent.yaml
+- role: learn
+  config: agents/learn/agent.yaml

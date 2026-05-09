@@ -1,0 +1,11 @@
+role: classify
+scenario_id: hls-clinical-trial-patient-matching
+service_code: HLS-LS-03
+archetype: hierarchical-root + sequential-with-hitl-gate
+model: TBD
+tools: []
+schemas_read: []
+schemas_write: []
+hitl_gate: false
+audit_row_emit: true
+prompt_ref: prompts/classify.md

@@ -1,0 +1,28 @@
+service_code: ER-OG-05
+industry: er
+industry_label: Energy & Resources
+domains:
+- Operations & Workforce
+scenarios:
+  featured: 1
+  catalog: 9
+  total: 10
+deployment:
+  wave_strategy: three-wave
+  iac: bicep
+  module: infra/bicep/modules/service.bicep
+  service_module: services/er/ER-OG-05/bicep/main.bicep
+agent_archetype:
+  name: hierarchical-root + sequential-with-hitl-gate
+  fleet_size: 6
+  roles:
+  - assess
+  - classify
+  - quantify
+  - decide
+  - act
+  - learn
+schemas_consumed: []
+personas:
+  operator: TBD — see scenarios/*/scenario.yaml
+  hitl_approver: TBD — Teams Adaptive Card gate
