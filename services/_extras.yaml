@@ -1,0 +1,32 @@
+# services/_extras.yaml
+#
+# Per-service additional agent roles beyond the canonical six
+# (assess / classify / quantify / decide / act / learn).
+#
+# Each extra agent is materialized into every featured scenario under the
+# named service. agent.yaml and prompts/*.md are scaffolded with
+# `write_if_missing` so hand-edits survive subsequent generator runs.
+#
+# Schema:
+#   <SERVICE-CODE>:
+#     extra_agents:
+#       - role: <slug>          # required, lowercase + dashes
+#         label: <human label>
+#         description: <one-liner>
+#         hitl_gate: <bool>     # default false; set true for decision/action agents
+
+RC-E2E-03:
+  # Pricing & Revenue Decision Service. Adding a dedicated pricing agent
+  # that owns SKU-level price elasticity, competitor positioning, floor-rule
+  # compliance, and promotional cadence — separate from the generic
+  # quantify/decide stages so it can be reused across RC-E2E-03's two
+  # featured scenarios (cold-chain excursion and dynamic markdown).
+  extra_agents:
+    - role: pricing
+      label: The Pricer
+      description: >-
+        Computes SKU-level price recommendations by fusing elasticity,
+        competitor pricing, store-level velocity, and floor/MAP rules.
+        Emits a per-SKU-per-store proposal with simulated P&L impact for
+        the Briefer to package into the HITL Adaptive Card.
+      hitl_gate: true

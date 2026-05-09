@@ -14,7 +14,7 @@ deployment:
   service_module: services/rc/RC-E2E-03/bicep/main.bicep
 agent_archetype:
   name: hierarchical-root + sequential-with-hitl-gate
-  fleet_size: 6
+  fleet_size: 7
   roles:
   - assess
   - classify
@@ -22,6 +22,7 @@ agent_archetype:
   - decide
   - act
   - learn
+  - pricing
 schemas_consumed: []
 personas:
   operator: TBD — see scenarios/*/scenario.yaml

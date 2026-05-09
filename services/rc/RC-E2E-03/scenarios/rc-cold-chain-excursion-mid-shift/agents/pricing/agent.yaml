@@ -1,0 +1,15 @@
+role: pricing
+label: The Pricer
+description: Computes SKU-level price recommendations by fusing elasticity, competitor
+  pricing, store-level velocity, and floor/MAP rules. Emits a per-SKU-per-store proposal
+  with simulated P&L impact for the Briefer to package into the HITL Adaptive Card.
+scenario_id: rc-cold-chain-excursion-mid-shift
+service_code: RC-E2E-03
+archetype: hierarchical-root + sequential-with-hitl-gate
+model: TBD
+tools: []
+schemas_read: []
+schemas_write: []
+hitl_gate: true
+audit_row_emit: true
+prompt_ref: prompts/pricing.md

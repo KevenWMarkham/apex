@@ -35,9 +35,12 @@ from pathlib import Path
 import pandas as pd
 import yaml
 
-REPO_ROOT = Path(r"C:\Stage\Clients\Industries\APEX\.claude\worktrees\sweet-williams-159583")
-XLSX = Path(r"C:\Stage\Clients\Industries\APEX\docs\reference\APEX-Scenario-Chains.xlsx")
+# Resolve repo root from this file's location (tools/ → repo root).
+# Replaces the old hardcoded worktree path.
+REPO_ROOT = Path(__file__).resolve().parent.parent
+XLSX = REPO_ROOT / "docs" / "reference" / "APEX-Scenario-Chains.xlsx"
 SERVICES_ROOT = REPO_ROOT / "services"
+EXTRAS_PATH = SERVICES_ROOT / "_extras.yaml"
 
 INDUSTRY_PREFIX = {
     "RC": ("rc", "Retail & Consumer Products"),
@@ -49,7 +52,9 @@ INDUSTRY_PREFIX = {
     "TMT": ("tmt", "Technology · Media · Telecom"),
 }
 
-AGENT_ROLES = ["assess", "classify", "quantify", "decide", "act", "learn"]
+# Default per-scenario agent roles. Per-service additions live in
+# `services/_extras.yaml` (see `load_extras`).
+DEFAULT_AGENT_ROLES = ["assess", "classify", "quantify", "decide", "act", "learn"]
 
 
 def industry_of(service_code: str) -> tuple[str, str]:
@@ -67,12 +72,77 @@ def yaml_dump(data: dict) -> str:
 
 
 def write(path: Path, content: str) -> None:
+    """Always write — overwrites existing content. Use for canonical files
+    that must reflect the latest registry / xlsx (READMEs, scenario.yaml,
+    service.yaml, Bicep templates, _registry.json)."""
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(content, encoding="utf-8")
 
 
+def write_if_missing(path: Path, content: str) -> bool:
+    """Only write if the file doesn't exist. Use for stubs the user is
+    expected to hand-edit (agent.yaml, prompts/*.md). Returns True if
+    written, False if skipped."""
+    if path.exists():
+        return False
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(content, encoding="utf-8")
+    return True
+
+
+def load_extras() -> dict[str, dict]:
+    """Read per-service extras from `services/_extras.yaml`.
+
+    Schema:
+      <SERVICE-CODE>:
+        extra_agents:
+          - role: <slug>
+            label: <human label>
+            description: <one-liner>
+            hitl_gate: <bool>
+    Missing file is fine; returns empty dict.
+    """
+    if not EXTRAS_PATH.exists():
+        return {}
+    with EXTRAS_PATH.open("r", encoding="utf-8") as f:
+        data = yaml.safe_load(f) or {}
+    return data if isinstance(data, dict) else {}
+
+
+def agent_roles_for(service_code: str, extras: dict) -> list[dict]:
+    """Merge default 6 roles with any per-service extras. Each entry is a
+    dict {role, label, description, hitl_gate} — defaults are filled in for
+    the canonical roles."""
+    out: list[dict] = []
+    for role in DEFAULT_AGENT_ROLES:
+        out.append({
+            "role": role,
+            "label": role.title(),
+            "description": "",
+            "hitl_gate": role in ("decide", "act"),
+        })
+    svc = extras.get(service_code, {}) or {}
+    for extra in svc.get("extra_agents", []) or []:
+        if not isinstance(extra, dict):
+            continue
+        role = str(extra.get("role", "")).strip()
+        if not role:
+            continue
+        # Don't double-add if user re-listed a default role.
+        if any(a["role"] == role for a in out):
+            continue
+        out.append({
+            "role": role,
+            "label": str(extra.get("label", role.title())),
+            "description": str(extra.get("description", "")),
+            "hitl_gate": bool(extra.get("hitl_gate", False)),
+        })
+    return out
+
+
 def main() -> None:
     SERVICES_ROOT.mkdir(parents=True, exist_ok=True)
+    extras = load_extras()
 
     lib = pd.read_excel(XLSX, sheet_name="Scenario Library")
     featured = pd.read_excel(XLSX, sheet_name="Featured Chains")
@@ -206,6 +276,8 @@ appear only in `services/_registry.json` (zero scaffolding) until promoted.
         svc_dir = SERVICES_ROOT / ind_slug / scode
         svc_dir.mkdir(parents=True, exist_ok=True)
 
+        roles = agent_roles_for(scode, extras)
+
         service_yaml = {
             "service_code": scode,
             "industry": ind_slug,
@@ -224,8 +296,8 @@ appear only in `services/_registry.json` (zero scaffolding) until promoted.
             },
             "agent_archetype": {
                 "name": "hierarchical-root + sequential-with-hitl-gate",
-                "fleet_size": 6,
-                "roles": AGENT_ROLES,
+                "fleet_size": len(roles),
+                "roles": [r["role"] for r in roles],
             },
             "schemas_consumed": [],
             "personas": {
@@ -302,6 +374,7 @@ param scenarioId string
         ind_slug, _ = industry_of(scode)
         scen_dir = SERVICES_ROOT / ind_slug / scode / "scenarios" / sid
 
+        roles = agent_roles_for(scode, extras)
         steps = chain_24_by_id.get(sid, [])
         scenario_yaml = {
             "scenario_id": sid,
@@ -332,16 +405,19 @@ param scenarioId string
                 for s in sorted(steps, key=lambda x: x["step"])
             ],
             "agents": [
-                {"role": role, "config": f"agents/{role}/agent.yaml"}
-                for role in AGENT_ROLES
+                {"role": r["role"], "label": r["label"], "config": f"agents/{r['role']}/agent.yaml"}
+                for r in roles
             ],
         }
         write(scen_dir / "scenario.yaml", yaml_dump(scenario_yaml))
 
-        # 6 agent stubs
-        for role in AGENT_ROLES:
+        # Agent stubs — write_if_missing so user edits survive a regen.
+        for r in roles:
+            role = r["role"]
             agent = {
                 "role": role,
+                "label": r["label"],
+                "description": r["description"],
                 "scenario_id": sid,
                 "service_code": scode,
                 "archetype": "hierarchical-root + sequential-with-hitl-gate",
@@ -349,15 +425,13 @@ param scenarioId string
                 "tools": [],
                 "schemas_read": [],
                 "schemas_write": [],
-                "hitl_gate": role in ("decide", "act"),
+                "hitl_gate": r["hitl_gate"],
                 "audit_row_emit": True,
                 "prompt_ref": f"prompts/{role}.md",
             }
-            write(scen_dir / "agents" / role / "agent.yaml", yaml_dump(agent))
-            write(
-                scen_dir / "agents" / role / "prompts" / f"{role}.md",
-                f"# {role.title()} agent prompt — {sid}\n\nTBD\n",
-            )
+            write_if_missing(scen_dir / "agents" / role / "agent.yaml", yaml_dump(agent))
+            prompt_body = f"# {r['label']} — {sid}\n\n{r['description'] or 'TBD'}\n"
+            write_if_missing(scen_dir / "agents" / role / "prompts" / f"{role}.md", prompt_body)
 
         # Scenario-level Bicep overlay (mostly empty; service-level handles core)
         write(scen_dir / "bicep" / "scenario.bicep", f"""// services/{ind_slug}/{scode}/scenarios/{sid}/bicep/scenario.bicep
