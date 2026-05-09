@@ -730,3 +730,97 @@ Expected: ~22 new commits since `7568fb8` (the design doc commit), all with `fea
 - Source data: [`docs/reference/APEX-Scenario-Chains.xlsx`](../reference/APEX-Scenario-Chains.xlsx)
 - Existing books: [Deployment Guide](../book/Professional-APEX-Deployment-Guide.html), [Services Guide](../book/Professional-APEX-Services-Guide.html)
 - Microsoft Learn: see design doc §13 for full link table
+
+---
+
+## Phase I — Microsoft Platform alignment (added 2026-05-09 after delta review)
+
+> Detail: [`2026-05-09-microsoft-platform-alignment-delta.md`](2026-05-09-microsoft-platform-alignment-delta.md). These tasks are required **before** any production deployment to Azure / M365 / Power Platform.
+
+### Task I1: Identity — Entra Agent ID adoption
+
+**Files:**
+- Modify: `infra/bicep/platform/identity.bicep` — add Entra Agent ID parent identity provisioning
+- Modify: `docs/book/Professional-APEX-Deployment-Guide.html` — chapters 8 (identity), 13 (security), 9 (HITL CA)
+- Create: `docs/APEX - Design and Build/agent-identity-blueprints.md` — per-service blueprint definitions
+
+**Steps:** see delta §A items A.1–A.6. Commit per book/file. Verify Entra Agent ID provisioning lints with AVM module (when available) or document as TODO if SDK is sidecar-only.
+
+### Task I2: Data tier — primary-workspace pattern + OneLake user identity mode
+
+**Files:**
+- Modify: `docs/book/Professional-APEX-Services-Guide.html` — ch 1 (medallion contract), ch 4 (SOR connections), ch 5 (Real-Time Hub), new §1.5 (primary-workspace pattern)
+- Modify: `docs/book/Professional-APEX.html` — ch 8 (Fabric layering)
+- Modify: `infra/bicep/modules/service.bicep` — workspace-identity-based output instead of SP secret
+- Modify: `services/{ind}/{code}/service.yaml` (via generator) — add `workspace_pattern: primary-with-shortcuts`
+
+**Steps:** see delta §B items B.1–B.12. Per book section, edit + re-balance HTML tags + commit. Generator update is small (one new field). Run grep for "Synapse Data Explorer" + replace.
+
+### Task I3: Security — Purview + Defender integration
+
+**Files:**
+- Modify: `docs/book/Professional-APEX-Deployment-Guide.html` — ch 11 (audit), 13 (security), new ch 13.5 (Pre-deployment Security Gate)
+- Modify: `infra/bicep/platform/main.bicep` — Defender for Cloud + Defender for AI services enablement
+- Create: `infra/bicep/platform/security-baseline.bicep` — CMK, Customer Lockbox, MCSB AI Security policy assignments
+- Create: `docs/APEX - Design and Build/classification-mapping.md` — APEX T1–T4 → Purview sensitivity-label crosswalk
+
+**Steps:** see delta §C items C.1–C.9. Heavy chapter rewrites in Deployment Guide ch 11 + 13. Commit per chapter.
+
+### Task I4: Foundry — Standard Setup with Private Networking
+
+**Files:**
+- Modify: `infra/bicep/platform/foundry.bicep` — pin AVM version, BYO Storage + AI Search + Cosmos DB + VNet, network injection at create
+- Create: `infra/bicep/platform/dns.bicep` — 7 private DNS zones
+- Create: `infra/bicep/platform/byo-resources.bicep` — Storage + AI Search + Cosmos with private endpoints
+- Modify: `docs/book/Professional-APEX-Deployment-Guide.html` — ch 7 (service module shape), ch 11.5 (new Foundry chapter)
+
+**Steps:** see delta §D items D.1–D.7. Bicep updates only — no new APEX runtime code. Lint each module via `az bicep build`.
+
+### Task I5: M365 + Power Platform surfacing (optional, post-pilot)
+
+**Files:**
+- Modify: `docs/book/Professional-APEX-Deployment-Guide.html` — new ch 11.5 (Surfacing APEX in M365)
+- Modify: `docs/book/Professional-APEX-Sellers-Guide.html` — surface notes per service envelope
+- Create: `apps/m365-publisher/` — Microsoft 365 Agents Toolkit packaging skeleton (TBD; later sprint)
+
+**Steps:** see delta §E items E.1–E.6. Documentation-only at this phase; M365 publishing tooling follows Wave 2 pilot success.
+
+### Task I6: Terminology grep across all books
+
+**Files:**
+- Modify: all 6 HTML books in `docs/book/`
+
+**Step 1:** Run a grep-replace pass per delta §F (F.1–F.6). One commit per term, one tag-balance check per book.
+
+**Step 2:** Validate no broken anchors after rewrite.
+
+**Step 3:** Commit per book.
+
+### Task I7: Pre-deployment Security Gate checklist
+
+**Files:**
+- Create: `docs/APEX - Design and Build/Pre-deployment-Security-Gate.md` — operator-facing checklist
+- Modify: `apps/deploy-wizard/web/src/pages/Deploy.tsx` — render the gate checklist before allowing Bicep apply
+
+**Steps:** Operator must satisfy MCSB controls + Purview labels + Defender enabled + Entra Agent ID + CA + CMK + AI Model Security scan green. Blocks Bicep apply when any fail.
+
+### Task I8: Open questions resolution
+
+**Steps:** Sequence delta §H questions H.1–H.5 as Sprint 30 spike tickets — answer before Sprint 32 implementation. Each becomes a separate ADR in `docs/APEX - Design and Build/adr/`.
+
+---
+
+## Phase J — Reuse-not-build cleanup
+
+Per delta §G — strip APEX over-builds where Microsoft platform GA capability supersedes:
+
+| Drop | Replacement |
+|---|---|
+| `eventhouse-mcp` (planned) | Real-Time Intelligence remote MCP for Eventhouse |
+| Custom embedding endpoint for The Pricer | Eventhouse `ai_embeddings` SLM plugin |
+| Custom Debezium CDC parser | Eventstream DeltaFlow |
+| Custom HITL alert trigger | Eventstream Activator destination |
+| Bespoke agent threat detection | Defender for AI services |
+| Custom audit-row HMAC infra (BL.P.84) | **Demote to overlay** — Purview Audit becomes system of record |
+
+**Steps:** Per item, write a one-page deprecation note in `docs/APEX - Design and Build/deprecations/`, update Roadmap.md to mark the BL.P.* item as superseded, link to the Microsoft GA capability.
