@@ -7,6 +7,13 @@ router = APIRouter()
 
 @router.get("/industries")
 def list_industries() -> list[dict[str, str]]:
+    """Practices = industries — 7 of them per Deployment Guide §7.3."""
+    return registry.industries()
+
+
+@router.get("/practices")
+def list_practices() -> list[dict[str, str]]:
+    """Alias for /industries — the deployment guide calls them Practices."""
     return registry.industries()
 
 
@@ -28,3 +35,12 @@ def list_scenarios(
         domain=domain,
         featured_only=featured_only,
     )
+
+
+@router.get("/tree")
+def get_tree(featured_only: bool = Query(default=True)) -> list[dict]:
+    """Practice → Service → Scenario → Agent hierarchy for the wizard treeview.
+
+    `featured_only=true` (default) returns only the 36 deployable scenarios.
+    """
+    return registry.tree(featured_only=featured_only)
