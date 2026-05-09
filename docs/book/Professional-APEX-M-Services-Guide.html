@@ -793,6 +793,47 @@
       <li>Each tier carries a different commitment: fidelity, conformance, latency. Don't collapse the tiers.</li>
     </ul>
   </aside>
+
+  <h2 id="ch-1-5">1.5 OneLake Security in User Identity Mode (GA)</h2>
+  <p>The medallion contracts in §1.3 carry security policy with them — Bronze can hold raw lot data with PII or PHI tokens; Silver canonicalizes; Gold projects per agent question. Until April 2026 the SQL analytics endpoint enforced read security via SQL <code class="inline-code">GRANT</code> / <code class="inline-code">REVOKE</code> on tables. Microsoft Fabric's <strong>OneLake Security in user identity mode</strong> (now GA) replaces that pattern.</p>
+  <p>In user identity mode, the SQL analytics endpoint passes the signed-in user's Microsoft Entra identity through to OneLake, which evaluates row-level, column-level, and object-level security defined inside the OneLake Lakehouse — not by SQL <code class="inline-code">GRANT</code> / <code class="inline-code">REVOKE</code>. SQL permissions still cover non-data objects (views, stored procedures, functions); table reads are governed exclusively by OneLake security roles.</p>
+  <ul>
+    <li><strong>Centralized governance.</strong> Define policies once in OneLake; Power BI, notebooks, lakehouse, and SQL analytics endpoint all enforce identically. APEX-M's Tier-3 and Tier-4 PII / PHI rules live in OneLake roles, not in SQL.</li>
+    <li><strong>1:1 identity mapping across producer and consumer.</strong> When an APEX-M service workspace consumes the canonical Silver via OneLake shortcuts (per §1.6), the principal referenced in a producer's OneLake security role <em>must</em> have Fabric Read on the consumer artifact too — group memberships do <strong>not</strong> resolve across the boundary.</li>
+    <li><strong>Writes still happen through the Lakehouse page.</strong> All writes are governed by workspace roles (Admin / Member / Contributor); user identity mode is a read-time enforcement model.</li>
+  </ul>
+  <p>The <code class="inline-code">apex-m.data_lake_fabric.DataLakeFabric</code> implementation honors user identity mode by always opening the SQL analytics endpoint with the operator's Entra Agent ID OBO token (per Deployment Guide §5.1.1), never with the deployment-time delegated identity. This guarantees that an HITL approver looking at customer-facing data sees only what their <em>workforce</em> identity is entitled to see, not what the agent's runtime identity could read.</p>
+
+  <h2 id="ch-1-6">1.6 The Primary-Workspace Pattern</h2>
+  <p>APEX-M deployments adopt the <strong>primary-workspace pattern</strong> documented in Microsoft's <em>OneLake security best practices</em>: one primary workspace per practice owns the canonical Silver entities; per-service workspaces consume that data via OneLake shortcuts.</p>
+  <pre><code>Microsoft.Fabric/workspaces/
+  rc-canonical/                               (primary workspace — RC practice)
+    Lakehouses/
+      scml-silver/                            (SCML.Inventory · SCML.Lot · SCML.Movement · SCML.Receipt)
+      merml-silver/                           (MERML.Markdown · MERML.Elasticity · MERML.Competitor · MERML.Promotion)
+      proml-silver/                           (PROML.Pricing · PROML.DiscountRule)
+      crmml-silver/                           (CRMML.Customer · CRMML.Loyalty · CRMML.Interaction)
+    OneLake security: roles defined here, propagate via shortcut
+
+  rc-e2e-03/                                  (per-service consumer)
+    Lakehouses/
+      service-bronze/                         (Bronze landing for RC-E2E-03 sources)
+      service-gold/                           (Gold marts: g_excursion_decision_panel etc.)
+    OneLake shortcuts → rc-canonical Silver tables (read-only consumer)
+
+  rc-e2e-04/                                  (per-service consumer)
+    same pattern; shortcuts into rc-canonical for shared Silver entities
+
+  ...one workspace per featured RC scenario...</code></pre>
+  <p>This is the <em>recommended</em> baseline architecture for OneLake security at scale. Three properties matter:</p>
+  <ol>
+    <li><strong>Single source of security.</strong> Roles defined on the primary workspace propagate via shortcuts — there is no "secondary" copy of the security policy that can drift.</li>
+    <li><strong>Cross-service composition without cross-service writes.</strong> RC-E2E-03's cold-chain agents read <code class="inline-code">SCML.Lot</code> via a shortcut into rc-canonical (where RC-E2E-09 owns Silver writes per §17.4). RC-E2E-09's MCP tool surface remains the public interface; the shortcut is the data path. No service writes Silver tables it doesn't own.</li>
+    <li><strong>Scale.</strong> Per Microsoft's GA limit (Jan 2026), Fabric workspace identities scale to 10,000 per tenant — well beyond what a typical APEX-M deployment needs, but the headroom matters for enterprise rollouts.</li>
+  </ol>
+  <p>The wizard's render endpoint emits Bicep that creates the primary workspace first, then per-service workspaces with shortcuts wired into the primary. Operators do not provision workspaces by hand. See <code class="inline-code">apex-m/infra/bicep/platform/fabric.bicep</code> (TBD — Phase I.4 follow-up).</p>
+
+  <aside class="callout bestpractice"><div class="callout-label">Best Practice — primary-workspace ownership</div><p>Use the same Fabric capacity owner for the primary workspace and every consumer workspace under it. Mixed-owner setups break user identity mode for cross-workspace reads — the consumer workspace's SQL analytics endpoint cannot run in user identity mode if its owner differs from the producer's.</p></aside>
 </article>
 
 <!-- ============================================================
