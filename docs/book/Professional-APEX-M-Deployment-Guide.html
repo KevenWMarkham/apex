@@ -4186,7 +4186,7 @@ output appInsightsConnectionString string = observability.outputs.appInsightsCon
   <p><strong>Logic Apps Hybrid</strong> — Azure Logic Apps Standard runtime hosted on Microsoft.App/containerApps with <code class="inline-code">kind=workflowapp</code>. Default Azure orchestrator for APEX because it amortizes onto the same Layer 1 Container Apps Environment as the agents.</p>
   <p><strong>MCP</strong> — Model Context Protocol. The agent's tool-call interface. APEX MCP tool catalog is scoped per Service via the <code class="inline-code">mi-apex-merch-mcp</code> identity.</p>
   <p><strong>Microsoft Defender for Cloud / for Containers / for Key Vault / for App Service</strong> — Microsoft's cloud security posture management. APEX requires Defender for Containers for image scanning + runtime threat detection.</p>
-  <p><strong>Microsoft Entra ID</strong> — Microsoft's identity provider (formerly Azure AD). All APEX runtime authentication is via Microsoft Entra ID-issued user-assigned managed identity tokens.</p>
+  <p><strong>Microsoft Entra ID</strong> — Microsoft's identity provider (formerly Microsoft Entra ID). All APEX runtime authentication is via Microsoft Entra ID-issued user-assigned managed identity tokens.</p>
   <p><strong>Microsoft Fabric · Microsoft.Fabric/capacities</strong> — Unified analytics platform. Lakehouses host Gold serving for APEX Services.</p>
   <p><strong>Microsoft Notation</strong> — Microsoft's content-trust signing tool. Strict trust policies enforce signed-only image deployment.</p>
   <p><strong>Microsoft Purview · Microsoft.Purview/accounts</strong> — Catalog and lineage. APEX assets register with the tenant Purview account for audit-and-discoverability.</p>
