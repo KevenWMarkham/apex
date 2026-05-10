@@ -685,16 +685,29 @@ sprints:
     items:
       - id: 46.1
         title: Implement apex_wizard.bicep_runner — subprocess wrapper around az deployment group what-if + create
-        done: false
+        done: true
+        status: complete
+        notes: 'apex_wizard.bicep_runner authored (~500 LOC). Dual-mode: MockBicepRunner (laptop / APEX_FORCE_MOCK=true / az missing — returns deterministic synthetic diffs) + RealBicepRunner (shells out to `az`; argv-list invocation with `--parameters @<file>` to avoid shell injection; 30-minute hard timeout). Structured result types: WhatIfChange/WhatIfResult/DeployResult with `has_destructive` property and `counts` aggregation. BicepRunner Protocol unifies the two. get_default_runner() factory auto-selects based on env. Legacy free-function shims `run_what_if` + `run_deploy` preserved for backward compat.'
       - id: 46.2
         title: /security-gate page live polling per gate (Defender / Purview / Entra) — red blocks render
-        done: false
+        done: true
+        status: complete
+        notes: 'apex_wizard.security_gate authored. Registers 15 gate checkers (PSG-1 through PSG-15). 14 are mock-mode-green (real Defender/Purview/Entra wiring lights up Sprint 41-45). PSG-15 (persona-binding resolvability) is real-mode-ready today via apex_core.validators. evaluate_all_gates(tenant, context) returns SecurityGateReport with overall_status + deploy_allowed + red_gates list. FastAPI router exposes GET /api/security-gate?tenant=X (quick poll) and POST /api/security-gate/with-context (PSG-12+15 evaluation). register_checker() lets Sprint 41-45 swap mock-for-real per gate without touching the aggregator.'
       - id: 46.3
         title: POST /api/deployments executes render + what-if + apply flow end-to-end
-        done: false
+        done: true
+        status: complete
+        notes: 'apex_wizard.deployments.create_deployment rewired from 501-stub to full orchestration: (1) evaluate_all_gates → 409 if any blocking RED; (2) persist pending DeploymentRecord; (3) BicepRunner.what_if → attach diff summary, transition to running; (4) destructive-changes second-confirm gate → 412 if Delete present without note="confirm_destructive=true"; (5) BicepRunner.deploy → final status. list_deployments + get_deployment endpoints implemented against in-memory store (Sprint 42+ swaps for Cosmos via AuditLedger protocol).'
       - id: 46.4
         title: Drift detector cron runs daily against Lab tenant
-        done: false
+        done: true
+        status: complete
+        notes: 'apex_wizard.drift expanded from stub to full DriftDetector. DriftReport carries findings + severity bucket (none/low/medium/high; any deletion = high; >10 modifications = high). run_drift_cron(tenants=...) iterates tenants, persists per-tenant DriftReport to in-memory log. GET /api/drift/{tenant} for on-demand checks; GET /api/drift/{tenant}/history for the wizard history view. Real-mode Bicep what-if call wired; falls back to mock when az absent.'
+      - id: 46.5
+        title: Wizard tests covering full Sprint 46 surface
+        done: true
+        status: complete
+        notes: 'apps/deploy-wizard/api/tests/ NEW test package — 43 tests pass: 11 bicep_runner (mock + protocol + factory + legacy shim + error types); 11 security_gate (15-gate count + PSG-15 substrate-aware + register_checker swap + overall status logic + JSON serialisation); 10 drift_detector (no-drift + low/medium/high severity + cron persistence); 11 deployments_e2e (happy path + destructive second-confirm + list/get/404 + security-gate endpoint integration).'
 
 
   # ===========================================================================

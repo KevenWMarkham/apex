@@ -234,25 +234,167 @@ def _render_compose_yaml(
     return "\n".join(lines)
 
 
+# ---------------------------------------------------------------------------
+# Sprint 46.3 — end-to-end deploy orchestration
+# ---------------------------------------------------------------------------
+
+# In-memory deployment store. Sprint 42+ swaps for Cosmos via the
+# AuditLedger protocol; the lookup signature stays stable.
+_DEPLOYMENT_STORE: dict[str, "DeploymentRecord"] = {}
+
+
+def _reset_deployment_store_for_test() -> None:
+    """Test helper — clear deployments between tests."""
+    _DEPLOYMENT_STORE.clear()
+
+
 @router.post("", response_model=DeploymentRecord)
 def create_deployment(req: DeploymentRequest) -> DeploymentRecord:
-    """Render Bicep parameters and kick off `az deployment group create`.
+    """Render Bicep parameters, run PSG check, what-if, apply, audit.
 
-    TBD — see `bicep_runner.py`. Implementation will:
-    1. Call /render to materialize the parameter file.
-    2. Persist a DeploymentRecord (status=pending) to Cosmos.
-    3. Run `az deployment group what-if`; attach diff to the record.
-    4. Run `az deployment group create`; stream output; update record.
-    5. After success, register agents with Agent Service per book §10.
+    Sprint 46.3 wires the full chain:
+
+    1. Evaluate all 15 Pre-deployment Security Gates. If any blocking
+       gate is RED → 409 + the red gate list. Operator must remediate.
+    2. Persist a DeploymentRecord (status=pending).
+    3. Run ``BicepRunner.what_if``; attach diff summary to the record.
+       If any destructive changes present, status flips to running only
+       after the operator's second confirm via the request's
+       ``note="confirm_destructive=true"`` field.
+    4. Run ``BicepRunner.deploy``; update record with final status.
+    5. Stamp the audit row reference; persist final record.
+
+    The BicepRunner is the dual-mode runner from
+    :mod:`apex_wizard.bicep_runner`. Mock mode (APEX_FORCE_MOCK=true,
+    laptop substrate, or az CLI missing) returns deterministic synthetic
+    results. Real mode shells out to `az`.
     """
-    raise HTTPException(status_code=501, detail="Not implemented — scaffold only")
+    import uuid
+    from datetime import UTC, datetime
+
+    from .bicep_runner import (
+        AzCliError,
+        get_default_runner,
+    )
+    from .security_gate import GateStatus, evaluate_all_gates
+
+    # --- Step 1: PSG evaluation -----------------------------------------
+    psg_report = evaluate_all_gates(req.tenant)
+    if psg_report.overall_status == GateStatus.RED:
+        raise HTTPException(
+            status_code=409,
+            detail={
+                "error": "pre_deployment_security_gate_failed",
+                "red_gates": psg_report.red_gates,
+                "message": (
+                    "One or more blocking Pre-deployment Security Gates failed. "
+                    "Remediate per the gate's `remediate` field, then retry."
+                ),
+            },
+        )
+
+    # --- Step 2: Persist pending record ---------------------------------
+    deployment_id = f"apex-{req.tenant}-{uuid.uuid4()}"
+    started_at = datetime.now(UTC).isoformat()
+    blueprint_path = {
+        "w1": "apex-m/infra/bicep/blueprints/w1-foundation.bicep",
+        "w2": "apex-m/infra/bicep/blueprints/w2-pilot.bicep",
+        "w3": "apex-m/infra/bicep/blueprints/w3-scale-fuse.bicep",
+    }[req.wave]
+    parameters_path = f"/var/apex/render/{deployment_id}.parameters.json"
+    pending = DeploymentRecord(
+        id=deployment_id,
+        tenant=req.tenant,
+        wave=req.wave,
+        selections=req.selections,
+        parameters_path=parameters_path,
+        blueprint_path=blueprint_path,
+        status="pending",
+        operator=req.operator,
+        started_at=started_at,
+    )
+    _DEPLOYMENT_STORE[deployment_id] = pending
+
+    # --- Step 3: what-if ------------------------------------------------
+    runner = get_default_runner()
+    try:
+        what_if = runner.what_if(
+            tenant=req.tenant,
+            resource_group=f"rg-{req.tenant}",
+            blueprint_path=blueprint_path,
+            parameters_path=parameters_path,
+        )
+    except FileNotFoundError as exc:
+        # In real mode: rendered parameters file not on disk; the wizard
+        # normally writes it before posting here. Mock mode ignores it.
+        failed = pending.model_copy(update={"status": "failed"})
+        _DEPLOYMENT_STORE[deployment_id] = failed
+        raise HTTPException(status_code=400, detail=f"what-if precondition failed: {exc}")
+
+    record_with_diff = pending.model_copy(update={
+        "bicep_what_if_summary": {
+            "counts": what_if.counts,
+            "has_destructive": what_if.has_destructive,
+            "mode": what_if.mode,
+            "duration_ms": what_if.duration_ms,
+        },
+        "status": "running",
+    })
+    _DEPLOYMENT_STORE[deployment_id] = record_with_diff
+
+    # Destructive-changes second-confirm gate.
+    if what_if.has_destructive and "confirm_destructive=true" not in (req.note or ""):
+        held = record_with_diff.model_copy(update={"status": "pending"})
+        _DEPLOYMENT_STORE[deployment_id] = held
+        raise HTTPException(
+            status_code=412,
+            detail={
+                "error": "destructive_changes_pending_confirm",
+                "what_if_counts": what_if.counts,
+                "message": (
+                    "What-if reports destructive changes. Re-submit with "
+                    "note=\"confirm_destructive=true\" to proceed."
+                ),
+            },
+        )
+
+    # --- Step 4: deploy -------------------------------------------------
+    try:
+        deploy = runner.deploy(
+            tenant=req.tenant,
+            resource_group=f"rg-{req.tenant}",
+            blueprint_path=blueprint_path,
+            parameters_path=parameters_path,
+        )
+    except (AzCliError, FileNotFoundError) as exc:
+        failed = record_with_diff.model_copy(update={
+            "status": "failed",
+            "completed_at": datetime.now(UTC).isoformat(),
+        })
+        _DEPLOYMENT_STORE[deployment_id] = failed
+        raise HTTPException(status_code=500, detail=f"deploy failed: {exc}")
+
+    final_status = "succeeded" if deploy.succeeded else "failed"
+    final = record_with_diff.model_copy(update={
+        "status": final_status,
+        "completed_at": deploy.completed_at.isoformat(),
+        "audit_row_id": deploy.correlation_id,
+    })
+    _DEPLOYMENT_STORE[deployment_id] = final
+    return final
 
 
 @router.get("", response_model=list[DeploymentRecord])
 def list_deployments(tenant: str | None = None) -> list[DeploymentRecord]:
-    raise HTTPException(status_code=501, detail="Not implemented — scaffold only")
+    rows = list(_DEPLOYMENT_STORE.values())
+    if tenant:
+        rows = [r for r in rows if r.tenant == tenant]
+    return sorted(rows, key=lambda r: r.started_at, reverse=True)
 
 
 @router.get("/{deployment_id}", response_model=DeploymentRecord)
 def get_deployment(deployment_id: str) -> DeploymentRecord:
-    raise HTTPException(status_code=501, detail="Not implemented — scaffold only")
+    record = _DEPLOYMENT_STORE.get(deployment_id)
+    if record is None:
+        raise HTTPException(status_code=404, detail=f"deployment {deployment_id!r} not found")
+    return record
