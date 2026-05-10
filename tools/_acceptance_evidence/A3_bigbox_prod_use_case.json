@@ -1,0 +1,31 @@
+{
+  "use_case_id": "rc-e2e-03--bigbox-prod",
+  "service_code": "RC-E2E-03",
+  "scenario_id": "rc-cold-chain-excursion-mid-shift",
+  "primary_variant": "APEX-M",
+  "substrate": "prod",
+  "personas_active": [
+    {
+      "id": "marisol-reyes-store-ops"
+    },
+    {
+      "id": "daniel-chen-merch-director"
+    }
+  ],
+  "persona_principal_bindings": {
+    "marisol-reyes-store-ops": {
+      "binding_mode": "entra_group",
+      "entra_group_object_id": "8a3c1234-aaaa-bbbb-cccc-456789abcdef",
+      "fallback_principals": [
+        "store-ops-on-call@bigbox.com"
+      ]
+    },
+    "daniel-chen-merch-director": {
+      "binding_mode": "specific_principals",
+      "fallback_principals": [
+        "merch-director@bigbox.com",
+        "merch-vp@bigbox.com"
+      ]
+    }
+  }
+}

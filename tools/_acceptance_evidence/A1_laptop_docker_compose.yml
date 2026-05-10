@@ -1,0 +1,195 @@
+# rendered docker-compose.yml — substrate: laptop
+# tenant: laptop-dev-001  variant: APEX-M  use_case: rc-e2e-03--default
+version: '3.9'
+services:
+  apex-mock-foundry:
+    image: ghcr.io/apex/mock-foundry:0.1.0
+  apex-mock-fabric:
+    image: ghcr.io/apex/mock-fabric:0.1.0
+  apex-mock-purview:
+    image: ghcr.io/apex/mock-purview:0.1.0
+  apex-mock-redis:
+    image: redis:7-alpine
+  apex-m-rc-e2e-03-rc-cold-chain-excursion-mid-shift-assess:
+    image: ghcr.io/apex/rc-e2e-03/assess:0.1.0
+    environment:
+      APEX_SUBSTRATE: laptop
+      APEX_VARIANT: APEX-M
+      APEX_SERVICE_CODE: RC-E2E-03
+      APEX_SCENARIO_ID: rc-cold-chain-excursion-mid-shift
+      APEX_AGENT_ROLE: assess
+      APEX_USE_CASE_ID: rc-e2e-03--default
+      APEX_FORCE_MOCK: 'true'
+    depends_on:
+      - apex-mock-foundry
+      - apex-mock-fabric
+      - apex-mock-purview
+      - apex-mock-redis
+  apex-m-rc-e2e-03-rc-cold-chain-excursion-mid-shift-classify:
+    image: ghcr.io/apex/rc-e2e-03/classify:0.1.0
+    environment:
+      APEX_SUBSTRATE: laptop
+      APEX_VARIANT: APEX-M
+      APEX_SERVICE_CODE: RC-E2E-03
+      APEX_SCENARIO_ID: rc-cold-chain-excursion-mid-shift
+      APEX_AGENT_ROLE: classify
+      APEX_USE_CASE_ID: rc-e2e-03--default
+      APEX_FORCE_MOCK: 'true'
+    depends_on:
+      - apex-mock-foundry
+      - apex-mock-fabric
+      - apex-mock-purview
+      - apex-mock-redis
+  apex-m-rc-e2e-03-rc-cold-chain-excursion-mid-shift-quantify:
+    image: ghcr.io/apex/rc-e2e-03/quantify:0.1.0
+    environment:
+      APEX_SUBSTRATE: laptop
+      APEX_VARIANT: APEX-M
+      APEX_SERVICE_CODE: RC-E2E-03
+      APEX_SCENARIO_ID: rc-cold-chain-excursion-mid-shift
+      APEX_AGENT_ROLE: quantify
+      APEX_USE_CASE_ID: rc-e2e-03--default
+      APEX_FORCE_MOCK: 'true'
+    depends_on:
+      - apex-mock-foundry
+      - apex-mock-fabric
+      - apex-mock-purview
+      - apex-mock-redis
+  apex-m-rc-e2e-03-rc-cold-chain-excursion-mid-shift-decide:
+    image: ghcr.io/apex/rc-e2e-03/decide:0.1.0
+    environment:
+      APEX_SUBSTRATE: laptop
+      APEX_VARIANT: APEX-M
+      APEX_SERVICE_CODE: RC-E2E-03
+      APEX_SCENARIO_ID: rc-cold-chain-excursion-mid-shift
+      APEX_AGENT_ROLE: decide
+      APEX_USE_CASE_ID: rc-e2e-03--default
+      APEX_FORCE_MOCK: 'true'
+    depends_on:
+      - apex-mock-foundry
+      - apex-mock-fabric
+      - apex-mock-purview
+      - apex-mock-redis
+  apex-m-rc-e2e-03-rc-cold-chain-excursion-mid-shift-act:
+    image: ghcr.io/apex/rc-e2e-03/act:0.1.0
+    environment:
+      APEX_SUBSTRATE: laptop
+      APEX_VARIANT: APEX-M
+      APEX_SERVICE_CODE: RC-E2E-03
+      APEX_SCENARIO_ID: rc-cold-chain-excursion-mid-shift
+      APEX_AGENT_ROLE: act
+      APEX_USE_CASE_ID: rc-e2e-03--default
+      APEX_FORCE_MOCK: 'true'
+    depends_on:
+      - apex-mock-foundry
+      - apex-mock-fabric
+      - apex-mock-purview
+      - apex-mock-redis
+  apex-m-rc-e2e-03-rc-cold-chain-excursion-mid-shift-learn:
+    image: ghcr.io/apex/rc-e2e-03/learn:0.1.0
+    environment:
+      APEX_SUBSTRATE: laptop
+      APEX_VARIANT: APEX-M
+      APEX_SERVICE_CODE: RC-E2E-03
+      APEX_SCENARIO_ID: rc-cold-chain-excursion-mid-shift
+      APEX_AGENT_ROLE: learn
+      APEX_USE_CASE_ID: rc-e2e-03--default
+      APEX_FORCE_MOCK: 'true'
+    depends_on:
+      - apex-mock-foundry
+      - apex-mock-fabric
+      - apex-mock-purview
+      - apex-mock-redis
+  apex-m-rc-e2e-03-rc-dynamic-markdown-optimization-assess:
+    image: ghcr.io/apex/rc-e2e-03/assess:0.1.0
+    environment:
+      APEX_SUBSTRATE: laptop
+      APEX_VARIANT: APEX-M
+      APEX_SERVICE_CODE: RC-E2E-03
+      APEX_SCENARIO_ID: rc-dynamic-markdown-optimization
+      APEX_AGENT_ROLE: assess
+      APEX_USE_CASE_ID: rc-e2e-03--default
+      APEX_FORCE_MOCK: 'true'
+    depends_on:
+      - apex-mock-foundry
+      - apex-mock-fabric
+      - apex-mock-purview
+      - apex-mock-redis
+  apex-m-rc-e2e-03-rc-dynamic-markdown-optimization-classify:
+    image: ghcr.io/apex/rc-e2e-03/classify:0.1.0
+    environment:
+      APEX_SUBSTRATE: laptop
+      APEX_VARIANT: APEX-M
+      APEX_SERVICE_CODE: RC-E2E-03
+      APEX_SCENARIO_ID: rc-dynamic-markdown-optimization
+      APEX_AGENT_ROLE: classify
+      APEX_USE_CASE_ID: rc-e2e-03--default
+      APEX_FORCE_MOCK: 'true'
+    depends_on:
+      - apex-mock-foundry
+      - apex-mock-fabric
+      - apex-mock-purview
+      - apex-mock-redis
+  apex-m-rc-e2e-03-rc-dynamic-markdown-optimization-quantify:
+    image: ghcr.io/apex/rc-e2e-03/quantify:0.1.0
+    environment:
+      APEX_SUBSTRATE: laptop
+      APEX_VARIANT: APEX-M
+      APEX_SERVICE_CODE: RC-E2E-03
+      APEX_SCENARIO_ID: rc-dynamic-markdown-optimization
+      APEX_AGENT_ROLE: quantify
+      APEX_USE_CASE_ID: rc-e2e-03--default
+      APEX_FORCE_MOCK: 'true'
+    depends_on:
+      - apex-mock-foundry
+      - apex-mock-fabric
+      - apex-mock-purview
+      - apex-mock-redis
+  apex-m-rc-e2e-03-rc-dynamic-markdown-optimization-decide:
+    image: ghcr.io/apex/rc-e2e-03/decide:0.1.0
+    environment:
+      APEX_SUBSTRATE: laptop
+      APEX_VARIANT: APEX-M
+      APEX_SERVICE_CODE: RC-E2E-03
+      APEX_SCENARIO_ID: rc-dynamic-markdown-optimization
+      APEX_AGENT_ROLE: decide
+      APEX_USE_CASE_ID: rc-e2e-03--default
+      APEX_FORCE_MOCK: 'true'
+    depends_on:
+      - apex-mock-foundry
+      - apex-mock-fabric
+      - apex-mock-purview
+      - apex-mock-redis
+  apex-m-rc-e2e-03-rc-dynamic-markdown-optimization-act:
+    image: ghcr.io/apex/rc-e2e-03/act:0.1.0
+    environment:
+      APEX_SUBSTRATE: laptop
+      APEX_VARIANT: APEX-M
+      APEX_SERVICE_CODE: RC-E2E-03
+      APEX_SCENARIO_ID: rc-dynamic-markdown-optimization
+      APEX_AGENT_ROLE: act
+      APEX_USE_CASE_ID: rc-e2e-03--default
+      APEX_FORCE_MOCK: 'true'
+    depends_on:
+      - apex-mock-foundry
+      - apex-mock-fabric
+      - apex-mock-purview
+      - apex-mock-redis
+  apex-m-rc-e2e-03-rc-dynamic-markdown-optimization-learn:
+    image: ghcr.io/apex/rc-e2e-03/learn:0.1.0
+    environment:
+      APEX_SUBSTRATE: laptop
+      APEX_VARIANT: APEX-M
+      APEX_SERVICE_CODE: RC-E2E-03
+      APEX_SCENARIO_ID: rc-dynamic-markdown-optimization
+      APEX_AGENT_ROLE: learn
+      APEX_USE_CASE_ID: rc-e2e-03--default
+      APEX_FORCE_MOCK: 'true'
+    depends_on:
+      - apex-mock-foundry
+      - apex-mock-fabric
+      - apex-mock-purview
+      - apex-mock-redis
+
+# Run with: docker-compose up
+# Stop with: docker-compose down -v

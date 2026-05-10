@@ -1,0 +1,15 @@
+{
+  "use_case_id": "rc-e2e-03--default",
+  "service_code": "RC-E2E-03",
+  "scenario_id": "rc-cold-chain-excursion-mid-shift",
+  "primary_variant": "APEX-M",
+  "substrate": "lab",
+  "personas_active": [
+    {
+      "id": "marisol-reyes-store-ops"
+    },
+    {
+      "id": "daniel-chen-merch-director"
+    }
+  ]
+}

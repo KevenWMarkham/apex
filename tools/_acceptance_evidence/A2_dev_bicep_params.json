@@ -1,0 +1,28 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "tenant": {
+      "value": "bigbox-dev"
+    },
+    "containerAppsEnvId": {
+      "value": "REPLACE_WITH_LAYER1_OUTPUT"
+    },
+    "agentIdentityId": {
+      "value": "REPLACE_WITH_LAYER1_OUTPUT"
+    },
+    "selections": {
+      "value": [
+        {
+          "serviceCode": "RC-E2E-03",
+          "featuredScenarios": [
+            "rc-cold-chain-excursion-mid-shift",
+            "rc-dynamic-markdown-optimization"
+          ],
+          "agentRoleOverrides": {},
+          "mcpServers": []
+        }
+      ]
+    }
+  }
+}

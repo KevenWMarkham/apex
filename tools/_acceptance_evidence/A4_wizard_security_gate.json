@@ -1,0 +1,174 @@
+{
+  "tenant": "bigbox-prod",
+  "evaluated_at": "2026-05-10T22:45:04.551118+00:00",
+  "overall_status": "yellow",
+  "deploy_allowed": true,
+  "red_gates": [],
+  "gates": [
+    {
+      "gate_id": "PSG-1",
+      "title": "Defender for Cloud CSPM with AI security posture",
+      "status": "green",
+      "evaluated_at": "2026-05-10T22:45:04.551029+00:00",
+      "mode": "mock",
+      "rationale": "[mock] PSG-1 returned synthetic green for tenant='bigbox-prod'",
+      "remediate": null,
+      "blocking": true,
+      "metadata": {}
+    },
+    {
+      "gate_id": "PSG-2",
+      "title": "Defender for AI services on Foundry project",
+      "status": "green",
+      "evaluated_at": "2026-05-10T22:45:04.551069+00:00",
+      "mode": "mock",
+      "rationale": "[mock] PSG-2 returned synthetic green for tenant='bigbox-prod'",
+      "remediate": null,
+      "blocking": true,
+      "metadata": {}
+    },
+    {
+      "gate_id": "PSG-3",
+      "title": "Microsoft Entra Agent ID tenant root blueprint",
+      "status": "green",
+      "evaluated_at": "2026-05-10T22:45:04.551078+00:00",
+      "mode": "mock",
+      "rationale": "[mock] PSG-3 returned synthetic green for tenant='bigbox-prod'",
+      "remediate": null,
+      "blocking": true,
+      "metadata": {}
+    },
+    {
+      "gate_id": "PSG-4",
+      "title": "Purview sensitivity labels enabled for SharePoint + OneDrive",
+      "status": "green",
+      "evaluated_at": "2026-05-10T22:45:04.551082+00:00",
+      "mode": "mock",
+      "rationale": "[mock] PSG-4 returned synthetic green for tenant='bigbox-prod'",
+      "remediate": null,
+      "blocking": true,
+      "metadata": {}
+    },
+    {
+      "gate_id": "PSG-5",
+      "title": "Purview Audit retention configured",
+      "status": "green",
+      "evaluated_at": "2026-05-10T22:45:04.551085+00:00",
+      "mode": "mock",
+      "rationale": "[mock] PSG-5 returned synthetic green for tenant='bigbox-prod'",
+      "remediate": null,
+      "blocking": true,
+      "metadata": {}
+    },
+    {
+      "gate_id": "PSG-6",
+      "title": "Customer Managed Keys (CMK) for Storage + Cognitive Services",
+      "status": "green",
+      "evaluated_at": "2026-05-10T22:45:04.551088+00:00",
+      "mode": "mock",
+      "rationale": "[mock] PSG-6 returned synthetic green for tenant='bigbox-prod'",
+      "remediate": null,
+      "blocking": true,
+      "metadata": {}
+    },
+    {
+      "gate_id": "PSG-7",
+      "title": "Customer Lockbox enabled",
+      "status": "green",
+      "evaluated_at": "2026-05-10T22:45:04.551091+00:00",
+      "mode": "mock",
+      "rationale": "[mock] PSG-7 returned synthetic green for tenant='bigbox-prod'",
+      "remediate": null,
+      "blocking": true,
+      "metadata": {}
+    },
+    {
+      "gate_id": "PSG-8",
+      "title": "Workspace-level IP firewall on Fabric workspaces",
+      "status": "green",
+      "evaluated_at": "2026-05-10T22:45:04.551093+00:00",
+      "mode": "mock",
+      "rationale": "[mock] PSG-8 returned synthetic green for tenant='bigbox-prod'",
+      "remediate": null,
+      "blocking": true,
+      "metadata": {}
+    },
+    {
+      "gate_id": "PSG-9",
+      "title": "AI Model Security scan green",
+      "status": "green",
+      "evaluated_at": "2026-05-10T22:45:04.551095+00:00",
+      "mode": "mock",
+      "rationale": "[mock] PSG-9 returned synthetic green for tenant='bigbox-prod'",
+      "remediate": null,
+      "blocking": true,
+      "metadata": {}
+    },
+    {
+      "gate_id": "PSG-10",
+      "title": "Conditional Access on the service blueprint",
+      "status": "green",
+      "evaluated_at": "2026-05-10T22:45:04.551098+00:00",
+      "mode": "mock",
+      "rationale": "[mock] PSG-10 returned synthetic green for tenant='bigbox-prod'",
+      "remediate": null,
+      "blocking": true,
+      "metadata": {}
+    },
+    {
+      "gate_id": "PSG-11",
+      "title": "HITL threshold config in Key Vault",
+      "status": "green",
+      "evaluated_at": "2026-05-10T22:45:04.551101+00:00",
+      "mode": "mock",
+      "rationale": "[mock] PSG-11 returned synthetic green for tenant='bigbox-prod'",
+      "remediate": null,
+      "blocking": true,
+      "metadata": {}
+    },
+    {
+      "gate_id": "PSG-12",
+      "title": "Use case `client_approved_architecture` resolves",
+      "status": "green",
+      "evaluated_at": "2026-05-10T22:45:04.551103+00:00",
+      "mode": "mock",
+      "rationale": "[mock] PSG-12 returned synthetic green for tenant='bigbox-prod'",
+      "remediate": null,
+      "blocking": true,
+      "metadata": {}
+    },
+    {
+      "gate_id": "PSG-13",
+      "title": "Foundry Standard Setup with Private Networking",
+      "status": "green",
+      "evaluated_at": "2026-05-10T22:45:04.551106+00:00",
+      "mode": "mock",
+      "rationale": "[mock] PSG-13 returned synthetic green for tenant='bigbox-prod'",
+      "remediate": null,
+      "blocking": true,
+      "metadata": {}
+    },
+    {
+      "gate_id": "PSG-14",
+      "title": "Independence consultation per adapter",
+      "status": "green",
+      "evaluated_at": "2026-05-10T22:45:04.551108+00:00",
+      "mode": "mock",
+      "rationale": "[mock] PSG-14 returned synthetic green for tenant='bigbox-prod'",
+      "remediate": null,
+      "blocking": true,
+      "metadata": {}
+    },
+    {
+      "gate_id": "PSG-15",
+      "title": "Persona-binding resolvability (Sprint 47.6)",
+      "status": "unknown",
+      "evaluated_at": "2026-05-10T22:45:04.551113+00:00",
+      "mode": "real",
+      "rationale": "Cannot evaluate without context.use_case_data. Wizard: render the use-case YAML first, then re-poll.",
+      "remediate": "POST /api/security-gate with use_case_data populated.",
+      "blocking": true,
+      "metadata": {}
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "apex-bigbox-prod-11cf3c33-be8e-4bbc-b947-cefd4be61fd7",
+  "tenant": "bigbox-prod",
+  "wave": "w2",
+  "selections": [
+    {
+      "service_code": "RC-E2E-03",
+      "featured_scenarios": [
+        "rc-cold-chain-excursion-mid-shift"
+      ],
+      "mcp_servers": []
+    }
+  ],
+  "parameters_path": "/var/apex/render/apex-bigbox-prod-11cf3c33-be8e-4bbc-b947-cefd4be61fd7.parameters.json",
+  "blueprint_path": "apex-m/infra/bicep/blueprints/w2-pilot.bicep",
+  "bicep_what_if_summary": {
+    "counts": {
+      "Create": 2,
+      "NoChange": 1
+    },
+    "has_destructive": false,
+    "mode": "mock",
+    "duration_ms": 42
+  },
+  "status": "succeeded",
+  "operator": "marisol.reyes@labtenant.onmicrosoft.com",
+  "started_at": "2026-05-10T22:45:04.571628+00:00",
+  "completed_at": "2026-05-10T22:45:04.573433+00:00",
+  "audit_row_id": "mock-f59b55a7-c238-475d-986a-81ba9a24df1a"
+}
