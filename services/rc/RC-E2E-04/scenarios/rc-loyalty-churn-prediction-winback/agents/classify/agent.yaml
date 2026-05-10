@@ -1,11 +1,22 @@
 role: classify
+label: The Demand Checker
 scenario_id: rc-loyalty-churn-prediction-winback
 service_code: RC-E2E-04
 archetype: hierarchical-root + sequential-with-hitl-gate
-model: TBD
-tools: []
-schemas_read: []
+canonical_pattern: sequential
+model: gpt-4o-2024-11-20
+tools:
+  - cxml-mcp.get_customer_consent
+  - rc_e2e_04.get_loyalty_churn_cohort
+schemas_read:
+  - CXML.Loyalty
+  - CXML.Customer
 schemas_write: []
 hitl_gate: false
 audit_row_emit: true
 prompt_ref: prompts/classify.md
+prompt_version: 1.0.0
+manifest_version: 1.0.0
+classification_propagation:
+  - pii      # tokenised
+operator_obo_required: false

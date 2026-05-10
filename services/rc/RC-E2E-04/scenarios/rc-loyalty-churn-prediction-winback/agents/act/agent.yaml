@@ -1,11 +1,26 @@
 role: act
+label: System Actuator
 scenario_id: rc-loyalty-churn-prediction-winback
 service_code: RC-E2E-04
 archetype: hierarchical-root + sequential-with-hitl-gate
-model: TBD
-tools: []
+canonical_pattern: sequential
+model: gpt-4o-2024-11-20
+tools:
+  - rc_e2e_04.commit_winback_offer
 schemas_read: []
-schemas_write: []
-hitl_gate: true
+schemas_write:
+  - CXML.Campaign
+  - CXML.Loyalty
+hitl_gate: false             # Decide owns the gate; act fires post-approval
 audit_row_emit: true
 prompt_ref: prompts/act.md
+prompt_version: 1.0.0
+manifest_version: 1.0.0
+classification_propagation:
+  - trade_secret
+  - pii        # transient unlock handle — never JSON-emitted
+  - internal
+idempotency_keyed_on: campaign_natural
+rollback_on_failure: per_cohort_atomic
+operator_obo_required: true
+ttl_check_seconds: 60        # PII unlock handle TTL — abort under 5s remaining

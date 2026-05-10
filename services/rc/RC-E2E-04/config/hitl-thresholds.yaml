@@ -1,0 +1,119 @@
+# services/rc/RC-E2E-04/config/hitl-thresholds.yaml
+#
+# Sprint 34 item 34.3 — Tier-3 PII JIT unlock pattern.
+# Declarative HITL threshold + PII-unlock policy for RC-E2E-04 loyalty-churn
+# agents. Provisioned into Azure Key Vault by `bicep/hitl.bicep` at deploy
+# time. The Decide agent reads thresholds + the tokenizer-mcp bulk_detokenize
+# webhook from Key Vault under operator OBO scope.
+
+practice: rc
+service_code: RC-E2E-04
+sprint: sprint-34
+sprint_item: 34.3
+keyvault_naming_pattern: 'apex-hitl-{tenant}-rc-e2e-04--{key}'
+
+# -----------------------------------------------------------------------------
+# Threshold definitions — read by the Decide agent at runtime
+# -----------------------------------------------------------------------------
+thresholds:
+
+  - id: winback_offer_above_pct
+    keyvault_secret_name: winback-offer-above-pct
+    type: number
+    units: percent
+    default: 25
+    range: { min: 0, max: 100 }
+    description: |
+      Routes any winback offer whose `recommended_offer_depth_pct` exceeds
+      this value to Maya Patel HITL. Below this, the offer auto-clears
+      (provided no other gate trips).
+    used_by:
+      agent: decide
+      prompt_section: 'HITL threshold logic step 3'
+    persona_routes_to: maya-patel-loyalty-crm-director
+
+  - id: cohort_total_offer_cost_above_usd
+    keyvault_secret_name: cohort-total-offer-cost-above-usd
+    type: number
+    units: usd
+    default: 50000
+    range: { min: 0, max: 10000000 }
+    description: |
+      Total cohort offer cost above which the entire campaign requires HITL
+      regardless of per-member depths. Defends against many small offers
+      summing to a budget overrun.
+    used_by:
+      agent: decide
+      prompt_section: 'HITL threshold logic step 4'
+    persona_routes_to: maya-patel-loyalty-crm-director
+
+  - id: tier_3_pii_unlock_required
+    keyvault_secret_name: tier-3-pii-unlock-required
+    type: boolean
+    default: true
+    description: |
+      When true (default), every campaign that requires bulk PII unlock for
+      distribution (i.e. percent_off / amount_off offer kinds where the
+      engagement system needs raw email/phone) routes to HITL. Setting false
+      auto-clears small cohorts but is NOT recommended for any client subject
+      to GDPR / CCPA / CAN-SPAM jurisdiction.
+    used_by:
+      agent: decide
+      prompt_section: 'HITL threshold logic step 2'
+    persona_routes_to: maya-patel-loyalty-crm-director
+
+  - id: auto_clear_max_cohort_size
+    keyvault_secret_name: auto-clear-max-cohort-size
+    type: number
+    units: count
+    default: 200
+    range: { min: 0, max: 100000 }
+    description: |
+      Maximum cohort size eligible for auto-clear (without HITL). Only applies
+      when ALL offers are bonus_points or free_shipping_window (no PII unlock
+      needed). Larger cohorts always route to HITL even when offer-kind is
+      points-only — blast radius scales with size.
+    used_by:
+      agent: decide
+      prompt_section: 'HITL threshold logic step 5'
+    persona_routes_to: null
+
+
+# -----------------------------------------------------------------------------
+# Tier-3 PII unlock pattern — per Deployment Guide §5.2.2
+# -----------------------------------------------------------------------------
+tier3_pii_unlock:
+  tokenizer_mcp_webhook_secret_name: 'apex-hitl-{tenant}-rc-e2e-04--tokenizer-bulk-detokenize-webhook'
+  unlock_ttl_seconds: 60                  # Hard ceiling on unlocked-PII handle lifetime
+  authorised_purposes:
+    - winback_offer_distribution
+  authorised_unlock_personas:
+    - maya-patel-loyalty-crm-director
+  audit_emit_separately: true             # Per BL.P.86 — separate audit row from decision row
+  max_unlock_count_per_cohort: 50000      # Defence against accidental whole-database unlock
+  re_authentication_required_seconds: 300 # If operator's OBO is older than this, force re-auth
+  rejected_purposes_log_emit: true        # Any unauthorised purpose attempt logs separately
+
+
+# -----------------------------------------------------------------------------
+# Adaptive Card config
+# -----------------------------------------------------------------------------
+adaptive_card:
+  teams_webhook_secret_name: 'apex-hitl-{tenant}-rc-e2e-04--teams-webhook'
+  card_template_version: 'v1.5'
+  redact_classifications:
+    - trade_secret
+    - pii                                 # Even tokenised PII shouldn't render in card body
+  show_consent_breakdown: true            # Database hygiene signal
+  show_anti_fatigue_breakdown: true
+
+
+# -----------------------------------------------------------------------------
+# Tuning policy — auto-rollback per Roadmap.md BL.P.76
+# -----------------------------------------------------------------------------
+tuning:
+  observation_window_days: 14
+  reversal_rate_rollback_threshold_pct: 30
+  escalation_rate_rollback_threshold_pct: 35
+  enable_auto_rollback: true
+  realised_response_drift_threshold_pct: 10  # Trigger model retrain recommendation in digest

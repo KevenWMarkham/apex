@@ -1,0 +1,176 @@
+{
+  "$schema": "https://apex.deloitte.com/schemas/smoke-test-fixture-v1.json",
+  "fixture_id": "rc-loyalty-churn-prediction-winback--canonical-1",
+  "description": "Canonical synthetic loyalty-churn cohort per Services Guide §18.2 envelope. 5-member top-tier cohort with one elevated-risk platinum, two moderate-risk, one consent-blocked, one anti-fatigue-blocked. Drives the full 24-step chain end-to-end via mocks.",
+
+  "trigger": {
+    "kind": "weekly-loyalty-churn-batch",
+    "tenant_id": "labtenant",
+    "window_start": "2026-05-04T00:00:00Z",
+    "window_end":   "2026-05-11T00:00:00Z",
+    "tier_filter":  "top_tier",
+    "trigger_at":   "2026-05-11T09:00:00Z"
+  },
+
+  "cohort": [
+    {
+      "customer_token": "tok-cust-A",
+      "loyalty_tier": "platinum",
+      "lifetime_value_bucket": "high",
+      "trailing_90d_visit_count": 4,
+      "trailing_90d_visit_count_prior_period": 12,
+      "visit_velocity_change_pct": -67.0,
+      "service_interactions_negative_count": 3,
+      "consent_marketing": true,
+      "consent_personalization": true,
+      "prior_winback_count_12m": 0,
+      "prior_winback_response_rate_lifetime": null,
+      "expected_winback_propensity_signal": "elevated",
+      "expected_churn_risk_class": "high"
+    },
+    {
+      "customer_token": "tok-cust-B",
+      "loyalty_tier": "gold",
+      "lifetime_value_bucket": "mid",
+      "trailing_90d_visit_count": 8,
+      "trailing_90d_visit_count_prior_period": 10,
+      "visit_velocity_change_pct": -20.0,
+      "service_interactions_negative_count": 1,
+      "consent_marketing": true,
+      "consent_personalization": true,
+      "prior_winback_count_12m": 1,
+      "prior_winback_response_rate_lifetime": 12.0,
+      "expected_winback_propensity_signal": "low",
+      "expected_churn_risk_class": "low"
+    },
+    {
+      "customer_token": "tok-cust-C",
+      "loyalty_tier": "platinum",
+      "lifetime_value_bucket": "high",
+      "trailing_90d_visit_count": 6,
+      "trailing_90d_visit_count_prior_period": 9,
+      "visit_velocity_change_pct": -33.3,
+      "service_interactions_negative_count": 2,
+      "consent_marketing": true,
+      "consent_personalization": true,
+      "prior_winback_count_12m": 0,
+      "prior_winback_response_rate_lifetime": null,
+      "expected_winback_propensity_signal": "elevated",
+      "expected_churn_risk_class": "medium"
+    },
+    {
+      "customer_token": "tok-cust-D",
+      "loyalty_tier": "gold",
+      "lifetime_value_bucket": "high",
+      "trailing_90d_visit_count": 5,
+      "trailing_90d_visit_count_prior_period": 9,
+      "visit_velocity_change_pct": -44.4,
+      "service_interactions_negative_count": 2,
+      "consent_marketing": false,
+      "consent_personalization": false,
+      "prior_winback_count_12m": 0,
+      "prior_winback_response_rate_lifetime": null,
+      "expected_winback_propensity_signal": "elevated",
+      "expected_churn_risk_class": "medium",
+      "expected_winback_eligibility": "ineligible_consent"
+    },
+    {
+      "customer_token": "tok-cust-E",
+      "loyalty_tier": "silver",
+      "lifetime_value_bucket": "low",
+      "trailing_90d_visit_count": 1,
+      "trailing_90d_visit_count_prior_period": 6,
+      "visit_velocity_change_pct": -83.3,
+      "service_interactions_negative_count": 4,
+      "consent_marketing": true,
+      "consent_personalization": true,
+      "prior_winback_count_12m": 2,
+      "prior_winback_response_rate_lifetime": 0.0,
+      "expected_winback_propensity_signal": "elevated",
+      "expected_churn_risk_class": "high",
+      "expected_winback_eligibility": "ineligible_recent_winback"
+    }
+  ],
+
+  "winback_basis": {
+    "tok-cust-A": {
+      "predicted_ltv_decline_24m_usd": 1820.00,
+      "matched_offer_rules": [{"rule_natural": "WB-2026-PLAT-CAP", "max_offer_pct": 35.0, "margin_floor_pct": 18.0}],
+      "expected_recommended_offer_depth_pct": 30,
+      "expected_binding_constraint": "max_offer_pct_rule"
+    },
+    "tok-cust-C": {
+      "predicted_ltv_decline_24m_usd": 1240.00,
+      "matched_offer_rules": [{"rule_natural": "WB-2026-PLAT-CAP", "max_offer_pct": 35.0, "margin_floor_pct": 18.0}],
+      "expected_recommended_offer_depth_pct": 20,
+      "expected_binding_constraint": "none"
+    }
+  },
+
+  "expected_chain_behavior": {
+    "step_13_assess": {
+      "should_emit_to": "g_loyalty_churn_cohort",
+      "should_classify_signals": {"elevated": 4, "low": 1}
+    },
+    "step_14_classify": {
+      "should_score_class": {"high": 2, "medium": 2, "low": 1},
+      "should_eligibility_breakdown": {
+        "eligible": 2,
+        "ineligible_consent": 1,
+        "ineligible_recent_winback": 1,
+        "ineligible_low_ltv": 0
+      }
+    },
+    "step_15_quantify": {
+      "should_emit_to": "g_winback_offer_basis",
+      "should_compute_per_member_economics_for_eligible_only": true,
+      "expected_eligible_count": 2
+    },
+    "step_16_decide": {
+      "decision_class": "hitl_required",
+      "expected_hitl_persona": "maya-patel-loyalty-crm-director",
+      "channel": "teams-adaptive-card",
+      "reason": "tier_3_pii_unlock_required true AND offer_kind percent_off → must HITL"
+    },
+    "step_16_decide_post_approval": {
+      "should_invoke": "tokenizer-mcp.bulk_detokenize",
+      "ttl_seconds": 60,
+      "purpose": "winback_offer_distribution",
+      "expected_unlock_request_id_present": true
+    },
+    "step_17_act": {
+      "should_call": "rc_e2e_04.commit_winback_offer",
+      "should_write_to": ["CXML.Campaign", "CXML.Loyalty"],
+      "should_push_to_engagement_system": true,
+      "should_complete_within_ttl_seconds": 60
+    },
+    "step_18_learn": {
+      "should_emit_ledger_rows_count": 2,
+      "should_redis_similarity_keys_per_member": 2,
+      "should_emit_campaign_digest_to_persona": "maya-patel-loyalty-crm-director"
+    }
+  },
+
+  "expected_kpi_movement": {
+    "loyalty-churn-rate-pct": {
+      "target_direction": "decrease",
+      "expected_drop": 22,
+      "baseline_note": "per Services Guide §18.2 envelope: top tier churn rate -22%"
+    },
+    "winback-response-rate-pp-lift": {
+      "target_direction": "increase",
+      "expected_pp_lift": 17
+    },
+    "saved-customer-ltv-pct-lift": {
+      "target_direction": "increase",
+      "expected_pct_lift": 34
+    }
+  },
+
+  "audit_assertions": {
+    "purview_audit_row_present": true,
+    "audit_row_chain_ids_threaded": ["decision_audit_row", "tier3_pii_unlock_audit_row", "actuator_audit_row"],
+    "tier3_pii_unlock_audit_row_separate": true,
+    "operator_principal_should_match": "maya.patel@<tenant>"
+  }
+}

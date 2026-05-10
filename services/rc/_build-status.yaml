@@ -261,14 +261,20 @@ sprints:
       - id: 34.2
         title: Author 5-agent prompts + MCP tools (rc_e2e_04.*)
         services_guide_ref: '§18.2'
-        done: false
+        done: true
+        status: complete
+        notes: 'All 6 agent prompts authored (assess/The Analyst, classify/The Demand Checker, quantify/The Finance Lead, decide/The Operations Lead, act/System Actuator, learn/The Briefer). agent.yaml updated to gpt-4o + tools + schemas + classification_propagation. NEW packages/rc-e2e-04-mcp with 3 tools: get_loyalty_churn_cohort + get_winback_offer_basis + commit_winback_offer (idempotent on campaign_natural). 17 unit tests pass.'
       - id: 34.3
         title: Tier-3 PII unlock at HITL (re-identification of customer)
         services_guide_ref: '§18.2 (HITL Persona), §7.3'
-        done: false
+        done: true
+        status: complete
+        notes: 'JIT PII unlock pattern wired per Deployment Guide §5.2.2: services/rc/RC-E2E-04/config/hitl-thresholds.yaml + bicep/hitl.bicep materialise 6 KV secrets per tenant (winback-offer-above-pct / cohort-total-offer-cost-above-usd / tier-3-pii-unlock-required / auto-clear-max-cohort-size / tokenizer-bulk-detokenize-webhook / teams-webhook). Decide agent declares tier3_pii_unlock_webhook_secret + 60s TTL + authorised_purposes [winback_offer_distribution] + audit_row_emit_separate_for_pii_unlock. main.bicep wires the module. 46 manifest + fixture tests pass.'
       - id: 34.4
         title: Deploy to Lab + smoke test (winback offer above threshold)
         done: false
+        status: blocked_on_environment
+        notes: 'Synthetic fixture authored at fixtures/winback-cohort.json (5-member cohort exercising eligible / ineligible_consent / ineligible_recent_winback paths). Lab tenant + Bicep apply blocked on org-level Lab provisioning (same blocker as Sprint 30.1).'
 
   - id: sprint-35
     name: RC-E2E-05 — On-Shelf Availability Implementation + Deploy

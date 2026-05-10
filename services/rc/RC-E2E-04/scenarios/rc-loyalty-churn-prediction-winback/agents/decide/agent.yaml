@@ -1,11 +1,38 @@
 role: decide
+label: The Operations Lead
 scenario_id: rc-loyalty-churn-prediction-winback
 service_code: RC-E2E-04
 archetype: hierarchical-root + sequential-with-hitl-gate
-model: TBD
-tools: []
+canonical_pattern: sequential
+model: gpt-4o-2024-11-20
+tools:
+  - tokenizer-mcp.bulk_detokenize    # Tier-3 PII unlock — invoked ONLY post-HITL
 schemas_read: []
 schemas_write: []
 hitl_gate: true
+hitl_persona: maya-patel-loyalty-crm-director
+hitl_channel: teams-adaptive-card
+hitl_gate_secret_prefix: 'apex-hitl-{tenant}-rc-e2e-04'
+hitl_thresholds_consumed:
+  - winback-offer-above-pct
+  - cohort-total-offer-cost-above-usd
+  - tier-3-pii-unlock-required
+  - auto-clear-max-cohort-size
+hitl_webhook_secret: 'apex-hitl-{tenant}-rc-e2e-04--teams-webhook'
+tier3_pii_unlock_webhook_secret: 'apex-hitl-{tenant}-rc-e2e-04--tokenizer-bulk-detokenize-webhook'
+tier3_pii_unlock_ttl_seconds: 60
+tier3_pii_unlock_authorised_purposes:
+  - winback_offer_distribution
 audit_row_emit: true
+audit_row_emit_separate_for_pii_unlock: true   # BL.P.86 lineage
 prompt_ref: prompts/decide.md
+prompt_version: 1.0.0
+manifest_version: 1.0.0
+classification_propagation:
+  - trade_secret
+  - pii      # bulk_detokenize transit only
+  - internal
+adaptive_card_template_version: '1.5'
+adaptive_card_redact_classifications:
+  - trade_secret
+  - pii      # even tokenised PII not in card body

@@ -1,11 +1,26 @@
 role: learn
+label: The Briefer
 scenario_id: rc-loyalty-churn-prediction-winback
 service_code: RC-E2E-04
 archetype: hierarchical-root + sequential-with-hitl-gate
-model: TBD
-tools: []
-schemas_read: []
+canonical_pattern: sequential
+model: gpt-4o-2024-11-20
+tools: []                    # Foundry runtime publishes ledger_rows to Redis
+schemas_read:
+  - CXML.Campaign
+  - CXML.Loyalty
 schemas_write: []
 hitl_gate: false
 audit_row_emit: true
 prompt_ref: prompts/learn.md
+prompt_version: 1.0.0
+manifest_version: 1.0.0
+classification_propagation:
+  - trade_secret
+  - pii      # tokenised
+  - internal
+redis_episodic_memory: true
+campaign_digest_enabled: true
+campaign_digest_persona: maya-patel-loyalty-crm-director
+campaign_digest_cadence_days: 7
+attribution_window_days: 30
