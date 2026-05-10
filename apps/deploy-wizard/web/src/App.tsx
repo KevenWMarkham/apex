@@ -6,15 +6,17 @@ import Drift from "./pages/Drift";
 import History from "./pages/History";
 import HitlConfig from "./pages/HitlConfig";
 import Roadmap from "./pages/Roadmap";
+import SecurityGate from "./pages/SecurityGate";
 import Tenants from "./pages/Tenants";
 import Wizard from "./pages/Wizard";
 
 export default function App() {
   return (
     <BrowserRouter>
-      <nav className="border-b p-4 flex gap-4">
+      <nav className="border-b p-4 flex gap-4 flex-wrap">
         <Link to="/" className="font-bold">APEX Wizard</Link>
         <Link to="/wizard">Deploy Wizard</Link>
+        <Link to="/security-gate">Security Gate</Link>
         <Link to="/roadmap">Roadmap</Link>
         <Link to="/catalog">Catalog</Link>
         <Link to="/adapters">Adapters</Link>
@@ -27,6 +29,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Wizard />} />
           <Route path="/wizard" element={<Wizard />} />
+          <Route path="/security-gate" element={<SecurityGate />} />
           <Route path="/roadmap" element={<Roadmap />} />
           <Route path="/catalog" element={<Catalog />} />
           <Route path="/adapters" element={<Adapters />} />

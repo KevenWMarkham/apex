@@ -9,154 +9,198 @@ The wizard itself is provider-neutral but ships first against APEX-M
 wizard's render endpoint adds Terraform / CloudFormation paths alongside
 Bicep — same wizard, different IaC dialect.
 
-## Scope (full control plane)
+---
 
-The wizard is **not** a one-shot installer. It owns:
+## Quick start — launch the wizard (mock mode, no Azure needed)
 
-| Capability | Description |
+```bash
+# One command brings up backend + frontend:
+python apps/deploy-wizard/launch.py
+
+# Or for backend only:
+python apps/deploy-wizard/launch.py --no-frontend
+
+# Or with real az calls (requires az CLI + Lab Azure subscription):
+python apps/deploy-wizard/launch.py --real
+```
+
+Once running, open:
+
+- **Wizard**:        http://localhost:5173/wizard
+- **Security Gate**: http://localhost:5173/security-gate
+- **Roadmap**:       http://localhost:5173/roadmap
+- **API docs**:      http://localhost:8000/docs
+- **Health**:        http://localhost:8000/health
+
+### First-run setup
+
+| Component | Setup |
 |---|---|
-| **Treeview wizard** | Practice → Service → Scenario → Agent treeview with tri-state checkboxes. Selections roll up — tick a practice and every featured scenario beneath it is included. Implementation: `web/src/pages/Wizard.tsx` + `web/src/components/TreeView.tsx`. Powered by `GET /api/catalog/tree`. |
-| **Service catalog browser** | Browse all 724 scenarios from `services/_registry.json` filtered by industry, domain, service code, featured/catalog. |
-| **Wave-by-wave deploy** | Operator picks tenant + wave (W1/W2/W3) + services + featured scenarios; wizard renders Bicep param files (`POST /api/deployments/render`) and runs `az deployment group create`. |
-| **Tenant management** | Multiple Azure tenants under one wizard install. Each tenant gets its own Cosmos partition for state. |
-| **Deployment history** | Every deploy writes an audit row (tenant, wave, services, scenarios, Bicep `what-if` diff, operator identity) to Cosmos. |
-| **Drift detection** | Daily job runs Bicep `what-if` against the pinned release manifest; reports divergence per book §3792. |
-| **Agent registration** | After Bicep deploys agent fleets, wizard registers them with Agent Service via REST per book §10.5. |
-| **HITL gate config** | UI for setting per-scenario approval thresholds (markdown %, refund $, etc.) — written to Key Vault, consumed by `decide`/`act` agents. |
-| **Schema discovery** | Pulls Silver-canonical schemas (MERML, SCML, CXML, ...) from Purview and shows which scenarios consume which. |
-| **Promotion** | Moves a catalog scenario to featured: scaffolds its agent fleet, drops a PR against the repo. |
+| Python backend | `pip install fastapi uvicorn[standard] pydantic httpx pyyaml`<br>`pip install -e apps/deploy-wizard/api` |
+| Node frontend | Install Node 20+. The launcher runs `npm install` automatically on first run. |
+| Real-mode `az` | Install Azure CLI: https://learn.microsoft.com/cli/azure/install-azure-cli. `az login` against the Lab tenant. |
+
+### Mock mode vs real mode
+
+| Mode | When to use | What happens |
+|---|---|---|
+| **mock** (default) | Demos, laptop dev, CI, user-acceptance review | `apex_wizard.bicep_runner` returns synthetic what-if diffs + correlation IDs. 14 of 15 security gates report mock-green; PSG-15 evaluates real persona bindings against use-case data. |
+| **real** (`--real`) | Lab deploy, prod deploy | Shells out to `az deployment group what-if` / `create`. Requires `az login` on the tenant. |
+
+The same code paths fire in both modes; the runner is dual-mode by design.
+You can develop the wizard against mocks then flip a flag to deploy live.
+
+---
+
+## The 6-step wizard flow
+
+The wizard's `/wizard` page walks an operator through six steps:
+
+1. **Pick services + scenarios + agents** in the treeview (Practice → Service → Scenario → Agent).
+2. **Pick substrate** (laptop · dev · stage · prod) and **variant** (APEX-M).
+3. **Pick a use case** from the dropdown (e.g., `rc-e2e-03--default` or a cloned client variant).
+4. **Click "Render"** → wizard calls `POST /api/deployments/render`. Output is `docker-compose.yml` for laptop or Bicep parameter JSON for cloud.
+   - Wizard also polls `GET /api/security-gate?tenant=X` and shows all 15 gates in-line.
+5. **Tick "I have reviewed the diff"** when the rendered diff is acceptable. Required when what-if reports destructive changes (Delete).
+6. **Click "Deploy"** → wizard calls `POST /api/deployments`. Server orchestrates:
+   - Re-evaluate all 15 security gates → 409 if any blocking gate is red
+   - Run `bicep_runner.what_if` → attach diff summary
+   - Run `bicep_runner.deploy` → return record with status + correlation id
+
+The deployment record shows up immediately with status + audit-row id. Drift
+detection runs daily and surfaces on the `/drift` page.
+
+---
+
+## Pages
+
+| Route | Purpose |
+|---|---|
+| `/wizard` | Default landing — full deploy flow with treeview + render + deploy |
+| `/security-gate` | Pre-deployment Security Gate dashboard (PSG-1 through PSG-15) — poll by tenant, optionally with use-case context for PSG-15 |
+| `/roadmap` | Sprint progress per `services/<practice>/_build-status.yaml` |
+| `/catalog` | Browse all 724 scenarios from `services/_registry.json` |
+| `/adapters` | Adapter inventory (per-engagement bindings to Salesforce / Snowflake / Splunk / Okta / etc.) |
+| `/tenants` | Multi-tenant management |
+| `/history` | Past deployments (`GET /api/deployments`) |
+| `/drift` | Drift reports per tenant (`GET /api/drift/{tenant}`) |
+| `/hitl` | Per-scenario HITL threshold editor → Key Vault |
+
+---
+
+## API endpoints
+
+| Method · Path | Description |
+|---|---|
+| `GET /health` | Service health |
+| `GET /api/catalog/tree?featured_only=true` | Practice → Service → Scenario → Agent tree |
+| `GET /api/catalog/practices` | 7 practices |
+| `GET /api/catalog/services?industry=rc` | Services filtered by practice |
+| `GET /api/catalog/scenarios?service_code=RC-E2E-03` | Scenarios (filterable) |
+| `GET /api/catalog/use-cases` | Use cases per service |
+| `POST /api/deployments/render` | Selection → `docker-compose.yml` (laptop) or Bicep params (cloud) |
+| `POST /api/deployments` | **Full deploy: PSG check → what-if → confirm-destructive → apply → audit row** (Sprint 46.3) |
+| `GET /api/deployments?tenant=X` | List past deployments |
+| `GET /api/deployments/{id}` | Get one deployment record |
+| `GET /api/security-gate?tenant=X` | Poll all 15 gates (PSG-15 returns UNKNOWN without context) |
+| `POST /api/security-gate/with-context` | Poll with use-case data so PSG-15 evaluates fully |
+| `GET /api/drift/{tenant}` | On-demand drift check |
+| `GET /api/drift/{tenant}/history` | Recent drift reports |
+| `GET /api/hitl/{tenant}/{service}/{scenario}` | HITL threshold get/set |
+
+Full OpenAPI docs at http://localhost:8000/docs once the backend is running.
+
+---
 
 ## Layout
 
 ```
 apps/deploy-wizard/
   README.md                        # this file
+  launch.py                        # one-command launcher (backend + frontend)
   api/                             # FastAPI control-plane backend
     pyproject.toml
     src/apex_wizard/
-      __init__.py
       main.py                      # FastAPI entrypoint
       catalog.py                   # /api/catalog endpoints
       tenants.py                   # /api/tenants CRUD
       deployments.py               # /api/deployments + Bicep runner
-      drift.py                     # /api/drift detector
+      security_gate.py             # /api/security-gate aggregator (Sprint 46.2)
+      drift.py                     # /api/drift detector (Sprint 46.4)
       hitl.py                      # /api/hitl threshold mgmt
       registry.py                  # services/_registry.json loader
-      bicep_runner.py              # subprocess wrapper around `az deployment`
+      bicep_runner.py              # Sprint 46.1 — Mock + RealBicepRunner
       models.py                    # Pydantic models
-    tests/
+    tests/                         # 43 unit + integration tests
   web/                             # React + TypeScript frontend
     package.json
     src/
       App.tsx                      # router, layout
       pages/
-        Wizard.tsx                 # default — Practice→Service→Scenario→Agent treeview deploy
+        Wizard.tsx                 # 6-step deploy flow with deploy button
+        SecurityGate.tsx           # PSG-1 through PSG-15 dashboard
         Catalog.tsx                # browse 724 scenarios
         Tenants.tsx                # tenant list
-        Deploy.tsx                 # legacy stepper view
         History.tsx                # past deployments
         Drift.tsx                  # drift report
         HitlConfig.tsx             # threshold editor
+        Adapters.tsx               # adapter inventory
+        Roadmap.tsx                # sprint progress
+        Deploy.tsx                 # legacy stepper (kept for back-compat)
       components/
         TreeView.tsx               # recursive tri-state-checkbox treeview
   bicep/                           # the wizard's own Azure resources
-    main.bicep                     # references apex-m/infra/bicep/control-plane/main.bicep
+    main.bicep
   parameters/                      # generated parameter files per deployment
-    .gitignore                     # ignore generated; keep examples
-    examples/
-      contoso-w2-pilot.json
 ```
 
-## Wizard flow — Practice → Service → Scenario → Agent
-
-This is the canonical layered model from
-[`docs/book/Professional-APEX-M-Deployment-Guide.html`](../../docs/book/Professional-APEX-M-Deployment-Guide.html)
-chapters 1 and 7. The wizard's treeview enforces it:
-
-1. Operator opens `/wizard` (the default route).
-2. **Practice level** — picks one or more of the 7 industry practices
-   (RC, HLS, ER, AXLE, TH, TMT, ICE). Selecting a practice rolls up to
-   include every deployable service beneath it.
-3. **Service level** — drills into a practice and picks specific service
-   codes (e.g., `RC-E2E-03`). Each service has a 1:1:1 binding to a
-   deployment Bicep module, a commercial envelope, and an audit attribution
-   key (book §7.1).
-4. **Scenario level** — within a service, picks the featured scenarios to
-   include. Featured scenarios are the 36 with full agent-fleet scaffolds;
-   catalog-only scenarios are not deployable from the wizard until promoted.
-5. **Agent level** — within a scenario, optionally narrows to specific
-   agents (e.g., deploy only "The Analyst" + "The Briefer" in W1).
-6. Picks **tenant** + **wave** (W1 / W2 / W3) in the right-hand panel.
-7. Clicks **Render Bicep parameters** → calls
-   `POST /api/deployments/render` which returns the parameter file for
-   the matching blueprint.
-8. Reviews summary + parameters in-place. (Confirm-and-deploy flow which
-   shells out to `az deployment group create` — wired but not yet
-   implemented; see `bicep_runner.py`.)
-
-### Tri-state selection rules
-
-- Tick a node → the node + every descendant are added to the selection.
-- Untick a node → the node + every descendant are removed.
-- Selecting a parent then unticking one child → parent shows partial
-  (indeterminate) state.
-- Empty selection disables Render.
-
-### Roll-up rule (server side)
-
-When the API receives a selection, it walks the registry:
-- Practice tick → all featured scenarios in that practice.
-- Service tick → all featured scenarios in that service.
-- Scenario tick (explicit) → that scenario, even if not featured.
-- Agent tick → that role only, within its parent scenario.
-
-Featured-only is enforced for inherited selections (parent ticks);
-explicit scenario picks bypass it. This keeps the operator from
-accidentally deploying a catalog stub that has no agent fleet.
-
-## Endpoints
-
-| Method · Path | Description |
-|---|---|
-| `GET /api/catalog/tree?featured_only=true` | The 4-level tree the wizard renders. |
-| `GET /api/catalog/practices` | 7 practices with slug + label. |
-| `GET /api/catalog/services?industry=rc` | Service codes filtered by practice. |
-| `GET /api/catalog/scenarios?service_code=RC-E2E-03&featured_only=true` | Scenarios (filterable). |
-| `POST /api/deployments/render` | Selection → Bicep parameter file (preview). |
-| `POST /api/deployments` | Render + execute (TBD). |
-| `GET /api/deployments` | Past deployments (TBD). |
-| `GET /api/drift/{tenant}` | Drift report (TBD). |
-| `GET / PUT /api/hitl` | Per-scenario HITL thresholds (TBD). |
+---
 
 ## Stack
 
-- **API**: Python 3.12 + FastAPI + Pydantic + PyYAML.
-- **Web**: React 19 + TypeScript + Tailwind v4. Treeview is custom (zero
-  external dep) — see [`web/src/components/TreeView.tsx`](web/src/components/TreeView.tsx).
-- **State**: Azure Cosmos DB (NoSQL) for tenants, deployments, drift.
-- **IaC**: Bicep — wizard's own resources at [`bicep/main.bicep`](bicep/main.bicep);
-  APEX-M services deploy via [`apex-m/infra/bicep/blueprints/*.bicep`](../../apex-m/infra/bicep/blueprints/).
-  When APEX-G / APEX-A ship, render endpoint also emits Terraform /
-  CloudFormation paths.
-- **Auth**: Microsoft Entra ID + Entra Agent ID for the API → Cosmos / Key Vault.
+| Layer | Technology |
+|---|---|
+| Backend | Python 3.12 · FastAPI · Pydantic v2 · uvicorn |
+| Frontend | React 19 · TypeScript · Vite · Tailwind v4 |
+| State (production) | Azure Cosmos DB (NoSQL) for tenants/deployments/drift |
+| State (mock mode) | In-memory dicts; reset on backend restart |
+| IaC | Bicep — wizard's own resources at `bicep/main.bicep`; service blueprints at `apex-m/infra/bicep/blueprints/*.bicep` |
+| Auth (real mode) | Entra ID + Entra Agent ID for the API → Cosmos / Key Vault / Microsoft Graph |
 
-## Status
+---
+
+## Status — Sprint 46 complete
 
 | Component | Status |
 |---|---|
-| Treeview + Wizard page | **Working draft** — fetches tree, posts render |
-| `GET /api/catalog/tree` | **Working** — pulls from `services/_registry.json` |
-| `POST /api/deployments/render` | **Working** — emits Bicep param JSON |
-| `POST /api/deployments` (execute) | **TBD** — `bicep_runner.py` stub |
-| Tenants / History / Drift / HITL pages | **Scaffold** — page stubs only |
+| Treeview + Wizard page (full 6-step flow) | ✅ **Complete** (Sprint 46.3) — render + security-gate poll + deploy + record persistence |
+| Security Gate page (all 15 PSG gates) | ✅ **Complete** (Sprint 46.2) — auto-refresh + use-case context for PSG-15 |
+| `bicep_runner.py` (real + mock) | ✅ **Complete** (Sprint 46.1) |
+| `POST /api/deployments` end-to-end | ✅ **Complete** (Sprint 46.3) — PSG → what-if → confirm → apply |
+| Drift detector + cron entrypoint | ✅ **Complete** (Sprint 46.4) |
+| Test coverage (api package) | ✅ **43 tests pass** |
+| Real-mode `az` validation | ⏳ **Awaits Lab subscription** (no code changes — flip APEX_FORCE_MOCK=false) |
+
+---
 
 ## Note on agent labels
 
 The deployment guide §7.2 names the canonical 5-persona agent set
 ("The Analyst · The Demand Checker · The Finance Lead · The Operations
-Lead · The Briefer"). The featured-scenario folders generated from the
-xlsx today use the generic 6-stage names (`assess` / `classify` /
-`quantify` / `decide` / `act` / `learn`). The tree endpoint surfaces
-whatever's on disk; for catalog scenarios (no on-disk dirs) it falls
-back to the canonical persona set. To unify, regenerate the agent
-folders with persona names — tracked separately.
+Lead · The Briefer"). The featured-scenario folders use the generic 6-stage
+names (`assess` / `classify` / `quantify` / `decide` / `act` / `learn`)
+with persona labels in the agent.yaml. The tree endpoint surfaces whatever's
+on disk; for catalog scenarios it falls back to the canonical persona set.
+
+---
+
+## Troubleshooting
+
+| Symptom | Fix |
+|---|---|
+| `ModuleNotFoundError: apex_wizard` | `pip install -e apps/deploy-wizard/api` from repo root |
+| `npm: command not found` (frontend won't start) | Install Node 20+ from nodejs.org; launcher will then run `npm install` automatically |
+| Backend starts but frontend can't reach it | Check `VITE_API_URL` (set by launcher to `http://127.0.0.1:8000`). For different hosts, set it manually before `npm run dev`. |
+| Deploy returns 409 with `red_gates: ["PSG-15"]` | On prod substrate, the use-case is missing `persona_principal_bindings`. Clone `services/<svc>/use-cases/_default/` to `<client>/` and populate the bindings block. |
+| Deploy returns 412 with `destructive_changes_pending_confirm` | What-if shows Delete changes. Re-submit with `note="confirm_destructive=true"` (or tick the checkbox in the Wizard UI). |
+| Drift report severity stuck at "high" | One or more deletes were detected; review the report and either re-apply the manifest or update the manifest to accept the change. |

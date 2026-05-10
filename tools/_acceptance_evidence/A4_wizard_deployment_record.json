@@ -1,5 +1,5 @@
 {
-  "id": "apex-bigbox-prod-11cf3c33-be8e-4bbc-b947-cefd4be61fd7",
+  "id": "apex-bigbox-prod-a117e869-8115-4f6d-b9c0-98723231f962",
   "tenant": "bigbox-prod",
   "wave": "w2",
   "selections": [
@@ -11,7 +11,7 @@
       "mcp_servers": []
     }
   ],
-  "parameters_path": "/var/apex/render/apex-bigbox-prod-11cf3c33-be8e-4bbc-b947-cefd4be61fd7.parameters.json",
+  "parameters_path": "/var/apex/render/apex-bigbox-prod-a117e869-8115-4f6d-b9c0-98723231f962.parameters.json",
   "blueprint_path": "apex-m/infra/bicep/blueprints/w2-pilot.bicep",
   "bicep_what_if_summary": {
     "counts": {
@@ -24,7 +24,7 @@
   },
   "status": "succeeded",
   "operator": "marisol.reyes@labtenant.onmicrosoft.com",
-  "started_at": "2026-05-10T22:45:04.571628+00:00",
-  "completed_at": "2026-05-10T22:45:04.573433+00:00",
-  "audit_row_id": "mock-f59b55a7-c238-475d-986a-81ba9a24df1a"
+  "started_at": "2026-05-10T22:57:20.079851+00:00",
+  "completed_at": "2026-05-10T22:57:20.081044+00:00",
+  "audit_row_id": "mock-8c53ade8-ec17-4714-a46f-9bd441c96223"
 }
