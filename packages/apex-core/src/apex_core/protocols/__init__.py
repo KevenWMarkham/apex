@@ -29,6 +29,11 @@ from .data_lake import DataLake, DataLakeQuery, DataLakeWrite
 from .embedding_service import EmbeddingService, Embedding, SimilarityResult
 from .message_bus import MessageBus, Message, Subscription
 from .observability import Observability, TraceContext, Metric
+from .persona_binding import (
+    BindingMode,
+    PersonaPrincipalBinding,
+    UseCasePersonaBindings,
+)
 from .secret_store import SecretStore, Secret, SecretReference
 from .sensitivity_classifier import SensitivityClassifier, SensitivityTier, ProviderLabel
 from .threat_protection import ThreatProtection, ThreatVerdict, PromptShieldResult
@@ -37,6 +42,7 @@ __all__ = [
     "AgentIdentityProvider", "AgentIdentity", "AgentBlueprint",
     "AgentRuntime", "AgentInvocation", "AgentResponse",
     "AuditLedger", "AuditRow",
+    "BindingMode", "PersonaPrincipalBinding", "UseCasePersonaBindings",
     "DataLake", "DataLakeQuery", "DataLakeWrite",
     "EmbeddingService", "Embedding", "SimilarityResult",
     "MessageBus", "Message", "Subscription",

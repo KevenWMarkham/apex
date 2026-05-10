@@ -733,23 +733,44 @@ sprints:
         done: false
       - id: 47.6
         title: Formalise persona_principal_bindings YAML schema for use-case files
-        done: false
-        status: planned
+        done: true
+        status: complete
         notes: |-
-          Per the persona-vs-principal architecture answer (Sprint 37 work-back):
-          The agent.yaml hitl_persona field is a stable role identifier
-          (e.g., jamie-oconnor-store-manager). Real client tenants need a
-          typed schema that maps each role to live principals via one of
-          four binding modes — entra_group / specific_principals / shift_roster
-          / hybrid. The schema lives in the use-case YAML's persona_principal_bindings
-          block. Sprint 47 task: codify the schema as a Pydantic model in
-          apex_core.protocols + add validation to apex_m.identity_entra +
-          add a Pre-deployment Security Gate item that fails closed when
-          any active persona has no resolvable binding (e.g., still bound
-          to the synthetic Lab persona on a prod tenant).
+          Shipped Sprint 47.6 (work-back from Sprint 37 persona Q&A).
+
+          Schema: apex_core.protocols.PersonaPrincipalBinding + UseCasePersonaBindings
+          (variant-neutral Pydantic models). Four binding modes formalised:
+            - entra_group           — Microsoft Graph group-members lookup
+            - specific_principals   — static UPN list
+            - shift_roster          — WFM adapter query at runtime
+            - hybrid                — entra_group with specific_principals fallback
+          Mode-specific field requirements + lifecycle (valid_from/valid_to) +
+          audit_row_records enum (principal_only/principal_and_persona/persona_only)
+          all validated.
+
+          APEX-M resolver: apex_m.persona_resolver.PersonaResolverEntra +
+          MockPersonaResolverEntra. The mock satisfies the same Protocol
+          (laptop substrate); the real impl lazy-imports azure-identity + httpx
+          for Microsoft Graph calls. Sprint 41 production wiring lights up the
+          real Graph branch.
+
+          Validator: apex_core.validators.validate_use_case_personas — the
+          PSG-15 lint. Substrate-aware: laptop = synthetic personas allowed;
+          lab = warnings only; dev/stage/prod = HARD FAIL when any active
+          persona has no binding OR when synthetic Lab personas appear unbound.
+          quick_check_psg_15(use_case_data) returns bool for one-line gate.
+
+          Pre-deployment-Security-Gate.md updated with Gate 15 entry.
+
+          Tests: 44 unit tests pass (20 schema + 14 validator + 10 resolver).
+          Covers all 4 binding modes, all 4 substrates, and the synthetic-
+          persona catalog (6 RC personas).
         related_work:
-          - apex_m.identity_entra (Sprint 41 — production wiring)
-          - Pre-deployment-Security-Gate.md (PSG-15 NEW item)
+          - apex_core.protocols.persona_binding (NEW Sprint 47.6)
+          - apex_core.validators.use_case_personas (NEW Sprint 47.6)
+          - apex_m.persona_resolver (NEW Sprint 47.6)
+          - Pre-deployment-Security-Gate.md PSG-15 (Sprint 47.6 — added)
+          - apex_m.identity_entra (Sprint 41 — production Graph wiring)
           - docs/APEX - Design and Build/agent-identity-blueprints.md (Phase I.1 design)
 
   - id: sprint-48

@@ -124,6 +124,20 @@ A waiver requires sign-off from the engagement's tenant SRE + the Deloitte Indep
 - **Verify**: every adapter in `client_approved_architecture` has an Independence consultation record in the engagement's audit trail.
 - **Remediate**: schedule Independence consultation; record sign-off; re-run the gate.
 
+### Gate 15 · Persona-binding resolvability (Sprint 47.6)
+- **APEX control**: `apex_core.validators.validate_use_case_personas` — substrate-aware lint
+- **Why this matters**: agent.yaml `hitl_persona` fields are stable role identifiers (e.g. `jamie-oconnor-store-manager`). On a real client tenant, those roles must bind to **live principals** — actual employees the HITL Adaptive Card fans to. A use-case YAML deployed on `prod` substrate without `persona_principal_bindings` populated would fan synthetic Lab persona names directly into Teams — the workflow would never resolve to a real human, and the audit row's `operator_principal` would be a synthetic id with no individual accountability.
+- **Verify**: run `quick_check_psg_15(use_case_yaml_data)` against the rendered use-case for the target tenant. Returns `True` only when:
+  - On `dev`/`stage`/`prod` substrate: every entry in `personas_active` has a corresponding `persona_principal_bindings` block
+  - No synthetic Lab personas (Jamie / Marisol / Daniel / Maya / Rebecca / FSMA-204 Compliance Officer) appear unbound on a non-laptop substrate
+  - Every binding's `binding_mode`-required fields are populated (e.g. `entra_group_object_id` for `entra_group` mode; `fallback_principals` for `specific_principals` mode)
+- **Remediate**: clone `services/<practice>/<service>/use-cases/_default/` to `<client>/`, populate the `persona_principal_bindings` block per the four binding modes (`entra_group` / `specific_principals` / `shift_roster` / `hybrid`). Re-run the gate.
+- **Substrate behaviour**:
+  - `laptop` — synthetic personas allowed; no bindings required (worked-example mode)
+  - `lab` — bindings recommended; warnings only
+  - `dev` / `stage` / `prod` — bindings REQUIRED; gate fails closed without them
+- **Reference**: `apex_core.protocols.PersonaPrincipalBinding` schema + `apex_m.persona_resolver.PersonaResolverEntra` (Microsoft Graph resolution)
+
 ---
 
 ## Evidence artifacts
