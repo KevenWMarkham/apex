@@ -1,0 +1,26 @@
+role: assess
+label: The Analyst
+scenario_id: rc-perishable-waste-reduction
+service_code: RC-E2E-09
+archetype: hierarchical-root + sequential-with-hitl-gate
+canonical_pattern: handoff
+model: gpt-4o-2024-11-20
+tools:
+  - rc_e2e_09.get_recall_panel
+  - rc_e2e_03.get_excursion_decision_panel    # cross-service read (when excursion-linked)
+schemas_read:
+  - SCML.Lot
+  - SCML.Shipment
+  - MERML.Markdown
+schemas_write: []
+hitl_gate: false
+audit_row_emit: true
+prompt_ref: prompts/assess.md
+prompt_version: 1.0.0
+manifest_version: 1.0.0
+classification_propagation:
+  - internal
+operator_obo_required: false
+# Handoff-pattern wiring: explicit successor declared in the manifest so the
+# loader can build the Handoff workflow without inferring from prompt text.
+handoff_target_role: classify

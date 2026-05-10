@@ -401,21 +401,31 @@ sprints:
       - id: 39.1
         title: Scaffold complete for rc-perishable-waste-reduction (featured anchor)
         done: true
+        status: complete
+        notes: 'Sprint 39 fully scaffolded the 3 active agent dirs (assess/classify/learn) since the original Sprint 31 scaffolding had not populated this scenario.'
       - id: 39.2
         title: Author 3-agent prompts (Analyst · Compliance Specialist · Briefer)
         services_guide_ref: '§18.7'
-        done: false
+        done: true
+        status: complete
+        notes: 'All 3 active prompts authored. Handoff canonical pattern (per ADR-006) — Analyst hands off to Compliance Specialist hands off to Briefer (terminal). RC-E2E-09 has only 3 active roles (no quantify/decide/act) — this is a compliance/traceability service, not a decision-making one. Each agent.yaml declares handoff_source_role + handoff_target_role for explicit Handoff wiring. Conditional attestation HITL on Compliance Specialist (only Class I or large-scope recalls require Compliance Officer attestation; Class II/III auto-clear with audit row).'
       - id: 39.3
         title: Wire cross-Service MCP — rc_e2e_09.get_lot_provenance (consumed by RC-E2E-03)
         services_guide_ref: '§18.7 (MCP Tools), §17.4 (Cross-Service)'
-        done: false
+        done: true
+        status: complete
+        notes: 'NEW packages/rc-e2e-09-mcp with 3 tools: get_recall_panel + get_lot_provenance (CROSS-SERVICE) + commit_lot_event. Cross-service contract: get_lot_provenance.required_scopes is [practice:rc] only (any RC service can read); commit_lot_event.required_scopes is [practice:rc, service:rc-e2e-09] (only RC-E2E-09 writes). Agent Framework loader''s resolve_tool_for_role resolves rc_e2e_09.get_lot_provenance from RC-E2E-03''s classify tool list. 19 unit tests pass including write-scope enforcement, idempotency, conflict detection, FSMA-204 Class I attestation requirement.'
       - id: 39.4
         title: SCML.Lot ownership — RC-E2E-09 writes; RC-E2E-03 reads via MCP only
         services_guide_ref: '§18.7'
-        done: false
+        done: true
+        status: complete
+        notes: 'docs/APEX - Design and Build/Cross-Service-Boundaries.md authored. Documents the full ownership lattice across all RC services: SCML.Lot is RC-E2E-09 sole-writer (Sprint 39); MERML.Markdown/Elasticity/Competitor + PROML.* are RC-E2E-03 sole-writer (Sprint 32); CXML.Loyalty/Campaign are RC-E2E-04 sole-writer (Sprint 34); CXML.AssociateTask is RC-E2E-05 sole-writer (Sprint 35); CXML.FraudCase is RC-E2E-07 sole-writer (Sprint 37). Three layers of enforcement: MCP required_scopes (Layer 1), Pre-deployment Security Gate PSG-12 NEW (Layer 2 — Sprint 46), Eventstream Activator downstream invalidation (Layer 3 — production runtime). Briefer agent.yaml declares scml_lot_ownership: sole_writer + cross_service_read_consumers list. 32 manifest + fixture tests assert the boundary.'
       - id: 39.5
         title: Deploy + smoke test (recall traceability panel)
         done: false
+        status: blocked_on_environment
+        notes: 'Synthetic fixture authored at fixtures/fsma-recall-event.json — 3 lots (Class I + Class II + no_recall) exercising the full Handoff chain + conditional attestation + cross-service invalidation paths. Lab tenant + Bicep apply blocked on org-level Lab provisioning.'
 
   - id: sprint-40
     name: RC W3 Fusion — Cross-Service Composition

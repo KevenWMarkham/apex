@@ -1,0 +1,28 @@
+[project]
+name = "rc-e2e-09-mcp"
+version = "0.1.0"
+description = "APEX rc-e2e-09-mcp — RC-E2E-09 Product Tracking (FSMA 204) service-specific MCP tools (Sprint 39). Cross-service consumer for RC-E2E-03 + RC-E2E-07."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Proprietary — Deloitte Internal" }
+dependencies = [
+    "apex-core",
+    "fabric-mcp",
+    "mcp-common",
+    "pydantic>=2.9.0",
+]
+
+[project.scripts]
+rc-e2e-09-mcp = "rc_e2e_09_mcp.server:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/rc_e2e_09_mcp"]
+
+[tool.uv.sources]
+apex-core = { workspace = true }
+fabric-mcp = { workspace = true }
+mcp-common = { workspace = true }

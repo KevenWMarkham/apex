@@ -1,0 +1,34 @@
+role: learn
+label: The Briefer
+scenario_id: rc-perishable-waste-reduction
+service_code: RC-E2E-09
+archetype: hierarchical-root + sequential-with-hitl-gate
+canonical_pattern: handoff
+model: gpt-4o-2024-11-20
+tools:
+  - rc_e2e_09.commit_lot_event    # canonical SCML.Lot SCD2 write path
+schemas_read:
+  - SCML.Lot
+schemas_write:
+  - SCML.Lot                      # RC-E2E-09 is the SOLE writer of SCML.Lot
+hitl_gate: false
+audit_row_emit: true
+prompt_ref: prompts/learn.md
+prompt_version: 1.0.0
+manifest_version: 1.0.0
+classification_propagation:
+  - internal
+redis_episodic_memory: true
+recall_digest_enabled: true
+recall_digest_persona: compliance-officer-fsma-204
+recall_digest_cadence: daily
+attribution_window_days: 90
+operator_obo_required: false
+# Handoff-pattern terminal step.
+handoff_source_role: classify
+handoff_target_role: null    # terminal — no further handoff
+# SCML.Lot ownership boundary (Sprint 39.4)
+scml_lot_ownership: sole_writer
+cross_service_read_consumers:
+  - { service_code: RC-E2E-03, via_mcp_tool: rc_e2e_09.get_lot_provenance }
+  - { service_code: RC-E2E-07, via_mcp_tool: rc_e2e_09.get_lot_provenance }

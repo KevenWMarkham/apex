@@ -1,0 +1,135 @@
+{
+  "$schema": "https://apex.deloitte.com/schemas/smoke-test-fixture-v1.json",
+  "fixture_id": "rc-perishable-waste-reduction--canonical-1",
+  "description": "Canonical synthetic FSMA-204 recall event per Services Guide §18.7. Three lots from one supplier; one Class I (life-threatening — Listeria signal), one Class II (cold-chain breach with no pathogen signal), one trace_audit_pass (clean). Drives the 3-agent Handoff chain (Analyst → Compliance Specialist → Briefer) end-to-end via mocks. Exercises cross-service reads from RC-E2E-03 (excursion linkage) and validates downstream cache invalidation signals to RC-E2E-03 + RC-E2E-07.",
+
+  "trigger": {
+    "kind": "recall_issued",
+    "tenant_id": "labtenant",
+    "trigger_event_id": "REC-2026W19-001",
+    "trigger_at": "2026-05-10T10:00:00Z",
+    "fda_recall_classification": "I",
+    "reason_code": "LISTERIA_DETECTED",
+    "regulatory_jurisdiction": "US-Federal",
+    "supplier_keys": ["SUP-DAIRY-7"]
+  },
+
+  "affected_lots": [
+    {
+      "lot_key": "L-2026W18-DAIRY-A12",
+      "sku_key": "SKU-MILK-2PCT-1G",
+      "supplier_key": "SUP-DAIRY-7",
+      "is_covered_food": true,
+      "received_with_temp_log": true,
+      "cold_chain_compliant_pre_event": true,
+      "has_critical_tracking_event_log": true,
+      "cte_count": 4,
+      "kde_count": 14,
+      "trace_complete": true,
+      "expected_recall_class": "I",
+      "expected_recall_action_kind": "destruction_only",
+      "expected_compliance_attestation_required": true,
+      "expected_regulatory_filing_required": true
+    },
+    {
+      "lot_key": "L-2026W18-DAIRY-B07",
+      "sku_key": "SKU-YOGURT-32OZ-PLAIN",
+      "supplier_key": "SUP-DAIRY-7",
+      "is_covered_food": true,
+      "received_with_temp_log": false,
+      "cold_chain_compliant_pre_event": false,
+      "has_critical_tracking_event_log": true,
+      "cte_count": 3,
+      "kde_count": 9,
+      "trace_complete": false,
+      "trace_gaps": [
+        {"cte_kind": "RECEIVING", "missing_kde": "temp_log", "severity": "high"}
+      ],
+      "expected_recall_class": "II",
+      "expected_recall_action_kind": "recall_from_store",
+      "expected_compliance_attestation_required": false,
+      "expected_regulatory_filing_required": false
+    },
+    {
+      "lot_key": "L-2026W18-DAIRY-C03",
+      "sku_key": "SKU-CREAM-CHEESE-8OZ",
+      "supplier_key": "SUP-DAIRY-7",
+      "is_covered_food": true,
+      "received_with_temp_log": true,
+      "cold_chain_compliant_pre_event": true,
+      "has_critical_tracking_event_log": true,
+      "cte_count": 4,
+      "kde_count": 12,
+      "trace_complete": true,
+      "expected_recall_class": "no_recall",
+      "expected_recall_action_kind": "none",
+      "expected_compliance_attestation_required": false,
+      "expected_regulatory_filing_required": false,
+      "expected_event_kind": "trace_audit_pass"
+    }
+  ],
+
+  "expected_chain_behavior": {
+    "step_13_assess": {
+      "should_emit_to": "g_recall_panel",
+      "handoff_target": "classify",
+      "should_compute_trace_completeness_per_lot": true,
+      "should_link_to_excursion_for_lot_A12": false
+    },
+    "step_14_classify": {
+      "handoff_source": "assess",
+      "handoff_target": "learn",
+      "should_classify": {
+        "L-2026W18-DAIRY-A12": "I",
+        "L-2026W18-DAIRY-B07": "II",
+        "L-2026W18-DAIRY-C03": "no_recall"
+      },
+      "should_attestation_required_for_lot_A12": true,
+      "should_attestation_required_for_lot_B07": false,
+      "should_emit_downstream_consumers_notified": true
+    },
+    "step_18_learn": {
+      "handoff_source": "classify",
+      "should_call": "rc_e2e_09.commit_lot_event",
+      "expected_lot_events_written": 3,
+      "should_emit_invalidation_keys_for_RC_E2E_03": true,
+      "should_emit_invalidation_keys_for_RC_E2E_07": true,
+      "should_initiate_regulatory_filing_for_lot_A12": true,
+      "should_emit_recall_digest_to_persona": "compliance-officer-fsma-204"
+    }
+  },
+
+  "expected_kpi_movement": {
+    "recall-traceability-time-hr": {
+      "target_direction": "decrease",
+      "target_hr": 2,
+      "baseline_note": "per use-case kpis_targeted: target ≤ 2 hr"
+    },
+    "fsma-compliance-score": {
+      "target_direction": "ceiling",
+      "target_pct": 99,
+      "baseline_note": "per use-case kpis_targeted: target 99%"
+    }
+  },
+
+  "audit_assertions": {
+    "purview_audit_row_present": true,
+    "audit_row_chain_handoff_sequence": ["assess", "classify", "learn"],
+    "compliance_attestation_audit_row_separate_for_lot_A12": true,
+    "regulatory_filing_audit_row_separate_for_lot_A12": true,
+    "downstream_invalidation_emitted_to_eventstream": true,
+    "no_other_service_writes_scml_lot_in_chain": true
+  },
+
+  "cross_service_assertions": {
+    "rc_e2e_03_classify_can_call_get_lot_provenance": true,
+    "rc_e2e_07_assess_can_call_get_lot_provenance": true,
+    "no_service_other_than_rc_e2e_09_can_call_commit_lot_event": true,
+    "expected_invalidation_paths": [
+      "rc-e2e-03/g_excursion_decision_panel/lot_key/L-2026W18-DAIRY-A12",
+      "rc-e2e-07/g_return_event_panel/lot_key/L-2026W18-DAIRY-A12",
+      "rc-e2e-03/g_excursion_decision_panel/lot_key/L-2026W18-DAIRY-B07",
+      "rc-e2e-07/g_return_event_panel/lot_key/L-2026W18-DAIRY-B07"
+    ]
+  }
+}

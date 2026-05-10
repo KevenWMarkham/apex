@@ -1,0 +1,35 @@
+role: classify
+label: The Compliance Specialist
+scenario_id: rc-perishable-waste-reduction
+service_code: RC-E2E-09
+archetype: hierarchical-root + sequential-with-hitl-gate
+canonical_pattern: handoff
+model: gpt-4o-2024-11-20
+tools:
+  - rc_e2e_09.get_recall_panel    # for regulatory_context block
+schemas_read:
+  - SCML.Lot
+schemas_write: []
+hitl_gate: true
+hitl_gate_kind: conditional_attestation     # only Class I / large-scope attests
+hitl_persona: compliance-officer-fsma-204
+hitl_channel: teams-adaptive-card
+hitl_gate_secret_prefix: 'apex-hitl-{tenant}-rc-e2e-09'
+hitl_thresholds_consumed:
+  - scope-size-attestation-threshold
+  - require-attestation-for-class-I
+  - require-attestation-for-regulatory-filing
+hitl_webhook_secret: 'apex-hitl-{tenant}-rc-e2e-09--teams-webhook'
+audit_row_emit: true
+prompt_ref: prompts/classify.md
+prompt_version: 1.0.0
+manifest_version: 1.0.0
+classification_propagation:
+  - internal
+operator_obo_required: false
+adaptive_card_template_version: '1.5'
+adaptive_card_kinds:
+  - compliance_attestation_card    # single-action approve-only (no modify)
+# Handoff-pattern wiring: the Compliance Specialist hands off to Briefer.
+handoff_source_role: assess
+handoff_target_role: learn
