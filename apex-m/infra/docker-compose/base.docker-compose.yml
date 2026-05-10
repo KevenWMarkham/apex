@@ -1,0 +1,63 @@
+# apex-m/infra/docker-compose/base.docker-compose.yml
+# Base mocks for the laptop substrate. The wizard prepends this fragment
+# to every rendered compose file. Each mock satisfies the corresponding
+# APEX-Core protocol; same Mock* impl as in apex_m.{identity,runtime,
+# data_lake,audit,classifier,threat,message_bus}.
+
+version: '3.9'
+
+services:
+
+  apex-mock-entra:
+    # Mocks Microsoft Entra Agent ID Graph API responses for laptop.
+    # Production substrate hits the real graph.microsoft.com endpoint.
+    image: ghcr.io/apex/mock-entra:0.1.0
+    environment:
+      APEX_MOCK_TENANT: laptop
+    ports:
+      - "8810:8080"  # Graph mock
+
+  apex-mock-foundry:
+    # Mocks Microsoft Foundry Agent Service hosted-agent API.
+    image: ghcr.io/apex/mock-foundry:0.1.0
+    environment:
+      APEX_MOCK_TENANT: laptop
+    ports:
+      - "8811:8080"
+
+  apex-mock-fabric:
+    # Mocks Microsoft Fabric SQL analytics endpoint + OneLake reads.
+    image: ghcr.io/apex/mock-fabric:0.1.0
+    environment:
+      APEX_MOCK_TENANT: laptop
+      # Honors OneLake user identity mode passthrough auth contract
+      ONELAKE_USER_IDENTITY_MODE: 'true'
+    ports:
+      - "8812:8080"
+
+  apex-mock-purview:
+    # Mocks Microsoft Purview Audit (system of record) + Information
+    # Protection labels API for laptop.
+    image: ghcr.io/apex/mock-purview:0.1.0
+    environment:
+      APEX_MOCK_TENANT: laptop
+    ports:
+      - "8813:8080"
+
+  apex-mock-defender:
+    # Mocks Defender for AI services + Azure AI Content Safety Prompt
+    # Shields. Returns benign verdicts unless prompt contains
+    # APEX_MOCK_DEFENDER_TRIP_TOKENS env var trigger words.
+    image: ghcr.io/apex/mock-defender:0.1.0
+    environment:
+      APEX_MOCK_TENANT: laptop
+      APEX_MOCK_DEFENDER_TRIP_TOKENS: 'jailbreak,ignore previous'
+    ports:
+      - "8814:8080"
+
+  apex-mock-redis:
+    # Episodic memory for The Pricer (per Services Guide §25.8).
+    # Real Redis Cache resource on dev/stage/prod substrates.
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"

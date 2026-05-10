@@ -1,0 +1,54 @@
+# apex-m/infra/docker-compose/agent.fragment.yml
+#
+# Per-agent compose service template. The wizard's render_compose_yaml
+# instantiates one of these per (service, scenario, role) selected.
+#
+# Substitution variables:
+#   ${SERVICE_CODE_LOWER}    e.g., "rc-e2e-03"
+#   ${SERVICE_CODE}          e.g., "RC-E2E-03"
+#   ${SCENARIO_ID}           e.g., "rc-cold-chain-excursion-mid-shift"
+#   ${ROLE}                  e.g., "pricing"
+#   ${IMAGE_TAG}             e.g., "0.1.0"
+#   ${USE_CASE_ID}           from the wizard's use-case selection
+#   ${MODEL}                 from agent_overrides; defaults to gpt-4o-2024-11-20
+#   ${HITL_MARKDOWN_PCT}     from hitl_thresholds.markdown_pct_above
+#   ${PERSONAS}              comma-separated persona ids
+#
+# The agent code reads these env vars; APEX_FORCE_MOCK=true routes every
+# Microsoft SDK call to the apex_m.*.Mock* impls.
+
+  apex-m-${SERVICE_CODE_LOWER}-${SCENARIO_ID}-${ROLE}:
+    image: ghcr.io/apex/${SERVICE_CODE_LOWER}/${ROLE}:${IMAGE_TAG}
+    environment:
+      # Substrate identity
+      APEX_SUBSTRATE: laptop
+      APEX_VARIANT: APEX-M
+      APEX_FORCE_MOCK: 'true'
+
+      # APEX position
+      APEX_SERVICE_CODE: ${SERVICE_CODE}
+      APEX_SCENARIO_ID: ${SCENARIO_ID}
+      APEX_AGENT_ROLE: ${ROLE}
+      APEX_AGENT_ID: apex-m:${SERVICE_CODE}:${SCENARIO_ID}:${ROLE}
+      APEX_USE_CASE_ID: ${USE_CASE_ID}
+
+      # Use-case overrides
+      APEX_AGENT_MODEL: ${MODEL}
+      APEX_HITL_MARKDOWN_PCT: ${HITL_MARKDOWN_PCT}
+      APEX_PERSONAS: ${PERSONAS}
+
+      # Mock endpoints (resolved by docker-compose service name)
+      APEX_ENTRA_ENDPOINT: http://apex-mock-entra:8080
+      APEX_FOUNDRY_ENDPOINT: http://apex-mock-foundry:8080
+      APEX_FABRIC_ENDPOINT: http://apex-mock-fabric:8080
+      APEX_PURVIEW_ENDPOINT: http://apex-mock-purview:8080
+      APEX_DEFENDER_ENDPOINT: http://apex-mock-defender:8080
+      APEX_REDIS_HOST: apex-mock-redis
+      APEX_REDIS_PORT: '6379'
+    depends_on:
+      - apex-mock-entra
+      - apex-mock-foundry
+      - apex-mock-fabric
+      - apex-mock-purview
+      - apex-mock-defender
+      - apex-mock-redis

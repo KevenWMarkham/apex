@@ -23,12 +23,29 @@ class TreeSelection(BaseModel):
     selected_ids: list[str]
     tenant: str
     wave: Literal["w1", "w2", "w3"] = "w2"
+    substrate: Literal["laptop", "dev", "stage", "prod"] = "lab"  # legacy default 'lab' = 'dev'
+    primary_variant: Literal["APEX-M", "APEX-G", "APEX-A"] = "APEX-M"
+    use_case_id: str | None = None
 
 
 class RenderedParameters(BaseModel):
-    blueprint: str
-    parameters: dict
+    """Substrate-aware render output.
+
+    `format` indicates the IaC dialect:
+      - "docker-compose" for laptop substrate (returns `compose_yaml` string)
+      - "bicep-parameters" for dev/stage/prod (returns `parameters` JSON dict)
+
+    See docs/APEX - Design and Build/Deploy-UX-and-Substrates.md for the
+    per-substrate UX walkthrough.
+    """
+    format: str = "bicep-parameters"
+    blueprint: str | None = None
+    parameters: dict | None = None
+    compose_yaml: str | None = None
     summary: dict
+    substrate: str = "dev"
+    primary_variant: str = "APEX-M"
+    use_case_id: str | None = None
 
 
 @router.post("/render", response_model=RenderedParameters)
@@ -113,13 +130,108 @@ def render_parameters(sel: TreeSelection) -> RenderedParameters:
     summary = {
         "wave": sel.wave,
         "tenant": sel.tenant,
+        "substrate": sel.substrate,
+        "primary_variant": sel.primary_variant,
+        "use_case_id": sel.use_case_id,
         "practices_selected": sorted(practices),
         "service_count": len(by_service),
         "scenario_count": sum(len(v) for v in by_service.values()),
         "agent_role_filters": sum(len(v) for v in agents.values()),
     }
 
-    return RenderedParameters(blueprint=blueprint, parameters=parameters, summary=summary)
+    # Substrate-aware dispatch — laptop emits Docker Compose; cloud
+    # substrates emit Bicep parameters. See docs/APEX - Design and Build/
+    # Deploy-UX-and-Substrates.md for the full per-substrate UX.
+    if sel.substrate == "laptop":
+        compose_yaml = _render_compose_yaml(
+            selections=selections_param,
+            tenant=sel.tenant,
+            primary_variant=sel.primary_variant,
+            use_case_id=sel.use_case_id,
+        )
+        return RenderedParameters(
+            format="docker-compose",
+            blueprint=None,
+            parameters=None,
+            compose_yaml=compose_yaml,
+            summary=summary,
+            substrate=sel.substrate,
+            primary_variant=sel.primary_variant,
+            use_case_id=sel.use_case_id,
+        )
+
+    return RenderedParameters(
+        format="bicep-parameters",
+        blueprint=blueprint,
+        parameters=parameters,
+        compose_yaml=None,
+        summary=summary,
+        substrate=sel.substrate,
+        primary_variant=sel.primary_variant,
+        use_case_id=sel.use_case_id,
+    )
+
+
+def _render_compose_yaml(
+    *, selections: list[dict], tenant: str, primary_variant: str, use_case_id: str | None
+) -> str:
+    """Render docker-compose.yml content for laptop substrate.
+
+    Each selected agent role becomes a service in the compose file with
+    APEX_FORCE_MOCK=true so every Microsoft SDK call routes to the
+    Mock* impls in apex_m.*. Use-case overrides flow in as env vars.
+
+    See Deploy-UX-and-Substrates.md §3.3 for the worked example.
+    """
+    lines = [
+        "# rendered docker-compose.yml — substrate: laptop",
+        f"# tenant: {tenant}  variant: {primary_variant}  use_case: {use_case_id or '(none)'}",
+        "version: '3.9'",
+        "services:",
+    ]
+
+    # Mocks for variant-side dependencies (Foundry / Fabric / Purview / Redis).
+    # All are stubs that satisfy the APEX-Core protocol contracts.
+    lines.append("  apex-mock-foundry:")
+    lines.append("    image: ghcr.io/apex/mock-foundry:0.1.0")
+    lines.append("  apex-mock-fabric:")
+    lines.append("    image: ghcr.io/apex/mock-fabric:0.1.0")
+    lines.append("  apex-mock-purview:")
+    lines.append("    image: ghcr.io/apex/mock-purview:0.1.0")
+    lines.append("  apex-mock-redis:")
+    lines.append("    image: redis:7-alpine")
+
+    # One container per (service, scenario, role) selected.
+    for sel in selections:
+        code = sel["serviceCode"]
+        for sid in sel["featuredScenarios"]:
+            roles = sel.get("agentRoleOverrides", {}).get(sid) or [
+                "assess", "classify", "quantify", "decide", "act", "learn",
+            ]
+            for role in roles:
+                container = f"apex-m-{code.lower()}-{sid}-{role}"
+                lines.extend([
+                    f"  {container}:",
+                    f"    image: ghcr.io/apex/{code.lower()}/{role}:0.1.0",
+                    "    environment:",
+                    "      APEX_SUBSTRATE: laptop",
+                    f"      APEX_VARIANT: {primary_variant}",
+                    f"      APEX_SERVICE_CODE: {code}",
+                    f"      APEX_SCENARIO_ID: {sid}",
+                    f"      APEX_AGENT_ROLE: {role}",
+                    f"      APEX_USE_CASE_ID: {use_case_id or ''}",
+                    "      APEX_FORCE_MOCK: 'true'",
+                    "    depends_on:",
+                    "      - apex-mock-foundry",
+                    "      - apex-mock-fabric",
+                    "      - apex-mock-purview",
+                    "      - apex-mock-redis",
+                ])
+
+    lines.append("")
+    lines.append("# Run with: docker-compose up")
+    lines.append("# Stop with: docker-compose down -v")
+    return "\n".join(lines)
 
 
 @router.post("", response_model=DeploymentRecord)
