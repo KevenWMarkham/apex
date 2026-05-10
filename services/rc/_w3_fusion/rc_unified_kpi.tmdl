@@ -1,0 +1,90 @@
+model rc_unified_kpi
+    culture en-US
+
+    table dim_date
+        source abfss://rc-canonical@onelake.dfs.fabric.microsoft.com/rc-gold.Lakehouse/Tables/dim_date  -- Direct Lake
+        column date
+        column year
+        column quarter
+        column month
+        column week
+        column fiscal_period
+        column season
+
+    table g_kpi_rc_e2e_03_daily
+        source abfss://rc-canonical@onelake.dfs.fabric.microsoft.com/rc-gold.Lakehouse/Tables/g_kpi_rc_e2e_03_daily  -- Direct Lake
+        column as_of_date
+        column store_id
+        column category_key
+        column kpi_excursions_handled_count
+        column kpi_markdown_proposals_count
+        column kpi_markdown_recovery_pct
+        column kpi_at_risk_margin_avoided_usd
+        column at_risk_margin_avoided_usd
+        column kpi_pricing_recommendations_approved
+        column kpi_pricing_recommendations_overridden
+        column kpi_avg_excursion_to_decision_seconds
+        column kpi_hitl_escalation_rate_pct
+        column _classification
+
+    table g_kpi_rc_e2e_04_weekly
+        source abfss://rc-canonical@onelake.dfs.fabric.microsoft.com/rc-gold.Lakehouse/Tables/g_kpi_rc_e2e_04_weekly  -- Direct Lake
+        column week_start_date
+        column tenant_id
+        column category_key
+        column kpi_loyalty_churn_rate_pct
+        column kpi_winback_response_rate_pct
+        column kpi_saved_customer_ltv_pct_lift
+        column expected_total_ltv_saved_usd
+        column expected_total_offer_cost_usd
+        column expected_total_roi_usd
+        column kpi_avg_winback_decision_seconds
+        column kpi_hitl_escalation_rate_pct
+        column _classification
+
+    table g_kpi_rc_e2e_05_per_shift
+        source abfss://rc-canonical@onelake.dfs.fabric.microsoft.com/rc-gold.Lakehouse/Tables/g_kpi_rc_e2e_05_per_shift  -- Direct Lake
+        column shift_start_ts
+        column store_id
+        column department_key
+        column kpi_oos_rate_pct
+        column kpi_sales_per_sqft_pct_lift
+        column kpi_associate_productivity_pct_lift
+        column tasks_dispatched
+        column tasks_completed
+        column completion_rate_pct
+        column p0_completion_rate_pct
+        column kpi_avg_dispatch_decision_seconds
+        column kpi_hitl_escalation_rate_pct
+        column _classification
+
+    table g_kpi_rc_e2e_07_daily
+        source abfss://rc-canonical@onelake.dfs.fabric.microsoft.com/rc-gold.Lakehouse/Tables/g_kpi_rc_e2e_07_daily  -- Direct Lake
+        column as_of_date
+        column tenant_id
+        column kpi_fraud_detection_rate_pct_lift
+        column recovered_loss_usd
+        column expected_total_recovered_loss_usd
+        column kpi_false_positive_rate_pct
+        column rings_detected_count
+        column kpi_avg_fraud_decision_seconds
+        column kpi_hitl_escalation_rate_pct
+        column _classification
+
+    table g_kpi_rc_e2e_09_daily
+        source abfss://rc-canonical@onelake.dfs.fabric.microsoft.com/rc-gold.Lakehouse/Tables/g_kpi_rc_e2e_09_daily  -- Direct Lake
+        column as_of_date
+        column tenant_id
+        column kpi_recall_traceability_time_hr
+        column kpi_fsma_compliance_score_pct
+        column trace_completeness_pct_avg
+        column recalls_class_I_count
+        column recalls_class_II_count
+        column recalls_class_III_count
+        column regulatory_filings_pending
+        column kpi_avg_recall_decision_seconds
+        column kpi_hitl_attestation_rate_pct
+        column _classification
+
+    -- Sprint 40 W3 Fusion. Joins g_kpi_rc_e2e_03_daily / g_kpi_rc_e2e_04_weekly / g_kpi_rc_e2e_05_per_shift / g_kpi_rc_e2e_07_daily / g_kpi_rc_e2e_09_daily on dim_date. Fusion measures: perishables_economics_mesh_total_value_usd · cross_service_avg_decision_loop_time_sec · hitl_escalation_rate_total_pct · perishables_lifetime_trace_completeness_pct.
+

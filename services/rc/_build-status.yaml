@@ -446,15 +446,26 @@ sprints:
       - id: 40.1
         title: Wire fusion edges in blueprints/w3-scale-fuse.bicep
         bicep_ref: apex-m/infra/bicep/blueprints/w3-scale-fuse.bicep
-        done: false
+        done: true
+        status: complete
+        notes: 'apex-m/infra/bicep/blueprints/w3-scale-fuse.bicep expanded from stub to full Sprint 40 deployment. Composes 4 things: (a) per-service modules in W3 configuration; (b) cross-service Eventstream fusion edges via deploymentScripts (3 kinds: cache_invalidation / signal_fanout / ledger_aggregation); (c) Eventhouse unified LEDGER table (rc_ledger_unified) with KQL similarity search function; (d) Power BI Direct Lake semantic model staging. Outputs deployedServices + fusionEdgeCount + unifiedLedgerDeployed + unifiedSemanticModelDeployed.'
       - id: 40.2
         title: LEDGER feedback loop — Pricing Agent reads approved-decision episodic memory
         roadmap_ref: [BL.C.30d (LEDGER feedback visualization)]
         services_guide_ref: '§25.8'
-        done: false
+        done: true
+        status: complete
+        notes: 'NEW packages/apex-rc/src/apex_rc/ledger_feedback.py (~370 LOC) — unified LEDGER schema across all 5 RC services. FusionBucket composite key (category × season_quarter × loyalty_tier_distribution × risk_class_canonical) enables cross-service similarity search. canonicalise_risk_class maps each service''s local class names to a 3-tier canonical scale (so RC-E2E-05 P0_critical + RC-E2E-09 Class I + RC-E2E-07 fraud_score>=0.7 all bucket into "high"). retrieve_similar with deterministic heuristic scoring; Sprint 42 swaps for Eventhouse ai_embeddings (DEP-002). 25 unit tests pass.'
       - id: 40.3
         title: Power BI Direct Lake unified KPI dashboard across the 5 deployed RC services
-        done: false
+        done: true
+        status: complete
+        notes: 'NEW services/rc/_w3_fusion/unified_kpi_model.py defines the rc_unified_kpi SemanticModelSpec joining all 5 service KPI marts (g_kpi_rc_e2e_03_daily / g_kpi_rc_e2e_04_weekly / g_kpi_rc_e2e_05_per_shift / g_kpi_rc_e2e_07_daily / g_kpi_rc_e2e_09_daily) on dim_date. 4 fusion measures: perishables_economics_mesh_total_value_usd (headline executive metric — sum of protected margin + saved LTV + recovered loss) / cross_service_avg_decision_loop_time_sec / hitl_escalation_rate_total_pct / perishables_lifetime_trace_completeness_pct. Renderable TMDL committed at services/rc/_w3_fusion/rc_unified_kpi.tmdl. 15 unit tests pass.'
+      - id: 40.4
+        title: Perishables Economics Mesh use case YAML (concrete W3 fusion example)
+        done: true
+        status: complete
+        notes: 'NEW services/rc/_w3_fusion/perishables-economics-mesh.yaml — composes RC-E2E-03 × RC-E2E-04 × RC-E2E-09 via 4 fusion edges (cold-chain→loyalty signal fanout / lot-recall→cold-chain cache invalidation / lot-recall→fraud cache invalidation / unified-LEDGER pricer aggregation). Declares fusion_use_case: true marker; component_services list; fusion_personas_active (Daniel Chen executive scorecard + Rebecca Hall cross-service review); kpis_targeted aligned with the 4 unified semantic model fusion measures; 3 smoke tests covering each fusion edge kind; commercial_alignment 90-day attribution window for Sprint 48 milestone.'
 
 
   # ===========================================================================

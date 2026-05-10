@@ -1,0 +1,190 @@
+# services/rc/_w3_fusion/perishables-economics-mesh.yaml
+#
+# Sprint 40 — Wave 3 Fusion. THE canonical W3 fusion example per Services
+# Guide §25.8 + Roadmap.md BL.C.30d (LEDGER feedback visualization).
+#
+# Composes RC-E2E-03 cold-chain × RC-E2E-04 loyalty-churn × RC-E2E-09
+# lot provenance into a single mesh with three properties no individual
+# service can produce alone:
+#
+# 1. **Customer-aware markdown** — RC-E2E-03's Pricer reads RC-E2E-04's
+#    LEDGER fusion bucket to find precedent: are markdowns at this depth
+#    × this loyalty-tier-distribution actually clearing through, or do
+#    they leave aged stock at a nominal markdown that erodes brand
+#    perception with the platinum cohort?
+# 2. **Recall-aware destruction floor** — RC-E2E-03's destroy-vs-markdown
+#    decision now factors in RC-E2E-09's lot_status. A lot already in
+#    `lot_status_recalled_from_store` cannot be marked down (FSMA-204
+#    forbids it); the Pricer's pre-cycle check via
+#    `rc_e2e_09.get_lot_provenance` enforces this.
+# 3. **Saved-customer attribution** — When a winback offer (RC-E2E-04)
+#    converts on a SKU that was previously marked down (RC-E2E-03), the
+#    realised value is attributed to the mesh, not double-counted across
+#    services. The unified Power BI semantic model's
+#    `perishables_economics_mesh_total_value_usd` measure is the
+#    headline executive number.
+#
+# This use-case is a **fusion use-case**: it doesn't override any
+# per-service use-case; it composes them. Per-service use-cases continue
+# to deploy independently (Sprint 32-39 baseline). The fusion mesh
+# activates when all three component services are live AND the operator
+# enables `deploy_w3_fusion: true` in the wizard.
+
+use_case_id: rc-w3-fusion--perishables-economics-mesh
+fusion_use_case: true
+service_codes:
+  - RC-E2E-03
+  - RC-E2E-04
+  - RC-E2E-09
+primary_variant: APEX-M
+client_segment: Default — Microsoft-first deployment per Services Guide §25.8 envelope
+substrate: lab
+sprint: sprint-40
+
+# ===== Component services (must all be live before fusion activates) =====
+component_services:
+  - service_code: RC-E2E-03
+    use_case_id: rc-e2e-03--default
+    role_in_mesh: cold_chain_excursion_origin
+  - service_code: RC-E2E-04
+    use_case_id: rc-e2e-04--default
+    role_in_mesh: loyalty_signal_consumer
+  - service_code: RC-E2E-09
+    use_case_id: rc-e2e-09--default
+    role_in_mesh: lot_provenance_truth_source
+
+# ===== Personas activated by fusion (beyond per-service personas) =====
+fusion_personas_active:
+  - id: daniel-chen-merch-director
+    fusion_role: executive_scorecard_consumer
+    surface: power_bi_unified_kpi_dashboard
+  - id: rebecca-hall-returns-ops-mgr
+    fusion_role: cross_service_anomaly_reviewer
+    surface: power_bi_unified_kpi_dashboard
+
+# ===== Cross-service fusion edges (deployed via w3-scale-fuse.bicep) =====
+fusion_edges:
+  - id: cold-chain-decision-to-loyalty-signal
+    from: RC-E2E-03/rc-cold-chain-excursion-mid-shift
+    to:   RC-E2E-04/rc-loyalty-churn-prediction-winback
+    signal: markdown_committed
+    kind: signal_fanout
+    purpose: |-
+      When RC-E2E-03 commits a markdown decision (act agent), an event
+      fires that RC-E2E-04 listens for. If the affected SKUs are in any
+      top-tier loyalty member's recent purchase history, the customer's
+      next-batch winback eligibility recomputes (a recent markdown of
+      their preferred SKU may indicate a brand-perception hit they're
+      already noticing).
+
+  - id: lot-provenance-to-cold-chain
+    from: RC-E2E-09/rc-perishable-waste-reduction
+    to:   RC-E2E-03/rc-cold-chain-excursion-mid-shift
+    signal: commit_lot_event
+    kind: cache_invalidation
+    purpose: |-
+      RC-E2E-09's commit_lot_event triggers cache invalidation in
+      RC-E2E-03's g_excursion_decision_panel join cache. The next
+      cold-chain decision sees the most-recent lot status (e.g., a lot
+      already recalled cannot be marked down — destroy-only).
+
+  - id: lot-provenance-to-fraud
+    from: RC-E2E-09/rc-perishable-waste-reduction
+    to:   RC-E2E-07/rc-returns-fraud-detection
+    signal: commit_lot_event
+    kind: cache_invalidation
+    purpose: |-
+      RC-E2E-09's commit_lot_event also invalidates RC-E2E-07's
+      g_return_event_panel cache. A return event for a recalled lot
+      surfaces with elevated fraud_score consideration (refund-fraud-
+      by-recall pattern detection).
+
+  - id: ledger-aggregation-pricer
+    from: ALL
+    to:   RC-E2E-03/agents/pricing
+    signal: ledger_unified_bucket
+    kind: ledger_aggregation
+    purpose: |-
+      Sprint 40 item 40.2 — the Pricer reads the unified LEDGER fusion
+      bucket so its similarity search returns precedents from all 5
+      services, not just RC-E2E-03's history.
+    via_module: apex_rc.ledger_feedback
+
+# ===== Fusion KPIs (cross-service rollups; surfaced in Power BI) =====
+kpis_targeted:
+  # Per-service KPIs continue to apply; fusion KPIs are additional.
+  - { id: perishables-economics-mesh-total-value-usd, target_year_one_usd: 18000000 }
+  - { id: cross-service-avg-decision-loop-time-sec, target: 90 }
+  - { id: hitl-escalation-rate-total-pct, target_ceiling_pct: 12 }
+  - { id: perishables-lifetime-trace-completeness-pct, target_floor_pct: 99 }
+
+# ===== orchestration_archetype =====
+# Fusion runs across multiple per-service workflows simultaneously. The
+# orchestration_archetype here describes the FUSION layer; per-service
+# orchestrations stay as Magentic / Sequential / Concurrent / Handoff
+# per their use-case YAMLs.
+orchestration_archetype: cross_service_fusion_layer
+orchestration_runtime: agent-framework
+
+# ===== Deployment =====
+deployment:
+  wave: w3
+  blueprint: apex-m/infra/bicep/blueprints/w3-scale-fuse.bicep
+  prerequisite_blueprints:
+    - apex-m/infra/bicep/blueprints/w1-foundation.bicep
+    - apex-m/infra/bicep/blueprints/w2-pilot.bicep
+  bicep_params:
+    deployUnifiedLedgerFeedback: true
+    deployUnifiedSemanticModel: true
+    selections:
+      - { serviceCode: RC-E2E-03, featuredScenarios: [rc-cold-chain-excursion-mid-shift, rc-dynamic-markdown-optimization] }
+      - { serviceCode: RC-E2E-04, featuredScenarios: [rc-loyalty-churn-prediction-winback] }
+      - { serviceCode: RC-E2E-09, featuredScenarios: [rc-perishable-waste-reduction] }
+
+# ===== Sprint 48 commercial milestone =====
+# The 3-month margin-attribution shadow window starts when this fusion
+# use-case goes live on a real client tenant (Sprint 47 first deploy).
+# Daniel Chen reviews the unified Power BI dashboard weekly. The
+# realised vs expected delta on perishables_economics_mesh_total_value_usd
+# is the headline number on the W3 commercial review per Sellers Guide.
+commercial_alignment:
+  outcome_attribution_window_days: 90
+  primary_review_persona: daniel-chen-merch-director
+  primary_review_cadence: weekly
+  primary_review_metric: perishables_economics_mesh_total_value_usd
+
+# ===== Audit + LEDGER chain =====
+# Every fusion-edge fire produces TWO audit rows: one for the originating
+# service's commit (already part of per-service audit chain) and one for
+# the fusion-edge fire itself. The fusion-edge audit row references both
+# the originating service's outputs_hash AND the consuming service's
+# subsequent-decision audit row (when applicable).
+audit_chain:
+  emit_fusion_edge_audit_row: true
+  fusion_edge_audit_row_purview_kind: rc_w3_fusion_edge_fired
+  ledger_unified_table: rc_ledger_unified
+
+# ===== Smoke test scenarios =====
+smoke_tests:
+  # Each smoke test exercises one fusion edge end-to-end.
+  - id: smoke-cold-chain-to-loyalty-signal
+    fixture: services/rc/_w3_fusion/fixtures/smoke-cold-chain-to-loyalty.json
+    expected_chain:
+      - "RC-E2E-03 act commits markdown for SKU-MILK-2PCT-1G"
+      - "Eventstream fires markdown_committed signal"
+      - "RC-E2E-04 receives signal; checks affected loyalty cohort"
+      - "RC-E2E-04 next batch run includes affected members with elevated propensity"
+  - id: smoke-lot-recall-cascades-to-cold-chain
+    fixture: services/rc/_w3_fusion/fixtures/smoke-lot-recall-cascade.json
+    expected_chain:
+      - "RC-E2E-09 Briefer commits commit_lot_event with event_kind=recall_class_I"
+      - "Cache invalidation fires for RC-E2E-03 + RC-E2E-07"
+      - "RC-E2E-03 next cold-chain event for the same lot reads recall status"
+      - "Pricer rejects markdown on recalled lot; routes to destroy-only"
+  - id: smoke-pricer-reads-fusion-ledger
+    fixture: services/rc/_w3_fusion/fixtures/smoke-pricer-fusion-ledger.json
+    expected_chain:
+      - "Multiple historical LEDGER rows exist across services in same fusion bucket"
+      - "RC-E2E-03 Pricer queries fusion bucket via apex_rc.ledger_feedback.retrieve_similar"
+      - "Top-N precedents include rows from RC-E2E-04 + RC-E2E-09 (not just RC-E2E-03)"
+      - "Markdown rationale cites cross-service precedents in audit row"

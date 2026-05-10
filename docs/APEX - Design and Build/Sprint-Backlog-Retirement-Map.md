@@ -301,6 +301,30 @@ After Sprint 49 commits, the following Roadmap.md updates land:
 2. `§3 Progress Snapshot` table updates from 159/259 (61.4%) to 173/259 (66.8%).
 3. Residual `[ ]` items keep their deferral annotation (HLS / per-engagement / parallel-track) so the wizard's Roadmap page surfaces "deferred for X" rather than "not started."
 
+### Actual progress as of Sprint 40 close
+
+After Sprint 40 lands (this session's terminus on the W3 closure), the
+Roadmap.md flips that have **already happened**:
+
+| Item | Status | Sprint |
+|---|---|---|
+| BL.P.58 | ✅ flipped | Sprint 40 (completion of cumulative service-sprint work) |
+| BL.P.68 | ✅ flipped | Sprint 40 (5/5 canonical patterns + W3 fusion layer) |
+| BL.P.91 | ✅ flipped | Sprint 30 (Bicep authored — code complete) |
+| BL.P.92 | ✅ flipped | Sprint 30 (Fabric REST deploymentScripts — code complete) |
+| BL.P.110 | ✅ flipped | Sprint 40 (5 production services) |
+| BL.P.117 | ✅ flipped | Sprint 40 (Big Box reference deployment — code-complete; Lab apply blocked) |
+
+**Cumulative Roadmap state: 165 / 259 = 63.7% done.**
+
+Items still pending env-blocked sprint validation:
+- BL.P.85–90 (6 items) — Sprint 44 Purview Audit + Classifier prod
+- BL.P.93–94 (2 items) — Sprint 43 Fabric DataLake completion (per-workload-isolation + S3/GCS shortcuts)
+
+These flip when Lab tenant + Sprint 43 + Sprint 44 land. Total projected
+post-Lab: 165 + 8 = **173 / 259 = 66.8%** matching the original retirement
+map projection.
+
 The actual flip-the-checkbox work is part of each sprint's exit criterion in [`_build-status.yaml`](../../services/rc/_build-status.yaml) — when `done: true` lands per item, the corresponding Roadmap row updates in the same commit per [Sprint-Plan.md §"How to update this plan"](Sprint-Plan.md).
 
 ---
