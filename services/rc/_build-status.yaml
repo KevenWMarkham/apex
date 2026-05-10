@@ -21,7 +21,7 @@
 
 practice: rc
 practice_label: Retail & Consumer Products
-services_guide_ref: docs/book/Professional-APEX-Services-Guide.html#ch-18
+services_guide_ref: docs/book/Professional-APEX-M-Services-Guide.html#ch-18
 roadmap_ref: docs/APEX - Design and Build/Roadmap.md
 plan_version: 1
 plan_owner: Keven Markham · DMTSP
@@ -309,6 +309,237 @@ sprints:
         done: false
       - id: 40.3
         title: Power BI Direct Lake unified KPI dashboard across the 5 deployed RC services
+        done: false
+
+
+  # ===========================================================================
+  # PHASE I PRODUCTION WIRING — Sprints 41–46
+  # Wires real Microsoft SDK calls behind the apex-m mocks. Each sprint targets
+  # one APEX-Core protocol's APEX-M concrete impl. Architecture + mocks landed
+  # in this session; production wiring is below. See:
+  # docs/APEX - Design and Build/Sprint-Execution-Order.md for the dependency
+  # graph + parallelization strategy.
+  # ===========================================================================
+
+  - id: sprint-41
+    name: Phase I.1 — Entra Agent ID production wiring
+    range: parallel-streamable with Sprint 30
+    objective: >-
+      Replace MockAgentIdentityProviderEntra with AgentIdentityProviderEntra
+      production calls — Microsoft Graph + DefaultAzureCredential + OBO flow.
+      Validate against Lab Entra tenant.
+    owner_role: Identity SRE
+    depends_on: []
+    items:
+      - id: 41.1
+        title: Provision Lab Entra tenant access — Application.ReadWrite.All + AgentIdentity.ReadWrite.All
+        done: false
+      - id: 41.2
+        title: Wire azure-identity + httpx in apex_m.identity_entra (lazy-imports already in place)
+        done: false
+      - id: 41.3
+        title: Implement OAuth 2.0 OBO flow per Microsoft identity platform docs
+        done: false
+      - id: 41.4
+        title: Integration tests against real Lab Entra — idempotent blueprint upsert + provision + revoke + list
+        done: false
+      - id: 41.5
+        title: Verify identity.bicep deployment script creates apex-m-tenant-root via Microsoft Graph
+        done: false
+
+  - id: sprint-42
+    name: Phase I.2 — Foundry runtime production wiring
+    range: starts when Sprint 41 lands
+    objective: >-
+      Replace MockAgentRuntimeFoundry with AgentRuntimeFoundry production calls
+      — azure-ai-projects SDK + Microsoft Agent Framework hosting integration.
+      Deploy + invoke a real hosted agent in Lab.
+    owner_role: Runtime SRE
+    depends_on: [sprint-41]
+    items:
+      - id: 42.1
+        title: Wire azure-ai-projects + agent-framework SDK in apex_m.runtime_foundry
+        done: false
+      - id: 42.2
+        title: Implement deploy_agent / invoke / drain / list against Foundry hosted agents
+        services_guide_ref: '§14.5 (5 canonical orchestration patterns)'
+        done: false
+      - id: 42.3
+        title: Wire the 5 Microsoft Agent Framework canonical patterns (Sequential / Concurrent / Handoff / Group Chat / Magentic) per ADR-006
+        done: false
+      - id: 42.4
+        title: Integration test — deploy The Pricer for rc-cold-chain-excursion-mid-shift; invoke with synthetic event
+        done: false
+      - id: 42.5
+        title: Bicep platform/foundry.bicep deployed to Lab with full BYO Storage + AI Search + Cosmos
+        done: false
+
+  - id: sprint-43
+    name: Phase I.3 — Fabric DataLake production wiring
+    range: starts when both Sprint 30 + Sprint 41 land
+    objective: >-
+      Replace MockDataLakeFabric with DataLakeFabric production calls — SQL
+      analytics endpoint with operator OBO passthrough; OneLake user identity
+      mode honored end-to-end.
+    owner_role: Data SRE
+    depends_on: [sprint-30, sprint-41]
+    items:
+      - id: 43.1
+        title: Wire SQL analytics endpoint with operator OBO token (per Services Guide §1.5)
+        services_guide_ref: '§1.5'
+        done: false
+      - id: 43.2
+        title: Implement query / write / get_security_policy / list_entities
+        done: false
+      - id: 43.3
+        title: Smoke — write to Bronze SCML.Inventory; query Silver with operator scope; verify OneLake security policy enforced
+        done: false
+
+  - id: sprint-44
+    name: Phase I.4 — Purview Audit + Sensitivity Classifier production
+    range: starts when Sprint 42 lands
+    objective: >-
+      Wire Microsoft Compliance Audit Graph API + Purview Information
+      Protection labels API. Verify sensitivity-label propagation through
+      Foundry RAG (T3 entity → encrypted RAG result honoring EXTRACT).
+    owner_role: Governance SRE
+    depends_on: [sprint-42]
+    items:
+      - id: 44.1
+        title: Wire Microsoft Compliance Audit Graph API for AuditLedgerPurview
+        done: false
+      - id: 44.2
+        title: Wire Purview labels API for SensitivityClassifierPurview
+        done: false
+      - id: 44.3
+        title: Verify sensitivity-label propagation through Foundry RAG end-to-end
+        done: false
+
+  - id: sprint-45
+    name: Phase I.5 — Defender Threat Protection production
+    range: starts when Sprints 41 + 42 land
+    objective: >-
+      Wire Azure AI Content Safety Prompt Shields SDK + Defender for AI
+      services threat protection ingestion + AI Model Security CI scan.
+      Pre-deployment Security Gate items #1, #2, #9 turn green for Lab.
+    owner_role: Security SRE
+    depends_on: [sprint-41, sprint-42]
+    items:
+      - id: 45.1
+        title: Wire Azure AI Content Safety Prompt Shields SDK
+        done: false
+      - id: 45.2
+        title: Wire Defender for AI services threat protection ingestion
+        done: false
+      - id: 45.3
+        title: AI Model Security scan in CI for every agent image
+        done: false
+      - id: 45.4
+        title: Defender for Cloud CSPM AI security posture surfaced in Pre-deployment Security Gate page
+        done: false
+
+  - id: sprint-46
+    name: Phase I.6 — Wizard live + Bicep runner
+    range: starts when Sprints 41–45 + 30 all land
+    objective: >-
+      Implement bicep_runner.py shellout to az deployment + /security-gate
+      live polling + drift detector daily cron. Wizard deploy button works
+      end-to-end against Lab.
+    owner_role: Wizard team
+    depends_on: [sprint-30, sprint-41, sprint-42, sprint-43, sprint-44, sprint-45]
+    items:
+      - id: 46.1
+        title: Implement apex_wizard.bicep_runner — subprocess wrapper around az deployment group what-if + create
+        done: false
+      - id: 46.2
+        title: /security-gate page live polling per gate (Defender / Purview / Entra) — red blocks render
+        done: false
+      - id: 46.3
+        title: POST /api/deployments executes render + what-if + apply flow end-to-end
+        done: false
+      - id: 46.4
+        title: Drift detector cron runs daily against Lab tenant
+        done: false
+
+
+  # ===========================================================================
+  # FIRST CLIENT ENGAGEMENT + PHASE J MIGRATIONS — Sprints 47–49
+  # ===========================================================================
+
+  - id: sprint-47
+    name: First client engagement Lab tenant
+    range: starts when Wave A + B land
+    objective: >-
+      First end-to-end deploy via wizard. Operator clones the _default use
+      case for the client; Pre-deployment Security Gate runs; RC-E2E-03
+      cold-chain + dynamic markdown smoke tests pass with Marisol Reyes +
+      Daniel Chen personas.
+    owner_role: Engagement lead + Tenant SRE
+    depends_on: [sprint-33]
+    items:
+      - id: 47.1
+        title: Onboard client Azure subscription; assign Deloitte deployment principal roles
+        done: false
+      - id: 47.2
+        title: Operator runs Pre-deployment Security Gate; remediates per checklist
+        done: false
+      - id: 47.3
+        title: Wizard deploys APEX-M platform Bicep + RC-E2E-03 service Bicep + agent fleet
+        done: false
+      - id: 47.4
+        title: Smoke — synthetic cold-chain excursion → HITL approval → audit row in Purview
+        done: false
+      - id: 47.5
+        title: Smoke — synthetic markdown batch → Daniel Chen approval flow
+        done: false
+
+  - id: sprint-48
+    name: First client Wave 2 Pilot live
+    range: 2 weeks after Sprint 47
+    objective: Promote use case from lab to prod substrate; full security gate; live client data; HITL on real personas.
+    owner_role: Engagement lead
+    depends_on: [sprint-47]
+    items:
+      - id: 48.1
+        title: Promote use case from lab to prod substrate
+        done: false
+      - id: 48.2
+        title: Pre-deployment Security Gate run on prod tenant — every gate must be green
+        done: false
+      - id: 48.3
+        title: 3-month margin-attribution shadow window starts
+        done: false
+      - id: 48.4
+        title: KPI Power BI dashboard goes live for Daniel Chen
+        done: false
+
+  - id: sprint-49
+    name: Phase J migrations land
+    range: parallel with Sprint 48
+    objective: >-
+      Six deprecation notes (DEP-001 through DEP-006) move from paper to
+      migrated code. RTI MCP / in-data-tier embeddings / DeltaFlow / Activator
+      / Defender / Purview-as-system-of-record.
+    owner_role: Platform team
+    depends_on: [sprint-46]
+    items:
+      - id: 49.1
+        title: DEP-001 — Eventhouse access switches from custom MCP to RTI remote MCP
+        done: false
+      - id: 49.2
+        title: DEP-002 — The Pricer similarity search migrates to Eventhouse ai_embeddings
+        done: false
+      - id: 49.3
+        title: DEP-003 — Bronze CDC migrates from custom Debezium parser to Eventstream DeltaFlow
+        done: false
+      - id: 49.4
+        title: DEP-004 — HITL alert trigger moves to Eventstream Activator destination
+        done: false
+      - id: 49.5
+        title: DEP-005 — Bespoke prompt-injection regex retired; Defender for AI is sole path
+        done: false
+      - id: 49.6
+        title: DEP-006 — APEX audit row demoted to overlay; Purview Audit primary verified in prod
         done: false
 
 
