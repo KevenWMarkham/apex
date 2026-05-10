@@ -25,6 +25,31 @@ dev = [
     "mypy>=1.13",
 ]
 
+# Sprint 41+ — production-runtime SDKs. Lazy-imported by apex_m.* impls;
+# install only when running against a real Microsoft tenant. Mock impls
+# work without these.
+runtime = [
+    "azure-identity>=1.19",
+    "azure-keyvault-secrets>=4.9",
+    "azure-cosmos>=4.7",
+    "azure-monitor-opentelemetry>=1.6",
+    "azure-mgmt-cognitiveservices>=14.0",
+    "azure-ai-projects>=1.0.0b3",
+    "msal>=1.31",
+    "httpx>=0.27",
+    # Microsoft Agent Framework — canonical agent orchestrator per ADR-006
+    # https://learn.microsoft.com/agent-framework/
+    "agent-framework>=1.0.0",
+    "agent-framework-azure-ai>=1.0.0",
+]
+
+# Integration tests run against a real Lab tenant. CI lane uses Workload
+# Identity Federation per Sprint 41 item 41.3.3.
+integration = [
+    "apex-m[runtime,dev]",
+    "pytest-integration>=0.2",
+]
+
 [build-system]
 requires = ["setuptools>=70"]
 build-backend = "setuptools.build_meta"

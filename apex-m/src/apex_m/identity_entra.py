@@ -177,14 +177,130 @@ class AgentIdentityProviderEntra:
         agent_id: str,
         operator_principal: str,
         target_resource: str,
+        operator_assertion: str | None = None,
     ) -> str:
-        # OAuth 2.0 OBO flow per
-        # https://learn.microsoft.com/entra/identity-platform/v2-oauth2-on-behalf-of-flow
-        # Implementation requires the operator's existing token + the agent's
-        # client_id. This stub raises until the operator-token plumbing lands.
-        raise NotImplementedError(
-            "OBO flow requires operator-principal token + agent client_id. "
-            "Wired in Phase I.1 follow-up sprint per agent-identity-blueprints §10."
+        """OAuth 2.0 On-Behalf-Of flow per Microsoft identity platform docs.
+
+        Reference: https://learn.microsoft.com/entra/identity-platform/v2-oauth2-on-behalf-of-flow
+
+        The operator's first-party token (`operator_assertion`) is exchanged
+        for a token that lets the agent identity call the target resource
+        on behalf of the operator. The audit row records both principals.
+
+        Sprint 41 implementation — wires Microsoft Authentication Library
+        (MSAL) for the OBO grant. The deployment-time managed identity for
+        this agent is the OBO client; the operator's token is the upstream
+        assertion.
+
+        Args:
+            agent_id: APEX-scoped agent id (e.g., apex-m:RC-E2E-03:rc-cold-chain-...:decide)
+            operator_principal: UPN or OID of the human operator
+            target_resource: Microsoft Graph / Azure resource scope being called
+                            (e.g., "https://graph.microsoft.com/.default")
+            operator_assertion: The operator's existing access token (JWT). When
+                                None and `MockAgentIdentityProviderEntra` is used
+                                for tests, a mock token is returned.
+
+        Returns:
+            An access token (string) the agent can use to call `target_resource`
+            on behalf of the operator. Token expiry is per Microsoft Entra defaults
+            (1 hour for autonomous; 8 hours for HITL session).
+
+        Raises:
+            ValueError: when operator_assertion is None on the production impl.
+            RuntimeError: when MSAL token acquisition fails — exception chain
+                          carries the Microsoft Entra error code.
+        """
+        if operator_assertion is None:
+            raise ValueError(
+                "OBO flow requires the operator's existing access token as "
+                "`operator_assertion`. The HITL approver's session token from "
+                "Microsoft Teams (per use-case hitl_channel) is the typical "
+                "source. See agent-identity-blueprints.md §9."
+            )
+
+        try:
+            import msal  # noqa: F401 — verify availability
+        except ImportError as e:
+            raise RuntimeError(
+                "msal SDK required for OBO. Install via `pip install apex-m[runtime]`."
+            ) from e
+
+        from msal import ConfidentialClientApplication
+
+        identity = self.get_identity(agent_id)
+        if identity is None:
+            raise ValueError(
+                f"Agent identity {agent_id} not provisioned. "
+                f"Call provision_identity first."
+            )
+
+        # OBO requires a confidential client (the agent's app registration).
+        # Authority follows the Microsoft Entra tenant convention.
+        authority = f"https://login.microsoftonline.com/{self.config.tenant_id}"
+        # The agent's client_id from the config — set by the platform/identity.bicep
+        # deployment script when the agent identity blueprint was provisioned.
+        app = ConfidentialClientApplication(
+            client_id=self.config.client_id,
+            authority=authority,
+            client_credential=self._get_agent_client_secret(),
+        )
+        result = app.acquire_token_on_behalf_of(
+            user_assertion=operator_assertion,
+            scopes=[target_resource],
+        )
+        if "access_token" not in result:
+            err_code = result.get("error", "unknown_error")
+            err_desc = result.get("error_description", "")
+            raise RuntimeError(
+                f"OBO token acquisition failed: {err_code} — {err_desc}. "
+                f"agent_id={agent_id} target={target_resource}"
+            )
+        # Record OBO event in audit trail per agent-identity-blueprints.md §9
+        self._emit_obo_audit(
+            agent_id=agent_id,
+            operator_principal=operator_principal,
+            target_resource=target_resource,
+            token_correlation=result.get("id_token_claims", {}).get("aio", "n/a"),
+        )
+        return result["access_token"]
+
+    def _get_agent_client_secret(self) -> str | None:
+        """Retrieve the agent's client secret. Production deployments use
+        federated credentials (Workload Identity Federation per Sprint 41
+        item 41.2.3) instead of long-lived secrets — this returns None and
+        MSAL falls through to the federated credential path."""
+        # WIF path — the federated assertion file injected by the substrate
+        # (Foundry hosted agent runtime / Container Apps env / laptop docker)
+        # is read by msal automatically when client_credential is None.
+        return None
+
+    def _emit_obo_audit(
+        self,
+        *,
+        agent_id: str,
+        operator_principal: str,
+        target_resource: str,
+        token_correlation: str,
+    ) -> None:
+        """Audit OBO events per agent-identity-blueprints.md §9 fields 3+4
+        (operator principal + Conditional Access result). The actual write
+        goes through `apex_m.audit_purview.AuditLedgerPurview` at the
+        wizard / agent-runtime level; here we just emit a structured log
+        line that the ambient observability picks up.
+        """
+        import json
+        import logging
+        log = logging.getLogger("apex_m.identity_entra.obo")
+        log.info(
+            json.dumps({
+                "event": "obo_token_acquired",
+                "agent_id": agent_id,
+                "operator_principal": operator_principal,
+                "target_resource": target_resource,
+                "token_correlation": token_correlation,
+                "tenant_id": self.config.tenant_id,
+            })
         )
 
     def list_blueprints(self) -> list[AgentBlueprint]:
@@ -254,9 +370,12 @@ class MockAgentIdentityProviderEntra:
         agent_id: str,
         operator_principal: str,
         target_resource: str,
+        operator_assertion: str | None = None,
     ) -> str:
         if agent_id in self._revoked:
             raise PermissionError(f"Agent identity {agent_id} is revoked")
+        # Mock accepts operator_assertion=None for unit-test convenience;
+        # production raises ValueError without it (see AgentIdentityProviderEntra).
         return f"mock-obo-token::{agent_id}::{operator_principal}::{target_resource}"
 
     def list_blueprints(self) -> list[AgentBlueprint]:

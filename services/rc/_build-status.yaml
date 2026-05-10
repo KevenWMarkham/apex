@@ -37,10 +37,15 @@ sprints:
   - id: sprint-30
     name: RC W1 Foundation — Tenant + Schemas + Medallion
     range: 2026-Q3 W1 (proposed)
+    status: in_progress
+    started_at: 2026-05-09
     objective: >-
       Stand up the Layer 1 platform for an RC tenant and land the SCML / MERML
       / PROML / CRMML Silver entities the 7 RC services consume. Output is a
       running medallion ready for any RC service to compose on top.
+    kickoff_artifacts:
+      - apex-m/infra/bicep/platform/fabric.bicep (primary-workspace pattern per Services Guide §1.6)
+      - apex-m/infra/bicep/platform/main.bicep wires Fabric module + new outputs
     items:
       - id: 30.1
         title: Provision Layer 1 (Container Apps env, identity, Key Vault, Log Analytics) for RC tenant
@@ -48,6 +53,8 @@ sprints:
         roadmap_ref: [BL.P.91, BL.P.92, BL.P.53]
         services_guide_ref: '§7.4 (Service module skeleton)'
         done: false
+        status: in_progress
+        notes: 'Bicep authored; Lab Azure subscription + az deployment apply still pending (Data SRE).'
       - id: 30.2
         title: Land Bronze for POS · ERP · refrigeration telemetry · competitor pricing
         roadmap_ref: [BL.P.20, BL.P.21, BL.P.22, BL.P.25]
@@ -324,28 +331,45 @@ sprints:
   - id: sprint-41
     name: Phase I.1 — Entra Agent ID production wiring
     range: parallel-streamable with Sprint 30
+    status: in_progress
+    started_at: 2026-05-09
     objective: >-
       Replace MockAgentIdentityProviderEntra with AgentIdentityProviderEntra
       production calls — Microsoft Graph + DefaultAzureCredential + OBO flow.
       Validate against Lab Entra tenant.
     owner_role: Identity SRE
     depends_on: []
+    kickoff_artifacts:
+      - apex-m/src/apex_m/identity_entra.py (real OBO flow via MSAL ConfidentialClientApplication.acquire_token_on_behalf_of)
+      - apex-m/pyproject.toml [project.optional-dependencies] runtime + integration extras (azure-identity / msal / azure-ai-projects / agent-framework)
+      - apex-m/tests/integration/test_identity_entra.py (6 pytest integration tests gated by APEX_TEST_TENANT_ID)
+      - apex-m/tests/integration/conftest.py (skip-by-default pattern for integration marker)
     items:
       - id: 41.1
         title: Provision Lab Entra tenant access — Application.ReadWrite.All + AgentIdentity.ReadWrite.All
         done: false
+        status: planned
+        notes: 'Awaits Lab subscription onboarding + Identity SRE assignment.'
       - id: 41.2
         title: Wire azure-identity + httpx in apex_m.identity_entra (lazy-imports already in place)
-        done: false
+        done: true
+        status: complete
+        notes: 'Sprint 41 kickoff commit added runtime extras to apex-m/pyproject.toml.'
       - id: 41.3
         title: Implement OAuth 2.0 OBO flow per Microsoft identity platform docs
-        done: false
+        done: true
+        status: complete
+        notes: 'MSAL ConfidentialClientApplication.acquire_token_on_behalf_of wired with WIF fallback. Validates operator_assertion required; emits structured audit log on token issue.'
       - id: 41.4
         title: Integration tests against real Lab Entra — idempotent blueprint upsert + provision + revoke + list
         done: false
+        status: in_progress
+        notes: '6 pytest integration tests authored at apex-m/tests/integration/test_identity_entra.py. Skip-by-default; require APEX_TEST_TENANT_ID + APEX_TEST_CLIENT_ID env vars or WIF in CI. Test execution against real Lab tenant pending Lab provisioning.'
       - id: 41.5
         title: Verify identity.bicep deployment script creates apex-m-tenant-root via Microsoft Graph
         done: false
+        status: planned
+        notes: 'Bicep deployment script authored in earlier Phase I.1 commit; verification against Lab pending Lab provisioning.'
 
   - id: sprint-42
     name: Phase I.2 — Foundry runtime production wiring

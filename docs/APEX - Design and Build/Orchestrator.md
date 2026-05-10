@@ -1,9 +1,11 @@
 # APEX Orchestrator — Sprint Plan
 
 **Source:** `Roadmap.md` (backlog items BL.P.01 – BL.P.195) + `backlog/APEX-v0.2-F-01-Redis-Cache-Layer.md` + `docs/APEX - Design and Build/APEX-v0.2-Build-Instructions.md` + `APEX-Stacked-Architecture-Narrated.html` (Sprint 27 completed)
-**Design reference:** `APEX_Design.md` (v1.2), `Industry-Standards-Incorporation-Plan.md`
-**Date:** 2026-04-23 (v3 — Sprint 27 Scenario Library + Wave Ribbon completed; Sprints 28–29 added for extensions)
+**Design reference:** `APEX_Design.md` (v1.2), `Industry-Standards-Incorporation-Plan.md`, [ADR-006](adr/ADR-006-agent-orchestrator-canonical.md), [Services Guide §14.5](../book/Professional-APEX-M-Services-Guide.html#ch-14-5)
+**Date:** 2026-05-09 (v4 — Microsoft Agent Framework alignment for APEX-M; Sprints 30–49 added)
 **Purpose:** Break the planned backlog into executable sprints, tasks, and subtasks. Each sprint references the BL items it closes. Sprints are sized for ~2-week delivery windows unless otherwise noted.
+
+> **2026-05-09 — Microsoft Agent Framework alignment for APEX-M.** Per [ADR-006](adr/ADR-006-agent-orchestrator-canonical.md), Microsoft Agent Framework is the canonical agent orchestrator for APEX-M on every substrate (laptop / dev / stage / prod). The 47 APEX archetypes reconcile to the 5 canonical Microsoft Agent Framework patterns (Sequential / Concurrent / Handoff / Group Chat / Magentic). Semantic Kernel is now legacy — existing SK code stays valid; new code uses Agent Framework. n8n keeps its place as the laptop *workflow* runtime; it does not orchestrate agents (anti-pattern callout in [Services Guide §14.5.4](../book/Professional-APEX-M-Services-Guide.html#ch-14-5-4)). See [Sprint Execution Order](Sprint-Execution-Order.md) for the post-Sprint-29 dependency graph and [Sprint Plan](Sprint-Plan.md) for the full schedule including the new Sprints 30–49.
 
 **Conventions:**
 - Each **Task** is a coherent deliverable, typically 1–5 days of work.
@@ -402,6 +404,8 @@
 **Closes:** BL.P.65–P.76
 **Goal:** The 47-archetype library plus the four-gate-kind + four-variant runtime. This is APEX's defining control plane.
 **Exit criteria:** A reference orchestration (Cold Chain Excursion) runs end-to-end with HITL gate presented to a Teams card and decision captured in audit row.
+
+> **2026-05-09 amendment — Microsoft Agent Framework alignment.** Per [ADR-006](adr/ADR-006-agent-orchestrator-canonical.md), the orchestration substrate for APEX-M is now Microsoft Agent Framework. This Sprint 11 work is preserved (`apex-orchestrator/archetypes/catalog.py`, primitives, manifest runtime, gate kinds, Teams + Copilot Studio integration), but the runtime delegates to Agent Framework's [`AgentWorkflowBuilder.BuildSequential / BuildConcurrent / BuildHandoff / BuildGroupChat / BuildMagentic`](https://learn.microsoft.com/agent-framework/workflows/orchestrations/) underneath. The 47 APEX archetypes are catalog entries with a `canonical_pattern` field pointing at one of the 5 Microsoft patterns plus parameterization. Production wiring of this delegation lives in **Sprint 42** (below).
 
 ### Task 11.1 — Orchestration primitives (BL.P.66)
 - [ ] Subtask 11.1.1 — Sequential / Parallel / Hierarchical / Feedback-loop runner classes
@@ -1441,6 +1445,186 @@ Sprint 29 (Communication artifacts + compliance pipeline) ◄─ 27, 28
 - **Sprint 27 ran in parallel with the core implementation sprints** — delivered as a pure communication-layer artifact; no runtime dependency. Its outputs are inputs to Sprint 16 (agent catalogs cite featured-scenario Solutions), Sprint 17 (service catalogs cite scenario `service_code`s), and Sprint 18 (reference deployments map to featured scenarios).
 - **Sprint 28 should ideally follow Sprint 17 and Sprint 19** — the Service Catalog and KPI Registry are the targets of its traceability validators. However, the W1 Foundation catalog and Wave-ribbon propagation subtasks (28.1, 28.2) can run earlier as pure authoring work.
 - **Sprint 29 can start mid-Sprint 28** — the narration-script extraction, one-pager, and slide deck don't depend on Sprint 28 deliverables. The `apex-compliance-lint` package and CI lane can be stood up immediately from Sprint 27 learnings.
+
+---
+
+## ===== APEX-M Sprints 30–49 (added 2026-05-09) =====
+
+The work below is RC-practice-only and APEX-M-only per the [Sprint Plan](Sprint-Plan.md) first-iteration scope. See [Sprint Execution Order](Sprint-Execution-Order.md) for the dependency graph between these sprints and parallelization strategy.
+
+### Sprint 30 — RC W1 Foundation (Lab tenant + medallion)
+
+**Closes:** items 30.1–30.6 in [`services/rc/_build-status.yaml`](../../services/rc/_build-status.yaml)
+**Owner:** Data SRE
+**Depends on:** nothing — can start in parallel with Sprint 41
+**Goal:** Provision a real Lab Azure tenant with Bicep + Fabric capacity + medallion + the 4 Silver schema families RC consumes (SCML / MERML / PROML / CRMML) + the 6 RC-E2E-03 Gold marts.
+
+#### Task 30.1 — Layer 1 platform Bicep apply
+- [ ] 30.1.1 — `az login` to Lab subscription; verify deployment principal has Owner on RG
+- [ ] 30.1.2 — `az deployment group create` against `apex-m/infra/bicep/blueprints/w1-foundation.bicep` (already authored)
+- [ ] 30.1.3 — Verify outputs: identity ID + ledger DSN + Log Analytics workspace + (Foundry account if `provisionFoundry: true`)
+
+#### Task 30.2 — Fabric capacity + primary workspace
+- [ ] 30.2.1 — Provision F-SKU capacity via `infra/terraform/modules/fabric_capacity/` (existing)
+- [ ] 30.2.2 — Apply `apex-m/infra/bicep/platform/fabric.bicep` (NEW — primary-workspace pattern per Services Guide §1.6) to create `rc-canonical` primary workspace + per-service consumer workspaces
+- [ ] 30.2.3 — Configure Fabric workspace identity per [Microsoft Learn — workspace identity](https://learn.microsoft.com/fabric/security/workspace-identity)
+- [ ] 30.2.4 — Set up trusted workspace access for ADLS Gen2 reads
+
+#### Task 30.3 — Bronze landing
+- [ ] 30.3.1 — POS source — Eventstream landing with DeltaFlow CDC transformation per DEP-003
+- [ ] 30.3.2 — ERP source — Mirroring (Azure SQL or PostgreSQL flex per client)
+- [ ] 30.3.3 — Refrigeration telemetry — Eventstream from IoT Hub
+- [ ] 30.3.4 — Competitor pricing — Data Pipeline (daily batch CSV)
+
+#### Task 30.4 — Silver schemas (per Services Guide §18.1)
+- [ ] 30.4.1 — `SCML.Inventory` · `SCML.Lot` · `SCML.Movement` (canonical conformance + tokenizer)
+- [ ] 30.4.2 — `MERML.Markdown` · `MERML.Elasticity` · `MERML.Competitor` · `MERML.Promotion`
+- [ ] 30.4.3 — `PROML.Pricing` · `PROML.DiscountRule` (read by The Pricer)
+- [ ] 30.4.4 — `CRMML.Customer` · `CRMML.Loyalty` · `CRMML.Interaction` (RC-E2E-04 / -07 / -08)
+
+#### Task 30.5 — Gold marts for RC-E2E-03
+- [ ] 30.5.1 — `g_excursion_decision_panel` (Direct Lake semantic model)
+- [ ] 30.5.2 — `g_markdown_proposal_basis`
+- [ ] 30.5.3 — `g_pricing_recommendation_basis` (read by The Pricer per Services Guide §25.8)
+- [ ] 30.5.4 — `g_inventory_position_current`
+- [ ] 30.5.5 — `g_kpi_rc_e2e_03_daily` (Power BI Direct Lake)
+- [ ] 30.5.6 — `g_markdown_outcome_attribution`
+
+**Exit criteria:** Lab tenant alive; primary `rc-canonical` workspace owns Silver entities; per-service consumer workspaces (`rc-e2e-03`, etc.) read Silver via OneLake shortcuts; Power BI Direct Lake report on `g_kpi_rc_e2e_03_daily` opens for an authorized operator.
+
+---
+
+### Sprint 41 — Phase I.1 Production Entra Agent ID
+
+**Closes:** items 41.1–41.5 in `services/rc/_build-status.yaml`
+**Owner:** Identity SRE
+**Depends on:** nothing — can start in parallel with Sprint 30
+**Goal:** Replace `MockAgentIdentityProviderEntra` with `AgentIdentityProviderEntra` production calls; verify against Lab Entra tenant.
+
+#### Task 41.1 — Lab Entra access provisioning
+- [ ] 41.1.1 — Grant deployment principal `Application.ReadWrite.All` + `AgentIdentity.ReadWrite.All` on Microsoft Graph
+- [ ] 41.1.2 — Verify `azd auth login` works with the deployment principal
+
+#### Task 41.2 — Wire production SDKs
+- [ ] 41.2.1 — Add `azure-identity[default]` + `httpx` + `msal` to `apex-m/pyproject.toml` `[project.optional-dependencies] runtime`
+- [ ] 41.2.2 — Verify lazy-import path in `apex_m.identity_entra` remains valid (architecture commit already structured this)
+- [ ] 41.2.3 — Implement OAuth 2.0 OBO flow per [Microsoft identity platform docs](https://learn.microsoft.com/entra/identity-platform/v2-oauth2-on-behalf-of-flow) — currently raises NotImplementedError
+
+#### Task 41.3 — Integration tests
+- [ ] 41.3.1 — Add `apex-m/tests/integration/test_identity_entra.py` — pytest module with `pytest.mark.integration` marker
+- [ ] 41.3.2 — Tests: idempotent blueprint upsert, identity provision, get_identity, revoke, list_blueprints
+- [ ] 41.3.3 — CI lane runs integration tests against a dedicated Lab tenant via Workload Identity Federation
+
+#### Task 41.4 — Bicep deployment script verification
+- [ ] 41.4.1 — Apply `apex-m/infra/bicep/platform/identity.bicep` against Lab subscription
+- [ ] 41.4.2 — Verify `Microsoft.Resources/deploymentScripts` runs successfully
+- [ ] 41.4.3 — Confirm `apex-m-tenant-root` blueprint exists via `Get-MgAgentIdentityBlueprint` (Microsoft Graph PowerShell)
+
+**Exit criteria:** `AgentIdentityProviderEntra` provisions blueprints + identities against real Lab Entra; OBO token issued for synthetic operator + agent_id pair; integration tests green in CI.
+
+---
+
+### Sprint 42 — Phase I.2 Production Foundry Runtime + Microsoft Agent Framework
+
+**Closes:** items 42.1–42.5
+**Owner:** Runtime SRE
+**Depends on:** Sprint 41
+**Goal:** Replace `MockAgentRuntimeFoundry` with production calls against Foundry Agent Service hosted agents; wire all 5 Microsoft Agent Framework canonical patterns per ADR-006.
+
+#### Task 42.1 — Wire production SDKs
+- [ ] 42.1.1 — Add `azure-ai-projects` + `agent-framework` (Microsoft Agent Framework) + `agent-framework-azure-ai` to apex-m runtime extras
+- [ ] 42.1.2 — Implement `deploy_agent` against `Microsoft.CognitiveServices/accounts/projects/agents` (Foundry Hosted Agents)
+- [ ] 42.1.3 — Implement `invoke` + `invoke_async` via Microsoft Agent Framework `Agent.run` / `Agent.run_stream`
+- [ ] 42.1.4 — Implement `drain` + `list_agents` against Foundry projects API
+
+#### Task 42.2 — The 5 canonical Agent Framework patterns
+Per [Agent Framework workflow orchestrations docs](https://learn.microsoft.com/agent-framework/workflows/orchestrations/) — wire each pattern as a callable in `apex_m.runtime_foundry`:
+- [ ] 42.2.1 — `BuildSequential([assess, classify, quantify, decide, act, learn])` for use cases with `orchestration_archetype: sequential`
+- [ ] 42.2.2 — `BuildConcurrent([...])` with custom aggregator for `concurrent`
+- [ ] 42.2.3 — `BuildHandoff(initial=..., handoffs=[...])` for `handoff`
+- [ ] 42.2.4 — `BuildGroupChat([...], manager=...)` for `group_chat`
+- [ ] 42.2.5 — `BuildMagentic(manager=Analyst, specialists=[...])` for `magentic` — used by RC-E2E-03 cold-chain (The Analyst is the manager)
+- [ ] 42.2.6 — Each pattern read its archetype from the use-case YAML's `orchestration_archetype` field
+
+#### Task 42.3 — Bicep + integration test
+- [ ] 42.3.1 — Apply `apex-m/infra/bicep/platform/foundry.bicep` (AVM module wrapper) against Lab subscription with full BYO Storage + AI Search + Cosmos DB
+- [ ] 42.3.2 — Deploy The Pricer agent for `rc-cold-chain-excursion-mid-shift` via `azd deploy`
+- [ ] 42.3.3 — Invoke with synthetic excursion event from the canonical fixture; verify response
+- [ ] 42.3.4 — Verify Foundry Application Insights captures the run
+
+**Exit criteria:** A real Foundry hosted agent runs The Pricer against the canonical cold-chain fixture; Magentic pattern coordinates 5 specialist agents per RC-E2E-03 use case; Application Insights traces the run end-to-end.
+
+---
+
+### Sprint 43 — Phase I.3 Production Fabric DataLake (OneLake user identity mode)
+
+**Closes:** items 43.1–43.3
+**Owner:** Data SRE (rotates from Sprint 30)
+**Depends on:** Sprint 30 + Sprint 41
+**Goal:** `DataLakeFabric` reads Lab Fabric workspace with operator OBO passthrough; OneLake user identity mode honored end-to-end.
+
+- [ ] 43.1 — Wire `pyodbc` + `azure-identity` for SQL analytics endpoint with OBO token (per Services Guide §1.5)
+- [ ] 43.2 — Implement `query` / `write` / `get_security_policy` / `list_entities` against Fabric Lab tenant
+- [ ] 43.3 — Smoke: write 100 rows to Bronze `SCML.Inventory`; query Silver with operator OBO; verify OneLake security policy filters per RLS predicate
+
+**Exit criteria:** Operator-scoped query returns only rows the operator's Entra identity is authorized to see; SQL `GRANT/REVOKE` on tables is correctly ignored (user identity mode); ledger overlay row written.
+
+---
+
+### Sprint 44 — Phase I.4 Production Purview Audit + Sensitivity Classifier
+
+**Closes:** items 44.1–44.3
+**Owner:** Governance SRE
+**Depends on:** Sprint 42
+**Goal:** Microsoft Purview Audit becomes the system of record (per ADR-003); APEX classification tiers map bidirectionally to Purview sensitivity labels.
+
+- [ ] 44.1 — Wire Microsoft Compliance Audit Graph API for `AuditLedgerPurview.append`
+- [ ] 44.2 — Wire Purview labels API for `SensitivityClassifierPurview` (production `classify_text`, `to_provider_label`, `from_provider_label`)
+- [ ] 44.3 — Verify sensitivity-label propagation through Foundry RAG end-to-end (T3 entity → encrypted RAG result honoring EXTRACT)
+
+**Exit criteria:** Foundry agent decision writes to Purview Audit; reverse propagation works (Purview-labeled SharePoint document read by Foundry RAG honors the label); classification mapping resolves per ADR-005.
+
+---
+
+### Sprint 45 — Phase I.5 Production Defender for AI
+
+**Closes:** items 45.1–45.4
+**Owner:** Security SRE
+**Depends on:** Sprint 41 + Sprint 42
+**Goal:** Pre-deployment Security Gate items #1, #2, #9 turn green for Lab tenant.
+
+- [ ] 45.1 — Wire Azure AI Content Safety Prompt Shields SDK in `ThreatProtectionDefender.shield_prompt`
+- [ ] 45.2 — Wire Defender for AI services threat protection ingestion in `evaluate_response` + `get_posture`
+- [ ] 45.3 — AI Model Security scan in CI for every agent image (`scan_model` calls Microsoft Defender)
+- [ ] 45.4 — Defender for Cloud CSPM AI security posture surfaced in wizard `/security-gate` page
+
+**Exit criteria:** Synthetic prompt-injection attempt is shielded; jailbreak detection fires; DSPM for AI dashboard shows the agent in the AI BOM.
+
+---
+
+### Sprint 46 — Phase I.6 Wizard Live + Bicep Runner
+
+**Closes:** items 46.1–46.4
+**Owner:** Wizard team
+**Depends on:** Sprints 41–45 + Sprint 30
+**Goal:** Operator clicks "Deploy" in the wizard and a real `az deployment group create` runs against the target tenant.
+
+- [ ] 46.1 — Implement `apex_wizard.bicep_runner` (subprocess wrapper around `az deployment group what-if` + `az deployment group create`)
+- [ ] 46.2 — `/security-gate` page live polling per gate (Defender / Purview / Entra) — red blocks render
+- [ ] 46.3 — `POST /api/deployments` executes render + what-if + apply flow end-to-end
+- [ ] 46.4 — Drift detector cron runs daily against Lab tenant per Pre-deployment Security Gate item #13
+
+**Exit criteria:** End-to-end deploy works from wizard click to Lab tenant resources alive; drift detector reports zero divergence.
+
+---
+
+### Sprints 47–49 — First Client Engagement + Phase J Migrations
+
+**Sprint 47** — First client Lab tenant deploy. Onboard client subscription; Pre-deployment Security Gate; deploy RC-E2E-03; smoke cold-chain + dynamic markdown. Owner: Engagement lead + Tenant SRE. Depends on Sprint 33.
+**Sprint 48** — First client W2 Pilot live. Promote use case from lab to prod; full security gate; live client data; HITL on real personas. Owner: Engagement lead. Depends on Sprint 47.
+**Sprint 49** — Phase J migrations land. DEP-001 through DEP-006 (RTI MCP / SLM embeddings / DeltaFlow / Activator / Defender / Purview-as-system-of-record) move from paper to migrated code. Owner: Platform team. Parallel with Sprint 48.
+
+See `services/rc/_build-status.yaml` for item-level breakdown.
 
 ---
 

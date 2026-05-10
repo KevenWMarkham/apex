@@ -67,7 +67,7 @@
 - [x] **BL.C.33** — APEX MCP tools Appendix I design — §7, Appendix F
 - [x] **BL.C.34** — APEX schemas Appendix H design — Appendix A
 - [x] **BL.C.35** — Purview Appendix K design — §14
-- [x] **BL.C.36** — Orchestration deep-dive & catalog design — §10
+- [x] **BL.C.36** — Orchestration deep-dive & catalog design — §10 *(Updated 2026-05-09 — superseded by Microsoft Agent Framework alignment per [ADR-006](adr/ADR-006-agent-orchestrator-canonical.md) and [Services Guide §14.5](../book/Professional-APEX-M-Services-Guide.html#ch-14-5). The 47 APEX archetypes reconcile to the 5 canonical Agent Framework patterns with parameterization.)*
 - [x] **BL.C.37** — Fabric chapter deep-dive design — §12
 - [x] **BL.C.38** — AXLE vs APEX AXLEML design — §5.2, §15
 - [x] **BL.C.39** — Developer implementation guide design + draft — §8, §11
@@ -186,10 +186,12 @@
 
 ### 2.7 — Orchestration Framework
 
-- [x] **BL.P.65** — 47 orchestration archetypes library — §10.3 *(Sprint 11 — `apex-orchestrator/archetypes/catalog.py`, 10 impl + 37 manifest-only)*
-- [x] **BL.P.66** — Sequential / Parallel / Hierarchical / Feedback-loop primitives — §10.2 *(Sprint 11 — `apex-orchestrator/primitives/`)*
-- [x] **BL.P.67** — Orchestration manifest runtime (version stamps, gate placement) — §10.4 *(Sprint 11 — `apex-orchestrator/manifest.py` + `runtime.py`, three-version rule enforced)*
-- [ ] **BL.P.68** — Practice-specific orchestrations (15–25 per Practice) — §10.3 *(Sprint 11 — reference Cold Chain Response shipped; per-Practice libraries in Sprint 18)*
+> **2026-05-09 alignment note** — Per [ADR-006](adr/ADR-006-agent-orchestrator-canonical.md), **Microsoft Agent Framework is the canonical agent orchestrator for APEX-M**, on every substrate (laptop / dev / stage / prod). It supersedes Semantic Kernel and AutoGen as the official Microsoft path. The five canonical patterns (Sequential / Concurrent / Handoff / Group Chat / Magentic) are now the framework primitives — APEX's pre-existing "47 archetypes" reconcile to these five with parameterization. n8n keeps its place as the laptop *workflow* runtime (per Deployment Guide §2.6 + Services Guide §15) — it does NOT do agent orchestration. See [Services Guide §14.5](../book/Professional-APEX-M-Services-Guide.html#ch-14-5) for the three-layer model and the worked RC-E2E-03 cold-chain example.
+
+- [x] **BL.P.65** — Orchestration archetype library — §10.3 *(Sprint 11 — `apex-orchestrator/archetypes/catalog.py`, 10 impl + 37 manifest-only)* **2026-05-09 reconciled**: the 47 archetypes map to **5 canonical Microsoft Agent Framework patterns** (Sequential · Concurrent · Handoff · Group Chat · Magentic) with parameterization. Catalog stays; entries gain a `canonical_pattern` field. See [Services Guide §14.5.2](../book/Professional-APEX-M-Services-Guide.html#ch-14-5-2).
+- [x] **BL.P.66** — Sequential / Parallel / Hierarchical / Feedback-loop primitives — §10.2 *(Sprint 11 — `apex-orchestrator/primitives/`)* **2026-05-09**: APEX primitives become façades over Microsoft Agent Framework's [`AgentWorkflowBuilder.BuildSequential / BuildConcurrent / BuildHandoff / BuildGroupChat / BuildMagentic`](https://learn.microsoft.com/agent-framework/workflows/orchestrations/) — same names, Microsoft-canonical implementations beneath.
+- [x] **BL.P.67** — Orchestration manifest runtime (version stamps, gate placement) — §10.4 *(Sprint 11 — `apex-orchestrator/manifest.py` + `runtime.py`, three-version rule enforced)* **2026-05-09**: manifests gain `orchestration_archetype` field validated against the 5 canonical names; runtime now delegates to Agent Framework workflow execution on cloud and to the same Agent Framework code on laptop (substrate parity per ADR-006).
+- [ ] **BL.P.68** — Practice-specific orchestrations (15–25 per Practice) — §10.3 *(Sprint 11 — reference Cold Chain Response shipped; per-Practice libraries in Sprint 18)* **2026-05-09**: each practice-specific orchestration now declares its archetype binding per [Services Guide §14.5.7](../book/Professional-APEX-M-Services-Guide.html#ch-14-5-7). RC mapping done: RC-E2E-03=Magentic · RC-E2E-04=Sequential · RC-E2E-05=Sequential · RC-E2E-07=Concurrent · RC-E2E-09=Handoff. Captured in each service's `_default/use-case.yaml` `orchestration_archetype` field.
 
 ### 2.8 — HITL Gate Runtime
 
