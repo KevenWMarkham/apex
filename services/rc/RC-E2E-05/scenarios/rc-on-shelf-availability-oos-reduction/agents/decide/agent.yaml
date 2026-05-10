@@ -1,11 +1,31 @@
 role: decide
+label: The Operations Lead
 scenario_id: rc-on-shelf-availability-oos-reduction
 service_code: RC-E2E-05
 archetype: hierarchical-root + sequential-with-hitl-gate
-model: TBD
-tools: []
+canonical_pattern: sequential
+model: gpt-4o-2024-11-20
+tools: []                       # reads upstream agent outputs from orchestration context
 schemas_read: []
 schemas_write: []
 hitl_gate: true
+hitl_persona: jamie-oconnor-store-manager
+hitl_channel: teams-adaptive-card
+hitl_gate_secret_prefix: 'apex-hitl-{tenant}-rc-e2e-05'
+hitl_thresholds_consumed:
+  - auto-clear-max-total-tasks
+  - auto-clear-max-p0-tasks
+  - auto-clear-max-unassignable-tasks
+  - require-hitl-for-replenishment-request
+hitl_webhook_secret: 'apex-hitl-{tenant}-rc-e2e-05--teams-webhook'
 audit_row_emit: true
 prompt_ref: prompts/decide.md
+prompt_version: 1.0.0
+manifest_version: 1.0.0
+classification_propagation:
+  - internal
+adaptive_card_template_version: '1.5'
+adaptive_card_redact_classifications: []   # OSA is INTERNAL — nothing to redact
+adaptive_card_kinds:
+  - review_card           # Jamie's shift-open plan review
+  - per_associate_card    # fan-out to each associate

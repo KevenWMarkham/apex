@@ -1,0 +1,139 @@
+{
+  "$schema": "https://apex.deloitte.com/schemas/smoke-test-fixture-v1.json",
+  "fixture_id": "rc-on-shelf-availability-oos-reduction--canonical-1",
+  "description": "Canonical synthetic shelf-gap event per Services Guide §18.3 envelope. Big Box Store 100 shift-open detects two POS-velocity-zero events on dairy aisle (one KVI stockout, one low-stock). Two associates clocked-in. Drives the full 24-step chain end-to-end via mocks.",
+
+  "trigger": {
+    "kind": "shelf-gap-batch",
+    "tenant_id": "labtenant",
+    "store_id": "store-100",
+    "shift_open_at": "2026-05-10T06:00:00Z",
+    "shift_window": ["2026-05-10T06:00:00Z", "2026-05-10T14:00:00Z"],
+    "trigger_at": "2026-05-10T06:02:00Z"
+  },
+
+  "shelf_gap_events": [
+    {
+      "event_id": "OSA-001",
+      "store_id": "store-100",
+      "bay_id": "bay-A4",
+      "sku_key": "SKU-MILK-2PCT-1G",
+      "event_ts": "2026-05-10T06:02:00Z",
+      "signal_kind": "pos_zero",
+      "observed_qty": 0,
+      "on_hand_qty": 0,
+      "minutes_since_last_sale": 44,
+      "minutes_since_last_receipt": 960,
+      "key_value_flag": true,
+      "unit_retail": 3.99,
+      "baseline_velocity_hourly": 4.5,
+      "replenishment_eta_minutes": 45,
+      "expected_stockout_class": "stockout",
+      "expected_priority_class": "P0_critical",
+      "expected_task_kind": "restock_from_backroom"
+    },
+    {
+      "event_id": "OSA-001",
+      "store_id": "store-100",
+      "bay_id": "bay-A6",
+      "sku_key": "SKU-YOGURT-32OZ-PLAIN",
+      "event_ts": "2026-05-10T06:02:00Z",
+      "signal_kind": "pos_zero",
+      "observed_qty": 2,
+      "on_hand_qty": 2,
+      "minutes_since_last_sale": 92,
+      "minutes_since_last_receipt": 960,
+      "key_value_flag": false,
+      "unit_retail": 5.49,
+      "baseline_velocity_hourly": 1.2,
+      "replenishment_eta_minutes": 45,
+      "expected_stockout_class": "low_stock",
+      "expected_priority_class": "P2_medium",
+      "expected_task_kind": "verify_perpetual"
+    }
+  ],
+
+  "roster": {
+    "shift_capacity_minutes_remaining": 240,
+    "associates": [
+      {
+        "associate_id": "tok-emp-A",
+        "skill_tier": "level_3",
+        "authorised_zones": ["dairy", "bakery"],
+        "last_known_bay": "bay-A1"
+      },
+      {
+        "associate_id": "tok-emp-B",
+        "skill_tier": "level_1",
+        "authorised_zones": ["dairy"],
+        "last_known_bay": "bay-D1"
+      }
+    ]
+  },
+
+  "expected_chain_behavior": {
+    "step_13_assess": {
+      "should_emit_to": "g_oos_event_panel",
+      "should_classify": {
+        "SKU-MILK-2PCT-1G":      "stockout",
+        "SKU-YOGURT-32OZ-PLAIN": "low_stock"
+      },
+      "should_recommend_action": "dispatch_associate"
+    },
+    "step_14_classify": {
+      "should_priority_class": {
+        "SKU-MILK-2PCT-1G":      "P0_critical",
+        "SKU-YOGURT-32OZ-PLAIN": "P2_medium"
+      },
+      "should_emit_total_dollars_at_risk": true
+    },
+    "step_15_quantify": {
+      "should_emit_to": "g_shelf_gap_assignment_basis",
+      "expected_assignments_count": 2,
+      "expected_unassignable_count": 0,
+      "expected_walk_time_optimised": true
+    },
+    "step_16_decide": {
+      "decision_class": "hitl_required",
+      "expected_hitl_persona": "jamie-oconnor-store-manager",
+      "channel": "teams-adaptive-card",
+      "reason": "P0_critical task present AND tenant.auto_clear_max_p0_tasks=0",
+      "review_card_present": true,
+      "per_associate_cards_count": 2
+    },
+    "step_17_act_post_approval": {
+      "should_call": "rc_e2e_05.commit_task_dispatch",
+      "fanout_calls_expected": 2,
+      "should_complete_within_shift": true
+    },
+    "step_18_learn": {
+      "should_emit_ledger_rows_count": 2,
+      "should_redis_similarity_keys_per_row": 2,
+      "should_emit_shift_digest_to_persona": "jamie-oconnor-store-manager"
+    }
+  },
+
+  "expected_kpi_movement": {
+    "out-of-stock-rate-pct": {
+      "target_direction": "decrease",
+      "expected_drop": 34,
+      "baseline_note": "per Services Guide §18.3: KVI OOS rate -34%"
+    },
+    "sales-per-square-foot-pct-lift": {
+      "target_direction": "increase",
+      "expected_pct_lift": 12
+    },
+    "associate-productivity-pct-lift": {
+      "target_direction": "increase",
+      "expected_pct_lift": 18
+    }
+  },
+
+  "audit_assertions": {
+    "purview_audit_row_present": true,
+    "audit_row_chain_ids_threaded": ["assess", "classify", "quantify", "decide", "act", "learn"],
+    "operator_principal_should_match": "jamie.oconnor@<tenant>",
+    "no_trade_secret_classification_present": true,
+    "no_pii_classification_present": true
+  }
+}

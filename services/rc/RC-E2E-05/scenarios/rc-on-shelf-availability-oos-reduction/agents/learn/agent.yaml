@@ -1,11 +1,22 @@
 role: learn
+label: The Briefer
 scenario_id: rc-on-shelf-availability-oos-reduction
 service_code: RC-E2E-05
 archetype: hierarchical-root + sequential-with-hitl-gate
-model: TBD
-tools: []
-schemas_read: []
+canonical_pattern: sequential
+model: gpt-4o-2024-11-20
+tools: []                    # Foundry runtime publishes ledger_rows to Redis
+schemas_read:
+  - SCML.Inventory
 schemas_write: []
 hitl_gate: false
 audit_row_emit: true
 prompt_ref: prompts/learn.md
+prompt_version: 1.0.0
+manifest_version: 1.0.0
+classification_propagation:
+  - internal
+redis_episodic_memory: true
+shift_digest_enabled: true
+shift_digest_persona: jamie-oconnor-store-manager
+shift_digest_cadence: end_of_shift     # not weekly — every shift

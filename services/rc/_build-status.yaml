@@ -293,10 +293,19 @@ sprints:
       - id: 35.2
         title: Author 4-agent prompts + MCP tools (rc_e2e_05.*)
         services_guide_ref: '§18.3'
-        done: false
+        done: true
+        status: complete
+        notes: 'All 6 agent prompts authored (assess/The Analyst, classify/The Demand Checker, quantify/Workforce Capacity Sizer, decide/The Operations Lead, act/System Actuator, learn/The Briefer). RC-E2E-05 has no Finance Lead persona — quantify slot carries workforce capacity sizing instead. NEW packages/rc-e2e-05-mcp with 3 tools: get_oos_event + get_shelf_gap_assignment_basis + commit_task_dispatch (idempotent on dispatch_id+associate_id+task_order, 2-phase fanout/completion). 17 unit tests pass. RC-E2E-05 domain is INTERNAL only — no TRADE_SECRET / PII propagation, asserted by manifest tests.'
       - id: 35.3
         title: Deploy to Lab + smoke test (shelf-gap event → task dispatch)
         done: false
+        status: blocked_on_environment
+        notes: 'Synthetic fixture authored at fixtures/shelf-gap-event.json (KVI stockout + silent low-stock cohort exercising P0_critical and P2_medium priorities, 2-associate roster). HITL config + Bicep authored. Lab tenant + Bicep apply blocked on org-level Lab provisioning.'
+      - id: 35.4
+        title: HITL config in Key Vault — auto-clear thresholds + Teams webhook
+        done: true
+        status: complete
+        notes: 'services/rc/RC-E2E-05/config/hitl-thresholds.yaml declarative source + bicep/hitl.bicep materialises 5 KV secrets per tenant (auto-clear-max-total-tasks default 8 / auto-clear-max-p0-tasks default 0 / auto-clear-max-unassignable-tasks default 0 / require-hitl-for-replenishment-request default true / teams-webhook). Decide agent declares hitl_thresholds_consumed list. main.bicep wires the module + outputs hitlSecretIds. 43 manifest + fixture tests pass.'
 
   - id: sprint-36
     name: RC-E2E-06 — Workforce Operations

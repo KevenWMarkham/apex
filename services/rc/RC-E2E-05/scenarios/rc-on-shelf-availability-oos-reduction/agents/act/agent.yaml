@@ -1,11 +1,22 @@
 role: act
+label: System Actuator
 scenario_id: rc-on-shelf-availability-oos-reduction
 service_code: RC-E2E-05
 archetype: hierarchical-root + sequential-with-hitl-gate
-model: TBD
-tools: []
+canonical_pattern: sequential
+model: gpt-4o-2024-11-20
+tools:
+  - rc_e2e_05.commit_task_dispatch
 schemas_read: []
-schemas_write: []
-hitl_gate: true
+schemas_write:
+  - SCML.Inventory
+hitl_gate: false           # Decide owns the gate
 audit_row_emit: true
 prompt_ref: prompts/act.md
+prompt_version: 1.0.0
+manifest_version: 1.0.0
+classification_propagation:
+  - internal
+idempotency_keyed_on: dispatch_id_associate_id_task_order
+rollback_on_failure: per_associate_atomic
+operator_obo_required: false

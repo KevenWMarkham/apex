@@ -1,11 +1,20 @@
 role: quantify
+label: Workforce Capacity Sizer
 scenario_id: rc-on-shelf-availability-oos-reduction
 service_code: RC-E2E-05
 archetype: hierarchical-root + sequential-with-hitl-gate
-model: TBD
-tools: []
-schemas_read: []
+canonical_pattern: sequential
+model: gpt-4o-2024-11-20
+tools:
+  - rc_e2e_05.get_shelf_gap_assignment_basis
+schemas_read:
+  - SCML.Inventory
 schemas_write: []
 hitl_gate: false
 audit_row_emit: true
 prompt_ref: prompts/quantify.md
+prompt_version: 1.0.0
+manifest_version: 1.0.0
+classification_propagation:
+  - internal
+operator_obo_required: false

@@ -1,0 +1,89 @@
+# services/rc/RC-E2E-05/config/hitl-thresholds.yaml
+#
+# Sprint 35.2c — HITL threshold + Adaptive Card config for RC-E2E-05 OSA.
+# Provisioned into Azure Key Vault by `bicep/hitl.bicep` at deploy time.
+
+practice: rc
+service_code: RC-E2E-05
+sprint: sprint-35
+sprint_item: 35.2c
+keyvault_naming_pattern: 'apex-hitl-{tenant}-rc-e2e-05--{key}'
+
+# -----------------------------------------------------------------------------
+# Threshold definitions — read by the Decide agent at runtime
+# -----------------------------------------------------------------------------
+thresholds:
+
+  - id: auto_clear_max_total_tasks
+    keyvault_secret_name: auto-clear-max-total-tasks
+    type: number
+    units: count
+    default: 8
+    range: { min: 0, max: 200 }
+    description: |
+      Max total tasks the Decide agent will auto-clear without HITL. Plans
+      larger than this require Jamie's review.
+    used_by:
+      agent: decide
+    persona_routes_to: jamie-oconnor-store-manager
+
+  - id: auto_clear_max_p0_tasks
+    keyvault_secret_name: auto-clear-max-p0-tasks
+    type: number
+    units: count
+    default: 0
+    range: { min: 0, max: 50 }
+    description: |
+      Max P0_critical tasks the Decide agent will auto-clear. Default 0
+      = ANY P0 critical task routes to HITL (KVI stockouts always involve
+      Jamie). Tenants with continuous-coverage operations may relax to 1-2.
+    used_by:
+      agent: decide
+    persona_routes_to: jamie-oconnor-store-manager
+
+  - id: auto_clear_max_unassignable_tasks
+    keyvault_secret_name: auto-clear-max-unassignable-tasks
+    type: number
+    units: count
+    default: 0
+    range: { min: 0, max: 50 }
+    description: |
+      Max unassignable tasks tolerated before HITL fires. Default 0 = any
+      unassignable forces Jamie to triage (call associate, swap shift, accept).
+    used_by:
+      agent: decide
+    persona_routes_to: jamie-oconnor-store-manager
+
+  - id: require_hitl_for_replenishment_request
+    keyvault_secret_name: require-hitl-for-replenishment-request
+    type: boolean
+    default: true
+    description: |
+      When true, any `raise_replenishment_request` task requires HITL — DC-
+      level replenishment crosses store ops authority and shouldn't auto-fire.
+    used_by:
+      agent: decide
+    persona_routes_to: jamie-oconnor-store-manager
+
+
+# -----------------------------------------------------------------------------
+# Adaptive Card config — review card + per-associate card
+# -----------------------------------------------------------------------------
+adaptive_card:
+  teams_webhook_secret_name: 'apex-hitl-{tenant}-rc-e2e-05--teams-webhook'
+  card_template_version: 'v1.5'
+  redact_classifications: []     # RC-E2E-05 is INTERNAL only — nothing to redact
+  show_unassignable_section: true
+  show_walk_time_summary: true
+  per_associate_card_kind: walkable_task_list
+
+
+# -----------------------------------------------------------------------------
+# Tuning policy — auto-rollback per Roadmap.md BL.P.76
+# -----------------------------------------------------------------------------
+tuning:
+  observation_window_days: 14
+  reversal_rate_rollback_threshold_pct: 25
+  escalation_rate_rollback_threshold_pct: 30
+  enable_auto_rollback: true
+  p0_completion_rate_floor_pct: 80   # Two consecutive shifts below = capacity sizing review
