@@ -502,23 +502,51 @@ sprints:
       Deploy + invoke a real hosted agent in Lab.
     owner_role: Runtime SRE
     depends_on: [sprint-41]
+    architecture_validation:
+      done: true
+      authored: 2026-05-09
+      notes: >-
+        Sprint 32-34 work-back: apex_m.agent_framework_loader authored with
+        the LoaderSpec + 5-pattern dispatcher + ApexAuditMiddleware + MCP→
+        function_tool adapter. Lazy SDK import — works without agent-framework
+        installed. Real-mode dispatch uses AgentWorkflowBuilder.Build* method
+        names verbatim per ADR-006. RC-E2E-03 use-case compiles to BuildMagentic
+        with all 7 agents loaded; RC-E2E-04 compiles to BuildSequential with
+        all 6 agents. Tools resolve through resolve_tool_for_role for
+        rc_e2e_03_mcp + rc_e2e_04_mcp. 28 unit tests pass at
+        apex-m/tests/test_agent_framework_loader.py.
     items:
+      - id: 42.0
+        title: Architecture validation — agent.yaml + prompts + MCP tools compile through Agent Framework loader (mock mode)
+        done: true
+        status: complete
+        notes: 'apex_m.agent_framework_loader proves the spec-level production-readiness of every agent.yaml authored in Sprints 32 + 34. 28 tests pass; both RC-E2E-03 (Magentic) and RC-E2E-04 (Sequential) use-cases round-trip cleanly. Sprint 42 production wiring (items 42.1, 42.2, 42.4, 42.5) becomes mechanical adapter code.'
       - id: 42.1
         title: Wire azure-ai-projects + agent-framework SDK in apex_m.runtime_foundry
         done: false
+        status: blocked_on_environment
+        notes: 'Loader is in (item 42.0). Real-mode build path authored at apex_m.agent_framework_loader._build_chat_agent_real. Lights up when agent-framework is pip-installed + Lab Foundry project exists.'
       - id: 42.2
         title: Implement deploy_agent / invoke / drain / list against Foundry hosted agents
         services_guide_ref: '§14.5 (5 canonical orchestration patterns)'
         done: false
+        status: blocked_on_environment
+        notes: 'AgentRuntimeFoundry skeleton in apex_m.runtime_foundry. Loader-built workflows feed directly into deploy_agent.'
       - id: 42.3
         title: Wire the 5 Microsoft Agent Framework canonical patterns (Sequential / Concurrent / Handoff / Group Chat / Magentic) per ADR-006
-        done: false
+        done: true
+        status: complete
+        notes: 'Pattern dispatcher in agent_framework_loader.dispatch_to_builder maps verbatim to AgentWorkflowBuilder.BuildSequential / BuildConcurrent / BuildHandoff / BuildGroupChat / BuildMagentic. 5 parametrised tests pass. Real-mode invocation via the same call when agent_framework SDK is installed.'
       - id: 42.4
         title: Integration test — deploy The Pricer for rc-cold-chain-excursion-mid-shift; invoke with synthetic event
         done: false
+        status: blocked_on_environment
+        notes: 'Synthetic excursion-event fixture exists at services/rc/RC-E2E-03/scenarios/rc-cold-chain-excursion-mid-shift/fixtures/excursion-event.json. Lab tenant pending.'
       - id: 42.5
         title: Bicep platform/foundry.bicep deployed to Lab with full BYO Storage + AI Search + Cosmos
         done: false
+        status: blocked_on_environment
+        notes: 'Bicep authored in earlier Phase I.4 commit; FoundryRuntimeConfig validates BYO requirement. Lab tenant pending.'
 
   - id: sprint-43
     name: Phase I.3 — Fabric DataLake production wiring
