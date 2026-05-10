@@ -159,6 +159,27 @@ A "runnable" use case adds three blocks beyond the configuration above: `chain_e
 
 Full template + worked example: [Use-Case-Template-Runnable-Chain.md](../docs/APEX%20-%20Design%20and%20Build/Use-Case-Template-Runnable-Chain.md).
 
+### `orchestration_archetype` (top-level, sibling to `chain_execution`)
+
+The Microsoft Agent Framework canonical pattern this scenario's agent fleet uses to coordinate internally. Set when the use case is authored. The wizard validates the value is one of the five canonical patterns.
+
+```yaml
+orchestration_archetype: <"sequential" | "concurrent" | "handoff" | "group_chat" | "magentic">
+orchestration_runtime: <"agent-framework" | "foundry-workflows">  # default: agent-framework
+```
+
+Per [Services Guide §14.5](../docs/book/Professional-APEX-M-Services-Guide.html#ch-14-5) and [ADR-006](../docs/APEX%20-%20Design%20and%20Build/adr/ADR-006-agent-orchestrator-canonical.md):
+
+| Pattern | When to use |
+|---|---|
+| `sequential` | Linear chain, dependent tasks (e.g., RC-E2E-04 score → offer → finance → ops) |
+| `concurrent` | Fan-out + aggregate (e.g., RC-E2E-07 fraud pattern-match across customer/payment/device) |
+| `handoff` | Mesh, control transfer (e.g., RC-E2E-09 compliance-officer hands to specialist sub-agent per FSMA-204 lot class) |
+| `group_chat` | Shared conversation (e.g., brainstorming use cases) |
+| `magentic` | Manager dynamically dispatches specialists (e.g., RC-E2E-03 The Analyst as manager) |
+
+The `orchestration_runtime` field lets engagements opt into Foundry workflows (visual / YAML, "primarily nondeterministic" per Microsoft Learn) instead of the default code-first Agent Framework runtime — useful when low-code editing is required and the scenario doesn't need deterministic control.
+
 ### `chain_execution`
 
 Maps each of the 24 chain steps from `scenario.yaml` to an agent role + data flow + KPI affected + HITL behavior. Schema:

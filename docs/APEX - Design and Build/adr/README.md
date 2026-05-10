@@ -11,6 +11,7 @@ Each ADR captures a single accepted architectural decision with its context, con
 | [ADR-003](ADR-003-audit-row-vs-purview-audit.md) | APEX audit row vs Purview Audit (system of record) | Accepted | H.3 |
 | [ADR-004](ADR-004-foundry-region-coverage.md) | Foundry region coverage vs client target regions | Accepted | H.4 |
 | [ADR-005](ADR-005-classification-tier-mapping.md) | APEX T1–T4 ↔ Purview sensitivity-label mapping | Accepted | H.5 |
+| [ADR-006](ADR-006-agent-orchestrator-canonical.md) | Microsoft Agent Framework as the canonical agent orchestrator | Accepted | Agent orchestration substrate question |
 
 ## Format
 

@@ -82,6 +82,14 @@ deployment:
 # RUNNABLE BLOCKS — see docs/APEX - Design and Build/Use-Case-Template-Runnable-Chain.md
 # ===========================================================================
 
+# ===== orchestration_archetype — Microsoft Agent Framework pattern =====
+# Per Services Guide §14.5 and ADR-006. The Analyst is the manager agent
+# that dynamically dispatches Demand Checker / Pricer / Finance Lead /
+# Operations Lead based on excursion class — Magentic pattern.
+orchestration_archetype: magentic
+orchestration_runtime: agent-framework    # alt: foundry-workflows
+
+
 # ===== chain_execution — 24 steps, fully populated for this scenario =====
 chain_execution:
   scenario_id: rc-cold-chain-excursion-mid-shift

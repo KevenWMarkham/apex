@@ -58,6 +58,12 @@ deployment:
   parameters_path: REPLACE_WITH_GENERATED_PARAMETERS_FILE
 
 
+# ===== orchestration_archetype — Microsoft Agent Framework pattern =====
+# Score -> offer-design -> finance -> ops · linear approval chain (per Services Guide §14.5.7)
+orchestration_archetype: sequential
+orchestration_runtime: agent-framework    # alt: foundry-workflows
+
+
 # ===========================================================================
 # RUNNABLE BLOCKS — TEMPLATE STUBS (fill per engagement)
 # See docs/APEX - Design and Build/Use-Case-Template-Runnable-Chain.md

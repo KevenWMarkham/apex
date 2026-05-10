@@ -3407,6 +3407,179 @@ tools:
 </article>
 
 <!-- ============================================================
+     CHAPTER 14.5 — AGENT ORCHESTRATION ARCHETYPE DEEP DIVE
+     ============================================================ -->
+<article class="chapter" id="ch-14-5">
+  <header class="chapter-header">
+    <div class="chapter-number">Chapter 14.5</div>
+    <h1 class="chapter-title">Agent Orchestration Archetypes — Deep Dive</h1>
+  </header>
+  <aside class="chapter-objectives">
+    <div class="objectives-label">What This Chapter Does for You</div>
+    <ul>
+      <li>Distinguishes <strong>agent orchestration</strong> (how agents coordinate inside a scenario chain) from <strong>workflow orchestration</strong> (the Chapter 14 patterns + Chapter 15 n8n / Logic Apps Hybrid runtimes).</li>
+      <li>Documents Microsoft's 5 canonical agent-orchestration patterns from <strong>Microsoft Agent Framework</strong> (the GA successor to Semantic Kernel + AutoGen).</li>
+      <li>Resolves: "Is Semantic Kernel enough? Is n8n enough?" — definitively, against current Microsoft Learn citations.</li>
+      <li>Shows which APEX-M services use which archetype, with the RC-E2E-03 cold-chain Magentic example.</li>
+    </ul>
+  </aside>
+  <aside class="callout tldr">
+    <div class="callout-label">TL;DR · 60 seconds</div>
+    <ul>
+      <li><strong>Three layers of orchestration</strong> sit on top of each other in every APEX-M deployment, and they answer different questions.</li>
+      <li><strong>Microsoft Agent Framework</strong> is the canonical agent orchestrator — it supersedes Semantic Kernel and AutoGen as of 2025/2026 GA. Five built-in patterns: Sequential · Concurrent · Handoff · Group Chat · Magentic.</li>
+      <li><strong>Same Agent Framework code runs on laptop AND on Foundry hosted agents</strong> — substrate-awareness is env-var-driven, not code-driven.</li>
+      <li><strong>n8n on laptop = Power Automate / Logic Apps / Foundry workflows on cloud</strong> — both are <em>workflow</em> orchestrators (triggers, branches, HITL routing, non-agent workflow steps), <strong>not</strong> agent orchestrators.</li>
+      <li><strong>Semantic Kernel is now legacy.</strong> Existing SK code stays valid; new code uses Agent Framework. Migration guide cited below.</li>
+    </ul>
+  </aside>
+  <div class="chapter-body">
+
+  <h2 id="ch-14-5-1">14.5.1 Three Layers of Orchestration</h2>
+  <p>"Orchestration" in APEX is overloaded. Three things coordinate at three different levels, and each runs on its own substrate. Confusing them is the most common architectural mistake.</p>
+
+  <div class="table-wrap"><table class="md-table"><thead><tr><th>Layer</th><th>What it answers</th><th>Vocabulary</th><th>Runs on (laptop / cloud)</th></tr></thead><tbody>
+    <tr>
+      <td><strong>1. Scenario workflow pattern</strong></td>
+      <td>What's the overall <em>shape</em> of this scenario's flow?</td>
+      <td>Triage-and-decide · Continuous-optimization · Detect-and-attribute · Periodic-digest (per §14.1)</td>
+      <td>n8n / Logic Apps Hybrid / Foundry workflows</td>
+    </tr>
+    <tr>
+      <td><strong>2. Agent orchestration archetype</strong></td>
+      <td>Inside the scenario, how do the agents coordinate?</td>
+      <td>Sequential · Concurrent · Handoff · Group Chat · Magentic (Microsoft Agent Framework)</td>
+      <td>Microsoft Agent Framework — same code on laptop AND Foundry hosted agents</td>
+    </tr>
+    <tr>
+      <td><strong>3. Workflow runtime substrate</strong></td>
+      <td>What executes the non-agent workflow steps?</td>
+      <td>Triggers, branches, HITL routing, ticket creation, schedule</td>
+      <td>n8n on laptop · Power Automate / Logic Apps / Foundry workflows on cloud</td>
+    </tr>
+  </tbody></table></div>
+
+  <p>Layers 1 and 3 are the same answer in different vocabulary — the *workflow* concern. Layer 2 is a different concern entirely: how the agent fleet itself coordinates *inside* a scenario step. Microsoft documents Layer 2 as "agent orchestration patterns" and provides 5 built-in implementations in <a href="https://learn.microsoft.com/agent-framework/workflows/orchestrations/">Microsoft Agent Framework Workflows Orchestrations</a>.</p>
+
+  <h2 id="ch-14-5-2">14.5.2 The 5 Microsoft Agent Framework Canonical Patterns</h2>
+  <p>Per <a href="https://learn.microsoft.com/azure/architecture/ai-ml/guide/ai-agent-design-patterns">AI agent orchestration patterns</a> on Microsoft Learn, the canonical Agent Framework patterns are:</p>
+
+  <div class="table-wrap"><table class="md-table"><thead><tr><th>Pattern</th><th>Topology</th><th>When to use</th><th>HITL friendly?</th></tr></thead><tbody>
+    <tr><td><strong>Sequential</strong></td><td>Linear: A → B → C</td><td>Dependent tasks, document-approval-style flows</td><td>✓ (per Microsoft Learn HITL tutorial)</td></tr>
+    <tr><td><strong>Concurrent</strong></td><td>Fan-out + aggregate</td><td>Independent operations, ensemble reasoning, parallel fact-gathering</td><td>✓ (one HITL gate after aggregation)</td></tr>
+    <tr><td><strong>Handoff</strong></td><td>Mesh: agents transfer control directly</td><td>Customer support, expert systems, dynamic delegation</td><td>✓ (per-handoff approval)</td></tr>
+    <tr><td><strong>Group Chat</strong></td><td>Shared conversation, all agents see all messages</td><td>Collaborative problem-solving, brainstorming</td><td>✓ (HITL as a participant)</td></tr>
+    <tr><td><strong>Magentic</strong></td><td>Manager agent dynamically coordinates specialists</td><td>Open-ended tasks, plans not known up front</td><td>✓ (manager surfaces HITL gate)</td></tr>
+  </tbody></table></div>
+
+  <aside class="callout note"><div class="callout-label">Note — the previous APEX 47-archetype catalog</div><p>APEX's Roadmap.md BL.P.65 references "47 orchestration archetypes." Those entries pre-date Microsoft Agent Framework GA. Most of the 47 are *variants* (different agent counts, different HITL placement) of the 5 canonical Microsoft patterns above. The ongoing reconciliation maps each of the 47 to its canonical Microsoft pattern; future amendments to BL.P.65 collapse the 47 into the 5 with parameterization. See <a href="../APEX%20-%20Design%20and%20Build/adr/ADR-006-agent-orchestrator-canonical.md" class="xref">ADR-006</a> for the decision record.</p></aside>
+
+  <h2 id="ch-14-5-3">14.5.3 Microsoft Agent Framework — Position vs Semantic Kernel and AutoGen</h2>
+  <p>Per the Agent Framework <a href="https://learn.microsoft.com/agent-framework/overview/">overview</a>:</p>
+  <blockquote>
+  <p>Agent Framework combines AutoGen's simple agent abstractions with Semantic Kernel's enterprise features — session-based state management, type safety, middleware, telemetry — and adds graph-based workflows for explicit multi-agent orchestration. <strong>The Agent Framework is the direct successor</strong>, created by the same teams.</p>
+  </blockquote>
+
+  <div class="table-wrap"><table class="md-table"><thead><tr><th>Question</th><th>Answer</th></tr></thead><tbody>
+    <tr><td>Is Semantic Kernel enough?</td><td>Existing SK code <strong>stays valid</strong>. New code uses <strong>Microsoft Agent Framework</strong> — it's the same teams' next generation, with explicit multi-agent workflow support SK does not have. See <a href="https://learn.microsoft.com/agent-framework/migration-guide/from-semantic-kernel/">Semantic Kernel → Agent Framework migration guide</a>.</td></tr>
+    <tr><td>Is AutoGen enough?</td><td>Same answer — Agent Framework is the AutoGen successor too. <a href="https://learn.microsoft.com/agent-framework/migration-guide/from-autogen/">AutoGen → Agent Framework migration guide</a>.</td></tr>
+    <tr><td>Is Agent Framework production-ready?</td><td>Yes. It's the framework Microsoft positions for hosted agents on Foundry Agent Service. See <a href="https://learn.microsoft.com/agent-framework/hosting/foundry-hosted-agent">Foundry Hosted Agents</a>.</td></tr>
+    <tr><td>Can the same Agent Framework code run on laptop?</td><td>Yes — Agent Framework is open-source and runs anywhere Python or .NET runs. The only thing that changes between substrates is which APEX-Core protocol implementations get injected (mocks on laptop, real Microsoft SDKs on Foundry). See <a href="../APEX%20-%20Design%20and%20Build/Deploy-UX-and-Substrates.md" class="xref">Deploy UX and Substrates</a>.</td></tr>
+  </tbody></table></div>
+
+  <h2 id="ch-14-5-4">14.5.4 n8n's Role — Workflow, Not Agent Orchestration</h2>
+  <p>The most common confusion. n8n is documented in <a href="../APEX%20-%20Design%20and%20Build/" class="xref">Deployment Guide §2.6</a> and <a href="#ch-15" class="xref">Chapter 15 (this book)</a> as the <strong>laptop-substrate workflow runtime</strong>. Its role on laptop is identical to Power Automate / Logic Apps Hybrid / Foundry workflows on cloud:</p>
+  <ul>
+    <li>Run a trigger when an event arrives</li>
+    <li>Route the event through a branch / parallel / HITL stage / LEDGER emit (the seven §14.2 primitives)</li>
+    <li>Make agent calls — but the <em>orchestration of how agents coordinate inside that call</em> is Microsoft Agent Framework's responsibility, not n8n's</li>
+  </ul>
+  <p>n8n is intentionally <strong>not used for agent-to-agent coordination</strong>. When the cold-chain scenario has The Pricer reading Demand Checker's output and Finance Lead's elasticity opinion in parallel, that coordination happens inside Microsoft Agent Framework's Magentic workflow — not in an n8n graph. n8n's node for the agent call simply POSTs to the agent fleet endpoint and waits for the workflow's response.</p>
+
+  <aside class="callout warning"><div class="callout-label">Anti-pattern — orchestrating agents in n8n</div><p>It is technically possible to write per-agent n8n nodes and chain them in n8n. <strong>Do not do this.</strong> n8n graphs are not type-safe, lack agent-runtime state management, and can't model the 5 canonical patterns (especially Magentic and Group Chat) cleanly. Agent orchestration belongs in Microsoft Agent Framework code that the n8n agent-call node invokes. See <a href="../APEX%20-%20Design%20and%20Build/adr/ADR-006-agent-orchestrator-canonical.md" class="xref">ADR-006</a>.</p></aside>
+
+  <h2 id="ch-14-5-5">14.5.5 Foundry Workflows — The Cloud Substrate Equivalent</h2>
+  <p>On the cloud substrate, APEX-M can use either Microsoft Agent Framework code OR <a href="https://learn.microsoft.com/azure/foundry/agents/concepts/workflow">Foundry Agent Service Workflows</a> — declarative YAML or visual designer in the Foundry portal — to coordinate agents. The choice:</p>
+
+  <div class="table-wrap"><table class="md-table"><thead><tr><th></th><th>Microsoft Agent Framework (code)</th><th>Foundry Workflows (visual / YAML)</th></tr></thead><tbody>
+    <tr><td>Determinism</td><td>Full deterministic control</td><td>"Primarily nondeterministic" per Microsoft Learn</td></tr>
+    <tr><td>Customization</td><td>Code path arbitrary</td><td>Branching + HITL + sequential / group chat</td></tr>
+    <tr><td>Maintenance</td><td>Engineering team owns</td><td>Lower-skill operators can edit visually</td></tr>
+    <tr><td>APEX-M default</td><td>Yes (via Foundry Hosted Agents)</td><td>Optional: use when scenario benefits from visual editing</td></tr>
+  </tbody></table></div>
+
+  <p>For RC-E2E-03 (deterministic, audit-required, KPI-attributed), Microsoft Agent Framework is the right choice — APEX uses Foundry's <em>hosted-agent</em> hosting model with Agent Framework code inside. Foundry workflows are reserved for use cases where engagement teams need to edit the orchestration without re-deploying agent code.</p>
+
+  <h2 id="ch-14-5-6">14.5.6 Worked Example — RC-E2E-03 Cold-Chain Excursion</h2>
+
+  <p>Mapping the canonical Services Guide §18.1 example through the three layers:</p>
+
+  <div class="code-block"><div class="code-lang">RC-E2E-03 cold-chain excursion · three orchestration layers</div><pre><code>Layer 1: scenario workflow pattern
+  → Triage-and-decide (per §14.1.1)
+  Eventstream Activator fires excursion event → orchestrator dispatches
+  agent fleet → HITL gate at decide step → audit row → KPI rollup
+
+Layer 2: agent orchestration archetype (Microsoft Agent Framework)
+  → Magentic
+  The Analyst is the manager agent. It dynamically dispatches:
+    - The Demand Checker  (forward-demand impact)
+    - The Pricer          (per-SKU markdown proposal with sim P&L)
+    - The Finance Lead    (margin-at-risk scoring)
+    - The Operations Lead (HITL Adaptive Card synthesis)
+    - The Briefer         (audit-row narrative)
+  Order is not predetermined; The Analyst decides who runs based on
+  the excursion's classification. HITL gate fires when proposed
+  markdown > 30% (per use-case hitl_thresholds).
+
+Layer 3: workflow runtime substrate
+  → laptop:  n8n         (per Chapter 15)
+  → cloud:   Eventstream + Activator destination + Foundry workflow
+              (per Deployment Guide §2.6.2)
+  The same workflow primitives (§14.2) render in both — different
+  JSON dialect, identical contract.</code></pre></div>
+
+  <p>The three layers are explicit in the use case YAML — see the <code class="inline-code">orchestration_archetype</code> field in <a href="../../services/_use-case.schema.md" class="xref">services/_use-case.schema.md</a> and the populated example at <a href="../../services/rc/RC-E2E-03/use-cases/_default/use-case.yaml" class="xref">services/rc/RC-E2E-03/use-cases/_default/use-case.yaml</a>.</p>
+
+  <h2 id="ch-14-5-7">14.5.7 Per-RC-Service Archetype Assignment</h2>
+  <p>First-iteration RC-only assignment, validated against the Services Guide §18 service profiles:</p>
+
+  <div class="table-wrap"><table class="md-table"><thead><tr><th>Service</th><th>Scenario workflow (§14.1)</th><th>Agent orchestration (§14.5.2)</th><th>Why</th></tr></thead><tbody>
+    <tr><td>RC-E2E-03 (Pricing)</td><td>Triage-and-decide</td><td><strong>Magentic</strong></td><td>The Analyst dynamically picks specialists based on excursion class</td></tr>
+    <tr><td>RC-E2E-04 (Loyalty)</td><td>Continuous-optimization</td><td><strong>Sequential</strong></td><td>Score → offer-design → finance → ops · linear approval chain</td></tr>
+    <tr><td>RC-E2E-05 (OSA)</td><td>Triage-and-decide</td><td><strong>Sequential</strong></td><td>Gap-detect → priority-score → task-dispatch · simple linear</td></tr>
+    <tr><td>RC-E2E-07 (Returns Fraud)</td><td>Detect-and-attribute</td><td><strong>Concurrent</strong> + HITL</td><td>Pattern-match across customer/payment/device graphs in parallel</td></tr>
+    <tr><td>RC-E2E-09 (Product Tracking)</td><td>Detect-and-attribute + Periodic-digest</td><td><strong>Handoff</strong></td><td>Compliance officer hands off to specialist sub-agents per FSMA-204 lot class</td></tr>
+  </tbody></table></div>
+
+  <aside class="callout bestpractice"><div class="callout-label">Best Practice — pick archetype during use-case design</div><p>The use-case YAML's <code class="inline-code">orchestration_archetype</code> field must be set when authoring a new use case. The wizard validates it's one of the five canonical patterns. Engagements that need a sixth pattern raise an ADR (per <a href="../APEX%20-%20Design%20and%20Build/adr/" class="xref">adr/</a>) — extending the archetype list is a framework decision, not a per-engagement decision.</p></aside>
+
+  <h2 id="ch-14-5-8">14.5.8 Cross-References</h2>
+  <ul>
+    <li><a href="https://learn.microsoft.com/agent-framework/workflows/orchestrations/">Microsoft Agent Framework Workflow Orchestrations</a> — canonical pattern docs</li>
+    <li><a href="https://learn.microsoft.com/azure/architecture/ai-ml/guide/ai-agent-design-patterns">AI agent orchestration patterns</a> — Azure Architecture Center</li>
+    <li><a href="https://learn.microsoft.com/agent-framework/migration-guide/from-semantic-kernel/">Semantic Kernel → Agent Framework migration guide</a></li>
+    <li><a href="https://learn.microsoft.com/agent-framework/migration-guide/from-autogen/">AutoGen → Agent Framework migration guide</a></li>
+    <li><a href="https://learn.microsoft.com/azure/foundry/agents/concepts/workflow">Foundry workflows</a> — visual / YAML alternative</li>
+    <li><a href="https://learn.microsoft.com/microsoft-copilot-studio/guidance/architecture/multi-agent-patterns">Copilot Studio multi-agent patterns</a> — for low-code engagements</li>
+    <li><a href="../APEX%20-%20Design%20and%20Build/adr/ADR-006-agent-orchestrator-canonical.md" class="xref">ADR-006 — Microsoft Agent Framework as canonical agent orchestrator</a></li>
+    <li><a href="#ch-14" class="xref">§14 — Workflow Shapes</a> · <a href="#ch-15" class="xref">§15 — n8n on Laptop</a></li>
+  </ul>
+
+  </div>
+  <aside class="chapter-summary">
+    <h2>Key Takeaways</h2>
+    <ul>
+      <li>Three layers of orchestration: scenario workflow pattern (§14) · agent orchestration archetype (this chapter) · workflow runtime substrate (§15 / Foundry workflows / Logic Apps Hybrid).</li>
+      <li>Microsoft Agent Framework is the canonical agent orchestrator — successor to Semantic Kernel and AutoGen. Five built-in patterns: Sequential, Concurrent, Handoff, Group Chat, Magentic.</li>
+      <li>Same Agent Framework code runs on laptop (Docker Desktop) and Foundry hosted agents (Azure prod) — substrate-awareness is env-var-driven.</li>
+      <li>n8n is the laptop workflow runtime, not an agent orchestrator. n8n calls into Agent Framework code; it does not replace it.</li>
+      <li>Semantic Kernel is now legacy; existing code stays valid, new code uses Agent Framework.</li>
+      <li>Per-service archetype assignment lives in the use case YAML's <code class="inline-code">orchestration_archetype</code> field.</li>
+    </ul>
+  </aside>
+</article>
+
+<!-- ============================================================
      CHAPTER 15 — N8N ON LAPTOP
      ============================================================ -->
 <article class="chapter" id="ch-15">
