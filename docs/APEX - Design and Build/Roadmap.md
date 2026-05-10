@@ -176,13 +176,13 @@
 
 ### 2.6 — Agent Catalogs
 
-- [ ] **BL.P.58** — RC agent catalog (40–50 agents) — §15
-- [ ] **BL.P.59** — HLS agent catalog (40–50 agents) — §15
-- [ ] **BL.P.60** — ER agent catalog (40–50 agents) — §15
-- [ ] **BL.P.61** — AXLE agent catalog (40–50 agents) — §15
-- [ ] **BL.P.62** — TMT agent catalog (40–50 agents) — §15
-- [ ] **BL.P.63** — TH agent catalog (40–50 agents) — §15
-- [ ] **BL.P.64** — ICE agent catalog (40–50 agents) — §15
+- [ ] **BL.P.58** — RC agent catalog (40–50 agents) — §15 *(Sprints 32 · 34 · 35 · 37 · 39 — production prompts authored; Sprint 40 — completion. Per [Sprint-Backlog-Retirement-Map.md §3](Sprint-Backlog-Retirement-Map.md#3-priority-ordered-sprint-sequence). 22+ agents land production-ready across the 5 featured RC services; RC-E2E-06 + RC-E2E-08 stay catalog-only by design.)*
+- [ ] **BL.P.59** — HLS agent catalog (40–50 agents) — §15 *(Sprint 58+ — HLS practice kickoff; clones the RC pattern.)*
+- [ ] **BL.P.60** — ER agent catalog (40–50 agents) — §15 *(beyond Sprint 60; engagement-driven.)*
+- [ ] **BL.P.61** — AXLE agent catalog (40–50 agents) — §15 *(beyond Sprint 60; engagement-driven.)*
+- [ ] **BL.P.62** — TMT agent catalog (40–50 agents) — §15 *(beyond Sprint 60; engagement-driven.)*
+- [ ] **BL.P.63** — TH agent catalog (40–50 agents) — §15 *(beyond Sprint 60; engagement-driven.)*
+- [ ] **BL.P.64** — ICE agent catalog (40–50 agents) — §15 *(beyond Sprint 60; engagement-driven.)*
 
 ### 2.7 — Orchestration Framework
 
@@ -191,7 +191,7 @@
 - [x] **BL.P.65** — Orchestration archetype library — §10.3 *(Sprint 11 — `apex-orchestrator/archetypes/catalog.py`, 10 impl + 37 manifest-only)* **2026-05-09 reconciled**: the 47 archetypes map to **5 canonical Microsoft Agent Framework patterns** (Sequential · Concurrent · Handoff · Group Chat · Magentic) with parameterization. Catalog stays; entries gain a `canonical_pattern` field. See [Services Guide §14.5.2](../book/Professional-APEX-M-Services-Guide.html#ch-14-5-2).
 - [x] **BL.P.66** — Sequential / Parallel / Hierarchical / Feedback-loop primitives — §10.2 *(Sprint 11 — `apex-orchestrator/primitives/`)* **2026-05-09**: APEX primitives become façades over Microsoft Agent Framework's [`AgentWorkflowBuilder.BuildSequential / BuildConcurrent / BuildHandoff / BuildGroupChat / BuildMagentic`](https://learn.microsoft.com/agent-framework/workflows/orchestrations/) — same names, Microsoft-canonical implementations beneath.
 - [x] **BL.P.67** — Orchestration manifest runtime (version stamps, gate placement) — §10.4 *(Sprint 11 — `apex-orchestrator/manifest.py` + `runtime.py`, three-version rule enforced)* **2026-05-09**: manifests gain `orchestration_archetype` field validated against the 5 canonical names; runtime now delegates to Agent Framework workflow execution on cloud and to the same Agent Framework code on laptop (substrate parity per ADR-006).
-- [ ] **BL.P.68** — Practice-specific orchestrations (15–25 per Practice) — §10.3 *(Sprint 11 — reference Cold Chain Response shipped; per-Practice libraries in Sprint 18)* **2026-05-09**: each practice-specific orchestration now declares its archetype binding per [Services Guide §14.5.7](../book/Professional-APEX-M-Services-Guide.html#ch-14-5-7). RC mapping done: RC-E2E-03=Magentic · RC-E2E-04=Sequential · RC-E2E-05=Sequential · RC-E2E-07=Concurrent · RC-E2E-09=Handoff. Captured in each service's `_default/use-case.yaml` `orchestration_archetype` field.
+- [ ] **BL.P.68** — Practice-specific orchestrations (15–25 per Practice) — §10.3 *(Sprint 11 — reference Cold Chain Response shipped; per-Practice libraries in Sprint 18)* **2026-05-09**: each practice-specific orchestration now declares its archetype binding per [Services Guide §14.5.7](../book/Professional-APEX-M-Services-Guide.html#ch-14-5-7). RC mapping done: RC-E2E-03=Magentic · RC-E2E-04=Sequential · RC-E2E-05=Sequential · RC-E2E-07=Concurrent · RC-E2E-09=Handoff. Captured in each service's `_default/use-case.yaml` `orchestration_archetype` field. *(Sprints 32 · 34 · 35 · 37 · 39 — production wiring; Sprint 40 — completion via fusion edges per [Sprint-Backlog-Retirement-Map.md §3](Sprint-Backlog-Retirement-Map.md#3-priority-ordered-sprint-sequence).)*
 
 ### 2.8 — HITL Gate Runtime
 
@@ -217,19 +217,19 @@
 
 ### 2.10 — Purview Trust Architecture
 
-- [ ] **BL.P.85** — Classification registration pipeline (YAML → Purview) — §14.1
-- [ ] **BL.P.86** — Lineage capture: SOR → Bronze → Silver → Gold → MCP tool → Agent → Audit row — §14.2
-- [ ] **BL.P.87** — DLP policies (label-based redaction across surfaces) — §14.1
-- [ ] **BL.P.88** — WORM retention policies (7 y default, 10 y HLS, permanent legal-hold) — §6.3, §14.1
-- [ ] **BL.P.89** — Unified Catalog business-glossary registration — §14.1
-- [ ] **BL.P.90** — Classification propagation chain (Silver → Gold → semantic model → Copilot → agent output) — §14.3
+- [ ] **BL.P.85** — Classification registration pipeline (YAML → Purview) — §14.1 *(Sprint 44 — production wiring of `apex_m.classifier_purview` against Purview Information Protection labels API; depends on Sprint 42 Foundry runtime.)*
+- [ ] **BL.P.86** — Lineage capture: SOR → Bronze → Silver → Gold → MCP tool → Agent → Audit row — §14.2 *(Sprint 44 — production wiring of `apex_m.audit_purview` against Microsoft Compliance Audit Graph API.)*
+- [ ] **BL.P.87** — DLP policies (label-based redaction across surfaces) — §14.1 *(Sprint 44 — Purview DLP policy provisioning via Bicep + Information Protection labels API.)*
+- [ ] **BL.P.88** — WORM retention policies (7 y default, 10 y HLS, permanent legal-hold) — §6.3, §14.1 *(Sprint 44 — Purview retention labels + label policies provisioning.)*
+- [ ] **BL.P.89** — Unified Catalog business-glossary registration — §14.1 *(Sprint 44 — glossary terms posted via Microsoft Graph; cross-referenced from Silver schema metadata.)*
+- [ ] **BL.P.90** — Classification propagation chain (Silver → Gold → semantic model → Copilot → agent output) — §14.3 *(Sprint 44 — sensitivity-label propagation verified through Foundry RAG end-to-end (T3 entity → encrypted RAG result honoring EXTRACT).)*
 
 ### 2.11 — Fabric Capacity & Provisioning
 
-- [ ] **BL.P.91** — Terraform module for F-SKU capacity provisioning — §12.1
-- [ ] **BL.P.92** — OneLake workspace provisioning via Fabric REST API — §12.1
-- [ ] **BL.P.93** — Capacity-pattern templates (single / dev-prod split / per-workload isolation) — §12.3
-- [ ] **BL.P.94** — OneLake shortcut provisioning (ADLS / S3 / GCS / Dataverse) — §12.7
+- [ ] **BL.P.91** — Terraform module for F-SKU capacity provisioning — §12.1 *(Sprint 30 — APEX-M canonical IaC is Bicep, not Terraform; retired by `apex-m/infra/bicep/platform/fabric.bicep` per ADR-006 platform direction. APEX-G/A variants would use Terraform/CloudFormation when commissioned.)*
+- [ ] **BL.P.92** — OneLake workspace provisioning via Fabric REST API — §12.1 *(Sprint 30 — Bicep deploymentScripts in `fabric.bicep` issue Fabric REST `POST /workspaces` for primary `rc-canonical` + per-service consumer workspaces.)*
+- [ ] **BL.P.93** — Capacity-pattern templates (single / dev-prod split / per-workload isolation) — §12.3 *(Sprint 30 — single + dev-prod split codified in `main.bicep` via `provisionFabric` flag; Sprint 43 — per-workload isolation pattern proven on Lab.)*
+- [ ] **BL.P.94** — OneLake shortcut provisioning (ADLS / S3 / GCS / Dataverse) — §12.7 *(Sprint 30 — ADLS shortcuts to RC Bronze sources; Sprint 43 — non-ADLS shortcuts (S3 / GCS / Dataverse) for adapter-driven Bronze sources.)*
 
 ### 2.12 — SOR Integration Adapters
 
@@ -251,21 +251,21 @@
 
 ### 2.13 — Service Catalogs
 
-- [ ] **BL.P.110** — RC service catalog (45+ productized services with personas, KPIs, SLOs) — §15, Appendix B
-- [ ] **BL.P.111** — HLS service catalog — §15
-- [ ] **BL.P.112** — ER service catalog — §15
-- [ ] **BL.P.113** — AXLE service catalog — §15
-- [ ] **BL.P.114** — TMT service catalog — §15
-- [ ] **BL.P.115** — TH service catalog — §15
-- [ ] **BL.P.116** — ICE service catalog — §15
+- [ ] **BL.P.110** — RC service catalog (45+ productized services with personas, KPIs, SLOs) — §15, Appendix B *(Sprint 31 — 7 RC services scaffolded via `tools/gen_services_tree.py`; Sprints 32 · 34 · 35 · 37 · 39 — production wiring per service; Sprint 40 — completion. 5 of 7 production-ready by close of Sprint 40; RC-E2E-06 + RC-E2E-08 stay catalog-only by design per [Sprint-Backlog-Retirement-Map.md §3](Sprint-Backlog-Retirement-Map.md#3-priority-ordered-sprint-sequence).)*
+- [ ] **BL.P.111** — HLS service catalog — §15 *(Sprint 58+ — HLS practice kickoff; clones the RC pattern.)*
+- [ ] **BL.P.112** — ER service catalog — §15 *(beyond Sprint 60; engagement-driven.)*
+- [ ] **BL.P.113** — AXLE service catalog — §15 *(beyond Sprint 60; engagement-driven.)*
+- [ ] **BL.P.114** — TMT service catalog — §15 *(beyond Sprint 60; engagement-driven.)*
+- [ ] **BL.P.115** — TH service catalog — §15 *(beyond Sprint 60; engagement-driven.)*
+- [ ] **BL.P.116** — ICE service catalog — §15 *(beyond Sprint 60; engagement-driven.)*
 
 ### 2.14 — Reference Deployments
 
-- [ ] **BL.P.117** — Big Box Store reference deployment (RC) — §18.1
-- [ ] **BL.P.118** — Hospital reference deployment (HLS) — §18.1
-- [ ] **BL.P.119** — Utility reference deployment (ER) — §18.1
-- [ ] **BL.P.120** — Plant reference deployment (AXLE) — §18.1
-- [ ] **BL.P.121** — Airline reference deployment (TH) — §18.1
+- [ ] **BL.P.117** — Big Box Store reference deployment (RC) — §18.1 *(Sprint 33 — Lab phase: RC-E2E-03 deployed via wizard, cold-chain + markdown smoke pass; Sprint 47 — first client tenant; Sprint 40 — completion: 5 RC services running in fusion mesh per [Sprint-Backlog-Retirement-Map.md §3](Sprint-Backlog-Retirement-Map.md#3-priority-ordered-sprint-sequence).)*
+- [ ] **BL.P.118** — Hospital reference deployment (HLS) — §18.1 *(Sprint 58+ — HLS practice kickoff.)*
+- [ ] **BL.P.119** — Utility reference deployment (ER) — §18.1 *(beyond Sprint 60; engagement-driven.)*
+- [ ] **BL.P.120** — Plant reference deployment (AXLE) — §18.1 *(beyond Sprint 60; engagement-driven.)*
+- [ ] **BL.P.121** — Airline reference deployment (TH) — §18.1 *(beyond Sprint 60; engagement-driven.)*
 
 ### 2.15 — Registries, Playbooks & Appendices
 

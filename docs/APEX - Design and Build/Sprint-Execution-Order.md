@@ -5,6 +5,7 @@
 
 **Reference:**
 - [Sprint Plan](Sprint-Plan.md) — the master schedule
+- [Sprint Backlog Retirement Map](Sprint-Backlog-Retirement-Map.md) — priority-ordered orchestration with explicit BL.P.* / DEP-NNN retirement claims per sprint
 - [`services/rc/_build-status.yaml`](../../services/rc/_build-status.yaml) — machine-readable plan, surfaced in the wizard Roadmap page
 
 ---

@@ -30,6 +30,8 @@
 | Artifact | Covers |
 |---|---|
 | [`Roadmap.md`](Roadmap.md) | Sprints 1–29 (framework) + ongoing backlog items BL.C.* / BL.P.* |
+| [`Sprint-Backlog-Retirement-Map.md`](Sprint-Backlog-Retirement-Map.md) | Priority-ordered orchestration of Sprints 30–49 with explicit BL.P.* / DEP-NNN retirement claims |
+| [`Sprint-Execution-Order.md`](Sprint-Execution-Order.md) | Dependency graph + Wave A/B/C/D/E parallelization strategy |
 | [`RC-Build-Plan.md`](RC-Build-Plan.md) + [`services/rc/_build-status.yaml`](../../services/rc/_build-status.yaml) | Sprints 30–40 (RC W1 Foundation through RC W3 Fusion) |
 | [`docs/plans/2026-05-09-rc-design-docs-foundry-design.md`](../plans/2026-05-09-rc-design-docs-foundry-design.md) | Approved Path C runtime architecture |
 | [`docs/plans/2026-05-09-rc-design-docs-foundry-implementation.md`](../plans/2026-05-09-rc-design-docs-foundry-implementation.md) | Phase A–J task breakdown |

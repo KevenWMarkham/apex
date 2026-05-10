@@ -23,8 +23,18 @@ practice: rc
 practice_label: Retail & Consumer Products
 services_guide_ref: docs/book/Professional-APEX-M-Services-Guide.html#ch-18
 roadmap_ref: docs/APEX - Design and Build/Roadmap.md
-plan_version: 1
+retirement_map_ref: docs/APEX - Design and Build/Sprint-Backlog-Retirement-Map.md
+plan_version: 2
 plan_owner: Keven Markham · DMTSP
+
+# Each sprint declares `retires:` — the canonical BL.P.* / DEP-NNN IDs it
+# retires. Wizard surfaces these as badges on the Roadmap page; the Sprint
+# Backlog Retirement Map doc validates the claim end-to-end.
+# Status meaning per item:
+#   partial    — sprint advances the item but full retirement requires later sprints
+#   completion — sprint finishes the item; the previous partials all flip to done
+#   production — sprint promotes a previously-mock impl to production wiring
+#   (item already counted as done in Roadmap.md v1.2 — kept here for posture audit)
 
 # ---------------------------------------------------------------------------
 # Sprint orchestration — checklist surfaced in the wizard's Roadmap page.
@@ -39,10 +49,17 @@ sprints:
     range: 2026-Q3 W1 (proposed)
     status: in_progress
     started_at: 2026-05-09
+    priority: 1
+    wave: A
     objective: >-
       Stand up the Layer 1 platform for an RC tenant and land the SCML / MERML
       / PROML / CRMML Silver entities the 7 RC services consume. Output is a
       running medallion ready for any RC service to compose on top.
+    retires:
+      - {id: BL.P.91, mode: completion, note: 'F-SKU capacity IaC — Bicep, not Terraform per ADR-006'}
+      - {id: BL.P.92, mode: completion, note: 'OneLake workspace provisioning via Fabric REST API'}
+      - {id: BL.P.93, mode: partial,    note: 'single + dev-prod split patterns (per-workload isolation in Sprint 43)'}
+      - {id: BL.P.94, mode: partial,    note: 'ADLS shortcuts (S3/GCS/Dataverse in Sprint 43)'}
     kickoff_artifacts:
       - apex-m/infra/bicep/platform/fabric.bicep (primary-workspace pattern per Services Guide §1.6)
       - apex-m/infra/bicep/platform/main.bicep wires Fabric module + new outputs
@@ -84,6 +101,10 @@ sprints:
   - id: sprint-31
     name: RC-E2E-03 — Service + Agent Scaffolding
     range: 2026-Q3 W2
+    priority: 0    # Sprint 31 already complete; pre-orchestration baseline
+    wave: pre-A
+    retires:
+      - {id: BL.P.110, mode: partial, note: 'RC service catalog scaffold for all 7 services'}
     objective: >-
       Generate the full repo scaffold for RC-E2E-03 — service.yaml, two
       featured scenarios, six-agent fleet (incl. The Pricer), Bicep service
@@ -110,6 +131,13 @@ sprints:
   - id: sprint-32
     name: RC-E2E-03 — Agent Implementation
     range: 2026-Q3 W3–W4
+    priority: 4
+    wave: B
+    depends_on: [sprint-41, sprint-42]
+    retires:
+      - {id: BL.P.58,  mode: partial, note: '+6 production-ready RC agents (target ~22 across 5 services)'}
+      - {id: BL.P.68,  mode: partial, note: 'RC-E2E-03=Magentic binding production-ready'}
+      - {id: BL.P.110, mode: partial, note: '+1 production-ready RC service (1 of 5 featured)'}
     objective: >-
       Replace the agent.yaml TBDs with real model / tools / schemas / prompts.
       Wire the Pricing Agent's MCP tools for elasticity + competitor + price
@@ -156,6 +184,11 @@ sprints:
   - id: sprint-33
     name: RC-E2E-03 — Bicep Deploy + Smoke Tests
     range: 2026-Q4 W1
+    priority: 5
+    wave: C
+    depends_on: [sprint-30, sprint-32, sprint-46]
+    retires:
+      - {id: BL.P.117, mode: partial, note: 'Big Box Lab phase — RC-E2E-03 only (1 of 5 featured); full deployment Sprint 40'}
     objective: >-
       Deploy RC-E2E-03's full agent fleet to Lab tenant via the wizard,
       register agents with Agent Service, run smoke tests against both
@@ -184,6 +217,13 @@ sprints:
   - id: sprint-34
     name: RC-E2E-04 — Loyalty Churn Implementation + Deploy
     range: 2026-Q4 W2
+    priority: 6
+    wave: D
+    depends_on: [sprint-33]
+    retires:
+      - {id: BL.P.58,  mode: partial, note: '+5 agents (Analyst / Demand Checker / Finance Lead / Operations Lead / Briefer)'}
+      - {id: BL.P.68,  mode: partial, note: 'RC-E2E-04=Sequential binding production-ready'}
+      - {id: BL.P.110, mode: partial, note: '+1 production-ready RC service (2 of 5 featured)'}
     items:
       - id: 34.1
         title: Scaffold complete for rc-loyalty-churn-prediction-winback (1 featured scenario)
@@ -203,6 +243,13 @@ sprints:
   - id: sprint-35
     name: RC-E2E-05 — On-Shelf Availability Implementation + Deploy
     range: 2026-Q4 W3
+    priority: 6
+    wave: D
+    depends_on: [sprint-33]
+    retires:
+      - {id: BL.P.58,  mode: partial, note: '+4 agents (Analyst / Demand Checker / Operations Lead / Briefer)'}
+      - {id: BL.P.68,  mode: partial, note: 'RC-E2E-05=Sequential binding production-ready'}
+      - {id: BL.P.110, mode: partial, note: '+1 production-ready RC service (3 of 5 featured)'}
     items:
       - id: 35.1
         title: Scaffold complete for rc-on-shelf-availability-oos-reduction
@@ -218,7 +265,10 @@ sprints:
   - id: sprint-36
     name: RC-E2E-06 — Workforce Operations
     range: 2026-Q4 W4
+    priority: 8       # gated on engagement priority promotion
+    wave: D-optional
     note: 'Catalog scenario (no featured chain). Built only if a tenant prioritizes it; otherwise stays planned.'
+    retires: []  # catalog-only by design; does not retire BL.P.110 deeper
     items:
       - id: 36.1
         title: Decision — promote a workforce-ops scenario to featured (Featured? = ⭐ in xlsx)
@@ -234,6 +284,13 @@ sprints:
   - id: sprint-37
     name: RC-E2E-07 — Returns Fraud Implementation + Deploy
     range: 2027-Q1 W1
+    priority: 6
+    wave: D
+    depends_on: [sprint-33]
+    retires:
+      - {id: BL.P.58,  mode: partial, note: '+4 agents (Analyst / Fraud Specialist / Operations Lead / Briefer)'}
+      - {id: BL.P.68,  mode: partial, note: 'RC-E2E-07=Concurrent binding production-ready'}
+      - {id: BL.P.110, mode: partial, note: '+1 production-ready RC service (4 of 5 featured)'}
     items:
       - id: 37.1
         title: Scaffold complete for rc-returns-fraud-detection
@@ -257,7 +314,10 @@ sprints:
   - id: sprint-38
     name: RC-E2E-08 — Marketing & Growth
     range: 2027-Q1 W2
+    priority: 8       # gated on engagement priority promotion
+    wave: D-optional
     note: 'Catalog scenario. Plan for promotion only after a tenant identifies a featured scenario.'
+    retires: []  # catalog-only by design; does not retire BL.P.110 deeper
     items:
       - id: 38.1
         title: Decision — pick a featured marketing scenario (uplift modeling / campaign mix)
@@ -273,6 +333,13 @@ sprints:
   - id: sprint-39
     name: RC-E2E-09 — Product Tracking (FSMA 204)
     range: 2027-Q1 W3
+    priority: 6
+    wave: D
+    depends_on: [sprint-33]
+    retires:
+      - {id: BL.P.58,  mode: partial, note: '+3 agents (Analyst / Compliance Specialist / Briefer)'}
+      - {id: BL.P.68,  mode: partial, note: 'RC-E2E-09=Handoff binding production-ready'}
+      - {id: BL.P.110, mode: partial, note: '+1 production-ready RC service (5 of 5 featured)'}
     objective: >-
       RC-E2E-09 is structurally a data-provider for RC-E2E-03 cold-chain.
       Deployed second-to-last so RC-E2E-03 can switch from synthetic to real
@@ -300,6 +367,14 @@ sprints:
   - id: sprint-40
     name: RC W3 Fusion — Cross-Service Composition
     range: 2027-Q2 W1
+    priority: 7
+    wave: D
+    depends_on: [sprint-33, sprint-34, sprint-35, sprint-37, sprint-39]
+    retires:
+      - {id: BL.P.58,  mode: completion, note: 'Full RC agent catalog production-ready (22+ agents across 5 services)'}
+      - {id: BL.P.68,  mode: completion, note: 'Full RC orchestration library; fusion edges in w3-scale-fuse.bicep'}
+      - {id: BL.P.110, mode: completion, note: 'Full RC service catalog production-ready (5 of 7; RC-E2E-06+08 catalog-only by design)'}
+      - {id: BL.P.117, mode: completion, note: 'Big Box reference deployment complete: 5 RC services × first client'}
     objective: >-
       Wave 3. Composes RC-E2E-03 cold-chain × RC-E2E-04 loyalty-churn × RC-E2E-09
       lot provenance into the Perishables Economics Mesh. Drives feedback into
@@ -333,6 +408,11 @@ sprints:
     range: parallel-streamable with Sprint 30
     status: in_progress
     started_at: 2026-05-09
+    priority: 1
+    wave: A
+    retires:
+      - {id: BL.P.53, mode: production, note: 'EntraProvisioningProvider validated against real Lab Entra (mock landed Sprint 10)'}
+      - {id: BL.P.57, mode: production, note: 'Response signing upgraded HMAC→RSA+Key Vault key-id binding'}
     objective: >-
       Replace MockAgentIdentityProviderEntra with AgentIdentityProviderEntra
       production calls — Microsoft Graph + DefaultAzureCredential + OBO flow.
@@ -374,6 +454,12 @@ sprints:
   - id: sprint-42
     name: Phase I.2 — Foundry runtime production wiring
     range: starts when Sprint 41 lands
+    priority: 2
+    wave: A
+    retires:
+      - {id: BL.P.65, mode: production, note: '47-archetype catalog now resolves to live Agent Framework workflow execution'}
+      - {id: BL.P.66, mode: production, note: 'Sequential/Concurrent/Handoff/GroupChat/Magentic primitives = AgentWorkflowBuilder façades'}
+      - {id: BL.P.67, mode: production, note: 'Orchestration manifest runtime delegates to Agent Framework workflow execution'}
     objective: >-
       Replace MockAgentRuntimeFoundry with AgentRuntimeFoundry production calls
       — azure-ai-projects SDK + Microsoft Agent Framework hosting integration.
@@ -401,6 +487,11 @@ sprints:
   - id: sprint-43
     name: Phase I.3 — Fabric DataLake production wiring
     range: starts when both Sprint 30 + Sprint 41 land
+    priority: 3
+    wave: A
+    retires:
+      - {id: BL.P.93, mode: completion, note: 'Per-workload-isolation pattern proven on Lab'}
+      - {id: BL.P.94, mode: completion, note: 'S3/GCS/Dataverse OneLake shortcuts for adapter-driven Bronze sources'}
     objective: >-
       Replace MockDataLakeFabric with DataLakeFabric production calls — SQL
       analytics endpoint with operator OBO passthrough; OneLake user identity
@@ -422,6 +513,15 @@ sprints:
   - id: sprint-44
     name: Phase I.4 — Purview Audit + Sensitivity Classifier production
     range: starts when Sprint 42 lands
+    priority: 3
+    wave: A
+    retires:
+      - {id: BL.P.85, mode: completion, note: 'Classification registration pipeline (YAML → Purview)'}
+      - {id: BL.P.86, mode: completion, note: 'Lineage capture: SOR → Bronze → Silver → Gold → MCP → Agent → Audit'}
+      - {id: BL.P.87, mode: completion, note: 'DLP policies (label-based redaction across surfaces)'}
+      - {id: BL.P.88, mode: completion, note: 'WORM retention policies (7y default / 10y HLS / permanent legal-hold)'}
+      - {id: BL.P.89, mode: completion, note: 'Unified Catalog business-glossary registration'}
+      - {id: BL.P.90, mode: completion, note: 'Classification propagation chain (Silver → Gold → semantic model → Copilot → agent output)'}
     objective: >-
       Wire Microsoft Compliance Audit Graph API + Purview Information
       Protection labels API. Verify sensitivity-label propagation through
@@ -442,6 +542,12 @@ sprints:
   - id: sprint-45
     name: Phase I.5 — Defender Threat Protection production
     range: starts when Sprints 41 + 42 land
+    priority: 3
+    wave: A
+    retires:
+      - {id: PSG-1, mode: completion, note: 'Defender for Cloud CSPM AI security posture green for Lab'}
+      - {id: PSG-2, mode: completion, note: 'Defender for AI services threat protection ingestion live'}
+      - {id: PSG-9, mode: completion, note: 'AI Model Security CI scan on every agent image'}
     objective: >-
       Wire Azure AI Content Safety Prompt Shields SDK + Defender for AI
       services threat protection ingestion + AI Model Security CI scan.
@@ -465,6 +571,9 @@ sprints:
   - id: sprint-46
     name: Phase I.6 — Wizard live + Bicep runner
     range: starts when Sprints 41–45 + 30 all land
+    priority: 4
+    wave: B
+    retires: []  # wizard infrastructure — enables BL.P.117 retirement in Sprint 33+47
     objective: >-
       Implement bicep_runner.py shellout to az deployment + /security-gate
       live polling + drift detector daily cron. Wizard deploy button works
@@ -493,6 +602,10 @@ sprints:
   - id: sprint-47
     name: First client engagement Lab tenant
     range: starts when Wave A + B land
+    priority: 5
+    wave: C
+    retires:
+      - {id: BL.P.117, mode: partial, note: 'Big Box on first client tenant (Lab phase) — completion in Sprint 40'}
     objective: >-
       First end-to-end deploy via wizard. Operator clones the _default use
       case for the client; Pre-deployment Security Gate runs; RC-E2E-03
@@ -520,6 +633,10 @@ sprints:
   - id: sprint-48
     name: First client Wave 2 Pilot live
     range: 2 weeks after Sprint 47
+    priority: 7
+    wave: D
+    retires:
+      - {id: PSG-all, mode: production, note: 'Every Pre-deployment Security Gate green on prod tenant'}
     objective: Promote use case from lab to prod substrate; full security gate; live client data; HITL on real personas.
     owner_role: Engagement lead
     depends_on: [sprint-47]
@@ -540,6 +657,15 @@ sprints:
   - id: sprint-49
     name: Phase J migrations land
     range: parallel with Sprint 48
+    priority: 7
+    wave: D
+    retires:
+      - {id: DEP-001, mode: completion, note: 'Eventhouse access switches from custom MCP to RTI remote MCP'}
+      - {id: DEP-002, mode: completion, note: 'The Pricer similarity search migrates to in-data-tier ai_embeddings'}
+      - {id: DEP-003, mode: completion, note: 'Bronze CDC migrates from custom Debezium parser to Eventstream DeltaFlow'}
+      - {id: DEP-004, mode: completion, note: 'HITL alert trigger moves to Eventstream Activator destination'}
+      - {id: DEP-005, mode: completion, note: 'Bespoke prompt-injection regex retired; Defender for AI is sole path'}
+      - {id: DEP-006, mode: completion, note: 'APEX audit row demoted to overlay; Purview Audit primary verified in prod'}
     objective: >-
       Six deprecation notes (DEP-001 through DEP-006) move from paper to
       migrated code. RTI MCP / in-data-tier embeddings / DeltaFlow / Activator
