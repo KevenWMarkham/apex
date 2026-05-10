@@ -1,11 +1,23 @@
 role: classify
+label: The Demand Checker
 scenario_id: rc-cold-chain-excursion-mid-shift
 service_code: RC-E2E-03
 archetype: hierarchical-root + sequential-with-hitl-gate
-model: TBD
-tools: []
-schemas_read: []
+canonical_pattern: magentic
+model: gpt-4o-2024-11-20
+tools:
+  - rc_e2e_03.get_excursion_decision_panel
+  - rc_e2e_09.get_lot_provenance
+  - merml-mcp.get_elasticity_for_sku
+schemas_read:
+  - SCML.Inventory
+  - SCML.Lot
+  - MERML.Elasticity
 schemas_write: []
 hitl_gate: false
 audit_row_emit: true
 prompt_ref: prompts/classify.md
+prompt_version: 1.0.0
+manifest_version: 1.0.0
+classification_propagation:
+  - internal

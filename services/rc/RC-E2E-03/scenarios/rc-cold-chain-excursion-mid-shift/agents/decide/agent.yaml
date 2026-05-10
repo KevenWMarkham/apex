@@ -1,11 +1,31 @@
 role: decide
+label: The Operations Lead
 scenario_id: rc-cold-chain-excursion-mid-shift
 service_code: RC-E2E-03
 archetype: hierarchical-root + sequential-with-hitl-gate
-model: TBD
-tools: []
+canonical_pattern: magentic
+model: gpt-4o-2024-11-20
+tools: []          # Decide reads upstream agent outputs from orchestration context only
 schemas_read: []
 schemas_write: []
 hitl_gate: true
+hitl_persona: marisol-reyes-store-ops
+hitl_channel: teams-adaptive-card
+hitl_gate_secret_prefix: 'apex-hitl-{tenant}-rc-e2e-03'
+hitl_thresholds_consumed:
+  - markdown-pct-above
+  - destroy-decision
+  - refund-usd-above
+  - pricing-recommendation-age-max-seconds
+  - requires-dual-control-above-pct
+hitl_webhook_secret: 'apex-hitl-{tenant}-rc-e2e-03--teams-webhook'
 audit_row_emit: true
 prompt_ref: prompts/decide.md
+prompt_version: 1.0.0
+manifest_version: 1.0.0
+classification_propagation:
+  - trade_secret
+  - internal
+adaptive_card_template_version: '1.5'
+adaptive_card_redact_classifications:
+  - trade_secret

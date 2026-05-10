@@ -1,0 +1,128 @@
+# services/rc/RC-E2E-03/config/hitl-thresholds.yaml
+#
+# Sprint 32 item 32.10. Declarative HITL threshold + routing policy for
+# RC-E2E-03 agents. Provisioned into Azure Key Vault at deploy time by
+# `services/rc/RC-E2E-03/bicep/hitl.bicep`. The Decide agent reads these
+# secrets at runtime under the operator's OBO scope.
+#
+# Tenant overrides land in the use-case `hitl_thresholds` block; this file
+# is the framework default + structural reference for the wizard.
+#
+# Secrets are written to Key Vault with the naming convention:
+#   apex-hitl-<tenant>-rc-e2e-03--<key>
+# e.g. for the Big Box tenant `bigbox-prod`:
+#   apex-hitl-bigbox-prod-rc-e2e-03--markdown-pct-above
+#   apex-hitl-bigbox-prod-rc-e2e-03--destroy-decision
+#   apex-hitl-bigbox-prod-rc-e2e-03--refund-usd-above
+
+practice: rc
+service_code: RC-E2E-03
+sprint: sprint-32
+sprint_item: 32.10
+keyvault_naming_pattern: 'apex-hitl-{tenant}-rc-e2e-03--{key}'
+
+# -----------------------------------------------------------------------------
+# Threshold definitions — read by the Decide agent at runtime
+# -----------------------------------------------------------------------------
+thresholds:
+
+  - id: markdown_pct_above
+    keyvault_secret_name: markdown-pct-above
+    type: number
+    units: percent
+    default: 30
+    range: { min: 0, max: 100 }
+    description: |
+      Routes any markdown proposal whose `proposed_markdown_pct` exceeds this
+      value to Operations Lead HITL. Below this, the proposal auto-clears
+      (provided no other gate trips).
+    used_by:
+      agent: decide
+      prompt_section: 'HITL threshold logic step 3'
+    persona_routes_to: marisol-reyes-store-ops
+
+  - id: destroy_decision
+    keyvault_secret_name: destroy-decision
+    type: enum
+    enum_values: [any, none, critical_only]
+    default: any
+    description: |
+      Whether destroy decisions require HITL approval. Default `any` means
+      every destroy routes to HITL regardless of severity. `critical_only`
+      auto-clears moderate / severe destroys but routes critical. `none`
+      auto-clears all destroys (NOT RECOMMENDED — disables the FSMA-204
+      operator gate).
+    used_by:
+      agent: decide
+      prompt_section: 'HITL threshold logic step 1-2'
+    persona_routes_to: marisol-reyes-store-ops
+
+  - id: refund_usd_above
+    keyvault_secret_name: refund-usd-above
+    type: number
+    units: usd
+    default: 500
+    range: { min: 0, max: 100000 }
+    description: |
+      Framework field. Not used by this scenario (cold-chain doesn't issue
+      refunds), but required by the framework HITL config schema for
+      cross-service consistency. Active in RC-E2E-07 returns-fraud.
+    used_by:
+      agent: decide
+      prompt_section: 'reserved for cross-service'
+    persona_routes_to: null
+
+  - id: pricing_recommendation_age_max_seconds
+    keyvault_secret_name: pricing-recommendation-age-max-seconds
+    type: number
+    units: seconds
+    default: 1800
+    range: { min: 60, max: 86400 }
+    description: |
+      Maximum age (in seconds) of a Pricer recommendation before it must be
+      regenerated. Stale recommendations cannot be approved by HITL — Decide
+      agent auto-rejects them with a fresh-cycle prompt.
+    used_by:
+      agent: decide
+      prompt_section: 'staleness check'
+    persona_routes_to: null
+
+  - id: requires_dual_control_above_pct
+    keyvault_secret_name: requires-dual-control-above-pct
+    type: number
+    units: percent
+    default: 60
+    range: { min: 0, max: 100 }
+    description: |
+      Markdowns above this percent require dual-control HITL — Operations
+      Lead approval AND Merchandising Director sign-off. Surfaces a second
+      Adaptive Card to Daniel Chen on top of Marisol's.
+    used_by:
+      agent: decide
+      prompt_section: 'dual-control gate'
+    persona_routes_to: [marisol-reyes-store-ops, daniel-chen-merch-director]
+
+
+# -----------------------------------------------------------------------------
+# Adaptive Card config (also Key Vault-backed for tenant customization)
+# -----------------------------------------------------------------------------
+adaptive_card:
+  teams_webhook_secret_name: 'apex-hitl-{tenant}-rc-e2e-03--teams-webhook'
+  card_template_version: 'v1.5'
+  redact_classifications:
+    - trade_secret
+  per_severity_color:
+    critical: red
+    severe: amber
+    moderate: gold
+  show_destroy_floor_warning: true
+
+
+# -----------------------------------------------------------------------------
+# Tuning policy — auto-rollback per Roadmap.md BL.P.76
+# -----------------------------------------------------------------------------
+tuning:
+  observation_window_days: 14
+  reversal_rate_rollback_threshold_pct: 25
+  escalation_rate_rollback_threshold_pct: 30
+  enable_auto_rollback: true

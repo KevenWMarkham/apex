@@ -156,40 +156,60 @@ sprints:
       - id: 32.1
         title: Author The Analyst prompt — severity-rank excursion events
         services_guide_ref: '§18.1 (Agents Composed)'
-        done: false
+        done: true
+        status: complete
+        notes: 'agents/assess/prompts/assess.md authored — severity rubric (critical/severe/moderate), JSON envelope contract, downstream_recommendation logic, MCP tool order. agent.yaml updated to gpt-4o + tools + schemas_read + prompt_version 1.0.0.'
       - id: 32.2
         title: Author The Demand Checker prompt — forward-demand impact
-        done: false
+        done: true
+        status: complete
+        notes: 'agents/classify/prompts/classify.md authored — FSMA-204 conformance rules + demand_class rubric + markdown_eligibility decision matrix. Cross-service dep on rc_e2e_09.get_lot_provenance documented.'
       - id: 32.3
         title: Author The Pricer prompt — elasticity + competitor + floor/MAP rules
         services_guide_ref: '§18.1 (Pricing Agent), §25.8 (LEDGER + Redis learning loop)'
-        done: false
+        done: true
+        status: complete
+        notes: 'agents/pricing/prompts/pricing.md authored — elasticity equation, competitive guard, finance envelope hard floor, episodic memory check, HITL flagging. agent.yaml: hitl_gate=true, redis_episodic_memory=true, learning_loop_window_days=90, operator_obo_required=true.'
       - id: 32.4
         title: Author The Finance Lead prompt — margin-at-risk scoring
-        done: false
+        done: true
+        status: complete
+        notes: 'agents/quantify/prompts/quantify.md authored — current_effective_margin_pct, at_risk_margin_usd_full_destroy/at_floor, max_recoverable_margin_usd, binding_constraint resolution. TRADE_SECRET output envelope; never echoes raw cost.'
       - id: 32.5
         title: Author The Operations Lead prompt — HITL Adaptive Card synthesis
-        done: false
+        done: true
+        status: complete
+        notes: 'agents/decide/prompts/decide.md authored — HITL threshold logic decision tree, Adaptive Card v1.5 synthesis rules, TRADE_SECRET redaction, action payload. agent.yaml routes to marisol-reyes-store-ops via teams-adaptive-card; consumes 5 KV thresholds.'
       - id: 32.6
         title: Author The Briefer prompt — end-of-shift digest
-        done: false
+        done: true
+        status: complete
+        notes: 'agents/learn/prompts/learn.md authored — LEDGER Redis bucketing for similarity, audit row stamp, end-of-shift digest synthesis. agents/act/prompts/act.md also authored (system actuator — write-back to MERML.Markdown via rc_e2e_03.commit_markdown_decision with idempotency on decision_id).'
       - id: 32.7
         title: Wire MCP tool — rc_e2e_03.get_excursion_decision_panel
         roadmap_ref: [BL.P.36, BL.P.51]
         services_guide_ref: '§18.1 (MCP Tools)'
-        done: false
+        done: true
+        status: complete
+        notes: 'packages/rc-e2e-03-mcp/ NEW package with tool implementation. Aggregates Gold mart rows into the assess panel envelope. Tests: 3 unit tests pass (happy path, missing excursion, invalid input).'
       - id: 32.8
         title: Wire MCP tool — rc_e2e_03.get_pricing_recommendation_basis
         services_guide_ref: '§18.1 (Pricing Agent MCP tools)'
-        done: false
+        done: true
+        status: complete
+        notes: 'TRADE_SECRET tool — projects floor/MAP/elasticity/competitor data. ToolContract declares classification_propagation=[trade_secret]; required_scopes include service:rc-e2e-03. Tests: 4 unit tests pass.'
       - id: 32.9
         title: Wire MCP tool — rc_e2e_03.commit_markdown_decision (decision-emit)
         roadmap_ref: [BL.P.45]
-        done: false
+        done: true
+        status: complete
+        notes: 'Decision-emit MCP tool — idempotent on decision_id (raises CONFLICT on parameter mismatch). 6 validation rules covered: markdown range, price range, operator_principal, idempotency, conflict, applied_at stamping. Tests: 6 unit tests pass.'
       - id: 32.10
         title: HITL threshold config in Key Vault (markdown % · destroy decisions)
         roadmap_ref: [BL.P.69, BL.P.71, BL.P.74]
-        done: false
+        done: true
+        status: complete
+        notes: 'services/rc/RC-E2E-03/config/hitl-thresholds.yaml declarative thresholds + bicep/hitl.bicep materialises 6 KV secrets per tenant (markdown-pct-above / destroy-decision / refund-usd-above / pricing-recommendation-age-max-seconds / requires-dual-control-above-pct / teams-webhook). Agent runtime identity gets Key Vault Secrets User role. main.bicep wires the module. 41 manifest tests pass.'
 
   - id: sprint-33
     name: RC-E2E-03 — Bicep Deploy + Smoke Tests

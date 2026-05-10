@@ -1,11 +1,24 @@
 role: act
+label: System Actuator
 scenario_id: rc-cold-chain-excursion-mid-shift
 service_code: RC-E2E-03
 archetype: hierarchical-root + sequential-with-hitl-gate
-model: TBD
-tools: []
+canonical_pattern: magentic
+model: gpt-4o-2024-11-20    # primarily tool-driven; small model is sufficient
+tools:
+  - rc_e2e_03.commit_markdown_decision
 schemas_read: []
-schemas_write: []
-hitl_gate: true
+schemas_write:
+  - MERML.Markdown
+  - SCML.Inventory
+hitl_gate: false             # Decide owns the gate; act only fires post-approval
 audit_row_emit: true
 prompt_ref: prompts/act.md
+prompt_version: 1.0.0
+manifest_version: 1.0.0
+classification_propagation:
+  - trade_secret
+  - internal
+idempotency_keyed_on: decision_id
+rollback_on_failure: per_sku_atomic
+operator_obo_required: true

@@ -6,10 +6,30 @@ description: Computes SKU-level price recommendations by fusing elasticity, comp
 scenario_id: rc-cold-chain-excursion-mid-shift
 service_code: RC-E2E-03
 archetype: hierarchical-root + sequential-with-hitl-gate
-model: TBD
-tools: []
-schemas_read: []
+canonical_pattern: magentic
+model: gpt-4o-2024-11-20
+tools:
+  - rc_e2e_03.get_pricing_recommendation_basis
+  - merml-mcp.get_elasticity_for_sku
+schemas_read:
+  - PROML.Pricing
+  - PROML.DiscountRule
+  - MERML.Elasticity
+  - MERML.Competitor
+  - SCML.Inventory
 schemas_write: []
 hitl_gate: true
+hitl_gate_secret_prefix: 'apex-hitl-{tenant}-rc-e2e-03'
+hitl_thresholds_consumed:
+  - markdown-pct-above
+  - destroy-decision
+  - requires-dual-control-above-pct
 audit_row_emit: true
 prompt_ref: prompts/pricing.md
+prompt_version: 1.0.0
+manifest_version: 1.0.0
+classification_propagation:
+  - trade_secret
+redis_episodic_memory: true
+learning_loop_window_days: 90
+operator_obo_required: true

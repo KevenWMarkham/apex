@@ -1,11 +1,22 @@
 role: learn
+label: The Briefer
 scenario_id: rc-cold-chain-excursion-mid-shift
 service_code: RC-E2E-03
 archetype: hierarchical-root + sequential-with-hitl-gate
-model: TBD
-tools: []
-schemas_read: []
+canonical_pattern: magentic
+model: gpt-4o-2024-11-20
+tools: []                    # Foundry runtime publishes ledger_row to Redis episodic memory
+schemas_read:
+  - MERML.Markdown
 schemas_write: []
 hitl_gate: false
 audit_row_emit: true
 prompt_ref: prompts/learn.md
+prompt_version: 1.0.0
+manifest_version: 1.0.0
+classification_propagation:
+  - trade_secret
+  - internal
+redis_episodic_memory: true   # writes the LEDGER row keyed for similarity search
+shift_digest_enabled: true
+shift_digest_persona: marisol-reyes-store-ops
