@@ -1,11 +1,21 @@
 role: quantify
+label: Loss Quantifier
 scenario_id: rc-returns-fraud-detection
 service_code: RC-E2E-07
 archetype: hierarchical-root + sequential-with-hitl-gate
-model: TBD
-tools: []
-schemas_read: []
+canonical_pattern: concurrent
+model: gpt-4o-2024-11-20
+tools:
+  - rc_e2e_07.get_fraud_score_basis     # called with include_loss_economics=True
+schemas_read:
+  - MERML.Refund
 schemas_write: []
 hitl_gate: false
 audit_row_emit: true
 prompt_ref: prompts/quantify.md
+prompt_version: 1.0.0
+manifest_version: 1.0.0
+classification_propagation:
+  - trade_secret    # chargeback priors + recovery efficiency
+  - pii             # tokenised customer / device for envelope tie-back
+operator_obo_required: true   # operator-trade-secret-read claim

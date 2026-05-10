@@ -1,11 +1,27 @@
 role: act
+label: System Actuator
 scenario_id: rc-returns-fraud-detection
 service_code: RC-E2E-07
 archetype: hierarchical-root + sequential-with-hitl-gate
-model: TBD
-tools: []
+canonical_pattern: concurrent
+model: gpt-4o-2024-11-20
+tools:
+  - rc_e2e_07.commit_hold_decision
 schemas_read: []
-schemas_write: []
-hitl_gate: true
+schemas_write:
+  - MERML.Refund
+  - SCML.Return
+  - CXML.FraudCase     # populated only on escalate path under PII unlock handle
+hitl_gate: false           # Decide owns the gate
 audit_row_emit: true
 prompt_ref: prompts/act.md
+prompt_version: 1.0.0
+manifest_version: 1.0.0
+classification_propagation:
+  - trade_secret
+  - pii        # transient unlock handle on escalate path; never JSON-emitted
+  - internal
+idempotency_keyed_on: decision_id
+rollback_on_failure: per_decision_atomic
+operator_obo_required: true
+ttl_check_seconds: 60        # PII unlock handle TTL — abort under 5s remaining

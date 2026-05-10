@@ -1,11 +1,44 @@
 role: decide
+label: The Operations Lead
 scenario_id: rc-returns-fraud-detection
 service_code: RC-E2E-07
 archetype: hierarchical-root + sequential-with-hitl-gate
-model: TBD
-tools: []
+canonical_pattern: concurrent
+model: gpt-4o-2024-11-20
+tools:
+  - tokenizer-mcp.bulk_detokenize    # Tier-3 PII unlock — escalate path only
 schemas_read: []
 schemas_write: []
 hitl_gate: true
+hitl_gate_kind: adaptive             # 3-band: auto_clear / review / escalate
+hitl_persona: rebecca-hall-returns-ops-mgr
+hitl_channel: teams-adaptive-card
+hitl_gate_secret_prefix: 'apex-hitl-{tenant}-rc-e2e-07'
+hitl_thresholds_consumed:
+  - auto-clear-max-fraud-score
+  - hitl-review-min-fraud-score
+  - escalate-min-fraud-score
+  - auto-clear-max-refund-value-usd
+  - ring-indicator-force-escalate
+  - hold-requires-tier-3-pii-unlock
+hitl_webhook_secret: 'apex-hitl-{tenant}-rc-e2e-07--teams-webhook'
+tier3_pii_unlock_webhook_secret: 'apex-hitl-{tenant}-rc-e2e-07--tokenizer-bulk-detokenize-webhook'
+tier3_pii_unlock_ttl_seconds: 60
+tier3_pii_unlock_authorised_purposes:
+  - fraud_hold_re_identification
 audit_row_emit: true
+audit_row_emit_separate_for_pii_unlock: true   # BL.P.86 lineage
 prompt_ref: prompts/decide.md
+prompt_version: 1.0.0
+manifest_version: 1.0.0
+classification_propagation:
+  - trade_secret
+  - pii
+  - internal
+adaptive_card_template_version: '1.5'
+adaptive_card_redact_classifications:
+  - trade_secret
+  - pii
+adaptive_card_kinds:
+  - review_card             # 0.4–0.7 score band
+  - hold_pii_unlock_card    # ≥ 0.7 score or ring_indicator

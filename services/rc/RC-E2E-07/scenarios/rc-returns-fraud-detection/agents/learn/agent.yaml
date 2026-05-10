@@ -1,11 +1,27 @@
 role: learn
+label: The Briefer
 scenario_id: rc-returns-fraud-detection
 service_code: RC-E2E-07
 archetype: hierarchical-root + sequential-with-hitl-gate
-model: TBD
-tools: []
-schemas_read: []
+canonical_pattern: concurrent
+model: gpt-4o-2024-11-20
+tools: []                    # Foundry runtime publishes ledger_row to Redis
+schemas_read:
+  - MERML.Refund
+  - SCML.Return
+  - CXML.FraudCase
 schemas_write: []
 hitl_gate: false
 audit_row_emit: true
 prompt_ref: prompts/learn.md
+prompt_version: 1.0.0
+manifest_version: 1.0.0
+classification_propagation:
+  - trade_secret
+  - pii      # tokenised
+  - internal
+redis_episodic_memory: true
+fraud_digest_enabled: true
+fraud_digest_persona: rebecca-hall-returns-ops-mgr
+fraud_digest_cadence: daily
+attribution_window_days: 90    # 90-day chargeback window

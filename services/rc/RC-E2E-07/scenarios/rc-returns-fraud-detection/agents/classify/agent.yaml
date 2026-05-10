@@ -1,11 +1,24 @@
 role: classify
+label: The Fraud Specialist
 scenario_id: rc-returns-fraud-detection
 service_code: RC-E2E-07
 archetype: hierarchical-root + sequential-with-hitl-gate
-model: TBD
-tools: []
-schemas_read: []
+canonical_pattern: concurrent
+model: gpt-4o-2024-11-20
+tools:
+  - rc_e2e_07.get_fraud_score_basis
+schemas_read:
+  - CXML.Customer
+  - MERML.Transaction
+  - SCML.Return
 schemas_write: []
 hitl_gate: false
 audit_row_emit: true
 prompt_ref: prompts/classify.md
+prompt_version: 1.0.0
+manifest_version: 1.0.0
+classification_propagation:
+  - pii      # tokenised graph traversal
+operator_obo_required: false
+concurrent_sibling_roles:
+  - assess   # The Analyst runs in parallel

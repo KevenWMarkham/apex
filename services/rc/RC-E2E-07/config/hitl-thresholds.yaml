@@ -1,0 +1,141 @@
+# services/rc/RC-E2E-07/config/hitl-thresholds.yaml
+#
+# Sprint 37.3 — Adaptive HITL threshold + Tier-3 PII unlock for returns-fraud.
+# Three-band gate: auto_clear (< 0.4) · review (0.4–0.7) · escalate (≥ 0.7).
+# Tier-3 PII unlock fires only on the escalate path.
+
+practice: rc
+service_code: RC-E2E-07
+sprint: sprint-37
+sprint_item: 37.3
+keyvault_naming_pattern: 'apex-hitl-{tenant}-rc-e2e-07--{key}'
+
+# -----------------------------------------------------------------------------
+# Adaptive HITL threshold definitions — Sprint Plan §50 envelope
+# -----------------------------------------------------------------------------
+thresholds:
+
+  - id: auto_clear_max_fraud_score
+    keyvault_secret_name: auto-clear-max-fraud-score
+    type: number
+    units: score_0_to_1
+    default: 0.40
+    range: { min: 0.00, max: 1.00 }
+    description: |
+      Fraud scores strictly below this threshold auto-clear without HITL.
+      Below 0.40 means the model is confident the return is legitimate.
+    used_by:
+      agent: decide
+      prompt_section: 'Adaptive HITL decision tree step 6'
+    persona_routes_to: null
+
+  - id: hitl_review_min_fraud_score
+    keyvault_secret_name: hitl-review-min-fraud-score
+    type: number
+    units: score_0_to_1
+    default: 0.40
+    range: { min: 0.00, max: 1.00 }
+    description: |
+      Lower bound of the HITL review band. Scores in [0.40, 0.70) route to
+      Adaptive Card review (no PII unlock).
+    used_by:
+      agent: decide
+      prompt_section: 'Adaptive HITL decision tree step 4'
+    persona_routes_to: rebecca-hall-returns-ops-mgr
+
+  - id: escalate_min_fraud_score
+    keyvault_secret_name: escalate-min-fraud-score
+    type: number
+    units: score_0_to_1
+    default: 0.70
+    range: { min: 0.00, max: 1.00 }
+    description: |
+      Fraud scores at or above this threshold escalate to hold-with-PII-unlock.
+      Decide invokes tokenizer-mcp.bulk_detokenize for re-identification.
+    used_by:
+      agent: decide
+      prompt_section: 'Adaptive HITL decision tree step 3'
+    persona_routes_to: rebecca-hall-returns-ops-mgr
+
+  - id: auto_clear_max_refund_value_usd
+    keyvault_secret_name: auto-clear-max-refund-value-usd
+    type: number
+    units: usd
+    default: 100
+    range: { min: 0, max: 100000 }
+    description: |
+      Refund values above this threshold force HITL review even when
+      fraud_score is below auto_clear_max_fraud_score. Defends against
+      false-negatives on high-value refunds.
+    used_by:
+      agent: decide
+      prompt_section: 'Adaptive HITL decision tree step 5'
+    persona_routes_to: rebecca-hall-returns-ops-mgr
+
+  - id: ring_indicator_force_escalate
+    keyvault_secret_name: ring-indicator-force-escalate
+    type: boolean
+    default: true
+    description: |
+      When true (default), ring_indicator==true always escalates to
+      hold-with-PII-unlock regardless of individual fraud_score. Ring
+      members coordinate; per-event scores can hide the pattern.
+    used_by:
+      agent: decide
+      prompt_section: 'Adaptive HITL decision tree step 2'
+    persona_routes_to: rebecca-hall-returns-ops-mgr
+
+  - id: hold_requires_tier_3_pii_unlock
+    keyvault_secret_name: hold-requires-tier-3-pii-unlock
+    type: boolean
+    default: true
+    description: |
+      When true (default), any hold decision requires Tier-3 PII unlock
+      via the bulk_detokenize HITL gate. Setting false is NOT recommended
+      for tenants subject to GDPR / CCPA — re-identification without HITL
+      consent fails most consumer-protection statutes.
+    used_by:
+      agent: decide
+      prompt_section: 'Tier-3 PII unlock procedure'
+    persona_routes_to: rebecca-hall-returns-ops-mgr
+
+
+# -----------------------------------------------------------------------------
+# Tier-3 PII unlock pattern — per Deployment Guide §5.2.2
+# -----------------------------------------------------------------------------
+tier3_pii_unlock:
+  tokenizer_mcp_webhook_secret_name: 'apex-hitl-{tenant}-rc-e2e-07--tokenizer-bulk-detokenize-webhook'
+  unlock_ttl_seconds: 60
+  authorised_purposes:
+    - fraud_hold_re_identification
+  authorised_unlock_personas:
+    - rebecca-hall-returns-ops-mgr
+  audit_emit_separately: true       # Per BL.P.86 — separate audit row
+  max_unlock_count_per_decision: 50  # Ring sizes typically < 50; cap defends
+  re_authentication_required_seconds: 300
+
+
+# -----------------------------------------------------------------------------
+# Adaptive Card config
+# -----------------------------------------------------------------------------
+adaptive_card:
+  teams_webhook_secret_name: 'apex-hitl-{tenant}-rc-e2e-07--teams-webhook'
+  card_template_version: 'v1.5'
+  redact_classifications:
+    - trade_secret
+    - pii
+  show_top_3_drivers_only: true
+  show_per_graph_weights: false      # weights are TRADE_SECRET
+  show_regional_constraints: true
+
+
+# -----------------------------------------------------------------------------
+# Tuning policy — auto-rollback per Roadmap.md BL.P.76
+# -----------------------------------------------------------------------------
+tuning:
+  observation_window_days: 14
+  reversal_rate_rollback_threshold_pct: 30
+  escalation_rate_rollback_threshold_pct: 35
+  enable_auto_rollback: true
+  false_positive_rate_pct_ceiling: 2.0     # KPI: <2% per Services Guide §18.5
+  realised_recovery_drift_threshold_pct: 10

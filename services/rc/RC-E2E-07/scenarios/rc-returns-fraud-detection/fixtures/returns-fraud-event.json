@@ -1,0 +1,145 @@
+{
+  "$schema": "https://apex.deloitte.com/schemas/smoke-test-fixture-v1.json",
+  "fixture_id": "rc-returns-fraud-detection--canonical-1",
+  "description": "Canonical synthetic returns-fraud event per Services Guide §18.5 envelope. Three returns drive the three adaptive-HITL bands: low-score auto-clear, medium-score HITL review, high-score with ring_indicator triggering Tier-3 PII unlock + hold. Tests Concurrent canonical pattern (Analyst + Fraud Specialist run in parallel).",
+
+  "trigger": {
+    "kind": "returns-fraud-batch",
+    "tenant_id": "labtenant",
+    "trigger_at": "2026-05-10T11:30:00Z"
+  },
+
+  "events": [
+    {
+      "event_id": "RET-LOW-001",
+      "return_kind": "ecomm",
+      "ts": "2026-05-10T11:30:00Z",
+      "customer_token": "tok-cust-LEGIT",
+      "device_fingerprint_token": "tok-dev-LEGIT-1",
+      "payment_fingerprint_token": "tok-pay-LEGIT-1",
+      "original_order_natural": "ORD-2026-A001",
+      "original_purchase_at": "2026-04-30T10:00:00Z",
+      "elapsed_days_purchase_to_return": 10,
+      "skus_returned": [{"sku_key": "SKU-DRESS-M", "qty": 1, "unit_refund_usd": 49.99}],
+      "refund_value_usd": 49.99,
+      "channel": "online",
+      "return_reason_code": "WRONG_SIZE",
+      "receipt_present": true,
+      "receipt_match_quality": "exact",
+      "expected_fraud_score_band": "low",
+      "expected_decision_class": "auto_clear",
+      "expected_pii_unlock_required": false
+    },
+    {
+      "event_id": "RET-MED-001",
+      "return_kind": "boris",
+      "ts": "2026-05-10T11:32:00Z",
+      "customer_token": "tok-cust-WATCH",
+      "device_fingerprint_token": "tok-dev-WATCH-1",
+      "payment_fingerprint_token": "tok-pay-WATCH-1",
+      "original_order_natural": "ORD-2026-B112",
+      "original_purchase_at": "2026-03-10T14:00:00Z",
+      "elapsed_days_purchase_to_return": 61,
+      "skus_returned": [{"sku_key": "SKU-LAPTOP-15", "qty": 1, "unit_refund_usd": 1299.00}],
+      "refund_value_usd": 1299.00,
+      "channel": "store",
+      "return_reason_code": "DEFECTIVE",
+      "receipt_present": false,
+      "receipt_match_quality": "missing",
+      "expected_fraud_score_band": "medium",
+      "expected_decision_class": "hitl_required",
+      "expected_pii_unlock_required": false,
+      "expected_hitl_persona": "rebecca-hall-returns-ops-mgr"
+    },
+    {
+      "event_id": "RET-HIGH-001",
+      "return_kind": "ecomm",
+      "ts": "2026-05-10T11:34:00Z",
+      "customer_token": "tok-cust-RING-A",
+      "device_fingerprint_token": "tok-dev-SHARED-Q",
+      "payment_fingerprint_token": "tok-pay-SHARED-R",
+      "original_order_natural": "ORD-2026-C901",
+      "original_purchase_at": "2026-05-03T08:11:00Z",
+      "elapsed_days_purchase_to_return": 7,
+      "skus_returned": [{"sku_key": "SKU-LUXURY-BAG", "qty": 1, "unit_refund_usd": 2899.00}],
+      "refund_value_usd": 2899.00,
+      "channel": "online",
+      "return_reason_code": "NOT_AS_DESCRIBED",
+      "receipt_present": true,
+      "receipt_match_quality": "exact",
+      "ring_member_tokens": ["tok-cust-RING-A", "tok-cust-RING-B", "tok-cust-RING-C", "tok-cust-RING-D", "tok-cust-RING-E"],
+      "expected_fraud_score_band": "high",
+      "expected_ring_indicator": true,
+      "expected_ring_size": 5,
+      "expected_decision_class": "hold_with_pii_unlock",
+      "expected_pii_unlock_required": true,
+      "expected_hitl_persona": "rebecca-hall-returns-ops-mgr",
+      "expected_pii_unlock_purpose": "fraud_hold_re_identification"
+    }
+  ],
+
+  "expected_chain_behavior": {
+    "step_13_assess": {
+      "should_emit_to": "g_return_event_panel",
+      "concurrent_with_classify": true,
+      "should_emit_structural_signals_per_event": true
+    },
+    "step_14_classify": {
+      "concurrent_with_assess": true,
+      "should_emit_to": "g_fraud_score_basis",
+      "should_compute_fraud_score_per_event": true,
+      "should_emit_drivers_top_3_minimum": true,
+      "should_set_ring_indicator_for_RET-HIGH-001": true
+    },
+    "step_15_quantify": {
+      "should_call_get_fraud_score_basis_with_loss_economics_true": true,
+      "should_emit_loss_envelope_per_eligible_event": true,
+      "should_compute_binding_constraint": true
+    },
+    "step_16_decide": {
+      "auto_clear_count": 1,
+      "hitl_required_count": 1,
+      "hold_with_pii_unlock_count": 1,
+      "expected_pii_unlock_request_id_present_for_RET-HIGH-001": true,
+      "should_resolve_persona_via_microsoft_graph": true
+    },
+    "step_17_act_post_approval": {
+      "should_call": "rc_e2e_07.commit_hold_decision",
+      "should_create_cxml_fraudcase_only_for_escalate_path": true,
+      "should_complete_pii_unlock_within_ttl": true
+    },
+    "step_18_learn": {
+      "should_emit_ledger_rows_count": 3,
+      "should_emit_fraud_digest_to_persona": "rebecca-hall-returns-ops-mgr"
+    }
+  },
+
+  "expected_kpi_movement": {
+    "fraud-detection-rate-pct-lift": {
+      "target_direction": "increase",
+      "expected_pp_lift": 52,
+      "baseline_note": "per Services Guide §18.5 envelope: detection rate +52%"
+    },
+    "recovered-loss-usd": {
+      "target_direction": "increase",
+      "expected_year_1_recovery_usd": 8600000
+    },
+    "false-positive-rate-pct": {
+      "target_direction": "ceiling",
+      "ceiling_pct": 2.0
+    }
+  },
+
+  "audit_assertions": {
+    "purview_audit_row_present": true,
+    "audit_row_chain_ids_threaded": [
+      "decision_audit_row",
+      "tier3_pii_unlock_audit_row_for_RET-HIGH-001",
+      "actuator_audit_row"
+    ],
+    "tier3_pii_unlock_audit_row_separate": true,
+    "concurrent_pattern_emits_parallel_audit_rows": true,
+    "operator_principal_resolves_via_persona_principal_bindings": true,
+    "persona_id_recorded_alongside_principal": true
+  }
+}

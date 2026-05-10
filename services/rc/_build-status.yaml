@@ -343,18 +343,26 @@ sprints:
       - id: 37.2
         title: Author 4-agent prompts (incl. Fraud Specialist) + MCP tools (rc_e2e_07.*)
         services_guide_ref: '§18.5'
-        done: false
+        done: true
+        status: complete
+        notes: 'All 6 agent prompts authored (assess/The Analyst, classify/The Fraud Specialist, quantify/Loss Quantifier, decide/The Operations Lead, act/System Actuator, learn/The Briefer). Concurrent canonical pattern — assess + classify run in parallel. NEW packages/rc-e2e-07-mcp with 3 tools: get_return_event + get_fraud_score_basis (TRADE_SECRET via include_loss_economics) + commit_hold_decision (idempotent on decision_id, validates tier3_pii_unlock_request_id for hold path + deny_rationale for deny path). 22 unit tests pass.'
       - id: 37.3
         title: Adaptive HITL threshold — auto-clear < 0.4 score · escalate > 0.7
         services_guide_ref: '§18.5 (Workflow)'
-        done: false
+        done: true
+        status: complete
+        notes: 'Three-band adaptive gate wired in services/rc/RC-E2E-07/config/hitl-thresholds.yaml + bicep/hitl.bicep — 8 KV secrets per tenant: auto-clear-max-fraud-score (0.40) / hitl-review-min-fraud-score (0.40) / escalate-min-fraud-score (0.70) / auto-clear-max-refund-value-usd (100) / ring-indicator-force-escalate (true) / hold-requires-tier-3-pii-unlock (true) / tokenizer-bulk-detokenize-webhook / teams-webhook. Decide agent declares hitl_gate_kind: adaptive + 3-band threshold list. main.bicep wires the module. 52 manifest + fixture tests pass.'
       - id: 37.4
         title: Tier-3 PII unlock at hold-decision
         services_guide_ref: '§18.5 (PII), §7.3'
-        done: false
+        done: true
+        status: complete
+        notes: 'Tier-3 PII JIT unlock pattern wired per Deployment Guide §5.2.2: Decide agent declares tier3_pii_unlock_webhook_secret + 60s TTL + authorised_purposes [fraud_hold_re_identification] + audit_row_emit_separate_for_pii_unlock=true. Bulk-detokenise fires only on the escalate-band path (fraud_score >= 0.70 OR ring_indicator). commit_hold_decision rejects decision_class=hold_with_pii_unlock without tier3_pii_unlock_request_id (audit-row contract enforced at the MCP boundary). Adaptive Card emits two kinds: review_card (medium band) + hold_pii_unlock_card (high band).'
       - id: 37.5
         title: Deploy to Lab + smoke test (fraud ring pattern match)
         done: false
+        status: blocked_on_environment
+        notes: 'Synthetic fixture authored at fixtures/returns-fraud-event.json — 3 events exercising all three adaptive bands: low (auto_clear), medium (hitl_required), high with ring_indicator (hold_with_pii_unlock). Lab tenant + Bicep apply blocked on org-level Lab provisioning.'
 
   - id: sprint-38
     name: RC-E2E-08 — Marketing & Growth
@@ -702,6 +710,26 @@ sprints:
       - id: 47.5
         title: Smoke — synthetic markdown batch → Daniel Chen approval flow
         done: false
+      - id: 47.6
+        title: Formalise persona_principal_bindings YAML schema for use-case files
+        done: false
+        status: planned
+        notes: |-
+          Per the persona-vs-principal architecture answer (Sprint 37 work-back):
+          The agent.yaml hitl_persona field is a stable role identifier
+          (e.g., jamie-oconnor-store-manager). Real client tenants need a
+          typed schema that maps each role to live principals via one of
+          four binding modes — entra_group / specific_principals / shift_roster
+          / hybrid. The schema lives in the use-case YAML's persona_principal_bindings
+          block. Sprint 47 task: codify the schema as a Pydantic model in
+          apex_core.protocols + add validation to apex_m.identity_entra +
+          add a Pre-deployment Security Gate item that fails closed when
+          any active persona has no resolvable binding (e.g., still bound
+          to the synthetic Lab persona on a prod tenant).
+        related_work:
+          - apex_m.identity_entra (Sprint 41 — production wiring)
+          - Pre-deployment-Security-Gate.md (PSG-15 NEW item)
+          - docs/APEX - Design and Build/agent-identity-blueprints.md (Phase I.1 design)
 
   - id: sprint-48
     name: First client Wave 2 Pilot live
