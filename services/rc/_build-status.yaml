@@ -70,33 +70,43 @@ sprints:
         roadmap_ref: [BL.P.91, BL.P.92, BL.P.53]
         services_guide_ref: '§7.4 (Service module skeleton)'
         done: false
-        status: in_progress
-        notes: 'Bicep authored; Lab Azure subscription + az deployment apply still pending (Data SRE).'
+        status: blocked_on_environment
+        notes: 'Bicep authored; ready for `az deployment group create`. Blocked on Lab Azure subscription + Data SRE assignment (org-level prerequisite).'
       - id: 30.2
         title: Land Bronze for POS · ERP · refrigeration telemetry · competitor pricing
         roadmap_ref: [BL.P.20, BL.P.21, BL.P.22, BL.P.25]
         services_guide_ref: '§18.1 (Data sources)'
-        done: false
+        done: true
+        status: complete
+        notes: 'services/rc/_bronze/landing-config.yaml authored — 4 sources (POS eventstream / ERP mirrored / refrigeration eventstream / competitor pricing dataflow_gen2). All 4 round-trip through BronzeLandingConfig per services/rc/_bronze/validate.py. Connection wiring against Lab tenant pending Lab provisioning.'
       - id: 30.3
         title: Stand up Silver SCML.Inventory · SCML.Lot · MERML.Markdown · MERML.Elasticity · MERML.Competitor
         roadmap_ref: [BL.P.08, BL.P.09, BL.P.26, BL.P.27]
         services_guide_ref: '§18.1 (Silver schemas)'
-        done: false
+        done: true
+        status: complete
+        notes: 'apex-scml.Inventory + apex-merml.Elasticity + apex-merml.Competitor entities authored with TRADE_SECRET classification on elasticity coefficient + competitor confidence bounds. PracticeBundle + schemas.manifest.yaml updated to v0.2.0. 47 unit tests pass.'
       - id: 30.4
         title: Stand up Silver PROML.Pricing · PROML.DiscountRule (read by The Pricer)
         roadmap_ref: [BL.P.26]
         services_guide_ref: '§18.1 (Silver schemas)'
-        done: false
+        done: true
+        status: complete
+        notes: 'New apex-proml package (packages/apex-proml/) with PROML.Pricing + PROML.DiscountRule. Floor / MAP / cap_pct / margin_floor_pct fields are TRADE_SECRET; DiscountRule.model_validator enforces "at least one cap" rule. 10 unit tests pass.'
       - id: 30.5
         title: Stand up Silver CRMML.Customer · CRMML.Loyalty · CRMML.Interaction (RC-E2E-04, -07, -08)
         roadmap_ref: [BL.P.10]
         services_guide_ref: '§18.2, §18.5, §18.6'
-        done: false
+        done: true
+        status: complete
+        notes: 'apex_rc.crmml alias module re-exports CXML entities under CRMML.* names (CRMML is RC-namespaced view of canonical CXML per Roadmap.md BL.P.10). Customer/Loyalty/Interaction/Order all aliased + introspectable via CRMML_ALIASES dict.'
       - id: 30.6
         title: Materialize Gold marts for RC-E2E-03 (worked template — 6 marts)
         roadmap_ref: [BL.P.29, BL.P.30, BL.P.31, BL.P.32]
         services_guide_ref: '§18.1 (Gold marts), §12.2'
-        done: false
+        done: true
+        status: complete
+        notes: 'services/rc/RC-E2E-03/_gold/marts.py defines all 6 marts (g_excursion_decision_panel · g_markdown_proposal_basis · g_pricing_recommendation_basis · g_inventory_position_current · g_kpi_rc_e2e_03_daily · g_markdown_outcome_attribution) as a Direct Lake SemanticModelSpec. Renderable TMDL at rc_e2e_03_pricing_revenue.tmdl. 5 unit tests pass.'
 
   - id: sprint-31
     name: RC-E2E-03 — Service + Agent Scaffolding
@@ -428,8 +438,8 @@ sprints:
       - id: 41.1
         title: Provision Lab Entra tenant access — Application.ReadWrite.All + AgentIdentity.ReadWrite.All
         done: false
-        status: planned
-        notes: 'Awaits Lab subscription onboarding + Identity SRE assignment.'
+        status: blocked_on_environment
+        notes: 'Awaits Lab Azure subscription onboarding + Identity SRE assignment + Microsoft Graph permission grant. Org-level prerequisite, not a code task.'
       - id: 41.2
         title: Wire azure-identity + httpx in apex_m.identity_entra (lazy-imports already in place)
         done: true
@@ -443,13 +453,13 @@ sprints:
       - id: 41.4
         title: Integration tests against real Lab Entra — idempotent blueprint upsert + provision + revoke + list
         done: false
-        status: in_progress
-        notes: '6 pytest integration tests authored at apex-m/tests/integration/test_identity_entra.py. Skip-by-default; require APEX_TEST_TENANT_ID + APEX_TEST_CLIENT_ID env vars or WIF in CI. Test execution against real Lab tenant pending Lab provisioning.'
+        status: blocked_on_environment
+        notes: '6 pytest integration tests authored at apex-m/tests/integration/test_identity_entra.py — code is in. Skip-by-default; require APEX_TEST_TENANT_ID + APEX_TEST_CLIENT_ID env vars or WIF in CI. Execution against real Lab tenant blocked on Lab Azure subscription + Entra tenant provisioning (org-level prerequisite, not code).'
       - id: 41.5
         title: Verify identity.bicep deployment script creates apex-m-tenant-root via Microsoft Graph
         done: false
-        status: planned
-        notes: 'Bicep deployment script authored in earlier Phase I.1 commit; verification against Lab pending Lab provisioning.'
+        status: blocked_on_environment
+        notes: 'Bicep deploymentScripts authored in apex-m/infra/bicep/platform/identity.bicep — code is in. Verification against Lab subscription pending org-level Lab provisioning.'
 
   - id: sprint-42
     name: Phase I.2 — Foundry runtime production wiring

@@ -1,0 +1,104 @@
+model rc_e2e_03_pricing_revenue
+    culture en-US
+
+    table g_excursion_decision_panel
+        source abfss://rc-canonical@onelake.dfs.fabric.microsoft.com/rc-gold.Lakehouse/Tables/g_excursion_decision_panel  -- Direct Lake
+        column excursion_event_id
+        column store_id
+        column asset_id
+        column sku_key
+        column lot_key
+        column excursion_started_at
+        column excursion_severity_factor
+        column on_hand_qty
+        column unit_retail
+        column unit_cost_token
+        column excursion_at_risk_margin_usd
+        column stock_days_remaining
+        column time_since_last_event_seconds
+        column _classification
+
+    table g_markdown_proposal_basis
+        source abfss://rc-canonical@onelake.dfs.fabric.microsoft.com/rc-gold.Lakehouse/Tables/g_markdown_proposal_basis  -- Direct Lake
+        column sku_key
+        column location_key
+        column current_list_price
+        column current_floor_price
+        column current_map_price
+        column elasticity_coefficient
+        column competitor_min_observed_price
+        column competitor_match_confidence
+        column stock_days_remaining
+        column expected_recovery_pct
+        column effective_margin_pct
+        column _classification
+
+    table g_pricing_recommendation_basis
+        source abfss://rc-canonical@onelake.dfs.fabric.microsoft.com/rc-gold.Lakehouse/Tables/g_pricing_recommendation_basis  -- Direct Lake
+        column sku_key
+        column location_key
+        column channel
+        column list_price
+        column floor_price
+        column map_price
+        column target_margin_pct
+        column elasticity_coefficient
+        column elasticity_confidence_lower
+        column elasticity_confidence_upper
+        column competitor_observed_min_price
+        column competitor_observed_at
+        column matched_discount_rules
+        column rule_min_cap_pct
+        column rule_min_margin_floor_pct
+        column _classification
+
+    table g_inventory_position_current
+        source abfss://rc-canonical@onelake.dfs.fabric.microsoft.com/rc-gold.Lakehouse/Tables/g_inventory_position_current  -- Direct Lake
+        column sku_key
+        column location_key
+        column lot_key
+        column snapshot_at
+        column on_hand_qty
+        column reserved_qty
+        column in_transit_qty
+        column avg_daily_demand
+        column stock_days_remaining
+        column _classification
+
+    table g_kpi_rc_e2e_03_daily
+        source abfss://rc-canonical@onelake.dfs.fabric.microsoft.com/rc-gold.Lakehouse/Tables/g_kpi_rc_e2e_03_daily  -- Direct Lake
+        column as_of_date
+        column store_id
+        column category_key
+        column kpi_excursions_handled_count
+        column kpi_markdown_proposals_count
+        column kpi_markdown_recovery_pct
+        column kpi_at_risk_margin_avoided_usd
+        column kpi_pricing_recommendations_approved
+        column kpi_pricing_recommendations_overridden
+        column kpi_avg_excursion_to_decision_seconds
+        column kpi_hitl_escalation_rate_pct
+        column _classification
+        measure period_over_period_pct  -- owner: rc-practice-lead  v1.0
+            expression = VAR _cur = [base_metric] VAR _prior = CALCULATE([base_metric], DATEADD('Date'[Date], -1, MONTH)) RETURN DIVIDE(_cur - _prior, _prior) * 100
+        measure markdown_recovery_pct  -- owner: rc-e2e-03-pricing-lead  v1.0
+            expression = DIVIDE(SUM('rc_g_markdown_outcome_attribution'[recovered_margin_usd]),SUM('rc_g_markdown_outcome_attribution'[original_margin_usd])) * 100
+
+    table g_markdown_outcome_attribution
+        source abfss://rc-canonical@onelake.dfs.fabric.microsoft.com/rc-gold.Lakehouse/Tables/g_markdown_outcome_attribution  -- Direct Lake
+        column decision_id
+        column trace_id
+        column sku_key
+        column location_key
+        column applied_at
+        column applied_markdown_pct
+        column expected_recovery_pct
+        column actual_recovery_pct
+        column original_margin_usd
+        column recovered_margin_usd
+        column outcome_window_days
+        column decision_agent_id
+        column _classification
+
+    -- RC-E2E-03 Pricing & Revenue Decision Service. Six Gold marts feeding The Pricer + Markdown Agent + Operations Lead HITL Adaptive Cards + Daniel Chen's KPI dashboard. Sprint 30.6.
+

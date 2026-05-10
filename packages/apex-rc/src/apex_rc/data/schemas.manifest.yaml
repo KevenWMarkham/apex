@@ -1,9 +1,9 @@
 kind: schema
 name: rc-practice-schemas
-version: 0.1.0
+version: 0.2.0      # Sprint 30.3 + 30.4 — added Inventory / Elasticity / Competitor / PROML
 owner: rc-practice-lead
 practice: rc
-description: RC Practice schema bundle — SCML + MERML + CXML declarative manifest.
+description: RC Practice schema bundle — SCML + MERML + CXML + PROML declarative manifest.
 family: rc
 
 # Every canonical entity across the three RC schema families.
@@ -86,6 +86,27 @@ entities:
         data_type: string
         nullable: false
 
+  - name: inventory
+    natural_key: [sku_key, location_key, snapshot_at]
+    classification: internal
+    attributes:
+      - name: sku_key
+        data_type: string
+        nullable: false
+      - name: location_key
+        data_type: string
+        nullable: false
+      - name: snapshot_kind
+        data_type: string
+        nullable: false
+        enum: [PERPETUAL, PHYSICAL, CYCLE_COUNT, RECEIPT, SHIPMENT]
+      - name: on_hand_qty
+        data_type: decimal
+        nullable: false
+      - name: avg_daily_demand
+        data_type: decimal
+        nullable: true
+
   # --- MERML (Merchandising) ---------------------------------------------
   - name: category
     natural_key: [category_natural]
@@ -131,6 +152,85 @@ entities:
         data_type: string
         nullable: false
         enum: [SEASONAL, OVERSTOCK, DAMAGED, EXPIRATION, COMPETITIVE, CLEARANCE]
+
+  - name: elasticity
+    natural_key: [sku_key, location_key, fit_at]
+    classification: trade_secret
+    attributes:
+      - name: sku_key
+        data_type: string
+        nullable: false
+      - name: location_key
+        data_type: string
+        nullable: true
+      - name: model_kind
+        data_type: string
+        nullable: false
+        enum: [LOG_LOG, SEMI_LOG, PIECEWISE, BAYESIAN]
+      - name: coefficient
+        data_type: decimal
+        nullable: false
+        classification: trade_secret
+
+  - name: competitor
+    natural_key: [sku_key, competitor_name, observed_at]
+    classification: internal
+    attributes:
+      - name: sku_key
+        data_type: string
+        nullable: false
+      - name: competitor_name
+        data_type: string
+        nullable: false
+      - name: match_kind
+        data_type: string
+        nullable: false
+        enum: [GTIN, MPN, HEURISTIC, MANUAL]
+      - name: list_price
+        data_type: decimal
+        nullable: false
+      - name: promo_price
+        data_type: decimal
+        nullable: true
+
+  # --- PROML (Pricing) — Sprint 30.4 -------------------------------------
+  - name: pricing
+    natural_key: [sku_key, location_key, effective_from]
+    classification: trade_secret
+    attributes:
+      - name: sku_key
+        data_type: string
+        nullable: false
+      - name: location_key
+        data_type: string
+        nullable: true
+      - name: list_price
+        data_type: decimal
+        nullable: false
+      - name: floor_price
+        data_type: decimal
+        nullable: true
+        classification: trade_secret
+      - name: map_price
+        data_type: decimal
+        nullable: true
+        classification: trade_secret
+
+  - name: discount_rule
+    natural_key: [rule_natural]
+    classification: trade_secret
+    attributes:
+      - name: rule_natural
+        data_type: string
+        nullable: false
+      - name: rule_kind
+        data_type: string
+        nullable: false
+        enum: [BUYER_LADDER, SEASONAL, CLEARANCE, MARGIN_FLOOR, COMPETITOR_MATCH]
+      - name: cap_pct
+        data_type: decimal
+        nullable: true
+        classification: trade_secret
 
   # --- CXML (Customer) ---------------------------------------------------
   - name: customer

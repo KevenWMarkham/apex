@@ -10,8 +10,22 @@ import pytest
 from pydantic import ValidationError
 
 from apex_schemas_common import generate_delta_ddl
-from apex_merml import Category, Markdown, Price, Promotion
-from apex_merml.entities import MarkdownReason, PriceKind, PromotionType
+from apex_merml import (
+    Category,
+    Competitor,
+    Elasticity,
+    Markdown,
+    Price,
+    Promotion,
+)
+from apex_merml.entities import (
+    CompetitorChannel,
+    CompetitorMatchKind,
+    ElasticityModelKind,
+    MarkdownReason,
+    PriceKind,
+    PromotionType,
+)
 
 
 def _envelope() -> dict[str, object]:
@@ -99,8 +113,83 @@ def test_markdown_with_reason() -> None:
     assert md.reason is MarkdownReason.EXPIRATION
 
 
+def test_elasticity_minimal_construction() -> None:
+    el = Elasticity(
+        sku_key="sku_0001",
+        model_kind=ElasticityModelKind.LOG_LOG,
+        fit_at=datetime.now(UTC),
+        coefficient=Decimal("-1.4"),
+        confidence_lower=Decimal("-1.7"),
+        confidence_upper=Decimal("-1.1"),
+        sample_size=842,
+        holdout_r_squared=0.78,
+        **_envelope(),
+        **_scd2(),
+    )  # type: ignore[arg-type]
+    assert el.coefficient == Decimal("-1.4")
+    assert el.model_kind is ElasticityModelKind.LOG_LOG
+
+
+def test_elasticity_holdout_r_squared_bounded() -> None:
+    with pytest.raises(ValidationError):
+        Elasticity(
+            sku_key="sku_0001",
+            model_kind=ElasticityModelKind.SEMI_LOG,
+            fit_at=datetime.now(UTC),
+            coefficient=Decimal("-1.0"),
+            holdout_r_squared=1.5,  # > 1.0 invalid
+            **_envelope(),
+            **_scd2(),
+        )  # type: ignore[arg-type]
+
+
+def test_competitor_match_confidence_bounded() -> None:
+    Competitor(
+        sku_key="sku_0001",
+        competitor_name="Target",
+        match_kind=CompetitorMatchKind.GTIN,
+        match_confidence=1.0,
+        channel=CompetitorChannel.ECOM,
+        observed_at=datetime.now(UTC),
+        list_price=Decimal("4.99"),
+        **_envelope(),
+        **_scd2(),
+    )  # type: ignore[arg-type]
+    with pytest.raises(ValidationError):
+        Competitor(
+            sku_key="sku_0001",
+            competitor_name="Target",
+            match_kind=CompetitorMatchKind.HEURISTIC,
+            match_confidence=1.5,  # > 1.0 invalid
+            channel=CompetitorChannel.ECOM,
+            observed_at=datetime.now(UTC),
+            list_price=Decimal("4.99"),
+            **_envelope(),
+            **_scd2(),
+        )  # type: ignore[arg-type]
+
+
+def test_competitor_with_promo_price() -> None:
+    comp = Competitor(
+        sku_key="sku_0001",
+        competitor_name="BigBox",
+        competitor_sku_natural="comp-99",
+        match_kind=CompetitorMatchKind.GTIN,
+        match_confidence=0.97,
+        channel=CompetitorChannel.BRICK,
+        observed_at=datetime.now(UTC),
+        list_price=Decimal("5.99"),
+        promo_price=Decimal("4.49"),
+        in_stock=True,
+        **_envelope(),
+        **_scd2(),
+    )  # type: ignore[arg-type]
+    assert comp.promo_price == Decimal("4.49")
+    assert comp.in_stock is True
+
+
 def test_ddl_generation_for_all_entities() -> None:
-    for entity_cls in (Category, Price, Promotion, Markdown):
+    for entity_cls in (Category, Price, Promotion, Markdown, Elasticity, Competitor):
         ddl = generate_delta_ddl(entity_cls, database="silver_merml")
         assert "CREATE TABLE silver_merml." in ddl
         assert "USING DELTA" in ddl

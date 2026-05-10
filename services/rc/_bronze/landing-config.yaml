@@ -1,0 +1,165 @@
+# RC Bronze landing-config — Sprint 30 item 30.2
+#
+# Declarative definition of the four RC Bronze sources. Each entry binds to
+# `apex_medallion.bronze.config.BronzeLandingConfig` (one of the five source
+# patterns) and points at:
+#
+# - the source SOR (Bronze landing connection name)
+# - the target Fabric workspace + lakehouse + bronze table
+# - retention + dead-letter policy
+# - pattern-specific connection detail
+#
+# The Sprint 30 deploy reads this file and generates a Fabric Data Pipeline /
+# Eventstream / Mirrored DB / Dataflow Gen2 / Custom Endpoint instance per
+# entry. All four feed the Silver entities that ship in 30.3 (SCML/MERML)
+# and 30.4 (PROML).
+#
+# Per Services Guide §1.6, all four targets land in the `rc-bronze`
+# lakehouse inside the `rc-canonical` primary workspace.
+#
+# Workspace + lakehouse IDs below are placeholders — they're populated at
+# `az deployment group create` time by the Bicep deploymentScripts in
+# `apex-m/infra/bicep/platform/fabric.bicep` (Sprint 30.1).
+
+practice: rc
+practice_label: Retail & Consumer Products
+schema_version: 1
+owner: rc-data-sre
+sprint: sprint-30
+sprint_item: 30.2
+fabric_workspace: rc-canonical
+fabric_lakehouse: rc-bronze
+audit_destination: purview-audit-bronze-ingest
+
+sources:
+
+  # -------------------------------------------------------------------------
+  # 1. POS — point-of-sale transactional events. RC-E2E-03 cold-chain reads
+  # markdown sell-through; RC-E2E-04 loyalty churn joins on customer.
+  # -------------------------------------------------------------------------
+  - name: rc-pos
+    source_system: pos-oracle
+    source_pattern: eventstream
+    source_connection_name: oracle-retail-pos-stream-prod
+    workspace_id: ${rc_canonical_workspace_id}
+    lakehouse_id: ${rc_bronze_lakehouse_id}
+    target_table: bronze_pos.transaction
+    partition_columns: [ingest_date, store_id]
+    practice: rc
+    classification: internal
+    retention:
+      duration_days: 730                # 2y POS retention per RC commercial policy
+      practice: rc
+    deadletter_table: bronze_raw_deadletter
+    max_retries: 3
+    retry_backoff_seconds: 60
+    pattern_detail:
+      eventhub_namespace: rc-eventhub-prod
+      topic: rc/pos/transactions
+      consumer_group: apex-bronze-pos
+      checkpoint_interval_seconds: "30"
+    feeds_silver:
+      - SCML.Inventory      # via decrement on sale
+      - MERML.Markdown      # markdown sell-through telemetry
+      - CXML.Order          # loyalty churn join
+
+  # -------------------------------------------------------------------------
+  # 2. ERP — SAP Retail SOR for SKU master, supplier, location, lot, cost.
+  # Mirrored Database pattern preserves SAP transactional semantics.
+  # -------------------------------------------------------------------------
+  - name: rc-erp
+    source_system: sap-retail
+    source_pattern: mirrored_database
+    source_connection_name: sap-retail-mirror-prod
+    workspace_id: ${rc_canonical_workspace_id}
+    lakehouse_id: ${rc_bronze_lakehouse_id}
+    target_table: bronze_erp.master
+    partition_columns: [ingest_date, source_table]
+    practice: rc
+    classification: internal
+    retention:
+      duration_days: 2555               # 7y SAP retention
+      practice: rc
+    deadletter_table: bronze_raw_deadletter
+    max_retries: 5
+    retry_backoff_seconds: 120
+    pattern_detail:
+      mirror_item_id: rc-sap-retail-mirror-001
+      mirrored_tables: "MARA,MARC,MBEW,LFA1,T001L,LIKP"
+    feeds_silver:
+      - SCML.SKU
+      - SCML.Location
+      - SCML.Lot
+      - SCML.Supplier
+      - PROML.Pricing       # cost token + list price
+      - PROML.DiscountRule  # buyer ladders synced from SAP
+
+  # -------------------------------------------------------------------------
+  # 3. Refrigeration telemetry — IoT cold-chain temperature stream. The
+  # primary input to RC-E2E-03's cold-chain excursion scenario.
+  # -------------------------------------------------------------------------
+  - name: rc-refrigeration
+    source_system: refrigeration-iot
+    source_pattern: eventstream
+    source_connection_name: refrigeration-iot-eventhub-prod
+    workspace_id: ${rc_canonical_workspace_id}
+    lakehouse_id: ${rc_bronze_lakehouse_id}
+    target_table: bronze_iot.refrigeration_temperature
+    partition_columns: [ingest_date, store_id, asset_id]
+    practice: rc
+    classification: internal
+    retention:
+      duration_days: 365                # 1y IoT retention; downsample to 7y
+      practice: rc
+    deadletter_table: bronze_raw_deadletter
+    max_retries: 3
+    retry_backoff_seconds: 30
+    pattern_detail:
+      eventhub_namespace: rc-iot-eventhub-prod
+      topic: rc/refrigeration/temperature
+      consumer_group: apex-bronze-refrigeration
+      checkpoint_interval_seconds: "10"
+      late_arrival_threshold_seconds: "300"   # 5min late-arrival window for excursion correlation
+    feeds_silver: []                    # Bronze-only — Silver materialised at query time via Eventhouse
+    feeds_eventhouse:
+      cluster: rc-eventhouse-prod
+      database: rc_refrigeration
+      table: temperature_events
+
+  # -------------------------------------------------------------------------
+  # 4. Competitor pricing — daily/weekly scrape feed via Dataflow Gen2.
+  # Drives MERML.Competitor + The Pricer's competitive-pressure scoring.
+  # -------------------------------------------------------------------------
+  - name: rc-competitor-pricing
+    source_system: competitor-pricing-vendor
+    source_pattern: dataflow_gen2
+    source_connection_name: competitor-pricing-rest-api
+    workspace_id: ${rc_canonical_workspace_id}
+    lakehouse_id: ${rc_bronze_lakehouse_id}
+    target_table: bronze_competitor.observed_price
+    partition_columns: [ingest_date, competitor_name]
+    practice: rc
+    classification: internal
+    retention:
+      duration_days: 1825               # 5y competitive-history retention
+      practice: rc
+    deadletter_table: bronze_raw_deadletter
+    max_retries: 5
+    retry_backoff_seconds: 300
+    pattern_detail:
+      dataflow_id: rc-competitor-pricing-df
+      watermark_column: observed_at
+      api_paginate: cursor
+      schedule_cron: "0 4 * * *"        # 04:00 UTC daily
+    feeds_silver:
+      - MERML.Competitor
+
+
+# -----------------------------------------------------------------------------
+# Cross-cutting Bronze policies (per Roadmap.md BL.P.25 retention + partitioning)
+# -----------------------------------------------------------------------------
+defaults:
+  retention_audit_emit: true            # every retention event lands in Purview Audit
+  partitioning_compaction: weekly       # Delta OPTIMIZE + VACUUM weekly
+  delta_change_data_feed: true          # required for Sprint 43 Silver CDC
+  workspace_identity_mode: user_identity  # Services Guide §1.5

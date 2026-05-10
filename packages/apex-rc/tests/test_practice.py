@@ -16,22 +16,24 @@ def test_bundle_identifies_rc_practice() -> None:
     assert bundle.name == "rc"
 
 
-def test_bundle_has_three_schema_families() -> None:
+def test_bundle_has_four_schema_families() -> None:
     bundle = rc_bundle()
-    assert set(bundle.schema_families) == {"scml", "merml", "cxml"}
+    assert set(bundle.schema_families) == {"scml", "merml", "cxml", "proml"}
 
 
 def test_scml_entities_present() -> None:
     bundle = rc_bundle()
+    # Sprint 30.3 added Inventory.
     assert set(bundle.entities["scml"]) == {
-        "SKU", "Location", "Lot", "Shipment", "Supplier", "Item",
+        "SKU", "Inventory", "Location", "Lot", "Shipment", "Supplier", "Item",
     }
 
 
 def test_merml_entities_present() -> None:
     bundle = rc_bundle()
+    # Sprint 30.3 added Elasticity + Competitor.
     assert set(bundle.entities["merml"]) == {
-        "Category", "Price", "Promotion", "Markdown",
+        "Category", "Price", "Promotion", "Markdown", "Elasticity", "Competitor",
     }
 
 
@@ -40,6 +42,28 @@ def test_cxml_entities_present() -> None:
     assert set(bundle.entities["cxml"]) == {
         "Customer", "Loyalty", "Interaction", "Order",
     }
+
+
+def test_proml_entities_listed() -> None:
+    """Sprint 30.4 — PROML entities are listed by name only (no hard dep)."""
+    bundle = rc_bundle()
+    assert set(bundle.entities["proml"]) == {"Pricing", "DiscountRule"}
+
+
+def test_crmml_aliases_resolve_to_cxml() -> None:
+    """Sprint 30.5 — CRMML.* aliases must resolve to canonical CXML entities."""
+    from apex_cxml import Customer as CxmlCustomer, Loyalty as CxmlLoyalty
+    from apex_rc.crmml import CRMML_ALIASES, Customer, Loyalty
+
+    # Re-exports are the same class, not a copy.
+    assert Customer is CxmlCustomer
+    assert Loyalty is CxmlLoyalty
+
+    # Alias map covers the three RC build-status calls out + Order.
+    assert set(CRMML_ALIASES) == {
+        "CRMML.Customer", "CRMML.Loyalty", "CRMML.Interaction", "CRMML.Order",
+    }
+    assert CRMML_ALIASES["CRMML.Customer"] is CxmlCustomer
 
 
 def test_bundle_standards_registered() -> None:

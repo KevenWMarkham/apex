@@ -11,8 +11,13 @@ from pydantic import ValidationError
 
 from apex_schemas_common import generate_delta_ddl
 from apex_schemas_common.standards import audit_model
-from apex_scml import SKU, Item, Location, Lot, Shipment, Supplier
-from apex_scml.entities import LocationType, SkuStatus, SupplierTier
+from apex_scml import SKU, Inventory, Item, Location, Lot, Shipment, Supplier
+from apex_scml.entities import (
+    InventorySnapshotKind,
+    LocationType,
+    SkuStatus,
+    SupplierTier,
+)
 
 
 def _envelope() -> dict[str, object]:
@@ -126,6 +131,40 @@ def test_item_minimal() -> None:
         **_scd2(),
     )  # type: ignore[arg-type]
     assert item.brand == "BrandX"
+
+
+def test_inventory_minimal_construction() -> None:
+    inv = Inventory(
+        sku_key="sku_0001",
+        location_key="store-100",
+        snapshot_kind=InventorySnapshotKind.PERPETUAL,
+        snapshot_at=datetime.now(UTC),
+        on_hand_qty=Decimal("42"),
+        **_envelope(),
+        **_scd2(),
+    )  # type: ignore[arg-type]
+    assert inv.on_hand_qty == Decimal("42")
+    assert inv.reserved_qty == Decimal("0")  # default
+    assert inv.snapshot_kind is InventorySnapshotKind.PERPETUAL
+
+
+def test_inventory_with_all_quantities() -> None:
+    inv = Inventory(
+        sku_key="sku_0001",
+        location_key="dc-east",
+        lot_key="LOT-2026-001",
+        snapshot_kind=InventorySnapshotKind.RECEIPT,
+        snapshot_at=datetime.now(UTC),
+        on_hand_qty=Decimal("120"),
+        reserved_qty=Decimal("12"),
+        in_transit_qty=Decimal("48"),
+        avg_daily_demand=Decimal("8.5"),
+        **_envelope(),
+        **_scd2(),
+    )  # type: ignore[arg-type]
+    assert inv.in_transit_qty == Decimal("48")
+    assert inv.avg_daily_demand == Decimal("8.5")
+    assert inv.lot_key == "LOT-2026-001"
 
 
 def test_sku_ddl_generation() -> None:
