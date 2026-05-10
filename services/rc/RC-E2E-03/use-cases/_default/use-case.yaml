@@ -1,59 +1,52 @@
 # services/rc/RC-E2E-03/use-cases/_default/use-case.yaml
 #
-# Default use case for RC-E2E-03 (Pricing & Revenue Decision Service).
-# Based on the canonical Services Guide §18.1 envelope. Clients clone this
-# and adjust client_approved_architecture per their CAB approval.
+# Default + canonical-worked-example use case for RC-E2E-03 (Pricing &
+# Revenue Decision Service). Based on the Services Guide §18.1 envelope.
+# This is the first fully-runnable use case — it includes the
+# chain_execution + persona_kpi_attribution + smoke_test blocks per
+# docs/APEX - Design and Build/Use-Case-Template-Runnable-Chain.md.
+#
+# Clients clone this directory and adjust client_approved_architecture
+# per their CAB. The chain_execution + persona_kpi_attribution blocks
+# typically carry forward unchanged — they capture scenario semantics,
+# not tenant config.
 
 use_case_id: rc-e2e-03--default
 service_code: RC-E2E-03
+scenario_id: rc-cold-chain-excursion-mid-shift   # this use case's primary scenario
 primary_variant: APEX-M
 client_segment: Default — Microsoft-first deployment per Services Guide §18.1 envelope
 substrate: lab
 
+# ===== Adapter wiring =====
 client_approved_architecture:
   data_lake:
     primary:
       variant: APEX-M
       target: fabric.onelake.rc-canonical
     bronze_sources:
-      # Canonical Bronze sources per Services Guide §18.1. Replace adapter
-      # bindings per the client's actual data environment.
       - { source: pos, adapter: REPLACE_WITH_CLIENT_POS_ADAPTER, dataset: REPLACE }
       - { source: erp, adapter: REPLACE_WITH_CLIENT_ERP_ADAPTER, dataset: REPLACE }
       - { source: refrigeration, adapter: REPLACE_WITH_CLIENT_TELEMETRY_ADAPTER, dataset: REPLACE }
       - { source: competitor_pricing, adapter: REPLACE_WITH_CLIENT_PRICING_ADAPTER, dataset: REPLACE }
-
   identity:
-    primary:
-      variant: APEX-M
-      source: entra-agent-id     # Microsoft Entra Agent ID (GA April 2026)
-    federation: []                # add identity.okta etc. per CAB
-
+    primary: { variant: APEX-M, source: entra-agent-id }
+    federation: []
   siem_audit:
-    primary:
-      variant: APEX-M
-      target: purview-audit       # Microsoft Purview Audit = system of record
-    secondary: []                 # add siem.splunk etc. per CAB
-
+    primary: { variant: APEX-M, target: purview-audit }
+    secondary: []
   hitl_channel:
-    primary:
-      variant: APEX-M
-      target: teams               # Teams Adaptive Card per Services Guide §18.1 personas
+    primary: { variant: APEX-M, target: teams }
     fallback: []
-
   message_bus:
-    primary:
-      variant: APEX-M
-      target: eventstream         # Fabric Eventstream + Activator destination
+    primary: { variant: APEX-M, target: eventstream }
     cross_cloud: []
 
-# Personas — resolve in services/_personas.yaml (Phase 0.7+ follow-up)
+# ===== Personas + KPIs =====
 personas_active:
   - id: marisol-reyes-store-ops
   - id: daniel-chen-merch-director
 
-# KPIs — resolve in services/_kpis.yaml (Phase 0.7+ follow-up)
-# Targets are the published Services Guide §18.1 envelope.
 kpis_targeted:
   - { id: gm-pp-lift, target: 3.2 }
   - { id: doh-reduction-pct, target: -28 }
@@ -62,20 +55,18 @@ kpis_targeted:
   - { id: decision-loop-time-sec, target: 90 }
 
 hitl_thresholds:
-  markdown_pct_above: 30          # > 30% markdown requires HITL approval
-  destroy_decision: any           # any destroy decision requires HITL
-  refund_usd_above: 500           # > $500 refund requires HITL
+  markdown_pct_above: 30
+  destroy_decision: any
+  refund_usd_above: 500
 
 agent_overrides:
-  pricing:                        # The Pricer specifically
+  pricing:
     model: gpt-4o-2024-11-20
-    redis_episodic_memory: true   # Services Guide §25.8 learning loop
+    redis_episodic_memory: true
     learning_loop_window_days: 90
   decide:
     teams_webhook_secret: kv://apex-hitl-REPLACE-rc-e2e-03-decide
 
-# Foundry block — APEX-M only. Variant validator rejects this for
-# APEX-G or APEX-A use cases.
 foundry:
   project_ref: REPLACE_WITH_FOUNDRY_PROJECT
   hosted_agent_image_tag: rc-e2e-03/v0.1.0
@@ -85,3 +76,116 @@ deployment:
   wave: w2
   blueprint: apex-m/infra/bicep/blueprints/w2-pilot.bicep
   parameters_path: REPLACE_WITH_GENERATED_PARAMETERS_FILE
+
+
+# ===========================================================================
+# RUNNABLE BLOCKS — see docs/APEX - Design and Build/Use-Case-Template-Runnable-Chain.md
+# ===========================================================================
+
+# ===== chain_execution — 24 steps, fully populated for this scenario =====
+chain_execution:
+  scenario_id: rc-cold-chain-excursion-mid-shift
+
+  steps:
+    # --- W1 Foundation (steps 1-7) — platform-only, no agent involvement ---
+    - { step: 1,  key: w1-sor,            executed_by: platform, data_read: [],                                                                            data_written: [SCML.Telemetry, SCML.POS, SCML.Lot],     kpi_affected: null,                       decision_point: false, notes: "POS + refrigeration telemetry + ERP inventory + competitor pricing land here" }
+    - { step: 2,  key: w1-rth,            executed_by: platform, data_read: [SCML.Telemetry],                                                              data_written: [],                                       kpi_affected: null,                       decision_point: false, notes: "Real-Time Hub · streaming ingest via Eventstream" }
+    - { step: 3,  key: w1-bronze,         executed_by: platform, data_read: [],                                                                            data_written: [SCML.Telemetry, SCML.POS],               kpi_affected: null,                       decision_point: false, notes: "Bronze landing · raw + ingest metadata" }
+    - { step: 4,  key: w1-tokenizer,      executed_by: platform, data_read: [],                                                                            data_written: [],                                       kpi_affected: null,                       decision_point: false, notes: "Tokenize PII before downstream availability" }
+    - { step: 5,  key: w1-silver,         executed_by: platform, data_read: [],                                                                            data_written: [SCML.Inventory, SCML.Lot, MERML.Markdown, MERML.Elasticity, MERML.Competitor, PROML.Pricing, PROML.DiscountRule], kpi_affected: null,                       decision_point: false, notes: "Silver canonical · MERML / SCML / PROML conformance" }
+    - { step: 6,  key: w1-canonical,      executed_by: platform, data_read: [SCML.Inventory, MERML.Markdown],                                              data_written: [],                                       kpi_affected: null,                       decision_point: false, notes: "Cross-schema joins + Silver-to-Gold materialization" }
+    - { step: 7,  key: w1-schemas,        executed_by: platform, data_read: [],                                                                            data_written: [],                                       kpi_affected: null,                       decision_point: false, notes: "Schema registry + sensitivity-label propagation via Purview" }
+
+    # --- W2 Pilot (steps 8-16) — agent fleet runs ---
+    - { step: 8,  key: w2-trigger,        executed_by: platform, data_read: [SCML.Telemetry],                                                              data_written: [],                                       kpi_affected: null,                       decision_point: false, notes: "Eventstream Activator detects threshold breach + fires DAG (per DEP-004)" }
+    - { step: 9,  key: w2-orchestrator,   executed_by: platform, data_read: [],                                                                            data_written: [],                                       kpi_affected: null,                       decision_point: false, notes: "Foundry workflow orchestrator dispatches the 6-agent fleet" }
+    - { step: 10, key: w2-assess,         executed_by: assess,   data_read: [SCML.Telemetry, SCML.Lot, SCML.Inventory],                                    data_written: [g_excursion_decision_panel],            kpi_affected: null,                       decision_point: false, personas_involved: [], notes: "Assess agent reads excursion event; produces situation read" }
+    - { step: 11, key: w2-classify,       executed_by: classify, data_read: [g_excursion_decision_panel, SCML.Lot],                                        data_written: [],                                       kpi_affected: null,                       decision_point: false, personas_involved: [], notes: "Classify agent ranks severity vs FSMA-204 lot history" }
+    - { step: 12, key: w2-quantify,       executed_by: pricing,  data_read: [PROML.Pricing, PROML.DiscountRule, MERML.Elasticity, MERML.Competitor, SCML.Inventory], data_written: [g_pricing_recommendation_basis], kpi_affected: gm-pp-lift,                 decision_point: false, personas_involved: [], notes: "The Pricer computes per-SKU-per-store markdown proposal with simulated P&L" }
+    - { step: 13, key: w2-decide,         executed_by: decide,   data_read: [g_pricing_recommendation_basis, g_excursion_decision_panel],                  data_written: [],                                       kpi_affected: shrink-cost-reduction-pct,  decision_point: true,  hitl_threshold_ref: markdown_pct_above, personas_involved: [marisol-reyes-store-ops], notes: "Decide composes HITL Adaptive Card; Marisol approves/denies markdown >30% or destroy decisions" }
+    - { step: 14, key: w2-hitl-gate,      executed_by: platform, data_read: [],                                                                            data_written: [audit_row],                              kpi_affected: decision-loop-time-sec,     decision_point: true,  hitl_threshold_ref: markdown_pct_above, personas_involved: [marisol-reyes-store-ops], notes: "HITL gate fires Teams Adaptive Card; persona decision writes audit row" }
+    - { step: 15, key: w2-act,            executed_by: act,      data_read: [],                                                                            data_written: [MERML.Markdown, audit_row],              kpi_affected: markdown-to-clear-pct,      decision_point: false, personas_involved: [], notes: "Act commits markdown decision back to MERML; updates pricing system" }
+    - { step: 16, key: w2-learn,          executed_by: learn,    data_read: [MERML.Markdown, audit_row],                                                   data_written: [],                                       kpi_affected: null,                       decision_point: false, personas_involved: [], notes: "Learn writes outcome to LEDGER + Redis episodic memory for The Pricer's similarity search" }
+
+    # --- W2 Pilot KPI surface (steps 17-18) ---
+    - { step: 17, key: w2-kpi-rollup,     executed_by: platform, data_read: [g_excursion_decision_panel, MERML.Markdown, audit_row],                      data_written: [g_kpi_rc_e2e_03_daily, g_markdown_outcome_attribution], kpi_affected: gm-pp-lift,                 decision_point: false, notes: "Gold mart rollups; Direct Lake refresh" }
+    - { step: 18, key: w2-power-bi,       executed_by: platform, data_read: [g_kpi_rc_e2e_03_daily],                                                       data_written: [],                                       kpi_affected: null,                       decision_point: false, personas_involved: [daniel-chen-merch-director], notes: "Power BI dashboard surfaces; weekly review by merchandising director" }
+
+    # --- W3 Scale & Fuse (steps 19-22) — composable mesh ---
+    - { step: 19, key: w3-scale,          executed_by: platform, data_read: [],                                                                            data_written: [],                                       kpi_affected: null,                       decision_point: false, notes: "Foundry capacity scale + per-region replicas (Wave 3)" }
+    - { step: 20, key: w3-fusion,         executed_by: platform, data_read: [],                                                                            data_written: [],                                       kpi_affected: null,                       decision_point: false, notes: "Cross-service fusion: cold-chain ↔ loyalty churn ↔ lot provenance (Perishables Economics Mesh)" }
+    - { step: 21, key: w3-trust,          executed_by: platform, data_read: [],                                                                            data_written: [],                                       kpi_affected: null,                       decision_point: false, notes: "Purview trust badge + DSPM for AI posture report" }
+    - { step: 22, key: w3-feedback,       executed_by: platform, data_read: [audit_row, MERML.Markdown],                                                   data_written: [],                                       kpi_affected: null,                       decision_point: false, notes: "Feedback loop: realized GM joins back into The Pricer's learning loop (Services Guide §25.8)" }
+
+    # --- Executive surface (steps 23-24) ---
+    - { step: 23, key: exec-kpi,          executed_by: platform, data_read: [g_kpi_rc_e2e_03_daily],                                                       data_written: [],                                       kpi_affected: null,                       decision_point: false, notes: "Executive KPI dashboard" }
+    - { step: 24, key: ledger-feedback,   executed_by: platform, data_read: [audit_row],                                                                   data_written: [],                                       kpi_affected: null,                       decision_point: false, notes: "LEDGER feedback visualization (per Roadmap.md BL.C.30d)" }
+
+
+# ===== persona_kpi_attribution — who moves which KPI and how =====
+persona_kpi_attribution:
+  marisol-reyes-store-ops:
+    - kpi: shrink-cost-reduction-pct
+      mechanism: |
+        Approves or denies destroy/markdown decisions for cold-chain
+        excursions. Faster + more accurate decisions = less perishable
+        loss = lower shrink cost.
+      decision_steps: [13, 14]
+      direction: decrease
+      magnitude_basis: number of excursions × per-event margin protected (~$142K average per Services Guide §18.1)
+    - kpi: decision-loop-time-sec
+      mechanism: Speed of HITL approval — Services Guide §18.1 target 5.7 hr → 90 sec
+      decision_steps: [14]
+      direction: decrease
+      magnitude_basis: human review time
+
+  daniel-chen-merch-director:
+    - kpi: gm-pp-lift
+      mechanism: |
+        Reviews weekly markdown proposal in Power BI Direct Lake;
+        approves The Pricer's per-SKU-per-store recommendations via
+        Microsoft 365 Copilot chat. Better-optimized markdowns =
+        higher realized gross margin.
+      decision_steps: [18]
+      direction: increase
+      magnitude_basis: category-level price-elasticity gap closed (~3.2pp envelope)
+    - kpi: markdown-to-clear-pct
+      mechanism: Category-level markdown cadence; faster clear = better velocity
+      decision_steps: [18]
+      direction: increase
+      magnitude_basis: aged-stock days on hand reduced
+    - kpi: doh-reduction-pct
+      mechanism: Inventory turn improvement on optimized categories
+      decision_steps: [18]
+      direction: decrease
+      magnitude_basis: weekly markdown approval cadence
+
+
+# ===== smoke_test — runnable end-to-end on laptop substrate =====
+smoke_test:
+  fixture_path: services/rc/RC-E2E-03/scenarios/rc-cold-chain-excursion-mid-shift/fixtures/excursion-event.json
+  trigger_event:
+    type: cold-chain-excursion
+    inject_into: step:1
+  expected_outcome:
+    chain_completed: true
+    hitl_triggered: true
+    hitl_persona: marisol-reyes-store-ops
+    audit_row_written: true
+    kpi_attribution:
+      shrink-cost-reduction-pct: "<= 0"     # this scenario reduces shrink (negative pct)
+      decision-loop-time-sec: "< 120"        # HITL within 2 minutes
+      gm-pp-lift: ">= 0"                     # markdown captures protected margin
+  laptop_command: |
+    # 1. Render docker-compose.yml via wizard (substrate=laptop, use_case=rc-e2e-03--default)
+    # 2. cd ~/apex-deployments/<engagement> && docker-compose up -d
+    # 3. Inject the fixture
+    curl -X POST http://localhost:8810/inject \
+      -H "Content-Type: application/json" \
+      -d @services/rc/RC-E2E-03/scenarios/rc-cold-chain-excursion-mid-shift/fixtures/excursion-event.json
+    # 4. Watch the chain execute via the mocks
+    docker-compose logs -f apex-m-rc-e2e-03-rc-cold-chain-excursion-mid-shift-decide
+    # 5. Verify mock-purview received the audit row
+    curl http://localhost:8813/audit-rows | jq '.[] | select(.scenario_id == "rc-cold-chain-excursion-mid-shift")'
+    # 6. Verify mock-fabric KPI rollup
+    curl http://localhost:8812/marts/g_kpi_rc_e2e_03_daily

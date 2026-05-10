@@ -1,0 +1,135 @@
+{
+  "$schema": "https://apex.deloitte.com/schemas/smoke-test-fixture-v1.json",
+  "fixture_id": "rc-cold-chain-excursion-mid-shift--canonical-1",
+  "description": "Canonical synthetic excursion event per Services Guide §18.1 cold-chain narrative — Big Box Store 100 dairy case exceeds temperature threshold for 47 minutes mid-shift. Drives the full 24-step chain end-to-end on laptop substrate via mock services.",
+
+  "trigger": {
+    "kind": "cold-chain-excursion",
+    "store_id": "store-100",
+    "store_label": "Big Box Store 100",
+    "zone_id": "dairy-case-3",
+    "event_ts": "2026-05-09T14:23:11Z",
+    "duration_minutes": 47,
+    "temp_max_celsius": 8.4,
+    "temp_threshold_celsius": 4.0,
+    "temp_excursion_window": [
+      "2026-05-09T13:36:00Z",
+      "2026-05-09T14:23:11Z"
+    ]
+  },
+
+  "scml_lot_inventory": [
+    {
+      "sku": "SKU-MILK-2PCT-1G",
+      "lot_id": "L-2026W18-DAIRY-A12",
+      "quantity_units": 84,
+      "unit_cost_usd": 2.10,
+      "shelf_price_usd": 3.99,
+      "fsma_204_lot_history": "received 2026-05-04; cold-chain compliant pre-event"
+    },
+    {
+      "sku": "SKU-YOGURT-32OZ-PLAIN",
+      "lot_id": "L-2026W18-DAIRY-B07",
+      "quantity_units": 36,
+      "unit_cost_usd": 3.40,
+      "shelf_price_usd": 5.49
+    },
+    {
+      "sku": "SKU-CREAM-CHEESE-8OZ",
+      "lot_id": "L-2026W18-DAIRY-C03",
+      "quantity_units": 22,
+      "unit_cost_usd": 1.80,
+      "shelf_price_usd": 2.99
+    }
+  ],
+
+  "merml_elasticity_snapshot": {
+    "SKU-MILK-2PCT-1G":      { "ped": -1.4, "ped_window_days": 90 },
+    "SKU-YOGURT-32OZ-PLAIN": { "ped": -1.8, "ped_window_days": 90 },
+    "SKU-CREAM-CHEESE-8OZ":  { "ped": -0.9, "ped_window_days": 90 }
+  },
+
+  "merml_competitor_snapshot": {
+    "SKU-MILK-2PCT-1G":      { "competitor_avg_usd": 3.79 },
+    "SKU-YOGURT-32OZ-PLAIN": { "competitor_avg_usd": 4.99 },
+    "SKU-CREAM-CHEESE-8OZ":  { "competitor_avg_usd": 2.89 }
+  },
+
+  "expected_chain_behavior": {
+    "step_10_assess": {
+      "should_emit_to": "g_excursion_decision_panel",
+      "should_classify_severity": "moderate"
+    },
+    "step_11_classify": {
+      "should_pass_fsma_204_check": true,
+      "should_recommend_action_class": "markdown_with_destroy_floor"
+    },
+    "step_12_quantify_pricer": {
+      "should_emit_to": "g_pricing_recommendation_basis",
+      "should_propose_per_sku_markdown_pct": {
+        "SKU-MILK-2PCT-1G":      { "min": 25, "max": 35 },
+        "SKU-YOGURT-32OZ-PLAIN": { "min": 30, "max": 40 },
+        "SKU-CREAM-CHEESE-8OZ":  { "min": 15, "max": 25 }
+      },
+      "should_compute_simulated_pnl": true
+    },
+    "step_13_decide": {
+      "should_trigger_hitl_for": "SKU-YOGURT-32OZ-PLAIN",
+      "reason": "proposed markdown >30% triggers HITL gate per markdown_pct_above threshold"
+    },
+    "step_14_hitl_gate": {
+      "should_page_persona": "marisol-reyes-store-ops",
+      "channel": "teams-adaptive-card",
+      "expected_decision": "approve_with_modification"
+    },
+    "step_15_act": {
+      "should_write_to": ["MERML.Markdown", "audit_row"],
+      "should_update_pricing_system": true
+    },
+    "step_16_learn": {
+      "should_write_to_redis_episodic_memory": true,
+      "should_emit_ledger_row": true
+    },
+    "step_17_kpi_rollup": {
+      "should_emit_to": ["g_kpi_rc_e2e_03_daily", "g_markdown_outcome_attribution"]
+    }
+  },
+
+  "expected_kpi_movement": {
+    "shrink-cost-reduction-pct": {
+      "target_direction": "decrease",
+      "expected_dollar_recovery": "~$142 per excursion event (per Services Guide §18.1 envelope)"
+    },
+    "decision-loop-time-sec": {
+      "target": "< 120",
+      "baseline_seconds": 720,
+      "baseline_note": "12 minutes per Services Guide §18.1 baseline"
+    },
+    "gm-pp-lift": {
+      "target_direction": "increase",
+      "expected_pp_lift_per_event": 0.05
+    }
+  },
+
+  "audit_assertions": {
+    "purview_audit_row_present": true,
+    "audit_row_fields_required": [
+      "trace_id",
+      "decision_ledger_id",
+      "tenant_id",
+      "service_code",
+      "scenario_id",
+      "agent_id",
+      "operator_principal",
+      "decision_kind",
+      "inputs_hash",
+      "outputs_hash",
+      "manifest_version",
+      "policy_version",
+      "prompt_version",
+      "timestamp",
+      "classification"
+    ],
+    "operator_principal_should_match": "marisol.reyes@<tenant>"
+  }
+}

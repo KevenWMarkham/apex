@@ -1,0 +1,129 @@
+# services/rc/RC-E2E-04/use-cases/_default/use-case.yaml
+#
+# Template stub for RC-E2E-04 / rc-loyalty-churn-prediction-winback.
+# Operators clone this directory per engagement and populate the TODOs.
+# See docs/APEX - Design and Build/Use-Case-Template-Runnable-Chain.md
+# for the full template detail; the canonical worked example is
+# services/rc/RC-E2E-03/use-cases/_default/use-case.yaml.
+
+use_case_id: rc-e2e-04--default
+service_code: RC-E2E-04
+scenario_id: rc-loyalty-churn-prediction-winback
+primary_variant: APEX-M
+client_segment: Default — Microsoft-first deployment
+substrate: lab
+
+client_approved_architecture:
+  data_lake:
+    primary: { variant: APEX-M, target: fabric.onelake.rc-canonical }
+    bronze_sources:
+      - { source: REPLACE_WITH_SOURCE, adapter: REPLACE_WITH_ADAPTER, dataset: REPLACE }
+  identity:
+    primary: { variant: APEX-M, source: entra-agent-id }
+    federation: []
+  siem_audit:
+    primary: { variant: APEX-M, target: purview-audit }
+    secondary: []
+  hitl_channel:
+    primary: { variant: APEX-M, target: teams }
+    fallback: []
+  message_bus:
+    primary: { variant: APEX-M, target: eventstream }
+    cross_cloud: []
+
+personas_active:
+  - id: maya-patel-loyalty-crm-director
+  # TODO add additional personas per Services Guide profile
+
+kpis_targeted:
+  - { id: churn-rate-reduction-pct, target: -22 }
+  - { id: winback-response-pp, target: 17 }
+  - { id: ltv-lift-pct, target: 34 }
+
+hitl_thresholds:
+  winback_offer_depth_pct_above: REPLACE_WITH_THRESHOLD_VALUE
+
+agent_overrides:
+  decide:
+    teams_webhook_secret: kv://apex-hitl-REPLACE-rc-e2e-04-decide
+
+foundry:
+  project_ref: REPLACE_WITH_FOUNDRY_PROJECT
+  hosted_agent_image_tag: rc-e2e-04/v0.1.0
+  workflow_def: workflows/rc-loyalty-churn-prediction-winback.yaml
+
+deployment:
+  wave: w2
+  blueprint: apex-m/infra/bicep/blueprints/w2-pilot.bicep
+  parameters_path: REPLACE_WITH_GENERATED_PARAMETERS_FILE
+
+
+# ===========================================================================
+# RUNNABLE BLOCKS — TEMPLATE STUBS (fill per engagement)
+# See docs/APEX - Design and Build/Use-Case-Template-Runnable-Chain.md
+# ===========================================================================
+
+chain_execution:
+  scenario_id: rc-loyalty-churn-prediction-winback
+  steps:
+    # W1 Foundation steps 1-7 — platform-only, no agent involvement.
+    # Carry-forward defaults; engagements rarely override.
+    - { step: 1,  key: w1-sor,            executed_by: platform, decision_point: false, notes: "TODO: list SOR sources for RC-E2E-04" }
+    - { step: 2,  key: w1-rth,            executed_by: platform, decision_point: false }
+    - { step: 3,  key: w1-bronze,         executed_by: platform, decision_point: false }
+    - { step: 4,  key: w1-tokenizer,      executed_by: platform, decision_point: false }
+    - { step: 5,  key: w1-silver,         executed_by: platform, decision_point: false, notes: "TODO: list canonical schemas (SCML/MERML/CRMML/etc.) for RC-E2E-04" }
+    - { step: 6,  key: w1-canonical,      executed_by: platform, decision_point: false }
+    - { step: 7,  key: w1-schemas,        executed_by: platform, decision_point: false }
+
+    # W2 Pilot — agent fleet (TODO per scenario)
+    - { step: 8,  key: w2-trigger,        executed_by: platform, decision_point: false }
+    - { step: 9,  key: w2-orchestrator,   executed_by: platform, decision_point: false }
+    - { step: 10, key: w2-assess,         executed_by: assess,   decision_point: false, notes: "TODO: data_read + data_written" }
+    - { step: 11, key: w2-classify,       executed_by: classify, decision_point: false, notes: "TODO" }
+    - { step: 12, key: w2-quantify,       executed_by: quantify, decision_point: false, notes: "TODO: KPI affected + Gold mart written" }
+    - { step: 13, key: w2-decide,         executed_by: decide,   decision_point: true,  hitl_threshold_ref: winback_offer_depth_pct_above, personas_involved: [maya-patel-loyalty-crm-director], notes: "TODO: HITL Adaptive Card content" }
+    - { step: 14, key: w2-hitl-gate,      executed_by: platform, decision_point: true,  hitl_threshold_ref: winback_offer_depth_pct_above, personas_involved: [maya-patel-loyalty-crm-director] }
+    - { step: 15, key: w2-act,            executed_by: act,      decision_point: false, notes: "TODO: data_written" }
+    - { step: 16, key: w2-learn,          executed_by: learn,    decision_point: false }
+
+    # W2 KPI surface
+    - { step: 17, key: w2-kpi-rollup,     executed_by: platform, decision_point: false, notes: "TODO: Gold mart names" }
+    - { step: 18, key: w2-power-bi,       executed_by: platform, decision_point: false, personas_involved: [maya-patel-loyalty-crm-director] }
+
+    # W3 Scale & Fuse
+    - { step: 19, key: w3-scale,          executed_by: platform, decision_point: false }
+    - { step: 20, key: w3-fusion,         executed_by: platform, decision_point: false, notes: "TODO: cross-service fusion edges" }
+    - { step: 21, key: w3-trust,          executed_by: platform, decision_point: false }
+    - { step: 22, key: w3-feedback,       executed_by: platform, decision_point: false }
+
+    # Executive
+    - { step: 23, key: exec-kpi,          executed_by: platform, decision_point: false }
+    - { step: 24, key: ledger-feedback,   executed_by: platform, decision_point: false }
+
+
+persona_kpi_attribution:
+  maya-patel-loyalty-crm-director:
+    # TODO populate per the Services Guide profile + worked Pricer example
+    # See services/rc/RC-E2E-03/use-cases/_default/use-case.yaml for shape
+    - kpi: churn-rate-reduction-pct
+      mechanism: TODO — describe how this persona's decisions affect this KPI
+      decision_steps: [13, 14]
+      direction: TODO — increase | decrease | either
+      magnitude_basis: TODO
+
+
+smoke_test:
+  fixture_path: services/rc/RC-E2E-04/scenarios/rc-loyalty-churn-prediction-winback/fixtures/canonical-event.json
+  trigger_event:
+    type: TODO — name the event kind (e.g., loyalty-churn-tier-drop)
+    inject_into: step:1
+  expected_outcome:
+    chain_completed: true
+    hitl_triggered: true
+    hitl_persona: maya-patel-loyalty-crm-director
+    audit_row_written: true
+    kpi_attribution:
+      churn-rate-reduction-pct: TODO — comparison string (e.g., ">= 0")
+  laptop_command: |
+    # Fill per the canonical RC-E2E-03 cold-chain example

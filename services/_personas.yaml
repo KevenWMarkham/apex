@@ -1,0 +1,119 @@
+# services/_personas.yaml
+#
+# Framework-level persona registry. Use cases reference personas BY ID.
+# Adding a persona: append here once; every use case across every service
+# can reference it. Removing: deprecate via `deprecated_at: <date>` field;
+# do not delete.
+#
+# RC-only personas first. HLS / ER / AXLE / TH / TMT / ICE personas land
+# when those practices come online (per Sprint Plan §58+).
+
+# ===== RC practice =====
+
+marisol-reyes-store-ops:
+  label: Marisol Reyes
+  role: Store Operations Lead
+  level: store
+  org: store-operations
+  hitl_authority:
+    - markdown_decisions
+    - destroy_decisions
+    - refund_above_threshold
+  default_kpis:
+    - shrink-cost-reduction-pct
+    - decision-loop-time-sec
+  used_by_services:
+    - RC-E2E-03
+  notes: >-
+    Approves cold-chain excursion sell-through / markdown / destroy
+    decisions via Microsoft Teams Adaptive Card. Decision writes to
+    audit row with operator-OBO trace. See Services Guide §18.1.
+
+daniel-chen-merch-director:
+  label: Daniel Chen
+  role: Merchandising Director
+  level: regional
+  org: merchandising
+  hitl_authority:
+    - weekly_markdown_proposal
+    - category_pricing_strategy
+  default_kpis:
+    - gm-pp-lift
+    - markdown-to-clear-pct
+    - doh-reduction-pct
+  used_by_services:
+    - RC-E2E-03
+  notes: >-
+    Reviews weekly markdown proposals in Power BI Direct Lake; approves
+    via Microsoft 365 Copilot chat. Per Services Guide §18.1.
+
+maya-patel-loyalty-crm-director:
+  label: Maya Patel
+  role: Loyalty & CRM Director
+  level: enterprise
+  org: marketing
+  hitl_authority:
+    - winback_offer_above_threshold
+    - tier_3_pii_unlock_for_re_identification
+  default_kpis:
+    - churn-rate-reduction-pct
+    - winback-response-pp
+    - ltv-lift-pct
+  used_by_services:
+    - RC-E2E-04
+  notes: >-
+    Reviews weekly cohort performance; approves offer-depth escalations.
+    Tier-3 PII unlock for customer re-identification at HITL moment.
+    See Services Guide §18.2.
+
+jamie-oconnor-store-manager:
+  label: Jamie O'Connor
+  role: Store Manager
+  level: store
+  org: store-operations
+  hitl_authority:
+    - associate_task_dispatch
+  default_kpis:
+    - oos-reduction-pct
+    - sales-per-sqft-pct
+    - associate-productivity-pct
+  used_by_services:
+    - RC-E2E-05
+  notes: >-
+    Receives prioritized shelf-gap task list at shift-open via Microsoft
+    Teams; each completion logs to audit row. Services Guide §18.3.
+
+rebecca-hall-returns-ops-mgr:
+  label: Rebecca Hall
+  role: Returns Operations Manager
+  level: regional
+  org: store-operations
+  hitl_authority:
+    - fraud_hold_above_threshold
+    - tier_3_pii_unlock_for_hold_decision
+  default_kpis:
+    - fraud-detection-rate-pct
+    - recovered-loss-usd
+    - false-positive-rate-pct
+  used_by_services:
+    - RC-E2E-07
+  notes: >-
+    Reviews flagged fraud cases via dashboard; approves / denies hold
+    with audit-row trace. Adaptive HITL threshold per Services Guide §18.5.
+
+compliance-officer-fsma-204:
+  label: FSMA 204 Compliance Officer
+  role: Compliance Officer
+  level: enterprise
+  org: compliance
+  hitl_authority:
+    - recall_action_initiation
+    - lot_provenance_attestation
+  default_kpis:
+    - recall-traceability-time-hr
+    - fsma-compliance-score
+  used_by_services:
+    - RC-E2E-09
+  notes: >-
+    Initiates and attests recall actions; chain-of-custody trail required
+    by FDA Food Safety Modernization Act §204. Services Guide §18.7.

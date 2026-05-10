@@ -153,10 +153,88 @@ deployment:
 4. Re-run `python tools/gen_services_tree.py` — generator validates all refs
 5. Wizard's `/api/catalog/use-cases?service={code}` surfaces the new use case
 
+## Runnable use case blocks
+
+A "runnable" use case adds three blocks beyond the configuration above: `chain_execution`, `persona_kpi_attribution`, and `smoke_test`. Together they make the use case **executable end-to-end** on the laptop substrate and traceable for audit on cloud substrates.
+
+Full template + worked example: [Use-Case-Template-Runnable-Chain.md](../docs/APEX%20-%20Design%20and%20Build/Use-Case-Template-Runnable-Chain.md).
+
+### `chain_execution`
+
+Maps each of the 24 chain steps from `scenario.yaml` to an agent role + data flow + KPI affected + HITL behavior. Schema:
+
+```yaml
+chain_execution:
+  scenario_id: <must match scenario.yaml>
+  steps:
+    - step: <int 1..24>
+      key: <chain key, e.g., w2-decide>
+      executed_by: <agent role | "platform">
+      data_read: [<schema>.<entity>, ...]
+      data_written: [<schema>.<entity>, ...]
+      kpi_affected: <kpi-id | null>
+      decision_point: <bool>
+      hitl_threshold_ref: <key into hitl_thresholds>
+      personas_involved: [<persona-id>, ...]
+      mock_endpoint: <url-template>     # laptop substrate fixture binding
+      notes: <free text>
+```
+
+### `persona_kpi_attribution`
+
+Documents the cause-and-effect link between persona decisions and KPI movement. The audit-trail spec for KPI attribution. Schema:
+
+```yaml
+persona_kpi_attribution:
+  <persona-id>:
+    - kpi: <kpi-id>
+      mechanism: <string>
+      decision_steps: [<step-id>]
+      direction: <"increase" | "decrease" | "either">
+      magnitude_basis: <string>
+```
+
+### `smoke_test`
+
+Names the fixture the laptop substrate uses to drive the chain end-to-end + assertions to run after. Schema:
+
+```yaml
+smoke_test:
+  fixture_path: <relative path from repo root>
+  trigger_event:
+    type: <event kind>
+    inject_into: step:<int>
+  expected_outcome:
+    chain_completed: <bool>
+    hitl_triggered: <bool>
+    hitl_persona: <persona-id>
+    audit_row_written: <bool>
+    kpi_attribution:
+      <kpi-id>: <comparison string>     # e.g., "<= 0", ">= 1.0", "< 120"
+  laptop_command: |
+    # operator-runnable bash; wizard exposes this via the Deploy page
+```
+
+## Validation rules
+
+The wizard's render endpoint and the generator's `tools/gen_services_tree.py` validate every use case has:
+
+- ✅ Every `chain_execution.steps[*].step` is in `[1..24]` and unique
+- ✅ Every `executed_by` is `"platform"` OR a known agent role
+- ✅ Every `data_read` and `data_written` references a known APEX-Core schema family
+- ✅ Every `kpi_affected` resolves in `services/_kpis.yaml`
+- ✅ Every `personas_involved[*]` resolves in `services/_personas.yaml`
+- ✅ Every `decision_point: true` step has `hitl_threshold_ref` AND ≥1 persona
+- ✅ Every persona in `persona_kpi_attribution` is in `personas_active`
+- ✅ Every KPI in `persona_kpi_attribution` is in `kpis_targeted`
+- ✅ The `smoke_test.fixture_path` exists in the repo
+- ✅ The `smoke_test.expected_outcome.hitl_persona` is in `personas_active`
+
 ## See also
 
+- [Use Case Template — Runnable Chain](../docs/APEX%20-%20Design%20and%20Build/Use-Case-Template-Runnable-Chain.md) — the template + worked example
 - [APEX-Core Adapter Catalog](../docs/apex-core/Adapter-Catalog.md) — full inventory of available adapters
 - [APEX-Core Independence Posture](../docs/apex-core/Independence-Posture.md) — variant equality, language standards
 - [APEX-Core Protocols Reference](../docs/apex-core/Protocols-Reference.md) — what each adapter slot expects
-- [services/_personas.yaml](_personas.yaml) — persona registry (Phase 0 follow-up)
-- [services/_kpis.yaml](_kpis.yaml) — KPI registry (Phase 0 follow-up)
+- [services/_personas.yaml](_personas.yaml) — persona registry
+- [services/_kpis.yaml](_kpis.yaml) — KPI registry

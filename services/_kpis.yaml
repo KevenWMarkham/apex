@@ -1,0 +1,182 @@
+# services/_kpis.yaml
+#
+# Framework-level KPI registry. Use cases reference KPIs BY ID. Targets
+# vary per use case; the registry just declares the *what* and the
+# attribution path.
+#
+# Format documented in docs/APEX - Design and Build/Use-Case-Template-Runnable-Chain.md
+# Adding a KPI: append here once; every use case can reference it.
+
+# ===== RC-E2E-03 Pricing & Revenue Decision Service =====
+
+gm-pp-lift:
+  label: Gross Margin lift
+  unit: pp
+  description: Percentage-point increase in realized gross margin vs baseline
+  formula_ref: g_kpi_rc_e2e_03_daily.gm_pp_delta_vs_baseline
+  attribution_path: |
+    MERML.Markdown.decision_ledger_id
+      → g_markdown_outcome_attribution
+      → g_kpi_rc_e2e_03_daily
+      → Power BI Direct Lake
+  default_persona: daniel-chen-merch-director
+  used_by_services:
+    - RC-E2E-03
+
+doh-reduction-pct:
+  label: Days-on-Hand reduction
+  unit: pct
+  description: Reduction in average days-on-hand for aged stock
+  formula_ref: g_kpi_rc_e2e_03_daily.doh_pct_change_vs_baseline
+  attribution_path: SCML.Inventory → g_inventory_position_current → g_kpi_rc_e2e_03_daily
+  default_persona: daniel-chen-merch-director
+  used_by_services:
+    - RC-E2E-03
+
+markdown-to-clear-pct:
+  label: Markdown-to-Clear ratio
+  unit: pct
+  description: Improvement in inventory clear-through rate at first markdown
+  formula_ref: g_kpi_rc_e2e_03_daily.markdown_to_clear_pct
+  attribution_path: MERML.Markdown → g_markdown_outcome_attribution
+  default_persona: daniel-chen-merch-director
+  used_by_services:
+    - RC-E2E-03
+
+shrink-cost-reduction-pct:
+  label: Shrink-cost reduction
+  unit: pct
+  description: Reduction in perishable / cold-chain shrink cost vs baseline
+  formula_ref: g_kpi_rc_e2e_03_daily.shrink_cost_pct_change
+  attribution_path: SCML.Lot → g_excursion_decision_panel → audit row → g_kpi_rc_e2e_03_daily
+  default_persona: marisol-reyes-store-ops
+  used_by_services:
+    - RC-E2E-03
+
+decision-loop-time-sec:
+  label: Decision loop time
+  unit: sec
+  description: Time from event detection to operator decision committed
+  formula_ref: g_kpi_rc_e2e_03_daily.decision_loop_p50_sec
+  attribution_path: audit row event_ts → audit row decision_committed_ts
+  default_persona: marisol-reyes-store-ops
+  used_by_services:
+    - RC-E2E-03
+
+# ===== RC-E2E-04 Loyalty Churn Prediction & Winback =====
+
+churn-rate-reduction-pct:
+  label: Churn-rate reduction (top tier)
+  unit: pct
+  description: Reduction in churn rate for top 20% loyalty members
+  formula_ref: g_kpi_rc_e2e_04_daily.churn_rate_change
+  attribution_path: CRMML.Loyalty → g_churn_risk_panel → g_winback_outcome_attribution
+  default_persona: maya-patel-loyalty-crm-director
+  used_by_services:
+    - RC-E2E-04
+
+winback-response-pp:
+  label: Winback response rate lift
+  unit: pp
+  description: Percentage-point lift in winback campaign response
+  formula_ref: g_kpi_rc_e2e_04_daily.winback_response_pp
+  attribution_path: CRMML.Campaign → g_winback_outcome_attribution
+  default_persona: maya-patel-loyalty-crm-director
+  used_by_services:
+    - RC-E2E-04
+
+ltv-lift-pct:
+  label: LTV lift on saved customers
+  unit: pct
+  description: LTV uplift among customers retained via winback
+  formula_ref: g_kpi_rc_e2e_04_daily.ltv_lift_pct
+  attribution_path: CRMML.Customer → g_winback_outcome_attribution → 12-month roll
+  default_persona: maya-patel-loyalty-crm-director
+  used_by_services:
+    - RC-E2E-04
+
+# ===== RC-E2E-05 On-Shelf Availability =====
+
+oos-reduction-pct:
+  label: Out-of-stock reduction
+  unit: pct
+  description: Reduction in OOS rate on key-value items
+  formula_ref: g_kpi_rc_e2e_05_daily.oos_pct_change
+  attribution_path: SCML.Inventory → g_shelf_gap_panel → g_kpi_rc_e2e_05_daily
+  default_persona: jamie-oconnor-store-manager
+  used_by_services:
+    - RC-E2E-05
+
+sales-per-sqft-pct:
+  label: Sales per square foot lift
+  unit: pct
+  description: Sales-per-square-foot improvement on shelf-recovered items
+  formula_ref: g_kpi_rc_e2e_05_daily.sales_per_sqft_pct
+  attribution_path: MERML.Transaction → g_kpi_rc_e2e_05_daily
+  default_persona: jamie-oconnor-store-manager
+  used_by_services:
+    - RC-E2E-05
+
+associate-productivity-pct:
+  label: Associate productivity gain
+  unit: pct
+  description: Tasks completed per shift per associate vs baseline
+  formula_ref: g_kpi_rc_e2e_05_daily.associate_tasks_per_shift
+  attribution_path: WOSFML.TaskAssignment → g_kpi_rc_e2e_05_daily
+  default_persona: jamie-oconnor-store-manager
+  used_by_services:
+    - RC-E2E-05
+
+# ===== RC-E2E-07 Returns Fraud =====
+
+fraud-detection-rate-pct:
+  label: Fraud detection rate lift
+  unit: pct
+  description: Increase in detected returns-fraud incidents vs baseline rules
+  formula_ref: g_kpi_rc_e2e_07_daily.fraud_detection_rate_pct
+  attribution_path: SCML.Return → g_fraud_pattern_attribution
+  default_persona: rebecca-hall-returns-ops-mgr
+  used_by_services:
+    - RC-E2E-07
+
+recovered-loss-usd:
+  label: Recovered loss
+  unit: usd
+  description: Dollar value of fraud loss prevented (Year 1)
+  formula_ref: g_kpi_rc_e2e_07_daily.recovered_loss_usd
+  attribution_path: g_return_event_panel → audit row → g_fraud_pattern_attribution
+  default_persona: rebecca-hall-returns-ops-mgr
+  used_by_services:
+    - RC-E2E-07
+
+false-positive-rate-pct:
+  label: False positive rate
+  unit: pct
+  description: Fraud-flagged events that are legitimate
+  formula_ref: g_kpi_rc_e2e_07_daily.fp_rate_pct
+  attribution_path: g_return_event_panel → operator decision → g_fraud_pattern_attribution
+  default_persona: rebecca-hall-returns-ops-mgr
+  used_by_services:
+    - RC-E2E-07
+
+# ===== RC-E2E-09 Product Tracking (FSMA 204) =====
+
+recall-traceability-time-hr:
+  label: Recall traceability time
+  unit: hr
+  description: Time to produce full lot-provenance trace for a recall event
+  formula_ref: g_kpi_rc_e2e_09_daily.recall_trace_time_hr
+  attribution_path: SCML.Lot → SCML.Movement → g_recall_traceability_panel
+  default_persona: compliance-officer-fsma-204
+  used_by_services:
+    - RC-E2E-09
+
+fsma-compliance-score:
+  label: FSMA 204 compliance score
+  unit: pct
+  description: Percentage of high-risk lots with full chain-of-custody available
+  formula_ref: g_kpi_rc_e2e_09_daily.fsma_compliance_pct
+  attribution_path: SCML.Lot → ECRML.AuditTrail → g_fsma_compliance_attribution
+  default_persona: compliance-officer-fsma-204
+  used_by_services:
+    - RC-E2E-09

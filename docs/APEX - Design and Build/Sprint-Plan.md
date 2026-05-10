@@ -3,6 +3,8 @@
 **Audience:** Engagement leads, tenant SREs, finance/ops, anyone who needs to know what ships when
 **Purpose:** Single master schedule that ties together [`Roadmap.md`](Roadmap.md) (framework-wide), [`RC-Build-Plan.md`](RC-Build-Plan.md) (RC practice), and the Phase 0 / I / J plans under [`docs/plans/`](../plans/) into one calendar view.
 
+**First-iteration scope:** **Retail & Consumer (RC) practice only.** The 5 featured RC scenarios are the canonical worked examples; HLS / ER / AXLE / TH / TMT / ICE practices come online per Sprint 58+. APEX-G and APEX-A variants stay stub-only until commissioned.
+
 **Sprint cadence:** continues from Sprint 1. Each sprint = 2 weeks. Numbering is non-skipping; gap = sprint not yet committed.
 
 ---
