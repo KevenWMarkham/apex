@@ -304,6 +304,15 @@
         </ul>
       </div>
 
+      <div class="part-group">
+        <div class="part-title"><a href="#part-5" style="color:inherit">Part V · Delivery &amp; DevOps</a></div>
+        <ul>
+          <li><a href="#ch-9">Ch 9. Step-by-Step Build Plan</a></li>
+          <li><a href="#ch-10">Ch 10. GitHub &amp; Five Substrates</a></li>
+          <li><a href="#ch-11">Ch 11. CI/CD Pipelines</a></li>
+        </ul>
+      </div>
+
       <h3>Reference</h3>
       <ul>
         <li><a href="#vuori-acceptance">Vuori Acceptance Run</a></li>
@@ -330,13 +339,14 @@
   <h1>About This Book</h1>
   <p><em>Professional APEX-M · Implement &amp; Build · Vuori Edition</em> is the engineering manual for the Vuori Agentic WBR engagement. It is written for the engineers building the solution — not for executives, not for sellers, not for operators. Every chapter ends in runnable code.</p>
 
-  <p>The book is organised in four parts:</p>
+  <p>The book is organised in five parts:</p>
 
   <ul>
     <li><strong>Part I · Engagement &amp; APEX Integration</strong> — the Vuori brief framed as an APEX use-case bundle, and how to register the engagement as an APEX service.</li>
     <li><strong>Part II · Building the Solution</strong> — the five-persona / two-MCP architecture, data ingestion paths, and the Snowflake medallion build.</li>
     <li><strong>Part III · MCP &amp; the Agent Framework</strong> — writing the two MCP servers and wiring them through the Microsoft Agent Framework per ADR-006.</li>
     <li><strong>Part IV · Test Harness</strong> — the deep dive on the MVP test harness; the deliverable artefact the engagement uses to prove acceptance.</li>
+    <li><strong>Part V · Delivery &amp; DevOps</strong> — the 12-sprint build plan with story points, GitHub setup, and CI/CD pipelines across the five substrates (laptop → dev → test → stage → prod).</li>
   </ul>
 
   <p>Every chapter opens with a "What You'll Build" panel, includes Notes, Warnings, Best Practices, Vuori-specific call-outs, and "Try It Out" boxes, and closes with a Summary and Exercises.</p>
@@ -3140,6 +3150,1170 @@ Total runtime: 14.2s (mock-mode)
       <li>Graduate UC-01's step 3 from the stub to a real Analyst call against a local <code>merml-mcp</code>. What changes in the assertion shapes? Why does <code>range</code> on miss_pct become more useful than <code>equals</code>?</li>
       <li>The integration test marker requires Docker. If a CI runner doesn't have Docker, what's the fallback strategy that keeps coverage high without integration?</li>
       <li>Design an additional executor kind <code>graph_call</code> that posts to Microsoft Graph (for example, to resolve a group's current members at HITL fire time). What does its <code>kind:</code> block look like in steps.yaml? Which assertions match its output?</li>
+    </ol>
+  </section>
+</article>
+
+<!-- ============================== PART V ============================== -->
+<section class="part-opener" id="part-5">
+  <div class="part-number">Part V</div>
+  <h1 class="part-title">Delivery &amp; DevOps</h1>
+  <p class="part-blurb">Three chapters that turn the design into a delivery plan. By the end of Part V you have a 12-sprint backlog with story points, a GitHub repo wired to five substrates (laptop / dev / test / stage / prod) via OIDC federation to Azure, and CI/CD pipelines that gate every promotion behind PSG-15, Bicep what-if, and destructive-change confirmation.</p>
+  <nav class="part-chapters">
+    <h2>In This Part</h2>
+    <ul>
+      <li><span class="ch-num">Chapter 9</span><a href="#ch-9">The Step-by-Step Build Plan</a></li>
+      <li><span class="ch-num">Chapter 10</span><a href="#ch-10">GitHub Setup &amp; Branching for Five Substrates</a></li>
+      <li><span class="ch-num">Chapter 11</span><a href="#ch-11">CI/CD Pipelines &amp; Promotion Gates</a></li>
+    </ul>
+  </nav>
+</section>
+
+<!-- ============================== CHAPTER 9 ============================== -->
+<article class="chapter" id="ch-9">
+  <header class="chapter-header">
+    <div class="chapter-number">Chapter 9</div>
+    <h1 class="chapter-title">The Step-by-Step Build Plan</h1>
+  </header>
+  <aside class="chapter-objectives">
+    <h2>What You'll Build</h2>
+    <ul>
+      <li>A 12-sprint, 24-week delivery plan with story points (Fibonacci)</li>
+      <li>Per-sprint goal, backlog, Definition of Done, and test-pyramid expectation</li>
+      <li>The build dependency DAG — what blocks what</li>
+      <li>Velocity targets and burn-down expectations for a 4-person team</li>
+      <li>Sprint planning + retrospective rituals tied to the APEX sprint conventions</li>
+    </ul>
+  </aside>
+
+  <h2 id="9-1">9.1 Team Shape and Cadence</h2>
+
+  <p>The reference team for the Vuori build is four people:</p>
+
+  <div class="table-wrap"><table class="md-table">
+  <tr><th>Role</th><th>Owns</th><th>Allocation</th></tr>
+  <tr><td><strong>Tech Lead</strong></td><td>Architecture, ADR sign-off, code review on every PR, sprint planning</td><td>100%</td></tr>
+  <tr><td><strong>Backend Engineer A</strong></td><td>Personas (The Analyst, Demand Checker), MCP servers</td><td>100%</td></tr>
+  <tr><td><strong>Backend Engineer B</strong></td><td>Personas (Finance Lead, Operations Lead, Briefer), HITL, LEDGER</td><td>100%</td></tr>
+  <tr><td><strong>Data Engineer</strong></td><td>Ingestion, dbt models, Snowflake roles, synthetic data</td><td>100%</td></tr>
+  </table></div>
+
+  <p>Sprints are two weeks. The cadence:</p>
+
+<pre><code>Week 1 Mon  Sprint planning (2h)        team picks stories totalling ~14 pts
+Week 1      Build · daily 15-min stand-up · PR review on demand
+Week 2 Thu  Mid-sprint check-in (30m)   carry-over risk; scope adjust
+Week 2 Fri  Sprint demo (1h)            walk the harness UI through the new stories
+Week 2 Fri  Retrospective (45m)         what to change for next sprint
+Weekend     LEDGER + drift cron run automated</code></pre>
+
+  <p>Target velocity is <strong>14 points/sprint</strong> at steady state. Sprint 1 is intentionally lighter (10 pts) — team is forming, tooling is settling. Sprints 12 trails off (16 pts) because stage cutover work is sequential and can't be parallelised across four people.</p>
+
+  <h2 id="9-2">9.2 Story Point Scale</h2>
+
+  <p>Fibonacci, anchored to wall-clock time as a calibration aid only — points are a complexity measure, not an hours measure.</p>
+
+  <div class="table-wrap"><table class="md-table">
+  <tr><th>Points</th><th>Wall-clock anchor</th><th>What it looks like</th></tr>
+  <tr><td>1</td><td>~½ day</td><td>One YAML file, one config flip, one row in a registry</td></tr>
+  <tr><td>2</td><td>1 day</td><td>A small helper + its unit tests; a new manifest variant</td></tr>
+  <tr><td>3</td><td>~1½ days</td><td>One MCP tool + its three unit tests + the schema update</td></tr>
+  <tr><td>5</td><td>~3 days</td><td>One persona's stub or one real implementation; one CLEANSED dbt model with tests</td></tr>
+  <tr><td>8</td><td>~5 days</td><td>A persona graduating stub → real with all dependent tools + assertions tightened</td></tr>
+  <tr><td>13</td><td>~8 days (split it)</td><td>End-to-end pattern wiring across multiple personas — usually a sign to split</td></tr>
+  </table></div>
+
+  <p>Stories rated 13 are a flag, not a target. If a story is sitting at 13, the sprint-planning meeting either splits it or pulls it forward (kickoff in the preceding sprint).</p>
+
+  <h2 id="9-3">9.3 Backlog ID Convention</h2>
+
+  <p>Two prefixes:</p>
+  <ul>
+    <li><strong><code>BL.C.*</code> · foundation</strong> — must complete before any <code>BL.P.*</code> can be picked up. Touches scaffolding, repo wiring, harness bring-up.</li>
+    <li><strong><code>BL.P.*</code> · planned</strong> — feature/capability stories that retire backlog items in the engagement Roadmap.</li>
+  </ul>
+
+  <p>Numbering is sequential within prefix. <code>python apex.py status</code> reads <code>docs/APEX - Design and Build/Roadmap.md</code> and reports the live count of completed BL.C/BL.P items.</p>
+
+  <h2 id="9-4">9.4 The 12-Sprint Plan</h2>
+
+  <p>Each sprint lists: <strong>goal</strong>, the stories with story points, the <strong>Definition of Done</strong>, and the test-pyramid expectation. Story IDs are the canonical reference — they appear in commit messages, PR titles, and the harness's run labels.</p>
+
+  <h3>Sprint 1 — Foundation &amp; Scaffold · 10 pts</h3>
+  <p><strong>Goal:</strong> Repo cloned, MVP harness on laptop, The Analyst stub returning a deterministic answer.</p>
+  <div class="table-wrap"><table class="md-table">
+  <tr><th>ID</th><th>Story</th><th>Pts</th></tr>
+  <tr><td>BL.C.01</td><td>Scaffold <code>services/rc/rc-wbr/</code> via <code>python apex.py scaffold-service</code></td><td>3</td></tr>
+  <tr><td>BL.C.02</td><td>Clone <code>use-cases/_default/</code> → <code>vuori/</code>; placeholder bindings</td><td>1</td></tr>
+  <tr><td>BL.C.03</td><td>Bring up <code>MVP/TestHarness</code> on laptop; <code>uv sync</code>; smoke passes</td><td>2</td></tr>
+  <tr><td>BL.C.04</td><td>The Analyst stub container running on :8001; <code>/run</code> returns Apparel-Wk16 ranking</td><td>3</td></tr>
+  <tr><td>BL.C.05</td><td>CI smoke job green on PR (4 tests, ~5s)</td><td>1</td></tr>
+  </table></div>
+  <p><strong>DoD:</strong> <code>uv run mvp-harness run UC-01 --client generic-apparel-retailer</code> exits 0 against the stub. CI smoke green on main. README updated.</p>
+  <p><strong>Test pyramid:</strong> smoke 4/4. Unit 12. Integration 0.</p>
+
+  <h3>Sprint 2 — Ingestion · 16 pts</h3>
+  <p><strong>Goal:</strong> Six ingestion paths landing into RAW; synthetic data generator producing the eight tables.</p>
+  <div class="table-wrap"><table class="md-table">
+  <tr><th>ID</th><th>Story</th><th>Pts</th></tr>
+  <tr><td>BL.P.01</td><td>Fivetran Shopify connector config + RAW_SHOPIFY landed (15-min cadence)</td><td>5</td></tr>
+  <tr><td>BL.P.02</td><td>ADF pipeline for Anaplan top-down (daily 02:00) — JSON + SP_LOAD_TOPDOWN</td><td>5</td></tr>
+  <tr><td>BL.P.03</td><td>SFTP-arrival trigger + iSEYON FP/EC/RO CSV validation</td><td>3</td></tr>
+  <tr><td>BL.P.04</td><td>Synthetic data generator emitting dim_product, dim_calendar, fact_sales (Parquet)</td><td>3</td></tr>
+  </table></div>
+  <p><strong>DoD:</strong> Each RAW schema has at least one table populated; <code>SELECT COUNT(*) FROM RAW_SHOPIFY.order &gt; 0</code> on laptop substrate. Generator emits a Wk16 Midwest skew that produces the demo's -12% miss.</p>
+  <p><strong>Test pyramid:</strong> smoke 4/4. Unit 22. Integration 0.</p>
+
+  <h3>Sprint 3 — Medallion CLEANSED · 13 pts</h3>
+  <p><strong>Goal:</strong> dbt CLEANSED layer with dual-calendar reconciliation tests passing.</p>
+  <div class="table-wrap"><table class="md-table">
+  <tr><th>ID</th><th>Story</th><th>Pts</th></tr>
+  <tr><td>BL.P.05</td><td>dbt project scaffold + dev/laptop targets + adapter</td><td>2</td></tr>
+  <tr><td>BL.P.06</td><td>CLEANSED.dim_calendar — NRF 4-4-5 + Gregorian; <code>dbt test</code> green</td><td>5</td></tr>
+  <tr><td>BL.P.07</td><td>CLEANSED.fact_sales — incremental, MAC margin column, schema lock</td><td>5</td></tr>
+  <tr><td>BL.P.08</td><td>Snowflake role grants for laptop (FIVETRAN_LOADER, DBT_CLEANSE_RW)</td><td>1</td></tr>
+  </table></div>
+  <p><strong>DoD:</strong> <code>dbt run --target laptop &amp;&amp; dbt test</code> green; both calendars validate. Aging-proxy bucketing implemented as a stub (rules in Sprint 4).</p>
+  <p><strong>Test pyramid:</strong> smoke 4/4. Unit 35. Integration 4 (dbt tests in CI as integration).</p>
+
+  <h3>Sprint 4 — Medallion CURATED + MCP Scaffolds · 15 pts</h3>
+  <p><strong>Goal:</strong> The Analyst can query CURATED through <code>merml-mcp</code> over a real authenticated path.</p>
+  <div class="table-wrap"><table class="md-table">
+  <tr><th>ID</th><th>Story</th><th>Pts</th></tr>
+  <tr><td>BL.P.09</td><td>CURATED.curated__sales_with_aging with aging_bucket logic</td><td>3</td></tr>
+  <tr><td>BL.P.10</td><td>CURATED.vw_dual_calendar_reconciliation</td><td>2</td></tr>
+  <tr><td>BL.P.11</td><td>merml-mcp scaffold: <code>/healthz</code>, <code>/tools</code>, server.py dispatch</td><td>3</td></tr>
+  <tr><td>BL.P.12</td><td>cxml-mcp scaffold (mirrored layout)</td><td>2</td></tr>
+  <tr><td>BL.P.13</td><td>Entra Agent ID auth on both MCPs; PSG-12 verified locally</td><td>5</td></tr>
+  </table></div>
+  <p><strong>DoD:</strong> <code>curl /tools</code> returns the registered tools; calls without bearer return 401. Both MCPs run in docker-compose alongside the analyst stub.</p>
+  <p><strong>Test pyramid:</strong> smoke 4/4. Unit 55. Integration 8.</p>
+
+  <h3>Sprint 5 — The Analyst (real) · 16 pts</h3>
+  <p><strong>Goal:</strong> UC-01 graduates from stub to real; assertions tighten from <code>not_empty</code> to <code>equals</code> + <code>range</code>.</p>
+  <div class="table-wrap"><table class="md-table">
+  <tr><th>ID</th><th>Story</th><th>Pts</th></tr>
+  <tr><td>BL.P.14</td><td>3 merml-mcp tools (actuals_vs_plan, consecutive_miss, rank_exceptions)</td><td>5</td></tr>
+  <tr><td>BL.P.15</td><td>AnalystRunner real — sequential 5-step body</td><td>5</td></tr>
+  <tr><td>BL.P.16</td><td>Graduate UC-01 steps 1, 3, 5: <code>using:</code> → <code>apex_agentic_merch.runtime.the_analyst.*</code></td><td>2</td></tr>
+  <tr><td>BL.P.17</td><td>UC-01 assertions tightened: equals Apparel/Midwest, range -0.15..-0.10</td><td>3</td></tr>
+  <tr><td>BL.P.18</td><td>LEDGER write helper + exception_ranking schema</td><td>1</td></tr>
+  </table></div>
+  <p><strong>DoD:</strong> <code>uv run mvp-harness run UC-01</code> green against the real Analyst (no fallback). Stepper UI shows no <code>stub</code> badges for UC-01.</p>
+  <p><strong>Test pyramid:</strong> smoke 5/5 (added UC-01 real). Unit 80. Integration 10.</p>
+
+  <h3>Sprint 6 — The Demand Checker · 13 pts</h3>
+  <p><strong>Goal:</strong> UC-02 graduates; intent diagnosis drives The Analyst's <code>_infer_routing()</code>.</p>
+  <div class="table-wrap"><table class="md-table">
+  <tr><th>ID</th><th>Story</th><th>Pts</th></tr>
+  <tr><td>BL.P.19</td><td>2 cxml-mcp tools (compute_consumer_intent, competitive_share_shift)</td><td>5</td></tr>
+  <tr><td>BL.P.20</td><td>DemandCheckerRunner real — sequential</td><td>5</td></tr>
+  <tr><td>BL.P.21</td><td>UC-02 graduated + assertions tightened (intent ≥ 0.60 → healthy)</td><td>3</td></tr>
+  </table></div>
+  <p><strong>DoD:</strong> The Analyst's <code>_infer_routing()</code> calls <code>cxml-mcp.compute_consumer_intent</code> and differentiates supply vs. demand. UC-01 + UC-02 chain in the harness.</p>
+  <p><strong>Test pyramid:</strong> smoke 5/5. Unit 105. Integration 12.</p>
+
+  <h3>Sprint 7 — The Finance Lead (Concurrent) · 18 pts</h3>
+  <p><strong>Goal:</strong> Four guardrails check in parallel; HITL fires on any breach.</p>
+  <div class="table-wrap"><table class="md-table">
+  <tr><th>ID</th><th>Story</th><th>Pts</th></tr>
+  <tr><td>BL.P.22</td><td>FinanceLeadRunner with <code>asyncio.gather</code>; pattern: concurrent</td><td>5</td></tr>
+  <tr><td>BL.P.23</td><td>OTB buffer guardrail + UC-04 graduated</td><td>3</td></tr>
+  <tr><td>BL.P.24</td><td>Margin floor guardrail + UC-05 graduated</td><td>3</td></tr>
+  <tr><td>BL.P.25</td><td>Markdown depth guardrail + UC-06 graduated</td><td>3</td></tr>
+  <tr><td>BL.P.26</td><td>Aggregate spend guardrail + UC-07 graduated</td><td>3</td></tr>
+  <tr><td>BL.P.27</td><td>Concurrency test — assert all four start within 50ms of each other</td><td>1</td></tr>
+  </table></div>
+  <p><strong>DoD:</strong> Four guardrails fire in parallel; integration test proves wall-clock is ~max(t1..t4), not sum. Markdown breach in synthetic data fires correctly.</p>
+  <p><strong>Test pyramid:</strong> smoke 5/5. Unit 145. Integration 14.</p>
+
+  <h3>Sprint 8 — The Operations Lead · 13 pts</h3>
+  <p><strong>Goal:</strong> Rebalance proposals against existing stock; UC-08..10 graduate.</p>
+  <div class="table-wrap"><table class="md-table">
+  <tr><th>ID</th><th>Story</th><th>Pts</th></tr>
+  <tr><td>BL.P.28</td><td>OperationsLeadRunner; pattern: sequential</td><td>5</td></tr>
+  <tr><td>BL.P.29</td><td>merml-mcp inventory tool (find_donor_dcs, propose_rebalance)</td><td>5</td></tr>
+  <tr><td>BL.P.30</td><td>UC-08 / UC-09 / UC-10 graduated with rebalance assertion</td><td>3</td></tr>
+  </table></div>
+  <p><strong>DoD:</strong> Apparel-Wk16 demo produces a rebalance proposal (3200 units from Pacific). Harness shows the chain UC-01 → UC-02 → UC-04..07 → UC-08 green.</p>
+  <p><strong>Test pyramid:</strong> smoke 5/5. Unit 170. Integration 16.</p>
+
+  <h3>Sprint 9 — The Briefer (Group Chat) · 15 pts</h3>
+  <p><strong>Goal:</strong> Brief synthesis assembles Done / Your-Call / Watch buckets; Adaptive Card delivered to Teams webhook.</p>
+  <div class="table-wrap"><table class="md-table">
+  <tr><th>ID</th><th>Story</th><th>Pts</th></tr>
+  <tr><td>BL.P.31</td><td>BrieferRunner + multi-round group chat (max_rounds=3)</td><td>5</td></tr>
+  <tr><td>BL.P.32</td><td>UC-11 / UC-12 / UC-13 synthesisers (Done / Your-Call / Watch)</td><td>5</td></tr>
+  <tr><td>BL.P.33</td><td>Adaptive Card builder — card schema, payload contract</td><td>3</td></tr>
+  <tr><td>BL.P.34</td><td>Teams webhook delivery (UC-20); idempotent retry on 429/503</td><td>2</td></tr>
+  </table></div>
+  <p><strong>DoD:</strong> Group-chat loop converges in ≤3 rounds; Adaptive Card lands in a test Teams channel. Brief shape locked.</p>
+  <p><strong>Test pyramid:</strong> smoke 6/6. Unit 200. Integration 18.</p>
+
+  <h3>Sprint 10 — HITL + Approvals + Audit · 15 pts</h3>
+  <p><strong>Goal:</strong> Every Tier-2+ decision pauses on a persona-bound approver; LEDGER hash chain anchors every step.</p>
+  <div class="table-wrap"><table class="md-table">
+  <tr><th>ID</th><th>Story</th><th>Pts</th></tr>
+  <tr><td>BL.P.35</td><td>HITLGate primitive — synchronous mode</td><td>5</td></tr>
+  <tr><td>BL.P.36</td><td>UC-14..UC-17 approver-routing graduated (Planning Lead / VP SC / DMM / CM)</td><td>5</td></tr>
+  <tr><td>BL.P.37</td><td>UC-18 escalation-on-timeout via roster lookup</td><td>3</td></tr>
+  <tr><td>BL.P.38</td><td>UC-19 LEDGER WORM with hash chain + Purview echo</td><td>2</td></tr>
+  </table></div>
+  <p><strong>DoD:</strong> Markdown breach pauses; harness drives an "approve" simulation; LEDGER hash_chain_valid assertion green. Purview test tenant receives the audit echo.</p>
+  <p><strong>Test pyramid:</strong> smoke 6/6. Unit 230. Integration 20.</p>
+
+  <h3>Sprint 11 — Parallel-WBR + Vuori Manifest · 13 pts</h3>
+  <p><strong>Goal:</strong> The demo's punch line — parallel-WBR diff against a captured human baseline. Vuori-tuned thresholds in a dedicated manifest.</p>
+  <div class="table-wrap"><table class="md-table">
+  <tr><th>ID</th><th>Story</th><th>Pts</th></tr>
+  <tr><td>BL.P.39</td><td><code>vuori.yaml</code> manifest with engagement-tuned thresholds</td><td>3</td></tr>
+  <tr><td>BL.P.40</td><td>Parallel-WBR runner — <code>--label agent</code> vs <code>--label human-baseline</code></td><td>5</td></tr>
+  <tr><td>BL.P.41</td><td>Human-baseline fixture captured from a real Vuori WBR transcript</td><td>3</td></tr>
+  <tr><td>BL.P.42</td><td>Diff report formatter (Markdown side-by-side)</td><td>2</td></tr>
+  </table></div>
+  <p><strong>DoD:</strong> Two runs of <code>wbr-friday-to-monday</code> emit a diff report Matt King can read in one screen. Vuori manifest swap measurably changes routing windows.</p>
+  <p><strong>Test pyramid:</strong> smoke 7/7. Unit 255. Integration 21.</p>
+
+  <h3>Sprint 12 — Stage Cutover + Acceptance · 16 pts</h3>
+  <p><strong>Goal:</strong> All 15 PSG gates GREEN against the Vuori stage tenant; acceptance run exits 0.</p>
+  <div class="table-wrap"><table class="md-table">
+  <tr><th>ID</th><th>Story</th><th>Pts</th></tr>
+  <tr><td>BL.P.43</td><td>Stage Snowflake onboarding (VUORI_STAGE database, roles, dbt target)</td><td>5</td></tr>
+  <tr><td>BL.P.44</td><td>PSG-15 GREEN with real Entra Object IDs pasted into vuori use-case YAML</td><td>3</td></tr>
+  <tr><td>BL.P.45</td><td>Bicep deploy via wizard against stage RG; confirm-destructive walked</td><td>3</td></tr>
+  <tr><td>BL.P.46</td><td>Vuori acceptance run end-to-end (<code>wbr-friday-to-monday --client vuori</code>) on stage</td><td>3</td></tr>
+  <tr><td>BL.P.47</td><td>Sign-off doc + handover runbook to Vuori D&amp;A team</td><td>2</td></tr>
+  </table></div>
+  <p><strong>DoD:</strong> Single command produces 18 LEDGER rows + 1 Purview audit row with matching correlation ID. Wizard shows a green deployment record. Matt King receives the report.</p>
+  <p><strong>Test pyramid:</strong> smoke 7/7. Unit 277. Integration 22. <strong>(matches MVP v0.1.0 baseline)</strong></p>
+
+  <h2 id="9-5">9.5 Sprint Totals and Velocity</h2>
+
+  <div class="table-wrap"><table class="md-table">
+  <tr><th>Sprint</th><th>Pts</th><th>Cumulative</th><th>Tests pass</th></tr>
+  <tr><td>1 — Foundation</td><td>10</td><td>10</td><td>4 / 12 / 0</td></tr>
+  <tr><td>2 — Ingestion</td><td>16</td><td>26</td><td>4 / 22 / 0</td></tr>
+  <tr><td>3 — Medallion CLEANSED</td><td>13</td><td>39</td><td>4 / 35 / 4</td></tr>
+  <tr><td>4 — CURATED + MCP scaffolds</td><td>15</td><td>54</td><td>4 / 55 / 8</td></tr>
+  <tr><td>5 — The Analyst</td><td>16</td><td>70</td><td>5 / 80 / 10</td></tr>
+  <tr><td>6 — The Demand Checker</td><td>13</td><td>83</td><td>5 / 105 / 12</td></tr>
+  <tr><td>7 — The Finance Lead</td><td>18</td><td>101</td><td>5 / 145 / 14</td></tr>
+  <tr><td>8 — The Operations Lead</td><td>13</td><td>114</td><td>5 / 170 / 16</td></tr>
+  <tr><td>9 — The Briefer</td><td>15</td><td>129</td><td>6 / 200 / 18</td></tr>
+  <tr><td>10 — HITL + Audit</td><td>15</td><td>144</td><td>6 / 230 / 20</td></tr>
+  <tr><td>11 — Parallel-WBR + Vuori</td><td>13</td><td>157</td><td>7 / 255 / 21</td></tr>
+  <tr><td>12 — Stage Cutover</td><td>16</td><td><strong>173</strong></td><td><strong>7 / 277 / 22</strong></td></tr>
+  </table></div>
+
+  <p>173 points over 12 sprints = <strong>14.4 pts/sprint</strong> sustained velocity. The dip in sprints 1 and 12 is intentional (formation + sequential cutover work). Sprints 3–11 average 14.7 pts.</p>
+
+  <h2 id="9-6">9.6 The Build Dependency DAG</h2>
+
+  <p>Some stories block others. The hard dependencies:</p>
+
+<pre><code>BL.C.01 (scaffold)  ──► BL.C.02 ──► BL.C.04 ──► BL.P.14 ──► BL.P.15 ──► BL.P.16
+                                                    │             │
+                                                    │             ▼
+                                                    │           BL.P.17
+                                                    ▼
+                                              BL.P.19 ──► BL.P.20 ──► BL.P.21
+
+BL.P.04 (synthetic) ──► BL.P.06 ──► BL.P.07 ──► BL.P.09 ──► BL.P.14
+                                                              │
+BL.P.11 (mcp scaffold) ───────────────────────────────────────┤
+BL.P.13 (mcp auth)     ───────────────────────────────────────┘
+
+BL.P.22 (Finance Lead pattern) ──► BL.P.23..26 (4 guardrails — parallel)
+BL.P.35 (HITLGate)             ──► BL.P.36..38 (approvals — parallel)
+BL.P.31 (Briefer)              ──► BL.P.32, BL.P.33 ──► BL.P.34
+
+BL.P.43 (stage onboarding)     ──► BL.P.44 (PSG-15)
+                                       ▼
+                                BL.P.45 (deploy) ──► BL.P.46 (acceptance) ──► BL.P.47</code></pre>
+
+  <p>The diagram is the planner's truth table. If BL.P.04 slips, BL.P.06 / BL.P.07 / BL.P.09 / BL.P.14 all shift right — the whole MCP path is gated on the synthetic data.</p>
+
+  <h2 id="9-7">9.7 Sprint Planning Ritual</h2>
+
+  <p>Two hours, Monday Week 1 of each sprint. The Tech Lead drives the doc:</p>
+
+<pre><code>┌──────────────────────────────────────────────────────────────┐
+│  Sprint N planning · YYYY-MM-DD                              │
+│  Team: TL, BE-A, BE-B, DE                                    │
+├──────────────────────────────────────────────────────────────┤
+│  1. Last sprint retro carry-ins                  10 min      │
+│     · open PRs, deferred stories, scope creep    .           │
+│                                                              │
+│  2. Backlog read-through                         20 min      │
+│     · TL walks BL.C / BL.P top-of-stack          .           │
+│     · team challenges point estimates            .           │
+│                                                              │
+│  3. Pick stories until ~14 pts                   30 min      │
+│     · respect dependency DAG                     .           │
+│     · one story per engineer in flight at a time .           │
+│                                                              │
+│  4. DoD walk-through per story                   30 min      │
+│     · what does "done" look like at the demo     .           │
+│     · which assertions tighten this sprint       .           │
+│                                                              │
+│  5. Risk register                                15 min      │
+│     · what could slip; mitigations              .           │
+│                                                              │
+│  6. Calendar review                              15 min      │
+│     · who is OOO; coverage map                   .           │
+└──────────────────────────────────────────────────────────────┘</code></pre>
+
+  <p>Output: a sprint backlog committed to <code>docs/APEX - Design and Build/Sprints/Sprint-N-plan.md</code>, with story IDs, owners, and the DoD per story. The harness picks up new <code>steps.yaml</code> files automatically — the planning doc just records the human commitment.</p>
+
+  <h2 id="9-8">9.8 The Retrospective</h2>
+
+  <p>45 minutes, Friday Week 2. Three boards on a whiteboard or Miro:</p>
+
+  <div class="table-wrap"><table class="md-table">
+  <tr><th>Keep doing</th><th>Stop doing</th><th>Start doing</th></tr>
+  <tr><td>Practices that paid off — stub-then-graduate cadence, smoke-on-PR, the 14-pt cap</td><td>Anti-patterns — splitting work that should be a single story; pulling forward beyond 1 sprint</td><td>New experiments — pair-program a tricky pattern; lift an assertion into a fixture</td></tr>
+  </table></div>
+
+  <p>Decisions land in <code>docs/APEX - Design and Build/Sprints/Sprint-N-retro.md</code>; behaviour changes apply from the next sprint's planning meeting.</p>
+
+  <div class="callout tryitout">
+    <span class="callout-label">Try It Out · Run sprint 1 planning</span>
+    <p>Take the five BL.C stories in §9.4. Sit a team of four (or four chairs) around a table. Walk the planning ritual end-to-end. The first sprint is the easiest to plan because every story is foundational — there's no debate about priority. Use it to calibrate the team's read of the point scale before the harder sprints land.</p>
+  </div>
+
+  <section class="chapter-summary">
+    <h2>Summary</h2>
+    <ul>
+      <li>12 two-week sprints; 173 points; 14.4 pt/sprint sustained velocity for a 4-engineer team.</li>
+      <li>Each sprint has a single goal, a backlog of BL.C / BL.P stories with Fibonacci points, a DoD, and a test-pyramid expectation that climbs to the MVP v0.1.0 baseline (smoke 7 / unit 277 / integration 22) by Sprint 12.</li>
+      <li>The build dependency DAG identifies the planner's critical path: synthetic data → CLEANSED → CURATED → MCP tools → personas.</li>
+      <li>Sprint planning is 2 hours; retro is 45 minutes. Both write to <code>docs/APEX - Design and Build/Sprints/</code> for audit and onboarding.</li>
+    </ul>
+  </section>
+
+  <section class="chapter-exercises">
+    <h2>Exercises</h2>
+    <ol class="exercises">
+      <li>The engagement timeline says decision before June 17 AI Lab. If the team commits in mid-June, when does Sprint 12 finish? Plot the calendar against the 24-week plan.</li>
+      <li>What happens if BL.P.04 (synthetic data) slips by one full sprint? Re-draw the dependency DAG showing the new critical path.</li>
+      <li>If the team has five engineers instead of four, what changes — sustained velocity, sprint length, or the backlog itself? Defend your answer.</li>
+      <li>A new story BL.P.48 lands mid-engagement: "Add international franchise lag UC." Where in the 12 sprints does it fit, and what does it bump?</li>
+    </ol>
+  </section>
+</article>
+
+<!-- ============================== CHAPTER 10 ============================== -->
+<article class="chapter" id="ch-10">
+  <header class="chapter-header">
+    <div class="chapter-number">Chapter 10</div>
+    <h1 class="chapter-title">GitHub Setup &amp; Branching for Five Substrates</h1>
+  </header>
+  <aside class="chapter-objectives">
+    <h2>What You'll Build</h2>
+    <ul>
+      <li>A two-repo layout (APEX framework + MVP reference) and how they relate</li>
+      <li>Trunk-based branching with short-lived feature branches and semver tags</li>
+      <li>GitHub Environments for each substrate (laptop, dev, test, stage, prod)</li>
+      <li>OIDC federation from GitHub to Azure — no long-lived secrets</li>
+      <li>CODEOWNERS, branch protection, and required status checks</li>
+      <li>The escalating approver list per environment (test = nobody, stage = Planning Lead, prod = CIO)</li>
+    </ul>
+  </aside>
+
+  <h2 id="10-1">10.1 The Two-Repo Model</h2>
+
+  <p>The Vuori engagement spans two Git repositories:</p>
+
+  <div class="table-wrap"><table class="md-table">
+  <tr><th>Repo</th><th>Lives at</th><th>What it carries</th></tr>
+  <tr><td><code>apex-framework</code></td><td>org/apex-framework on GitHub Enterprise</td><td>The APEX framework itself: Bicep, services/, packages/apex-core, the wizard, ADRs, the Roadmap. Long-lived.</td></tr>
+  <tr><td><code>vuori-mvp</code></td><td>org/vuori-mvp on GitHub Enterprise (private)</td><td>The Vuori-specific reference implementation: <code>agentic-merch/</code>, <code>TestHarness/</code>, the xlsx-driven UC catalog, vuori-tuned manifests. Engagement-scoped.</td></tr>
+  </table></div>
+
+  <p>The framework repo is shared across engagements. The MVP repo is per-engagement, gated by GitHub team permissions, never cross-linked. Vuori-specific framing lives in the MVP repo so cross-pollination across engagements is structurally impossible — not just a policy.</p>
+
+  <div class="callout warning">
+    <span class="callout-label">Hard rule · Confidentiality firewall</span>
+    <p>No GitHub Action in the framework repo reads from the MVP repo. The MVP repo can <em>consume</em> framework artefacts (releases, container images) but the framework cannot reach into engagement code. This is what makes the firewall structural rather than aspirational.</p>
+  </div>
+
+  <h2 id="10-2">10.2 Branching Strategy</h2>
+
+  <p>Trunk-based. <code>main</code> is always deployable to <code>dev</code>. Short-lived feature branches off main; squash-merge back; PRs gated by CI.</p>
+
+<pre><code>main ────────────────●───────●───────●───────●───────●───────●─────
+                      \       \                       \       \
+                       \       \                       \       \
+                        feat/   feat/                   feat/   feat/
+                        bl-p-14 bl-p-15                bl-p-22 bl-p-23
+                        merml-  analyst-                finance- otb-
+                        tools   real                    pattern  guard
+
+         tag v0.1.0 ───●                       tag v0.2.0 ───●
+         (sprint 1)                            (sprint 6)
+</code></pre>
+
+  <p>Conventions:</p>
+  <ul>
+    <li>Branch name = <code>feat/&lt;BL-ID&gt;-&lt;short-slug&gt;</code> — e.g., <code>feat/bl-p-14-merml-tools</code>.</li>
+    <li>PR title = same as branch name; PR body includes the story DoD verbatim.</li>
+    <li>Squash-merge with a Conventional Commit message: <code>feat(merml-mcp): Sprint 5 BL.P.14 — 3 tools for The Analyst</code>.</li>
+    <li>Sprint tag at end of each sprint: <code>v0.{sprint}.0</code>.</li>
+    <li>Hotfix branches off the latest sprint tag: <code>fix/&lt;short-slug&gt;</code>, cherry-pick back to main.</li>
+  </ul>
+
+  <h2 id="10-3">10.3 The Repo Layout</h2>
+
+  <pre class="path-comment"># apex-framework — selected paths</pre>
+<pre><code>apex-framework/
+├── .github/
+│   ├── workflows/
+│   │   ├── pr-checks.yml
+│   │   ├── main-build.yml
+│   │   ├── deploy.yml                  # callable, parameterised
+│   │   ├── deploy-dev.yml
+│   │   ├── deploy-test.yml
+│   │   ├── deploy-stage.yml
+│   │   ├── deploy-prod.yml
+│   │   └── drift-cron.yml
+│   ├── CODEOWNERS
+│   └── dependabot.yml
+├── apex.py                             # top-level entry point
+├── apps/deploy-wizard/                 # FastAPI control plane
+├── apex-m/                             # Microsoft variant SDK
+├── packages/apex-core/                 # protocols
+├── services/rc/rc-wbr/                 # the Vuori service
+├── docs/
+│   ├── APEX - Design and Build/
+│   │   ├── Roadmap.md                  # BL.C / BL.P backlog
+│   │   ├── ACCEPTANCE-CRITERIA.md
+│   │   └── Sprints/
+│   ├── book/                           # Wrox-style docs
+│   └── plans/                          # design docs
+└── tools/
+    └── validate_acceptance.py
+</code></pre>
+
+  <pre class="path-comment"># vuori-mvp — selected paths</pre>
+<pre><code>vuori-mvp/
+├── .github/workflows/
+│   ├── pr-checks.yml                   # uv sync + pytest -m smoke
+│   ├── main-build.yml                  # full pytest pyramid
+│   └── publish-images.yml              # build agent containers + push to ACR
+├── agentic-merch/                      # runtime package
+├── TestHarness/                        # the harness
+├── mvp-scope-q1-usecases.xlsx          # source of truth for UCs
+└── docs/plans/                         # design + plan docs
+</code></pre>
+
+  <h2 id="10-4">10.4 The Five-Substrate GitHub Environments</h2>
+
+  <p>GitHub Environments are how repository-level secrets and approvers attach to a deploy target. One Environment per substrate:</p>
+
+  <div class="table-wrap"><table class="md-table">
+  <tr><th>Substrate</th><th>GitHub Environment</th><th>Reviewers</th><th>Wait timer</th><th>Branches allowed</th></tr>
+  <tr><td>laptop</td><td><em>(none — local only)</em></td><td>n/a</td><td>n/a</td><td>n/a</td></tr>
+  <tr><td>dev</td><td><code>dev</code></td><td><em>none</em> (auto-deploy on main)</td><td>0</td><td><code>main</code></td></tr>
+  <tr><td>test</td><td><code>test</code></td><td><em>none</em> (auto-deploy after dev green)</td><td>0</td><td><code>main</code></td></tr>
+  <tr><td>stage</td><td><code>stage</code></td><td><strong>Planning Lead</strong> + Tech Lead (1 of 2)</td><td>0</td><td><code>main</code> + tags</td></tr>
+  <tr><td>prod</td><td><code>prod</code></td><td><strong>CIO (Matt King)</strong> + Tech Lead (both required)</td><td>10 min</td><td>tags only (<code>v*</code>)</td></tr>
+  </table></div>
+
+  <p>The 10-minute wait on prod is the change-management cooling-off period. It exists to give the approver time to call back if something feels wrong — not as a technical safeguard.</p>
+
+  <h2 id="10-5">10.5 OIDC Federation to Azure</h2>
+
+  <p>No long-lived service principal secrets. Every GitHub workflow that touches Azure exchanges its workload identity token for an Azure access token at job start. The setup is per-environment.</p>
+
+  <h4>Step 1 · Register an app per substrate</h4>
+
+<pre><code>$ az ad app create --display-name "github-vuori-dev"
+$ az ad app create --display-name "github-vuori-test"
+$ az ad app create --display-name "github-vuori-stage"
+$ az ad app create --display-name "github-vuori-prod"</code></pre>
+
+  <h4>Step 2 · Federate each app to its GitHub Environment</h4>
+
+  <pre class="path-comment"># infra/oidc/federate-stage.sh</pre>
+<pre><code>#!/usr/bin/env bash
+set -euo pipefail
+
+APP_ID="$(az ad app list --display-name 'github-vuori-stage' --query '[0].appId' -o tsv)"
+
+az ad app federated-credential create --id "$APP_ID" --parameters - &lt;&lt;'JSON'
+{
+  "name": "github-vuori-stage",
+  "issuer": "https://token.actions.githubusercontent.com",
+  "subject": "repo:org/apex-framework:environment:stage",
+  "audiences": ["api://AzureADTokenExchange"]
+}
+JSON
+
+# Role assignments — least privilege per substrate.
+SUB_ID="$(az account show --query id -o tsv)"
+RG="rg-vuori-stage"
+az role assignment create --assignee "$APP_ID" \
+    --role "Contributor" --scope "/subscriptions/$SUB_ID/resourceGroups/$RG"
+az role assignment create --assignee "$APP_ID" \
+    --role "Key Vault Secrets User" \
+    --scope "/subscriptions/$SUB_ID/resourceGroups/$RG/providers/Microsoft.KeyVault/vaults/kv-vuori-stage"
+</code></pre>
+
+  <p>The federation <code>subject</code> nails the credential to <em>this repo + this environment</em>. A workflow running against <code>dev</code> can never mint a stage token, even if a malicious PR slipped a credential reference.</p>
+
+  <h4>Step 3 · Store the app IDs as Environment-scoped variables</h4>
+
+  <p>For each GitHub Environment, add three repository variables:</p>
+
+<pre><code>AZURE_CLIENT_ID         = &lt;app id of github-vuori-&lt;substrate&gt;&gt;
+AZURE_TENANT_ID         = &lt;Vuori Entra tenant id&gt;
+AZURE_SUBSCRIPTION_ID   = &lt;Vuori Azure subscription id for that substrate&gt;</code></pre>
+
+  <p>These are <em>variables</em>, not <em>secrets</em> — the values aren't sensitive. The credential is minted at job time via OIDC.</p>
+
+  <h2 id="10-6">10.6 Secrets — Sourced From Key Vault</h2>
+
+  <p>The only thing GitHub stores in Secrets is the OIDC client ID (per §10.5). Everything else — Snowflake connection strings, Anaplan API tokens, Centric ODBC creds, Teams webhook URLs — lives in the per-substrate Key Vault and is pulled at job start.</p>
+
+  <pre class="path-comment"># .github/workflows/deploy.yml — secret fetch step</pre>
+<pre><code>- name: Azure login (OIDC)
+  uses: azure/login@v2
+  with:
+    client-id: ${{ vars.AZURE_CLIENT_ID }}
+    tenant-id: ${{ vars.AZURE_TENANT_ID }}
+    subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+- name: Fetch Snowflake account from Key Vault
+  id: snowflake_creds
+  run: |
+    echo "account=$(az keyvault secret show --vault-name kv-vuori-${{ inputs.substrate }} --name snowflake-account --query value -o tsv)" &gt;&gt; "$GITHUB_OUTPUT"
+    echo "::add-mask::$(az keyvault secret show --vault-name kv-vuori-${{ inputs.substrate }} --name snowflake-user-pat --query value -o tsv)"
+</code></pre>
+
+  <p>The <code>::add-mask::</code> directive prevents accidental log leakage if a downstream step echoes the secret.</p>
+
+  <h2 id="10-7">10.7 CODEOWNERS</h2>
+
+  <pre class="path-comment"># .github/CODEOWNERS</pre>
+<pre><code># Default — Tech Lead reviews everything not otherwise owned.
+*                                                       @org/tech-leads
+
+# Bicep / infra — require the Platform team.
+apex-m/infra/                                           @org/platform
+infra/                                                  @org/platform
+
+# Vuori service — engagement owner.
+services/rc/rc-wbr/                                     @org/vuori-engineers @org/tech-leads
+
+# Test harness changes — paired review.
+docs/APEX - Design and Build/ACCEPTANCE-CRITERIA.md     @org/tech-leads @org/qa
+tools/validate_acceptance.py                            @org/tech-leads @org/qa
+
+# Security gates — require the security guild.
+apps/deploy-wizard/api/src/apex_wizard/security_gate.py @org/tech-leads @org/security-guild
+
+# Docs are open — anyone in the org can land a docs PR with one approval.
+docs/                                                   @org/all-engineers
+</code></pre>
+
+  <h2 id="10-8">10.8 Branch Protection &amp; Required Checks</h2>
+
+  <p>Configured on <code>main</code> via repo settings:</p>
+
+  <ul>
+    <li>Require pull request before merging.</li>
+    <li>Required approvals: <strong>1</strong> (escalates to 2 for <code>CODEOWNERS</code> matches).</li>
+    <li>Dismiss stale reviews when new commits are pushed.</li>
+    <li>Require status checks to pass before merging:
+      <ul>
+        <li><code>pr / lint</code></li>
+        <li><code>pr / unit</code></li>
+        <li><code>pr / smoke</code></li>
+        <li><code>pr / dbt-test</code> (Sprint 3+)</li>
+      </ul>
+    </li>
+    <li>Require branches to be up to date before merging.</li>
+    <li>Require signed commits.</li>
+    <li>Require linear history (no merge commits — squash-merge enforced).</li>
+    <li>Include administrators (no bypass).</li>
+    <li>Restrict who can push: nobody — direct push to <code>main</code> blocked.</li>
+  </ul>
+
+  <p>On tags (<code>v*</code>):</p>
+  <ul>
+    <li>Only the Tech Lead team can create or move tags.</li>
+    <li>Tag push triggers the prod deploy workflow (with manual approval).</li>
+  </ul>
+
+  <h2 id="10-9">10.9 Substrate Promotion Path</h2>
+
+  <p>A change moves through the five substrates on a fixed cadence:</p>
+
+<pre><code>laptop ──► (PR opens, smoke + unit run in CI)
+      │
+      └► PR merge to main
+           │
+           ▼
+         dev (auto)
+           │
+           ▼  (smoke pass on dev)
+         test (auto)
+           │
+           ▼  (full pyramid + e2e on test)
+         stage  ◄── manual approval (Planning Lead)
+           │
+           ▼  (PSG-1..15 all GREEN; Vuori acceptance run green)
+         prod  ◄── manual approval (CIO + Tech Lead) + 10-min wait + tag
+</code></pre>
+
+  <p>The promotion gates compound: nothing reaches stage that hasn't passed test; nothing reaches prod that hasn't passed stage. Hotfixes follow the same path; the only short-circuit is the tag cherry-pick to skip dev/test when production is on fire (rare, audited, retrospected).</p>
+
+  <h2 id="10-10">10.10 Tying It Back to the Wizard</h2>
+
+  <p>The wizard knows about substrates because of the use-case YAML's <code>substrate:</code> field (Chapter 2). The CI flow knows because of the GitHub Environment. The two are wired together at deploy time:</p>
+
+<pre><code>1. CI checks out main.
+2. Reads services/rc/rc-wbr/use-cases/vuori/use-case.yaml.
+3. Confirms the YAML's substrate field matches the GitHub Environment being deployed to.
+4. Calls `python apex.py validate` to confirm A1-A4 are still green.
+5. POSTs to /api/deployments/render with substrate from the YAML.
+6. Polls /api/security-gate?tenant=&lt;tenant&gt; until all 15 are GREEN.
+7. POSTs to /api/deployments — wizard handles Bicep what-if + apply + LEDGER audit.</code></pre>
+
+  <p>A substrate mismatch (e.g., YAML says <code>stage</code>, workflow is targeting <code>prod</code>) is caught at step 3 and fails the deploy before anything touches Azure. The wizard is the gatekeeper; the workflow is the conveyor.</p>
+
+  <div class="callout tryitout">
+    <span class="callout-label">Try It Out · Trace a substrate</span>
+    <p>From the apex-framework repo, find one workflow file that mentions <code>substrate: stage</code>. Trace what it does: which Environment, which Key Vault, which subscription. Then change <code>substrate</code> in <code>vuori/use-case.yaml</code> to <code>prod</code> and open a PR — the substrate-mismatch check should fail in CI before the PR is mergeable.</p>
+  </div>
+
+  <section class="chapter-summary">
+    <h2>Summary</h2>
+    <ul>
+      <li>Two repos: framework + engagement. Confidentiality firewall is structural — framework actions cannot read engagement code.</li>
+      <li>Trunk-based branching with short-lived feature branches named after BL.C/BL.P story IDs. Squash-merge with Conventional Commits.</li>
+      <li>Five substrates, four GitHub Environments (laptop is local-only). OIDC federation per substrate; no long-lived secrets in GitHub.</li>
+      <li>Approvers escalate by substrate: dev/test = none, stage = Planning Lead, prod = CIO + Tech Lead with 10-min cooling-off.</li>
+      <li>The wizard is the substrate gatekeeper at deploy time; the CI workflow is the conveyor.</li>
+    </ul>
+  </section>
+
+  <section class="chapter-exercises">
+    <h2>Exercises</h2>
+    <ol class="exercises">
+      <li>Write the federated-credential JSON for the prod app such that only the workflow triggered by a tag matching <code>v*</code> can mint the token. (Hint: <code>subject</code> pattern is <code>repo:org/repo:ref:refs/tags/v*</code>.)</li>
+      <li>The PSG-15 gate fires from the wizard, not from CI. What's the timeline if PSG-15 returns RED during a stage promotion — what does the workflow do, who gets notified, how is it remediated?</li>
+      <li>An engineer needs to inspect a stage Snowflake table for debugging. What's the path: do they SSH from a runner, use Snowflake's web UI with their own role, or run a query through the wizard? Defend your answer.</li>
+      <li>Design the CODEOWNERS line for a new shared library <code>packages/apex-llm/</code>. Who reviews?</li>
+    </ol>
+  </section>
+</article>
+
+<!-- ============================== CHAPTER 11 ============================== -->
+<article class="chapter" id="ch-11">
+  <header class="chapter-header">
+    <div class="chapter-number">Chapter 11</div>
+    <h1 class="chapter-title">CI/CD Pipelines &amp; Promotion Gates</h1>
+  </header>
+  <aside class="chapter-objectives">
+    <h2>What You'll Build</h2>
+    <ul>
+      <li>A pre-commit hook that catches the common failures in &lt;5 seconds</li>
+      <li>A PR-checks workflow with lint + unit + smoke (~90s)</li>
+      <li>A main-branch workflow running the full pyramid incl. Docker integration (~5m)</li>
+      <li>A reusable deploy workflow invoked per substrate</li>
+      <li>Per-substrate deploy workflows wired to PSG-15 + Bicep what-if + destructive-change gates</li>
+      <li>A drift-detection cron job + a rollback playbook with a tested procedure</li>
+    </ul>
+  </aside>
+
+  <h2 id="11-1">11.1 Pre-commit · The Cheapest Gate</h2>
+
+  <p>Pre-commit is what saves engineers from re-running CI three times. The hook runs in &lt;5s and catches: YAML parse errors, unused imports, broken type annotations, the smoke marker test set.</p>
+
+  <pre class="path-comment"># .pre-commit-config.yaml</pre>
+<pre><code>repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-yaml
+      - id: check-json
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: detect-private-key
+      - id: check-added-large-files
+        args: [--maxkb=500]
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.5.0
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.10.0
+    hooks:
+      - id: mypy
+        additional_dependencies: [pydantic, types-pyyaml]
+        files: ^(apex-m/src|services|packages/apex-core)/
+
+  - repo: local
+    hooks:
+      - id: pytest-smoke
+        name: pytest smoke
+        entry: uv run pytest -m smoke -x -q
+        language: system
+        pass_filenames: false
+        files: \.(py|yaml|sql)$
+</code></pre>
+
+  <p>Install once: <code>pre-commit install</code>. Subsequent commits run the hooks; CI runs the same set as a safety net.</p>
+
+  <h2 id="11-2">11.2 The PR-Checks Workflow</h2>
+
+  <p>Runs on every PR. Three jobs, parallelisable. Total wall-clock: ~90 seconds on a 2-vCPU runner.</p>
+
+  <pre class="path-comment"># .github/workflows/pr-checks.yml</pre>
+<pre><code>name: pr
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write             # so we can comment with the report summary
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+      - run: uv sync --frozen
+      - run: uv run ruff check .
+      - run: uv run ruff format --check .
+      - run: uv run mypy apex-m/src services packages/apex-core
+
+  unit:
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+      - run: uv sync --frozen
+      - run: uv run pytest tests/unit -m "not integration" --maxfail=5 -q
+      - run: uv run pytest apps/deploy-wizard/api/tests --maxfail=5 -q
+
+  smoke:
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+      - run: uv sync --frozen
+      - run: uv run pytest -m smoke -x
+      - name: Run UC-01 against stub
+        run: uv run mvp-harness run UC-01 --client generic-apparel-retailer
+      - name: Comment harness summary on PR
+        if: always()
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          path: runs/latest/report.md
+</code></pre>
+
+  <p>The smoke job is the part that comments back on the PR with the harness's own report. Reviewers see exactly which assertions passed without leaving the PR.</p>
+
+  <h2 id="11-3">11.3 The Main-Branch Workflow</h2>
+
+  <p>On every push to <code>main</code>: the full pyramid runs, integration tests with Docker spin Postgres testcontainers, the agent images build and publish to ACR, and the dev deploy fires automatically.</p>
+
+  <pre class="path-comment"># .github/workflows/main-build.yml</pre>
+<pre><code>name: main
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+  id-token: write                  # OIDC
+
+jobs:
+  full-pyramid:
+    runs-on: ubuntu-latest-4core
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env: { POSTGRES_USER: harness, POSTGRES_PASSWORD: harness, POSTGRES_DB: harness }
+        ports: ["5432:5432"]
+        options: --health-cmd pg_isready --health-interval 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+      - run: uv sync --frozen
+      - name: Smoke
+        run: uv run pytest -m smoke -x
+      - name: Unit
+        run: uv run pytest tests/unit -m "not integration" --cov --cov-report=xml
+      - name: Integration
+        env: { TEST_PG_DSN: "postgresql://harness:harness@localhost:5432/harness" }
+        run: uv run pytest -m integration
+      - name: Catalog-wide harness report
+        run: uv run mvp-harness report --all --client generic-apparel-retailer
+
+  build-images:
+    needs: full-pyramid
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        persona: [the-analyst, the-demand-checker, the-finance-lead, the-operations-lead, the-briefer]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID_DEV }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID_DEV }}
+      - name: Build &amp; push to ACR
+        run: |
+          az acr login --name acrvuoridev
+          docker build -t acrvuoridev.azurecr.io/${{ matrix.persona }}:${{ github.sha }} \
+                       -f services/rc/rc-wbr/agents/${{ matrix.persona }}/Dockerfile .
+          docker push acrvuoridev.azurecr.io/${{ matrix.persona }}:${{ github.sha }}
+
+  deploy-dev:
+    needs: build-images
+    uses: ./.github/workflows/deploy.yml
+    with:
+      substrate: dev
+      image_tag: ${{ github.sha }}
+    secrets: inherit
+</code></pre>
+
+  <h2 id="11-4">11.4 The Reusable Deploy Workflow</h2>
+
+  <p>Every substrate calls the same workflow. The difference is the Environment name and the input parameters.</p>
+
+  <pre class="path-comment"># .github/workflows/deploy.yml — reusable</pre>
+<pre><code>name: deploy
+on:
+  workflow_call:
+    inputs:
+      substrate:    { required: true,  type: string }
+      image_tag:    { required: true,  type: string }
+      use_case_id:  { required: false, type: string, default: vuori }
+      confirm_destructive:
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.substrate }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+      - run: uv sync --frozen
+
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Substrate-mismatch guard
+        run: |
+          YAML_SUBSTRATE=$(uv run python - &lt;&lt;'PY'
+          import yaml, sys
+          d = yaml.safe_load(open("services/rc/rc-wbr/use-cases/${{ inputs.use_case_id }}/use-case.yaml"))
+          print(d["substrate"])
+          PY)
+          if [ "$YAML_SUBSTRATE" != "${{ inputs.substrate }}" ]; then
+              echo "::error::use-case.yaml says $YAML_SUBSTRATE but workflow targets ${{ inputs.substrate }}"
+              exit 1
+          fi
+
+      - name: Boot the wizard (headless)
+        run: |
+          uv run python apex.py launch --no-frontend &amp;
+          sleep 3
+
+      - name: PSG · all 15 gates with context
+        id: psg
+        run: |
+          curl -sf -X POST http://localhost:8000/api/security-gate/with-context \
+               -H 'Content-Type: application/json' \
+               -d '{"tenant":"vuori-${{ inputs.substrate }}","service_code":"rc-wbr",
+                    "use_case_id":"${{ inputs.use_case_id }}","substrate":"${{ inputs.substrate }}"}' \
+               | tee psg.json
+          test "$(jq -r '.summary' psg.json | grep -c '15 of 15 GREEN')" = "1"
+
+      - name: Validate user-acceptance criteria
+        run: uv run python tools/validate_acceptance.py
+
+  render-and-whatif:
+    needs: validate
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.substrate }}
+    outputs:
+      destructive: ${{ steps.whatif.outputs.destructive }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Render Bicep params via wizard
+        run: |
+          curl -sf -X POST http://localhost:8000/api/deployments/render \
+               -H 'Content-Type: application/json' \
+               -d '{"tenant":"vuori-${{ inputs.substrate }}","service_code":"rc-wbr",
+                    "use_case_id":"${{ inputs.use_case_id }}",
+                    "substrate":"${{ inputs.substrate }}","wave":"w2"}' \
+               &gt; rendered-params.json
+
+      - name: Bicep what-if
+        id: whatif
+        run: |
+          az deployment group what-if \
+              -g rg-vuori-${{ inputs.substrate }} \
+              -f apex-m/infra/bicep/blueprints/w2-pilot.bicep \
+              -p @rendered-params.json \
+              -o json &gt; whatif.json
+          if jq -e '.changes[] | select(.changeType == "Delete")' whatif.json &gt; /dev/null; then
+              echo "destructive=true" &gt;&gt; "$GITHUB_OUTPUT"
+          else
+              echo "destructive=false" &gt;&gt; "$GITHUB_OUTPUT"
+          fi
+
+      - name: Upload what-if artefact
+        uses: actions/upload-artifact@v4
+        with: { name: whatif-${{ inputs.substrate }}, path: whatif.json }
+
+  apply:
+    needs: render-and-whatif
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.substrate }}        # ← gate: reviewers enforced here
+    steps:
+      - name: Refuse destructive without confirm
+        if: needs.render-and-whatif.outputs.destructive == 'true' &amp;&amp; inputs.confirm_destructive != true
+        run: |
+          echo "::error::destructive changes detected; re-run with confirm_destructive=true"
+          exit 1
+
+      - uses: actions/checkout@v4
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Deploy via wizard
+        run: |
+          curl -sf -X POST http://localhost:8000/api/deployments \
+               -H 'Content-Type: application/json' \
+               -d '{"tenant":"vuori-${{ inputs.substrate }}","service_code":"rc-wbr",
+                    "use_case_id":"${{ inputs.use_case_id }}","substrate":"${{ inputs.substrate }}",
+                    "image_tag":"${{ inputs.image_tag }}",
+                    "note":"confirm_destructive=${{ inputs.confirm_destructive }}"}'
+</code></pre>
+
+  <p>Three jobs: <code>validate</code> (PSG + acceptance), <code>render-and-whatif</code> (Bicep render + what-if + destructive detection), <code>apply</code> (the actual deploy through the wizard). Each gates the next via <code>needs:</code>. The environment-level reviewers fire on the <code>apply</code> job — that's where the human approval lands.</p>
+
+  <h2 id="11-5">11.5 The Per-Substrate Wrappers</h2>
+
+  <pre class="path-comment"># .github/workflows/deploy-dev.yml — auto-deploy on main</pre>
+<pre><code>name: deploy-dev
+on:
+  workflow_run:
+    workflows: [main]
+    types: [completed]
+    branches: [main]
+
+jobs:
+  go:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    uses: ./.github/workflows/deploy.yml
+    with:
+      substrate: dev
+      image_tag: ${{ github.event.workflow_run.head_sha }}
+    secrets: inherit
+</code></pre>
+
+  <pre class="path-comment"># .github/workflows/deploy-stage.yml — manual + Planning Lead approval</pre>
+<pre><code>name: deploy-stage
+on:
+  workflow_dispatch:
+    inputs:
+      image_tag:           { required: true,  type: string }
+      confirm_destructive: { required: false, type: boolean, default: false }
+
+jobs:
+  go:
+    uses: ./.github/workflows/deploy.yml
+    with:
+      substrate: stage
+      image_tag: ${{ inputs.image_tag }}
+      confirm_destructive: ${{ inputs.confirm_destructive }}
+    secrets: inherit
+</code></pre>
+
+  <pre class="path-comment"># .github/workflows/deploy-prod.yml — tag-triggered, CIO approval, 10-min wait</pre>
+<pre><code>name: deploy-prod
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      image_tag:           { required: true, type: string }
+      confirm_destructive: { required: false, type: boolean, default: false }
+
+jobs:
+  go:
+    uses: ./.github/workflows/deploy.yml
+    with:
+      substrate: prod
+      image_tag: ${{ inputs.image_tag || github.sha }}
+      confirm_destructive: ${{ inputs.confirm_destructive || false }}
+    secrets: inherit
+</code></pre>
+
+  <p>The <code>environment: prod</code> in the reusable workflow attaches the prod approvers (CIO + Tech Lead) and the 10-min cooling-off — the wrapper doesn't repeat it.</p>
+
+  <h2 id="11-6">11.6 The Drift-Detection Cron</h2>
+
+  <pre class="path-comment"># .github/workflows/drift-cron.yml</pre>
+<pre><code>name: drift-cron
+on:
+  schedule:
+    - cron: "0 6 * * *"        # 06:00 UTC daily
+  workflow_dispatch:
+
+permissions: { id-token: write, contents: read, issues: write }
+
+jobs:
+  scan:
+    strategy:
+      matrix:
+        substrate: [dev, test, stage, prod]
+    runs-on: ubuntu-latest
+    environment: ${{ matrix.substrate }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      - name: Run drift detector
+        id: drift
+        run: |
+          uv run python apex.py launch --no-frontend &amp;
+          sleep 3
+          curl -sf http://localhost:8000/api/drift/vuori-${{ matrix.substrate }} \
+               &gt; drift.json
+          SEVERITY=$(jq -r '.severity' drift.json)
+          echo "severity=$SEVERITY" &gt;&gt; "$GITHUB_OUTPUT"
+      - name: File issue on medium/high drift
+        if: steps.drift.outputs.severity != 'low'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const drift = JSON.parse(fs.readFileSync('drift.json', 'utf8'));
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Drift detected on ${{ matrix.substrate }} — ${drift.severity}`,
+              body: '```json\n' + JSON.stringify(drift, null, 2) + '\n```',
+              labels: ['drift', '${{ matrix.substrate }}', drift.severity],
+            });
+</code></pre>
+
+  <p>Every morning at 06:00 UTC, drift runs across all four cloud substrates. Anything beyond <code>low</code> opens an issue with the diff embedded. The Tech Lead triages at the daily stand-up.</p>
+
+  <h2 id="11-7">11.7 The Rollback Playbook</h2>
+
+  <p>The fastest rollback is a redeploy of the prior tag — the same workflow, different <code>image_tag</code>. The procedure, in priority order:</p>
+
+  <ol>
+    <li><strong>Identify the last known good tag.</strong> <code>gh release list --repo org/apex-framework</code> — pick the most recent <code>v*</code> before the bad change.</li>
+    <li><strong>Re-trigger deploy-prod.</strong> <code>gh workflow run deploy-prod.yml --ref v0.10.0 -f image_tag=v0.10.0</code>. Same approval path; same PSG gates; same destructive-change confirm.</li>
+    <li><strong>Wait for green.</strong> Confirm the deployment record in the wizard at <code>/history</code>. Confirm the LEDGER row lands with the new correlation ID.</li>
+    <li><strong>If rollback also fails:</strong> the data layer is the issue, not the agents. Switch The Briefer to "watch-bucket only" mode via the per-client manifest (set <code>agents.the_briefer_url</code> to the no-op stub URL). Brief still ships; the agents stop acting.</li>
+    <li><strong>File a retro item.</strong> A failed rollback is a Sev-2 retro topic at the next sprint retrospective.</li>
+  </ol>
+
+  <p>Tested quarterly. Every quarter, the team picks an arbitrary day in the last 30 and rolls prod back to it, then forward to current. The first time it surfaces something unexpected; subsequent quarterly drills are confidence-building.</p>
+
+  <h2 id="11-8">11.8 The Pipeline-Level Test Pyramid</h2>
+
+  <p>Where each layer of the test pyramid runs:</p>
+
+  <div class="table-wrap"><table class="md-table">
+  <tr><th>Layer</th><th>Where</th><th>Trigger</th><th>Wall-clock budget</th></tr>
+  <tr><td>pre-commit smoke (4)</td><td>laptop</td><td>git commit</td><td>~5s</td></tr>
+  <tr><td>PR lint + unit + smoke</td><td>GitHub runner</td><td>PR opens / push</td><td>~90s</td></tr>
+  <tr><td>main full pyramid</td><td>4-core runner with Postgres service</td><td>merge to main</td><td>~5m</td></tr>
+  <tr><td>dev acceptance (validate_acceptance.py A1..A4)</td><td>dev tenant</td><td>after main build</td><td>~3m</td></tr>
+  <tr><td>stage acceptance (Vuori manifest)</td><td>stage tenant</td><td>manual dispatch</td><td>~10m</td></tr>
+  <tr><td>prod smoke (read-only journey)</td><td>prod tenant</td><td>post-deploy</td><td>~5m</td></tr>
+  <tr><td>drift cron</td><td>all 4 cloud substrates</td><td>daily 06:00 UTC</td><td>~8m total</td></tr>
+  </table></div>
+
+  <p>The shape is intentional: spend the cheap cycles often (pre-commit, PR), spend the expensive cycles only at the boundary (stage manual, prod tag). Anything that fires on every PR has to finish in under two minutes or engineers will route around it.</p>
+
+  <h2 id="11-9">11.9 Tying It Back to Sprints</h2>
+
+  <p>Pipeline maturity grows alongside the build. The story:</p>
+
+  <div class="table-wrap"><table class="md-table">
+  <tr><th>Sprint</th><th>Pipeline state after</th></tr>
+  <tr><td>1</td><td>pre-commit + PR (lint + unit + smoke). Auto-deploy to dev. ~10 minutes total.</td></tr>
+  <tr><td>3</td><td>+ dbt-test job on PR. + auto-deploy to test after dev green.</td></tr>
+  <tr><td>5</td><td>+ container build &amp; push to ACR per persona. Image tag flows through deploy.</td></tr>
+  <tr><td>7</td><td>+ integration tests (Docker Postgres). Pyramid hits ~145 unit / 14 integration.</td></tr>
+  <tr><td>10</td><td>+ drift cron live across dev/test/stage. + rollback playbook drilled.</td></tr>
+  <tr><td>12</td><td>+ stage manual deploy with Planning Lead approval. + tag-triggered prod deploy with CIO approval. Pipeline at full v0.1.0 baseline.</td></tr>
+  </table></div>
+
+  <p>You don't ship Sprint 1 with the prod gate — there's no prod yet. You ship it with what protects Sprint 1's deliverable: PR checks + dev deploy. The rest accretes.</p>
+
+  <div class="callout tryitout">
+    <span class="callout-label">Try It Out · End-to-end the dev path</span>
+    <p>Open a tiny PR (typo fix) against main. Watch <code>pr</code> run — three jobs, ~90s. Merge. Watch <code>main</code> run — full pyramid, ~5m. Watch <code>deploy-dev</code> auto-fire — validate → render-and-whatif → apply, all green on dev with no manual gate. The wizard's <code>/history</code> page should show the deployment record within 30 seconds. That's the cycle the engagement runs on a few dozen times a week.</p>
+  </div>
+
+  <section class="chapter-summary">
+    <h2>Summary</h2>
+    <ul>
+      <li>Pre-commit catches the cheap failures in ~5s. PR checks (lint + unit + smoke) finish in ~90s. Main runs the full pyramid in ~5m. The structure makes fast feedback compatible with thorough coverage.</li>
+      <li>One reusable deploy workflow drives all four substrates. Per-substrate wrappers attach the GitHub Environment that carries the reviewers, the OIDC credential, and the wait timer.</li>
+      <li>Every deploy passes through PSG (all 15 green) → Bicep what-if → destructive-change confirm → wizard apply → LEDGER + Purview audit.</li>
+      <li>Drift detection runs daily across all four cloud substrates; medium/high drift opens an issue with the diff embedded.</li>
+      <li>Rollback is a redeploy of the prior tag through the same pipeline. Drilled quarterly.</li>
+    </ul>
+  </section>
+
+  <section class="chapter-exercises">
+    <h2>Exercises</h2>
+    <ol class="exercises">
+      <li>Sketch a 6th GitHub Environment for a Vuori-internal "shadow prod" — a read-only copy of prod the D&amp;A team can query without affecting the live agents. Which reviewers, which timers, which secrets does it carry?</li>
+      <li>The PR-checks workflow comments the harness's <code>report.md</code> on the PR. Read the markdown formatter in <code>mvp_test_harness.reporting</code> and propose a change that highlights newly-graduated steps (stub → real) in the PR comment.</li>
+      <li>The drift cron files an issue when severity ≥ medium. What's the criterion for auto-rollback vs. open issue + page on-call? Where does that logic live?</li>
+      <li>A team member proposes skipping the destructive-change confirm for non-prod substrates "because it's just dev." Argue the case against, citing the LEDGER hash chain and the Purview audit trail.</li>
     </ol>
   </section>
 </article>
