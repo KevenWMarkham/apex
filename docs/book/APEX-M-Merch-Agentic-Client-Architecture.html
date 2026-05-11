@@ -484,9 +484,144 @@
     </div>
   </section>
 
-  <!-- ================== 3. Nine MCP servers ================== -->
+  <!-- ================== 3. Canonical APEX pancake (10-layer stack) ================== -->
   <section>
-    <h2><span class="num">03</span>Nine MCP Servers · One Per Merch System</h2>
+    <h2><span class="num">03</span>The Canonical APEX Pancake</h2>
+    <p class="lead">The overlay in §02 is a flat view. The canonical APEX architecture — narrated layer-by-layer in <a href="../reference/APEX-Stacked-Architecture-Narrated.html" target="_blank" rel="noopener">APEX · End-to-End Stacked Logical Architecture</a> — presents the same components as a <strong>ten-layer pancake stack</strong>. Every arrow of data flows up; every line of governance flows down. The Merch Agentic Client occupies every layer; nothing in the engagement sits outside the stack.</p>
+
+    <figure>
+      <div class="fig-label">Figure 3 · APEX 10-layer pancake · Merch Agentic Client mapping</div>
+      <svg viewBox="0 0 1100 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="APEX canonical 10-layer pancake with Merch Agentic Client components mapped to each layer">
+        <defs>
+          <linearGradient id="r-exp" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#F59E0B"/><stop offset="1" stop-color="#C4A55A"/></linearGradient>
+          <linearGradient id="r-svc" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#C4A55A"/><stop offset="1" stop-color="#A88845"/></linearGradient>
+          <linearGradient id="r-orc" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#2DD4BF"/><stop offset="1" stop-color="#14B8A6"/></linearGradient>
+          <linearGradient id="r-ctrl" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#B85450"/><stop offset="1" stop-color="#8B5CF6"/></linearGradient>
+          <linearGradient id="r-rt" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#0EA5E9"/><stop offset="1" stop-color="#B85450"/></linearGradient>
+          <linearGradient id="r-rsn" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#2DD4BF"/><stop offset="1" stop-color="#0EA5E9"/></linearGradient>
+          <linearGradient id="r-mcp" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#8B5CF6"/><stop offset="1" stop-color="#7C3AED"/></linearGradient>
+          <linearGradient id="r-sch" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#8B5CF6"/><stop offset="1" stop-color="#0EA5E9"/></linearGradient>
+          <linearGradient id="r-data" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#0EA5E9"/><stop offset="1" stop-color="#0369A1"/></linearGradient>
+          <linearGradient id="r-fnd" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#F97316"/><stop offset="1" stop-color="#B85450"/></linearGradient>
+          <marker id="up-arr" viewBox="0 0 10 10" refX="5" refY="0" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 10 L 5 0 L 10 10" fill="none" stroke="#0EA5E9" stroke-width="1.5"/></marker>
+          <marker id="dn-arr" viewBox="0 0 10 10" refX="5" refY="10" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 5 10 L 10 0" fill="none" stroke="#B85450" stroke-width="1.5"/></marker>
+        </defs>
+        <style>
+          .l-num { font-family: Aptos, sans-serif; font-size: 12px; fill: #64748B; font-weight: 700; }
+          .l-name { font-family: Aptos, sans-serif; font-size: 13.5px; fill: #1A2339; font-weight: 700; }
+          .l-tag { font-family: Aptos, sans-serif; font-size: 10.5px; fill: #64748B; font-weight: 600; letter-spacing: 0.06em; }
+          .l-merch { font-family: "Cascadia Mono", monospace; font-size: 11.5px; fill: #1A2339; }
+          .cap-side { font-family: "Cascadia Mono", monospace; font-size: 9.5px; fill: #64748B; letter-spacing: 0.16em; text-transform: uppercase; }
+        </style>
+
+        <!-- Caption -->
+        <text x="30" y="14" class="cap-side">The Stack · Top ↓ Bottom</text>
+        <text x="1070" y="14" text-anchor="end" class="cap-side">Data ↑ flows up · Governance ↓ flows down</text>
+
+        <!-- Side directional rails -->
+        <line x1="13" y1="500" x2="13" y2="36" stroke="#0EA5E9" stroke-width="1.2" stroke-dasharray="2 3" marker-end="url(#up-arr)"/>
+        <text x="9" y="270" class="cap-side" transform="rotate(-90 9 270)">DATA UP</text>
+
+        <line x1="1087" y1="36" x2="1087" y2="500" stroke="#B85450" stroke-width="1.2" stroke-dasharray="2 3" marker-end="url(#dn-arr)"/>
+        <text x="1095" y="270" class="cap-side" transform="rotate(90 1095 270)">GOV DOWN</text>
+
+        <!-- L10 Experience -->
+        <rect x="30" y="32" width="1040" height="42" rx="5" fill="#fffaeb" stroke="#E5E7EB"/>
+        <rect x="30" y="32" width="4" height="42" fill="url(#r-exp)"/>
+        <text x="50" y="49" class="l-num">L10</text>
+        <text x="84" y="49" class="l-name">Experience Plane</text>
+        <text x="84" y="65" class="l-tag">where humans meet agents · Copilot</text>
+        <text x="430" y="58" class="l-merch">Adaptive Cards · Power BI / Valo · Teams · merchant cockpit · CSR escalation surface</text>
+
+        <!-- L09 Service -->
+        <rect x="30" y="80" width="1040" height="42" rx="5" fill="#fefce8" stroke="#E5E7EB"/>
+        <rect x="30" y="80" width="4" height="42" fill="url(#r-svc)"/>
+        <text x="50" y="97" class="l-num">L09</text>
+        <text x="84" y="97" class="l-name">Service Catalog</text>
+        <text x="84" y="113" class="l-tag">what the client buys · productized envelope</text>
+        <text x="430" y="106" class="l-merch">RC-MERCH-AGENTIC · Wave 1 → 2 → 3 KPI envelope · two-contract Independence</text>
+
+        <!-- L08 Orchestration -->
+        <rect x="30" y="128" width="1040" height="42" rx="5" fill="#ecfeff" stroke="#E5E7EB"/>
+        <rect x="30" y="128" width="4" height="42" fill="url(#r-orc)"/>
+        <text x="50" y="145" class="l-num">L08</text>
+        <text x="84" y="145" class="l-name">Orchestration Layer</text>
+        <text x="84" y="161" class="l-tag">how agents compose · 47 archetypes</text>
+        <text x="430" y="154" class="l-merch">Sequential · Concurrent · Handoff · Group Chat · Magentic (The Coordinator)</text>
+
+        <!-- L07 Control Plane -->
+        <rect x="30" y="176" width="1040" height="42" rx="5" fill="#fdf2f8" stroke="#E5E7EB"/>
+        <rect x="30" y="176" width="4" height="42" fill="url(#r-ctrl)"/>
+        <text x="50" y="193" class="l-num">L07</text>
+        <text x="84" y="193" class="l-name">Control Plane</text>
+        <text x="84" y="209" class="l-tag">parent/child · manifest registry · Redis · LEDGER</text>
+        <text x="430" y="202" class="l-merch">HITL gates · approver routing · LEDGER hash chain · PSG-1..15 · manifest pinning</text>
+
+        <!-- L06 Runtime Plane -->
+        <rect x="30" y="224" width="1040" height="42" rx="5" fill="#f0f9ff" stroke="#E5E7EB"/>
+        <rect x="30" y="224" width="4" height="42" fill="url(#r-rt)"/>
+        <text x="50" y="241" class="l-num">L06</text>
+        <text x="84" y="241" class="l-name">Runtime Plane</text>
+        <text x="84" y="257" class="l-tag">gateway · safety · evaluation · observability</text>
+        <text x="430" y="250" class="l-merch">APIM · Content Safety + Prompt Shields · Foundry evals · App Insights · cost/decision</text>
+
+        <!-- L05 Reasoning -->
+        <rect x="30" y="272" width="1040" height="42" rx="5" fill="#ecfeff" stroke="#E5E7EB"/>
+        <rect x="30" y="272" width="4" height="42" fill="url(#r-rsn)"/>
+        <text x="50" y="289" class="l-num">L05</text>
+        <text x="84" y="289" class="l-name">Reasoning Plane</text>
+        <text x="84" y="305" class="l-tag">agent fleet · Azure AI Foundry</text>
+        <text x="430" y="298" class="l-merch">10–14 personas: Analyst · Buyer · Planner · Allocator · Pricer · Replenisher · Promoter · …</text>
+
+        <!-- L04 MCP -->
+        <rect x="30" y="320" width="1040" height="42" rx="5" fill="#f5f3ff" stroke="#E5E7EB"/>
+        <rect x="30" y="320" width="4" height="42" fill="url(#r-mcp)"/>
+        <text x="50" y="337" class="l-num">L04</text>
+        <text x="84" y="337" class="l-name">MCP Tool Binding</text>
+        <text x="84" y="353" class="l-tag">one typed tool per Gold view · the seam</text>
+        <text x="430" y="346" class="l-merch">9 subject-area MCPs: buyml · planml · allocml · priceml · replenml · promoml · itemml · supml · compml</text>
+
+        <!-- L03 Schema -->
+        <rect x="30" y="368" width="1040" height="42" rx="5" fill="#eff6ff" stroke="#E5E7EB"/>
+        <rect x="30" y="368" width="4" height="42" fill="url(#r-sch)"/>
+        <text x="50" y="385" class="l-num">L03</text>
+        <text x="84" y="385" class="l-name">Canonical Schema Layer</text>
+        <text x="84" y="401" class="l-tag">~35+ schemas · the acceleration kernel</text>
+        <text x="430" y="394" class="l-merch">RC family: MERML · SCML · CXML + merch-suite extensions (BuyML · PriceML · CompML)</text>
+
+        <!-- L02 Data -->
+        <rect x="30" y="416" width="1040" height="42" rx="5" fill="#f0f9ff" stroke="#E5E7EB"/>
+        <rect x="30" y="416" width="4" height="42" fill="url(#r-data)"/>
+        <text x="50" y="433" class="l-num">L02</text>
+        <text x="84" y="433" class="l-name">Data Plane</text>
+        <text x="84" y="449" class="l-tag">medallion · OneLake or Snowflake on Azure</text>
+        <text x="430" y="442" class="l-merch">Bronze (Fivetran / ADF) → Silver (CLEANSED, dbt) → Gold (CURATED, agent-safe)</text>
+
+        <!-- L01 Foundation -->
+        <rect x="30" y="464" width="1040" height="42" rx="5" fill="#fff7ed" stroke="#E5E7EB"/>
+        <rect x="30" y="464" width="4" height="42" fill="url(#r-fnd)"/>
+        <text x="50" y="481" class="l-num">L01</text>
+        <text x="84" y="481" class="l-name">Foundation</text>
+        <text x="84" y="497" class="l-tag">identity &amp; trust · always on, always underneath</text>
+        <text x="430" y="490" class="l-merch">Entra (Agent IDs + persona bindings) · Purview (LEDGER + audit + lineage)</text>
+      </svg>
+      <figcaption>Top-down: Experience → Service → Orchestration → Control → Runtime → Reasoning → MCP → Schema → Data → Foundation. The 6-layer overlay in §02 is a simplified projection of this canonical 10-layer pancake. Source: <a href="../reference/APEX-Stacked-Architecture-Narrated.html" target="_blank" rel="noopener">APEX · End-to-End Stacked Logical Architecture</a> (Overview tab).</figcaption>
+    </figure>
+
+    <div class="callout navy">
+      <span class="label">How to read the pancake against the Merch overlay</span>
+      <p>The §02 overlay collapses several pancake layers into single bands for legibility: the <em>"Foundation"</em> band there carries L01 (Entra + Purview) alone; the <em>"Medallion"</em> band there is L02 (Data Plane) — the L03 canonical schema is implicit in the CURATED views; the <em>"MCP Servers"</em> band there is L04; the <em>"Agent Fleet"</em> band there spans L05 (Reasoning), L06 (Runtime), L07 (Control Plane) and L08 (Orchestration); the <em>"Downstream Systems"</em> band there is L10 (Experience). L09 (Service Catalog) is the productized engagement envelope around all of it. When a question gets pointed enough to need the layer-by-layer rationale — the audit-row anatomy, the Redis control-plane state model, the four-band Runtime Plane, the six reasons agentic AI benefits categorically more from canonical schema than BI — go to the narrated source.</p>
+    </div>
+
+    <div class="callout gold">
+      <span class="label">Reading order</span>
+      <p><strong>(1)</strong> The flat overlay in §02 to see <em>what</em> APEX-M overlays on the merch landscape. <strong>(2)</strong> The pancake here to see <em>where</em> each component lives canonically. <strong>(3)</strong> The narrated source for the <em>why</em> of each layer's design commitments — Experience plane HITL gating, Control Plane manifest versioning, MCP typed-tool isolation, Canonical Schema as the acceleration kernel, Data Plane Bronze/Silver/Gold with PII tokenized at Silver, Foundation as the always-on Entra + Purview substrate.</p>
+    </div>
+  </section>
+
+  <!-- ================== 4. Nine MCP servers ================== -->
+  <section>
+    <h2><span class="num">04</span>Nine MCP Servers · One Per Merch System</h2>
     <p class="lead">SQL stays inside the MCP server. Agents see only typed tools. Each MCP authenticates Entra Agent IDs; Tier-3 PII unlocks (vendor contact info, labor certifications, customer-level joins) require an explicit consent ticket and audit on every hit.</p>
 
     <div class="tbl-wrap">
@@ -560,9 +695,9 @@
     </div>
   </section>
 
-  <!-- ================== 4. Agent fleet ================== -->
+  <!-- ================== 5. Agent fleet ================== -->
   <section>
-    <h2><span class="num">04</span>The Agent Fleet · 10–14 Personas</h2>
+    <h2><span class="num">05</span>The Agent Fleet · 10–14 Personas</h2>
     <p class="lead">Vuori's WBR shipped five named personas. The full merch suite needs ten to fourteen, depending on whether <em>The Coordinator</em> (the Magentic manager) and <em>The Archivist</em> (LEDGER curator + Gate-6 calibration) are in scope.</p>
 
     <div class="tbl-wrap">
@@ -592,9 +727,9 @@
     </div>
   </section>
 
-  <!-- ================== 5. Use cases ================== -->
+  <!-- ================== 6. Use cases ================== -->
   <section>
-    <h2><span class="num">05</span>Use Case Clusters · ~70 Total</h2>
+    <h2><span class="num">06</span>Use Case Clusters · ~70 Total</h2>
     <p class="lead">Vuori's 21-UC catalog grows to ~70 UCs across the merch suite, plus three cross-domain journeys. Each UC has a primary persona, an MCP, a steps.yaml file in the harness, and acceptance criteria mapped back to the engagement's gap inventory.</p>
 
     <div class="tbl-wrap">
@@ -618,9 +753,9 @@
     </div>
   </section>
 
-  <!-- ================== 6. Build sequence ================== -->
+  <!-- ================== 7. Build sequence ================== -->
   <section>
-    <h2><span class="num">06</span>Build Sequence · Three Waves · ~24 Sprints</h2>
+    <h2><span class="num">07</span>Build Sequence · Three Waves · ~24 Sprints</h2>
     <p class="lead">Wave taxonomy stays consistent with the APEX framework — W1 foundations, W2 the highest-margin loop, W3 operational depth. Two-squad recommendation for ~24 sprints; a single squad can deliver in ~36 if Wave 3 stretches.</p>
 
     <div class="waves">
@@ -666,9 +801,9 @@
     </div>
   </section>
 
-  <!-- ================== 7. Delta from Vuori ================== -->
+  <!-- ================== 8. Delta from Vuori ================== -->
   <section>
-    <h2><span class="num">07</span>Delta From the Vuori WBR Slice</h2>
+    <h2><span class="num">08</span>Delta From the Vuori WBR Slice</h2>
     <p class="lead">The Vuori Implementation Guide (the Companion volume in the Library) is the WBR slice — a perfect microcosm of the full suite. Here's what scales up.</p>
 
     <div class="tbl-wrap">
@@ -686,9 +821,9 @@
     </div>
   </section>
 
-  <!-- ================== 8. What stays identical ================== -->
+  <!-- ================== 9. What stays identical ================== -->
   <section>
-    <h2><span class="num">08</span>What Stays Identical</h2>
+    <h2><span class="num">09</span>What Stays Identical</h2>
     <p class="lead">The architectural backbone is unchanged. Every Wave-3 capability rides the same substrate as the Wave-1 stub.</p>
 
     <ul style="font-size: 15px; line-height: 1.75;">
@@ -702,9 +837,9 @@
     </ul>
   </section>
 
-  <!-- ================== 9. Microsoft Learn ================== -->
+  <!-- ================== 10. Microsoft Learn ================== -->
   <section>
-    <h2><span class="num">09</span>Microsoft Learn · New-Domain Anchors</h2>
+    <h2><span class="num">10</span>Microsoft Learn · New-Domain Anchors</h2>
     <p class="lead">Where the merch suite expands beyond the Vuori book's reference list, here are the canonical Microsoft sources.</p>
 
     <div class="tbl-wrap">
@@ -742,9 +877,9 @@
     </div>
   </section>
 
-  <!-- ================== 10. Folding into the book ================== -->
+  <!-- ================== 11. Folding into the book ================== -->
   <section>
-    <h2><span class="num">10</span>Folding This Into the Book — Three Options</h2>
+    <h2><span class="num">11</span>Folding This Into the Book — Three Options</h2>
     <p class="lead">If this becomes a permanent artefact, here are three places it can live in the Library. The decision shapes how future engagements consume the reference.</p>
 
     <div class="options">
