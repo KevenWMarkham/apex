@@ -300,8 +300,8 @@
     <div class="subtitle">Three Volumes · One Architecture · One Commitment</div>
     <p class="tagline">A library for the Deloitte Microsoft Technology &amp; Services Practice and the client teams it serves. <strong>APEX is a framework that accelerates the building of services and agents on the Microsoft Platform</strong> — what clients buy are Services with KPI envelopes, not the framework itself. Each volume below is distinct in audience and content; together they answer every question that arises between "how do we position this Service?" and "the Service is live in the client tenant."</p>
     <div class="meta-row">
-      <span><strong>Volumes</strong> · 3 + Executive Summary</span>
-      <span><strong>Total chapters</strong> · 75+</span>
+      <span><strong>Volumes</strong> · 3 Trilogy + 1 Companion + Executive Summary</span>
+      <span><strong>Total chapters</strong> · 80+</span>
       <span><strong>Services covered</strong> · 38</span>
       <span><strong>Practices</strong> · 7</span>
       <span><strong>Edition</strong> · April–May 2026</span>
@@ -422,6 +422,60 @@
   </div>
 
   <!-- ============================================================
+       COMPANION VOLUME — in the Library, NOT in the Trilogy
+       ============================================================ -->
+  <hr class="section-rule">
+
+  <h2 class="section-title">Companion Volume <span style="color: #B85450; font-size: 0.5em; letter-spacing: 0.18em; font-family: Aptos, sans-serif; font-weight: 700; vertical-align: middle; margin-left: 8px;">SUPPLEMENT · NOT PART OF THE TRILOGY</span></h2>
+  <p class="section-lead">The Library hosts one volume outside the Trilogy. Where the three Trilogy volumes are role-and-lifecycle partitions of the full APEX engagement, the <em>Implementation Guide</em> is a worked engineering example — one client, one Service, one runnable reference implementation, end to end. It does not replace the Services Guide or the Deployment Guide; it shows what their abstractions look like when an engineering team makes them concrete for a specific engagement. Read it after Volume II when you need a code-level companion.</p>
+
+  <div class="volume-grid" style="grid-template-columns: 1fr; max-width: 720px; margin: 0 auto 32px;">
+
+    <!-- Companion — Implementation Guide (Vuori-Example) -->
+    <article class="volume-card" style="border-top: 4px solid #B85450; background: linear-gradient(180deg, rgba(184,84,80,0.05), transparent 40%);">
+      <header class="card-header">
+        <div class="vol-num" style="color: #B85450;">COMPANION VOLUME · IMPLEMENTATION GUIDE</div>
+        <h2 class="vol-title">The <span class="accent" style="color: #B85450;">Implementation</span> Guide
+          <span style="display: inline-block; background: rgba(184,84,80,0.12); color: #B85450; padding: 2px 8px; font-family: Aptos, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.15em; border-radius: 3px; vertical-align: 6px; margin-left: 8px;">VUORI-EXAMPLE</span>
+        </h2>
+        <div class="vol-subtitle">Building the Agentic WBR on APEX-M · A worked engineering example</div>
+      </header>
+      <div class="card-body">
+        <p class="vol-question"><strong>Answers:</strong> How does a Service from the Services Guide actually get built, sprint by sprint, against a single client (Vuori) in their Snowflake-on-Azure + Foundry tenant — with code-level examples for ingestion, medallion, MCP servers, Microsoft Agent Framework wiring, the MVP test harness, GitHub OIDC, and CI/CD?</p>
+
+        <div class="field">Audience</div>
+        <p class="field-content">Engineers building or onboarding to a Vuori-shaped agentic engagement · architects benchmarking the Services Guide patterns in a concrete context · delivery leads validating the engagement plan</p>
+
+        <div class="field">What you'll find</div>
+        <p class="field-content">5 parts · 11 chapters · 13 numbered figures (mix of inline SVG + Mermaid sequence/flowchart/Gantt) · 12-sprint backlog with story points (173 pts total · ~14.4 pts/sprint sustained) · concrete code derived from the MVP reference implementation · GitHub OIDC federation per substrate · pre-commit → PR → main → deploy pipeline with PSG gates · LEDGER hash chain + Purview audit · curated Microsoft Learn + Tech Community references per chapter plus a consolidated reference appendix.</p>
+
+        <div class="stats">
+          <div class="stat"><span class="stat-num">5</span><span class="stat-lbl">Parts</span></div>
+          <div class="stat"><span class="stat-num">11</span><span class="stat-lbl">Chapters</span></div>
+          <div class="stat"><span class="stat-num">13</span><span class="stat-lbl">Figures</span></div>
+          <div class="stat"><span class="stat-num">173</span><span class="stat-lbl">Story points</span></div>
+        </div>
+
+        <div style="margin-top: 14px; padding: 10px 14px; background: rgba(184,84,80,0.06); border-left: 3px solid #B85450; border-radius: 0 4px 4px 0; font-size: 13px;">
+          <strong style="color: #B85450; font-family: Aptos, sans-serif;">Confidentiality:</strong> This volume references Vuori-specific business framing and uses Vuori as the running example. All code examples use synthetic data only — no production Vuori data. Engagement-scoped; do not cross-reference with other client engagements.
+        </div>
+      </div>
+      <div class="card-footer">
+        <a href="Professional-APEX-M-Implementation-Guide-(Vuori-Example).html" class="open-btn" style="background: #B85450;">Open the Companion →</a>
+        <span class="file-info">~5,400 lines</span>
+      </div>
+    </article>
+
+  </div>
+
+  <aside class="callout" style="background: rgba(184,84,80,0.04); border-left: 4px solid #B85450; padding: 16px 20px; margin: 0 0 32px; border-radius: 0 4px 4px 0;">
+    <div class="callout-label" style="font-family: Aptos, sans-serif; font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 700; color: #B85450; margin-bottom: 8px;">Why a companion, not a fourth Trilogy volume?</div>
+    <p style="margin: 0 0 8px;">The Trilogy partitions the <em>full engagement lifecycle</em> by audience: sellers position, architects design, delivery leads deploy. Each Trilogy volume is generic — it teaches the framework primitives that apply to <em>every</em> Service, <em>every</em> tenant.</p>
+    <p style="margin: 0 0 8px;">The Implementation Guide is the opposite — <em>one</em> Service, <em>one</em> tenant, end-to-end. It is engineering-deep and engagement-narrow. Promoting it to a Trilogy volume would conflate a worked example with reusable framework content, and the firewall between general framework guidance and client-specific implementation matters for Independence posture and confidentiality.</p>
+    <p style="margin: 0;">The Library holds both. The Trilogy is the <em>doctrine</em>; the Companion is the <em>case study</em>.</p>
+  </aside>
+
+  <!-- ============================================================
        HOW THEY FIT TOGETHER (DIAGRAM)
        ============================================================ -->
   <h2 class="section-title">How the Three Volumes Fit Together</h2>
@@ -513,7 +567,13 @@
     <div class="path-card tech">
       <div class="role">Role · Service Architect</div>
       <h3 class="role-name">Designing a Service composition</h3>
-      <p class="order"><strong>Volume II</strong> is your day-job. Read Parts I–IV in order, then jump to your Service in Part VI. Use <strong>Appendix A</strong> (Schema Library) and <strong>Appendix B</strong> (MCP Tool Catalog) as references. Refer to <strong>Volume I</strong> for KPI envelopes and persona briefs. Refer to <strong>Volume III</strong> when the Service is about to onboard into a tenant.</p>
+      <p class="order"><strong>Volume II</strong> is your day-job. Read Parts I–IV in order, then jump to your Service in Part VI. Use <strong>Appendix A</strong> (Schema Library) and <strong>Appendix B</strong> (MCP Tool Catalog) as references. Refer to <strong>Volume I</strong> for KPI envelopes and persona briefs. Refer to <strong>Volume III</strong> when the Service is about to onboard into a tenant. When you need a code-level worked example, open the <strong>Implementation Guide</strong> Companion.</p>
+    </div>
+
+    <div class="path-card" style="border-left: 4px solid #B85450; background: rgba(184,84,80,0.04);">
+      <div class="role" style="color: #B85450;">Role · Build Engineer / Tech Lead</div>
+      <h3 class="role-name">Implementing a Service for a specific client</h3>
+      <p class="order">The <strong>Implementation Guide</strong> Companion is your entry point. Walk Parts I–II to see the engagement framed against APEX, Parts III–IV for the code-level MCP + Agent Framework + test harness wiring, and Part V for the 12-sprint plan and CI/CD shape. Use <strong>Volume II</strong> as your generic-pattern reference and <strong>Volume III</strong> for the substrate-side onboarding mechanics. The Companion is engagement-scoped — your specific client's Implementation Guide may differ.</p>
     </div>
 
     <div class="path-card tech">
@@ -559,8 +619,9 @@
        ============================================================ -->
   <h2 class="section-title">Library Maintenance</h2>
   <div style="display: grid; grid-template-columns: 1fr; gap: 16px;">
-    <p>The trilogy is maintained alongside the canonical reference artifacts under <code style="font-family:'Cascadia Mono',monospace; background:var(--code-bg); padding:1px 6px; border-radius:3px; font-size:0.9em;">APEX/docs/</code>. Volume II's <strong>Appendix G</strong> indexes external Microsoft Learn / Tech Community / Architecture Center / open-source / industry-standards references — the same references support all three volumes. When updating any volume, follow the cross-reference convention: cite the sibling volume by chapter or section number (e.g., "Deployment Guide §4.3" or "Sellers Guide Chapter 6"), not by title-only, so the reference resolves even when titles evolve.</p>
-    <p>Each volume's cover carries a Volume number and the trilogy navigation appears in every topbar — see the three pills at the top of this page. The pill for the volume currently open is highlighted; the other two link to their siblings. Returning to this library landing is one click on the "Library" label or any deactivated pill from a sibling volume.</p>
+    <p>The trilogy is maintained alongside the canonical reference artifacts under <code style="font-family:'Cascadia Mono',monospace; background:var(--code-bg); padding:1px 6px; border-radius:3px; font-size:0.9em;">APEX/docs/</code>. Volume II's <strong>Appendix G</strong> indexes external Microsoft Learn / Tech Community / Architecture Center / open-source / industry-standards references — the same references support all three Trilogy volumes. When updating any volume, follow the cross-reference convention: cite the sibling volume by chapter or section number (e.g., "Deployment Guide §4.3" or "Sellers Guide Chapter 6"), not by title-only, so the reference resolves even when titles evolve.</p>
+    <p>Each Trilogy volume's cover carries a Volume number and the trilogy navigation appears in every topbar — see the three pills at the top of this page. The pill for the volume currently open is highlighted; the other two link to their siblings. Returning to this library landing is one click on the "Library" label or any deactivated pill from a sibling volume.</p>
+    <p><strong>Companion volumes</strong> — currently just the Vuori-Example Implementation Guide — sit alongside the Trilogy in the Library but do <em>not</em> appear in the trilogy-nav pills. They are engagement-scoped artefacts with their own confidentiality posture and visual identity (rust accent vs. the Trilogy gold). Each engagement may produce its own Implementation Guide companion; each lives in <code style="font-family:'Cascadia Mono',monospace; background:var(--code-bg); padding:1px 6px; border-radius:3px; font-size:0.9em;">docs/book/Professional-APEX-M-Implementation-Guide-(&lt;Client&gt;-Example).html</code> and is linked from the Library's Companion section above.</p>
   </div>
 
   </main>
