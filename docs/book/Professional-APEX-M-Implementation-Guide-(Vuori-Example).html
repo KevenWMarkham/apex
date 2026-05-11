@@ -257,7 +257,70 @@
     main { padding: 0; max-width: none; }
     .chapter, .part-opener { page-break-before: always; }
   }
-  </style>
+
+  /* Diagrams + figures */
+  figure.diagram {
+    margin: 24px 0; padding: 18px 20px;
+    border: 1px solid var(--border); border-radius: 6px;
+    background: var(--vuori-cream);
+  }
+  body.dark figure.diagram { background: #111827; }
+  figure.diagram figcaption {
+    margin-top: 10px; padding-top: 10px;
+    border-top: 1px dashed var(--border);
+    font-size: 13px; color: var(--dim);
+    font-family: Aptos, sans-serif;
+  }
+  figure.diagram .fig-label {
+    font-family: Aptos, sans-serif;
+    font-size: 11px; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--vuori-rust); font-weight: 700;
+    margin-bottom: 6px;
+  }
+  figure.diagram svg { width: 100%; height: auto; display: block; }
+  figure.diagram .mermaid { background: transparent; text-align: center; }
+  figure.diagram pre { background: transparent; border: none; padding: 0; }
+
+  /* References / Further reading */
+  .callout.reading {
+    border-color: var(--vuori-gold); background: rgba(196, 165, 90, 0.08);
+  }
+  .callout.reading .callout-label { color: var(--vuori-gold); }
+  .callout.reading ul { margin: 8px 0 0; padding-left: 22px; }
+  .callout.reading li { padding: 3px 0; font-size: 14.5px; }
+  .callout.reading a { color: var(--vuori-rust); text-decoration: none; }
+  .callout.reading a:hover { text-decoration: underline; }
+  .callout.reading .source-badge {
+    display: inline-block; font-family: Aptos, sans-serif;
+    font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    font-weight: 700; padding: 1px 6px; border-radius: 3px;
+    margin-right: 6px; vertical-align: 2px;
+  }
+  .callout.reading .source-badge.ms-learn { background: #0078D4; color: #fff; }
+  .callout.reading .source-badge.ms-tech-community { background: #5C2D91; color: #fff; }
+  .callout.reading .source-badge.ms-arch { background: #00BCF2; color: #fff; }
+  .callout.reading .source-badge.github { background: #1F2937; color: #fff; }
+  .callout.reading .source-badge.blog { background: var(--vuori-rust); color: #fff; }
+
+  /* MS reference appendix */
+  .ms-ref-grid {
+    display: grid; grid-template-columns: 1fr; gap: 14px;
+    margin: 20px 0;
+  }
+  @media (min-width: 900px) {
+    .ms-ref-grid { grid-template-columns: 1fr 1fr; }
+  }
+  .ms-ref-card {
+    border: 1px solid var(--border); border-radius: 6px;
+    padding: 14px 16px; background: var(--code-bg);
+  }
+  .ms-ref-card h4 {
+    margin: 0 0 8px; color: var(--navy); font-size: 15px;
+    text-transform: none; letter-spacing: 0;
+  }
+  .ms-ref-card ul { margin: 0; padding-left: 18px; }
+  .ms-ref-card li { padding: 2px 0; font-size: 13.5px; }
+</style>
 </head>
 <body>
   <div class="confidential-ribbon">CONFIDENTIAL · Vuori engagement · Synthetic data only · Do not redistribute</div>
@@ -317,6 +380,7 @@
       <ul>
         <li><a href="#vuori-acceptance">Vuori Acceptance Run</a></li>
         <li><a href="#mvp-pointers">MVP Source Pointers</a></li>
+        <li><a href="#ms-references">Microsoft References &amp; Blogs</a></li>
       </ul>
     </nav>
     <main>
@@ -398,7 +462,84 @@
 
   <p>The entry point is the <strong>Weekly Business Review</strong>. Today it is manual, Excel-based, and assembles slowly. The room argues about whose numbers are right (finance Gregorian vs. merchandising NRF calendar) instead of deciding. The merchants spend Tuesday through Thursday catching up to context the agents will deliver Monday at 8 AM.</p>
 
-  <p>The Deloitte answer is two agents in a Sense → Execute &amp; Learn loop:</p>
+  <p>The Deloitte answer is two agents in a Sense → Execute &amp; Learn loop, layered on Vuori's existing platform stack:</p>
+
+  <figure class="diagram">
+    <div class="fig-label">Figure 1.1 · Vuori platform stack with agent overlay</div>
+    <svg viewBox="0 0 760 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vuori architecture stack">
+      <defs>
+        <linearGradient id="g-rust" x1="0" x2="1"><stop offset="0" stop-color="#B85450"/><stop offset="1" stop-color="#9C3F3C"/></linearGradient>
+        <linearGradient id="g-sage" x1="0" x2="1"><stop offset="0" stop-color="#7C8968"/><stop offset="1" stop-color="#5F6B4F"/></linearGradient>
+        <linearGradient id="g-navy" x1="0" x2="1"><stop offset="0" stop-color="#1A2339"/><stop offset="1" stop-color="#2A3349"/></linearGradient>
+        <linearGradient id="g-gold" x1="0" x2="1"><stop offset="0" stop-color="#C4A55A"/><stop offset="1" stop-color="#A88845"/></linearGradient>
+      </defs>
+      <style>
+        .lbl { font-family: Aptos, sans-serif; font-size: 12px; fill: #fff; font-weight: 600; }
+        .lbl-dark { font-family: Aptos, sans-serif; font-size: 12px; fill: #1A2339; font-weight: 600; }
+        .small { font-family: Aptos, sans-serif; font-size: 10.5px; fill: #fff; opacity: 0.85; }
+        .small-dark { font-family: Aptos, sans-serif; font-size: 10.5px; fill: #1A2339; opacity: 0.75; }
+        .layer-title { font-family: Aptos, sans-serif; font-size: 11px; fill: #64748B; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; }
+      </style>
+
+      <text x="20" y="20" class="layer-title">Consumption</text>
+      <rect x="20" y="28" width="720" height="38" rx="6" fill="url(#g-gold)"/>
+      <text x="36" y="50" class="lbl-dark">Adaptive Card → Teams</text>
+      <text x="220" y="50" class="lbl-dark">Valo (MicroStrategy)</text>
+      <text x="420" y="50" class="lbl-dark">Power BI / Reports</text>
+      <text x="600" y="50" class="lbl-dark">CSR / Approver Inbox</text>
+
+      <text x="20" y="92" class="layer-title">Agent Layer (5 personas, 2 MCPs)</text>
+      <rect x="20" y="100" width="720" height="56" rx="6" fill="url(#g-rust)"/>
+      <text x="36" y="124" class="lbl">The Analyst (A13)</text>
+      <text x="190" y="124" class="lbl">Demand Checker (A1)</text>
+      <text x="360" y="124" class="lbl">Finance Lead (A4)</text>
+      <text x="510" y="124" class="lbl">Operations Lead (A8)</text>
+      <text x="660" y="124" class="lbl">Briefer (A13.3)</text>
+      <text x="36" y="145" class="small">↑ merml-mcp</text>
+      <text x="190" y="145" class="small">↑ cxml-mcp</text>
+      <text x="360" y="145" class="small">↑ merml-mcp (concurrent)</text>
+      <text x="510" y="145" class="small">↑ merml-mcp</text>
+      <text x="660" y="145" class="small">↑ both MCPs</text>
+
+      <text x="20" y="178" class="layer-title">Data Platform · Snowflake on Azure (Medallion)</text>
+      <rect x="20" y="186" width="232" height="48" rx="6" fill="url(#g-navy)"/>
+      <text x="36" y="208" class="lbl">RAW</text>
+      <text x="36" y="225" class="small">Fivetran / ADF native shapes</text>
+      <rect x="262" y="186" width="232" height="48" rx="6" fill="url(#g-navy)"/>
+      <text x="278" y="208" class="lbl">CLEANSED</text>
+      <text x="278" y="225" class="small">dbt · typed · dual-calendared</text>
+      <rect x="504" y="186" width="236" height="48" rx="6" fill="url(#g-navy)"/>
+      <text x="520" y="208" class="lbl">CURATED</text>
+      <text x="520" y="225" class="small">agent-readable · denormalised</text>
+
+      <text x="20" y="256" class="layer-title">Source Systems (Vuori existing)</text>
+      <rect x="20" y="264" width="115" height="44" rx="6" fill="url(#g-sage)"/>
+      <text x="32" y="284" class="lbl">Shopify DTC</text>
+      <text x="32" y="299" class="small">Fivetran 15 min</text>
+      <rect x="143" y="264" width="115" height="44" rx="6" fill="url(#g-sage)"/>
+      <text x="155" y="284" class="lbl">Anaplan MFP</text>
+      <text x="155" y="299" class="small">ADF daily</text>
+      <rect x="266" y="264" width="115" height="44" rx="6" fill="url(#g-sage)"/>
+      <text x="278" y="284" class="lbl">Centric PLM</text>
+      <text x="278" y="299" class="small">ADF daily</text>
+      <rect x="389" y="264" width="115" height="44" rx="6" fill="url(#g-sage)"/>
+      <text x="401" y="284" class="lbl">iSEYON</text>
+      <text x="401" y="299" class="small">SFTP weekly</text>
+      <rect x="512" y="264" width="115" height="44" rx="6" fill="url(#g-sage)"/>
+      <text x="524" y="284" class="lbl">D365 ERP</text>
+      <text x="524" y="299" class="small">ADF daily</text>
+      <rect x="635" y="264" width="105" height="44" rx="6" fill="url(#g-sage)"/>
+      <text x="647" y="284" class="lbl">ConCON</text>
+      <text x="647" y="299" class="small">Blob weekly</text>
+
+      <text x="20" y="332" class="layer-title">Foundation</text>
+      <rect x="20" y="340" width="720" height="34" rx="6" fill="#334155"/>
+      <text x="36" y="361" class="lbl">Azure AI Foundry · Entra ID (Agent IDs + persona bindings) · Key Vault · Purview (LEDGER + audit)</text>
+    </svg>
+    <figcaption>Five-layer architecture. Agents read CURATED only — never RAW. Per the April 16 Dallas hard requirement, the entire stack lives in Vuori's Snowflake-on-Azure + Azure AI Foundry tenant.</figcaption>
+  </figure>
+
+  <p>The two agents:</p>
 
   <div class="table-wrap"><table class="md-table">
   <tr><th style="width:35%">Agent</th><th>Role</th></tr>
@@ -484,15 +625,53 @@
 
   <p>The cross-UC journey <code>wbr-friday-to-monday</code> is the spine of the Q1 demo. It chains UCs end-to-end:</p>
 
-<pre><code>Fri 21:43 ──► UC-01  The Analyst detects exception in merml-mcp
-Sat 00:30 ──► UC-02  The Demand Checker pulls intent from cxml-mcp; intent healthy
-Sat 01:00 ──► UC-03  Block any erroneous auto-markdown the system might propose
-Sat 02:00 ──► UC-04..UC-07  Finance Lead applies OTB/margin/markdown/spend guardrails
-Sat 04:00 ──► UC-08..UC-10  Operations Lead plans rebalance against existing stock
-Sat 06:00 ──► UC-14..UC-17  Approver routing with response-window timers
-Sun 22:00 ──► UC-11..UC-13  Brief Synthesis: Done / Your-Call / Watch buckets assembled
-Mon 08:00 ──► UC-20  Deliver Adaptive Card to Teams
-                     (UC-18 escalation + UC-19 LEDGER logging fire throughout)</code></pre>
+  <figure class="diagram">
+    <div class="fig-label">Figure 1.2 · Friday-to-Monday journey · WBR cross-UC sequence</div>
+    <div class="mermaid">
+sequenceDiagram
+    autonumber
+    participant merml as merml-mcp
+    participant cxml as cxml-mcp
+    participant A13 as The Analyst (A13)
+    participant A1 as Demand Checker (A1)
+    participant A4 as Finance Lead (A4)
+    participant A8 as Ops Lead (A8)
+    participant H as HITL (Planning Lead)
+    participant B as The Briefer (A13.3)
+    participant T as Teams
+    Note over A13,merml: Fri 21:43 · UC-01 Detect
+    merml->>A13: actuals vs plan
+    A13->>A13: rank by severity
+    A13->>A1: handoff (Apparel/Midwest, -12%)
+    Note over A1,cxml: Sat 00:30 · UC-02 Diagnose
+    A1->>cxml: intent + competitive shift
+    cxml-->>A1: intent 0.71 (healthy → supply)
+    A1->>A4: route to guardrails
+    Note over A4: Sat 02:00 · UC-04..07 Concurrent
+    par four guardrails in parallel
+        A4->>merml: OTB buffer
+    and
+        A4->>merml: margin floor
+    and
+        A4->>merml: markdown depth
+    and
+        A4->>merml: aggregate spend
+    end
+    A4-->>H: markdown breach → pause
+    Note over H: Sat 06:42 · UC-14 HITL
+    H-->>A4: approved
+    A4->>A8: proceed
+    Note over A8: Sat 07:00 · UC-08..10
+    A8->>merml: rebalance proposal (3200 units from Pacific)
+    A8->>B: send context
+    Note over B: Sun 22:00 · UC-11..13 Group Chat
+    B->>B: synth Done / Your-Call / Watch
+    Note over B,T: Mon 08:00 · UC-20
+    B->>T: Adaptive Card
+    Note over A13,T: UC-18 escalation + UC-19 LEDGER hash chain run throughout
+    </div>
+    <figcaption>End-to-end orchestration across the five personas. Numbered arrows are the discrete LEDGER rows in the run trace (§7.9). Pattern callouts: Sequential within Analyst, Handoff across, Concurrent inside Finance Lead, Group Chat in Brief Synthesis.</figcaption>
+  </figure>
 
   <p>This journey is the parallel-WBR proof mechanism endorsed in the Dallas offsite: the human-run WBR and the agent-generated WBR run side by side; the room compares decisions, speed, and quality.</p>
 
@@ -527,6 +706,16 @@ AC-3: No autonomous action taken — observe-and-route only.'
   <div class="callout tryitout">
     <span class="callout-label">Try It Out · Map a gap to a UC</span>
     <p>Pick gap #8 (markdown pool buildup) from §1.2. Open <code>uc_catalog.json</code> and find every UC whose <code>main_flow</code> or <code>data_inputs</code> mentions markdown. You should find at least UC-03 (block erroneous markdown), UC-06 (markdown depth guardrail), and likely UC-13 (Watch bucket — what's aging out). Note the executor kinds you'd use to assert against each.</p>
+  </div>
+
+  <div class="callout reading">
+    <span class="callout-label">Further Reading · Microsoft canonical sources</span>
+    <ul>
+      <li><span class="source-badge ms-arch">MS Arch</span><a href="https://learn.microsoft.com/azure/architecture/ai-ml/guide/ai-agent-design-patterns" target="_blank" rel="noopener">AI agent orchestration patterns</a> — the canonical reference for the five Microsoft Agent Framework patterns mapped to Vuori personas.</li>
+      <li><span class="source-badge ms-arch">MS Arch</span><a href="https://learn.microsoft.com/azure/architecture/ai-ml/architecture/baseline-microsoft-foundry-chat" target="_blank" rel="noopener">Baseline Microsoft Foundry chat reference architecture</a> — Microsoft's reference for the chat-front-ended multi-agent shape.</li>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/agent-framework/journey/workflows" target="_blank" rel="noopener">Agent Framework · Workflows</a> — the framework foundation that ADR-006 wraps.</li>
+      <li><span class="source-badge github">GitHub</span><a href="https://github.com/microsoft/agent-framework" target="_blank" rel="noopener">microsoft/agent-framework</a> — open-source SDK, sample workflows, Magentic + group-chat reference code.</li>
+    </ul>
   </div>
 
   <section class="chapter-summary">
@@ -770,6 +959,15 @@ $ uv run python scripts/scaffold_uc_yaml.py      # creates any missing steps.yam
     <p>Scaffold the service as in §2.2. Clone <code>_default/</code> to <code>vuori/</code>. Paste a fake Object ID like <code>00000000-0000-0000-0000-000000000001</code> into one of the <code>entra_group_object_id</code> fields and leave the others as placeholders. Run PSG-15 with substrate=stage. Confirm RED. Replace all four placeholders. Confirm GREEN.</p>
   </div>
 
+  <div class="callout reading">
+    <span class="callout-label">Further Reading · Identity &amp; persona binding</span>
+    <ul>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/graph/api/resources/group" target="_blank" rel="noopener">Microsoft Graph · Group resource</a> — the API PSG-15 calls to resolve <code>entra_group_object_id</code> at HITL fire time.</li>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/entra/identity/role-based-access-control/groups-concept" target="_blank" rel="noopener">Microsoft Entra · Groups concept</a> — how the persona binding modes map onto Entra security/M365 groups.</li>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/entra/identity-platform/v2-overview" target="_blank" rel="noopener">Microsoft Entra ID identity platform overview</a> — the auth surface the persona-principal binding model rests on.</li>
+    </ul>
+  </div>
+
   <section class="chapter-summary">
     <h2>Summary</h2>
     <ul>
@@ -826,6 +1024,35 @@ $ uv run python scripts/scaffold_uc_yaml.py      # creates any missing steps.yam
   <h2 id="3-1">3.1 The ADR-006 Pattern Library</h2>
 
   <p>The Microsoft Agent Framework defines five canonical orchestration patterns. APEX's <code>agent_framework_loader</code> (Sprint 42) enforces that every agent declares which pattern it implements. For the Vuori WBR:</p>
+
+  <figure class="diagram">
+    <div class="fig-label">Figure 3.1 · ADR-006 pattern map for the Vuori WBR</div>
+    <div class="mermaid">
+flowchart LR
+    classDef seq fill:#B85450,color:#fff,stroke:#9C3F3C
+    classDef con fill:#7C8968,color:#fff,stroke:#5F6B4F
+    classDef han fill:#C4A55A,color:#1A2339,stroke:#A88845
+    classDef grp fill:#1A2339,color:#fff,stroke:#2A3349
+    classDef mag fill:#475569,color:#fff,stroke:#1F2937,stroke-dasharray: 4 2
+
+    A13[The Analyst<br/>Sequential 5 steps]:::seq
+    A1[Demand Checker<br/>Sequential]:::seq
+    A4[Finance Lead<br/>Concurrent: 4 guardrails]:::con
+    A8[Ops Lead<br/>Sequential]:::seq
+    B[Briefer + UC-11/12/13<br/>Group Chat 3 rounds]:::grp
+    G6[Weekly Gate-6 calibration<br/>Magentic — Q2]:::mag
+
+    A13 -->|Handoff| A1
+    A13 -->|Handoff| A4
+    A13 -->|Handoff| A8
+    A1 -->|Handoff| A4
+    A4 -->|Handoff| A8
+    A8 -->|Handoff| B
+    B -. drift signals .-> G6
+    G6 -. tune thresholds .-> A4
+    </div>
+    <figcaption>Sequential (within each persona) · Handoff (between personas, via routing engine) · Concurrent (the four Finance Lead guardrails in parallel) · Group Chat (Brief Synthesis multi-round) · Magentic (weekly calibration loop — Q2 scope; dashed).</figcaption>
+  </figure>
 
   <div class="table-wrap"><table class="md-table">
   <tr><th>Pattern</th><th>Where it's used in the WBR journey</th></tr>
@@ -1114,6 +1341,19 @@ def route(routed_to: list[str], payload: dict[str, Any]) -> dict[str, Any]:
     <p>From <code>MVP/</code>: run <code>docker compose up the-analyst</code>. Once healthy, curl <code>http://localhost:8001/healthz</code> — expect <code>{"status":"ok","agent_id":"13-analyst"}</code>. Then POST an empty body to <code>/run</code> and confirm the stub returns the Apparel/Midwest/-0.12 ranking. This is the smallest end-to-end loop in the engagement.</p>
   </div>
 
+  <div class="callout reading">
+    <span class="callout-label">Further Reading · Agent Framework patterns</span>
+    <ul>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/agent-framework/workflows/orchestrations/sequential" target="_blank" rel="noopener">Sequential orchestration</a></li>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/agent-framework/workflows/orchestrations/concurrent" target="_blank" rel="noopener">Concurrent orchestration</a> — the pattern The Finance Lead uses for the four guardrails.</li>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/agent-framework/workflows/orchestrations/handoff" target="_blank" rel="noopener">Handoff orchestration</a> — used between every persona.</li>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/agent-framework/workflows/orchestrations/group-chat" target="_blank" rel="noopener">Group Chat orchestration</a> — The Briefer + UC-11/12/13.</li>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/agent-framework/workflows/orchestrations/magentic" target="_blank" rel="noopener">Magentic orchestration</a> — Q2 Gate-6 calibration.</li>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/agent-framework/workflows/human-in-the-loop" target="_blank" rel="noopener">Human-in-the-loop in workflows</a> — the foundation of APEX's HITL gates (Chapter 7).</li>
+      <li><span class="source-badge github">GitHub</span><a href="https://github.com/microsoft/agent-framework/tree/main/python/samples/03-workflows/orchestrations" target="_blank" rel="noopener">Agent Framework · workflow samples</a> — sequential, concurrent, handoff, group-chat, magentic reference code.</li>
+    </ul>
+  </div>
+
   <section class="chapter-summary">
     <h2>Summary</h2>
     <ul>
@@ -1154,6 +1394,45 @@ def route(routed_to: list[str], payload: dict[str, Any]) -> dict[str, Any]:
   <h2 id="4-1">4.1 The Ingestion Inventory</h2>
 
   <p>Vuori has five primary ingestion paths into Snowflake. Two are real-time-ish; three are batch.</p>
+
+  <figure class="diagram">
+    <div class="fig-label">Figure 4.1 · Six ingestion paths into Snowflake RAW</div>
+    <div class="mermaid">
+flowchart LR
+    classDef src fill:#7C8968,color:#fff,stroke:#5F6B4F
+    classDef pipe fill:#C4A55A,color:#1A2339,stroke:#A88845
+    classDef raw fill:#1A2339,color:#fff,stroke:#2A3349
+
+    SH[Shopify DTC<br/>~50% revenue]:::src
+    AN[Anaplan MFP<br/>top-down + bottoms-up]:::src
+    CE[Centric PLM<br/>MAC cost]:::src
+    IS[iSEYON Analytics<br/>FP/EC/RO forecasts]:::src
+    D3[Dynamics 365 ERP]:::src
+    CC[ConvergeCONSUMER<br/>230M consumers]:::src
+
+    F[Fivetran<br/>15 min]:::pipe
+    A1[ADF · REST → Blob<br/>daily 02:00]:::pipe
+    A2[ADF · ODBC<br/>daily 03:00]:::pipe
+    SFTP[SFTP-event trigger<br/>weekly Sun 18:00]:::pipe
+    A3[ADF · D365 connector<br/>daily 04:00]:::pipe
+    BL[Blob CMK + Snowpipe<br/>weekly Sun 22:00]:::pipe
+
+    R1[RAW.SHOPIFY.*]:::raw
+    R2[RAW.ANAPLAN.*]:::raw
+    R3[RAW.CENTRIC.*]:::raw
+    R4[RAW.ISEYON.*]:::raw
+    R5[RAW.D365.*]:::raw
+    R6[RAW.CONCON.*]:::raw
+
+    SH --> F --> R1
+    AN --> A1 --> R2
+    CE --> A2 --> R3
+    IS --> SFTP --> R4
+    D3 --> A3 --> R5
+    CC --> BL --> R6
+    </div>
+    <figcaption>Each source lands into its own RAW schema preserving the source-native shape. CLEANSED transforms (Chapter 5) shield agents from upstream schema drift. The ConvergeCONSUMER delivery mechanism is the one open item — synthetic feed stands in until the real path lands.</figcaption>
+  </figure>
 
   <div class="table-wrap"><table class="md-table">
   <tr><th>Source</th><th>Path</th><th>Cadence</th><th>RAW schema</th></tr>
@@ -1441,6 +1720,17 @@ wrote 600 skus, 365 days, 156000 sales rows</code></pre>
     <p>Edit the <code>gen_sales</code> function to shift the −12% miss from Midwest Wk16 to Pacific Wk14. Re-run the generator. Run UC-01 through the harness (Chapter 8) and confirm the ranking now surfaces Pacific Wk14 as severity rank 1. This proves the data is genuinely driving the assertion — not a stub hardcode.</p>
   </div>
 
+  <div class="callout reading">
+    <span class="callout-label">Further Reading · Ingestion canonicals</span>
+    <ul>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/azure/data-factory/connector-snowflake" target="_blank" rel="noopener">Copy and transform data in Snowflake using ADF</a> — the connector + staged-copy pattern used for Anaplan / Centric / Dynamics paths.</li>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/azure/data-factory/concepts-pipelines-activities" target="_blank" rel="noopener">ADF pipelines and activities</a> — concepts behind the WebActivity → Copy → StoredProcedure shape in §4.3.</li>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/azure/data-factory/how-to-create-event-trigger" target="_blank" rel="noopener">ADF event-based triggers</a> — the SFTP-arrival pattern in §4.4.</li>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/azure/storage/common/storage-customer-managed-keys-overview" target="_blank" rel="noopener">Customer-managed keys for Azure Storage</a> — the encryption posture for the ConCON delivery blob.</li>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/azure/storage/blobs/storage-blob-event-overview" target="_blank" rel="noopener">Blob storage event grid</a> — Snowpipe auto-ingest trigger pattern.</li>
+    </ul>
+  </div>
+
   <section class="chapter-summary">
     <h2>Summary</h2>
     <ul>
@@ -1481,6 +1771,73 @@ wrote 600 skus, 365 days, 156000 sales rows</code></pre>
   <h2 id="5-1">5.1 The Three Tiers</h2>
 
   <p>Vuori's Snowflake follows the canonical medallion pattern:</p>
+
+  <figure class="diagram">
+    <div class="fig-label">Figure 5.1 · Medallion tier with role grants</div>
+    <svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Snowflake medallion tier diagram">
+      <defs>
+        <linearGradient id="t-bronze" x1="0" x2="1"><stop offset="0" stop-color="#B87333"/><stop offset="1" stop-color="#8C5524"/></linearGradient>
+        <linearGradient id="t-silver" x1="0" x2="1"><stop offset="0" stop-color="#9CA3AF"/><stop offset="1" stop-color="#6B7280"/></linearGradient>
+        <linearGradient id="t-gold"   x1="0" x2="1"><stop offset="0" stop-color="#D4AF37"/><stop offset="1" stop-color="#A88845"/></linearGradient>
+        <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#1A2339"/>
+        </marker>
+        <marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#B85450"/>
+        </marker>
+      </defs>
+      <style>
+        .tier-lbl { font-family: Aptos, sans-serif; font-size: 18px; fill: #fff; font-weight: 700; }
+        .tier-sub { font-family: Aptos, sans-serif; font-size: 11.5px; fill: #fff; opacity: 0.9; }
+        .role-lbl { font-family: "Cascadia Mono", monospace; font-size: 10.5px; fill: #1A2339; }
+        .label-cap { font-family: Aptos, sans-serif; font-size: 11px; fill: #64748B; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
+        .role-box { font-family: Aptos, sans-serif; font-size: 10px; fill: #1A2339; }
+      </style>
+
+      <!-- Tiers -->
+      <rect x="20" y="60" width="220" height="120" rx="8" fill="url(#t-bronze)"/>
+      <text x="135" y="95" text-anchor="middle" class="tier-lbl">RAW · Bronze</text>
+      <text x="135" y="115" text-anchor="middle" class="tier-sub">Source-native shapes</text>
+      <text x="135" y="132" text-anchor="middle" class="tier-sub">Fivetran / ADF owned</text>
+      <text x="135" y="155" text-anchor="middle" class="tier-sub">RAW.SHOPIFY · RAW.ANAPLAN</text>
+      <text x="135" y="170" text-anchor="middle" class="tier-sub">RAW.ISEYON · RAW.CONCON</text>
+
+      <rect x="270" y="60" width="220" height="120" rx="8" fill="url(#t-silver)"/>
+      <text x="385" y="95" text-anchor="middle" class="tier-lbl">CLEANSED · Silver</text>
+      <text x="385" y="115" text-anchor="middle" class="tier-sub">Typed · deduped · dual-cal</text>
+      <text x="385" y="132" text-anchor="middle" class="tier-sub">dbt-owned</text>
+      <text x="385" y="155" text-anchor="middle" class="tier-sub">dim_calendar (NRF + Gregorian)</text>
+      <text x="385" y="170" text-anchor="middle" class="tier-sub">fact_sales · dim_product</text>
+
+      <rect x="520" y="60" width="220" height="120" rx="8" fill="url(#t-gold)"/>
+      <text x="630" y="95" text-anchor="middle" class="tier-lbl" fill="#1A2339">CURATED · Gold</text>
+      <text x="630" y="115" text-anchor="middle" class="tier-sub" fill="#1A2339">Subject-area-aligned</text>
+      <text x="630" y="132" text-anchor="middle" class="tier-sub" fill="#1A2339">Agent-readable</text>
+      <text x="630" y="155" text-anchor="middle" class="tier-sub" fill="#1A2339">curated__sales_with_aging</text>
+      <text x="630" y="170" text-anchor="middle" class="tier-sub" fill="#1A2339">vw_dual_calendar_reconcil</text>
+
+      <!-- Arrows -->
+      <line x1="240" y1="120" x2="270" y2="120" stroke="#1A2339" stroke-width="2" marker-end="url(#arrow)"/>
+      <line x1="490" y1="120" x2="520" y2="120" stroke="#1A2339" stroke-width="2" marker-end="url(#arrow)"/>
+
+      <!-- Role grants -->
+      <text x="20" y="210" class="label-cap">Read access (Snowflake role)</text>
+      <rect x="20" y="218" width="220" height="32" rx="4" fill="#E5E7EB" stroke="#B85450"/>
+      <text x="30" y="237" class="role-box">FIVETRAN_LOADER · DBT_CLEANSE_RW</text>
+      <rect x="270" y="218" width="220" height="32" rx="4" fill="#E5E7EB" stroke="#B85450"/>
+      <text x="280" y="237" class="role-box">DBT_CURATE_RW (no agents)</text>
+      <rect x="520" y="218" width="220" height="32" rx="4" fill="#E5E7EB" stroke="#10B981"/>
+      <text x="530" y="237" class="role-box">VUORI_ANALYST_READER · OPS_READER · …</text>
+
+      <!-- Hard rule -->
+      <text x="20" y="278" class="label-cap">PSG-5 enforcement</text>
+      <text x="20" y="298" class="role-box" fill="#B85450">Agents have ZERO USAGE on RAW.* or CLEANSED.*</text>
+      <line x1="135" y1="180" x2="135" y2="218" stroke="#B85450" stroke-width="2" stroke-dasharray="4 3" marker-end="url(#arrow-red)"/>
+      <line x1="385" y1="180" x2="385" y2="218" stroke="#B85450" stroke-width="2" stroke-dasharray="4 3" marker-end="url(#arrow-red)"/>
+      <line x1="630" y1="180" x2="630" y2="218" stroke="#10B981" stroke-width="2" marker-end="url(#arrow)"/>
+    </svg>
+    <figcaption>Three Snowflake schemas, three role tiers. Agents only have USAGE on CURATED — a PSG-5 deploy-time check enforces this. RAW is gated to ingestion; CLEANSED is dbt-internal. If an engineer tries to point an MCP tool at RAW, the grant model refuses.</figcaption>
+  </figure>
 
   <div class="table-wrap"><table class="md-table">
   <tr><th>Tier</th><th>Owner</th><th>Shape</th><th>Read by</th></tr>
@@ -1701,6 +2058,17 @@ GRANT SELECT ON FUTURE TABLES IN SCHEMA VUORI_PROD.CURATED     TO ROLE VUORI_ANA
     <p>From a Snowflake worksheet logged in as <code>VUORI_ANALYST_READER</code>: <code>SELECT * FROM CURATED.curated__sales_with_aging WHERE region = 'Midwest' AND nrf_week_of_year = 16 ORDER BY mac_margin LIMIT 10</code>. You should see the Wk16 Midwest rows the synthetic generator skewed in §4.7. Now try the same query as <code>VUORI_OPS_READER</code> — it should fail with 'object does not exist'. Role isolation in action.</p>
   </div>
 
+  <div class="callout reading">
+    <span class="callout-label">Further Reading · Medallion canonicals</span>
+    <ul>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/fabric/onelake/onelake-medallion-lakehouse-architecture" target="_blank" rel="noopener">Medallion lakehouse architecture for Microsoft Fabric with OneLake</a> — the canonical Microsoft framing of Bronze / Silver / Gold.</li>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/fabric/fundamentals/table-maintenance-optimization" target="_blank" rel="noopener">Cross-workload table maintenance · Medallion recommendations</a> — file-size, V-Order, and OPTIMIZE guidance per layer.</li>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/fabric/real-time-intelligence/architecture-medallion" target="_blank" rel="noopener">Medallion in Real-Time Intelligence</a> — for the future direction where iSEYON / ConCON signals could flow through Eventstream.</li>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/fabric/data-engineering/materialized-lake-views/tutorial" target="_blank" rel="noopener">Materialized lake views tutorial</a> — Microsoft's hands-on walk through the bronze → silver → gold lift.</li>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/fabric/security/security-scenario" target="_blank" rel="noopener">Fabric end-to-end security scenario</a> — role-isolation patterns that mirror the Vuori grant model.</li>
+    </ul>
+  </div>
+
   <section class="chapter-summary">
     <h2>Summary</h2>
     <ul>
@@ -1755,6 +2123,34 @@ GRANT SELECT ON FUTURE TABLES IN SCHEMA VUORI_PROD.CURATED     TO ROLE VUORI_ANA
   <h2 id="6-1">6.1 What MCP Is, for the Vuori Build</h2>
 
   <p>Model Context Protocol (MCP) is the contract between agents and their data tools. Each persona's <code>agent.yaml</code> declares its MCP dependencies; at run-time the agent gets a typed client that exposes only the tools the MCP server has registered. There is no SQL escape hatch. There is no "the agent just queries Snowflake." The agent calls <code>fetch_weekly_actuals_vs_plan(category, region, week)</code> and the MCP server is the only thing that knows the SQL.</p>
+
+  <figure class="diagram">
+    <div class="fig-label">Figure 6.1 · MCP request lifecycle</div>
+    <div class="mermaid">
+sequenceDiagram
+    participant Ag as Persona (e.g. The Analyst)
+    participant Entra as Entra Agent ID
+    participant MCP as merml-mcp
+    participant SF as Snowflake CURATED
+    participant L as LEDGER + Purview
+
+    Ag->>Entra: fetch bearer (audience=api://merml-mcp)
+    Entra-->>Ag: signed JWT (agent_id, tier, tenant)
+    Ag->>MCP: GET /tools — discovery
+    MCP-->>Ag: tool catalog (with param schemas)
+    Ag->>MCP: POST /call/rank_exceptions_by_severity<br/>Authorization: Bearer ...<br/>{ "nrf_week": 16 }
+    MCP->>MCP: verify_agent_token (PSG-12)
+    alt Tier-3 PII tool?
+        MCP->>MCP: require_tier(3, consent_ticket)
+        MCP->>L: tier3_pii_unlock audit
+    end
+    MCP->>SF: SQL (role = VUORI_ANALYST_READER)
+    SF-->>MCP: typed rows
+    MCP-->>Ag: JSON result (dataclass shape)
+    Ag->>L: exception_ranking LEDGER row (hash chain)
+    </div>
+    <figcaption>Every MCP call is mediated by an Entra Agent ID bearer. Tier-3 PII tools require a consent ticket and audit on every hit. The agent never holds SQL credentials; the MCP server is the only thing with the Snowflake role.</figcaption>
+  </figure>
 
   <p>For Vuori, two MCP namespaces:</p>
 
@@ -2225,6 +2621,17 @@ tools:
     <p>Run <code>docker compose up merml-mcp</code>. Curl <code>http://localhost:8100/tools</code> — the three tools listed. Then POST to <code>/call/rank_exceptions_by_severity</code> with <code>{"nrf_week": 16}</code> and a valid bearer token. Confirm Apparel/Midwest comes back rank 1. Then try without the bearer — confirm 401.</p>
   </div>
 
+  <div class="callout reading">
+    <span class="callout-label">Further Reading · MCP &amp; Foundry</span>
+    <ul>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/azure/foundry/mcp/build-your-own-mcp-server" target="_blank" rel="noopener">Build and register a Model Context Protocol (MCP) server</a> — Microsoft's canonical guide for the pattern in §6.2–§6.4.</li>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/azure/foundry/agents/how-to/tools/model-context-protocol" target="_blank" rel="noopener">Connect to Model Context Protocol servers (Foundry)</a> — agent-side MCP wiring, public + private endpoints, OAuth on-behalf-of.</li>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/agent-framework/agents/tools/hosted-mcp-tools" target="_blank" rel="noopener">Using MCP tools with Foundry Agents</a> — Python + C# samples for the hosted-MCP pattern.</li>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/azure/data-api-builder/mcp/quickstart-azure-ai-foundry" target="_blank" rel="noopener">SQL MCP Server with Azure AI Foundry quickstart</a> — the equivalent of <code>merml-mcp</code> for SQL Server / managed SQL.</li>
+      <li><span class="source-badge blog">Spec</span><a href="https://modelcontextprotocol.io/introduction" target="_blank" rel="noopener">Model Context Protocol · official spec</a> — the upstream protocol our MCP servers implement.</li>
+    </ul>
+  </div>
+
   <section class="chapter-summary">
     <h2>Summary</h2>
     <ul>
@@ -2520,6 +2927,76 @@ class HITLGate:
 
   <p>Every persona run, every MCP call, every HITL decision lands in the LEDGER. The append-only table chains by row hash so any tamper after-the-fact is detectable:</p>
 
+  <figure class="diagram">
+    <div class="fig-label">Figure 7.1 · LEDGER hash chain anatomy</div>
+    <svg viewBox="0 0 760 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="LEDGER hash chain diagram">
+      <defs>
+        <marker id="chain-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#1A2339"/>
+        </marker>
+      </defs>
+      <style>
+        .seq { font-family: Aptos, sans-serif; font-size: 11px; fill: #B85450; font-weight: 700; }
+        .field { font-family: "Cascadia Mono", monospace; font-size: 10px; fill: #1A2339; }
+        .field-val { font-family: "Cascadia Mono", monospace; font-size: 10px; fill: #1F2937; }
+        .hash { font-family: "Cascadia Mono", monospace; font-size: 9.5px; fill: #7C8968; }
+        .cap { font-family: Aptos, sans-serif; font-size: 11px; fill: #64748B; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
+      </style>
+      <text x="20" y="22" class="cap">Snowflake VUORI_PROD.AUDIT.LEDGER · append-only</text>
+
+      <!-- Row 1 -->
+      <rect x="20" y="40" width="220" height="120" rx="6" fill="#F8F6F1" stroke="#1A2339" stroke-width="1.5"/>
+      <text x="32" y="58" class="seq">seq = 1</text>
+      <text x="32" y="78" class="field">agent_id:</text>
+      <text x="105" y="78" class="field-val">agent-13-analyst</text>
+      <text x="32" y="94" class="field">kind:</text>
+      <text x="105" y="94" class="field-val">exception_ranking</text>
+      <text x="32" y="110" class="field">prev_hash:</text>
+      <text x="105" y="110" class="hash">null</text>
+      <text x="32" y="128" class="field">row_hash:</text>
+      <text x="105" y="128" class="hash">a3b2…f1d9</text>
+      <text x="32" y="148" class="field">correlation:</text>
+      <text x="105" y="148" class="hash">wbr-2026-w16</text>
+
+      <!-- Row 2 -->
+      <rect x="270" y="40" width="220" height="120" rx="6" fill="#F8F6F1" stroke="#1A2339" stroke-width="1.5"/>
+      <text x="282" y="58" class="seq">seq = 2</text>
+      <text x="282" y="78" class="field">agent_id:</text>
+      <text x="355" y="78" class="field-val">agent-1-checker</text>
+      <text x="282" y="94" class="field">kind:</text>
+      <text x="355" y="94" class="field-val">demand_diagnosis</text>
+      <text x="282" y="110" class="field">prev_hash:</text>
+      <text x="355" y="110" class="hash">a3b2…f1d9</text>
+      <text x="282" y="128" class="field">row_hash:</text>
+      <text x="355" y="128" class="hash">7e44…b022</text>
+      <text x="282" y="148" class="field">correlation:</text>
+      <text x="355" y="148" class="hash">wbr-2026-w16</text>
+
+      <!-- Row 3 -->
+      <rect x="520" y="40" width="220" height="120" rx="6" fill="#F8F6F1" stroke="#1A2339" stroke-width="1.5"/>
+      <text x="532" y="58" class="seq">seq = 3</text>
+      <text x="532" y="78" class="field">agent_id:</text>
+      <text x="605" y="78" class="field-val">agent-4-finance</text>
+      <text x="532" y="94" class="field">kind:</text>
+      <text x="605" y="94" class="field-val">guardrail_check</text>
+      <text x="532" y="110" class="field">prev_hash:</text>
+      <text x="605" y="110" class="hash">7e44…b022</text>
+      <text x="532" y="128" class="field">row_hash:</text>
+      <text x="605" y="128" class="hash">c91a…d4e7</text>
+      <text x="532" y="148" class="field">correlation:</text>
+      <text x="605" y="148" class="hash">wbr-2026-w16</text>
+
+      <!-- Chain arrows -->
+      <line x1="240" y1="100" x2="270" y2="100" stroke="#1A2339" stroke-width="2.5" marker-end="url(#chain-arrow)"/>
+      <line x1="490" y1="100" x2="520" y2="100" stroke="#1A2339" stroke-width="2.5" marker-end="url(#chain-arrow)"/>
+
+      <!-- Tamper note -->
+      <text x="20" y="188" class="cap">Tamper detection</text>
+      <text x="20" y="206" class="field-val">row_hash = SHA256(prev_hash · agent_id · kind · payload · ts) — any after-the-fact edit breaks the chain at validation time.</text>
+    </svg>
+    <figcaption>Each row's <code>row_hash</code> is computed over the prior <code>row_hash</code> + the row's own content. A single tampered payload anywhere in the journey causes <code>validate_chain()</code> to fail at that row's <code>seq</code>. The <code>correlation</code> column groups all 18 rows of one Friday-to-Monday journey.</figcaption>
+  </figure>
+
   <pre class="path-comment">-- infra/snowflake/audit/ledger.sql</pre>
 <pre><code>CREATE TABLE IF NOT EXISTS VUORI_PROD.AUDIT.LEDGER (
     seq         NUMBER          AUTOINCREMENT START 1 INCREMENT 1,
@@ -2611,6 +3088,20 @@ def write_audit_event(*, tenant: str, kind: str, payload: dict[str, Any],
   <div class="callout tryitout">
     <span class="callout-label">Try It Out · Drive the journey by hand</span>
     <p>With the docker-compose stack up: <code>curl -X POST http://localhost:8001/run -H 'Content-Type: application/json' -d '{"nrf_week": 16}'</code>. Confirm The Analyst returns the ranking and writes an exception_ranking row. Then call the routing engine to fan out. Watch the LEDGER table fill in real-time via <code>SELECT * FROM AUDIT.LEDGER WHERE correlation = '...' ORDER BY seq</code>.</p>
+  </div>
+
+  <div class="callout reading">
+    <span class="callout-label">Further Reading · Orchestration, HITL, and audit</span>
+    <ul>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/agent-framework/workflows/human-in-the-loop" target="_blank" rel="noopener">Human-in-the-loop in Agent Framework</a> — request-info, tool approval, plan review.</li>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/agent-framework/workflows/orchestrations/sequential#sequential-orchestration-with-human-in-the-loop" target="_blank" rel="noopener">Sequential orchestration with HITL · tutorial</a> — pattern the journey runner in §7.1 follows.</li>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/purview/audit-solutions-overview" target="_blank" rel="noopener">Microsoft Purview · Audit solutions overview</a> — the enterprise audit surface the LEDGER echoes to.</li>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/purview/audit-log-activities" target="_blank" rel="noopener">Purview audit log activities</a> — vocabulary the wizard's audit_purview adapter maps onto.</li>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/office/office-365-management-api/office-365-management-activity-api-reference" target="_blank" rel="noopener">Office 365 Management Activity API</a> — programmatic Purview audit retrieval; the Vuori compliance team's read path.</li>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/microsoftteams/platform/webhooks-and-connectors/how-to/connectors-using#send-adaptive-cards-using-an-incoming-webhook" target="_blank" rel="noopener">Send Adaptive Cards via Incoming Webhook</a> — UC-20 delivery surface for the Monday brief.</li>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/microsoftteams/platform/task-modules-and-cards/cards/cards-reference" target="_blank" rel="noopener">Teams Cards reference</a> — Adaptive Card schema, container layouts, conditional enablement.</li>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/entra/workload-id/workload-identity-federation" target="_blank" rel="noopener">Microsoft Entra workload identity federation</a> — the Agent ID model the MCP bearer relies on.</li>
+    </ul>
   </div>
 
   <section class="chapter-summary">
@@ -2925,6 +3416,67 @@ ledger:
 
   <p>Underneath the stepper UI, the harness ships a pytest test suite. Three markers:</p>
 
+  <figure class="diagram">
+    <div class="fig-label">Figure 8.1 · Test pyramid at MVP v0.1.0</div>
+    <svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Test pyramid">
+      <defs>
+        <linearGradient id="pyr-top" x1="0" x2="1"><stop offset="0" stop-color="#10B981"/><stop offset="1" stop-color="#059669"/></linearGradient>
+        <linearGradient id="pyr-mid" x1="0" x2="1"><stop offset="0" stop-color="#C4A55A"/><stop offset="1" stop-color="#A88845"/></linearGradient>
+        <linearGradient id="pyr-bot" x1="0" x2="1"><stop offset="0" stop-color="#B85450"/><stop offset="1" stop-color="#9C3F3C"/></linearGradient>
+      </defs>
+      <style>
+        .layer-num { font-family: Aptos, sans-serif; font-size: 26px; fill: #fff; font-weight: 700; }
+        .layer-name { font-family: Aptos, sans-serif; font-size: 14px; fill: #fff; font-weight: 600; }
+        .layer-meta { font-family: Aptos, sans-serif; font-size: 11.5px; fill: #fff; opacity: 0.85; }
+        .legend { font-family: Aptos, sans-serif; font-size: 12px; fill: #1F2937; }
+        .legend-cap { font-family: Aptos, sans-serif; font-size: 11px; fill: #64748B; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
+      </style>
+
+      <!-- Pyramid (inverted — wide at bottom = unit tests are most numerous) -->
+      <polygon points="280,40 480,40 460,100 300,100" fill="url(#pyr-top)"/>
+      <text x="380" y="62" text-anchor="middle" class="layer-num">4</text>
+      <text x="380" y="80" text-anchor="middle" class="layer-name">SMOKE</text>
+      <text x="380" y="94" text-anchor="middle" class="layer-meta">~5s · pre-commit · PR</text>
+
+      <polygon points="300,100 460,100 430,200 330,200" fill="url(#pyr-mid)"/>
+      <text x="380" y="135" text-anchor="middle" class="layer-num">22</text>
+      <text x="380" y="155" text-anchor="middle" class="layer-name">INTEGRATION</text>
+      <text x="380" y="172" text-anchor="middle" class="layer-meta">~25s · main only</text>
+      <text x="380" y="187" text-anchor="middle" class="layer-meta">Docker (Postgres testcontainer)</text>
+
+      <polygon points="330,200 430,200 380,300 380,300" fill="url(#pyr-bot)"/>
+      <!-- wait - this is wrong, the triangle should widen downward not narrow -->
+      <!-- redrawing unit layer as the widest -->
+      <polygon points="180,200 580,200 540,280 220,280" fill="url(#pyr-bot)"/>
+      <text x="380" y="232" text-anchor="middle" class="layer-num">~250</text>
+      <text x="380" y="252" text-anchor="middle" class="layer-name">UNIT</text>
+      <text x="380" y="268" text-anchor="middle" class="layer-meta">~10s · pre-commit · PR · main</text>
+
+      <!-- Total -->
+      <text x="380" y="306" text-anchor="middle" class="legend" style="font-size:13px;font-weight:700">277 tests total · ~40s full run</text>
+
+      <!-- Right side legend -->
+      <text x="610" y="60" class="legend-cap">Where it runs</text>
+      <rect x="610" y="68" width="14" height="14" fill="url(#pyr-top)"/>
+      <text x="630" y="80" class="legend">Pre-commit · PR · CI</text>
+      <rect x="610" y="92" width="14" height="14" fill="url(#pyr-mid)"/>
+      <text x="630" y="104" class="legend">Main · nightly</text>
+      <rect x="610" y="116" width="14" height="14" fill="url(#pyr-bot)"/>
+      <text x="630" y="128" class="legend">Every layer above</text>
+
+      <text x="610" y="160" class="legend-cap">Markers</text>
+      <text x="610" y="178" class="legend" style="font-family:monospace;font-size:11px">-m smoke</text>
+      <text x="610" y="195" class="legend" style="font-family:monospace;font-size:11px">-m "not integration"</text>
+      <text x="610" y="212" class="legend" style="font-family:monospace;font-size:11px">-m integration</text>
+
+      <text x="20" y="60" class="legend-cap">From MVP v0.1.0</text>
+      <text x="20" y="80" class="legend" style="font-size:11.5px">tests/unit (~250)</text>
+      <text x="20" y="98" class="legend" style="font-size:11.5px">tests/integration (~22)</text>
+      <text x="20" y="116" class="legend" style="font-size:11.5px">@pytest.mark.smoke (4)</text>
+    </svg>
+    <figcaption>Spend the cheap cycles often (smoke on pre-commit + every PR; unit on every PR); spend the expensive cycles only at the boundary (integration on main + nightly). The shape is deliberate — anything that fires on every PR must finish in under two minutes.</figcaption>
+  </figure>
+
   <div class="table-wrap"><table class="md-table">
   <tr><th>Marker</th><th>Count at v0.1.0</th><th>Runtime</th><th>Requires</th><th>What it covers</th></tr>
   <tr><td><code>smoke</code></td><td>4</td><td>~5s</td><td>Nothing</td><td>Package import, catalog discovery, UC-04 end-to-end, journey end-to-end.</td></tr>
@@ -3128,6 +3680,16 @@ Total runtime: 14.2s (mock-mode)
   <div class="callout tryitout">
     <span class="callout-label">Try It Out · Your first acceptance run</span>
     <p>Clone the MVP repo. <code>uv sync</code>. Add the <code>vuori.yaml</code> manifest from §8.6. Run <code>uv run mvp-harness run wbr-friday-to-monday --client vuori</code>. Read <code>runs/report-*/report.md</code>. Then open <code>uv run mvp-harness serve</code> and walk the same run through the stepper.</p>
+  </div>
+
+  <div class="callout reading">
+    <span class="callout-label">Further Reading · Testing &amp; harness patterns</span>
+    <ul>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/training/modules/test-bicep-code-using-github-actions/" target="_blank" rel="noopener">Test your Bicep code by using GitHub Actions (Learn module)</a> — linting, preflight, what-if checks; the same pattern wraps the harness in CI.</li>
+      <li><span class="source-badge ms-arch">MS Arch</span><a href="https://learn.microsoft.com/azure/architecture/patterns/health-endpoint-monitoring" target="_blank" rel="noopener">Health endpoint monitoring pattern</a> — the foundation of the <code>/healthz</code> contract every persona implements.</li>
+      <li><span class="source-badge github">GitHub</span><a href="https://github.com/microsoft/agent-framework/tree/main/python/samples/03-workflows/human-in-the-loop" target="_blank" rel="noopener">Agent Framework HITL samples</a> — patterns the harness's HITL pause/resume mirrors.</li>
+      <li><span class="source-badge blog">Blog</span><a href="https://devblogs.microsoft.com/python/" target="_blank" rel="noopener">Microsoft Python Developer Blog</a> — current updates on pytest tooling, uv adoption, and Azure Python SDK shifts.</li>
+    </ul>
   </div>
 
   <section class="chapter-summary">
@@ -3387,6 +3949,74 @@ Weekend     LEDGER + drift cron run automated</code></pre>
   <p><strong>DoD:</strong> Single command produces 18 LEDGER rows + 1 Purview audit row with matching correlation ID. Wizard shows a green deployment record. Matt King receives the report.</p>
   <p><strong>Test pyramid:</strong> smoke 7/7. Unit 277. Integration 22. <strong>(matches MVP v0.1.0 baseline)</strong></p>
 
+  <figure class="diagram">
+    <div class="fig-label">Figure 9.1 · The 12-sprint delivery timeline</div>
+    <div class="mermaid">
+gantt
+    title 12-sprint, 24-week Vuori build
+    dateFormat  YYYY-MM-DD
+    axisFormat  %b %d
+    section Foundation
+    Sprint 1 · Scaffold + first stub        :s1, 2026-07-13, 14d
+    section Data
+    Sprint 2 · Ingestion                    :s2, after s1, 14d
+    Sprint 3 · CLEANSED                     :s3, after s2, 14d
+    Sprint 4 · CURATED + MCP scaffolds      :s4, after s3, 14d
+    section Personas
+    Sprint 5 · The Analyst (real)           :s5, after s4, 14d
+    Sprint 6 · The Demand Checker           :s6, after s5, 14d
+    Sprint 7 · The Finance Lead (concurrent):s7, after s6, 14d
+    Sprint 8 · The Operations Lead          :s8, after s7, 14d
+    Sprint 9 · The Briefer (group chat)     :s9, after s8, 14d
+    section HITL &amp; Audit
+    Sprint 10 · HITL + LEDGER + Purview     :s10, after s9, 14d
+    section Cutover
+    Sprint 11 · Parallel-WBR + vuori.yaml   :s11, after s10, 14d
+    Sprint 12 · Stage cutover + acceptance  :crit, s12, after s11, 14d
+    </div>
+    <figcaption>24 weeks, 173 story points, sustained ~14.4 pts/sprint for a 4-engineer team. Sprint 12 is critical (red) — sequential stage-cutover work doesn't parallelise.</figcaption>
+  </figure>
+
+  <figure class="diagram">
+    <div class="fig-label">Figure 9.2 · Build dependency DAG</div>
+    <div class="mermaid">
+flowchart LR
+    classDef found fill:#C4A55A,color:#1A2339,stroke:#A88845
+    classDef data fill:#7C8968,color:#fff,stroke:#5F6B4F
+    classDef pers fill:#B85450,color:#fff,stroke:#9C3F3C
+    classDef cut fill:#1A2339,color:#fff,stroke:#2A3349
+
+    BLC01[BL.C.01<br/>scaffold]:::found
+    BLC04[BL.C.04<br/>analyst stub]:::found
+
+    BLP04[BL.P.04<br/>synthetic]:::data
+    BLP06[BL.P.06<br/>dim_calendar]:::data
+    BLP07[BL.P.07<br/>fact_sales]:::data
+    BLP09[BL.P.09<br/>CURATED aging]:::data
+    BLP11[BL.P.11<br/>merml-mcp scaffold]:::data
+    BLP13[BL.P.13<br/>MCP auth]:::data
+
+    BLP14[BL.P.14<br/>3 merml tools]:::pers
+    BLP15[BL.P.15<br/>AnalystRunner]:::pers
+    BLP19[BL.P.19<br/>cxml tools]:::pers
+    BLP22[BL.P.22<br/>Finance pattern]:::pers
+    BLP31[BL.P.31<br/>Briefer + GC]:::pers
+    BLP35[BL.P.35<br/>HITLGate]:::pers
+
+    BLP43[BL.P.43<br/>stage Snowflake]:::cut
+    BLP44[BL.P.44<br/>PSG-15 green]:::cut
+    BLP46[BL.P.46<br/>acceptance run]:::cut
+
+    BLC01 --> BLC04 --> BLP15
+    BLP04 --> BLP06 --> BLP07 --> BLP09 --> BLP14
+    BLP11 --> BLP13 --> BLP14
+    BLP14 --> BLP15 --> BLP19 --> BLP22 --> BLP31
+    BLP22 --> BLP35 --> BLP31
+    BLP31 --> BLP43 --> BLP44 --> BLP46
+    </div>
+    <figcaption>The critical path runs synthetic data → CLEANSED → CURATED → MCP tools → personas → cutover. Slipping BL.P.04 (synthetic) cascades to all four downstream lanes.</figcaption>
+  </figure>
+
   <h2 id="9-5">9.5 Sprint Totals and Velocity</h2>
 
   <div class="table-wrap"><table class="md-table">
@@ -3479,6 +4109,16 @@ BL.P.43 (stage onboarding)     ──► BL.P.44 (PSG-15)
   <div class="callout tryitout">
     <span class="callout-label">Try It Out · Run sprint 1 planning</span>
     <p>Take the five BL.C stories in §9.4. Sit a team of four (or four chairs) around a table. Walk the planning ritual end-to-end. The first sprint is the easiest to plan because every story is foundational — there's no debate about priority. Use it to calibrate the team's read of the point scale before the harder sprints land.</p>
+  </div>
+
+  <div class="callout reading">
+    <span class="callout-label">Further Reading · Agile delivery on Azure</span>
+    <ul>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/devops/plan/what-is-agile-development" target="_blank" rel="noopener">What is Agile development?</a> — Microsoft's reference for the cadence and rituals this chapter operationalises.</li>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/devops/plan/what-is-scrum" target="_blank" rel="noopener">What is Scrum?</a> — the planning + retro framework underneath the Vuori sprint structure.</li>
+      <li><span class="source-badge ms-arch">MS Arch</span><a href="https://learn.microsoft.com/azure/cloud-adoption-framework/strategy/team-development" target="_blank" rel="noopener">Cloud Adoption Framework · Team development</a> — Microsoft's guidance on team composition + sustained velocity.</li>
+      <li><span class="source-badge ms-tech-community">Tech Community</span><a href="https://techcommunity.microsoft.com/category/microsoft-fabric" target="_blank" rel="noopener">Microsoft Fabric Tech Community blog</a> — latest posts on Fabric medallion patterns, Direct Lake, and Real-Time Intelligence (relevant to Vuori's Snowflake + future-Fabric hybrid).</li>
+    </ul>
   </div>
 
   <section class="chapter-summary">
@@ -3745,9 +4385,60 @@ docs/                                                   @org/all-engineers
     <li>Tag push triggers the prod deploy workflow (with manual approval).</li>
   </ul>
 
+  <figure class="diagram">
+    <div class="fig-label">Figure 10.1 · OIDC federation · GitHub → Azure</div>
+    <div class="mermaid">
+sequenceDiagram
+    participant Job as GitHub Actions job<br/>(environment: stage)
+    participant GH as GitHub OIDC issuer
+    participant Entra as Microsoft Entra<br/>(github-vuori-stage app)
+    participant KV as Key Vault<br/>(kv-vuori-stage)
+    participant Az as Azure resources<br/>(rg-vuori-stage)
+
+    Job->>GH: request OIDC token<br/>sub=repo:org/apex-framework:environment:stage
+    GH-->>Job: signed JWT
+    Job->>Entra: exchange JWT for Azure access token<br/>(audience: api://AzureADTokenExchange)
+    Entra->>Entra: validate federated credential<br/>(subject must match exactly)
+    Entra-->>Job: short-lived Azure access token
+    Job->>KV: get Snowflake account + PAT
+    KV-->>Job: secrets (::add-mask::'d in logs)
+    Job->>Az: az deployment group what-if / create<br/>via wizard
+    </div>
+    <figcaption>No long-lived secrets in GitHub. The federated credential's <code>subject</code> nails the credential to <em>this repo + this environment</em> — a workflow targeting <code>dev</code> cannot mint a stage token even with a malicious PR.</figcaption>
+  </figure>
+
   <h2 id="10-9">10.9 Substrate Promotion Path</h2>
 
   <p>A change moves through the five substrates on a fixed cadence:</p>
+
+  <figure class="diagram">
+    <div class="fig-label">Figure 10.2 · Five-substrate promotion flow with gates</div>
+    <div class="mermaid">
+flowchart LR
+    classDef sub fill:#C4A55A,color:#1A2339,stroke:#A88845
+    classDef auto fill:#7C8968,color:#fff,stroke:#5F6B4F
+    classDef manual fill:#B85450,color:#fff,stroke:#9C3F3C
+    classDef gate fill:#1A2339,color:#fff,stroke:#2A3349,stroke-dasharray: 2 2
+
+    L[Laptop<br/>local docker-compose]:::sub
+    PR{{PR opens<br/>smoke + unit + dbt-test}}:::gate
+    D[Dev<br/>auto]:::auto
+    PSGd{{PSG-1..15<br/>+ acceptance A1..A4}}:::gate
+    T[Test<br/>auto]:::auto
+    Full{{Full pyramid<br/>+ Bicep what-if}}:::gate
+    S[Stage<br/>manual]:::manual
+    PSGs{{PSG-15 GREEN<br/>+ persona bindings}}:::gate
+    P[Prod<br/>tag + 10-min wait]:::manual
+
+    L --> PR --> D --> PSGd --> T --> Full --> S --> PSGs --> P
+
+    Approve1[Planning Lead<br/>OR Tech Lead]:::manual
+    Approve2[CIO Matt King<br/>AND Tech Lead]:::manual
+    Approve1 -.-> S
+    Approve2 -.-> P
+    </div>
+    <figcaption>Five substrates, four GitHub Environments. Each promotion compounds the gates from the prior — nothing reaches stage that hasn't passed test; nothing reaches prod that hasn't passed stage. The wizard is the substrate gatekeeper at every PSG check.</figcaption>
+  </figure>
 
 <pre><code>laptop ──► (PR opens, smoke + unit run in CI)
       │
@@ -3785,6 +4476,18 @@ docs/                                                   @org/all-engineers
   <div class="callout tryitout">
     <span class="callout-label">Try It Out · Trace a substrate</span>
     <p>From the apex-framework repo, find one workflow file that mentions <code>substrate: stage</code>. Trace what it does: which Environment, which Key Vault, which subscription. Then change <code>substrate</code> in <code>vuori/use-case.yaml</code> to <code>prod</code> and open a PR — the substrate-mismatch check should fail in CI before the PR is mergeable.</p>
+  </div>
+
+  <div class="callout reading">
+    <span class="callout-label">Further Reading · GitHub ↔ Azure</span>
+    <ul>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/azure/developer/github/connect-from-azure-openid-connect" target="_blank" rel="noopener">Use Azure Login with OpenID Connect</a> — the canonical OIDC federation walk-through.</li>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/entra/workload-id/workload-identity-federation-create-trust" target="_blank" rel="noopener">Configure federated identity credential (Entra app)</a> — the credential model behind §10.5.</li>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/entra/workload-id/workload-identity-federation-create-trust-user-assigned-managed-identity" target="_blank" rel="noopener">Federated credential on a user-assigned managed identity</a> — alternative to Entra app when scoping per-substrate.</li>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/azure/container-apps/github-actions" target="_blank" rel="noopener">Deploy to Azure Container Apps with GitHub Actions</a> — the deploy mechanics behind Sprint 5's image-build matrix.</li>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/azure/key-vault/general/rbac-guide" target="_blank" rel="noopener">Provide access to Key Vault keys, certificates, and secrets with Azure RBAC</a> — the role model for the per-substrate Key Vaults.</li>
+      <li><span class="source-badge ms-tech-community">Tech Community</span><a href="https://techcommunity.microsoft.com/category/microsoft-security-identity" target="_blank" rel="noopener">Microsoft Security &amp; Identity Tech Community</a> — current posts on Entra workload identity and OIDC hardening.</li>
+    </ul>
   </div>
 
   <section class="chapter-summary">
@@ -3826,6 +4529,49 @@ docs/                                                   @org/all-engineers
       <li>A drift-detection cron job + a rollback playbook with a tested procedure</li>
     </ul>
   </aside>
+
+  <figure class="diagram">
+    <div class="fig-label">Figure 11.1 · End-to-end CI/CD with promotion gates</div>
+    <div class="mermaid">
+flowchart TB
+    classDef dev fill:#7C8968,color:#fff,stroke:#5F6B4F
+    classDef pr fill:#C4A55A,color:#1A2339,stroke:#A88845
+    classDef main fill:#1A2339,color:#fff,stroke:#2A3349
+    classDef deploy fill:#B85450,color:#fff,stroke:#9C3F3C
+    classDef gate fill:#10B981,color:#fff,stroke:#059669,stroke-dasharray: 2 2
+
+    L[git commit<br/>pre-commit ~5s]:::dev
+    PR[PR opens<br/>pr-checks.yml ~90s<br/>lint · unit · smoke]:::pr
+    Merge{merge to main}
+    MAIN[main-build.yml ~5m<br/>full pyramid + container build matrix]:::main
+    DD[deploy-dev auto]:::deploy
+    DT[deploy-test auto]:::deploy
+
+    DispS[workflow_dispatch:<br/>deploy-stage]:::main
+    DS[deploy-stage<br/>Planning Lead approval]:::deploy
+    Tag[tag v* push]:::main
+    DP[deploy-prod<br/>CIO + TL · 10-min wait]:::deploy
+
+    G1{{PSG 15 of 15 GREEN<br/>+ A1..A4 acceptance}}:::gate
+    G2{{Bicep what-if<br/>+ destructive detection}}:::gate
+    G3{{Wizard apply<br/>+ LEDGER + Purview}}:::gate
+
+    DriftCron[drift-cron.yml<br/>daily 06:00 UTC]:::dev
+
+    L --> PR --> Merge --> MAIN --> DD --> DT
+    DispS --> DS
+    Tag --> DP
+    DT -. promotion .-> DispS
+    DS -. promotion .-> Tag
+
+    DD --> G1 --> G2 --> G3
+    DS --> G1
+    DP --> G1
+
+    DriftCron -. issues filed on med/high .-> Merge
+    </div>
+    <figcaption>Pre-commit catches the cheap failures; PR catches the next layer; main runs the full pyramid; every deploy compounds PSG + what-if + wizard-apply gates. Drift detection runs daily and files issues that re-enter the cycle.</figcaption>
+  </figure>
 
   <h2 id="11-1">11.1 Pre-commit · The Cheapest Gate</h2>
 
@@ -4296,6 +5042,20 @@ jobs:
     <p>Open a tiny PR (typo fix) against main. Watch <code>pr</code> run — three jobs, ~90s. Merge. Watch <code>main</code> run — full pyramid, ~5m. Watch <code>deploy-dev</code> auto-fire — validate → render-and-whatif → apply, all green on dev with no manual gate. The wizard's <code>/history</code> page should show the deployment record within 30 seconds. That's the cycle the engagement runs on a few dozen times a week.</p>
   </div>
 
+  <div class="callout reading">
+    <span class="callout-label">Further Reading · Bicep, deploy gates, CI/CD</span>
+    <ul>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/azure/azure-resource-manager/bicep/deploy-what-if" target="_blank" rel="noopener">Bicep what-if · preview changes before deployment</a> — the canonical reference for the destructive-change gate in §11.4.</li>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/azure/azure-resource-manager/bicep/deploy-github-actions" target="_blank" rel="noopener">Quickstart: Deploy Bicep with GitHub Actions</a> — wiring an Entra app + OIDC to <code>az deployment group create</code>.</li>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/training/modules/test-bicep-code-using-github-actions/" target="_blank" rel="noopener">Test your Bicep code using GitHub Actions (Learn module)</a> — lint + preflight + what-if + post-deploy verification.</li>
+      <li><span class="source-badge ms-learn">MS Learn</span><a href="https://learn.microsoft.com/azure/azure-resource-manager/bicep/deploy-what-if#understand-what-if-results" target="_blank" rel="noopener">Understand what-if results · change types</a> — Create / Delete / Ignore / NoChange / NoEffect / Modify / Deploy classifications used by the wizard.</li>
+      <li><span class="source-badge ms-arch">MS Arch</span><a href="https://learn.microsoft.com/azure/architecture/patterns/retry" target="_blank" rel="noopener">Retry pattern</a> — backoff strategy for HITL polling and webhook delivery (§7.6 + §9.9).</li>
+      <li><span class="source-badge ms-tech-community">Tech Community</span><a href="https://techcommunity.microsoft.com/category/azure-developer-community" target="_blank" rel="noopener">Azure Developer Tech Community</a> — current posts on GitHub Actions, Bicep, and deployment patterns.</li>
+      <li><span class="source-badge github">GitHub</span><a href="https://github.com/Azure/login" target="_blank" rel="noopener">Azure/login GitHub Action</a> — the action wired into every deploy job; OIDC and managed-identity options.</li>
+      <li><span class="source-badge blog">DevBlog</span><a href="https://devblogs.microsoft.com/devops/" target="_blank" rel="noopener">Microsoft DevOps Blog</a> — current posts on GitHub Advanced Security, supply-chain hardening, OIDC tooling.</li>
+    </ul>
+  </div>
+
   <section class="chapter-summary">
     <h2>Summary</h2>
     <ul>
@@ -4350,6 +5110,207 @@ $ python apex.py launch                  # http://localhost:5173/wizard</code></
 
 <article class="chapter">
   <h2>Chapter-by-chapter file map</h2>
+  <!-- ms-refs anchor: see #ms-references below for consolidated MS Learn / blog index -->
+</article>
+
+<section id="ms-references" class="part-opener">
+  <div class="part-number">Reference</div>
+  <h1 class="part-title">Microsoft References &amp; Latest Information</h1>
+  <p class="part-blurb">Every authoritative Microsoft source cited in this book, plus current blogs to monitor for in-flight changes. The references compound — chapter-by-chapter pointers above; this appendix consolidates them for offline lookup.</p>
+</section>
+
+<article class="chapter">
+  <h2 id="ref-1">Agent Framework &amp; orchestration</h2>
+  <div class="ms-ref-grid">
+    <div class="ms-ref-card">
+      <h4>Canonical pattern docs</h4>
+      <ul>
+        <li><a href="https://learn.microsoft.com/agent-framework/journey/workflows" target="_blank" rel="noopener">Workflows · journey overview</a></li>
+        <li><a href="https://learn.microsoft.com/agent-framework/workflows/orchestrations/" target="_blank" rel="noopener">Orchestrations index</a></li>
+        <li><a href="https://learn.microsoft.com/agent-framework/workflows/orchestrations/sequential" target="_blank" rel="noopener">Sequential</a></li>
+        <li><a href="https://learn.microsoft.com/agent-framework/workflows/orchestrations/concurrent" target="_blank" rel="noopener">Concurrent</a></li>
+        <li><a href="https://learn.microsoft.com/agent-framework/workflows/orchestrations/handoff" target="_blank" rel="noopener">Handoff</a></li>
+        <li><a href="https://learn.microsoft.com/agent-framework/workflows/orchestrations/group-chat" target="_blank" rel="noopener">Group Chat</a></li>
+        <li><a href="https://learn.microsoft.com/agent-framework/workflows/orchestrations/magentic" target="_blank" rel="noopener">Magentic</a></li>
+        <li><a href="https://learn.microsoft.com/agent-framework/workflows/human-in-the-loop" target="_blank" rel="noopener">Human-in-the-loop</a></li>
+      </ul>
+    </div>
+    <div class="ms-ref-card">
+      <h4>Architecture references</h4>
+      <ul>
+        <li><a href="https://learn.microsoft.com/azure/architecture/ai-ml/guide/ai-agent-design-patterns" target="_blank" rel="noopener">AI agent orchestration patterns (MS Arch)</a></li>
+        <li><a href="https://learn.microsoft.com/azure/architecture/ai-ml/architecture/baseline-microsoft-foundry-chat" target="_blank" rel="noopener">Baseline Microsoft Foundry chat reference architecture</a></li>
+        <li><a href="https://learn.microsoft.com/azure/ai-foundry/agents/overview" target="_blank" rel="noopener">Foundry Agent Service overview</a></li>
+        <li><a href="https://learn.microsoft.com/agent-framework/migration-guide/from-autogen/" target="_blank" rel="noopener">AutoGen → Agent Framework migration</a></li>
+        <li><a href="https://learn.microsoft.com/agent-framework/migration-guide/from-semantic-kernel/" target="_blank" rel="noopener">Semantic Kernel → Agent Framework migration</a></li>
+      </ul>
+    </div>
+    <div class="ms-ref-card">
+      <h4>Samples &amp; reference code</h4>
+      <ul>
+        <li><a href="https://github.com/microsoft/agent-framework" target="_blank" rel="noopener">microsoft/agent-framework (GitHub)</a></li>
+        <li><a href="https://github.com/microsoft/agent-framework/tree/main/python/samples/03-workflows/orchestrations" target="_blank" rel="noopener">Workflow orchestration samples</a></li>
+        <li><a href="https://github.com/microsoft/agent-framework/tree/main/python/samples/03-workflows/human-in-the-loop" target="_blank" rel="noopener">HITL samples</a></li>
+      </ul>
+    </div>
+    <div class="ms-ref-card">
+      <h4>Latest information · blogs to monitor</h4>
+      <ul>
+        <li><a href="https://devblogs.microsoft.com/semantic-kernel/" target="_blank" rel="noopener">Microsoft Semantic Kernel / Agent Framework DevBlog</a></li>
+        <li><a href="https://techcommunity.microsoft.com/category/ai-machine-learning" target="_blank" rel="noopener">Microsoft AI &amp; ML Tech Community</a></li>
+        <li><a href="https://devblogs.microsoft.com/azure-sdk/" target="_blank" rel="noopener">Azure SDK DevBlog</a> — covers Azure.AI.Agents SDK releases.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 id="ref-2">Model Context Protocol (MCP)</h2>
+  <div class="ms-ref-grid">
+    <div class="ms-ref-card">
+      <h4>Microsoft MCP guidance</h4>
+      <ul>
+        <li><a href="https://learn.microsoft.com/azure/foundry/mcp/build-your-own-mcp-server" target="_blank" rel="noopener">Build and register a custom MCP server</a></li>
+        <li><a href="https://learn.microsoft.com/azure/foundry/agents/how-to/tools/model-context-protocol" target="_blank" rel="noopener">Connect to MCP servers (Foundry Agent Service)</a></li>
+        <li><a href="https://learn.microsoft.com/agent-framework/agents/tools/hosted-mcp-tools" target="_blank" rel="noopener">Using MCP tools with Foundry Agents</a></li>
+        <li><a href="https://learn.microsoft.com/azure/data-api-builder/mcp/quickstart-azure-ai-foundry" target="_blank" rel="noopener">SQL MCP Server quickstart</a></li>
+        <li><a href="https://learn.microsoft.com/azure/foundry/agents/concepts/tool-catalog" target="_blank" rel="noopener">MCP tools in the Foundry tool catalog</a></li>
+      </ul>
+    </div>
+    <div class="ms-ref-card">
+      <h4>Upstream &amp; specification</h4>
+      <ul>
+        <li><a href="https://modelcontextprotocol.io/introduction" target="_blank" rel="noopener">MCP official specification</a></li>
+        <li><a href="https://github.com/modelcontextprotocol" target="_blank" rel="noopener">modelcontextprotocol GitHub org</a></li>
+        <li><a href="https://learn.microsoft.com/azure/developer/azure-mcp-server/services/azure-mcp-speech-foundry-tools" target="_blank" rel="noopener">Azure MCP Server (example: Speech)</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 id="ref-3">Snowflake on Azure &amp; data ingestion</h2>
+  <div class="ms-ref-grid">
+    <div class="ms-ref-card">
+      <h4>ADF + Snowflake</h4>
+      <ul>
+        <li><a href="https://learn.microsoft.com/azure/data-factory/connector-snowflake" target="_blank" rel="noopener">ADF · Snowflake V2 connector</a></li>
+        <li><a href="https://learn.microsoft.com/azure/data-factory/copy-activity-performance-features" target="_blank" rel="noopener">Copy activity staged-copy performance</a></li>
+        <li><a href="https://learn.microsoft.com/azure/data-factory/how-to-create-event-trigger" target="_blank" rel="noopener">ADF event triggers (Blob arrival)</a></li>
+        <li><a href="https://learn.microsoft.com/fabric/onelake/onelake-iceberg-snowflake" target="_blank" rel="noopener">OneLake Iceberg + Snowflake</a></li>
+      </ul>
+    </div>
+    <div class="ms-ref-card">
+      <h4>Medallion architecture</h4>
+      <ul>
+        <li><a href="https://learn.microsoft.com/fabric/onelake/onelake-medallion-lakehouse-architecture" target="_blank" rel="noopener">Medallion lakehouse architecture (OneLake)</a></li>
+        <li><a href="https://learn.microsoft.com/fabric/fundamentals/table-maintenance-optimization" target="_blank" rel="noopener">Cross-workload table maintenance + medallion recommendations</a></li>
+        <li><a href="https://learn.microsoft.com/fabric/real-time-intelligence/architecture-medallion" target="_blank" rel="noopener">Medallion in Real-Time Intelligence</a></li>
+        <li><a href="https://learn.microsoft.com/fabric/data-engineering/materialized-lake-views/tutorial" target="_blank" rel="noopener">Materialized lake views tutorial</a></li>
+        <li><a href="https://learn.microsoft.com/fabric/data-engineering/delta-optimization-and-v-order" target="_blank" rel="noopener">Delta optimization &amp; V-Order</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 id="ref-4">Identity, security, &amp; audit</h2>
+  <div class="ms-ref-grid">
+    <div class="ms-ref-card">
+      <h4>Entra workload identity</h4>
+      <ul>
+        <li><a href="https://learn.microsoft.com/entra/workload-id/workload-identity-federation" target="_blank" rel="noopener">Workload identity federation overview</a></li>
+        <li><a href="https://learn.microsoft.com/entra/workload-id/workload-identity-federation-create-trust" target="_blank" rel="noopener">Federated credential on Entra app</a></li>
+        <li><a href="https://learn.microsoft.com/entra/workload-id/workload-identity-federation-create-trust-user-assigned-managed-identity" target="_blank" rel="noopener">Federated credential on managed identity</a></li>
+        <li><a href="https://learn.microsoft.com/azure/developer/github/connect-from-azure-openid-connect" target="_blank" rel="noopener">Azure Login + OIDC (GitHub Actions)</a></li>
+        <li><a href="https://learn.microsoft.com/entra/identity-platform/v2-overview" target="_blank" rel="noopener">Microsoft Entra ID identity platform</a></li>
+      </ul>
+    </div>
+    <div class="ms-ref-card">
+      <h4>Purview audit</h4>
+      <ul>
+        <li><a href="https://learn.microsoft.com/purview/audit-solutions-overview" target="_blank" rel="noopener">Auditing solutions in Purview</a></li>
+        <li><a href="https://learn.microsoft.com/purview/audit-log-activities" target="_blank" rel="noopener">Audit log activity catalog</a></li>
+        <li><a href="https://learn.microsoft.com/office/office-365-management-api/office-365-management-activity-api-reference" target="_blank" rel="noopener">Office 365 Management Activity API</a></li>
+        <li><a href="https://learn.microsoft.com/purview/audit-search" target="_blank" rel="noopener">Audit log search</a></li>
+      </ul>
+    </div>
+    <div class="ms-ref-card">
+      <h4>Microsoft Graph</h4>
+      <ul>
+        <li><a href="https://learn.microsoft.com/graph/api/resources/group" target="_blank" rel="noopener">Graph · Group resource</a></li>
+        <li><a href="https://learn.microsoft.com/graph/api/group-list-members" target="_blank" rel="noopener">Graph · List group members</a> — PSG-15 resolution at HITL fire time.</li>
+        <li><a href="https://learn.microsoft.com/azure/key-vault/general/rbac-guide" target="_blank" rel="noopener">Key Vault RBAC roles</a></li>
+      </ul>
+    </div>
+    <div class="ms-ref-card">
+      <h4>Latest information · security blogs</h4>
+      <ul>
+        <li><a href="https://techcommunity.microsoft.com/category/microsoft-security-identity" target="_blank" rel="noopener">Microsoft Security &amp; Identity Tech Community</a></li>
+        <li><a href="https://techcommunity.microsoft.com/category/purview" target="_blank" rel="noopener">Microsoft Purview Tech Community</a></li>
+        <li><a href="https://devblogs.microsoft.com/identity/" target="_blank" rel="noopener">Microsoft Identity DevBlog</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 id="ref-5">DevOps · Bicep · GitHub Actions</h2>
+  <div class="ms-ref-grid">
+    <div class="ms-ref-card">
+      <h4>Bicep + what-if</h4>
+      <ul>
+        <li><a href="https://learn.microsoft.com/azure/azure-resource-manager/bicep/deploy-what-if" target="_blank" rel="noopener">Bicep what-if · preview deployment changes</a></li>
+        <li><a href="https://learn.microsoft.com/azure/azure-resource-manager/bicep/deploy-github-actions" target="_blank" rel="noopener">Deploy Bicep with GitHub Actions</a></li>
+        <li><a href="https://learn.microsoft.com/training/modules/test-bicep-code-using-github-actions/" target="_blank" rel="noopener">Test Bicep using GitHub Actions (Learn module)</a></li>
+        <li><a href="https://learn.microsoft.com/azure/azure-resource-manager/bicep/parameter-files" target="_blank" rel="noopener">Bicep parameter files</a></li>
+      </ul>
+    </div>
+    <div class="ms-ref-card">
+      <h4>Container Apps + GitHub</h4>
+      <ul>
+        <li><a href="https://learn.microsoft.com/azure/container-apps/github-actions" target="_blank" rel="noopener">Deploy to Container Apps with GitHub Actions</a></li>
+        <li><a href="https://learn.microsoft.com/azure/container-apps/managed-identity" target="_blank" rel="noopener">Container Apps · managed identity</a></li>
+        <li><a href="https://github.com/Azure/login" target="_blank" rel="noopener">Azure/login Action (GitHub)</a></li>
+      </ul>
+    </div>
+    <div class="ms-ref-card">
+      <h4>Agile + delivery</h4>
+      <ul>
+        <li><a href="https://learn.microsoft.com/devops/plan/what-is-agile-development" target="_blank" rel="noopener">What is Agile development?</a></li>
+        <li><a href="https://learn.microsoft.com/devops/plan/what-is-scrum" target="_blank" rel="noopener">What is Scrum?</a></li>
+        <li><a href="https://learn.microsoft.com/azure/cloud-adoption-framework/strategy/team-development" target="_blank" rel="noopener">CAF · Team development</a></li>
+      </ul>
+    </div>
+    <div class="ms-ref-card">
+      <h4>Latest information · DevOps blogs</h4>
+      <ul>
+        <li><a href="https://devblogs.microsoft.com/devops/" target="_blank" rel="noopener">Microsoft DevOps DevBlog</a></li>
+        <li><a href="https://techcommunity.microsoft.com/category/azure-developer-community" target="_blank" rel="noopener">Azure Developer Tech Community</a></li>
+        <li><a href="https://github.blog/" target="_blank" rel="noopener">GitHub Blog</a> — Actions, security hardening, OIDC.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 id="ref-6">Teams · Adaptive Cards</h2>
+  <div class="ms-ref-grid">
+    <div class="ms-ref-card">
+      <h4>Delivery surface</h4>
+      <ul>
+        <li><a href="https://learn.microsoft.com/microsoftteams/platform/webhooks-and-connectors/how-to/connectors-using#send-adaptive-cards-using-an-incoming-webhook" target="_blank" rel="noopener">Send Adaptive Cards via incoming webhook</a></li>
+        <li><a href="https://learn.microsoft.com/microsoftteams/platform/webhooks-and-connectors/how-to/add-incoming-webhook" target="_blank" rel="noopener">Create incoming webhooks</a></li>
+        <li><a href="https://learn.microsoft.com/microsoftteams/platform/task-modules-and-cards/cards/cards-reference" target="_blank" rel="noopener">Cards reference</a></li>
+        <li><a href="https://adaptivecards.microsoft.com/" target="_blank" rel="noopener">Adaptive Cards site &amp; designer</a></li>
+      </ul>
+    </div>
+    <div class="ms-ref-card">
+      <h4>Latest information · Teams blog</h4>
+      <ul>
+        <li><a href="https://techcommunity.microsoft.com/category/microsoft-teams" target="_blank" rel="noopener">Microsoft Teams Tech Community</a></li>
+        <li><a href="https://devblogs.microsoft.com/microsoft365dev/" target="_blank" rel="noopener">Microsoft 365 Developer Blog</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 id="ref-7">How to use this appendix</h2>
+  <p>When the framework or Microsoft surface evolves — Foundry Agent Service ships a new pattern, Bicep what-if adds a change type, MCP authentication tightens — start here. Compare what you read against the chapter callouts; the differential is what to update in the book. The MVP repo's <code>docs/plans/</code> directory holds the per-sprint design notes where these reconciliations land.</p>
+
+  <div class="callout note">
+    <span class="callout-label">Note · Currency</span>
+    <p>Learn URLs are stable. Tech Community + DevBlog feeds rotate. For monthly engagement check-ins, pull the top 5 posts from <em>Agent Framework / Foundry</em>, <em>Purview</em>, and <em>DevOps</em> Tech Community categories and triage against the chapters that map to that surface.</p>
+  </div>
   <div class="table-wrap"><table class="md-table">
   <tr><th>Chapter</th><th>MVP file or APEX file</th></tr>
   <tr><td>Ch 1 §1.3</td><td><code>MVP/TestHarness/catalog_seed/uc_catalog.json</code></td></tr>
@@ -4374,6 +5335,28 @@ $ python apex.py launch                  # http://localhost:5173/wizard</code></
   <p>When this book disagrees with MVP/, MVP/ wins. Raise a PR against this book to reconcile.</p>
 </article>
 
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    const isDark = () => document.body.classList.contains('dark') ||
+      window.matchMedia('(prefers-color-scheme: dark)').matches;
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: isDark() ? 'dark' : 'default',
+      themeVariables: {
+        primaryColor: '#B85450',
+        primaryTextColor: '#1F2937',
+        primaryBorderColor: '#1A2339',
+        lineColor: '#1A2339',
+        secondaryColor: '#7C8968',
+        tertiaryColor: '#C4A55A',
+        fontFamily: 'Aptos, "Segoe UI", sans-serif',
+        fontSize: '14px',
+      },
+      sequence: { actorMargin: 60, messageFontSize: 13 },
+      gantt: { fontSize: 12, barHeight: 18 },
+      flowchart: { curve: 'basis', padding: 12 },
+    });
+  </script>
   <script>
     // Dark mode toggle
     const btn = document.getElementById('darkToggle');
