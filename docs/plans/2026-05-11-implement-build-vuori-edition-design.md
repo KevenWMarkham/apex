@@ -3,7 +3,8 @@
 **Date:** 2026-05-11
 **Author:** Keven Markham
 **Status:** Approved — proceeding to draft
-**Target file:** `docs/book/Professional-APEX-M.html` (overwrite the master volume)
+**Target file:** `docs/book/Professional-APEX-M-Implementation-Guide-(Vuori-Example).html`
+**Renamed from:** `docs/book/Professional-APEX-M.html` (2026-05-11 rename — see commit log)
 
 ---
 
@@ -76,8 +77,10 @@ Top-of-file ribbon:
 > reference implementation. Synthetic data only — no production Vuori data
 > is reproduced.*
 
-The existing 30-chapter master content survives in
-`Professional-APEX-M-Library.html` (unchanged).
+The prior 30-chapter master content is preserved in git history (the
+commit immediately preceding the Vuori rewrite — `21a795f^`). The
+sibling `Professional-APEX-M-Library.html` is a separate Library volume
+and was never the destination for that content.
 
 ## Visual system
 
@@ -95,7 +98,7 @@ Add Vuori-overlay accents per `vuori-style-overlay.md`:
 
 ## What ships
 
-- `docs/book/Professional-APEX-M.html` — replaced with the Vuori build edition
+- `docs/book/Professional-APEX-M-Implementation-Guide-(Vuori-Example).html` — the renamed + rewritten file (originally `Professional-APEX-M.html`)
 - `docs/plans/2026-05-11-implement-build-vuori-edition-design.md` — this doc
 - Commit message: `docs(book): Implement & Build · Vuori Edition`
 
