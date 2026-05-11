@@ -381,6 +381,7 @@
         <li><a href="#vuori-acceptance">Vuori Acceptance Run</a></li>
         <li><a href="#mvp-pointers">MVP Source Pointers</a></li>
         <li><a href="#ms-references">Microsoft References &amp; Blogs</a></li>
+        <li><a href="#fabric-iq-future" style="border-left: 3px solid var(--vuori-rust); padding-left: 6px;">Fabric IQ Future-Path <span style="font-size: 9px; background: var(--vuori-rust); color: #fff; padding: 1px 5px; border-radius: 2px; margin-left: 4px; letter-spacing: 0.08em;">NEW</span></a></li>
       </ul>
     </nav>
     <main>
@@ -5333,6 +5334,124 @@ $ python apex.py launch                  # http://localhost:5173/wizard</code></
   </table></div>
 
   <p>When this book disagrees with MVP/, MVP/ wins. Raise a PR against this book to reconcile.</p>
+</article>
+
+<section id="fabric-iq-future" class="part-opener" style="border-top: 4px solid var(--vuori-rust);">
+  <div class="part-number" style="color: var(--vuori-rust);">Reference · New 2026-05</div>
+  <h1 class="part-title">Fabric IQ · Future-Path Considerations for Vuori</h1>
+  <p class="part-blurb">Microsoft shipped Fabric IQ — Ontology · Plan · Graph · Data Agent (GA) · Operations Agent · Power BI semantic models — as a Fabric workload in May 2026. Vuori is on Snowflake-on-Azure, not Fabric. This is a <em>future-path</em> reference: why the current MCP-led path is correct for Vuori today, which Fabric IQ concepts should inform the build now anyway, and the trigger conditions for revisiting.</p>
+</section>
+
+<article class="chapter">
+  <div class="callout warning" style="border-left: 4px solid var(--warning-amber); background: rgba(245,158,11,0.06); padding: 14px 18px; margin: 0 0 22px;">
+    <span class="callout-label" style="color: var(--warning-amber);">Currency pin · May 2026</span>
+    <p style="margin: 0 0 4px;">The full Trilogy carries Fabric IQ adoption guidance in three closing addenda — <strong>Services Guide Appendix O</strong>, <strong>Deployment Guide Appendix M</strong>, <strong>Sellers Guide Appendix AB</strong>. This Vuori Companion's appendix is engagement-specific: it answers "what does Fabric IQ mean for <em>this</em> engagement, given Vuori is Snowflake-resident?"</p>
+  </div>
+
+  <h2 id="fiq-1">F.1 The Vuori posture today</h2>
+
+  <p>Per the Dallas offsite (April 16, 2026), a CIO-level hard requirement applies: <strong>all agent work runs inside Vuori's Snowflake-on-Azure + Azure AI Foundry tenant.</strong> Vuori is not on Microsoft Fabric. The Implementation Guide's main chapters are correct as written — MCP-led, two custom MCP servers (<code>merml-mcp</code> + <code>cxml-mcp</code>), five Foundry-hosted personas, Friday-to-Monday journey on Snowflake CURATED.</p>
+
+  <p>Fabric IQ does not change the current sprint plan. It does, however, surface architectural patterns that should inform the Snowflake-led build (§F.4) and define the trigger conditions under which the engagement would revisit (§F.5).</p>
+
+  <div class="callout vuori">
+    <span class="callout-label">Vuori posture · stays MCP-led</span>
+    <p>The 12-sprint, 173-point plan in Chapter 9 remains the canonical delivery plan. Nothing in this appendix moves a story forward, backward, or off the backlog. Read this as <em>orientation</em>, not <em>scope change</em>.</p>
+  </div>
+
+  <h2 id="fiq-2">F.2 Status pin · Fabric IQ items at the time of writing</h2>
+
+  <div class="table-wrap"><table class="md-table">
+    <tr><th>Fabric IQ item</th><th>Status</th><th>Relevance to Vuori</th></tr>
+    <tr><td>Fabric IQ workload</td><td><span style="font-family: Aptos, sans-serif; font-size: 11px; padding: 1px 8px; border-radius: 2px; background: var(--warning-amber); color: #fff; font-weight: 700;">PREVIEW</span></td><td>Not applicable today — Vuori not on Fabric</td></tr>
+    <tr><td>Ontology · Plan · Graph</td><td><span style="font-family: Aptos, sans-serif; font-size: 11px; padding: 1px 8px; border-radius: 2px; background: var(--warning-amber); color: #fff; font-weight: 700;">PREVIEW</span></td><td>Concept-level relevance: Ontology's entity-type model informs the CURATED view design (§F.4)</td></tr>
+    <tr><td>Fabric Data Agent</td><td><span style="font-family: Aptos, sans-serif; font-size: 11px; padding: 1px 8px; border-radius: 2px; background: var(--bp-green); color: #fff; font-weight: 700;">GA</span></td><td>Not used by Vuori. NL2SQL behaviour is informative for The Analyst persona's prompt design</td></tr>
+    <tr><td>Operations Agent</td><td><span style="font-family: Aptos, sans-serif; font-size: 11px; padding: 1px 8px; border-radius: 2px; background: var(--warning-amber); color: #fff; font-weight: 700;">PREVIEW</span></td><td>Creator-identity execution model is a lesson for the Vuori HITL gate (§F.4)</td></tr>
+    <tr><td>DLP for Fabric Data Warehouse</td><td><span style="font-family: Aptos, sans-serif; font-size: 11px; padding: 1px 8px; border-radius: 2px; background: var(--bp-green); color: #fff; font-weight: 700;">GA</span></td><td>N/A — Vuori uses Snowflake row/column policies</td></tr>
+    <tr><td>DSPM for AI · Insider Risk · agent prompt/response audit (Purview)</td><td><span style="font-family: Aptos, sans-serif; font-size: 11px; padding: 1px 8px; border-radius: 2px; background: var(--warning-amber); color: #fff; font-weight: 700;">PREVIEW</span></td><td>Inform the LEDGER+Purview audit-row design (Ch 7 §7.8)</td></tr>
+  </table></div>
+
+  <h2 id="fiq-3">F.3 Vuori component → Fabric IQ equivalent</h2>
+
+  <p>The mapping below is what the Vuori build would look like if/when Vuori migrates to Fabric. It is not the build plan today — it is the migration shape.</p>
+
+  <div class="table-wrap"><table class="md-table">
+    <tr><th>Vuori today (Ch 3–8)</th><th>Fabric IQ equivalent</th><th>Notes</th></tr>
+    <tr><td>Snowflake medallion (RAW / CLEANSED / CURATED on Snowflake-on-Azure)</td><td>OneLake medallion (Bronze / Silver / Gold)</td><td>One-time data migration; dbt models port to Fabric Spark / SQL</td></tr>
+    <tr><td><code>dim_product</code>, <code>fact_sales</code>, <code>dim_calendar</code>, <code>fact_concon_signal</code> (DDL + dbt)</td><td>Ontology entity types bound to OneLake tables</td><td>Schema content stays; surface becomes Ontology not DDL</td></tr>
+    <tr><td><code>merml-mcp</code> read tools: <code>fetch_weekly_actuals_vs_plan</code>, <code>compute_consecutive_miss_count</code>, <code>rank_exceptions_by_severity</code></td><td>Fabric Data Agent with NL2SQL on lakehouse</td><td>The Analyst's read path collapses into Data Agent calls; <strong>5-source limit, 25×25 row cap, English-only</strong> all apply</td></tr>
+    <tr><td><code>cxml-mcp</code> read tools: <code>compute_consumer_intent</code>, <code>competitive_share_shift</code></td><td>Fabric Data Agent with NL2KQL on Eventhouse</td><td>If ConCON signal flows to Eventhouse (Real-Time Intelligence path)</td></tr>
+    <tr><td><code>merml-mcp</code> action tools (e.g., propose markdown, propose rebalance)</td><td><strong>Stay as custom MCP servers</strong></td><td>Action tools never collapse into Data Agent — they trigger state changes, not Q&amp;A</td></tr>
+    <tr><td>The Demand Checker persona (intent diagnosis)</td><td>Fabric Operations Agent (creator-bound) or Foundry agent calling Fabric Data Agent</td><td>The intent-monitoring loop maps cleanly onto Operations Agent; creator-identity model applies</td></tr>
+    <tr><td>HITL gate (Planning Lead approval on markdown breach)</td><td>Operations Agent Teams app · recipient approval</td><td>Recipients need write permission on the agent item to receive proactive messages</td></tr>
+    <tr><td>LEDGER hash chain on Snowflake AUDIT.LEDGER</td><td>LEDGER on OneLake + Purview audit echo</td><td>Chain integrity stays; storage moves</td></tr>
+    <tr><td>Per-client manifest swap (<code>vuori.yaml</code> in MVP/TestHarness)</td><td>Fabric deployment pipelines + Git integration on Data Agent assets</td><td>Manifest values become Fabric workspace variables; agent versions promoted via deployment pipelines</td></tr>
+  </table></div>
+
+  <h2 id="fiq-4">F.4 Fabric IQ lessons that apply to the current Vuori build</h2>
+
+  <p>Three Fabric IQ concepts are worth applying to the Snowflake-led build now, even though Vuori never adopts Fabric:</p>
+
+  <p><strong>Lesson 1 · Governance and intent precedence lattice.</strong> Per the Fabric Data Agent doc, the canonical authority precedence is <strong>Organizational → Role-based → Developer → User</strong>. Apply this to the Vuori HITL gate in Chapter 7 §7.6: the approver's note (User intent) can never override the use-case YAML's HITL threshold (Developer intent), which can never override the wizard's PSG-15 enforcement (Role-based), which can never override the Independence two-contract structure (Organizational). Document the precedence in the LEDGER row schema so the audit trail captures it.</p>
+
+  <p><strong>Lesson 2 · Workspace outbound access protection (PSG-16 candidate).</strong> Fabric workspaces have an explicit setting for "permitted outbound connections." The equivalent for Vuori is the Snowflake network-policy + Azure Container Apps egress rules. Add a check to the Vuori Day-Zero runbook (Ch 9 Sprint 1 BL.C tasks): verify Container Apps egress allows only the Foundry endpoint, the Snowflake account endpoint, and the Purview ingest endpoint. Anything else is an audit flag.</p>
+
+  <p><strong>Lesson 3 · Creator-identity execution model for Operations Agent.</strong> Microsoft's Operations Agent operates under the delegated identity of its creator. Vuori's HITL gate currently uses the approver's identity for action execution. The Microsoft pattern suggests a stronger model: actions execute under a dedicated <em>Vuori Agent Operator</em> service account, not the approver. This isolates "who approved" (audit) from "who executed" (least-privilege). Apply in Sprint 10 (HITL + Audit) when the LEDGER + Purview echo lands.</p>
+
+  <p><strong>Lesson 4 · The 25-row × 25-column response cap as a design signal.</strong> Microsoft positions Fabric Data Agents as <em>"designed for conversational insights rather than for returning complete datasets."</em> The Vuori Briefer should respect the same posture — the Monday Adaptive Card delivers exception summaries, not full markdown candidate lists. Bulk extracts stay on the Snowflake side, requested by the merchant through a separate path. Bake the cap-equivalent into the Briefer's prompt design.</p>
+
+  <h2 id="fiq-5">F.5 Trigger conditions · when the engagement revisits Fabric IQ</h2>
+
+  <p>The engagement should re-open the Fabric IQ adoption question at any of these trigger points:</p>
+
+  <ul>
+    <li><strong>Vuori adopts Microsoft Fabric for a different workload</strong> (BI consolidation, semantic-model centralization, real-time intelligence pilot). Once a Fabric capacity exists in the Vuori tenant, the marginal cost of trying Fabric IQ Data Agent for a single Vuori service drops sharply.</li>
+    <li><strong>The Centric → vibe-coded PLM transition</strong> (CEO note, April 16). If Vuori builds a new PLM on Microsoft stack, Fabric IQ Ontology becomes a natural semantic layer for product + supplier + cost concepts.</li>
+    <li><strong>Operations Agent moves to GA.</strong> Preview-state Operations Agent is not deployable into Vuori's production tenant. GA changes the conversation — the creator-identity model becomes a procurable capability rather than a preview-disclaimed demo.</li>
+    <li><strong>Fabric IQ Ontology moves to GA.</strong> The Microsoft-canonical example (<em>Order → Shipment → Temperature Sensor → Cold Chain Breach</em>) maps very closely to the Vuori cold-chain-adjacent supplier compliance scenarios that may surface in Wave 2.</li>
+    <li><strong>Himanshu's "Agentic for Tech" framework request</strong> (April 7) advances. If Vuori publishes a framework decision favoring Microsoft-native AI, Fabric IQ becomes the natural substrate for the next Vuori service.</li>
+    <li><strong>A second Vuori-adjacent merch engagement comes in</strong> (e.g., REI, Kohl's) that is Fabric-resident. Fabric IQ becomes the canonical build pattern for that engagement; Vuori's MCP-led pattern becomes the documented alternative for Snowflake clients.</li>
+  </ul>
+
+  <h2 id="fiq-6">F.6 Migration sketch · if Vuori adopts Fabric in a future phase</h2>
+
+  <p>If a trigger fires, the migration is a multi-quarter effort. High-level sketch only — not a build plan:</p>
+
+  <ol>
+    <li><strong>Q1: Fabric capacity provision</strong> in Vuori tenant. F2+ minimum; F64 if Power BI viewer-free entitlement matters. Enable tenant settings: cross-geo processing for AI, Graph for ontology, Copilot tenant switches.</li>
+    <li><strong>Q1–Q2: Schema → Ontology lift.</strong> The 8 synthetic tables become entity types in the Vuori ontology. Bindings point at Snowflake-mirrored or OneLake-shortcut'd tables. dbt models stay; the ontology references them.</li>
+    <li><strong>Q2: Data Agent introduction</strong> for the analytical Q&amp;A slice. The Analyst persona shifts from custom MCP to Fabric Data Agent. The Briefer keeps custom logic. Custom MCPs remain for action surfaces (markdown propose, rebalance propose, HITL gate).</li>
+    <li><strong>Q3: Operations Agent for The Demand Checker.</strong> Creator-bound account provisioned. Intent monitoring + competitive share shift become Operations Agent rules with Activator + Power Automate action sinks.</li>
+    <li><strong>Q3–Q4: LEDGER on OneLake.</strong> Audit substrate moves; chain integrity preserved; Purview audit echo unchanged. PSG-16 (workspace outbound) joins the gate set.</li>
+    <li><strong>Q4: Sunset paths.</strong> Decommission the custom MCP tools that collapsed into Data Agent. The 5-source / 25-row caps drive the final partition between Data Agent and the custom MCP servers that remain.</li>
+  </ol>
+
+  <p>The 38-Service catalog framing, the two-contract Independence model, the Foundry agent fleet, the 4-tier PII classification, and the Wave 1 → 2 → 3 commercial envelope all survive the migration. The substrate changes; the architecture stays.</p>
+
+  <h2 id="fiq-7">F.7 Cross-references</h2>
+
+  <ul>
+    <li><strong>Trilogy · Services Guide Appendix O</strong> — full 14-edit list across Parts II–VI; the generic architectural impact of Fabric IQ adoption.</li>
+    <li><strong>Trilogy · Deployment Guide Appendix M</strong> — substrate-side mechanics: F-SKU floor, region affinity, PSG-16 candidate, Fabric deployment pipelines, creator-identity model.</li>
+    <li><strong>Trilogy · Sellers Guide Appendix AB</strong> — positioning Fabric IQ in the commercial narrative; the "aren't you obsolete?" handler.</li>
+    <li><strong>Trilogy Library landing</strong> — currency banner pointing at all three Trilogy addenda.</li>
+    <li><strong>Design doc</strong> — <code>docs/plans/2026-05-11-trilogy-fabric-iq-adoption-design.md</code></li>
+  </ul>
+
+  <h2 id="fiq-8">F.8 Microsoft Learn anchors</h2>
+
+  <div class="table-wrap"><table class="md-table">
+    <tr><th style="width:42%">Surface</th><th>Authoritative reference</th></tr>
+    <tr><td>Fabric IQ workload overview</td><td><a href="https://learn.microsoft.com/fabric/iq/overview" target="_blank" rel="noopener">learn.microsoft.com/fabric/iq/overview</a></td></tr>
+    <tr><td>Fabric Data Agent concepts (GA)</td><td><a href="https://learn.microsoft.com/fabric/data-science/concept-data-agent" target="_blank" rel="noopener">learn.microsoft.com/fabric/data-science/concept-data-agent</a></td></tr>
+    <tr><td>Operations Agent (preview)</td><td><a href="https://learn.microsoft.com/fabric/real-time-intelligence/operations-agent" target="_blank" rel="noopener">learn.microsoft.com/fabric/real-time-intelligence/operations-agent</a></td></tr>
+    <tr><td>Ontology (preview)</td><td><a href="https://learn.microsoft.com/fabric/iq/ontology/overview" target="_blank" rel="noopener">learn.microsoft.com/fabric/iq/ontology/overview</a></td></tr>
+    <tr><td>Foundry + Fabric tool integration</td><td><a href="https://learn.microsoft.com/azure/foundry/agents/how-to/tools/fabric" target="_blank" rel="noopener">learn.microsoft.com/azure/foundry/agents/how-to/tools/fabric</a></td></tr>
+    <tr><td>DSPM for AI in Fabric</td><td><a href="https://learn.microsoft.com/purview/ai-copilot-fabric" target="_blank" rel="noopener">learn.microsoft.com/purview/ai-copilot-fabric</a></td></tr>
+    <tr><td>Fabric capacity (F-SKU) licensing</td><td><a href="https://learn.microsoft.com/fabric/enterprise/licenses" target="_blank" rel="noopener">learn.microsoft.com/fabric/enterprise/licenses</a></td></tr>
+  </table></div>
+
+  <p style="font-size: 13px; color: var(--dim); font-style: italic; margin-top: 24px;">When this appendix and the Trilogy disagree on something Vuori-specific, the Vuori posture wins for this engagement. When this appendix and current Microsoft Learn disagree, Microsoft Learn wins — raise a PR against this book to reconcile.</p>
 </article>
 
   <script type="module">
