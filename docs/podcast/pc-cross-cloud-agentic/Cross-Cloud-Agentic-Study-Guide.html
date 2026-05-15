@@ -2211,6 +2211,17 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px}
 
 </main>
 
+<div class="modal-overlay" id="kwModal" role="dialog" aria-modal="true" aria-labelledby="kwModalTitle">
+  <div class="modal">
+    <button class="modal-close" type="button" aria-label="Close">&times;</button>
+    <div class="modal-kw" id="kwModalTitle"></div>
+    <div class="modal-def"></div>
+    <div class="modal-why"></div>
+    <ul class="modal-links"></ul>
+    <button class="modal-save" type="button">&#65291; Save to Notes</button>
+  </div>
+</div>
+
 <footer>
   <div class="wrap">
     <span>The Cross-Cloud Agentic Podcast · Study Guide</span>
@@ -3346,7 +3357,89 @@ function playerInit(){
     audio.addEventListener('play',update);
   });
 }
+/* ---- v3 Part B: keyword treeview + detail modal ---- */
+function openKeywordModal(ep,k){
+  const m=document.getElementById('kwModal');
+  if(!m) return;
+  m.querySelector('.modal-kw').textContent=k.term||'';
+  m.querySelector('.modal-def').textContent=k.def||'';
+  m.querySelector('.modal-why').textContent=k.why||'';
+  const links=m.querySelector('.modal-links');
+  links.innerHTML='';
+  (k.links||[]).forEach(l=>{
+    const li=document.createElement('li');
+    const a=document.createElement('a');
+    a.href=l.url; a.target='_blank'; a.rel='noopener'; a.textContent=l.label;
+    li.appendChild(a); links.appendChild(li);
+  });
+  m._kw={ep:ep,k:k};
+  m.classList.add('open');
+  const cb=m.querySelector('.modal-close');
+  if(cb) cb.focus();
+}
+function closeKeywordModal(){
+  const m=document.getElementById('kwModal');
+  if(m) m.classList.remove('open');
+}
+function modalInit(){
+  const m=document.getElementById('kwModal');
+  if(!m) return;
+  m.querySelector('.modal-close').addEventListener('click',closeKeywordModal);
+  m.addEventListener('click',e=>{ if(e.target===m) closeKeywordModal(); });
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'&&m.classList.contains('open')){ closeKeywordModal(); return; }
+    if(e.key==='Tab'&&m.classList.contains('open')){
+      const f=m.querySelectorAll('button,a[href]');
+      if(!f.length) return;
+      const first=f[0], last=f[f.length-1];
+      if(e.shiftKey&&document.activeElement===first){ e.preventDefault(); last.focus(); }
+      else if(!e.shiftKey&&document.activeElement===last){ e.preventDefault(); first.focus(); }
+    }
+  });
+  m.querySelector('.modal-save').addEventListener('click',()=>{
+    if(!m._kw) return;
+    const ep=m._kw.ep, k=m._kw.k;
+    const note={id:'n'+Date.now().toString(36)+Math.floor(Math.random()*1e4).toString(36),
+                kw:k.term, ep:ep, detail:(k.def||'')+' — '+(k.why||''),
+                userText:'', ts:Date.now()};
+    sg3Active().notes.push(note);
+    sg3Save();
+    if(window.renderNotes) renderNotes();
+    const btn=m.querySelector('.modal-save');
+    btn.textContent='✓ Saved';
+    setTimeout(()=>{ btn.textContent='＋ Save to Notes'; },1400);
+  });
+}
+function keywordTreeInit(){
+  document.querySelectorAll('.np-list').forEach(list=>{
+    const ep=list.dataset.ep;
+    const kw=EP_KEYWORDS[ep];
+    if(!kw) return;
+    const rows=[].slice.call(list.querySelectorAll('.np-item'));
+    rows.forEach((row,i)=>{
+      const kws=kw[String(i)];
+      if(!kws||!kws.length) return;
+      row.classList.add('has-kw');
+      const kids=document.createElement('div');
+      kids.className='kw-children';
+      kws.forEach(k=>{
+        const node=document.createElement('div');
+        node.className='kw-node';
+        node.textContent=k.term;
+        node.addEventListener('click',e=>{ e.stopPropagation(); openKeywordModal(ep,k); });
+        kids.appendChild(node);
+      });
+      row.insertAdjacentElement('afterend',kids);
+      row.addEventListener('click',()=>{
+        row.classList.toggle('open');
+        kids.classList.toggle('open');
+      });
+    });
+  });
+}
 playerInit();
+modalInit();
+keywordTreeInit();
 </script>
 </body>
 </html>
