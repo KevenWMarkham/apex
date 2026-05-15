@@ -143,7 +143,7 @@ packages/apex-agentic-merch/
 │   │   ├── row_builder.py · store.py · replay.py
 │   ├── ollama_client.py · llm_stub.py
 │   ├── data/
-│   │   ├── bronze/                   # 10 synthetic CSVs (plan, actuals, otb, etc.)
+│   │   ├── bronze/                   # 14 synthetic CSVs (plan, actuals, otb, vendor_master, dc_master, supplier_health, inventory, etc.) — see GAP-ANALYSIS v1.1
 │   │   ├── silver/                   # Pydantic-shape JSON post-instantiation
 │   │   ├── personas.yaml · fixtures.yaml
 │   └── ui/

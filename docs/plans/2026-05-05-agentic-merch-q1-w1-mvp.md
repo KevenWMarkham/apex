@@ -545,17 +545,23 @@ git commit -m "feat(agentic-merch): add docker-compose.yml + Dockerfile + Ollama
 
 ## Task 4: Synthesize Apparel Week-16 fixtures (4 variants)
 
+> **Schema source-of-truth:** `data_dictionary_Retail_AgenticMerch_v1.1.xlsx` — see `GAP-ANALYSIS-Bronze-Silver-Gold-MCP.md` §1 for the full 17-table Bronze inventory. The fixture set below covers the Q1 MVP subset (14 tables). The 4 v1.1-bumped tables (`vendor_master · dc_master · merchandise_plan · supplier_health_signals`) close the Vendor / DC / Plan / SupplierHealthSignal Silver blockers identified in the gap analysis.
+
 **Files:**
-- Create: `packages/apex-agentic-merch/src/apex_agentic_merch/data/bronze/plan_wk16.csv`
-- Create: `packages/apex-agentic-merch/src/apex_agentic_merch/data/bronze/actuals_wk16.csv`
+- Create: `packages/apex-agentic-merch/src/apex_agentic_merch/data/bronze/plan_wk16.csv` *(= `merchandise_plan` per dictionary)*
+- Create: `packages/apex-agentic-merch/src/apex_agentic_merch/data/bronze/actuals_wk16.csv` *(= `historical_sales` per dictionary)*
 - Create: `packages/apex-agentic-merch/src/apex_agentic_merch/data/bronze/otb.csv`
 - Create: `packages/apex-agentic-merch/src/apex_agentic_merch/data/bronze/markdowns.csv`
-- Create: `packages/apex-agentic-merch/src/apex_agentic_merch/data/bronze/elasticity.csv`
-- Create: `packages/apex-agentic-merch/src/apex_agentic_merch/data/bronze/loyalty_signals.csv`
+- Create: `packages/apex-agentic-merch/src/apex_agentic_merch/data/bronze/elasticity.csv` *(= `elasticity_estimates`)*
+- Create: `packages/apex-agentic-merch/src/apex_agentic_merch/data/bronze/loyalty_signals.csv` *(= `IntentSignal` 3rd-party feed synth)*
 - Create: `packages/apex-agentic-merch/src/apex_agentic_merch/data/bronze/competitor_prices.csv`
 - Create: `packages/apex-agentic-merch/src/apex_agentic_merch/data/bronze/weather.csv`
-- Create: `packages/apex-agentic-merch/src/apex_agentic_merch/data/bronze/skus.csv`
-- Create: `packages/apex-agentic-merch/src/apex_agentic_merch/data/bronze/stores.csv`
+- Create: `packages/apex-agentic-merch/src/apex_agentic_merch/data/bronze/skus.csv` *(= `product_master`)*
+- Create: `packages/apex-agentic-merch/src/apex_agentic_merch/data/bronze/stores.csv` *(= `store_master`)*
+- Create: `packages/apex-agentic-merch/src/apex_agentic_merch/data/bronze/vendor_master.csv` *(v1.1 — closes Vendor blocker · ~8 apparel vendors w/ pre_approved_flag mix)*
+- Create: `packages/apex-agentic-merch/src/apex_agentic_merch/data/bronze/dc_master.csv` *(v1.1 — closes DC blocker · 3-5 DCs across regions)*
+- Create: `packages/apex-agentic-merch/src/apex_agentic_merch/data/bronze/supplier_health_signals.csv` *(v1.1 — closes SupplierHealthSignal blocker · declining health on 1 vendor for Fixture 1)*
+- Create: `packages/apex-agentic-merch/src/apex_agentic_merch/data/bronze/inventory_snapshots.csv` *(v1.1 — covers `InventorySnapshot` Silver — 50×25 store×SKU rows at Friday close)*
 - Create: `packages/apex-agentic-merch/src/apex_agentic_merch/data/fixtures.yaml`
 - Create: `packages/apex-agentic-merch/scripts/synthesize_fixtures.py`
 - Test: `packages/apex-agentic-merch/tests/test_data_shape.py`
@@ -574,13 +580,41 @@ DATA_ROOT = Path(__file__).resolve().parent.parent / "src" / "apex_agentic_merch
 
 
 def test_all_bronze_csvs_present() -> None:
+    """v1.1: 14 Bronze CSVs — added vendor_master/dc_master/supplier_health_signals/inventory_snapshots per gap-analysis bump."""
     expected = {
+        # v1.0 set
         "plan_wk16.csv", "actuals_wk16.csv", "otb.csv", "markdowns.csv",
         "elasticity.csv", "loyalty_signals.csv", "competitor_prices.csv",
         "weather.csv", "skus.csv", "stores.csv",
+        # v1.1 schema-bump additions
+        "vendor_master.csv", "dc_master.csv",
+        "supplier_health_signals.csv", "inventory_snapshots.csv",
     }
     actual = {p.name for p in DATA_ROOT.glob("*.csv")}
     assert expected.issubset(actual), f"missing: {expected - actual}"
+
+
+def test_vendor_master_has_pre_approved_mix() -> None:
+    """v1.1: vendor_master must include both pre_approved=true and =false rows
+    so UC-10 SupplierActivation can exercise both ZT and HITL branches."""
+    rows = list(csv.DictReader((DATA_ROOT / "vendor_master.csv").open(encoding="utf-8")))
+    flags = {r["pre_approved_flag"].lower() for r in rows}
+    assert flags == {"true", "false"}, f"expected both flags, got {flags}"
+
+
+def test_supplier_health_signal_triggers_fixture_1() -> None:
+    """v1.1: at least one supplier_health_signals row with health_score < 0.7
+    must exist for Fixture 1 (supply branch) to trigger UC-10."""
+    rows = list(csv.DictReader((DATA_ROOT / "supplier_health_signals.csv").open(encoding="utf-8")))
+    degraded = [r for r in rows if float(r["health_score"]) < 0.7]
+    assert len(degraded) >= 1, "no degraded vendor for Fixture 1"
+
+
+def test_inventory_snapshots_covers_apparel_grain() -> None:
+    """v1.1: inventory_snapshots covers store×sku grain for the Apparel category."""
+    rows = list(csv.DictReader((DATA_ROOT / "inventory_snapshots.csv").open(encoding="utf-8")))
+    assert len(rows) > 0
+    assert "store_id" in rows[0] and "sku_id" in rows[0] and "on_hand_qty" in rows[0]
 
 
 def test_plan_wk16_has_24_apparel_rows() -> None:
@@ -630,7 +664,11 @@ Expected: FAIL with FileNotFoundError or AssertionError on missing CSVs.
 Create `packages/apex-agentic-merch/scripts/synthesize_fixtures.py`:
 
 ```python
-"""Generate the 10 Bronze CSVs for the 4 Apparel Week-16 fixtures.
+"""Generate the 14 Bronze CSVs for the 4 Apparel Week-16 fixtures.
+
+v1.1: includes the 4 schema-bump additions (vendor_master · dc_master ·
+supplier_health_signals · inventory_snapshots) that close the Vendor / DC /
+Plan / SupplierHealthSignal Silver blockers per GAP-ANALYSIS-Bronze-Silver-Gold-MCP.md.
 
 Idempotent — run any time to regenerate. Outputs to
 src/apex_agentic_merch/data/bronze/.
@@ -943,7 +981,7 @@ Expected: 5 tests PASSED.
 
 ```bash
 git add packages/apex-agentic-merch/scripts/ packages/apex-agentic-merch/src/apex_agentic_merch/data/ packages/apex-agentic-merch/tests/test_data_shape.py
-git commit -m "feat(agentic-merch): synthesize Apparel Week-16 fixtures (4 variants × 10 Bronze CSVs)"
+git commit -m "feat(agentic-merch): synthesize Apparel Week-16 fixtures (4 variants × 14 Bronze CSVs · v1.1 schema-bump)"
 ```
 
 ---
