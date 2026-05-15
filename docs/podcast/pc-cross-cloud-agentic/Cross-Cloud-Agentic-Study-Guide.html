@@ -635,6 +635,36 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px}
     </div>
   </div>
 
+  <div class="ov-section">
+    <h3>The APEX architecture stack — optional linkage</h3>
+    <p>This series teaches a vendor-neutral framework — the Acceleration Framework. For sellers who want it, <strong>APEX</strong> is Microsoft's productized realization of that framework. Open the panel below for the linkage; the podcast and the rest of this guide stay generic.</p>
+    <details class="godeep">
+      <summary><span class="gd-sum-label">Open the APEX architecture stack</span><span class="gd-sum-meta">optional · click to open</span></summary>
+      <div class="gd-body">
+        <div class="apex-link">
+          <div class="gd-h">APEX — the name</div>
+          <div class="apex-name">
+            <div class="an-cell"><span class="an-letter" style="color:var(--apex-agent)">A</span><span class="an-word">Agent-based</span></div>
+            <div class="an-cell"><span class="an-letter" style="color:var(--apex-data)">P</span><span class="an-word">Platform</span></div>
+            <div class="an-cell"><span class="an-letter" style="color:var(--apex-identity)">E</span><span class="an-word">Enterprise</span></div>
+            <div class="an-cell"><span class="an-letter" style="color:var(--apex-serving)">X</span><span class="an-word">eXecution</span></div>
+          </div>
+          <div class="gd-h">The seven-layer APEX stack</div>
+          <div class="apex-stack">
+            <div class="apex-layer lit" style="border-left-color:var(--apex-identity)"><span class="al-name">Identity &amp; Trust</span><span class="al-note">Entra + Purview · cross-cutting</span></div>
+            <div class="apex-layer lit" style="border-left-color:var(--apex-data)"><span class="al-name">OneLake medallion</span><span class="al-note">Bronze → Silver → Gold</span></div>
+            <div class="apex-layer lit" style="border-left-color:var(--apex-schema)"><span class="al-name">Canonical Schema kernel</span><span class="al-note">one entity, one definition</span></div>
+            <div class="apex-layer lit" style="border-left-color:var(--apex-agent)"><span class="al-name">Orchestration / Foundry</span><span class="al-note">agent runtime · MCP tools</span></div>
+            <div class="apex-layer lit" style="border-left-color:var(--apex-serving)"><span class="al-name">Model-serving planes</span><span class="al-note">Gateway · Safety · Eval · Observability</span></div>
+            <div class="apex-layer lit" style="border-left-color:var(--apex-context)"><span class="al-name">Context / LEDGER</span><span class="al-note">audit row · replay</span></div>
+            <div class="apex-layer lit" style="border-left-color:var(--apex-catalog)"><span class="al-name">Service Catalog / Experience</span><span class="al-note">scenarios · six envelopes</span></div>
+          </div>
+          <p>APEX — Agent-based Platform for Enterprise eXecution — is Microsoft's productized realization of the generic Acceleration Framework the podcast teaches. Each episode's Go Deeper panel lights the layer(s) that episode realizes. The podcast audio and every default view of this guide stay vendor-neutral; this is the one place the linkage is drawn.</p>
+        </div>
+      </div>
+    </details>
+  </div>
+
 </section>
 
 <!-- ============================ EPISODE 1 ============================ -->
@@ -2021,6 +2051,125 @@ function printCard(epId){
   setTimeout(()=>panel.classList.remove('printing'),300);
 }
 
+/* ---- episode timeline cue data (word-count-estimated section timestamps) ---- */
+const EP_CUES = {
+  "e1": [
+    {t:5, title:"Cold Open", point:"Keven fields a real seller's-inbox question — 'build an agent on our Snowflake warehouse?' — and refuses the easy yes."},
+    {t:180, title:"Why \"agentic\" needs a definition before we start", point:"The word 'agent' is overloaded — the four-criterion test demands reasoning, tool use, state, and an audit substrate."},
+    {t:382, title:"The four-layer agentic stack — plus identity as a fifth cross-cutting concern", point:"Data foundation, agent runtime, control plane, model serving — with identity threading through all four layers."},
+    {t:611, title:"The Five Architectural Principles — named explicitly", point:"Gold-Tier-First, Governance+Audit+Ledger, Identity Continuity, No Replication, Model Portability — vendor-neutral commitments, not Microsoft features."},
+    {t:1078, title:"Why now — the 2024-2026 inflection", point:"The productization gap is open today; capability density across the clouds is racing to close the window."},
+    {t:1248, title:"The Microsoft seller's lens — Independence-minded", point:"Recommend on technical and economic merits, never partner-channel motion — and stay honest where AWS and GCP lead."},
+    {t:1477, title:"What we'll cover across eight episodes", point:"A map of the series — data, runtime, governance, audit, FinOps, multi-cloud, and the seller's playbook."},
+    {t:1604, title:"A reading I want to do", point:"Reid's recommended outside reading to pressure-test the four-layer stack against real architecture literature."},
+    {t:1742, title:"One disagreement", point:"Strict definitions risk alienating clients — converge on delivering precision as an upgrade frame, never a correction."},
+    {t:1921, title:"What to carry forward", point:"Principles first, cloud after — Microsoft earns the recommendation on productized density, not channel motion."},
+  ],
+  "e2": [
+    {t:5, title:"Cold Open", point:"A client wants the agent pointed straight at the data warehouse — and why that is the wrong target."},
+    {t:200, title:"Why the medallion architecture is the right starting frame", point:"Bronze landing, Silver canonical, Gold composed — a decades-old data-engineering pattern as the series' substrate framing."},
+    {t:390, title:"Silver is canonical, not Gold", point:"Cross-system reconciliation happens at Silver — each entity defined once, the version of truth downstream consumers trust."},
+    {t:538, title:"Why agentic AI needs Gold-Tier-shaped views, not warehouse views", point:"Agents need task-shaped Gold views composed for the decision — not raw warehouse tables built for analysts."},
+    {t:703, title:"Microsoft Fabric — Mirroring, Shortcuts, Eventstreams", point:"Fabric composes Gold without bulk replication — Mirroring, Shortcuts, Eventstreams; the broadest productized toolkit."},
+    {t:959, title:"GCP BigQuery Omni + BigLake — the strongest cross-cloud federation", point:"GCP's BigQuery Omni and BigLake — the strongest cross-cloud federation, querying data in place across clouds."},
+    {t:1168, title:"AWS Athena Federated Query + Lake Formation — capable, more assembly", point:"AWS Athena Federated Query and Lake Formation — capable and fine-grained, but more assembly required."},
+    {t:1394, title:"Per-entity joinability at Gold — the unlock", point:"Per-entity joinability at Gold is the cloud-independent unlock — the architectural property that outweighs the vendor."},
+    {t:1584, title:"Vector store strategy across the three clouds", point:"Vector store strategy differs by cloud — embeddings and retrieval kept close to the Gold Tier."},
+    {t:1758, title:"Streaming-source architecture — Kafka, EventHub, Kinesis, Pub/Sub", point:"Streaming sources feed the medallion — Kafka, Event Hubs, Kinesis, Pub/Sub — without breaking no-replication."},
+    {t:1904, title:"A reading I want to do", point:"Reid's recommended reading on federation and lakehouse design behind the no-replication argument."},
+    {t:2037, title:"One disagreement", point:"How aggressively to push federation over mirroring — resolved by matching the technique to data gravity."},
+    {t:2226, title:"What to carry forward", point:"Per-entity joinability at Gold is the unlock — name the client's axis first, then choose the cloud."},
+  ],
+  "e3": [
+    {t:5, title:"Cold Open", point:"An agent hammering the SAP production API at peak hour — a Principle 1 violation live in production."},
+    {t:236, title:"The MCP boundary discipline — Principle 1 in action", point:"The MCP boundary — every tool call lands on composed Gold views, never raw sources, every time."},
+    {t:451, title:"Microsoft Agent Framework + Azure AI Foundry Agent Service", point:"Microsoft's productized runtime — Agent Framework plus Azure AI Foundry Agent Service for orchestration."},
+    {t:684, title:"AWS Bedrock Agents", point:"AWS Bedrock Agents — a capable managed runtime; the same boundary patterns apply with more wiring."},
+    {t:893, title:"GCP Vertex AI Agent Builder + Agent Engine", point:"GCP Vertex AI Agent Builder and Agent Engine — Google's productized agent runtime and orchestration."},
+    {t:1079, title:"Model availability — honest comparison", point:"An honest comparison — no runtime has a monopoly on frontier models; availability shifts constantly."},
+    {t:1255, title:"Orchestration patterns", point:"Orchestration patterns — single agent, parent-child, sequential pipelines — chosen to fit the workload."},
+    {t:1364, title:"HITL design patterns — deeper", point:"Human-in-the-loop design — where approval gates belong, and how they become structured audit events."},
+    {t:1534, title:"RAG vs fine-tuning vs distillation — the domain adaptation spectrum", point:"The domain-adaptation spectrum — start with RAG, measure, add fine-tuning or distillation on evidence."},
+    {t:1743, title:"A reading I want to do", point:"Reid's recommended reading on agent runtimes and the Model Context Protocol standard."},
+    {t:1875, title:"One disagreement", point:"How much model selection matters in Wave One — negotiable for roughly 90% of clients; start simple."},
+    {t:2094, title:"What to carry forward", point:"The runtime is commodity and architecture is the moat — the MCP boundary holds every call."},
+  ],
+  "e4": [
+    {t:5, title:"Cold Open", point:"A governance team discovers an agent has been reading data no human reviewer ever approved."},
+    {t:215, title:"Why governing an agent is different from governing a human or a traditional ML pipeline", point:"Governing an agent breaks the traditional posture — three properties no human or ML pipeline shares."},
+    {t:536, title:"Microsoft Purview — productized: catalog + lineage + access + sensitivity + DSPM for AI in one product", point:"Purview bundles catalog, lineage, access, sensitivity, and DSPM for AI in one product and bill."},
+    {t:742, title:"DSPM for AI — the new productized capability", point:"DSPM for AI — the freshest productized capability; distinguishes agent tool calls from human queries."},
+    {t:993, title:"AWS — Lake Formation + Macie + Audit Manager + GuardDuty (multi-service assembly)", point:"AWS — Lake Formation, Macie, Audit Manager, GuardDuty — capable, but a multi-service assembly."},
+    {t:1253, title:"GCP — Dataplex + Sensitive Data Protection + Security Command Center (closer to Purview)", point:"GCP — Dataplex, Sensitive Data Protection, Security Command Center — closer to Purview's single-product shape."},
+    {t:1409, title:"Identity Continuity — Principle 3 in detail", point:"Identity Continuity — the agent acts under a traceable chain of four distinct identities."},
+    {t:1890, title:"Safety, Red-Teaming, and AI Risk Frameworks", point:"Safety and red-teaming — EU AI Act, NIST AI RMF, ISO 42001 as 2026 table stakes."},
+    {t:2195, title:"A reading I want to do", point:"Reid's recommended reading on AI governance and the emerging regulatory frameworks."},
+    {t:2332, title:"One disagreement", point:"How much governance to demand before Wave One — substrate now, enforcement intensity per-workload."},
+    {t:2520, title:"What to carry forward", point:"Purview uniquely bundles five capabilities; DSPM for AI is the differentiation, on a ~12-month window."},
+  ],
+  "e5": [
+    {t:5, title:"Cold Open", point:"A regulator asks an agent to explain a decision it made six months ago — the logs can't."},
+    {t:197, title:"Why agentic AI requires a different audit pattern", point:"A recommendation is a composite of dozens of intermediate steps — the reasoning chain must be captured."},
+    {t:395, title:"\"Audit row, not log line\" — the discipline", point:"Agent activity recorded as structured, schema-validated, chained rows — not free-form engineer-written log lines."},
+    {t:567, title:"The hash-chained audit row pattern", point:"Each row's integrity is cryptographic — a hash links it to the prior row; altering any earlier row breaks the chain."},
+    {t:747, title:"Replay-token validation — the offline replay", point:"The reasoning chain can be re-executed offline from a replay token to verify a past decision."},
+    {t:993, title:"HITL gates as audit events", point:"Human-in-the-loop gates recorded as audit events — every approval and override leaves a structured trace."},
+    {t:1127, title:"Identity propagation into the audit row", point:"The four-identity chain stamped onto every recorded decision — who and what acted, traceably."},
+    {t:1278, title:"The lineage thread — audit row to source", point:"Every audit row points one hop back to the source data the agent actually used."},
+    {t:1390, title:"The ledger pattern productized vs assembled", point:"A reference architecture on Microsoft; buildable on AWS or GCP in six-to-twelve weeks."},
+    {t:1762, title:"Why this matters — regulated industries and board-level governance", point:"Regulated industries and board-level governance need a replayable, tamper-evident trust substrate."},
+    {t:1883, title:"Operational observability — alongside compliance audit", point:"One substrate serves compliance audit and operational observability — built at the foundation, tuned per-workload."},
+    {t:1992, title:"A reading I want to do", point:"Reid's recommended reading on audit design, cryptographic chaining, and replayable systems."},
+    {t:2121, title:"One disagreement", point:"Is the full ledger overengineered for the 80% of internal agents — substrate everywhere, enforcement per-workload."},
+    {t:2345, title:"What to carry forward", point:"The reasoning chain, not the prediction, is the artifact — audit row, not log line."},
+  ],
+  "e6": [
+    {t:5, title:"Cold Open", point:"A CFO sees the AI bill climb 30% in a quarter and asks what the company is getting for it."},
+    {t:190, title:"The plus-twenty-to-forty-percent QoQ pattern — what the analysts are seeing", point:"The +20-40% quarter-over-quarter cost pattern analysts see across mid-to-large enterprise AI deployments."},
+    {t:368, title:"Why traditional FinOps doesn't cover this cleanly", point:"The FinOps framework holds, but agentic AI introduces new cost levers traditional practice never measured."},
+    {t:559, title:"Cost sources covered — the full picture", point:"The full bill — tokens, Copilot seats, runtime compute, vector stores, federation queries, audit storage."},
+    {t:814, title:"Cost management products across the three clouds", point:"Cost-management tooling compared — Microsoft Cost Management and the AWS and GCP equivalents."},
+    {t:1061, title:"Model-mix optimization — the single largest cost lever", point:"The single largest lever — route cheap models to most calls, frontier models sparingly."},
+    {t:1297, title:"Idle Copilot seat reclamation — the productivity-license lever", point:"Idle Copilot seat reclamation — unused seats are recoverable spend hiding in the AI bill."},
+    {t:1462, title:"Audit-ledger retention discipline", point:"Tiered retention so the trust substrate's storage doesn't quietly become a runaway cost."},
+    {t:1616, title:"The CFO conversation — per-use-case cost-per-outcome", point:"Per-use-case cost-per-outcome — workload by workload — holds the room and keeps the program funded."},
+    {t:1829, title:"A reading I want to do", point:"Reid's recommended reading on FinOps practice and AI cost management."},
+    {t:1954, title:"One disagreement", point:"How precise cost-per-outcome must be in Wave One — directionally honest beats falsely precise."},
+    {t:2111, title:"What to carry forward", point:"Walk into the CFO conversation with cost-per-decision against outcome value, never aggregate spend."},
+  ],
+  "e7": [
+    {t:5, title:"Cold Open", point:"A client insists on a fully multi-cloud agent — and the egress bill that quietly makes it unworkable."},
+    {t:195, title:"The Acceleration Framework's cloud portability — by design", point:"The framework is cloud-portable by design — its commitments are defined in code, not a cloud's services."},
+    {t:458, title:"What \"primary cloud\" actually means in practice", point:"Primary-cloud-per-workload — almost always the cloud where that workload's data already lives."},
+    {t:694, title:"Cross-cloud egress economics — the real reason multi-cloud is rare at the agentic stack", point:"Cross-cloud egress economics — the real reason multi-cloud stays rare at the agentic stack level."},
+    {t:897, title:"Identity federation patterns across clouds", point:"Identity federation patterns — the seams where cross-cloud agentic systems most often fail."},
+    {t:1075, title:"Multi-cloud audit chain patterns", point:"Keeping the hash-chained ledger intact when a single workload spans more than one cloud."},
+    {t:1287, title:"Model Portability — Principle Five deep dive", point:"Model Portability — a four-part discipline; models refresh, the agent design endures."},
+    {t:1665, title:"When multi-cloud is legitimate vs theatre", point:"When multi-cloud is legitimate versus theatre — a precision test, not a default aspiration."},
+    {t:1979, title:"A reading I want to do", point:"Reid's recommended reading on multi-cloud architecture and portability discipline."},
+    {t:2103, title:"One disagreement", point:"Whether workload-level multi-cloud stays rare — resolved as portable-by-default, single-cloud-by-default-execution."},
+    {t:2314, title:"What to carry forward", point:"Build portable-by-default; defend Microsoft on productization density, the framework on architecture."},
+  ],
+  "e8": [
+    {t:5, title:"Cold Open", point:"The seller walks into the room — and the temptation to open with 'Microsoft is better.'"},
+    {t:136, title:"The Acceleration Framework as the architectural pitch", point:"Lead with the framework — there is a right way to build agentic AI, five vendor-neutral principles."},
+    {t:254, title:"Microsoft's productization advantage — per principle", point:"Microsoft's productization advantage named per principle — where the density gap is real and defensible."},
+    {t:477, title:"Independence-minded framing — the operating model", point:"The two-contract operating model — no margin stacking; recommendations made on merit."},
+    {t:633, title:"Five honest claims sellers can defend", point:"Five claims a seller can defend under any architect's scrutiny."},
+    {t:813, title:"Four overclaims to avoid", point:"Four overclaims that collapse the moment a real architect pushes back."},
+    {t:958, title:"Six pushback-handling talking points", point:"Six talking points for answering the hardest client objections honestly."},
+    {t:1167, title:"When to recommend NOT Microsoft", point:"When to recommend against Microsoft — the credibility that earns the long-term relationship."},
+    {t:1333, title:"The six discovery openers — one per principle plus FinOps", point:"Six discovery openers — one per principle plus FinOps — to start the architecture-first conversation."},
+    {t:1532, title:"Wave sizing and the 90-day pilot path", point:"Wave sizing and the 90-day pilot path — how to scope a first agentic engagement honestly."},
+    {t:1645, title:"Funding programs — Independence-clean handling", point:"Using vendor funding programs without compromising the Independence-minded advisory posture."},
+    {t:1735, title:"Closing posture — the series finale closer", point:"The closing posture — lead with architecture, earn both the deal and the relationship."},
+    {t:1884, title:"A reading I want to do", point:"Reid's final recommended reading to close out the series."},
+    {t:1968, title:"One disagreement — the final disagreement of the series", point:"The final disagreement of the series — modeled honestly, as every episode has."},
+    {t:2131, title:"What to carry forward — series finale", point:"Five series-finale closing points — principles first, cloud after, honesty always."},
+    {t:2184, title:"Sign-off", point:"Eight episodes, roughly four hours — Keven and Reid sign off. 'See you in the field.'"},
+  ],
+};
+
 /* ---- Pivot & Axis checklist · JSON persistence in localStorage ---- */
 const PAQ_STORAGE_KEY='ccap-study-guide-checklist-v1';
 
@@ -2076,6 +2225,105 @@ function paqInit(){
   document.querySelectorAll('.paq-details').forEach(paqUpdateSummary);
 }
 paqInit();
+
+/* ---- episode audio player · synced timeline · screen-pop ---- */
+function fmtTime(s){
+  const m=Math.floor(s/60), r=Math.floor(s%60);
+  return String(m).padStart(2,'0')+':'+String(r).padStart(2,'0');
+}
+function playerInit(){
+  document.querySelectorAll('.player').forEach(player=>{
+    const ep=player.dataset.ep;
+    const cues=EP_CUES[ep];
+    if(!cues||!cues.length) return;
+    const audio=player.querySelector('audio');
+    const timeline=player.querySelector('.timeline');
+    const fill=player.querySelector('.tl-fill');
+    const npCard=player.querySelector('.nowplaying');
+    const npSec=player.querySelector('.np-sec');
+    const npPoint=player.querySelector('.np-point');
+    const npList=player.querySelector('.np-list');
+    const panel=player.closest('.panel');
+    const bdItems=panel?[...panel.querySelectorAll('.bd-item')]:[];
+    if(!audio||!timeline||!fill||!npList) return;
+    // fallback duration until the file's metadata loads
+    let dur=cues[cues.length-1].t+180;
+
+    const markers=[], rows=[];
+    cues.forEach((cue,i)=>{
+      const mk=document.createElement('div');
+      mk.className='tl-marker';
+      mk.title=fmtTime(cue.t)+' · '+cue.title;
+      mk.addEventListener('click',e=>{e.stopPropagation();audio.currentTime=cue.t;});
+      timeline.appendChild(mk);
+      markers.push(mk);
+
+      const row=document.createElement('div');
+      row.className='np-item';
+      const tEl=document.createElement('span');
+      tEl.className='np-t';
+      tEl.textContent=fmtTime(cue.t);
+      const txEl=document.createElement('span');
+      txEl.className='np-tx';
+      txEl.textContent=cue.title;
+      row.appendChild(tEl);
+      row.appendChild(txEl);
+      row.addEventListener('click',()=>{audio.currentTime=cue.t;});
+      npList.appendChild(row);
+      rows.push(row);
+    });
+
+    function placeMarkers(){
+      markers.forEach((mk,i)=>{
+        const pct=Math.max(0,Math.min(100,(cues[i].t/dur)*100));
+        mk.style.left=pct+'%';
+      });
+    }
+    placeMarkers();
+
+    audio.addEventListener('loadedmetadata',()=>{
+      if(audio.duration&&isFinite(audio.duration)&&audio.duration>0){
+        dur=audio.duration;
+        placeMarkers();
+      }
+    });
+
+    // click anywhere on the track to seek
+    timeline.addEventListener('click',e=>{
+      const rect=timeline.getBoundingClientRect();
+      if(!rect.width) return;
+      const frac=Math.max(0,Math.min(1,(e.clientX-rect.left)/rect.width));
+      audio.currentTime=frac*((audio.duration&&isFinite(audio.duration))?audio.duration:dur);
+    });
+
+    let curIdx=-1;
+    function update(){
+      const d=(audio.duration&&isFinite(audio.duration)&&audio.duration>0)?audio.duration:dur;
+      const ct=audio.currentTime||0;
+      fill.style.width=Math.max(0,Math.min(100,(ct/d)*100))+'%';
+      let idx=0;
+      for(let i=0;i<cues.length;i++){ if(cues[i].t<=ct+0.25) idx=i; else break; }
+      if(idx===curIdx) return;
+      curIdx=idx;
+      const cue=cues[idx];
+      npSec.textContent=cue.title;
+      npPoint.textContent=cue.point;
+      npCard.classList.remove('np-pop');
+      void npCard.offsetWidth;
+      npCard.classList.add('np-pop');
+      markers.forEach((mk,i)=>mk.classList.toggle('active',i===idx));
+      rows.forEach((r,i)=>r.classList.toggle('active',i===idx));
+      if(bdItems.length){
+        const bi=Math.min(bdItems.length-1,Math.floor(idx/cues.length*bdItems.length));
+        bdItems.forEach((b,i)=>b.classList.toggle('active',i===bi));
+      }
+    }
+    audio.addEventListener('timeupdate',update);
+    audio.addEventListener('seeked',update);
+    audio.addEventListener('play',update);
+  });
+}
+playerInit();
 </script>
 </body>
 </html>
