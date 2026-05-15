@@ -573,6 +573,10 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px}
 <nav class="top">
   <div class="wrap">
     <a class="brand" href="#">Cross-Cloud Agentic<span class="sub">Study Guide</span></a>
+    <div class="client-pick">
+      <select id="clientSelect" aria-label="Active client"></select>
+      <button class="client-add" id="clientAdd" title="Add a client" aria-label="Add a client">＋</button>
+    </div>
     <button class="theme-toggle" onclick="toggleTheme()">◐ Theme</button>
   </div>
 </nav>
@@ -751,6 +755,31 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px}
         </div>
       </div>
     </details>
+  </div>
+
+  <div class="ov-section">
+    <h3>Client profile</h3>
+    <p>Track engagement context per client. Everything you mark in this guide — axis positions, the likelihood read, checklists, saved notes — is stored against the client selected in the top bar. Add a client to begin; data stays in this browser and can be exported.</p>
+    <div class="cprofile">
+      <div class="cprofile-grid">
+        <label for="cpIndustry">Industry</label>
+        <input type="text" id="cpIndustry" placeholder="e.g. Retail, Manufacturing, Financial services">
+        <label for="cpClouds">Current clouds</label>
+        <input type="text" id="cpClouds" placeholder="e.g. AWS primary, Azure for M365">
+        <label for="cpMaturity">AI maturity</label>
+        <input type="text" id="cpMaturity" placeholder="e.g. POCs in progress, no production agents">
+        <label for="cpSignals">Key signals</label>
+        <textarea id="cpSignals" placeholder="Recent news, earnings notes, org/leadership changes, stated AI priorities..."></textarea>
+      </div>
+      <div class="cprofile-actions">
+        <button class="cbtn" id="cpAdd">+ Add client</button>
+        <button class="cbtn" id="cpRename">Rename</button>
+        <button class="cbtn" id="cpDelete">Delete</button>
+        <button class="cbtn" id="cpExport">Export all (JSON)</button>
+        <button class="cbtn" id="cpImport">Import</button>
+        <input type="file" id="cpImportFile" accept="application/json,.json" style="display:none">
+      </div>
+    </div>
   </div>
 
 </section>
@@ -2827,6 +2856,33 @@ const EP_KEYWORDS = {
   }
 };
 
+/* ---- v3 multi-client store (one localStorage JSON) ---- */
+const SG3_KEY='ccap-study-guide-v3';
+function sg3NewClient(id,name){
+  return {id:id,name:name,profile:{industry:'',clouds:'',aiMaturity:'',signals:''},
+          axes:{},paq:{},actions:{},notes:[]};
+}
+function sg3Blank(){
+  return {schema:3,activeClientId:'general',
+          clients:{general:sg3NewClient('general','General (no client)')}};
+}
+function sg3Load(){
+  let s;
+  try{s=JSON.parse(localStorage.getItem(SG3_KEY));}catch(e){s=null;}
+  if(!s||s.schema!==3||!s.clients||!s.clients.general) s=sg3Blank();
+  try{
+    const v2=JSON.parse(localStorage.getItem('ccap-study-guide-checklist-v1')||'null');
+    if(v2&&!s.clients.general._migrated){
+      Object.assign(s.clients.general.paq,v2);
+      s.clients.general._migrated=true;
+    }
+  }catch(e){}
+  return s;
+}
+function sg3Save(){ try{localStorage.setItem(SG3_KEY,JSON.stringify(SG3));}catch(e){} }
+let SG3=sg3Load();
+function sg3Active(){ return SG3.clients[SG3.activeClientId]||SG3.clients.general; }
+
 /* ---- Pivot & Axis checklist · JSON persistence in localStorage ---- */
 const PAQ_STORAGE_KEY='ccap-study-guide-checklist-v1';
 
@@ -2881,6 +2937,98 @@ function paqInit(){
   // restore collapsed-summary progress counts
   document.querySelectorAll('.paq-details').forEach(paqUpdateSummary);
 }
+
+/* ---- v3 client manager ---- */
+function clientRenderSelect(){
+  const sel=document.getElementById('clientSelect');
+  if(!sel) return;
+  sel.innerHTML='';
+  Object.values(SG3.clients).forEach(c=>{
+    const o=document.createElement('option');
+    o.value=c.id; o.textContent=c.name;
+    if(c.id===SG3.activeClientId) o.selected=true;
+    sel.appendChild(o);
+  });
+}
+function clientProfileFill(){
+  const c=sg3Active(), p=c.profile||{};
+  const set=(id,v)=>{const el=document.getElementById(id); if(el) el.value=v||'';};
+  set('cpIndustry',p.industry); set('cpClouds',p.clouds);
+  set('cpMaturity',p.aiMaturity); set('cpSignals',p.signals);
+}
+function hydrateClient(){
+  clientRenderSelect();
+  clientProfileFill();
+  // extended by later tasks to re-apply axes, checkboxes, notes
+}
+function clientAddNew(){
+  const name=(prompt('New client name:')||'').trim();
+  if(!name) return;
+  const id='c'+Date.now().toString(36)+Math.floor(Math.random()*1e4).toString(36);
+  SG3.clients[id]=sg3NewClient(id,name);
+  SG3.activeClientId=id; sg3Save(); hydrateClient();
+}
+function clientInit(){
+  clientRenderSelect(); clientProfileFill();
+  const sel=document.getElementById('clientSelect');
+  if(sel) sel.addEventListener('change',()=>{
+    SG3.activeClientId=sel.value; sg3Save(); hydrateClient();
+  });
+  ['clientAdd','cpAdd'].forEach(id=>{
+    const b=document.getElementById(id);
+    if(b) b.addEventListener('click',clientAddNew);
+  });
+  const ren=document.getElementById('cpRename');
+  if(ren) ren.addEventListener('click',()=>{
+    const c=sg3Active();
+    if(c.id==='general'){alert('The General profile cannot be renamed.');return;}
+    const n=(prompt('Rename client:',c.name)||'').trim();
+    if(n){c.name=n; sg3Save(); hydrateClient();}
+  });
+  const del=document.getElementById('cpDelete');
+  if(del) del.addEventListener('click',()=>{
+    const c=sg3Active();
+    if(c.id==='general'){alert('The General profile cannot be deleted.');return;}
+    if(!confirm('Delete client "'+c.name+'" and all its saved data?')) return;
+    delete SG3.clients[c.id];
+    SG3.activeClientId='general'; sg3Save(); hydrateClient();
+  });
+  [['cpIndustry','industry'],['cpClouds','clouds'],
+   ['cpMaturity','aiMaturity'],['cpSignals','signals']].forEach(([id,key])=>{
+    const el=document.getElementById(id);
+    if(el) el.addEventListener('input',()=>{ sg3Active().profile[key]=el.value; sg3Save(); });
+  });
+  const exp=document.getElementById('cpExport');
+  if(exp) exp.addEventListener('click',()=>{
+    const blob=new Blob([JSON.stringify(SG3,null,2)],{type:'application/json'});
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download='study-guide-clients.json';
+    a.click(); URL.revokeObjectURL(a.href);
+  });
+  const imp=document.getElementById('cpImport'),
+        impFile=document.getElementById('cpImportFile');
+  if(imp&&impFile){
+    imp.addEventListener('click',()=>impFile.click());
+    impFile.addEventListener('change',()=>{
+      const f=impFile.files[0]; if(!f) return;
+      const r=new FileReader();
+      r.onload=()=>{
+        try{
+          const data=JSON.parse(r.result);
+          if(data&&data.clients){
+            Object.assign(SG3.clients,data.clients);
+            sg3Save(); hydrateClient();
+            alert('Imported '+Object.keys(data.clients).length+' client record(s).');
+          } else alert('Not a valid study-guide client file.');
+        }catch(e){ alert('Could not read that file.'); }
+        impFile.value='';
+      };
+      r.readAsText(f);
+    });
+  }
+}
+clientInit();
 paqInit();
 
 /* ---- episode audio player · synced timeline · screen-pop ---- */
