@@ -606,6 +606,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px}
     <button class="tab" data-panel="e6"><span class="epnum">06</span>FinOps</button>
     <button class="tab" data-panel="e7"><span class="epnum">07</span>Multi-Cloud</button>
     <button class="tab" data-panel="e8"><span class="epnum">08</span>Seller's Playbook</button>
+    <button class="tab" data-panel="notes"><span class="epnum">✎</span>My Notes</button>
   </div>
 </div>
 
@@ -2209,6 +2210,20 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px}
   </div>
 </section>
 
+<!-- ============================ MY NOTES ============================ -->
+<section class="panel" id="notes">
+  <div class="ep-head">
+    <div class="ep-kicker">Tab · My Notes</div>
+    <h2>My Notes</h2>
+  </div>
+  <p class="ep-thesis">Keywords you save from any episode's timeline collect here, against the client selected in the top bar. Add your own words, copy the set into a working document, or clear it.</p>
+  <div class="notes-toolbar">
+    <button class="cbtn" id="notesCopy" type="button">Copy all</button>
+    <button class="cbtn" id="notesClear" type="button">Clear all</button>
+  </div>
+  <div id="notesList"></div>
+</section>
+
 </main>
 
 <div class="modal-overlay" id="kwModal" role="dialog" aria-modal="true" aria-labelledby="kwModalTitle">
@@ -3437,9 +3452,66 @@ function keywordTreeInit(){
     });
   });
 }
+/* ---- v3 Part C: My Notes ---- */
+function notesFmtDate(ts){
+  try{ return new Date(ts).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'}); }
+  catch(e){ return ''; }
+}
+function renderNotes(){
+  const list=document.getElementById('notesList');
+  if(!list) return;
+  const notes=sg3Active().notes||[];
+  list.innerHTML='';
+  if(!notes.length){
+    const e=document.createElement('div');
+    e.className='notes-empty';
+    e.textContent='No notes yet. Open a keyword in any episode’s timeline and choose “Save to Notes”.';
+    list.appendChild(e);
+    return;
+  }
+  notes.forEach((n,idx)=>{
+    const card=document.createElement('div'); card.className='mynote-card';
+    const kw=document.createElement('div'); kw.className='mynote-kw'; kw.textContent=n.kw||'';
+    const meta=document.createElement('div'); meta.className='mynote-meta';
+    meta.textContent=(n.ep?n.ep.toUpperCase()+' · ':'')+notesFmtDate(n.ts);
+    const det=document.createElement('div'); det.className='mynote-detail'; det.textContent=n.detail||'';
+    const ta=document.createElement('textarea'); ta.className='mynote-user';
+    ta.placeholder='Your notes...'; ta.value=n.userText||'';
+    ta.addEventListener('input',()=>{ n.userText=ta.value; sg3Save(); });
+    const del=document.createElement('button'); del.className='mynote-del';
+    del.type='button'; del.textContent='Delete';
+    del.addEventListener('click',()=>{
+      sg3Active().notes.splice(idx,1); sg3Save(); renderNotes();
+    });
+    card.appendChild(kw); card.appendChild(meta); card.appendChild(det);
+    card.appendChild(ta); card.appendChild(del);
+    list.appendChild(card);
+  });
+}
+function notesInit(){
+  const copy=document.getElementById('notesCopy');
+  if(copy) copy.addEventListener('click',()=>{
+    const notes=sg3Active().notes||[];
+    if(!notes.length){ alert('No notes to copy.'); return; }
+    const txt=notes.map(n=>'# '+n.kw+' ('+((n.ep||'').toUpperCase())+')\n'+n.detail+(n.userText?'\n\nNotes: '+n.userText:'')).join('\n\n———\n\n');
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(()=>{
+        copy.textContent='✓ Copied'; setTimeout(()=>{ copy.textContent='Copy all'; },1400);
+      },()=>alert('Could not copy.'));
+    } else alert('Clipboard not available in this browser.');
+  });
+  const clr=document.getElementById('notesClear');
+  if(clr) clr.addEventListener('click',()=>{
+    if(!((sg3Active().notes||[]).length)) return;
+    if(!confirm('Clear all notes for this client?')) return;
+    sg3Active().notes=[]; sg3Save(); renderNotes();
+  });
+}
 playerInit();
 modalInit();
 keywordTreeInit();
+notesInit();
+renderNotes();
 </script>
 </body>
 </html>
