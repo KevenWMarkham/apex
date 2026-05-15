@@ -800,7 +800,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px}
         <button class="cbtn" id="cpDelete">Delete</button>
         <button class="cbtn" id="cpExport">Export all (JSON)</button>
         <button class="cbtn" id="cpImport">Import</button>
-        <input type="file" id="cpImportFile" accept="application/json,.json" style="display:none">
+        <input type="file" id="cpImportFile" accept=".md,.json,application/json,text/markdown" style="display:none">
       </div>
     </div>
   </div>
@@ -3725,6 +3725,27 @@ function sg3Load(){
 function sg3Save(){ try{localStorage.setItem(SG3_KEY,JSON.stringify(SG3));}catch(e){} }
 let SG3=sg3Load();
 function sg3Active(){ return SG3.clients[SG3.activeClientId]||SG3.clients.general; }
+function sg3ParseImport(text){
+  let payload=String(text||'');
+  const m=payload.match(/```json\s*([\s\S]*?)```/i);
+  if(m) payload=m[1];
+  return JSON.parse(payload);
+}
+function sg3ApplyImport(data){
+  let recs=[];
+  if(data&&data.clients) recs=Object.keys(data.clients).map(k=>data.clients[k]);
+  else if(data&&data.client) recs=[data.client];
+  else if(data&&data.id&&data.name) recs=[data];
+  let lastId=null;
+  recs.forEach(rec=>{
+    if(!rec||!rec.id) return;
+    rec.profile=rec.profile||{industry:'',clouds:'',aiMaturity:'',signals:''};
+    rec.axes=rec.axes||{}; rec.paq=rec.paq||{};
+    rec.actions=rec.actions||{}; rec.notes=rec.notes||[];
+    SG3.clients[rec.id]=rec; lastId=rec.id;
+  });
+  return lastId;
+}
 
 /* ---- Pivot & Axis checklist · JSON persistence in localStorage ---- */
 const PAQ_STORAGE_KEY='ccap-study-guide-checklist-v1';
@@ -3862,13 +3883,17 @@ function clientInit(){
       const r=new FileReader();
       r.onload=()=>{
         try{
-          const data=JSON.parse(r.result);
-          if(data&&data.clients){
-            Object.assign(SG3.clients,data.clients);
-            sg3Save(); hydrateClient();
-            alert('Imported '+Object.keys(data.clients).length+' client record(s).');
-          } else alert('Not a valid study-guide client file.');
-        }catch(e){ alert('Could not read that file.'); }
+          const data=sg3ParseImport(r.result);
+          const id=sg3ApplyImport(data);
+          if(id){
+            SG3.activeClientId=id; sg3Save(); hydrateClient();
+            alert('Imported client: '+SG3.clients[id].name);
+          } else {
+            alert('No client record found in that file.');
+          }
+        }catch(e){
+          alert('Could not read that file — expected a study-guide .md or .json export.');
+        }
         impFile.value='';
       };
       r.readAsText(f);
