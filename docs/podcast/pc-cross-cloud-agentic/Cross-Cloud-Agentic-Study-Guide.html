@@ -4202,6 +4202,16 @@ function notesFmtDate(ts){
   try{ return new Date(ts).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'}); }
   catch(e){ return ''; }
 }
+function noteDetailRender(el,text){
+  const m=String(text||'').match(/https?:\/\/\S+/);
+  if(!m){ el.textContent=text||''; return; }
+  const url=m[0], i=text.indexOf(url);
+  el.appendChild(document.createTextNode(text.slice(0,i)));
+  const a=document.createElement('a');
+  a.href=url; a.target='_blank'; a.rel='noopener'; a.textContent=url;
+  el.appendChild(a);
+  el.appendChild(document.createTextNode(text.slice(i+url.length)));
+}
 function renderNotes(){
   const list=document.getElementById('notesList');
   if(!list) return;
@@ -4219,7 +4229,7 @@ function renderNotes(){
     const kw=document.createElement('div'); kw.className='mynote-kw'; kw.textContent=n.kw||'';
     const meta=document.createElement('div'); meta.className='mynote-meta';
     meta.textContent=(n.ep?n.ep.toUpperCase()+' · ':'')+notesFmtDate(n.ts);
-    const det=document.createElement('div'); det.className='mynote-detail'; det.textContent=n.detail||'';
+    const det=document.createElement('div'); det.className='mynote-detail'; noteDetailRender(det,n.detail);
     const ta=document.createElement('textarea'); ta.className='mynote-user';
     ta.placeholder='Your notes...'; ta.value=n.userText||'';
     ta.addEventListener('input',()=>{ n.userText=ta.value; sg3Save(); });
@@ -4252,10 +4262,58 @@ function notesInit(){
     sg3Active().notes=[]; sg3Save(); renderNotes();
   });
 }
+/* ---- v3.1 Win the Deal: talk-track + references ---- */
+function winDealInit(){
+  document.querySelectorAll('.wtd').forEach(wtd=>{
+    const ep=wtd.dataset.ep;
+    const sayList=wtd.querySelector('.say-list');
+    (EP_POSITIONING[ep]||[]).forEach(p=>{
+      const card=document.createElement('div'); card.className='say-card';
+      const s=document.createElement('div'); s.className='say-it'; s.textContent=p.say;
+      const po=document.createElement('div'); po.className='position-it';
+      const tag=document.createElement('span'); tag.className='pos-tag'; tag.textContent='POSITION';
+      po.appendChild(tag);
+      po.appendChild(document.createTextNode(p.position));
+      card.appendChild(s); card.appendChild(po);
+      sayList.appendChild(card);
+    });
+    const refList=wtd.querySelector('.ref-list');
+    const refs=EP_REFS[ep]||[];
+    const cats=[];
+    refs.forEach(r=>{ if(cats.indexOf(r.category)<0) cats.push(r.category); });
+    cats.forEach(cat=>{
+      const grp=document.createElement('div'); grp.className='ref-group';
+      const h=document.createElement('div'); h.className='ref-cat'; h.textContent=cat;
+      grp.appendChild(h);
+      refs.filter(r=>r.category===cat).forEach(r=>{
+        const row=document.createElement('div'); row.className='ref-row';
+        const txt=document.createElement('div');
+        const a=document.createElement('a'); a.className='ref-link';
+        a.href=r.url; a.target='_blank'; a.rel='noopener'; a.textContent=r.label;
+        const note=document.createElement('span'); note.className='ref-note'; note.textContent=r.note;
+        txt.appendChild(a); txt.appendChild(note);
+        const save=document.createElement('button'); save.className='ref-save'; save.type='button';
+        save.textContent='＋ Save to My Notes';
+        save.addEventListener('click',()=>{
+          const n={id:'n'+Date.now().toString(36)+Math.floor(Math.random()*1e4).toString(36),
+                   kw:r.label, ep:ep, detail:r.note+'  '+r.url, userText:'', ts:Date.now()};
+          sg3Active().notes.push(n); sg3Save();
+          if(window.renderNotes) renderNotes();
+          save.textContent='✓ Saved';
+          setTimeout(()=>{ save.textContent='＋ Save to My Notes'; },1400);
+        });
+        row.appendChild(txt); row.appendChild(save);
+        grp.appendChild(row);
+      });
+      refList.appendChild(grp);
+    });
+  });
+}
 playerInit();
 modalInit();
 keywordTreeInit();
 notesInit();
+winDealInit();
 renderNotes();
 </script>
 </body>
