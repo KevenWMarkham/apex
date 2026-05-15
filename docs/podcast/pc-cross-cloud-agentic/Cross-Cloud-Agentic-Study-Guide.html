@@ -543,6 +543,28 @@ button.print-btn:hover{background:var(--gold);color:#1a1407}
 /* 8. print */
 @media print{.modal-overlay,.client-pick,.axis-sel,.notes-toolbar{display:none !important}}
 
+/* ===== study guide v3.1: Win the Deal ===== */
+.wtd{display:flex;flex-direction:column;gap:16px;margin-top:4px}
+.wtd-h{font-family:"Instrument Sans",sans-serif;font-weight:600;font-size:13px;color:var(--ink);text-transform:uppercase;letter-spacing:.05em}
+.say-list{display:flex;flex-direction:column;gap:10px}
+.say-card{border:1px solid var(--border);border-left:3px solid var(--gold-dim);border-radius:9px;background:var(--surface);padding:13px 16px}
+.say-it{font-family:"Fraunces",serif;font-size:16px;line-height:1.45;color:var(--ink)}
+.say-it::before{content:"\201C";color:var(--gold)}
+.say-it::after{content:"\201D";color:var(--gold)}
+.position-it{font-size:13px;line-height:1.55;color:var(--ink-2);margin-top:7px}
+.position-it .pos-tag{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.07em;color:var(--gold);margin-right:8px}
+.ref-list{display:flex;flex-direction:column;gap:14px}
+.ref-group{display:flex;flex-direction:column;gap:6px}
+.ref-cat{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--purple)}
+.ref-row{display:flex;align-items:flex-start;gap:12px;padding:9px 12px;border:1px solid var(--border);border-radius:8px;background:var(--surface)}
+.ref-row > div{flex:1}
+.ref-link{color:var(--purple);font-weight:600;font-size:13.5px;text-decoration:none}
+.ref-link::after{content:" \2197";font-size:11px}
+.ref-link:hover{text-decoration:underline}
+.ref-note{display:block;font-size:12px;color:var(--ink-3);margin-top:2px}
+.ref-save{flex:none;background:var(--surface-2);border:1px solid var(--border);color:var(--ink-2);font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.03em;padding:6px 10px;border-radius:6px;cursor:pointer;transition:all .15s ease}
+.ref-save:hover{color:var(--ink);border-color:var(--border-2)}
+
 footer{border-top:1px solid var(--border);padding:34px 0 60px;color:var(--ink-3);font-size:13px}
 footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px}
 
