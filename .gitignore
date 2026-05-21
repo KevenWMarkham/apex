@@ -49,3 +49,7 @@ ENV/
 
 # IDE / agent state
 .claude/
+
+# Bicep build artifacts for the APEX-M GSSC Lab templates.
+# Each .bicep file produces a sibling .json on `az bicep build`.
+apex-m-gssc-lab/bicep/**/*.json
