@@ -15,6 +15,7 @@
 ## Notes for the executor
 
 - Hosts: **Keven** (Microsoft platform practitioner, 22 years on Microsoft, positions CFMP on APEX-M) and **Reid** (cross-cloud principal architect, honesty enforcer). Same character continuity as the Cross-Cloud Agentic series.
+- **Recurring Azure deployment thread.** Every episode names the Azure realization of its surface (Container Apps `ca-visionkit-mobile` / `ca-visionkit-portal` / `ca-visionkit-orchestrator` in East US 2, Azure Speech for TTS, Blob `stapexdemo50097/audio-out`, Postgres for the state store, the Sonos Cloud Control API as an external integration). Each episode's `## Further reading` includes a **Live architecture** entry with the canonical URL: `https://ca-visionkit-portal.gentlestone-9b49b099.eastus2.azurecontainerapps.io/architecture`. Episode 2 (Agent fleet & audit chain) anchors the deployment topology; Episode 5 (Portal) features the page as the seller's screen-share artifact.
 - Content discipline: generic on-tape — no real retailer names (use "the retailer"); fictional design personas (Sarah, Robert, Diana, Marcus) keep their names; Independence-minded; framework = "the Acceleration Framework", APEX = Microsoft's productized realization; no co-sell / partner / alliance / strategic-partnership vocabulary.
 - Episode structure (every episode follows): `# Title` · YAML-ish header (kicker, hosts, runtime, principles) · `## Cold Open` · `## The conversation` with `### ` sub-sections (5–8) · `### A reading I want to do` (Reid) · `### One disagreement` · `### What to carry forward` · `## Further reading` (categorised list of source docs / external references).
 - Speaker lines use `**KEVEN:**` and `**REID:**` markers; bracketed stage directions in `[brackets]`; emphasis with `**bold**` sparingly.
@@ -112,13 +113,14 @@ git commit -m "feat: CFMP podcast show bible"
 
 **Cold Open seed:** A regulator asks the CFMP team to reproduce a recommendation made six weeks ago for a customer. Three minutes later, the trace is on the screen — every tool call, every model version, every human override.
 
-**Section beats** (six sub-sections):
+**Section beats** (seven sub-sections):
 1. What the agent fleet is — gpt-5-mini parent + specialist children (Trips, Replenish, Coupons, Pharmacy, etc.); why parent-child rather than one big agent.
 2. The MCP boundary — every agent tool call hits a composed Gold view, never raw source.
 3. The LedgerRow — the categories, the schema, why "every action is a row" is the design's central commitment.
 4. Trace-ID propagation — how a single trace ties Mobile → Portal → Sonos → ledger so a regulator's question lands in one query.
 5. Replay — what a ledger replay actually proves and what it doesn't.
-6. The pivot to Microsoft — Purview Audit, Foundry observability, DSPM for AI — the productized stack on APEX-M; honest about where AWS/GCP would build it themselves.
+6. **The Azure deployment topology** — Container Apps `ca-visionkit-mobile`, `ca-visionkit-portal`, `ca-visionkit-orchestrator` in East US 2; Azure Speech for TTS; Blob `stapexdemo50097/audio-out`; Postgres as the state store; Sonos Cloud Control API as an external integration. Reid walks through the live `/architecture` page as Keven narrates how the cold open's regulator-replay question lands a trace across exactly these services.
+7. The pivot to Microsoft — Purview Audit, Foundry observability, DSPM for AI — the productized stack on APEX-M; honest about where AWS/GCP would build it themselves.
 
 **Reid's reading** — audit chain / hash-chain literature (e.g., classic Merkle trees in operational systems).
 
@@ -211,7 +213,7 @@ git commit -m "feat: CFMP podcast show bible"
 
 **Section beats:**
 1. Who the Portal is for — operator personas; the seller / demo persona; the retailer-tenant admin (later).
-2. The architecture view — the live `/architecture` page; what it shows; why it's a deliberate seller artifact.
+2. **The `/architecture` page in detail** — the live URL `https://ca-visionkit-portal.gentlestone-9b49b099.eastus2.azurecontainerapps.io/architecture` walked through end-to-end: the three Container Apps, Azure Speech, Blob, Postgres, the agent-fleet panel, the audit-chain panel, the Sonos Cloud Control external dependency, the East US 2 region, what each box on the diagram does. Why it's a deliberate seller artifact: "open the URL on a client call, the architecture argument is already on the screen."
 3. The chat panel — operator-in-the-loop; trace-ID-anchored chat; mirror of speaker cues (per Mendez "no silent side effects").
 4. The Vision Kit / camera integration — what the operator sees of in-store devices.
 5. B2B retailer multi-tenant — v1 home-only; v2 retailer-tenant Sonos provisioning; the SOC 2 scope from S0.

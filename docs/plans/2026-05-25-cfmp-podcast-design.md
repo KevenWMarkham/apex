@@ -41,6 +41,16 @@ Two audiences served by one arc:
 - **CFMP project team & new hires.** The series doubles as onboarding — the personas, the architecture, the design decisions, the expert cast. A new engineer or designer who listens to all 8 episodes knows why every concept exists.
 - **Deloitte Account Teams positioning CFMP.** The series is pivotable to a client conversation — the openers, the value framing, the architecture-first move that earns the platform recommendation. Episode 8 is built for them.
 
+## Azure deployment architecture — a thread through the series
+
+Every episode names the Azure realization of the surface it covers. The live `/architecture` page — `https://ca-visionkit-portal.gentlestone-9b49b099.eastus2.azurecontainerapps.io/architecture` — is the **canonical visual reference** for the seller; it shows the Azure Container Apps topology (mobile, portal, orchestrator), Azure Speech, Blob storage, Postgres, the agent fleet, the APEX audit chain, the Sonos Cloud Control API as an external integration, and the East US 2 region. The series uses this page as:
+
+- **Episode 2's deployment-topology anchor** — Reid screen-shares the page (in the visual companion / show notes) while Keven walks through the four-layer stack on Azure-native infrastructure. The cold open's regulator-replay question lands a trace across exactly these services.
+- **Episode 5's hero artifact** — the Portal episode features the `/architecture` page directly. Keven describes it as a deliberate seller artifact: "open the URL on a client call, and the architecture argument is already on the screen."
+- **A recurring reference in every other episode** — Mobile (3, 4) names `ca-visionkit-mobile`; Sonos (6) names the orchestrator's outbound to `control.api.sonos.com` and the Azure Speech + Blob pipeline; Identity (7) names Entra and the storage of the OAuth refresh token; the Playbook (8) cites the URL as the seller's opening visual.
+
+Each episode includes the live URL in its `## Further reading` block under a "Live architecture" heading.
+
 ## Content discipline
 
 - Generic on-tape — no real retailer names; "the retailer" stands in for Kroger and any others mentioned in the source docs. The fictional design personas (Sarah, Robert, Diana, Marcus) keep their names; they are not real people.
