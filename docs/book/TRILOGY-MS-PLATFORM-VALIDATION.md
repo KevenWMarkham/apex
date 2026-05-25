@@ -234,3 +234,30 @@ Then, in the next pass:
 The trilogy's Microsoft-platform spine is **structurally sound**. The fixes are surgical — API versions, role names, one builder-API rename, a hosting-fabric clarification, and the new-DSPM-for-AI distinction. With the priority-1 through priority-5 edits applied, the Microsoft-platform content is ready for Account Team review. The additions in §4 are value-adds, not corrections — sequence them based on which Account Team conversations you are closest to.
 
 — Keven
+<!-- CFMP-V0.2-ADDENDUM -->
+
+## CFMP v0.2 — APEX-M validation update (2026-05-23)
+
+The APEX-M platform-validation matrix now includes a seventh Industry Pack: **Customer Focused Merchandise (CFMP) v0.2**, the first Pack organized around a customer-moment spine.
+
+### What's validated as of Phase 1 live
+
+- **Microsoft Agent Framework 1.6.0 (GA)** running gpt-5-mini against Azure OpenAI (Responses API, `api_version=v1`). Provider toggle to Anthropic verified in code.
+- **apex_audit / apex_purview** vendored packages stamp a 14-field signed LedgerRow per `/agent/ask` and emit Atlas-shaped lineage edges (mcp→agent, agent→orchestration, orchestration→audit).
+- **Azure Speech** (`en-US-AvaMultilingualNeural`) STT + TTS via `/agent/tts`.
+- **Azure Container Apps** consumption-plan deployment (portal + orchestrator + ACR + cae-visionkit environment) in `rg-iot-visionkit` / `Global_RnD_Agentic_MERCH`.
+- **PostgreSQL + pgvector** backing the 800-product MERML-aligned catalog with IVFFlat index and `+0.15` priced-row bias.
+- **HITL consent gate** firing on cart-add ≥ $50 (configurable threshold).
+
+### Proposed Interface #15 — Maps & Wayfinding
+
+APEX-M binding: **Azure Maps Creator** (Indoor Maps + Wayfinding REST + Web SDK). Local `storemap.yaml` fallback active in `orchestrator/azure_maps.py` today; production activation on `DEMO_AZURE_MAPS_DATASET_ID` + key.
+
+### Companion artifacts
+
+- `docs/packs/CFMP-v0.2.md` — Pack design document
+- `docs/packs/CFMP-Scenario-Chains-v0.2.xlsx` — 18-scenario workbook
+- `docs/packs/APEX-Architecture-v5.1-with-CFMP-chapter.docx` — parent arch doc with new Chapter 26
+- Live demo: <https://ca-visionkit-portal.gentlestone-9b49b099.eastus2.azurecontainerapps.io/architecture>
+
+<!-- /CFMP-V0.2-ADDENDUM -->
