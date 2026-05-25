@@ -9,7 +9,7 @@
 
 ## What this series is
 
-An eight-episode scripted, two-host conversational podcast on the **Customer Focused Merchandise Pack (CFMP)** — the agent-powered, multi-surface grocery and loyalty system Deloitte has designed for clients on the Microsoft platform. The series teaches the design from first principles: who it's for, what it is, how it's built, why it's safe, and how a Microsoft seller positions it.
+A nine-episode scripted, two-host conversational podcast on the **Customer Focused Merchandise Pack (CFMP)** — the agent-powered, multi-surface grocery and loyalty system Deloitte has designed for clients on the Microsoft platform. The series teaches the design from first principles: who it's for, what it is, how it's built, why it's safe, and how a Microsoft seller positions it.
 
 **One-line pitch.** *Grocery is the universal jobs-to-be-done. CFMP turns it from a chore into a managed system, on a vendor-neutral architecture (the Acceleration Framework) productized on Microsoft (APEX-M).*
 
@@ -25,8 +25,8 @@ An eight-episode scripted, two-host conversational podcast on the **Customer Foc
 
 Two audiences served by one arc:
 
-1. **The CFMP project team and new hires.** The series doubles as onboarding. A new engineer or designer who listens to all eight episodes understands why every concept exists, who shaped each decision, and what tradeoffs were considered.
-2. **Deloitte Account Teams positioning CFMP.** The series is pivotable to a client conversation — discovery openers, honest claims, pushback handling, the architectural pitch. Episode 8 is built directly for the field.
+1. **The CFMP project team and new hires.** The series doubles as onboarding. A new engineer or designer who listens to all nine episodes understands why every concept exists, who shaped each decision, and what tradeoffs were considered.
+2. **Deloitte Account Teams positioning CFMP.** The series is pivotable to a client conversation — discovery openers, honest claims, pushback handling, the architectural pitch. Episode 9 is built directly for the field.
 
 Every episode includes both framings — architecture-honest enough for the team, seller-pivotable for the field.
 
@@ -60,8 +60,9 @@ The dynamic: Keven leads with the design; Reid sharpens it; the listener gets a 
 | 04 | Mobile · Trips, Replenish, and the home channel | Trip life-cycle; auto-replenish; the home channel; preferences; UI revamp |
 | 05 | Portal · operator console & B2B multi-tenant | The Portal as seller artifact; deep walk-through of the live `/architecture` page; chat panel; vision-kit integration; retailer multi-tenant |
 | 06 | Sonos · the ambient voice channel | Voice as a peer channel; the Cue, the Cue Bus, the Zone; ducking; AirPlay-bridge fallback; Azure-native deployment |
-| 07 | Identity, consent, HIPAA & senior accessibility | Four-identity chain; Adebayo on consent; Chen on HIPAA gating; Yamamoto on senior accessibility; Russo on AirPlay audit-tagging |
-| 08 | The seller's playbook — CFMP on APEX-M | The architectural pitch; six discovery openers; honest claims and overclaims; pushback handling; the roadmap; the close |
+| 07 | Fulfillment · the plug-in tier | The FulfillmentProvider ABC; the ProviderQuote shape; quote-aggregator fan-out; recommendation score; substitution flow with dietary-safety enforced at search; mocks as real architecture |
+| 08 | Identity, consent, HIPAA & senior accessibility | Four-identity chain; Adebayo on consent; Chen on HIPAA gating; Yamamoto on senior accessibility; Russo on AirPlay audit-tagging |
+| 09 | The seller's playbook — CFMP on APEX-M | The architectural pitch; six discovery openers; honest claims and overclaims; pushback handling; the roadmap; the close |
 
 ## Episode format
 
@@ -189,6 +190,6 @@ Runtime target per episode: **38–42 minutes** (±5 min acceptable) at ~145 wpm
 
 ## Sign-off
 
-The series sign-off line (Episode 8 only): *"See you in the field."*
+The series sign-off line (Episode 9 only): *"See you in the field."*
 
 — end of show bible —

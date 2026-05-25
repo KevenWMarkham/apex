@@ -118,7 +118,7 @@ Why the page is a deliberate seller artifact. *Open this URL on a client call, t
 
 ### The vision-kit / camera integration
 
-**KEVEN:** The vision-kit. Brief, because Episode Seven walks the consent layer in full and Episode Six walks the room-acoustic layer the cameras feed into. Today we name what the operator sees of the in-store and in-home device fleet when the Portal is deployed at retailer scale.
+**KEVEN:** The vision-kit. Brief, because Episode Eight walks the consent layer in full and Episode Six walks the room-acoustic layer the cameras feed into. Today we name what the operator sees of the in-store and in-home device fleet when the Portal is deployed at retailer scale.
 
 **REID:** Walk it briefly.
 
@@ -128,9 +128,9 @@ Why the page is a deliberate seller artifact. *Open this URL on a client call, t
 
 **KEVEN:** At retailer scale — when v2 ships and a retailer onboards a store — the camera tiles include the store's counter-scan cameras, the pickup-lane license-plate readers, the back-of-house picker cameras. Same property — the operator sees the inference, not the frames. The retailer's privacy posture is preserved by construction. The agent fleet's Trips specialist uses the presence inference to time the *pickup-ready* cue; the Concierge specialist uses the in-store presence to suppress proactive nudges in a crowded aisle. The vision-kit feeds the agents; the operator reads the same inference stream the agents reason on. Same substrate, two readings.
 
-**REID:** And the cross-reference to Episode Seven.
+**REID:** And the cross-reference to Episode Eight.
 
-**KEVEN:** Episode Seven walks the consent layer for the cameras — the four-identity chain that distinguishes a household-owned camera, a delegated camera with caregiver consent, a retailer-owned in-store camera, and a public-space camera the design refuses to integrate with at all. The vision-kit panel respects all four. The operator's view of a household-owned camera is permitted under the household's consent; the operator's view of a retailer-owned in-store camera is permitted under the retailer's onboarding agreement; the operator never sees a frame, period, in either case. The substrate is what enforces the property; the Portal panel is what makes the substrate legible. Episode Seven is the depth.
+**KEVEN:** Episode Eight walks the consent layer for the cameras — the four-identity chain that distinguishes a household-owned camera, a delegated camera with caregiver consent, a retailer-owned in-store camera, and a public-space camera the design refuses to integrate with at all. The vision-kit panel respects all four. The operator's view of a household-owned camera is permitted under the household's consent; the operator's view of a retailer-owned in-store camera is permitted under the retailer's onboarding agreement; the operator never sees a frame, period, in either case. The substrate is what enforces the property; the Portal panel is what makes the substrate legible. Episode Eight is the depth.
 
 **REID:** Said cleanly. The vision-kit is the operator's eye on the device fleet, with the privacy boundary preserved by the inference-only handoff. Move to multi-tenant.
 

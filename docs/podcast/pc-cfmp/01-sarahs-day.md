@@ -66,7 +66,7 @@ That is Sarah's week. Five distinct frictions. Five different moments where the 
 
 **REID:** The composability claim only holds if the constraints are *first-class* — if peanut-free is a structured attribute the agent reasons about. Is it?
 
-**KEVEN:** It is. The dietary policy is a row in the household profile with version history. The agent reads it on every compose. Episode seven walks the consent and HIPAA story.
+**KEVEN:** It is. The dietary policy is a row in the household profile with version history. The agent reads it on every compose. Episode eight walks the consent and HIPAA story.
 
 **KEVEN:** Thursday. The wilted romaine. Four dollars in the trash. The CFMP answer is *the PantryLot* — a lot that comes into existence the moment a delivery is received, with each item carrying its provenance and its expected shelf life. The agent is allowed to *nudge* when something is approaching its end. Wednesday morning Sarah gets a soft prompt: the romaine will be best used tonight. Want to swap tomorrow's meal? She taps yes. The meal plan shifts. The romaine becomes dinner.
 
@@ -96,7 +96,7 @@ That is Sarah's week. Five distinct frictions. Five different moments where the 
 
 **KEVEN:** Diana Park. Forty-four. Robert's daughter. The proxy. She has her own household and on top of that she carries the cognitive load of monitoring her father's. Diana is the *delegation* archetype. She introduces the four-identity chain — Diana acting on behalf of Robert, with the audit chain recording who took the action on whose behalf, and the consent boundary blocking pharmacy information from crossing into Diana's view. Without Diana, the senior population becomes unreachable the moment they can no longer manage their own grocery.
 
-**REID:** Diana forces the HIPAA-adjacency conversation into episode one. Pharmacy data is regulated. The CareLot pattern makes the delegation safe. Episode seven walks it; we name it here because Diana exists.
+**REID:** Diana forces the HIPAA-adjacency conversation into episode one. Pharmacy data is regulated. The CareLot pattern makes the delegation safe. Episode eight walks it; we name it here because Diana exists.
 
 **KEVEN:** Marcus Thompson. Thirty-five. The coordinator. Books a cabin every year for himself and four friends. Marcus is the *displacement* archetype — the persona that proves the household is not a fixed address. He needs a lot that follows him, that friends co-edit, that splits payment, that stages deliveries against the property, that closes out cleanly when the trip ends. Without Marcus, the design assumes one household at one address, and the entire StayLot capability does not exist.
 

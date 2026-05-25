@@ -1,8 +1,8 @@
-# Episode 07 · Identity, Consent, HIPAA & Senior Accessibility
+# Episode 08 · Identity, Consent, HIPAA & Senior Accessibility
 
-**Episode 07 · Identity, consent, HIPAA & senior accessibility** — six-thirty on a Tuesday evening. Diana drops in on her father Robert. The kitchen speaker is mid-cue, naming his prescription, when the vision kit on the counter sees a second silhouette walk in. The drug name redacts in flight. The cue resumes with a vaguer phrasing. The ledger row records the original cue and the redacted-as-delivered cue side by side. Diana hears the speaker; she does not hear the drug name. Robert says *yes*. We open on the moment four cross-cutting safety layers — Adebayo, Chen, Yamamoto, Russo — all fire at once on a ten-second exchange, and then we walk the substrate that made them compose rather than fight.
+**Episode 08 · Identity, consent, HIPAA & senior accessibility** — six-thirty on a Tuesday evening. Diana drops in on her father Robert. The kitchen speaker is mid-cue, naming his prescription, when the vision kit on the counter sees a second silhouette walk in. The drug name redacts in flight. The cue resumes with a vaguer phrasing. The ledger row records the original cue and the redacted-as-delivered cue side by side. Diana hears the speaker; she does not hear the drug name. Robert says *yes*. We open on the moment four cross-cutting safety layers — Adebayo, Chen, Yamamoto, Russo — all fire at once on a ten-second exchange, and then we walk the substrate that made them compose rather than fight.
 
-**Builds on:** the show bible (00-show-bible-and-format) · Episodes 01–06 · CFMP Mobile Design Document §4.5, §4.7, §8 in full · CFMP Sonos Design Document §4.7, §6.7, §8.1, §8.6, §8.7, §8.9 · CFMP Mobile Identity & Onboarding · CFMP Mobile Entra External ID Provisioning Runbook
+**Builds on:** the show bible (00-show-bible-and-format) · Episodes 01–07 · CFMP Mobile Design Document §4.5, §4.7, §8 in full · CFMP Sonos Design Document §4.7, §6.7, §8.1, §8.6, §8.7, §8.9 · CFMP Mobile Identity & Onboarding · CFMP Mobile Entra External ID Provisioning Runbook
 **Run time:** ≈ 42 minutes target
 **Last updated:** 2026-05-25
 
@@ -24,7 +24,7 @@ The ledger row records both halves. *Composed text — Robert, your Lisinopril i
 
 **REID:** And the moment turns on four cross-cutting layers firing on the same ten seconds. Adebayo on the consent that made the caregiver-share channel exist. Chen on the drug-name gating that rewrote the cue mid-sentence. Yamamoto on the senior-zone defaults that made the Era 100 the surface Robert hears at all. Russo on the channel field that recorded *sonos_cloud* in the ledger row, not *mobile_airplay*, because the cue was high-risk and the bridge was not allowed. Four experts. Ten seconds. One audit chain. The trust substrate IS the architecture today.
 
-**KEVEN:** Welcome back to the CFMP Podcast. Episode Seven. *Identity, consent, HIPAA, and senior accessibility.* In Episode Six we walked the speaker channel as ambient. Today we walk the substrate beneath the speaker. The four-identity chain. The consent gradient. The HIPAA gating. The senior-accessibility defaults. The AirPlay-channel audit tagging that names the bridge as a feature *and* a known-blindspot in the same ledger row.
+**KEVEN:** Welcome back to the CFMP Podcast. Episode Eight. *Identity, consent, HIPAA, and senior accessibility.* In Episode Six we walked the speaker channel as ambient. Today we walk the substrate beneath the speaker. The four-identity chain. The consent gradient. The HIPAA gating. The senior-accessibility defaults. The AirPlay-channel audit tagging that names the bridge as a feature *and* a known-blindspot in the same ledger row.
 
 **REID:** Six sub-sections. A reading, a disagreement, three carries. Let's go.
 
@@ -230,7 +230,7 @@ The `sonos_zones` table's `purpose` field — `default`, `presence`, `mobile-bri
 
 ### What to carry forward
 
-**KEVEN:** Three things into Episode Eight. Numbered.
+**KEVEN:** Three things into Episode Nine. Numbered.
 
 **KEVEN:** *One — the trust substrate IS the architecture.* Identity, consent, HIPAA, accessibility are first-class architecture decisions, encoded in the cue object's fields, in the ledger row's mandatory channel, in the Postgres tenancy isolation, in the Preference Center's class-separated toggles. Not bolted on. Adebayo on consent, Chen on HIPAA, Yamamoto on accessibility, Russo on the channel audit-tag — four cross-cutting layers, one audit chain. Every layer is a *test*, not a *promise*. Carry that.
 
@@ -238,7 +238,7 @@ The `sonos_zones` table's `purpose` field — `default`, `presence`, `mobile-bri
 
 **KEVEN:** *Three — tag the channel.* AirPlay is a feature; the bridge is a feature; the bridge is *also* a known-blindspot, named explicitly in the ledger row's channel field. `sonos_cloud`, `mobile_airplay`, `mobile_local`, `portal_mirror`, `caregiver_parallel` — each a first-class value, each on every row. High-risk cues refuse the bridge. The architecture prefers silence-the-customer-can-audit to speech-the-substrate-cannot-verify. The seller carries the line — *the bridge is a feature AND a known-blindspot, named explicitly* — and the listener trusts the architecture more, not less, because the gap is on the row. The live architecture page at `https://ca-visionkit-portal.gentlestone-9b49b099.eastus2.azurecontainerapps.io/architecture` carries the channel-tagging in the audit chain panel; open it on a client call when the question comes up. Carry that.
 
-**REID:** Three carries. The trust substrate IS the architecture. The Preference Center is the kill switch. Tag the channel. Into Episode Eight.
+**REID:** Three carries. The trust substrate IS the architecture. The Preference Center is the kill switch. Tag the channel. Into Episode Nine.
 
 **KEVEN:** Next episode — *the seller's playbook. CFMP on APEX-M.* The architectural pitch, the six discovery openers, the honest claims and the overclaims, the pushback handling, the roadmap, the close. Seven episodes land in the field, with a script the Account Team carries into the Monday-morning client call. Today we walked the safety substrate that makes the speaker deployable in a senior's kitchen. Next episode we walk the substrate that makes the architecture sellable in a Microsoft seller's account-plan.
 
@@ -266,6 +266,6 @@ The `sonos_zones` table's `purpose` field — `default`, `presence`, `mobile-bri
 - **Industry / research**
   - Nielsen Norman Group on accessibility — Sarah Gibbons's articles and the *Web Accessibility for Older Users* guideline are the practitioner-side companion to Yamamoto's framing. The principle that accessibility tests for temporary, situational, and permanent disabilities — the principle that makes the senior defaults general-case defaults under the right conditions.
   - AARP technology-adoption studies — the annual *Tech Trends and the 50-Plus* report is the longitudinal data source the senior-accessibility defaults are calibrated against. The smart-speaker chapter from the twenty-twenty-five report is the source Yamamoto's volume, cadence, and quiet-hours defaults derive from.
-- **Sibling series cross-reference** — Cross-Cloud Agentic Episode 07 — the framework-level treatment of identity continuity, consent gradients, and audit-substrate disciplines across AWS Cognito, Google Identity Platform, and Microsoft Entra. The Acceleration Framework principle this episode realizes on Microsoft.
+- **Sibling series cross-reference** — Cross-Cloud Agentic Episode 04 — *Governance, Identity & Safety* — the framework-level treatment of identity continuity, consent gradients, and audit-substrate disciplines across AWS, Google Cloud, and Microsoft. The Acceleration Framework principle this episode realizes on Microsoft.
 
-— end of episode 07 —
+— end of episode 08 — Episode 09 (the seller's playbook) closes the series —

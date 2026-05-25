@@ -1,8 +1,8 @@
-# Episode 08 · The Seller's Playbook — CFMP on APEX-M
+# Episode 09 · The Seller's Playbook — CFMP on APEX-M
 
-**Episode 08 · The seller's playbook — CFMP on APEX-M** — Friday afternoon. A real seller's inbox. The CIO of a prospect has asked the Account Team a single line: *Can CFMP run on AWS?* The Account Team wants the answer to be *yes*. The Independence-minded posture wants the answer to be *it depends — here is the honest version*. This is the moment the whole series has been pointing to. We close the series on the seller's working substrate — the architectural pitch, the six discovery openers, the five honest claims, the four overclaims to avoid, the six pushbacks handled in the room, when to recommend NOT Microsoft, the sprint roadmap, the Independence-minded close. Seven episodes of architecture compress into one Friday-afternoon working document. The pack is portable. The productization on Microsoft is what's denser. The seller earns the recommendation on merits. The series closes here.
+**Episode 09 · The seller's playbook — CFMP on APEX-M** — Friday afternoon. A real seller's inbox. The CIO of a prospect has asked the Account Team a single line: *Can CFMP run on AWS?* The Account Team wants the answer to be *yes*. The Independence-minded posture wants the answer to be *it depends — here is the honest version*. This is the moment the whole series has been pointing to. We close the series on the seller's working substrate — the architectural pitch, the six discovery openers, the five honest claims, the four overclaims to avoid, the six pushbacks handled in the room, when to recommend NOT Microsoft, the sprint roadmap, the Independence-minded close. Eight episodes of architecture compress into one Friday-afternoon working document. The pack is portable. The productization on Microsoft is what's denser. The seller earns the recommendation on merits. The series closes here.
 
-**Builds on:** the show bible (00-show-bible-and-format) · Episodes 01–07 · CFMP Mobile Design Document §9 (Roadmap), §10 (Open questions) · CFMP Sonos Design Document §9 (Roadmap), §10 (Open questions) · CFMP Mobile Roadmap · CFMP Sonos Roadmap · Cross-Cloud Agentic Episode 08 *The Seller's Playbook*
+**Builds on:** the show bible (00-show-bible-and-format) · Episodes 01–08 · CFMP Mobile Design Document §9 (Roadmap), §10 (Open questions) · CFMP Sonos Design Document §9 (Roadmap), §10 (Open questions) · CFMP Mobile Roadmap · CFMP Sonos Roadmap · Cross-Cloud Agentic Episode 08 *The Seller's Playbook*
 **Run time:** ≈ 42 minutes target
 **Last updated:** 2026-05-25
 
@@ -20,7 +20,7 @@ The seller stares at the screen. She knows the Acceleration Framework underneath
 
 [Sound: a coffee shop on a Friday afternoon, ambient. The cold-open vignette closes. Keven and Reid open the episode.]
 
-**KEVEN:** I want to start there. Friday afternoon. The seller's inbox. The CIO's question. *Can CFMP run on AWS?* That is the inbox question the entire series has been pointing at. Seven episodes of architecture, the audit chain, the agent fleet, the mobile and portal and Sonos surfaces, identity and consent and HIPAA — and the CIO asks the one question that decides whether the seller walks into Monday's meeting as an advisor or as a vendor representative.
+**KEVEN:** I want to start there. Friday afternoon. The seller's inbox. The CIO's question. *Can CFMP run on AWS?* That is the inbox question the entire series has been pointing at. Eight episodes of architecture, the audit chain, the agent fleet, the mobile and portal and Sonos surfaces, the fulfillment plug-in tier, identity and consent and HIPAA — and the CIO asks the one question that decides whether the seller walks into Monday's meeting as an advisor or as a vendor representative.
 
 **REID:** And the answer is not *yes*. And it is not *no*. It is the right version of *it depends*.
 
@@ -28,7 +28,7 @@ The seller stares at the screen. She knows the Acceleration Framework underneath
 
 **REID:** Said exactly that way. And the seller who can say that — out loud, on a Friday afternoon phone call, without flinching — earns the next conversation. The seller who says *yes of course it runs on AWS, our partners over there are great, let me make a connection* concedes the architecture conversation in the first sentence.
 
-**KEVEN:** Welcome to *The CFMP Podcast*. Episode Eight. *The seller's playbook — CFMP on APEX-M.* The series finale. We are going to walk what is on those three pages on the seller's desk. The architectural pitch. The six discovery openers. The five honest claims. The four overclaims to avoid. The six pushback-handling talking points. When to recommend NOT Microsoft. The sprint roadmap that turns the architecture into a calendar. The Independence-minded close. And then we close the series on a sign-off the show bible reserves for this one episode.
+**KEVEN:** Welcome to *The CFMP Podcast*. Episode Nine. *The seller's playbook — CFMP on APEX-M.* The series finale. We are going to walk what is on those three pages on the seller's desk. The architectural pitch. The six discovery openers. The five honest claims. The four overclaims to avoid. The six pushback-handling talking points. When to recommend NOT Microsoft. The sprint roadmap that turns the architecture into a calendar. The Independence-minded close. And then we close the series on a sign-off the show bible reserves for this one episode.
 
 **REID:** Eight sub-sections. A reading. A disagreement. Three carry-forwards. The sign-off. Let's go.
 
@@ -44,7 +44,7 @@ The seller stares at the screen. She knows the Acceleration Framework underneath
 
 **KEVEN:** Four layers. The seller draws this on a whiteboard with four boxes. *Top — the customer surface.* The Mobile PWA Sarah uses to scan a barcode and build a meal-plan lot. The Portal Priya uses to handle exceptions and answer the chat panel. The Sonos speaker Robert hears in the kitchen at six-thirty on a Tuesday evening when the cue starts to say *Lisinopril* and rewrites in flight to *an item*. Three surfaces. One pack. Mobile, Portal, Sonos.
 
-*Second from top — the application pack.* CFMP. The agent fleet from Episode Two — a parent orchestrator and a fleet of specialist children — Trips, Replenish, Coupons, Pharmacy, Concierge. The lot model from Episode Three — twelve kinds of lots across four stages. The home channel from Episode Four. The retailer multi-tenant scaffold from Episode Five. The cue and cue bus from Episode Six. The four-identity chain, the consent gradient, the HIPAA presence gating, and the senior accessibility defaults from Episode Seven. *That is the pack.* The pack is what Deloitte built; it is what is licensable, deployable, productizable.
+*Second from top — the application pack.* CFMP. The agent fleet from Episode Two — a parent orchestrator and a fleet of specialist children — Trips, Replenish, Coupons, Pharmacy, Concierge. The lot model from Episode Three — twelve kinds of lots across four stages. The home channel from Episode Four. The retailer multi-tenant scaffold from Episode Five. The cue and cue bus from Episode Six. The four-identity chain, the consent gradient, the HIPAA presence gating, and the senior accessibility defaults from Episode Eight. *That is the pack.* The pack is what Deloitte built; it is what is licensable, deployable, productizable.
 
 *Third from top — APEX-M.* Microsoft's productized realization of the Acceleration Framework. *Fabric for the Gold Tier.* OneLake. Bronze on landing, Silver canonical, Gold per-scenario. *Foundry for the agent runtime.* The orchestrator and the specialist children running as agent threads, the model catalog backing them, the evaluation harness on top. *Purview for the trust substrate.* The catalog, the lineage, the sensitivity classification, the DSPM-for-AI surface. *Entra for the identity continuity.* Customer, operator, source-system, auditor — four identities, one platform. *Cost Management for the FinOps story.* The four layers feed one bill. The seller names that.
 
@@ -70,7 +70,7 @@ The seller stares at the screen. She knows the Acceleration Framework underneath
 
 **REID:** Opener Three.
 
-**KEVEN:** *Opener Three — Identity continuity.* The seller asks — *"Is your identity reality one primary cloud with a federated SaaS workforce, or genuinely cross-cloud workloads?"* What it surfaces — the identity-continuity conversation. *One primary cloud* — Entra wins on enterprise SaaS federation; the four-identity chain from Episode Seven slots in cleanly. *Genuinely cross-cloud* — Workload Identity Federation on GCP is the strongest cross-cloud agent identity primitive; the seller concedes honestly and pivots to where Entra leads on SaaS. The architecture move that follows — Entra External ID for the customer, Entra workforce for the operator, Entra B2B guest for the auditor, federation for the source-system. One identity platform, four surfaces.
+**KEVEN:** *Opener Three — Identity continuity.* The seller asks — *"Is your identity reality one primary cloud with a federated SaaS workforce, or genuinely cross-cloud workloads?"* What it surfaces — the identity-continuity conversation. *One primary cloud* — Entra wins on enterprise SaaS federation; the four-identity chain from Episode Eight slots in cleanly. *Genuinely cross-cloud* — Workload Identity Federation on GCP is the strongest cross-cloud agent identity primitive; the seller concedes honestly and pivots to where Entra leads on SaaS. The architecture move that follows — Entra External ID for the customer, Entra workforce for the operator, Entra B2B guest for the auditor, federation for the source-system. One identity platform, four surfaces.
 
 **REID:** Opener Four.
 
@@ -100,11 +100,11 @@ The seller stares at the screen. She knows the Acceleration Framework underneath
 
 **REID:** Claim Three.
 
-**KEVEN:** *Claim Three — the audit chain is replayable, hash-chained, identity-stamped, and the trace_id propagates across surfaces.* Episode Two walked it; Episode Five walked it on the live `/architecture` page; Episode Seven walked the cross-surface case where a single ten-second moment produces a Mobile compose, a Sonos cue, a redacted Sonos cue, and a caregiver mobile ping — all four bound by a shared trace identifier, all four written into the ledger, all four replayable in three minutes when a regulator asks. *Eight hops per cue, fourteen fields per row, HMAC-SHA256 chain, append-only retention.* True; verifiable; the seller can point the architect at the URL.
+**KEVEN:** *Claim Three — the audit chain is replayable, hash-chained, identity-stamped, and the trace_id propagates across surfaces.* Episode Two walked it; Episode Five walked it on the live `/architecture` page; Episode Eight walked the cross-surface case where a single ten-second moment produces a Mobile compose, a Sonos cue, a redacted Sonos cue, and a caregiver mobile ping — all four bound by a shared trace identifier, all four written into the ledger, all four replayable in three minutes when a regulator asks. *Eight hops per cue, fourteen fields per row, HMAC-SHA256 chain, append-only retention.* True; verifiable; the seller can point the architect at the URL.
 
 **REID:** Claim Four.
 
-**KEVEN:** *Claim Four — the consent gradient and the HIPAA presence-gating are real, defensible, in code.* Four classes of consent — data, voice, presence, caregiver-share — each separately recorded, separately scoped, separately revocable. The presence gate from Episode Seven that rewrote the Lisinopril cue mid-syllable to *an item* when the kitchen occupancy changed from one to two — not a marketing diagram; the rewrite happens in the Pharmacy specialist's pipeline, fires off the presence service, gets recorded in the ledger row with *suppression_reason: presence_count_change, hipaa_gate*. The senior accessibility defaults — Yamamoto's per-zone volume and cadence overrides — in code, configurable, audited. *The consent surface is real software, not slides.*
+**KEVEN:** *Claim Four — the consent gradient and the HIPAA presence-gating are real, defensible, in code.* Four classes of consent — data, voice, presence, caregiver-share — each separately recorded, separately scoped, separately revocable. The presence gate from Episode Eight that rewrote the Lisinopril cue mid-syllable to *an item* when the kitchen occupancy changed from one to two — not a marketing diagram; the rewrite happens in the Pharmacy specialist's pipeline, fires off the presence service, gets recorded in the ledger row with *suppression_reason: presence_count_change, hipaa_gate*. The senior accessibility defaults — Yamamoto's per-zone volume and cadence overrides — in code, configurable, audited. *The consent surface is real software, not slides.*
 
 **REID:** Claim Five.
 
@@ -304,4 +304,4 @@ The seller stares at the screen. She knows the Acceleration Framework underneath
   - A positioning *architecture-first versus product-first* read of the 2026 B2B technology-sales bifurcation — the architecture-first motion is the long-game seller's edge; pairs with Christensen as the rigorous companion to the narrative argument
   - Tony Ulwick — *Turn Customer Input into Innovation* (Harvard Business Review, January 2002) — the rigorous outcomes-driven version of the jobs-to-be-done framing the seller can use to structure the discovery openers
 
-— end of episode 08 — end of *The CFMP Podcast* — series complete —
+— end of episode 09 — end of *The CFMP Podcast* — series complete —
