@@ -47,159 +47,149 @@ The ledger row records both halves. *Composed text — Robert, your Lisinopril i
 
 ## The conversation
 
-### Identity — the four-identity chain
+### Identity — the four people the system has to know about
 
-**KEVEN:** Start with identity. Every other layer is conditioned on identity — consent is consent of whom to whom, HIPAA is HIPAA-of-whom, accessibility is accessibility-for-whom. If identity is fuzzy, the rest is a marketing diagram.
+**KEVEN:** Start with the four people in the moment from the cold open. *Robert at the counter, the casserole-bringing daughter who just walked in, the pharmacy on the other side of the country that has Robert's prescription on file, and the regulator who six weeks from now might ask the system what it said and didn't say.* Every layer of safety we walk today is conditioned on the system knowing those four — *who they are, what they're allowed to see, and how to record what happened.* If identity is fuzzy, the rest is a marketing diagram.
 
-**REID:** Walk the chain.
+**REID:** Walk the four.
 
-**KEVEN:** Four identities, all distinct, all traceable. *One — customer.* Robert. His member number is `KP-2089-44531`, bound to his customer profile from his phone-OTP at T1, bound to his WebAuthn passkey at T2, bound to his Sonos household via the OAuth grant he and Diana walked through eight months ago. The Sonos household record carries his member number, his default zone, his consent-recorded-at timestamp. The cue addresses Robert by name because the cue knows Robert is the audience.
+**KEVEN:** *Robert — the customer.* Bound to the system by his phone number on day one, by a passkey he set up later, by the OAuth grant he and Diana walked through eight months ago to pair the kitchen speaker. The speaker addresses him by name because the system knows he's the audience.
 
-*Two — operator.* Priya from Episode Five's cold open. Deloitte-staffed in v1; retailer-tenant role inside the Portal's multi-tenant scaffold in v2. Priya owns an *operator* credential — federated through Entra workforce, scoped to customer-operations, with corporate-IP allowlist on the Container Apps ingress. When Priya opens Robert's trace at seven-fifteen, the Portal logs her as the *viewer*, not the *actor*. The audit chain distinguishes the operator who looked from the customer who acted.
+*Priya — the operator.* From Episode Five. Federated through her employer's identity surface, scoped to customer operations, recognized by the corporate network. When she opens Robert's trace at seven-fifteen Monday morning, the system logs her as *the viewer*, not *the actor.* *The audit chain distinguishes the operator who looked from the customer who acted.*
 
-*Three — source-system.* The pharmacy partner's system-of-record. The pharmacy holds the prescription; the CFMP Pharmacy specialist receives a refill-window signal — *Lisinopril, ten milligrams, refill due Friday* — through an MCP boundary, with the source-system identity tagged on the call. The ledger row records the source. If a regulator asks *where did the system get the drug name*, the answer is on the row — *source-system: pharmacy-partner, record-id: Rx-77831*. The drug name did not come from a hallucination. The system of record is named.
+*The pharmacy — the system that holds the prescription.* The pharmacy holds Robert's prescription record. The CFMP system receives a refill-window signal from the pharmacy with the pharmacy's identity tagged on the call. The record on the audit trail says *source: the pharmacy.* *If a regulator asks where the drug name came from, the answer is on the row — not from a hallucination, from the system of record.*
 
-*Four — auditor.* The regulator from Episode Two. A read-only identity in the Portal, scoped to the audit-export surface, federated through the customer's Entra tenant or through a Deloitte Independence-side federation depending on the engagement. When the auditor opens the trace, the Portal logs the access. The audit substrate audits its own auditors. Adebayo's discipline, made structural.
+*The auditor — the regulator who six weeks from now might be asking.* A read-only identity, time-bound, scoped to the audit-export surface. When she opens the trace, the system records her access. *The audit substrate audits its own auditors.*
 
 **REID:** And the property the chain has to hold.
 
-**KEVEN:** *Each identity is independently revocable, independently auditable, and never compounded into a master credential.* Robert can revoke Diana's caregiver-share without revoking his member number. The operator credential rotates without disturbing the customer. The source-system rotates on the pharmacy's schedule. The auditor is per-engagement, time-bound. *No single credential opens all four doors.*
+**KEVEN:** *Each identity is independently revocable, independently auditable, never compounded into a master credential.* Robert can revoke Diana's caregiver share without revoking his own membership. Priya's credential rotates without disturbing Robert. The pharmacy rotates on its own schedule. The auditor is per-engagement, time-bound. *No single key opens all four doors.*
 
-**REID:** And Entra continuity.
+**REID:** And the Microsoft realization.
 
-**KEVEN:** The Acceleration Framework's *Identity Continuity* principle realized on Microsoft. The customer identity lives in Entra External ID — the CIAM tenant the Provisioning Runbook walks through, phone-OTP at the verification ceremony, member number minted CFMP-side, session token issued by the orchestrator. The operator identity lives in the customer's Entra workforce tenant. The auditor identity lives in Entra B2B — guest user, time-bound. The source-system OAuth client federates *to* Entra for outbound consent. *Four identity surfaces, one platform, one continuity story.*
+**KEVEN:** All four identities live on the same identity platform — *Microsoft Entra* in its different surfaces. The customer's identity lives in the consumer-facing surface. The operator's lives in her employer's workforce surface. The auditor's lives in a guest-user surface, time-bound. The pharmacy's outbound consent federates to the same platform. *Four identity surfaces, one platform, one continuity story.* The customer's identity in the larger Microsoft 365 surface she may already use is the same identity that signs into the Preference Center.
 
-**REID:** And here I press. Where does the chain break in v1?
+**REID:** And here I press, on Sarah's behalf — *does the customer feel the boundary, or does she just trust the brand?* Because four-identity-chain is the kind of phrase nobody outside this room would care about. Why does it matter to Robert?
 
-**KEVEN:** Honest answer. *In v1, the source-system identity for the pharmacy partner is a manually-rotated OAuth client credential, not yet federated through Entra B2B.* The credential lives in Key Vault, rotated manually on a ninety-day schedule, with the rotation event logged. The audit chain records the source-system correctly — the row says *source-system: pharmacy-partner* — but the underlying credential is not yet on the same federation rails as the other three. That gap is named, on the roadmap, closed in v2.
+**KEVEN:** Because *the day Diana revokes her caregiver-share access — say she's stopped checking the notifications and wants to stop receiving them — Robert's experience doesn't change.* His refills still arrive. His speaker still speaks. The pharmacy still gets its signals. *Diana's revocation touches Diana's identity, not Robert's.* The customer feels the boundary in the most useful way — *the boundary doesn't break things she didn't ask to break.*
 
-**REID:** Named gap. Aspired in v1, enforced in v2, recorded honestly. Move to consent.
+**REID:** And honestly — where does the chain break in v1?
 
-### Consent — the consent gradient
+**KEVEN:** The pharmacy's identity is a manually-rotated key, not yet on the same federation rails as the other three. The record on the audit trail says *source: the pharmacy*, but the underlying credential is on a separate rotation schedule. *That gap is named, on the roadmap, closed in v2.*
 
-**KEVEN:** Consent tells us *what they have agreed to*. Read Adebayo first.
+**REID:** Named gap. Aspired today, enforced in v2, recorded honestly. Move to consent.
 
-**REID:** *"Speech is data. A voice in a household is observation. Every speaker bound to a member requires recorded consent and a kill-switch in Preference Center."* Adebayo, verbatim, Sonos Section Eight-Point-One.
+### Consent — what Robert agreed to
 
-**KEVEN:** Four classes of consent, each separately scoped, each separately revocable.
+**KEVEN:** Consent tells us *what each person in the chain agreed to.* The line from one of the design team — Adebayo — landed it cleanly: *speech is data. A voice in a household is observation. Every speaker bound to a customer requires recorded consent and a kill switch in the Preference Center.* Four classes of consent, each separately scoped, each separately revocable.
 
-*Data consent.* The customer agrees that CFMP can store data — lots, profile, dietary flags, household composition, shopping history. The consent given at T1 phone-OTP, with the Privacy Notice published before the sign-in lands. Revocable only by erasure — UC-108, biometric-gated for T2, phone-OTP-gated for T1. Erasure is the nuclear option. Data consent is the bottom of the gradient.
+**REID:** Walk the four.
 
-*Voice consent.* The customer agrees that CFMP can speak in the household. The OAuth grant the customer walks through to bind a Sonos household to her member number. The consent record lives in `sonos_consent_log` — append-only, sealed into the audit substrate. Revoked in the Preference Center by tapping *disconnect Sonos*. Disconnecting Sonos stops the speaker; it does not erase the member. Fully revocable, separately from data.
+**KEVEN:** *Data.* Robert agreed CFMP could store his data — lots, profile, dietary flags, household, shopping history — when he set up his account. The Privacy Notice was on the screen before he tapped *yes.* Revocable only by erasure — the nuclear option, biometric-gated.
 
-*Presence consent.* The customer agrees that CFMP can observe the household — the Vision Kit on the counter, the *who-is-here* signal the drug-name redaction depends on. Recorded when the customer enables the Vision Kit, with a separate prompt explaining purpose, data path, retention. Separately revocable. A customer who keeps voice and disables presence keeps the speaker but loses drug-name gating — *which means drug names are no longer spoken at all*, because the gate cannot verify single-occupancy. The system fails safe. The audit row records *presence_consent_disabled*.
+*Voice.* Robert agreed CFMP could speak in his kitchen. The OAuth grant he walked through with Diana to pair the speaker. The consent record is append-only, sealed into the audit substrate. Revocable in the Preference Center — *disconnect speaker.* Disconnecting the speaker stops the speaker. It doesn't erase Robert.
 
-*Caregiver-share consent.* The most subtle. The customer agrees that another member can receive parallel awareness. Diana's caregiver-share. Bi-directional: Robert grants, Diana accepts. Either party can revoke at any time; revocation is mutual-immediate. If Robert revokes, Diana's pings stop. If Diana revokes — *I do not want to know about my father's refills* — Robert's grant stays, the routing stops, Robert is notified. The only consent class requiring two parties to record, because the caregiver has her own autonomy.
+*Presence.* Robert agreed CFMP could *see who's in the kitchen.* The Vision Kit on his counter — the camera the cold open turned on when Diana walked in. Separately revocable. *If Robert disables presence, the system can no longer verify single-occupancy* — which means drug names are no longer spoken at all. The system fails safe. The record shows *presence consent disabled.*
 
-**REID:** And the OAuth consent surface from Sonos Section Four-Point-Seven.
+*Caregiver share.* The most subtle. *Robert agreed that Diana could receive parallel awareness of his care moments.* Diana agreed to receive them. Bi-directional: *Robert grants, Diana accepts.* Either party can revoke at any time. If Robert revokes, Diana's pings stop. If Diana revokes — *I don't want to know about my father's refills* — Robert's grant stays in place, but the routing stops, and Robert is notified the routing has stopped. *The only consent class that requires two parties to record, because the caregiver has her own autonomy.*
 
-**KEVEN:** Every Sonos household is bound one-to-one to a member number. The OAuth flow goes through the Sonos consent screen — Sonos shows the customer *CFMP is requesting access to your household speakers, with these capabilities, with this revocation surface*. The Sonos consent screen is the vendor surface; the Preference Center is the CFMP surface; both have to exist, both have to be revocable independently. The customer upset about a cue she did not want to hear can revoke in either place; she finds *a* surface and the consent revokes.
+**REID:** And the OAuth surface.
 
-**REID:** And here I press. How does the design handle a customer revoking voice consent mid-trip? Sarah, in the store, hands full, three cues queued. She taps *disconnect Sonos*. What happens to the cues already mid-flight?
+**KEVEN:** Every speaker household is bound one-to-one to a customer. The OAuth flow runs through the speaker vendor's consent screen — *CFMP is requesting access to your household speakers, with these capabilities, with this revocation surface.* The vendor's consent screen is one surface; the Preference Center is the other; both have to exist, both have to be independently revocable. *The customer upset about a cue she didn't want to hear finds either surface and revokes.*
 
-**KEVEN:** *Revocation is immediate at the Cue Bus middleware, not at the speaker.* The moment the tap posts to the orchestrator, the voice-consent gate flips for that member. Cues composed but not yet handed to Sonos cloud are marked *suppressed* with reason `voice_consent_revoked`. Cues already handed to Sonos cloud but not yet played — the WebSocket directive is in flight — cannot be unsent at the speaker layer, but the resilient path from Episode Six can be cancelled. The Portal mirror records *cue composed, not spoken, voice consent revoked*. Mendez's no-silent-side-effects rule applies. The customer who cares can see the row.
+**REID:** And I press. *Sarah, in the store, hands full, three cues queued. She taps disconnect speaker.* What happens to the cues already in flight?
 
-**REID:** And the edge — the cue that does play because the speaker had it before revocation propagated.
+**KEVEN:** Revocation is immediate at the cue bus middleware, not at the speaker. The moment Sarah's tap posts, the voice-consent gate flips for her. Cues composed but not yet sent are marked suppressed with reason *voice consent revoked.* Cues already sent to the speaker's cloud — the directive is already on its way — can't be unsent at the speaker, but the phone-bridge path can be cancelled. *The Portal mirror records the suppression.* No silent side effects. The customer who cares can see the row.
 
-**KEVEN:** The row records *delivered before revocation*, with millisecond-level timestamps showing the race. Truth, not marketing. *The system raced; the speaker won by two-hundred milliseconds; the cue played; the customer revoked; the row records what happened.* When the design cannot prevent a race, the design records the race honestly.
+**REID:** And the edge — the cue that *does* play because the speaker had it before revocation propagated.
+
+**KEVEN:** The row records *delivered before revocation*, with millisecond-level timestamps showing the race. *Truth, not marketing.* The system raced; the speaker won by two hundred milliseconds; the cue played; the customer revoked; the row records what happened. *When the design cannot prevent a race, the design records the race honestly.*
 
 **REID:** Move to HIPAA.
 
-### HIPAA — Chen's drug-name gating
+### HIPAA — the cue that rewrote itself mid-syllable
 
-**KEVEN:** Chen's framing.
-
-**REID:** *"Spoken drug names are HIPAA disclosures. Treat them like text on a chart."* Doctor Mei Lin Chen, Section Eight-Point-Six of the Sonos design. The Mobile companion — *"Prescription data is HIPAA-regulated. Isolate from day one."*
-
-**KEVEN:** Walk the cold open in code.
+**KEVEN:** The framing from one of the design team — Chen — landed it: *spoken drug names are HIPAA disclosures. Treat them like text on a chart.* And on the mobile side — *prescription data is HIPAA-regulated. Isolate from day one.* Now walk the cold open as the architecture lived it.
 
 **REID:** Walk it.
 
-**KEVEN:** Six-thirty. The Pharmacy specialist composes. The compose step calls `trip_audio.compose_cues` — the privacy-aware spoken-content discipline from Sonos Section Six-Point-Seven — and asks `presence.who_is_here(zone)`. The Vision Kit's occupancy signal returns *one person, Robert*. The cue proceeds with the drug name. *Robert, your Lisinopril is due Friday.* TTS synth begins; WAV uploads to blob; Sonos cloud directive fires; the speaker plays. *Robert, your Lisin—*
+**KEVEN:** Six-thirty. The system composes Robert's refill cue. Before it speaks, it asks the presence service — *who is in the kitchen?* The Vision Kit returns *one person, Robert.* The cue proceeds with the drug name. *Robert, your Lisinopril is due Friday.* The neural voice synthesizes; the audio uploads; the speaker starts speaking. *Robert, your Lisin—*
 
-Six-thirty-one and fourteen seconds. The Vision Kit emits *two people, owner plus unidentified*. The presence service propagates a *presence_changed* event onto the cue bus. The HIPAA gate checks every in-flight cue. The Lisinopril cue is presence-dependent. The middleware fires *recompose*. The presence check returns *more than the owner*. The cue text rewrites to *Robert, an item is due Friday*. The Cue Bus issues *stop-and-replay* to the speaker via the Sonos cloud directive — the AudioClip API supports preemption — and the replay starts from the beginning with the redacted text. Three-tenths of a second total, below the conversational floor; Robert hears a normal pause.
+Six-thirty-one and fourteen seconds. The Vision Kit sees a second silhouette walk in. The presence service emits *two people, owner plus unidentified.* The HIPAA gate, listening for presence changes, checks every cue still in flight. The Lisinopril cue is presence-dependent. *The middleware fires recompose.* The presence check returns *more than the owner.* The cue text rewrites to *Robert, an item is due Friday.* The system asks the speaker to stop and replay; the audio API supports preemption; the replay starts from the beginning with the redacted words. *Three-tenths of a second total.* Below the conversational floor — Robert hears a normal pause.
 
-The ledger records *both versions*. Field thirteen — cue text — as *composed* and *delivered*, two separate fields. The Portal shows operators the side-by-side. *Composed — Robert, your Lisinopril is due Friday.* *Delivered — Robert, an item is due Friday.* *Suppression reason — presence_count_change, hipaa_gate.* The system's caution is visible. The audit chain audits the redaction itself.
+The audit row records *both versions.* The composed text — *your Lisinopril is due Friday.* The delivered text — *an item is due Friday.* The reason for the suppression — *presence count change, HIPAA gate.* *The system's caution is visible. The audit chain audits the redaction itself.*
 
 **REID:** And Diana's parallel ping.
 
-**KEVEN:** Same trace. Same compose. The caregiver-share routing is a *separate channel* in the Cue Bus fan-out. Episode Six's Cue Bus was three channels — primary, resilient, mirror. Today we name a fourth — *caregiver-parallel*. It composes its own cue text from the parent intent, applies its own redaction — the caregiver receives information about the *action*, never the *PHI* — and routes through Web Push to Diana's mobile. The ping reads *a refill was confirmed for your father*. No drug name. No pharmacy. No dose. Chen's rule: *treat drug names like text on a chart.* The chart is Robert's. Diana is on the care team for Robert's life, not for Robert's chart. The architecture honors the distinction.
+**KEVEN:** Same tracking thread. Same compose. The caregiver routing is a separate channel in the fan-out — *caregiver parallel.* It composes its own version of the moment from the parent intent, with its own redaction. The caregiver receives information about the *action*, never the *protected health information.* Diana's ping reads *a refill was confirmed for your father.* *No drug name. No pharmacy. No dose.* The rule: *treat drug names like text on a chart.* The chart is Robert's. *Diana is on the care team for Robert's life, not for Robert's chart.* The architecture honors the distinction.
 
-**REID:** V1 versus v2 scope.
+**REID:** And the v1 scope.
 
-**KEVEN:** *V1 — home only.* Drug names spoken only in the home zone, only when home presence confirms single-occupancy, only when the home Sonos household is the binding. The in-store endcap from Episode Six's cold open does not speak Lisinopril. It speaks coupon-savings, route cues, item-picked — none of them PHI. *V2 — retailer-tenant Pharmacy zones with `purpose='hipaa'`.* The `sonos_zones.purpose` field carries the explicit HIPAA flag. The default zone is `default`; the presence zone is `presence`; the mobile-bridge zone is `mobile-bridge`; `purpose='hipaa'` is reserved for v2 retailer Pharmacy zones — the in-store pharmacy counter, the counseling room, the pickup window — where the speaker speaks the drug name only when the zone is HIPAA-marked and the customer has authenticated at the counter. *HIPAA zones are explicit, not inferred.*
+**KEVEN:** *V1 is home only.* Drug names are spoken only in Robert's kitchen, only when presence confirms single occupancy, only when the home speaker is the binding. The in-store endcap from Episode Six doesn't speak drug names. *V2 grows in-store pharmacy zones* — the counseling room, the pickup window, the counter — where the speaker speaks a drug name only when the zone is explicitly marked as pharmacy-grade and the customer has authenticated at the counter. *Pharmacy zones are explicit, not inferred.*
 
 **REID:** And the storage layer.
 
-**KEVEN:** Prescription data lives in a *separate Postgres tenancy* from operational data. Chen's discipline. The Pharmacy specialist queries a different database than the Trips specialist queries for lots. The HIPAA-isolated database has its own service principal, its own audit log, its own backup retention. The MCP boundary fronting the prescription record carries `tenancy='hipaa'` on every read. *The customer's drug record never sits in the same row as the customer's grocery list.* The architecture honors the difference at the storage layer, not just at the cue layer.
+**KEVEN:** *Prescription data lives in a separately-isolated tenancy from operational data.* The pharmacy part of the system queries a different database than the grocery part queries for lots. The isolated database has its own credentials, its own audit log, its own backup retention. Every read across the boundary is tagged. *Robert's drug record never sits in the same row as Robert's grocery list.* The architecture honors the difference at the storage layer, not just at the speaker layer.
 
-**REID:** Compose-time redaction at the cue layer. Tenancy isolation at the storage layer. Both. Move to senior accessibility.
+**REID:** Compose-time redaction at the speaker. Tenancy isolation at the storage. Both. Move to senior accessibility.
 
-### Senior accessibility — Yamamoto's framing
+### Senior accessibility — the speaker is the entire interface
 
-**KEVEN:** Yamamoto's line.
+**KEVEN:** The line from the design team — Yamamoto's — landed it cleanly: *for the highest-lifetime-value segment, the speaker isn't a feature. It's the entire interface.* The 65+ segment lives on the speaker the way a 35-year-old lives on the phone. Robert's primary surface is the kitchen speaker. The phone is the occasional escalation. *The design owes the senior segment defaults that recognize that.*
 
-**REID:** *"For the highest-LTV segment, the speaker isn't a feature. It's the entire interface."* Robert Yamamoto, Sonos Section Eight-Point-Seven. The Mobile companion — *"Older shoppers are the highest-LTV grocery segment."*
+**REID:** Read the defaults.
 
-**KEVEN:** The 65+ segment lives on the speaker the way the 35-year-old segment lives on the phone. Robert's surface is the speaker, with the phone as the occasional escalation. The design owes the senior segment defaults that recognize that. Read the defaults.
+**KEVEN:** Four defaults that change for the 65+ segment. *Volume slightly louder* — so the cue lands over the refrigerator and the baseball game in the next room. *Cadence slower* — one-thirty words per minute, not one forty-five — so each word lands before the next arrives. *Quiet hours start later* — ten PM, not nine-thirty — *because seniors stay up later than the design assumed.* That correction came from the cohort itself — *I'm not asleep at nine-thirty. I'm reading. I might still want a cue.* And *trip cues in verbose mode* — Sarah's segment hears *aisle three, beverages*; Robert's segment hears *next stop is aisle three, that's the beverages aisle, two aisles down from where you are now.* Informative, not condescending — the design pays explicit attention to that line.
 
-**REID:** *Default volume plus four decibels for users 65+.* *Default cadence slower — one-hundred-thirty words per minute, not one-forty-five.* *Quiet hours default starts later — twenty-two-hundred, not twenty-one-thirty — seniors stay up later than the design assumed.* *Trip cues mode "verbose" — full route announcements, not abbreviations.*
+**REID:** And the phone side.
 
-**KEVEN:** Each default defends a property the segment loses if it is set wrong. *Plus four decibels* — Hassan's hearing-safety ceiling is seventy-five decibels absolute; sixty-four at one meter stays well below but lands meaningfully above the default sixty. The cue is audible with the refrigerator running and the baseball game in the next room. *One-thirty words per minute* — Chowdhury's default is one-forty-five; one-thirty is paced for the listener who needs the cue to *land* before the next word arrives. *Quiet hours at twenty-two-hundred* — Yamamoto's hard-won correction. The original twenty-one-thirty was the median household; the senior cohort surfaced the gap — *I am not asleep at nine-thirty, I am reading, I might still want a cue.* The cohort retains an override to push further. *Verbose trip cues* — Sarah's segment hears *aisle three, beverages*; Robert's segment hears *next stop is aisle three, that's the beverages aisle, two aisles down from where you are now*. The verbose mode meets Robert's orientation where it already is. Informative, not condescending — the design pays explicit attention to the line.
+**KEVEN:** Larger touch targets for 65+. Higher default text size, with override to bigger. Screen-reader compatibility on every interactive surface. The simple-mode toggle Yamamoto recommended. And — for the customer who doesn't text — *the one-time passcode arrives as a voice call, digits spoken slowly, confirmed once.* *The customer who doesn't text gets through onboarding anyway.* The architecture refuses to assume the smartphone is universal.
 
-**REID:** And the Mobile side.
+**REID:** And here I push. The senior-accessibility framing is for the highest-lifetime-value segment. But the discipline generalizes. Name it.
 
-**KEVEN:** Larger touch targets — fifty-six pixel minimum on Home and Lots for 65+, up from forty-four. Higher default font size — one-twenty percent on every text surface, with override to one-fifty or two-hundred. Voice-over compatibility — every interactive surface has an accessible name, a role, a state; the assistive-tech audit runs every release. Simpler journey flows — the *Simple Mode* toggle from UC-204 through UC-209. *Voice-call OTP fallback* — UC-209 — for the customer who does not have a smartphone, the OTP arrives as a voice call, not SMS, digits spoken slowly, confirmed once. *The customer who does not text gets through onboarding anyway.* The architecture refuses to assume the smartphone is universal.
+**KEVEN:** *Accessibility is the design's quality test for everyone.* The defaults the senior segment needs — louder cue, slower cadence, verbose route, larger touch target — are the defaults *every* customer benefits from when the conditions match. Sarah at six-twenty-eight on a Saturday with wet hands on a colander is, in that moment, indistinguishable from Robert at six-thirty on a Tuesday with the day's mail in his left hand. *Both are hands-not-free, attention-half-engaged, audio is the primary channel.* The senior defaults are general-case defaults under the right conditions. *Disability is contextual as often as it is permanent.* The senior cohort is the design's most demanding accessibility input. Everyone benefits.
 
-**REID:** And here I push. Yamamoto's framing is for the highest-LTV segment. The discipline generalizes. Name it.
+**REID:** The senior cohort is the design's quality test for everyone. Move to the audit-tag.
 
-**KEVEN:** *Accessibility is the design quality test for everyone.* The defaults the senior segment needs — louder cue, slower cadence, verbose route, larger touch target — are the defaults *everyone* benefits from when the conditions match. Sarah at six-twenty-eight on a Saturday with her hands wet on a colander is, in that moment, indistinguishable from Robert at six-thirty on a Tuesday with the day's mail in his left hand — both customers are hands-not-free, attention-half-engaged, audio-as-the-primary-channel. The senior defaults are general-case defaults under the right conditions. Disability is contextual as often as it is permanent. The senior cohort is the design's most demanding accessibility-research input; everyone benefits.
+### The audit-tag — the bridge is a feature AND a known-blindspot
 
-**REID:** The senior cohort is the design quality test for everyone. Move to AirPlay audit-tagging.
-
-### AirPlay channel audit-tagging — Russo's catch
-
-**KEVEN:** Russo's line.
-
-**REID:** *"AirPlay bypasses every server-side audit you have. Tag the channel explicitly."* Tamara Russo, Sonos Section Eight-Point-Nine.
-
-**KEVEN:** Russo's catch is the one the architecture would have missed without her.
+**KEVEN:** The catch from the design team — Russo's: *the phone-bridge bypasses every audit you have. Tag the channel explicitly.* The catch the architecture would have missed without her.
 
 **REID:** Walk it.
 
-**KEVEN:** Episode Six walked the AirPlay-bridge as the universal escape hatch — the Tuesday-demo property, thirty-second first-cue, no-OAuth-required path. The bridge is a *feature*. It is also a *blind spot*. Sonos cloud — the autonomous transport — sees every cue, logs every directive, fires the webhook, signs the LedgerRow with `channel: sonos_cloud`. AirPlay — the resilient transport — is invisible to the server. The phone fetches the WAV from blob; iOS AirPlay 2 routes the audio to the Roam; the Roam plays. *The server does not know the Roam played it.* The server knows the WAV was fetched; it does not know the audio came out of the Roam versus the phone's own speaker. The audit substrate cannot, by construction, see the AirPlay leg.
+**KEVEN:** Episode Six walked the phone-bridge as a universal escape hatch — the Tuesday-demo property, the thirty-second first-cue, the no-OAuth path. *The bridge is a feature.* It's also a *blind spot.* The speaker cloud sees every cue it delivers — *the directive, the timing, the completion webhook.* The bridge is invisible to the system. The phone fetches the audio; the phone bridges to the speaker; *the system doesn't know the speaker played it.* The system knows the phone fetched the audio. It doesn't know the audio came out of the household speaker versus a Bluetooth speaker an overnight guest brought versus a CarPlay system the phone forgot to disconnect from.
 
-Russo's catch — *if the architecture pretends the AirPlay leg is the same as the Sonos cloud leg, the audit chain has a hole the regulator will eventually find.* The honest move is to *name the hole on every row*. The Speech LedgerRow's `channel` field is *mandatory*, with `mobile_airplay` as a *first-class value* — same status as `sonos_cloud`, `mobile_local`, `portal_mirror`. Every row carries the channel.
+*The honest move is to name the hole on every row.* The audit row's channel field is mandatory. *Phone-bridge* is a first-class value, same status as *speaker cloud*. Every row carries the channel.
 
 **REID:** And the phone's self-report.
 
-**KEVEN:** The mobile is required to report its AirPlay state. iOS's `navigator.audioSession` surfaces the routing — *Bluetooth, AirPlay receiver, device speaker*. The PWA reads the state and posts it back with every cue completion. The audit row records *audio_route_reported: airplay_receiver*. The phone cannot prove the AirPlay receiver was the Roam; the phone cannot prove a Bluetooth speaker did not snake in; *but the phone reports what it knows*. The honesty is layered.
+**KEVEN:** The phone is required to report what it knows about its audio route — *Bluetooth, AirPlay receiver, device speaker.* The app reads the state and posts it back with every cue completion. The audit row records the route the phone reported. *The phone cannot prove the AirPlay receiver was the household speaker. The phone cannot prove a Bluetooth speaker didn't snake in. But the phone reports what it knows.* The honesty is layered.
 
 **REID:** And the high-risk-cue gate.
 
-**KEVEN:** *For high-risk cues — alerts, refills, payment — only the Sonos-cloud path is allowed.* If the cloud path fails for a high-risk cue, the AirPlay path is *not* tried. The cue is suppressed with a banner — *alert was suppressed: speaker not on direct channel*. The audit substrate records *cue_suppressed, reason: high_risk_path_unavailable*. The system tells the customer *I did not say what I would have said, and here is why*. The customer can re-trigger; the operator can phone-confirm; the regulator can audit the suppression.
+**KEVEN:** *For high-risk cues — alerts, refills, payment confirmations — only the speaker-cloud path is allowed.* If the cloud path fails for a high-risk cue, the phone-bridge is *not* tried. The cue is suppressed with a banner — *alert was suppressed: speaker not on direct channel.* The audit records *suppressed, reason: high-risk path unavailable.* The system tells Sarah *I didn't say what I would have said, and here's why.* She can re-trigger; Priya can phone-confirm; the regulator can audit the suppression.
 
 **REID:** Why suppression instead of degraded fallback.
 
-**KEVEN:** Because *the wrong audience hearing a high-risk cue is worse than the right audience missing it*. The AirPlay path cannot prove the audience. The receiver could be the household Roam, a Bluetooth speaker an overnight guest brought, a CarPlay system the phone forgot to disconnect from. The Sonos cloud path can prove the audience — the household is bound to the member, the zone is registered, the speaker is the speaker the customer consented to. For a coupon cue, the proof does not matter. For a refill cue — a drug name about to be spoken in someone else's house — the proof is load-bearing. The architecture refuses to speak high-risk cues on a channel it cannot prove.
+**KEVEN:** *Because the wrong audience hearing a high-risk cue is worse than the right audience missing it.* The phone-bridge cannot prove the audience. The receiver could be Robert's household speaker, or a Bluetooth speaker someone brought, or a car system the phone forgot to disconnect from. The speaker-cloud path *can* prove the audience — the household is bound to the customer, the zone is registered, the speaker is the speaker the customer consented to. *For a coupon cue, the proof doesn't matter. For a refill — a drug name about to be spoken in someone else's house — the proof is load-bearing.* The architecture refuses to speak high-risk cues on a channel it can't prove.
 
-This is the line I want sellers to carry. *The bridge is a feature AND a known-blindspot, named explicitly in the ledger row.* Not *the bridge is a feature, the audit gap is hidden*. Not *the bridge is a workaround, we will fix it later*. The bridge is a *first-class transport* with a known audit gap — both claims compose. The gap is *on every row*. Six weeks from now, when the regulator asks why a particular refill cue did not play, the row shows *cue suppressed because the bridge was the only path and the bridge is not allowed for high-risk cues*. The regulator does not have to discover the gap; the architecture surfaces it. *Auditability is what makes a known-blindspot survivable.*
+This is the line the seller carries. *The bridge is a feature AND a known blindspot, named explicitly on the audit row.* Not *the bridge is a feature, the audit gap is hidden.* Not *the bridge is a workaround, we'll fix it later.* The bridge is a first-class transport with a known audit gap. *Both claims compose.* The gap is on every row. Six weeks from now, when the regulator asks why a refill didn't play, the row shows *suppressed because the bridge was the only path and the bridge isn't allowed for high-risk cues.* *The regulator doesn't have to discover the gap; the architecture surfaces it.* Auditability is what makes a known blindspot survivable.
 
 **REID:** Tag the channel. Carry that. Move to synthesis.
 
-### The four cross-cutting safety layers — recap and synthesis
+### The four layers — recap
 
-**KEVEN:** The four layers, each mapped to a cue or screen the listener has heard about. *Adebayo on consent* — four classes, all recorded, all revocable. Data class at T1 onboarding. Voice class at the Sonos OAuth grant. Presence class at the Vision Kit enable. Caregiver-share class at Robert-grants-Diana-accepts. *Chen on HIPAA* — drug names gated by presence at compose time, isolated tenancy at storage, caregiver redaction by-design. The cue rewrites mid-syllable when presence changes. The prescription record never sits in the same row as the grocery list. Diana's ping reads *a refill was confirmed*, never *Lisinopril*. *Yamamoto on senior accessibility* — defaults that recognize the 65+ cohort lives on the speaker as the entire interface. Volume plus four decibels, cadence one-thirty, quiet hours at twenty-two-hundred, verbose trip cues, larger touch targets, voice-call OTP. *Russo on the channel audit-tag* — `channel` field mandatory, the bridge is a known-blindspot named explicitly, high-risk cues refuse the bridge. Four experts. Four disciplines. One audit chain.
+**KEVEN:** Four disciplines fired on Robert's ten seconds, and the architecture made them compose rather than fight. *Consent* — four classes, all recorded, all revocable. Data at onboarding. Voice at the speaker pairing. Presence at the camera enable. Caregiver share when Robert grants and Diana accepts. *HIPAA* — drug names gated by presence at compose time, isolated tenancy at storage, caregiver redaction by design. *The cue rewrites mid-syllable when the second silhouette walks in.* The prescription record never sits in the same row as the grocery list. Diana's ping reads *a refill was confirmed*, never *Lisinopril.* *Senior accessibility* — defaults that recognize Robert's surface is the speaker, not the phone. Louder cue, slower cadence, later quiet hours, verbose route cues, larger touch targets, voice-call passcode. *Audit-tag* — the channel is mandatory on every row, the phone-bridge is a known blindspot named explicitly, high-risk cues refuse the bridge.
 
 **REID:** The unifying claim.
 
-**KEVEN:** *The trust substrate IS the architecture, not an afterthought.* Identity, consent, HIPAA, accessibility are first-class architecture decisions — encoded in the cue object's fields, encoded in the ledger row's mandatory channel, encoded in the Postgres tenancy isolation, encoded in the Preference Center's class-separated toggles. The team did not bolt safety on after the speaker shipped; the team designed the speaker *around* safety. The cold open's three-tenths-of-a-second silent rewrite is not a feature added in version three. It is the substrate the team designed in version zero.
+**KEVEN:** *The trust substrate is the architecture, not an afterthought.* Identity, consent, HIPAA, accessibility are first-class architecture decisions. The team didn't bolt safety on after the speaker shipped; the team designed the speaker *around* safety. *The cold open's three-tenths-of-a-second silent rewrite is not a feature added in version three. It's the substrate the team designed in version zero.*
 
 **REID:** Every layer is a test, not a promise.
 
-**KEVEN:** The marketing language for safety is *promise* — *we promise to protect your data; we promise to honor your consent; we promise to safeguard prescription information.* Promises do not survive an audit. Promises do not survive a regulator. *Tests* survive. The presence check is a test. The consent gate is a test. The high-risk gate is a test. The senior-default bundle is a test. Every test is a row. Every row is auditable. Every audit is replayable. The substrate is the architecture; the architecture is the trust.
+**KEVEN:** Marketing language for safety is *promise* — *we promise to protect your data; we promise to honor your consent; we promise to safeguard prescription information.* Promises don't survive an audit. *Tests survive.* The presence check is a test. The consent gate is a test. The high-risk gate is a test. Every test is a row. Every row is auditable. Every audit is replayable. *The substrate is the architecture; the architecture is the trust.*
 
-**REID:** That is the bar. Defended by the design, not by the marketing. Carry it.
+**REID:** That is the bar. Defended by the design, not the marketing. Carry it.
 
 ### A reading I want to do
 
@@ -217,43 +207,43 @@ This is the line I want sellers to carry. *The bridge is a feature AND a known-b
 
 ### One disagreement
 
-**REID:** The cleanest tension the substrate has is between Yamamoto and Adebayo. The seam between the senior-accessibility defaults and the household-privacy defaults.
+**REID:** One disagreement, framed customer-grounded. *Does the customer feel the boundary, or just trust the brand?* Two voices on the design team — the accessibility voice and the household-privacy voice — pulled in opposite directions on a small, very concrete question. What volume does Robert's kitchen speaker default to, and what time do quiet hours start?
 
 **KEVEN:** Put it on tape.
 
-**REID:** Yamamoto. *Bump the default volume plus four decibels for users 65+ and start quiet hours later — twenty-two-hundred as the default for the 65+ segment.* The data is the AARP cohort research and Yamamoto's own ethnography. The senior cohort is harder of hearing, stays up later, finds the median defaults *too quiet, too early*. The defaults the design ships should match the cohort it serves.
+**REID:** The accessibility voice. *Bump the default volume a few decibels for 65+, and start quiet hours later — ten PM, not nine-thirty.* The cohort is harder of hearing, stays up later, and finds the median defaults *too quiet, too early.* The defaults the design ships should match the cohort it serves.
 
-Adebayo. *A higher default volume plus later quiet hours is a louder system in someone else's house.* Robert lives in a townhouse. The wall between his kitchen and the neighbor's bedroom is drywall and a stud cavity; at sixty-four decibels at one meter, a refill cue at twenty-two-fifteen is audible in the neighbor's bedroom. Robert's spouse in the master bedroom goes to bed at nine-thirty. A caregiver staying overnight in the guest room did not choose the couch. The senior-accessibility defaults raise the volume *for the listener Yamamoto is optimizing for* — and raise the cost for *every other person in the household and the neighboring household*. Privacy is at stake — whose speech in whose ears. Household-noise is at stake — whose sleep in whose room. The cohort is not the only stakeholder; the cohabitants are stakeholders too.
+The household-privacy voice. *A higher default volume plus later quiet hours is a louder system in someone else's house.* Robert lives in a townhouse. The wall between his kitchen and the neighbor's bedroom is drywall and a stud cavity. *At the louder default, a refill cue at ten-fifteen is audible in the neighbor's bedroom.* Robert's spouse in the master bedroom goes to bed at nine-thirty. A caregiver staying overnight didn't choose the couch. *The senior defaults raise the volume for the listener the accessibility voice is optimizing for — and raise the cost for everyone else in the household and the neighboring household.* The cohort isn't the only stakeholder. The cohabitants are stakeholders too.
 
 **REID:** Where do they converge?
 
-**KEVEN:** *Per-zone overrides.*
+**KEVEN:** *Per-zone defaults.*
 
 **REID:** Walk it.
 
-**KEVEN:** *Senior zones — kitchen, master bedroom — get the louder defaults and the twenty-two-hundred quiet-hours start.* These are zones the senior cohort lives in. Yamamoto's defaults apply.
+**KEVEN:** *Senior zones — Robert's kitchen, the master bedroom — get the louder defaults and the ten PM quiet hours.* These are the zones the senior cohort lives in. The accessibility voice's defaults apply.
 
-*Public zones — living room when guests detected, dining when household-plus-one detected — get the quieter defaults and the twenty-one-hundred quiet-hours start.* When the Vision Kit detects more than the household in the living room, the public-zone defaults take over. The volume drops to sixty decibels. Quiet hours start at twenty-one-hundred; cues defer to morning briefing. Adebayo's discipline applies.
+*Public zones — the living room when guests are detected, the dining room when more than the household is at the table — get the quieter defaults and the nine PM quiet hours.* When the system sees more than the household in the room, the public defaults take over. The volume drops. Cues defer to morning. *The household-privacy voice's discipline applies.*
 
-The `sonos_zones` table's `purpose` field — `default`, `presence`, `mobile-bridge`, `hipaa` — extends to *senior* and *public* as additional values, each with its own bundle. *The zone is the resolution unit for the disagreement.* The household is not one cohort; the household is several cohorts in several rooms. The defaults respect the rooms.
+The zone configuration carries *senior* and *public* as additional kinds, each with its own bundle. *The zone is the resolution unit for the disagreement.* The household isn't one cohort; the household is several cohorts in several rooms. *The defaults respect the rooms.*
 
 **REID:** And the Preference Center.
 
-**KEVEN:** Both defaults are surfaced per-zone, with the customer's override on every value. Robert sees the kitchen bundle and the living-room bundle and the master-bedroom bundle, each editable, with the senior default pre-populated, with the *why this default* explanation inline. *The kitchen volume is set to sixty-four decibels because you are in the 65+ segment; adjust lower if your spouse sleeps light.* Every override is audit-recorded.
+**KEVEN:** Both defaults are surfaced per-zone, with the customer's override on every value. Robert sees the kitchen bundle, the living-room bundle, the master-bedroom bundle — each editable, with the senior default pre-populated, with the *why this default* explanation inline. *The kitchen volume is set louder because you're in the 65+ segment; adjust lower if your spouse sleeps light.* Every override is on the record.
 
-**REID:** Convergence accepted. *Per-zone overrides, customer-editable, audit-recorded.* Carry it.
+**REID:** Converge accepted. *Per-zone defaults, customer-editable, audit-recorded.* The customer is the better for it — because Robert hears the speaker over the refrigerator *and* the neighbor sleeps through ten o'clock. Carry it.
 
 ### What to carry forward
 
-**KEVEN:** Three things into Episode Nine. Numbered.
+**KEVEN:** Three things into Episode Nine. Each one a thing a non-technical leader can carry into a Monday meeting.
 
-**KEVEN:** *One — the trust substrate IS the architecture.* Identity, consent, HIPAA, accessibility are first-class architecture decisions, encoded in the cue object's fields, in the ledger row's mandatory channel, in the Postgres tenancy isolation, in the Preference Center's class-separated toggles. Not bolted on. Adebayo on consent, Chen on HIPAA, Yamamoto on accessibility, Russo on the channel audit-tag — four cross-cutting layers, one audit chain. Every layer is a *test*, not a *promise*. Carry that.
+**KEVEN:** *One — the trust substrate is the architecture.* Identity, consent, HIPAA, accessibility are first-class architecture decisions, encoded in the cue object's fields, in the audit row's mandatory channel, in the isolated tenancy for prescription data, in the Preference Center's class-separated toggles. Not bolted on. *Four cross-cutting disciplines, one audit chain. Every layer is a test, not a promise.* Carry that.
 
-**KEVEN:** *Two — the Preference Center is the customer's kill switch.* Every consent class — data, voice, presence, caregiver-share — revocable in one place. Every redaction rule visible. Every senior-default override editable per-zone. Every audit row carries the trace identifier the customer can replay. The customer's autonomy lives at one URL the customer remembers, and that URL composes through Entra so the customer's identity in M365 is the same identity that signs into the Preference Center. Not a hidden setting. A first-class surface. Carry that.
+**KEVEN:** *Two — the Preference Center is the customer's kill switch.* Every class of consent — data, voice, presence, caregiver share — revocable in one place. Every redaction rule visible. Every senior default override editable per-zone. Every audit row carries the tracking thread the customer can replay. *The customer's autonomy lives at one URL she remembers.* And the identity she uses there is the same identity she uses for the rest of her Microsoft experience. *Not a hidden setting. A first-class surface.* Carry that.
 
-**KEVEN:** *Three — tag the channel.* AirPlay is a feature; the bridge is a feature; the bridge is *also* a known-blindspot, named explicitly in the ledger row's channel field. `sonos_cloud`, `mobile_airplay`, `mobile_local`, `portal_mirror`, `caregiver_parallel` — each a first-class value, each on every row. High-risk cues refuse the bridge. The architecture prefers silence-the-customer-can-audit to speech-the-substrate-cannot-verify. The seller carries the line — *the bridge is a feature AND a known-blindspot, named explicitly* — and the listener trusts the architecture more, not less, because the gap is on the row. The live architecture page at `https://ca-visionkit-portal.gentlestone-9b49b099.eastus2.azurecontainerapps.io/architecture` carries the channel-tagging in the audit chain panel; open it on a client call when the question comes up. Carry that.
+**KEVEN:** *Three — tag the channel.* The phone-bridge is a feature *and* a known blindspot, named explicitly on every audit row. High-risk cues refuse the bridge. *The architecture prefers silence-the-customer-can-audit to speech-the-substrate-cannot-verify.* The seller carries the line — *the bridge is a feature AND a known blindspot, named explicitly* — and the customer trusts the architecture more, not less, because the gap is on the row. The live architecture page at `https://ca-visionkit-portal.gentlestone-9b49b099.eastus2.azurecontainerapps.io/architecture` shows the channel-tagging in the audit panel. Open it on a client call. Carry that.
 
-**REID:** Three carries. The trust substrate IS the architecture. The Preference Center is the kill switch. Tag the channel. Into Episode Nine.
+**REID:** Trust substrate is the architecture. Preference Center is the kill switch. Tag the channel. Three carries. Into Episode Nine.
 
 **KEVEN:** Next episode — *the seller's playbook. CFMP on APEX-M.* The architectural pitch, the six discovery openers, the honest claims and the overclaims, the pushback handling, the roadmap, the close. Seven episodes land in the field, with a script the Account Team carries into the Monday-morning client call. Today we walked the safety substrate that makes the speaker deployable in a senior's kitchen. Next episode we walk the substrate that makes the architecture sellable in a Microsoft seller's account-plan.
 
