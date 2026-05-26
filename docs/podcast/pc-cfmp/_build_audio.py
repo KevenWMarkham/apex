@@ -202,6 +202,9 @@ EPISODES = [
     "07-fulfillment-plugin-tier.md",
     "08-identity-consent-hipaa-senior.md",
     "09-sellers-playbook.md",
+    "10-flux-household-composition.md",
+    "11-recipes-meal-plan-front-door.md",
+    "12-privacy-as-the-moat.md",
 ]
 
 

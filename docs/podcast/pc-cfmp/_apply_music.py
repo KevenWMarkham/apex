@@ -37,6 +37,9 @@ EPISODES = [
     "07-fulfillment-plugin-tier.mp3",
     "08-identity-consent-hipaa-senior.mp3",
     "09-sellers-playbook.mp3",
+    "10-flux-household-composition.mp3",
+    "11-recipes-meal-plan-front-door.mp3",
+    "12-privacy-as-the-moat.mp3",
 ]
 
 
