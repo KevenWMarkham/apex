@@ -53,7 +53,7 @@ The rule of the episode is *the green list is the demo; the not-live list is the
 
 ### The three Container Apps in East US 2
 
-**KEVEN:** Start at the top of the page. The three boxes the architect sees first. *Three Container Apps in East US Two.* One ACR. One subscription. One resource group. That is the deployment surface the seller can demo today.
+**KEVEN:** Picture the architect on the other end of the call, opening the URL on his own laptop. The first thing his eye lands on is *three boxes side by side near the top of the page.* Three places the customer's life happens — *the customer's app, the operator's console, the agent's home.* That's the deployment surface, in one glance. The architect has verified the region and the service count in fifteen seconds. *Three Container Apps in East US Two.* One ACR. One subscription. One resource group.
 
 **REID:** Name them in order. The way the page names them.
 
@@ -69,7 +69,7 @@ The rule of the episode is *the green list is the demo; the not-live list is the
 
 ### The four-specialist agent fleet
 
-**KEVEN:** Tier two on the page. The agent fleet. *Live today — `cfmp_orchestrator` as the parent, plus four specialist children.* Walk the four.
+**KEVEN:** Tier two on the page. Picture Sarah typing one question into the chat panel — *what should I make for dinner Wednesday.* Behind the panel, a planning brain reads the question, decides which kind of thinking it needs, and hands the question to the right specialist. The architect sees the routing happen on his own laptop in real time. *Live today — the parent orchestrator plus four specialist children.* Walk the four.
 
 **REID:** Walk the four. Then walk what is *not* in the fleet today.
 
@@ -89,7 +89,7 @@ The rule of the episode is *the green list is the demo; the not-live list is the
 
 ### The five MCP servers
 
-**KEVEN:** Tier three on the page. The MCP boundary. *Five MCP servers live today, living in `ca-visionkit-mcp`.* Walk them.
+**KEVEN:** Tier three on the page. The boundary every agent call passes through to reach the customer's data. *Sarah's catalog question; Sarah's profile; Sarah's auto-replenish history; Sarah's weather; the audit row that captures all of it — five governed surfaces, five servers, one boundary discipline.* The architect verifies the boundary by counting the boxes on the tier — five — and clicking each one. Five MCP servers, live today.
 
 **REID:** Walk them. Then name what is not there.
 
@@ -109,7 +109,7 @@ The rule of the episode is *the green list is the demo; the not-live list is the
 
 ### The data tier — Postgres, Blob, IoT Hub
 
-**KEVEN:** Tier four on the page. The data substrate. *Three primary stores.* Walk them.
+**KEVEN:** Tier four on the page. *Where Sarah's household actually lives in the cloud.* Her lots, her profile, her pantry, the catalog she searches against, the audio files of every cue she's heard, the structured detection JSON from the camera on her counter. *Three primary stores. All live.* The architect walks them in fifteen seconds.
 
 **REID:** Walk them. Then name the numbers.
 
@@ -125,7 +125,7 @@ The rule of the episode is *the green list is the demo; the not-live list is the
 
 ### The cloud AI services
 
-**KEVEN:** Tier five on the page. The cloud AI services. *Five services deployed, all called from the orchestrator.* Walk them.
+**KEVEN:** Tier five on the page. *The Microsoft services the agent fleet actually calls.* The models that answer Sarah's question. The voice that speaks the answer in her kitchen. The image recognition that resolves the jar of gochujang in her hand. The maps that route her through the store. The telemetry that lets the regulator's three-minute replay land. *Five services deployed, all called from the orchestrator.*
 
 **REID:** Walk them.
 
@@ -145,7 +145,7 @@ The rule of the episode is *the green list is the demo; the not-live list is the
 
 ### The audit chain — what's there today
 
-**KEVEN:** Tier six on the page. The audit substrate. *Every state-change emits a fourteen-field LedgerRow signed in-memory.* Walk the fields.
+**KEVEN:** Tier six on the page. *The substrate that lets the regulator's three-minute replay from Episode Two be a real moment, not a marketing diagram.* Every state change in Sarah's life with the system becomes a row on this chain. *Fourteen fields per row. Signed in-memory today.* Walk the fields the architect counts.
 
 **REID:** Walk them. The architect will count them.
 
@@ -163,7 +163,7 @@ The rule of the episode is *the green list is the demo; the not-live list is the
 
 ### The Sonos channel — what's the live path
 
-**KEVEN:** Tier seven on the page. The Sonos channel. *The Sonos channel ships today via the AirPlay-bridge from the mobile PWA.* Walk the live path.
+**KEVEN:** Tier seven on the page. *Sarah's kitchen speaker today.* Live, ships, plays back in the room. The architect can hear the cue on the seller's own kitchen speaker over the call. *The Sonos channel ships today via the phone's AirPlay bridge.* Walk the live path.
 
 **REID:** Walk it.
 
@@ -179,7 +179,7 @@ The rule of the episode is *the green list is the demo; the not-live list is the
 
 ### What the seller's chat panel does today
 
-**KEVEN:** Tier eight. The chat panel itself. *The Portal's CFMP customer assistant chat panel is the demo's headline interaction.* Walk the end-to-end.
+**KEVEN:** Tier eight. *The demo's headline moment — the chat panel where Sarah's experience renders end-to-end.* The seller types a question. The architect watches the routing happen. The cue plays in the seller's room. The cart updates. The HITL gate fires if it should. *One trace across eight surfaces, visible on the architect's own screen.*
 
 **REID:** Walk it end-to-end.
 
