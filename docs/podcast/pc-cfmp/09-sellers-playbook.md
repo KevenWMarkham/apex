@@ -84,11 +84,21 @@ The seller stares at the screen. She knows the Acceleration Framework underneath
 
 **KEVEN:** *Opener Six — the home channel.* The seller asks — *"What does your customer hear from your brand when they're not looking at a screen?"* What it surfaces — the ambient-channel conversation. Nine times out of ten the answer is — *nothing.* Email goes to a folder the customer never opens; SMS is reserved for delivery confirmations; push is filtered by the operating system. *They don't hear anything* — the surface CFMP opens with Sonos; the cue, the cadence law, the per-zone defaults, the AirPlay-bridge for the zero-config first-run. *We have an ambient channel* — rare; the seller asks what they have and pivots. The architecture move that follows — the Sonos cue from Episode Six, the cadence law that protects the customer from intrusion, the cue bus that mirrors every spoken cue into the Portal chat panel for visible audit. The brand becomes a voice the customer trusts.
 
+**Opener Seven — Privacy is architectural, not a setting.**
+
+**KEVEN:** *"Does your assistant listen to everything in your home — or only what you ask?"* That is the opener that lands the C-suite in 2026. The Alexa pattern won the consumer market; the next architecture wins the boardroom. The opener surfaces the customer's quietest concern — the household whose conversations live in a public-cloud datacenter is the household whose loyalty data, audit chain, and platform relationship are owned by the vendor, not the customer.
+
+**REID:** And the architecture move that follows is the *un-Alexa* substrate — voice on device, Vision Kit local inference, MCP boundary as privacy boundary, customer-owned identity in Entra External ID, and the v2 trajectory toward telco-edge orchestrator with on-device LedgerRow witnesses.
+
+**KEVEN:** The seller pitches what is true today — voice stays on the phone, vision stays on the device, identity stays the customer's — and what is committed tomorrow — telco-edge orchestrator, on-device witness. The depth on this lives in Episode Twelve.
+
+**REID:** Open the architecture page on the call. Point at the boundaries. Ask the architect to find the leak. *There isn't one.* That is the moat.
+
 **REID:** Six openers. The seller carries them in their head. Twenty minutes into any agentic-AI discovery conversation, the seller has surfaced the architectural pain across five principles plus the home channel — without a single vendor-loyalty pitch.
 
 **KEVEN:** No vendor framing. No partner-channel motion. No *Microsoft is better*. Six questions; six conversations; the framework does the rest.
 
-### Five honest claims a seller can defend
+### Six honest claims sellers can defend
 
 **REID:** Five claims. Each one defendable in front of a sophisticated client architect, and in front of the Deloitte AI team architect who has shipped on Bedrock and Vertex and is listening from the back of the room.
 
@@ -109,6 +119,12 @@ The seller stares at the screen. She knows the Acceleration Framework underneath
 **REID:** Claim Five.
 
 **KEVEN:** *Claim Five — the architecture is portable; the productization is what's denser on Microsoft.* The seller has to say this fifth one out loud. The Acceleration Framework's five principles are vendor-neutral by design. CFMP can be built on AWS — Bedrock for the agent runtime, Lake Formation plus Glue plus Athena for the Gold Tier, Macie plus CloudTrail plus QLDB for the trust substrate, IAM Identity Center for the federation. CFMP can be built on GCP — Vertex AI for the agent runtime, BigQuery plus BigLake plus Dataplex for the Gold Tier and governance, Cloud Identity plus Workload Identity Federation for the federation. *The framework is portable. The productization density is the Microsoft pivot.* The fifth claim is the one that earns the architect's respect, because the fifth claim is the one a partner-channel seller cannot say.
+
+**Claim Six — Privacy is architectural, not a setting.**
+
+**KEVEN:** Voice stays on the device the customer chose — the phone's microphone runs local STT, the Sonos speaker plays cues the cloud sends but never captures audio cloud-side. Vision Kit runs local inference — frames don't routinely leave the home; only event packets do. The MCP boundary is the privacy boundary — every agent tool call hits composed Gold, never raw sources. Customer identity lives in Entra External ID — the customer's tenant, the customer's audit chain, the customer's data export at any time. *This is the inverse of the Alexa pattern, and it is in code today.* The v2 commitment — telco-edge orchestrator and on-device LedgerRow witness — extends the substrate; it does not invent it. The seller can point an architect at the `/architecture` page and ask them to find the leak.
+
+**REID:** And this is the C-suite headline for 2026. The household burned once by surveillance is the household that listens carefully to the *architecture* answer. Privacy as a *setting* — toggles you can turn on, trust us to honor them — has lost credibility; the customer has been burned too many times. Privacy as *architectural* — the data never leaves the place it's supposed to leave, you can verify by reading the page — is the credibility play. The architecture page IS the moat.
 
 **REID:** Five claims. All defensible. All honest. All survive scrutiny when the prospect's outside advisor walks through the door.
 
@@ -169,6 +185,12 @@ The seller stares at the screen. She knows the Acceleration Framework underneath
 **REID:** Scenario Three.
 
 **KEVEN:** *Scenario Three — GCP-native identity reality.* The customer's enterprise architecture office has standardized on GCP Workload Identity Federation. The cross-cloud agent identity is on GCP rails. Entra would be the *secondary* IdP, not the primary. *Workload Identity Federation has the cleanest cross-cloud agent-identity primitive — short-lived, scoped, rotated.* The honest seller acknowledges that. *"If your identity reality is GCP Workload Identity Federation primary, the agent identity continuity argument runs the other way. Entra leads on enterprise SaaS federation — M365, SAP, Salesforce, Workday, the application gallery. GCP leads on cross-cloud agent identity. The pick depends on which surface you are optimizing. If the agent identity is your primary problem, we would design on GCP."*
+
+**Scenario Four — the customer wants always-listening public-cloud AI.**
+
+**KEVEN:** This is the scenario where the seller honestly pivots — the customer who *wants* an Echo in every kitchen, a Google Home in every bedroom, the always-listening pattern, the vendor-owned voice waveform, the household-loyalty data in the vendor's account. CFMP is the *un-Alexa*; it is not the right fit for the customer who wants the Alexa pattern with a different label. The seller says so honestly.
+
+**REID:** And the credibility this earns is the credibility the customer carries to the *next* conversation. The customer who hears *"this is not the right architecture for what you described — Amazon's pattern is, and you should choose them"* is the customer who calls again when the next architectural decision lands. *Honesty is the moat. The seller who says 'choose Alexa once' is the seller the architect calls forever.* The privacy architecture is the value, not a feature to toggle off — and the seller says that plainly.
 
 **REID:** *The sellers who name these three scenarios honestly earn more credibility than sellers who never name them.* The CIO who hears the seller acknowledge the three earns the right to be trusted on every recommendation where Microsoft genuinely is the right answer. *The credibility compounds.* The seller who never says it is the seller the architect assumes is selling Microsoft regardless of the architecture. The seller who says *lead with AWS* once — in the right scenario — is the seller the architect calls again for the next engagement.
 
