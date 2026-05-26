@@ -112,111 +112,103 @@ That is Sarah's week. Five distinct frictions. Five different moments where the 
 
 ### The unifying noun — LOT
 
-**KEVEN:** Now the noun. Because if you ask me what the most important architectural decision in CFMP is, it is not the model, it is not the cloud, it is not the agent runtime. It is the noun the design organizes itself around.
+**KEVEN:** Picture Sarah's Sunday again. The dishwasher mid-cycle, the kids asking about waffles, four apps open, none of them holding the *thing she's actually doing* — which is *feeding her household for a week.* Every app she has carries a fragment of that thing. None of them carries the thing itself. The single most important design decision in CFMP is that we named the thing. We gave the household's grocery reality a noun. Everything else hangs from that.
 
 **REID:** Name it.
 
-**KEVEN:** The lot. A *lot* is a bounded set of intents about commerce in a household over a window of time. It has an identity. It has a kind. It has members. It has a lifecycle stage. It has bindings — to a time, to a place, to a purpose. It has provenance — how it came into being. It has telemetry — what was consumed, what was wasted, when.
+**KEVEN:** The lot. Sarah's Sunday-through-Saturday isn't a list and isn't a cart. It's a *bounded thing in her life* — what she's planning to feed her family, where the food comes from, when it's coming, what's still in the pantry from last week, who's coming over Saturday. That bounded thing has a name. It's the lot. It has a beginning and an end. It moves through stages — *I'm thinking about it · I've bought it · I've received it · I'm cooking from it · it's used up.* Every other grocery app organizes itself around the moment Sarah is in. CFMP organizes itself around the lot Sarah is living inside.
 
-**REID:** And the noun matters because?
+**REID:** And the customer-feel difference.
 
-**KEVEN:** Because every other grocery app organizes itself around a *list* or a *cart*. And a list is a snapshot. A cart is a transaction. Neither of them has an identity that survives the moment. The list goes stale and the user starts a new one. The cart closes at checkout and disappears. The lot is the first abstraction in this category that has an identity, a state, and an audit trail across the full lifecycle — from intent to fulfillment to consumption.
+**KEVEN:** A list is what Sarah is thinking about right now. A cart is what Sarah is buying right now. Neither of them survives the moment. The list goes stale Tuesday and Sarah starts a new one. The cart closes at checkout and disappears. The lot is the *household's actual reality* — the thing the list and the cart are both fragmentary views of. Sarah doesn't have to rebuild the context every time she opens the app, because the lot is still there, still where she left it, still holding the meal plan and the pickup time and the dietary policy and the wilted-romaine warning all together.
 
-**REID:** Four lot archetypes. Walk them.
+**REID:** Four lot archetypes. Walk them as customer moments.
 
-**KEVEN:** Four named patterns. The *Shopping Trip* — the canonical cart-becoming-pickup-becoming-pantry flow, where the lot moves through stages as the household does. The *Auto-Replenish* — the cadence-bound subscription pattern, where the lot is generated on a schedule from a household's consumption signal, and Sarah does not have to think about milk and bread and diapers ever again. The *StayLot* — the displacement pattern that follows the household to a cabin or a beach house or a parent's home for the holidays, with destination binding and friend co-editing and staged deliveries. And the *Care-Lot* — the delegation pattern, where one identity acts on behalf of another with a consent boundary and an audit trail.
+**KEVEN:** Four customer moments, four lots. *The shopping trip* — Sarah's Sunday-to-Tuesday cycle, where the lot starts as a meal plan and ends as the food in her fridge. *The auto-replenish* — the household rhythm Sarah doesn't want to think about; the milk that lands every Wednesday, the diapers every ten days, the things she stops having to remember. *The stay-trip* — Marcus's cabin weekend, the lot that follows the household to a different address, friends co-editing, payment splitting, deliveries staging against the cabin instead of his apartment. And *the care-trip* — Sarah ordering for her mother from her mother's account on a Friday afternoon, with the boundaries that let her help without seeing what she shouldn't see.
 
-**REID:** And the reason "lot" beats "list" or "cart" — restate it.
+**REID:** And why "lot" beats "list" or "cart" — restate it for the room.
 
-**KEVEN:** A list is what I am thinking about. A cart is what I am buying. A lot is *the thing itself* — the household reality that the list and the cart are both fragmentary views of. The list is a query against the lot. The cart is a transaction against the lot. The receipt is a receipt against the lot. The pantry is what the lot turned into. The next meal plan is a query against what the lot left behind.
+**KEVEN:** A list is what Sarah is thinking about. A cart is what Sarah is buying. A lot is *the thing itself* — the household reality the list and the cart are both partial views of. The list is one question against the lot. The cart is one transaction against it. The pantry is what the lot turned into. The next meal plan is a question against what the lot left behind. *One noun. Whole lifecycle.* Sarah's life doesn't end at checkout. The lot doesn't either.
 
-**REID:** That is the argument. I will accept it. I will note that this is the kind of abstraction that pays off only if the system actually *uses* the lot as the unit of work everywhere — if the agent calls return lots, if the UI surfaces lots, if the audit chain records lots, if the analytics roll up against lots. The moment the abstraction leaks — the moment one corner of the system treats a lot as a list — the value of the noun collapses.
+**REID:** And the architectural discipline that backs this — every part of the system has to treat the lot as the unit of work. Every agent recommendation comes back as a lot operation. Every screen shows the lot Sarah is inside. Every audit row records what happened to the lot. The moment one corner of the system reverts to thinking *list*, the noun leaks and the household feel collapses. That discipline is the difference between a real abstraction and marketing language. Episode three defends it.
 
-**KEVEN:** Which is why episode three goes deep on the lot model and the four archetypes. The architectural commitment is real; the engineering discipline to hold it is non-trivial. We will defend that in episode three.
+**KEVEN:** Said cleanly. The lot is the household's experience, named. It's what makes Sarah's Sunday-evening plan still useful to her Wednesday-morning self.
 
 ### The headline interaction — SCAN
 
-**KEVEN:** Now the verb. Because if the noun is the lot, the headline verb — the interaction that defines what the surface *feels like* — is the scan.
-
-**REID:** And we are going to land on why scan-first, not search-first.
-
-**KEVEN:** Right. Most retail apps lead with search. A search box at the top, a list of categories underneath, a deals carousel at the bottom. The user is expected to know what they want, type it, and pick from results. This works for the seventeen percent of grocery interactions that are a planned, named purchase. It fails for the other eighty-three percent — where the user has a thing in their hand, or a thing they saw on a shelf, or a photo a friend texted them, and they do not know what to call it.
+**KEVEN:** Picture Sarah in a store, in the aisle, with the jar of gochujang in her hand. She doesn't know the brand. She doesn't know how to spell it. She knows her teenager wants it for a recipe and she knows there's a Korean character on the label. Most retail apps would have her type — and she'd guess at the spelling, and the search would miss, and she'd give up and put the jar back. CFMP lets her do what she already does with her phone for everything else in her life. *She points the camera at the jar.* Three seconds later the answer is on the screen — the right product, the price after her loyalty discount, whether it's safe for the allergens in her household.
 
 **REID:** And the answer is — point the camera at it.
 
-**KEVEN:** Point the camera at it. Sarah does not know the SKU for the gochujang. She does not know the brand. She does not know how to spell it. She knows it has a red label and a Korean character on it. She points the camera at it — the camera Yuka and Google Lens and Vivino have already taught her how to use — and the system takes it from there.
+**KEVEN:** Point the camera at it. The home screen of the app is a camera viewport. There is no search box competing for her attention. The system has already decided — *the front door is the camera.* Search is still there, tucked into the chat composer for the moments she really does have a name in her head, but the default is scan. That's a design commitment.
 
-**REID:** Now I get to push. *This is just a barcode reader.* Every grocery app has a barcode reader. The retailer apps have had them since 2014. Why is the CFMP scan distinctive?
+**REID:** And I get to push. *This is just a barcode reader.* Every grocery app has had one since 2014. Yuka has it. Google Lens has it. Vivino has it. Why is the CFMP scan distinctive to Sarah's day?
 
-**KEVEN:** Two reasons. First, the scan is the *front door*, not a feature. The home screen is a camera viewport. There is no other primary affordance competing for attention. The user does not have to think *should I scan or should I search* — the system has already chosen scan, and the search is a fallback inside the chat composer. That is a design commitment, not a feature.
+**KEVEN:** Two reasons. First, the scan is the *front door*, not a feature buried four taps deep. Sarah doesn't have to decide *should I scan or should I search* before she's even started. The system has chosen for her. The cognitive load drops. The thirty-second cereal-aisle question becomes a three-second cereal-aisle answer.
 
 **REID:** Acceptable. And the second?
 
-**KEVEN:** The second is more interesting. The scan hands the agent fleet a *fact*. Not a guess. A canonical product identifier, resolved against an open product catalog, normalized to the retailer's SKU when available, with allergen flags and nutrition and pricing already attached. The scan is what makes the rest of the agent fleet trustworthy — because every downstream composition is anchored on a known entity, not on an interpretation of the user's typing.
+**KEVEN:** The second matters more. When Sarah scans, the answer that comes back is *a fact, not a story.* The right product, the real price, the real dietary flags. The system doesn't make something up about a brand that isn't on the shelf. The system reads from the same governed product catalog the operator's tools see, the same catalog the buying team signs off on. The scan hands the agent a known entity, and every downstream recommendation — the coupon, the substitution, the meal-plan fit, the dietary block — composes on top of that known entity.
 
-**REID:** And here is where you will pre-empt episode two. Why is the scan returning a *fact* and not a *guess*?
+**REID:** And the property that makes the answer reliable.
 
-**KEVEN:** Because of the MCP boundary. The scan resolver is a Model Context Protocol tool — a typed, audited interface between the agent fleet and the catalog. The agent does not get to *infer* what the product is. The agent gets to *call* the scan resolver, which returns a structured fact, which the agent then composes against. The boundary is what makes the guess unavailable.
+**KEVEN:** Every catalog look-up runs through a governed boundary. The agent doesn't get to reach into raw inventory feeds and improvise. The agent gets to ask one well-defined question of a curated view and receive a structured answer. (The architecture has a name for that discipline — the MCP boundary. Episode two unpacks it.) And every call lands on the audit trail, so when Sarah comes back Tuesday and notices a price changed, the record of what she saw Sunday is still there, exactly as she saw it.
 
-**REID:** And the audit chain records every call across that boundary.
-
-**KEVEN:** Every call. Every scan, every catalog lookup, every coupon resolution, every alternative suggestion. The audit chain is what proves, on Tuesday, that the offer Sarah saw on Sunday was a real offer, that the price she was quoted was the price she would have paid, that the dietary block on the peanut product was triggered for the right reason. Episode two unpacks the agent fleet and the audit chain in full. Episode three goes deep on the lot. Today we are naming the surface.
-
-**REID:** So scan-first is not a UX flourish. It is the architectural move that lets the agent fleet hand the customer a fact. I will accept that framing.
+**REID:** So scan-first isn't a UX flourish. It's the architectural move that lets the system hand the customer a fact. I'll accept that framing. And the customer outcome is the part that matters — *the answer is right the first time, and right the same way every time.*
 
 ### What success looks like
 
-**KEVEN:** Now the metrics. Because the design has to be measurable, and the design document commits to three numbers. Let's walk them.
+**KEVEN:** Now the part where the design has to be honest with itself. Three numbers the team committed to — three numbers a year from now somebody is going to hold up and ask whether CFMP moved them. Each one is a Sarah-moment turned into a measurement.
 
 **REID:** Read them. Don't paraphrase.
 
-**KEVEN:** First metric. *Time from "I need groceries" to a complete order.* Target: under five minutes for a returning user. Today: roughly thirty to forty-five minutes on competing tools. That is the Sunday-morning metric. That is the friction we opened the episode on.
+**KEVEN:** First number. *From "I need groceries" to a completed order — under five minutes for a returning customer.* Today, on competing tools, it's thirty to forty-five. That's Sarah's Sunday-morning friction translated into a measurement.
 
-**REID:** And what makes it a behavior-change signal and not a vanity stat?
+**REID:** And what makes it a behavior-change signal, not a vanity stat?
 
-**KEVEN:** Because the friction itself is what causes Sarah to abandon. The forty-five-minute Sunday is the reason she does not finish her grocery plan, the reason she ends up at the store anyway on Tuesday, the reason the romaine wilts on Thursday. The five-minute target is not about speed for its own sake. It is about *completion*. If Sarah finishes on Sunday, the rest of the week's frictions collapse. The metric is a proxy for the entire downstream cascade.
+**KEVEN:** Because the friction is what causes Sarah to abandon. The forty-five-minute Sunday is the reason she doesn't finish her plan, the reason she ends up at the store on Tuesday, the reason the romaine wilts on Thursday. The five-minute target isn't speed for speed's sake. It's *completion.* If Sarah finishes on Sunday, the rest of the week's frictions collapse. The number is a proxy for the whole downstream cascade.
 
-**REID:** Second metric.
+**REID:** Second number.
 
-**KEVEN:** *Household food-waste rate.* Target: under eight percent. Industry average: twenty-four percent. Today, not measured by any competitor. This is the wilted-romaine metric.
+**KEVEN:** *Household food waste — under eight percent.* Industry average sits at twenty-four. Today, no competitor measures it at all. This is the wilted-romaine number.
 
-**REID:** And this one I want to stress-test. Eight percent is a third of the industry average. The design claim is that CFMP will reduce household food waste by a factor of three. Defend it.
+**REID:** And this one I want to stress-test. Eight percent is a third of the industry average. The claim is that CFMP cuts household food waste by a factor of three. Defend it.
 
-**KEVEN:** The design claim is built on three things working together. The PantryLot — the system knows what is in the household and when it arrived. The expiry tracking — each item carries an expected shelf life and the system knows when it is at risk. And the meal-plan re-composition — when an item is at risk, the agent re-composes tomorrow's meal to use it. None of those three on their own moves the needle. All three together is the bet. The bet is that the *information asymmetry* — Sarah not knowing what is about to expire — is the primary cause of waste, and closing the asymmetry closes most of the waste.
+**KEVEN:** Three things working together. The household knows what's in the fridge and when it arrived, because the lot tracks it. Each item carries an expected shelf life and the system knows when it's at risk. And when something is at risk, the agent re-composes tomorrow's meal to use it. None of the three on its own moves the needle. All three together is the bet. The bet is that *Sarah not knowing what's about to expire* is the primary cause of waste, and closing that information gap closes most of the waste.
 
-**REID:** I will accept that the bet is reasonable. I will also note that the metric is the most demanding claim in the design document, and the design has to hold itself accountable to measuring it honestly. If CFMP cannot measure household waste at the SKU level, the eight-percent target is unfalsifiable, and an unfalsifiable target is not a metric — it is a marketing line.
+**REID:** I'll accept the bet is reasonable. I'll also press — if CFMP cannot measure household waste at the item level, the eight-percent target is unfalsifiable, and unfalsifiable is marketing, not measurement. The team has to commit to the instrumentation, not just the claim.
 
-**KEVEN:** Agreed. The measurement story has to be real. PantryLot consumption events plus throw-out events plus shelf-life timing — those are the inputs. Whether the system actually captures them at the fidelity required is an engineering commitment, not a slogan.
+**KEVEN:** Agreed. The honest version is — consumption events, throw-out events, shelf-life timing, captured at the lot level. That's an engineering commitment, not a slogan.
 
-**REID:** Third metric.
+**REID:** Third number.
 
-**KEVEN:** *DAU-over-MAU retention at week twelve post-install.* Target: at least thirty-five percent. Today: twelve to eighteen percent for the category leaders.
+**KEVEN:** *Twelve-week retention — at least thirty-five percent of installers still using the app daily-over-monthly three months in.* Category leaders sit at twelve to eighteen.
 
-**REID:** And the behavior change is?
+**REID:** And the customer behavior change behind the number?
 
-**KEVEN:** That this is the only one of the three metrics that measures whether Sarah actually comes back. Time-to-order measures one moment. Food-waste measures a household-level outcome. DAU-over-MAU at week twelve measures whether, three months after install, the app is still part of Sarah's life. Thirty-five percent at week twelve is roughly double the category average. The bet is that the lot — the persistent, lifecycle-bearing object — is what creates the return reason. Every other grocery app's retention falls off because each session is independent. The lot makes the session a continuation of the last session.
+**KEVEN:** This is the one that measures whether Sarah actually comes back. Time-to-order measures one moment. Waste measures a household outcome. The twelve-week number measures whether, three months after install, the app is still part of Sarah's life. Thirty-five percent is roughly double the category average. The bet is that the lot — the persistent thing Sarah's household is living inside — is what creates the return reason. Every other grocery app's retention falls off because each session is independent. The lot makes Sarah's Wednesday a continuation of her Sunday, not a fresh start.
 
 **REID:** And if the lot doesn't, the retention number doesn't move.
 
 **KEVEN:** Correct.
 
-**REID:** Three metrics. None of them is a vanity number. Each one corresponds to a specific design hypothesis. If any of the three misses, a piece of the design is wrong. That is what a metric set is supposed to do. I will accept the set.
+**REID:** Three numbers. None of them is vanity. Each one tracks a specific design hypothesis. If any one misses, a piece of the design is wrong — and the team will know which piece. That's what a measurement set is for. I'll accept it.
 
 ### The audit chain — why we mention it in episode one
 
-**KEVEN:** I want to close on something that may surprise the listener. This is a customer-experience podcast. Episode one is about Sarah. And I am about to mention, for the third time, the audit chain. Episode two will unpack it in full. Why does it belong here, in the persona episode?
+**KEVEN:** Now I'm going to do something that might surprise the listener. This is a customer-experience podcast. Episode one is about Sarah. And I'm about to mention, for the third time, an audit chain — the kind of thing most product podcasts would put in episode seven, if they put it in at all. Episode two unpacks it in full. Why does it belong here, in the persona episode?
 
-**REID:** Because it is the trust substrate. And the trust substrate is the design, not an afterthought.
+**REID:** Because it's the trust substrate. And the trust substrate is the design, not an afterthought.
 
-**KEVEN:** That is exactly it. Walk Sarah's week again. The wilted romaine — the agent told her on Wednesday that the romaine would be best used by tonight. Sarah has to *trust* that the recommendation is honest, that the system is not just nudging her to buy more produce. The cabin pre-stock for Marcus Thompson — Marcus is letting CFMP order groceries to an address that is not his home, paid for by friends he is splitting with. Marcus has to *trust* that the splits are right and the deliveries are real. The remote care for Sarah's mother — Sarah is acting on behalf of her mother. The mother has to *trust* that Sarah cannot see what she is not entitled to see. Every one of those trust claims is backed by an audit row. Every action is a ledger entry. Every cross-identity action is recorded with both identities and the basis of the delegation.
+**KEVEN:** That's exactly it. Walk Sarah's week again, and notice what every moment quietly depends on. The wilted romaine — Wednesday morning, the agent told her the romaine would be best used by tonight. Sarah has to *trust* the recommendation is honest, that the system isn't quietly nudging her to buy more produce. Marcus's cabin pre-stock — Marcus is letting the system order groceries to an address that isn't his home, paid for by friends he's splitting with. Marcus has to *trust* the splits are right and the deliveries are real. Sarah's Friday at her mother's house — Sarah is acting on behalf of her mother. Her mother has to *trust* that Sarah cannot see what she isn't entitled to see. Every one of those trust claims is backed, behind the scenes, by a record. Every action lands as a row on a chain. Every cross-identity action is recorded with both identities and the basis of the delegation.
 
-**REID:** And the user never sees those rows. The user just experiences the trust. The audit substrate is invisible — but it is the only reason the trust is real.
+**REID:** And the customer never sees a row. The customer just experiences the trust. The substrate is invisible — but it's the only reason the trust is real.
 
-**KEVEN:** Episode two takes the audit chain apart. The hash-chained ledger. The trace-ID propagation across the agent fleet. The replay-token validation that lets a regulator re-run a decision and prove the agent would produce the same answer. Why we built it on Postgres with eventual OneLake promotion. How the four-identity chain — agent, operator, source, auditor — threads through every row.
+**KEVEN:** Episode two takes it apart. How every action becomes a record. How a regulator can re-show a six-month-old recommendation in three minutes. How a caregiver can act inside the system her father uses without his pharmacy data crossing the boundary. (Architecturally — a hash-chained ledger, trace identifiers carried across the agent fleet, the deployment topology you can walk on the live `/architecture` page.) But the reason it belongs in *this* episode is simpler than the architecture. The customer-experience claims we just walked are *not credible without it.* Sarah's Friday is a beautiful design moment. It's only a *safe* design moment because the substrate exists. If the substrate is bolted on later, Friday cannot ship.
 
-**REID:** And the reason we name it in episode one, before we unpack it in episode two, is because the customer-experience claims in this episode are *not credible* without it. Sarah's Friday — the remote care for her mother — is a beautiful design moment. It is only a *safe* design moment because the audit chain exists. If the audit chain is bolted on later, the Friday moment cannot ship. The trust substrate has to exist on day one or the customer experience does not.
+**REID:** The customer experience is the surface. The audit chain is the foundation. Build the foundation late and the surface cracks. Build it on day one and the household trusts it without ever knowing why.
 
-**KEVEN:** That is the bridge to episode two. The customer experience is the surface. The audit chain is the foundation. We named the surface today. We unpack the foundation next.
+**KEVEN:** That's the bridge to episode two. We named the surface today. We unpack the foundation next.
 
 ### A reading I want to do
 
@@ -238,35 +230,31 @@ That is Sarah's week. Five distinct frictions. Five different moments where the 
 
 ### One disagreement
 
-**REID:** I have one disagreement, and I want to put it on tape.
+**REID:** One disagreement, and I want to put it on tape in the form Sarah would put it. *Is this just a grocery app with new vocabulary?* Because Sarah doesn't care what we call the architecture. Sarah cares whether her Sunday gets shorter, her Wednesday gets calmer, her Thursday wastes less food. Every capability we walked today — auto-replenish, the cabin lot, the loyalty layer, the scan-first home, the meal plan — exists, individually, on something Sarah has already installed and probably abandoned. So what is CFMP actually doing that the eight apps on her phone don't?
 
-**KEVEN:** Put it on tape.
+**KEVEN:** Four things no shipped product is doing for Sarah today.
 
-**REID:** *This is just a grocery app dressed up in agent language.* The auto-replenish is a feature on every grocery app. The StayLot is a logistics integration that any of the major delivery platforms could build in a sprint. The loyalty layer is already done by every retailer with a CRM team. The scan-first home is a Yuka clone. The meal-plan composition is what every recipe app has tried for fifteen years. I can find each of these capabilities, individually, on a shipped product today. So what is the actual claim CFMP is making that no shipped product is currently making?
+**KEVEN:** First — the lot that composes across retailers. No single retailer app lets Sarah build a meal plan that pulls produce from one source, the gochujang from a second, and her mother's diabetic snacks from a third — all in one lot, with one checkout intent, because Sarah's job is *the meal*, not the retailer. The retailers don't want to enable that; the moment they do, they cede the customer relationship to whichever layer is composing above them.
 
-**KEVEN:** Four things no single shipped product does.
+**REID:** Which is exactly why this only works as a *pack* — an independent layer that treats retailers as sources, not destinations. The retailers won't ship it because it's not in their interest. The customer needs it because her life isn't shaped to one retailer's catalog.
 
-**KEVEN:** First — the cross-retailer compose-from-anywhere lot. No single retailer app lets Sarah build a meal plan that pulls produce from one source, the gochujang from a second, and the diabetic snacks from a third — all in one lot, with one checkout intent, because Sarah's job is *the meal*, not the retailer.
+**KEVEN:** Second — Sarah-acting-for-her-mother, safely. Sarah can reorder her mother's diabetic snacks. Sarah cannot see her mother's prescription refills. The boundary is enforced where the agent lives, not where Sarah is asked to be careful. The household record captures both identities — Sarah-acting-as, her mother-the-account-holder — and the boundary records who saw what. No retailer app ships this. They don't have the substrate to ship it.
 
-**REID:** And the retailers do not want to enable that — because the moment they do, they cede the customer relationship to the layer above. Which is exactly why this only works as an *agentic pack* rather than a retailer feature. The retailer is a *source*, not a *destination*.
+**REID:** And the substrate is what makes the Friday safe. Without it, Friday is a feature pitch nobody can defend in front of a privacy officer. With it, Friday is something Sarah can actually do.
 
-**KEVEN:** Second — the audit chain that lets a caregiver participate in a senior's grocery and pharmacy without seeing protected information. Diana acts on behalf of Robert. Diana can reorder the diabetic snacks. Diana cannot see the prescription refills. The information boundary is enforced at the agent layer, the consent is recorded in the ledger, and the regulator can replay the chain. No retailer app ships this — because no commercial grocery app has the audit substrate.
+**KEVEN:** Third — the meal plan composed from the pantry plus allergens plus budget plus the retailer's stock, all at once. No retailer has the pantry. No recipe app has the cart. No delivery app has the allergens. The composition only happens because the agent fleet sees all four at once — and the record of every composition is what makes the recommendation defensible months later when Sarah, or her caregiver, or her regulator, asks why.
 
-**REID:** And CFMP has it because the framework underneath — the Acceleration Framework, productized on Microsoft as APEX-M — has it. The audit chain is not a CFMP feature. It is a pack-level capability.
+**REID:** And the four-source composition only works because the agent calls across sources through a clean boundary. Episode two and three walk that boundary.
 
-**KEVEN:** Third — the agent that composes a meal plan from pantry plus allergies plus budget plus the retailer's stock. No retailer has the pantry. No recipe app has the cart. No delivery app has the allergies. The composition happens at the agent layer because the agent has access to all four sources at once — and the audit chain records every composition so the recommendation can be defended.
+**KEVEN:** Fourth — Marcus's cabin lot. Not as a one-off cabin feature. As a *generalized pattern* — the household isn't a fixed address. The lot follows the household. The cabin is one instance. The beach house is another. Thanksgiving at the parents' house, the kid's college dorm, the grandmother's house for the holidays — same pattern. *One generalization. An infinite family of moments the customer doesn't have to re-explain to a new app every time.*
 
-**REID:** And the composition only works if the agent calls across sources with a clean tool boundary — the MCP boundary we unpack in episode three.
+**REID:** A one-off ships a feature. A pattern ships every member of a family of features without re-engineering. I'll accept the distinction.
 
-**KEVEN:** Fourth — the StayLot that follows the household to the cabin. Not as a logistics integration that hardcodes a property type, but as a *generalized displacement pattern* — the household is mobile, the lot moves with it, the friends co-edit, the deliveries stage against the destination. The cabin is one instance. The beach house, the parent's house at Thanksgiving, the kid's college dorm — same pattern. The generalization is the move.
+**KEVEN:** So I concede your premise — *the individual capabilities exist in the market* — and reject your conclusion. CFMP isn't a grocery app dressed up. It's an agentic *pack* — a substrate that the grocery surface happens to be the first application of. The customer feels the surface. The substrate is why the surface keeps working as the household's life changes.
 
-**REID:** A logistics integration ships one feature. A pattern ships an infinite family of features. I will accept the distinction.
+**REID:** I'll accept that framing. With one caveat for the seller in the room. It only holds if the team follows through on the substrate commitment. If the audit chain becomes a log file, if the boundaries become a REST API, if the lot becomes a JSON blob — then we have built a grocery app with new vocabulary. The discipline is the difference between something Sarah relies on and something Sarah abandons in week eleven.
 
-**KEVEN:** So I concede your premise — *the individual capabilities exist in the market* — and reject your conclusion. It is not a grocery app dressed up. It is a *pack* — an agentic substrate that the grocery surface happens to use.
-
-**REID:** I accept that framing. With one caveat. It only holds if Deloitte and the client follow through on the substrate commitment. If the audit chain becomes a log file, if the MCP boundary becomes a REST API, if the lot becomes a JSON blob — then we have built a grocery app dressed up in agent language. The discipline is the difference.
-
-**KEVEN:** Agreed. The substrate is what makes it not a grocery app. The substrate is what every episode after this one defends.
+**KEVEN:** Agreed. The substrate is what makes it not a grocery app. The substrate is what every episode after this one defends — and what Sarah, indirectly, gets to rely on.
 
 **REID:** Converge. The pack is a pack, not a grocery app. The discipline is the next eight episodes.
 
