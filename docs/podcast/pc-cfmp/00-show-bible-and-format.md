@@ -173,8 +173,8 @@ Episode 2 (Agent fleet & audit chain) anchors the deployment topology — Reid w
 
 When audio production is approved separately, the planned voices are:
 
-- **Keven** — a warm, mid-range female neural voice (revisit choice at audio time; the prior series uses Aria for parity).
-- **Reid** — `en-US-AndrewMultilingualNeural` (carried over from the Cross-Cloud Agentic series for continuity).
+- **Keven** — `en-US-AndrewNeural` (carried over from the Cross-Cloud Agentic series for continuity — male, warm, Microsoft-platform-practitioner register).
+- **Reid** — `en-US-AndrewMultilingualNeural` (carried over from the Cross-Cloud Agentic series — same Andrew family, distinguished by rate `-3%` and pitch `-2Hz` for the principal-architect-deliberate register).
 - **Opening sting** — ~5 seconds, mirroring the sibling series.
 - **Closing sting** — ~6 seconds, same family.
 
