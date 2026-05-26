@@ -53,221 +53,179 @@ Three hours later, just before noon, her phone buzzes. *"Heads up — the same-d
 
 ### Why a plug-in tier
 
-**KEVEN:** Start with the architectural framing, not the integration mechanics. Because the plug-in tier is a *move*, not a feature. Walk it.
+**KEVEN:** Picture Sarah's life if every grocery retailer had to be its own app. The retailer she shops at twice a week. The same-day delivery service. The warehouse club for bulk. The boutique grocer for the gochujang. Each one a different login, a different account, a different cart, a different checkout. *That is Sarah's life today.* Every retailer has its own technology. Every customer wants the same thing — items, fast, fairly priced, with the right substitutes if something is out of stock. The plug-in tier is the architectural decision that *Sarah never has to know how many retailers are in the answer.* One tap. The system handles the rest.
+
+**REID:** Walk the architectural move.
+
+**KEVEN:** The retailer-by-retailer technology is a noise field — different rules, different timings, different ways of telling the system an item is out of stock. If the agent fleet had to reason across that noise, the system would become mostly retailer code within six months. *The intelligence would drown in the integration.* The plug-in tier hides the retailer-specific noise behind one abstract base class. Every retailer becomes a subclass implementing the same five methods. The agent talks to the base; the base talks to the retailer. *Sarah's experience is uniform because the agent's reasoning is uniform because the interface is uniform.*
+
+**REID:** And here I press. The alternative move would be a microservice per retailer. Each one its own service, own deployment, own team. Most teams default to that. Why a single class hierarchy instead?
+
+**KEVEN:** Defended. At the customer's scale — three mock retailers today, three real ones in v2, maybe eight ever — the cost of eight microservices is higher than the cost of eight classes inside one process. Eight deployments, eight monitoring surfaces, eight scaling profiles. But the primary defense isn't the operational cost. It's the *interface enforcement.* A microservice can publish a contract and drift from it one revision at a time, quietly. The class-based abstraction enforces the contract at *load time* — the language won't let a subclass exist that doesn't implement every method. *The contract is a structural prerequisite for the retailer to be a retailer in the system.*
+
+One of the design team — Vargas — landed the line on this: *the interface is the product. Every retailer produces the same five-tuple — price, ETA, substitution rate, in-stock percentage, carbon — so the agent fleet can reason about them uniformly.* The interface is the product. The retailers are the inventory.
+
+**REID:** And the customer-experience consequence.
+
+**KEVEN:** The agent fleet is written *once.* The specialist that ranks quotes doesn't branch on which retailer it's looking at. The specialist that handles substitutions doesn't either. *One specialist composes a recommendation across the union of quotes. One substitution flow handles every retailer's out-of-stock event.* The retailer becomes a swappable implementation detail behind a uniform interface — *exactly like a USB port doesn't care what's plugged in.* Sarah doesn't see retailers; Sarah sees one trip view, one cart, one recommendation. *The customer is the better for it.* Carry that into the ABC walk.
+
+### The provider contract — five things every retailer does
+
+**KEVEN:** The contract that makes Sarah's one tap work. Picture what every retailer in Sarah's life has to be able to do — *quote, commit, report status, handle out-of-stock, cancel.* Five things. *Every retailer the system ever talks to implements those five.*
+
+**REID:** Walk the five.
+
+**KEVEN:** *Quote* — given Sarah's order and her address, what's the price, the ETA, how full the cart is, what the substitution rate looks like? *Commit* — Sarah confirmed; place the order. *Status* — what is the order doing right now? *Substitution* — Sarah just decided how to handle an out-of-stock item; record her choice. *Cancel* — Sarah changed her mind. Five methods. *That's the entire integration surface for every retailer the system ever talks to, mock or real, today or in v2.*
+
+**REID:** And what each retailer declares about itself.
+
+**KEVEN:** A handful of properties. *What kinds of trips it accepts* — pickup, delivery, stay-trip. *Whether it can handle prescriptions* — a hard structural property, not a runtime check. *Whether it covers the customer's ZIP.* Plus a few identifiers and labels. *Five methods plus a handful of properties. That's the contract.*
+
+**REID:** And the quote shape — what the agent ranks against.
+
+**KEVEN:** A small structured answer with the five things the customer cares about — *total price, fee, time-to-arrival or pickup, substitution rate, in-stock percentage* — plus a carbon estimate for a small green nudge. The shape is what the agent reasons over, what the card on Sarah's phone renders, what the audit chain records. *The shape is the boundary. Once frozen, every retailer — mock or real — conforms.*
+
+**REID:** And the property the abstraction earns.
+
+**KEVEN:** *The mock retailers in v1 are architecturally indistinguishable from real ones in v2.* The agent doesn't know they're mocks. The audit chain doesn't know. Sarah doesn't know. The seller doesn't have to dress them up — the mock is producing the same quote shape, the same substitution events, the same status updates the real provider will produce. *When the real provider lands, only the class implementation changes.* The orchestrator doesn't change. The substitution flow doesn't change. The card on Sarah's phone doesn't change. *Move to the aggregator.*
+
+### The fan-out — three quotes in four seconds
+
+**KEVEN:** Back to Sarah at nine-fifteen on Sunday. She taps *ship this plan.* The screen renders a spinner for less than four seconds. *In that four seconds, the system has asked every retailer the same question in parallel.* Walk what happens.
 
 **REID:** Walk it.
 
-**KEVEN:** *Every grocery retailer and delivery network has its own API. Every customer wants the same thing — items, fast, fairly priced, with the right substitutes.* That sentence from Section One of the design document is the whole reason this tier exists. The retailer's API surface is a noise field — different authentication models, different rate limits, different idempotency semantics, different webhook patterns, different identifier shapes, different substitution semantics. If the agent fleet has to reason across that noise, the orchestrator becomes mostly retailer code within six months. The intelligence drowns in the integration.
+**KEVEN:** When Sarah taps, the system loads her order — items, dietary flags, preferred address — and asks every eligible retailer for a quote. Eligibility is a structural pre-filter — *does this retailer accept this kind of trip, and does this retailer cover this ZIP?* A pickup-only retailer doesn't get asked about a delivery. A retailer that doesn't ship to Sarah's ZIP doesn't get asked at all. After the pre-filter, the surviving retailers are all asked at the same time. Within four seconds, every one has either returned a quote or timed out.
 
-The plug-in tier hides the retailer-specific noise behind a single abstract base class. Every retailer becomes a subclass implementing the same five methods. The agent fleet talks to the abstract base; the abstract base talks to the retailer. The customer's experience is uniform because the agent's reasoning is uniform because the interface is uniform.
+**REID:** And the timeout discipline. Because this is where most systems lie to the customer quietly.
 
-**REID:** And here I press. Because the alternative move would be a microservice per provider. Each retailer gets its own service, its own deployment, its own owner. That is what most teams default to. Why an ABC and not a microservice per provider?
-
-**KEVEN:** Defended. At v1 scale — three mocks today, three real providers in v2, perhaps eight in v3 — the cost of eight microservices is higher than the cost of eight plug-in classes inside one FastMCP server. Eight deployments, eight observability surfaces, eight scaling profiles, eight identity boundaries. The MCP tier was designed to host plug-ins in process. The right unit of isolation here is the class, not the service.
-
-But that is the secondary defense. The primary defense is the *interface enforcement* the ABC produces. A microservice can publish a contract and drift from it one revision at a time. An ABC enforces the contract at *class instantiation time* — the Python interpreter will not let a subclass exist that does not implement every abstract method. The contract is the structural prerequisite for the class to load. The interface is the product, not a description of the product.
-
-Vargas's line, from Section Four-Point-One, verbatim: *"The interface IS the product. Every provider must produce the same 5-tuple — price, ETA, sub-rate, in-stock percentage, carbon — so the agent fleet can reason about them uniformly."* The interface is the product. The provider implementations are the inventory.
-
-**REID:** And the consequence.
-
-**KEVEN:** The consequence is that the agent fleet can be written *once*. The Catalog specialist ranking quotes does not branch on provider identity. The Concierge specialist handling substitutions does not branch on provider identity. The audit ledger does not branch on provider identity. One specialist composes a recommendation across the union of quotes; one substitution flow handles every retailer's out-of-stock event; one LedgerRow shape records every fulfillment action. The provider becomes a *swappable implementation detail behind a uniform interface — exactly like a USB port doesn't care what's plugged in*. The design document uses that phrase explicitly, and the phrase is doing real architectural work. Carry that into the ABC walk.
-
-### The FulfillmentProvider ABC and the ProviderQuote shape
-
-**KEVEN:** The FulfillmentProvider ABC. Five abstract methods. Six class-level attributes. Twelve lines of Python that define the entire integration surface for grocery and delivery in CFMP. Walk the methods.
-
-**REID:** Walk them.
-
-**KEVEN:** Method one. `get_quote(lot, address) -> ProviderQuote`. The provider receives the Lot — items, dietary flags, member preferences — and the destination address, and returns one ProviderQuote. One call, one provider, one quote. The aggregator above will fan this out across all enabled providers in parallel.
-
-Method two. `place_order(lot, address, substitution_policy) -> Order`. The customer has confirmed; the provider commits. The substitution policy is passed in explicitly — *prefer same brand*, *prefer same size*, *no substitutions, refund on out-of-stock* — because the policy varies by Lot and by member. The return is an Order — provider-side identifier, status, ETA, tracking URL.
-
-Method three. `get_status(order_id) -> OrderStatus`. The polling path. The webhook is the noisy half of the resilience story; the polling path is the silent half, for reconciliation when a webhook is missed.
-
-Method four. `confirm_substitution(order_id, sku, decision)`. The customer has just decided how to handle an out-of-stock event. The decision lands at the provider so the provider can complete the order, refund the missing item, or skip per the customer's choice.
-
-Method five. `cancel_order(order_id) -> bool`. The customer changed her mind. The provider may or may not honor the cancellation. The return is the actual outcome, not the request.
-
-Five methods. That is the entire grocery-and-delivery integration surface. Every retailer in CFMP, mock or real, today or in v2, implements these five.
-
-**REID:** And the class attributes. Six of them.
-
-**KEVEN:** *Id* — the stable identifier the registry uses. *Display* — the human-readable name. *Kinds* — the set of Lot kinds the provider accepts; the aggregator pre-filters on this. *Is real* — boolean; false for v1 mocks. *Handles pharmacy* — boolean; only the BOPIS partner pickup in v1, because Rx must stay in-pharmacy. *Service area zips* — the ZIP set the provider operates in, or None for nationwide. Six attributes plus five methods is the entire contract.
-
-**REID:** And the ProviderQuote shape. Nine fields. Walk them.
-
-**KEVEN:** The ProviderQuote is the atomic unit of comparison. Nine fields, from Section Four-Point-Two. *Provider id* matching the class attribute. *Total cents* — line items only, no fees, in integer cents. *Fee cents* — delivery or service fee, broken out so the customer sees the all-in cost. *ETA minutes* — minutes from now. *Substitution rate* — historical share of items that result in a substitution event; the higher, the more friction post-confirmation. *Carbon kilograms* — routing and last-mile estimate; small ranker weight, present because the design committed to a green nudge. *In stock percentage* — share of the Lot's items in stock right now. *Service area ok* — the provider's own check, redundant with the pre-filter but defensively present. *Raw* — provider-specific payload preserved for audit; the orchestrator never reads from raw; the support engineer reads it when something has gone wrong.
-
-**REID:** And the property the quote shape earns the architecture.
-
-**KEVEN:** *The quote shape is the API boundary — once frozen, mocks and real providers conform.* The shape is what the agent ranks against, what the UI renders, what the audit chain stores. The shape does not change when a real provider lands. The class implementation changes. The mock produced a deterministic in-stock-percent of ninety-five; the real provider queries the retailer's inventory and produces whatever the retailer reports right now. Same shape, same ranker, same UI, same audit.
-
-**REID:** That is exactly the point. The abstraction is what lets v1 ship with mocks while the partnerships are still being negotiated.
-
-**KEVEN:** Exactly. The v1 mocks are real classes producing real ProviderQuotes through the real ABC. The orchestrator does not know they are mocks. The audit chain does not know. The UI does not know. The customer does not know. The seller can demo against the mocks because the mocks are architecturally indistinguishable from real providers — *they implement the same ABC*. Move to the aggregator.
-
-### The quote-aggregator fan-out
-
-**KEVEN:** The quote-aggregator. `get_quotes` is the FastMCP tool the orchestrator calls when the customer taps *ship this Lot*. The tool fans out to all enabled providers in parallel using `asyncio.gather`, with a four-second timeout per provider, and returns the union of results. Walk the fan-out.
-
-**REID:** Walk it.
-
-**KEVEN:** The orchestrator's HTTP handler receives the Lot identifier from Mobile, loads the Lot — items, dietary flags, preferred address — and calls `fulfillment-mcp.get_quotes`. The MCP tool reads the registry and pre-filters two ways. *One* — the Lot's kind must intersect the provider's `kinds` set; a PickupLot does not get sent to a delivery-only provider. *Two* — the destination ZIP must intersect the provider's `service_area_zips`, or the service area must be nationwide.
-
-After the pre-filter, the aggregator builds one coroutine per surviving provider calling that provider's `get_quote`, hands the list to `asyncio.gather` with a four-second timeout per provider and `return_exceptions=True`, and awaits concurrently. Within four seconds every provider has either returned a ProviderQuote or timed out. The aggregator returns the union — successful quotes plus error rows for timeouts.
-
-**REID:** And the timeout-as-error-row discipline.
-
-**KEVEN:** Critical detail. Timeouts produce a `{provider_id, error: "timeout"}` row. They are *not* dropped silently. The Catalog specialist sees the error row alongside the successful quotes. The UI sees it when it composes the comparison card. The result is the *"Shipt unreachable — two of three quotes shown"* affordance the design document calls out. The customer is not lied to about whether a provider was queried.
+**KEVEN:** Timeouts don't disappear. *They surface.* If one retailer times out, the card on Sarah's phone says *Shipt unreachable — two of three quotes shown.* The system isn't pretending all three retailers gave clean answers when only two did. *Sarah is not lied to about whether a retailer was queried.* The record on the audit trail captures both the request and the timeout; if Sarah ever asks Priya *why was I sent to the warehouse club instead of Shipt*, Priya has the row.
 
 **REID:** This is the SRE pattern — degrade visibly, never silently.
 
-**KEVEN:** Degrade visibly, never silently. The silent-degradation failure mode erodes trust. The customer who confirms a quote thinking three providers were considered when actually only two were is the customer who has been quietly lied to by the architecture. The LedgerRow records both the request and the timeouts; the operator on the Portal can replay the trace; the support engineer answering a *why was I sent to the warehouse-club delivery* question can point to the row.
+**KEVEN:** *Degrade visibly, never silently.* The silent-degradation failure mode is what erodes trust. The customer who confirms a quote thinking three retailers were considered when only two were is the customer who has been quietly lied to by the architecture. The architecture refuses that.
 
 **REID:** And the latency budget.
 
-**KEVEN:** Five seconds end-to-end, from Section Eight-Point-Three. Okafor's wall. *"End-to-end quote should feel instant. Five seconds is the wall."* Four seconds per-provider timeout; the aggregator, the orchestrator's HTTP handling, the Catalog specialist's ranking, and the UI's render share the remaining second. The mock providers respond under a hundred milliseconds, which sets the credible bar for real providers. There is also a five-minute response cache keyed on Lot hash and address hash, so a tap-and-retap against a tweaked plan does not pay the latency twice.
+**KEVEN:** Five seconds end-to-end. *The end-to-end quote should feel instant; five seconds is the wall.* Four seconds per retailer to answer; the aggregation and ranking and rendering share the remaining second. The mock retailers respond in under a hundred milliseconds today, which sets the credible bar for the real ones. The system caches recent quotes for five minutes — so if Sarah taps, looks at the answer, tweaks the plan, and taps again, *she doesn't pay the latency twice.*
 
-**REID:** Five-second end-to-end. Error rows for timeouts. Cache by Lot hash and address hash. Move to the ranker.
+**REID:** Five seconds end-to-end. Timeouts surface. Cache by order shape. Move to the ranker.
 
-### The recommendation score
+### The recommendation — eight words
 
-**KEVEN:** The recommendation score. Composite, five factors, weighted, from Section Four-Point-Four of the design document. Walk the formula.
+**KEVEN:** Now the eight words Sarah reads. *Cheapest by ten dollars and one hundred percent in stock.* Sarah reads that line in under a second. She knows why the system chose the pickup over the two deliveries. She doesn't need a paragraph. *Eight words is the discipline.*
 
-**REID:** Walk it.
+**REID:** Walk the score.
 
-**KEVEN:** The score for each quote is a weighted sum of five normalized factors. Factor one — price. *Minimum total over this quote's total.* The cheapest quote scores one on this factor; every other quote scores less than one in proportion. Factor two — ETA. *Minimum ETA over this quote's ETA.* The fastest quote scores one; every other in proportion. Factor three — reliability. *One minus the substitution rate.* The provider with the lowest substitution rate scores closest to one. Factor four — member preference. *The member's preference weight for this provider.* If the customer has used this provider before and rated it favorably, this factor lifts. Factor five — carbon. *Minimum carbon over this quote's carbon.* The greenest quote scores one.
+**KEVEN:** The system reads each quote on five factors. *Price.* *Time to arrival.* *Reliability* — how often this retailer ends up substituting an item. *Sarah's own preference* — if she's used this retailer before and rated it favorably, that factor lifts. *Carbon.* The five factors are weighted — price the heaviest, then time, then reliability, then preference, then carbon. *The system isn't being clever. The system is being predictable.* The same set of quotes produces the same ranking every time. There is no LLM in the ranking step.
 
-The five factors are weighted at thirty, twenty-five, twenty, fifteen, and ten percent in v1. Price dominates; ETA is the second pull; reliability is the third; preference is the fourth; carbon is the fifth and smallest. The weights are tunable in Sprint Five behind an A/B framework; v1 ships with the defaults the design document committed to. The formula composes deterministically; the same set of quotes produces the same ranking every time. There is no LLM in the ranking step.
+**REID:** And the eight-word reason. The line one of the design team — Maya Chen — landed on this.
 
-**REID:** And the reason string.
+**KEVEN:** *Show the why in eight words or less. Customers don't read paragraphs at checkout.* The reason names the dominant factor — *cheapest by ten dollars* — and one secondary detail Sarah can verify — *one hundred percent in stock.* Eight words. *Sarah reads it in a second and knows whether she agrees.*
 
-**KEVEN:** The reason string is the eight-word affordance the UI renders below the recommendation. *"Cheapest by three dollars and fifty cents and ninety-nine percent in stock."* *"Fastest by twenty minutes and one hundred percent in stock."* *"Most reliable in your zip and same-brand subs."* The string is composed by surfacing the *dominant factor* — the one that contributed the most to the winning quote's score margin over the second-place quote — plus a secondary detail the customer can verify. Eight words is the design's discipline. Maya Chen, from Section Six-Point-One: *"Show the WHY for the recommendation in eight words or less. Customers don't read paragraphs at checkout."*
+**REID:** And here is where the line from the design team — Hassan, on transparency — lands.
 
-**REID:** And here is where Hassan's line lands, because the reason string is not a polish concern. The reason string is the AI safety principle showing up in product design. Quote it.
+**KEVEN:** *Surface the reason. A black-box rank loses customer trust the moment one retailer mysteriously loses three weeks in a row.* The ranking is composed by software, deterministic, no drift — but transparency is what earns Sarah's trust over time. The customer who sees an eight-word reason every week builds a mental model of what the system values — *price, then speed, then reliability, then her own preferences, then carbon.* The customer who sees no reason is left to infer. Over time, the inference goes adversarial. *The system always picks the warehouse club; what's it earning on the side?* *The eight-word reason inoculates against that.*
 
-**KEVEN:** Quoting it. Hassan, verbatim from Section Four-Point-Four of the design document: *"Surface the reason. A black-box rank loses customer trust the moment one provider 'mysteriously' loses three weeks in a row."* The rank is composed by software, not by an LLM, and the rank is deterministic, so there is no behavioral drift to defend against; but the *transparency* of the rank is what earns the customer's trust over time. The customer who sees an eight-word reason every week builds a mental model of what the ranker values — price, then speed, then reliability, then her own preferences, then carbon. The customer who sees no reason is left to infer; over time the inference goes adversarial. *"The system always picks the warehouse-club delivery; what is it earning on the side?"* The eight-word reason inoculates against that drift.
+**REID:** The AI safety principle showing up in product design — the ranker has to be explainable in eight words.
 
-**REID:** This is the AI safety principle showing up in product design — the ranker must be explainable in eight words.
+**KEVEN:** Explainable in eight words. *The ranker the customer can disagree with productively is the ranker the customer trusts.* The ranker that can't be explained is the ranker she abandons. There's also a deterministic fallback for the case where the ranking step itself fails — *cheapest first.* The audit row tags that case so Priya can see when the composite ranker was bypassed. The customer is still served a ranking. *Move to the substitution flow.*
 
-**KEVEN:** Explainable in eight words. That is the discipline. The ranker that can be explained in eight words is the ranker the customer can disagree with productively. The ranker that cannot be explained in eight words is the ranker the customer abandons. *Surface the reason.* Carry that.
+### The substitution flow — dietary safety at the search step
 
-There is also a deterministic fallback path the design earns for the case where the Catalog specialist returns a 5xx. The fallback is *lowest total cents first*, with the LedgerRow tagged `ranker=fallback_deterministic` so the operator on the Portal can see when the composite ranker was bypassed. The customer is still served a ranking; the audit chain records that the ranking was the fallback; the seller can defend the experience because the failure mode is named in the trace. Move to the substitution flow.
-
-### The substitution flow — dietary safety enforced at the search step
-
-**KEVEN:** The substitution flow. The highest-risk LLM moment in CFMP. The moment where the system has the most to lose and the customer has the most to lose. Walk it.
+**KEVEN:** The highest-stakes moment in the whole product. Three hours into a fulfillment, the shopper reaches the aisle for the item Sarah ordered, and the item is out. *The system has thirty seconds to give Sarah a safe choice — and one of her household members has a peanut allergy.* Get this wrong, somebody eats peanut.
 
 **REID:** Walk it.
 
-**KEVEN:** A provider is mid-fulfillment. The shopper reaches the aisle for the item Sarah ordered and the item is out of stock. The provider fires an `item_oos` event. The event lands at `ca-visionkit-orchestrator /api/fulfillment/webhook`. The handler verifies the HMAC signature against the per-provider shared secret, checks the idempotency table keyed on the compound of provider identifier and provider-side event identifier, and calls `fulfillment-mcp.handle_substitution` with the order identifier and the out-of-stock SKU.
+**KEVEN:** The retailer fires an *out-of-stock* event. The system loads Sarah's order, finds the original lot, and — critically — pulls Sarah's dietary flags from the household profile. *The peanut allergy. The gluten preference. The kosher preference if she'd set one.* The system then asks the catalog specialist to find alternatives for the missing item — *with the dietary flags as a hard constraint.* The search returns only candidates that match the description *and don't match any allergen.* Candidates that match the description but would violate the allergy are filtered out *before the LLM ever sees them.*
 
-The substitution tool loads the order, the originating Lot, and — critically — the customer's `dietary_flags` from the profile. The dietary flags are the constraint set — *peanut allergy*, *gluten-free*, *kosher*, *no shellfish*, whatever the customer has set. The tool calls the Catalog specialist's product search with two arguments — the missing item's name, and the dietary flags as a *hard constraint*. The search returns only candidates that match the description *and* do not match any allergen flag. Candidates that would have matched the description but match an allergen are filtered out *before the LLM ever sees them*.
+**REID:** And the line from the design team that lands here — Hassan's.
 
-**REID:** And here is where Hassan's line lands again. Quote it.
+**KEVEN:** *Substitution is the highest-risk LLM moment in this product. Get it wrong, the customer eats peanut.* The bottom line. The substitution flow is where the LLM has the most authority to surface something Sarah might tap fast — mid-fulfillment, provider waiting, timeout short. *The defense is structural.* The filter is enforced *at the search step*, never at the rendering step. Dietary flags are hard constraints. *The LLM cannot recommend an allergen because the LLM cannot see one.* Defense in depth — the search is the wall, and the rendering doesn't have to be.
 
-**KEVEN:** Quoting it. Hassan, verbatim from Section Eight-Point-Two: *"Substitution is the highest-risk LLM moment in this product. Get it wrong, the customer eats peanut."* The product's safety bottom line. The substitution flow is where the LLM has the most authority to surface a recommendation the customer might tap fast — mid-fulfillment, provider waiting, timeout short. Get it wrong, the customer eats peanut.
+**REID:** *The LLM never sees an allergen the customer can't eat.*
 
-The defense is structural. The filter is enforced *at the search step*, never at the rendering step. The search receives dietary flags as a hard constraint. Allergens are excluded *before the agent sees them*. The LLM cannot recommend an allergen because the LLM cannot see one. Defense in depth — the search step is the wall, and the rendering step does not have to be one.
+**KEVEN:** Never. That's the property. And the *skip the decision — agent will choose* option earns the same property. The system's default on skip is the customer-marked-safe option ranked highest by the deterministic substitution scorer — same brand if available, same size, closest price. *Deterministic. Not prose.* The skip is a defense, not laziness.
 
-**REID:** Defense in depth. The LLM never sees an allergen the customer can't eat.
+**REID:** And I press. What if the search comes back empty — the dietary flags exclude every candidate the retailer has for that item?
 
-**KEVEN:** Never. That is the property. And the *"Skip the decision — agent will choose"* affordance earns the same property. The agent's default in the skip path is the customer-marked-safe option ranked highest by the deterministic substitution scorer — same brand if available, same size, closest price. The agent applies a deterministic rule, not prose. The skip is a defense, not laziness.
+**KEVEN:** Real case, handled. The sheet shows *refund*, *skip*, and one line — *no safe alternative for your dietary needs; please choose refund or let the agent handle it.* Skip routes to refund automatically. *The refund option is always on the sheet for exactly this reason.* Sarah is never asked to choose between an allergen and a refund. *She's offered the refund as the safe path.* The record holds even in the edge case.
 
-**REID:** And here I press. If the search step filters out everything — if the dietary flags exclude every candidate in the provider's catalog for that item — what does the agent show?
+**REID:** And the way the customer hears about it.
 
-**KEVEN:** Pressing accepted. The case is real and the design handles it. If the safe candidate set is empty, the substitution sheet renders the refund option, the skip option, and a single line of text — *"No safe alternative for your dietary needs; please choose refund or let the agent handle it."* Skip routes to refund automatically. The refund option is *always present* on the sheet for exactly this reason. *No alternative is never not the right answer when the safe set is empty.* The customer is never asked to choose between an allergen and a refund; the customer is offered the refund as the safe path. The LedgerRow records the empty safe set and the refund decision. The audit chain shows the Compliance team the dietary flags held even in the edge case.
+**KEVEN:** Through the cue bus from Episode Six. The substitution event composes one cue, and the system fans it out — Sarah's phone gets a card, her kitchen speaker says *heads up — the same-day delivery is out of the gochujang you asked for. Tap the phone to choose.* Three chips plus refund plus skip. Sarah taps. The retailer gets the answer. The record seals. *The substitution flow inherits every property the cue bus earned — path diversity, cadence, one voice, audit thread — without re-implementing any of them.* Carry that into the pickup walk.
 
-**REID:** And the cue render.
+### Pickup as a peer to delivery
 
-**KEVEN:** The cue render reuses the Sonos Cue Bus from Episode Six. The substitution event composes a Cue and the Cue Bus fans it out across mobile push, Sonos cue, and Portal mirror. The customer hears the chime and the spoken line — *"Heads up — the same-day delivery is out of the gochujang you asked for. Tap the phone to choose."* The mobile renders three chips plus refund plus skip. The customer taps. The provider gets the answer. The LedgerRow seals. The substitution flow inherits every property the Cue Bus earned in Episode Six — path diversity, cadence law, one-voice rule, audit trace — without re-implementing any of them. Carry that into the pickup walk.
-
-### Online order pickup — the BOPIS leg
-
-**KEVEN:** Now the move I want to spend real time on. Online order pickup — BOPIS, buy-online-pick-up-in-store — is not a stepchild of delivery in this architecture. It is a *peer fulfillment shape*. The ABC carries that property in its type system, the ProviderQuote carries it in its field list, and the recommendation score reasons about both shapes uniformly. Walk it.
+**KEVEN:** Now the move worth time. Pickup is *not* a stepchild of delivery in this architecture — pickup is a peer. The system doesn't write different code for pickup. *One contract handles both shapes. One ranker reasons over both. The customer doesn't pick a mode — the customer picks an answer.*
 
 **REID:** Walk it.
 
-**KEVEN:** The ABC. Section Four-Point-One — the `kinds` attribute is typed `set[str]`, not a single string. A provider declares the set of Lot kinds it accepts. The BOPIS provider declares `{"PickupLot"}`; the same-day delivery provider declares `{"DeliveryLot", "StayLot"}`. The aggregator's pre-filter intersects the Lot's kind with each provider's `kinds` set; the provider only gets a `get_quote` call if the intersection is non-empty. PickupLot routes to BOPIS; DeliveryLot routes to delivery; the *same fan-out machinery* handles both shapes.
+**KEVEN:** Each retailer declares what kinds of trips it accepts. A pickup-only retailer declares *I do pickup.* A delivery-only retailer declares *I do delivery and stay-trips.* The same fan-out machinery handles both. *Sarah's Sunday tap can return a pickup quote alongside two delivery quotes, all in the same comparison card.* The quote shape carries both time-fields — a *time to arrival* for delivery, an *earliest pickup window* for pickup. The ranker reads whichever one is populated and normalizes it into the time factor of the score. *One quote shape, two trip shapes, one ranker.*
 
-The ProviderQuote shape carries the same uniformity. Section Four-Point-Two. The nine fields include `eta_minutes` — populated only for delivery — and `earliest_pickup_at` — populated only for BOPIS. *Sibling fields on one struct*. The ranker reads whichever one is populated, normalizes it into the time-factor of the composite score, and never branches on provider kind. That is why the abstraction is right — the agent doesn't write different code for pickup. One struct; two fulfillment shapes; one ranker.
+**REID:** And the economics, because the design document is bolder than the podcast has been. The recommendation in the example card isn't the same-day delivery — it's the pickup. *Saturday at ten, no fee, all fourteen items in stock.* The reason string the customer reads is *cheapest by nine ninety-nine and one hundred percent in stock.*
 
-**REID:** And the economics, because this is where the design document is bolder than the podcast has been. The recommendation in Section Six-Point-One is not the same-day delivery and not the warehouse-club delivery. The recommended option in the example card is *Kroger BOPIS — Sat ten a.m., zero-dollar fee, all fourteen items in stock*. Pickup is the winner of the example. The reason string the customer sees is *"Cheapest by nine ninety-nine and one hundred percent in stock."*
+**KEVEN:** Pickup is the recommended option. The eight-word reason carries it. *Cheapest by ten dollars.* Sarah reads it in under a second, and the answer to *am I going past the store anyway* lands inside her own head in the next second. *The ranker doesn't have a thumb on the scale.* The customer decides.
 
-**KEVEN:** Pickup is the recommended option, and Maya Chen's eight-word-reason principle is what carries it. *"Show the WHY for the recommendation in eight words or less. Customers don't read paragraphs at checkout."* The reason names the dominant factor — *cheapest by nine ninety-nine* — and the secondary verifier — *one hundred percent in stock*. The customer reads that in under a second.
+**REID:** And the second move the contract carries — the pharmacy gate.
 
-**REID:** And here I press. Is the customer actually willing to drive? The orthodox grocery-tech instinct is that delivery wins on convenience and the customer pays the fee. The architecture's bet is something else.
+**KEVEN:** *Whether a retailer can handle prescriptions is declared on the retailer class — not as a runtime check, not after the LLM has seen the order. It's a structural property of the retailer.* The pre-filter checks two things — does the retailer accept this kind of trip, and if the order contains a prescription, does the retailer handle prescriptions? Today, only the in-pharmacy pickup retailer declares prescription handling. The same-day delivery retailers don't, and they never get asked about a prescription order.
 
-**KEVEN:** Pressing accepted. The bet is that *when the cost-delta is meaningful and the customer's day already includes a store trip, the customer chooses pickup*. The recommendation surfaces the option and lets the customer decide. The eight-word reason is the affordance — the customer sees *cheapest by ten dollars* and the answer to *am I going past the store anyway* lands inside the customer's own head in the next second. The ranker does not have a thumb on the scale.
+**REID:** *This is the architecture-honest version of HIPAA.* The safety isn't a runtime check. It isn't a prompt politely asking the LLM not to surface a prescription to a non-pharmacy retailer. *It's an eligibility filter that fires before the LLM ever sees the prescription line.* The same defense-in-depth posture as the dietary filter — make the unsafe action structurally impossible upstream of the agent, not just unrecommended downstream of it.
 
-**REID:** And the second move the ABC carries — the pharmacy gate. Section Four-Point-One. The `handles_pharmacy` attribute is a hard-coded boolean on the provider class.
+**KEVEN:** Same posture. The LLM never sees a same-day delivery quote for a prescription because the aggregator never asked. The substitution flow never offers a delivery alternative for a prescription because the aggregator never quoted one. *The pharmacy stays in-pharmacy by structure, not by prose.*
 
-**KEVEN:** *Handles pharmacy* is the architecture-honest version of HIPAA. The attribute is declared on the class — not at runtime, not after the LLM has seen the Lot, not as a policy rule that could drift. It is a *structural prerequisite for the provider to be queried at all*. The aggregator's pre-filter checks two things — the Lot's kind must intersect the provider's `kinds` set, *and* if any line item is flagged `prescription=true`, the provider's `handles_pharmacy` must be true. In v1 only the BOPIS provider declares `handles_pharmacy=true`. The same-day delivery providers don't carry Rx, and they don't get a quote request for a Lot that contains one.
+**REID:** And Robert's Friday refill is the canonical pickup journey.
 
-**REID:** This is the architecture-honest version of HIPAA. The safety isn't a runtime check; it isn't a prompt that says *please do not surface this item to a non-pharmacy provider*. It is a *provider-eligibility filter that fires before the LLM ever sees the prescription line*. The same defense-in-depth posture as the dietary-safety filter — make the unsafe action structurally impossible upstream of the agent, not just unrecommended downstream of it.
+**KEVEN:** Friday morning. The system says — *your Lisinopril is due Friday. Want me to add it to your Friday pickup?* Robert says *yes* into his kitchen speaker. A passkey biometric confirms — *the smallest possible identity surface for the highest-trust action.* The system places the order at the pharmacy pickup retailer only — because that's the only one with prescription handling on its class. Friday at ten, Robert arrives at the store; the system knows he's there; the shopper brings his items out; the system mirrors the confirmation on the speaker and the panel. *That's the highest-trust path in CFMP — pickup is the architecture that earns the regulator's trust on prescriptions.*
 
-**KEVEN:** Exactly the same posture. Hassan's defense-in-depth principle showing up twice — at the search step for allergens, at the eligibility filter for prescriptions. The LLM never sees an Instacart quote for an Rx line because the aggregator never asked Instacart. The substitution flow never offers a same-day delivery alternative for a prescription because the aggregator never quoted one. The pharmacy stays in-pharmacy by class declaration, not by prose.
+**REID:** And Sarah's Sunday opening — *not* pickup-or-delivery.
 
-**REID:** And the geofence check-in. The pickup leg's completion event.
+**KEVEN:** Sarah's Sunday is pickup-PLUS-delivery, *one decision surface, one tap.* The system places three orders in parallel — one pickup, two delivery — and the cue bus mirrors all three status streams into one trip view. *The architecture is one contract with multiple trip kinds. The customer experience is one trip view with three legs.* The interface is the product, and the product is *pickup and delivery in one tap.*
 
-**KEVEN:** The geofence check-in is what closes the BOPIS loop. When the customer arrives at the store, GPS geofence verification confirms the pickup. The provider's status webhook fires — same shape as the delivery providers' status webhooks, same handler at `/api/fulfillment/webhook`, same HMAC verification, same idempotency check, same audit row. The Cue Bus fans it out the same way — visual mirror on the Portal, optional spoken cue on the Sonos. The chime, the spoken line — *"Your pickup is confirmed; the shopper is bringing your items to the curb."* The Cue Bus does not care which kind of webhook fired it. The customer-facing affordance for pickup is the same as the customer-facing affordance for delivery — one trip view, one status stream, one tap to acknowledge.
+**REID:** Sarah never thinks about which retailer handles which leg. Move to the deployment walk.
 
-**REID:** And Robert's Friday Rx is the canonical journey for the whole BOPIS-plus-pharmacy stack.
+### The deployment — one new cell on the page
 
-**KEVEN:** Robert's Friday Rx is the canonical BOPIS journey. Section Three-Point-Two of the design. The Concierge moment fires Friday morning — *"Your Lisinopril is due Friday. Want me to add it to your Friday pickup?"* Robert says *yes* via the phone mic, the T2 passkey biometric confirms — a low-risk single-syllable confirmation, the smallest possible identity surface for the highest-trust action. The Pharmacy specialist plus the Catalog specialist combine the request. The aggregator queries only the BOPIS provider, because `handles_pharmacy=true` is required and only the BOPIS provider declares it. The order is placed. Friday at ten a.m. Robert arrives at the store; the GPS geofence verifies the arrival; the curbside shopper brings the items out; the Cue Bus mirrors the confirmation. That is the highest-trust path in CFMP — pickup is the architecture that earns the regulator's trust on Rx.
+**KEVEN:** Picture the CIO opening the architecture page the seller has shared. The page she's been looking at since Episode Two has the three houses, the supporting services, the audit substrate, the speaker channel. *The fulfillment tier adds one cell.* No new infrastructure box. No new external dependency. No new monthly cost.
 
-**REID:** And the headline architecture move you opened the episode on. Sarah's Sunday isn't pickup-OR-delivery.
+**REID:** Walk how that works. Because Episode Two opened on this page, and the fulfillment tier inherits the topology without adding a single new piece.
 
-**KEVEN:** Sarah's Sunday is pickup-PLUS-delivery, one decision surface, one tap. The orchestrator places three provider orders in parallel — one BOPIS, two delivery — and the Cue Bus mirrors all three status streams into one trip view. The architecture is one ABC with `kinds: set[str]`; the customer experience is one trip view with three legs. The interface is the product, and the product is *pickup and delivery, one tap*.
+**KEVEN:** The agent fleet's home gains a handful of new HTTP handlers — *quote, place, status, substitute, cancel.* The catalog specialist gains a few new tools. *No new container service.* The existing MCP tier gains a sixth in-process server that hosts the new tools. *No new container service.* The retailer classes — the three mocks today, the real ones when partnerships sign — live as files alongside each other. *The customer's existing CFMP deployment is the existing deployment; the fulfillment tier is additive.*
 
-**REID:** The customer never thinks about which retailer handles which leg. Move to the deployment walk.
-
-### Azure-native deployment — the sixth FastMCP server
-
-**KEVEN:** Azure-native deployment. Section Five of the design document. The win, in the design's words — *zero new Container App, zero new external dependency, zero new monthly cost. The MCP tier was designed for exactly this kind of plug-in extension.* Walk the topology.
-
-**REID:** Walk it. Because this is the bit Episode Two opened on the architecture page, and the fulfillment tier inherits the topology without adding a single new infrastructure box.
-
-**KEVEN:** Walking it. The orchestrator is `ca-visionkit-orchestrator`, the Container Apps deployment Episodes Two and Five named. The orchestrator hosts the parent and the five specialists — Trips, Replenish, Coupons, Pharmacy, Concierge — plus the eight new fulfillment HTTP handlers under `/api/fulfillment/*` — quotes, place, list orders, detail, cancel, confirm substitution, webhook, list providers. The Catalog specialist gains three new tools — `get_fulfillment_quotes`, `place_fulfillment_order`, `suggest_substitutions`. No new Container App. The fulfillment HTTP surface lives in the existing orchestrator.
-
-The MCP tier is `ca-visionkit-mcp`, the Container App that hosts the five existing FastMCP servers from prior episodes — cxml, parsml, merml, weather, ledger. The fulfillment tier adds a *sixth* FastMCP server, path-mounted under `/fulfillment` inside the same Container App. The new server is `fulfillment-mcp`. Five tools — `list_providers`, `get_quotes`, `place_order`, `get_order_status`, `handle_substitution`. The five tools call into the provider classes that live in the orchestrator's `providers/` package — `base.py` for the ABC and the dataclasses, and one file per provider — `instacart_mock.py`, `shipt_mock.py`, `kroger_bopis_mock.py` today, and `instacart_real.py`, `shipt_real.py`, `kroger_real.py` when the v2 partnerships land.
+The data additions land in the existing database. The audit substrate gains new row types. *The architecture page gains one new cell — fulfillment plug-ins, three mocks today, real retailers tomorrow — alongside the existing agent fleet and MCP cells.*
 
 **REID:** Zero new infrastructure. Zero new monthly cost. Zero new external dependency.
 
-**KEVEN:** Zero, zero, zero. The fulfillment tier ships without adding a single Container App, without adding a single Postgres database, without adding a single blob storage account, without adding a single Key Vault, without adding a single Azure Front Door rule, without adding a single virtual network, without adding a single private endpoint. The schema additions — four tables under §5.5 of the design document, `fulfillment_providers`, `fulfillment_orders`, `fulfillment_substitutions`, `fulfillment_webhook_events` — land in the existing Postgres Flexible Server. The Bronze audit tier lands new categories — `fulfillment_quote_request`, `fulfillment_quote_result`, `fulfillment_place`, `fulfillment_status`, `fulfillment_oos`, `fulfillment_sub_suggest`, `fulfillment_sub_decide`, `fulfillment_cancel` — into the existing audit chain. The architecture row on the live `/architecture` page gains one new cell — *Fulfillment plug-ins (3 mocks)* — alongside the existing agent fleet and MCP tier cells.
+**KEVEN:** Zero, zero, zero. The seller's argument lands because the deployment lands. *Other delivery-integration approaches require a new orchestration service, a new partner-network bridge, a new payment vault.* CFMP requires the team to enable a configuration flag and re-deploy the existing revision. *The deploy is a label change.* The infrastructure delta is one row on the page.
 
-The seller's argument lands because the deployment lands. The customer's existing CFMP deployment is the existing deployment; the fulfillment tier is *additive*. Other delivery integration approaches require a new orchestration service, a new partner-network bridge, a new payment vault. CFMP-Fulfillment requires the customer to enable a new env var on the MCP Container App — `FULFILLMENT_PROVIDERS=instacart_mock,shipt_mock,kroger_bopis_mock` — and re-deploy the existing revision. The deploy is a label change. The cost delta is zero. The infrastructure delta is one row on the architecture page.
+**REID:** And the retailer webhooks.
 
-**REID:** And the webhook landing.
+**KEVEN:** Retailer notifications — out-of-stock events, status updates, order completions — all land on the same handler. The handler verifies the signature against a per-retailer secret. It de-duplicates retries. It routes out-of-stock events into the substitution flow, status updates into the cue bus, every action into the audit chain. *Every action carries the same tracking thread Sarah's tap started with.* Six weeks later, a regulator's replay question lands across the entire fulfillment chain on one screen.
 
-**KEVEN:** Provider webhooks land at `ca-visionkit-orchestrator /api/fulfillment/webhook`. The handler verifies the HMAC signature against a per-provider shared secret stored in Key Vault. The handler checks the idempotency table on the compound `(provider_id, provider_event_id)` to dedup retries. The handler fans the event into the substitution flow if it is an out-of-stock event, into the Cue Bus if it is a status update, into the audit chain in all cases. Every action is a LedgerRow — quote requested, quotes returned, order placed, status changed, OOS detected, substitution suggested, substitution decided, cancelled. Each carries the inheriting `trace_id` from the customer's original *"ship this Lot"* tap. The regulator's replay question from Episode Two lands a trace across the entire fulfillment chain.
-
-The live `/architecture` URL is `https://ca-visionkit-portal.gentlestone-9b49b099.eastus2.azurecontainerapps.io/architecture`. Open it on a client call, and the new fulfillment tier shows up beside the agent fleet and the MCP tier. The seller's screen-share gains one cell. The buyer's mental model gains one row. The Azure spend gains zero dollars.
+The page URL is `https://ca-visionkit-portal.gentlestone-9b49b099.eastus2.azurecontainerapps.io/architecture`. Open it on a client call. *The new fulfillment cell shows up alongside the existing agent fleet and MCP cells. The seller's screen-share gains one cell. The buyer's mental model gains one row. The Azure spend gains zero dollars.*
 
 **REID:** One cell, one row, zero dollars. Move to the mocks-are-real-architecture commitment.
 
-### Mocks are real architecture, not a stepping stone
+### Mocks are real architecture
 
-**KEVEN:** The mocks-are-real-architecture commitment. The three v1 mocks — `instacart_mock`, `shipt_mock`, `kroger_bopis_mock` — are not prototypes. They are not throwaway. They are not *"we will replace this with the real thing in v2"*. They are *real architecture*. Walk the discipline.
+**KEVEN:** The discipline that holds the whole tier together. *The three retailer mocks in v1 are not prototypes.* They are not throwaway. They are not *we'll replace them with the real thing in v2.* *They are real architecture.* Walk the commitment.
 
 **REID:** Walk it.
 
-**KEVEN:** Each mock is a class that subclasses `FulfillmentProvider`. Each implements the same five methods every real provider class will implement. Each produces ProviderQuotes with the same nine fields. Each emits the same webhook events with the same shape. Each lands in the same Postgres tables. Each carries the same LedgerRows. The mocks are deterministic — `instacart_mock` has a twenty-percent substitution rate, a sixty-minute ETA, and a tunable in-stock-percent; `shipt_mock` has a one-percent substitution rate, a ninety-minute ETA, and a late-night-OK window; `kroger_bopis_mock` has a zero-percent substitution rate, hourly pickup slots, and the `handles_pharmacy=true` flag — but the determinism is for *testability*, not because the mocks are simpler than the real providers will be.
+**KEVEN:** Each mock is a class that implements the contract. Each produces the same quote shape, the same out-of-stock events, the same status updates, the same audit rows. *The agent doesn't know they're mocks. The audit chain doesn't know. Sarah doesn't know. The seller doesn't have to dress them up.* The mock retailers are deterministic — one has a twenty-percent substitution rate, one has one percent, one has zero — because deterministic mocks are testable, not because the mocks are simpler than the real retailers will be.
 
-When the real provider lands — when `instacart_real.py` is implemented against the Connect API, when `shipt_real.py` lands behind the partner-program credentials, when `kroger_real.py` lands behind the Public API — *only the class implementation changes*. The orchestrator does not change. The MCP tooling does not change. The audit chain does not change. The substitution flow does not change. The Cue Bus does not change. The UI does not change. The seller's argument does not change. The customer's experience does not change. The Independence-minded posture in code is exactly this — *the customer-value-without-retailer-signoff is the default state*.
+When the real retailer lands — when the integration to Instacart's Connect API ships, when the partnership with Shipt closes, when the Kroger Public API integration ships — *only the class implementation changes.* The orchestrator doesn't change. The substitution flow doesn't change. The audit chain doesn't change. The card on Sarah's phone doesn't change. The seller's argument doesn't change. *The customer's experience doesn't change.*
 
-**REID:** This is what *"mocks are real architecture"* means. The abstraction is right today, not a prototype to be thrown away when the partnerships sign.
+**REID:** This is what *mocks are real architecture* means. The abstraction is right *today*, not a prototype to be thrown away when the partnerships sign.
 
-**KEVEN:** The abstraction is right today. That is the test. If the abstraction were a prototype, the team would be saying *"once we land the real provider we will rewrite the orchestrator's quote handling"*; *"once we land the real provider we will swap out the substitution flow"*; *"once we land the real provider we will redo the audit shape"*. None of that is true. The abstraction is final today. The implementation is mock today. When the implementation becomes real, the abstraction does not move.
+**KEVEN:** Right today. *If the abstraction were a prototype, the team would be saying once we land the real retailer, we'll rewrite the quote handling, we'll swap out the substitution flow, we'll redo the audit shape.* None of that is true. The abstraction is final. The implementation is mock today. When the implementation becomes real, the abstraction doesn't move. *That's the Independence-minded operating model showing up in code.* CFMP ships fulfillment value to the customer in v1 even with mocks, while the legal team works the real data-processing agreements for v2 partnerships. *The customer sees a working system today. The seller demos a working system today. The retailer relationship is additive, not blocking.*
 
-That is also the Independence-minded posture showing up in code. The Portal episode argued that CFMP ships customer value *without* a retailer co-deployment agreement — the customer is the buyer, the retailer is the eventual integration partner, the system is operable today. The Fulfillment episode makes the same argument at the engineering layer. CFMP ships fulfillment value to the customer in v1 even with mocks, while Liu's legal team works the real DPAs for the v2 partnerships. The customer sees a working system today. The seller can demo a working system today. The buyer can run a pilot on a working system today. The retailer relationship is *additive*, not blocking.
+**REID:** And the v2 transition.
 
-**REID:** And the v2 transition story.
+**KEVEN:** A class swap. Sprint pre-flight is the legal review of the mock-versus-real distinction, the API documentation review, the privacy addenda for each real retailer. The deploy when the real classes land is a configuration change — *flipping one retailer at a time from mock to real.* The customer's mental model doesn't change. The seller's argument doesn't change. *The architecture is the same.*
 
-**KEVEN:** The v2 transition is a class swap. The roadmap names it explicitly — Sprint Pre-flight is the legal review of the mock-versus-real distinction, the sample API documentation review for Connect, Shipt-via-Target, and Kroger Public, and the DPIA addenda for each real provider. Sprints Zero through Five ship the mocks. The roadmap's v2 backlog ships the real classes. The deploy when the real classes land is a config change — `FULFILLMENT_PROVIDERS=instacart_real,shipt_mock,kroger_bopis_mock` — flipping one provider at a time. The customer's mental model does not change. The seller's argument does not change. The architecture is the same.
-
-**REID:** Mocks today, reals tomorrow, abstraction unchanged. Move to the reading.
+**REID:** Mocks today, real retailers tomorrow, abstraction unchanged. The customer is the better for it — because the system works for her today and gets richer when the partnerships sign. Move to the reading.
 
 ### A reading I want to do
 
@@ -287,45 +245,45 @@ The first is Eric Evans, *Domain-Driven Design*, Addison-Wesley, two-thousand-an
 
 ### One disagreement
 
-**REID:** One disagreement. The cleanest tension the fulfillment tier carries — Tanaka versus Mendez. The SRE versus the customer-support principal. Put it on tape.
+**REID:** One disagreement, customer-grounded. *When a retailer goes down on a Saturday afternoon, what does Sarah see — a clean error, a long silence, or a system that absorbed the failure and proposed an alternative?* Two voices on the team — the reliability voice and the customer-support voice — pulled different directions.
 
 **KEVEN:** Put it on tape.
 
-**REID:** Tanaka's position, from Section Eight-Point-Four of the design document. *"Three providers means three ways to fail. Plan for any of them going down."* The SRE's instinct — protect the platform, isolate the failure, prevent cascading degradation. Tanaka wants the circuit breaker to be *aggressive*. Three timeouts in sixty seconds for a given provider, mark the provider unhealthy for five minutes, no questions asked. The breaker takes the provider out of the rotation; the aggregator stops fanning out to that provider until the cooldown elapses; the customer is served the surviving providers' quotes. The platform is protected. The blast radius is contained.
+**REID:** The reliability voice. *Three retailers means three ways to fail. Plan for any of them going down.* The instinct is to protect the platform — three timeouts in sixty seconds, mark the retailer unhealthy for five minutes, take it out of the rotation. *The platform is protected. The blast radius is contained.* The breaker is aggressive.
 
-Mendez's position, from Section Eight-Point-Six of the design document. *"When a provider screws up, the customer should hear from us first, not the receipt email."* The customer-support principal's instinct — never let the customer see the failure as a 503. When a provider fails, the agent absorbs the failure and *proposes a recovery action* in the same UI moment. The substitution-with-recovery cue from Section Three-Point-Five — *"Shipt is having issues right now. Want to send that gochujang via Instacart instead?"* The customer one-taps the alternative. The Lot's chosen provider is updated. A new `place_order` call goes out to the alternative. The LedgerRow records both the failed attempt and the recovered route. The customer never sees the 503.
+The customer-support voice. *When a retailer screws up, Sarah should hear from us first, not the receipt email.* The instinct is to never let Sarah see a 503. When a retailer fails, the agent absorbs the failure and *proposes a recovery in the same UI moment.* *Shipt is having issues right now. Want to send that gochujang via Instacart instead?* Sarah one-taps. The order moves. *She never sees the failure as a failure.*
 
-Now the tension. Aggressive circuit-breaking might mark a provider unhealthy after a transient blip — a single bad sixty-second window during which the provider was actually mostly fine — and the customer still wanted that provider. Conservative circuit-breaking leaks failure UX — the customer waits four seconds, then four more, then four more, while the system keeps trying a provider that is genuinely down. Where is the line?
+Now the tension. Aggressive circuit-breaking might mark a retailer unhealthy after a transient blip when Sarah still wanted that retailer. Conservative circuit-breaking leaks failure into Sarah's UX — she waits four seconds, then four more, while the system keeps trying a retailer that's down. *Where is the line?*
 
 **KEVEN:** Both are right. The convergence layers them.
 
 **REID:** Bring it.
 
-**KEVEN:** *Circuit breaker and agent-mediated retry, layered.* Three layers, in order.
+**KEVEN:** *Three layers, in order.*
 
-Layer one. *First failure — silent retry with exponential backoff.* The provider returned a 5xx or timed out. The orchestrator retries internally — a single retry with a backoff in the hundreds of milliseconds. The customer's spinner is still spinning; the customer has not been told anything; the system is absorbing the blip. If the retry succeeds, the customer sees a slightly slower quote but is otherwise unaffected. No LedgerRow surfaces failure; the row records the retry as metadata.
+First failure — *silent retry.* The retailer timed out. The system retries internally with a short backoff. Sarah's spinner is still spinning; she hasn't been told anything; the system is absorbing the blip. If the retry succeeds, Sarah sees a slightly slower answer and is otherwise unaffected.
 
-Layer two. *Second failure — propose recovery action to the customer in real time.* The retry failed; the provider is genuinely impaired. The orchestrator does not surface a 503; the orchestrator composes a recovery cue. *"The same-day delivery is having issues right now. Want to send your order to the warehouse-club delivery instead?"* The customer one-taps. The Lot's chosen provider is updated. A new `place_order` goes to the alternative. The customer experiences *agent absorbed the failure and gave me a choice*, which is exactly Mendez's commitment. The LedgerRow records the failed attempt, the recovery proposal, the customer's decision, and the new route. Mendez wins the immediate UX.
+Second failure — *propose a recovery to Sarah in real time.* The retry failed; the retailer is genuinely impaired. The system doesn't surface an error. *Shipt is having issues right now. Want to send your order to the warehouse club instead?* Sarah one-taps. The order moves to the alternative. *Sarah experiences agent-absorbed-the-failure-and-gave-me-a-choice.* That's the customer-support voice winning the immediate UX.
 
-Layer three. *Third failure within sixty seconds — mark the provider unhealthy for five minutes.* The pattern is now multiple failures in a short window; the provider is impaired, not blipped. The circuit breaker trips. The aggregator stops fanning out to that provider for the next five minutes. New quotes are served from the surviving providers. The customer never sees a 503; the operations team sees the circuit-breaker state on the Portal as a system-tagged row in the trace. Tanaka wins the platform reliability. The breaker is the floor; the agent-mediated retry is the ceiling; the two together cover the full spectrum.
+Third failure within a minute — *mark the retailer unhealthy for five minutes.* The pattern is now multiple failures in a short window; the retailer is impaired, not blipped. The breaker trips. The system stops fanning out to that retailer for the next five minutes. New quotes are served from the surviving retailers. *Sarah never sees a 503*; Priya sees the breaker state on her console. *The reliability voice wins the platform reliability. The breaker is the floor; the agent-mediated recovery is the ceiling.*
 
 **REID:** And the failure mode if the convergence breaks.
 
-**KEVEN:** If only the breaker fires — Tanaka without Mendez — the customer sees a clean error sometimes and waits in silence other times, depending on whether the breaker has tripped yet. The customer's mental model is *the system is fragile*. If only the agent-mediated retry fires — Mendez without Tanaka — the platform takes the brunt of a sustained provider outage; the orchestrator keeps trying the bad provider for every customer; the queue depth grows; the latency degrades for everyone. The customer's mental model is *the system is slow*. Layering them gives the customer's mental model the third reading — *the system absorbs failures and recovers*. That is the experience the architecture earns.
+**KEVEN:** If only the breaker fires, *Sarah sees a clean error sometimes and waits in silence other times*, depending on whether the breaker has tripped yet. Her mental model is *the system is fragile.* If only the agent-mediated recovery fires, the platform takes the brunt of a sustained outage — *the system keeps trying the bad retailer for every customer; the queue depth grows; latency degrades for everyone.* Her mental model is *the system is slow.* Layering them gives Sarah the third reading — *the system absorbs failures and recovers.* That's the experience the architecture earns.
 
-**REID:** Converge accepted. *Agent-mediated retry at the customer UX; circuit breaker at the platform reliability; both LedgerRows sealed.* Carry it.
+**REID:** Converge accepted. *Agent-mediated recovery at the customer's UX. Breaker at the platform.* The customer is the better for it — because Sarah's Saturday isn't broken by an integration she doesn't know exists. Carry it.
 
 ### What to carry forward
 
-**KEVEN:** Three things into Episode Eight. Numbered, because the listener carries them.
+**KEVEN:** Three things into Episode Eight. Each one a thing a non-technical leader can carry into a Monday meeting.
 
-**KEVEN:** *One — the interface IS the product.* Vargas's line, verbatim. One ABC, many implementations. The FulfillmentProvider abstract base class is what lets the agent fleet reason across retailers without writing per-retailer agent code. The ProviderQuote shape is what lets the ranker compose a recommendation in eight words without branching on provider identity. The interface is the product. The provider implementations are the inventory. Carry that.
+**KEVEN:** *One — the interface is the product.* One contract, many retailers. Sarah doesn't see retailers; Sarah sees one trip view, one cart, one recommendation. *The agent fleet reasons across retailers without writing retailer-specific code, because every retailer produces the same quote shape and accepts the same five operations.* The interface is the product. The retailers are the inventory. Carry that.
 
-**KEVEN:** *Two — dietary safety is enforced at the search step.* Hassan's defense-in-depth posture. The LLM never sees an allergen the customer can't eat because the search step filters the candidate set before the LLM is invoked. The substitution flow is the highest-risk LLM moment in CFMP, and the architecture's response is structural — make the unsafe candidates invisible to the model, not just unrecommended. Get it wrong, the customer eats peanut. Don't get it wrong. Carry that.
+**KEVEN:** *Two — dietary safety is enforced at the search step.* The substitution flow is the highest-stakes moment in the whole product — *get it wrong, somebody eats peanut.* The defense is structural: the LLM never sees an allergen the customer can't eat, because the search filters the candidate set *before* the LLM is invoked. Make the unsafe action invisible to the model, not just unrecommended downstream. *Get it wrong, somebody eats peanut. Don't get it wrong.* Carry that.
 
-**KEVEN:** *Three — mocks are real architecture, not a stepping stone, and pickup and delivery are peer shapes inside the same abstraction.* Two consequences of one move. When the real provider lands, only the class implementation changes — the orchestrator, the MCP tooling, the audit chain, the substitution flow, the UX, the seller's argument, the customer's experience — none of them change. That is the Independence-minded operating model showing up in code. The customer-value-without-retailer-signoff is the default state, the same way the Portal episode argued. CFMP ships fulfillment value in v1 with mocks while the legal team works the real DPAs. And the same abstraction that lets the mocks be real architecture is the abstraction that lets pickup and delivery be peer fulfillment shapes — `kinds: set[str]` on the ABC, `earliest_pickup_at` next to `eta_minutes` on the ProviderQuote, one ranker, one Cue Bus, one trip view. Pickup is not a stepchild of delivery; the recommended option is often the BOPIS leg, and Robert's Rx pickup is the highest-trust path in the system. Carry that.
+**KEVEN:** *Three — mocks are real architecture, and pickup and delivery are peers.* When the real retailer lands, only the class implementation changes — *the orchestrator doesn't change, the substitution flow doesn't change, the audit chain doesn't change, the card on Sarah's phone doesn't change.* That's the Independence-minded posture showing up in code. *CFMP ships fulfillment value to the customer in v1 with mocks while the legal team works the real partnerships for v2.* And the same abstraction that lets the mocks be real architecture lets pickup and delivery be *peer trip shapes* — one ranker, one cue bus, one trip view. The recommendation in the example card is often the pickup. Robert's Friday refill is the highest-trust path in the system. *Pickup is not a stepchild.* Carry that.
 
-**REID:** Three carries. Interface is the product. Dietary safety at the search step. Mocks are real architecture, and pickup and delivery are peer shapes. Into Episode Eight.
+**REID:** Interface is the product. Dietary safety at the search step. Mocks are real architecture; pickup is a peer to delivery. Three carries. Into Episode Eight.
 
 **KEVEN:** Next episode — *Identity, consent, HIPAA, and senior accessibility.* The four-identity chain finally walked end to end. Adebayo on consent at the OAuth grant boundary. Chen on the HIPAA-isolated pharmacy tenancy. Yamamoto on the senior-accessibility overrides. Russo on the AirPlay-channel audit tagging. Today we walked the plug-in tier that places orders on Sarah's behalf; next episode we walk the safety substrate that lets the system place orders, set reminders, and speak medication names without ever telling someone in the room what should stay between the system and the customer.
 
