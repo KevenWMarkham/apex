@@ -34,6 +34,21 @@ Three hours later, just before noon, her phone buzzes. *"Heads up — the same-d
 
 ---
 
+> **Reader honesty admission:** the seven sub-sections that follow describe the **CFMP Fulfillment plug-in tier as designed**, not as it ships today. As of 2026-05-25, the live `/architecture` page lists five MCP servers — `parsml · cxml · merml · weather · ledger` — and **no `fulfillment-mcp`**. The episode walks the design; the sprint roadmap (see `CFMP-Fulfillment-Sprint-Orchestrator.md`) names the work to make it real. The substitution flow, the provider ABC, the BOPIS + pharmacy gate — every architectural decision discussed here is honest; the implementation is the next sprint.
+
+## What ships today vs. what's planned
+
+> **Episode honesty calibration · 2026-05-25**
+> This episode covers the Fulfillment plug-in tier — provider ABC, quote-aggregator fan-out, recommendation scoring, substitution with dietary-safety-at-search, BOPIS as a peer fulfillment shape, and the Azure-native deployment of a sixth MCP server. The podcast walks the architecture as designed. Phase 1 live, Phase 2 planned, and v2 vision are distinguished below so the listener (and the seller) walks in knowing the score. The CFMP Capabilities Map at `https://ca-visionkit-portal.gentlestone-9b49b099.eastus2.azurecontainerapps.io/architecture` is the authoritative live-state source.
+
+**Phase 1 live (today):** none — this entire episode is Phase 2 design.
+
+**Phase 1 partial / in-progress:** Mobile `/api/fulfillment/*` route stubs (no live MCP server behind them).
+
+**Phase 2+ planned (not live today):** `fulfillment-mcp` (sixth MCP server), FulfillmentProvider ABC, three mock providers (`instacart_mock`, `shipt_mock`, `kroger_bopis_mock`), quote-aggregator, `place_order`, substitution flow with dietary-filter-at-search, BOPIS plus pharmacy gate, status webhooks plus idempotency, cancel plus refund.
+
+---
+
 ## The conversation
 
 ### Why a plug-in tier

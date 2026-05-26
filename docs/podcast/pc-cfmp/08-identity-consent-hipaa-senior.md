@@ -30,6 +30,21 @@ The ledger row records both halves. *Composed text — Robert, your Lisinopril i
 
 ---
 
+> **Cold-open admission:** the scenario you just heard — Diana drops in, the kitchen Sonos cue rewrites mid-syllable from *Lisinopril* to *an item* — depends on three things that **do not exist in the live system today**: a Pharmacy specialist agent, a Vision-Kit presence-detection signal wired into the cue-composition path, and a drug-name-redaction substrate in `compose_cues`. As of 2026-05-25 the live agent fleet has four specialists (catalog · wayfinder · auto_replenish · concierge) — no Pharmacy. The cold open describes the **design**; the sprint roadmap is where it becomes code. The architectural commitments below — the four-identity chain, the consent gradient, the audit chain — are honest, with the live state called out per item in the honesty header.
+
+## What ships today vs. what's planned
+
+> **Episode honesty calibration · 2026-05-25**
+> This episode covers the four-identity chain, the consent gradient, the HIPAA gating substrate, the senior-accessibility defaults, and the AirPlay-channel audit-tagging discipline. The podcast walks the architecture as designed. Phase 1 live, Phase 2 planned, and v2 vision are distinguished below so the listener (and the seller) walks in knowing the score. The CFMP Capabilities Map at `https://ca-visionkit-portal.gentlestone-9b49b099.eastus2.azurecontainerapps.io/architecture` is the authoritative live-state source.
+
+**Phase 1 live (today):** HITL greater-than-or-equal-to-fifty-dollar cart-add gate, LedgerRow in-memory, `auth_mock.py` (mock identity), audit chain partial, trace_id propagation, Preference Center concept (dietary-prefs chips visible).
+
+**Phase 1 partial / in-progress:** four-identity chain (concept partial; full chain depends on Entra swap), consent gradient (preferences chips exist; full gradient is design), audit chain Bronze/Silver/Gold (Bronze partial).
+
+**Phase 2+ planned (not live today):** Entra External ID (`auth_entra.py` swap — currently `auth_mock.py`), HIPAA presence-gating (depends on Pharmacy spec plus vision presence), drug-name redaction, caregiver delegation flow, WORM ledger to OneLake Delta, live Purview lineage upload.
+
+---
+
 ## The conversation
 
 ### Identity — the four-identity chain

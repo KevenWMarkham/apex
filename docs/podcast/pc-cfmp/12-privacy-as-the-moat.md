@@ -34,6 +34,23 @@ The answer, ninety minutes later, fits in three sentences. *Privacy is architect
 
 ---
 
+> **Calibration upfront:** this episode argues privacy is architectural, not a setting — and contrasts CFMP against the Alexa surveillance pattern. The architecture has the privacy DNA: voice stays on the phone, Vision Kit runs local inference, MCP is a privacy boundary, customer identity sits in the customer's tenant. **Most of that is live today** (calibration below). The **v2 commitments** — telco-edge orchestrator, on-device LedgerRow witness, local-first fallback as first-class — are architectural commitments with the substrate in place but the implementation in the Phase 2+ roadmap. The seller's pitch in this episode is the *un-Alexa architecture*, distinguished honestly into shipping-today and committed-tomorrow.
+
+## What ships today vs. what's planned
+
+> **Episode honesty calibration · 2026-05-25**
+> This episode covers the v0.2 privacy substrate, the un-Alexa architectural contrast, the home-plus-telco-edge vision, the on-device LedgerRow witness, local-first fallback as a first-class operational mode, the customer data-export ethic, and the three-sentence seller pitch. The podcast walks the architecture as designed. Phase 1 live, Phase 2 planned, and v2 vision are distinguished below so the listener (and the seller) walks in knowing the score. The CFMP Capabilities Map at `https://ca-visionkit-portal.gentlestone-9b49b099.eastus2.azurecontainerapps.io/architecture` is the authoritative live-state source.
+
+**Phase 1 live (today):** phone-side STT (Web Speech API plus Picovoice Porcupine on the PWA), Vision Kit local inference partial (`vam_reader.py` runs the model; hardware partial due to firmware EOL), selective uplink (`frame_uploader.py` — event packets only), MCP boundary as privacy boundary, Sonos household-local for cue playback (AirPlay-bridge live).
+
+**Phase 1 partial / in-progress:** customer-owned identity (`auth_mock.py` today; Entra External ID planned), audit chain hash-chained (in-memory; WORM planned).
+
+**Phase 2+ planned (not live today):** Beelink on-prem edge (Tier-2 inference), Sonos direct Cloud Control (AirPlay-bridge is the live path), WORM ledger persistence, live Purview lineage.
+
+**v2 vision (architectural commitment, not designed yet):** **telco-edge orchestrator**, **on-device LedgerRow witness** with household-bound keys, local-first fallback as a first-class operational mode, customer data export as a one-click flow.
+
+---
+
 ## The conversation
 
 ### The Alexa contrast — what the surveillance pattern actually does

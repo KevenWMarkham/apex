@@ -28,6 +28,23 @@ Sarah picks up the tablet. She types *galbi-jjim* into the search bar of her pre
 
 ---
 
+> **Episode framing admission:** this episode is the **Recipe Capture v2 vision**. Today the recipe library is seeded (`recipe_library` table is populated, the catalog_specialist's `recipe_for_items` works, the Meal-Plan pipeline stitches recipes into the 7-day plan). The **capture flows** described below — YouTube extraction, friend-shared imports, family heirloom recipes, restaurant meal repeats, holiday-favorites coupling to Flux PURPOSE events, cuisine-breadth across fifteen cultures — are the **front-door design**, not built today. As of 2026-05-25 the engine works; the front door does not. The CFMP Mobile Roadmap (see `CFMP-Mobile-Roadmap.md`'s parity backlog) is where these land.
+
+## What ships today vs. what's planned
+
+> **Episode honesty calibration · 2026-05-25**
+> This episode covers the recipe library, the Meal-Plan composition pipeline, the capture flows (YouTube, friend-shared, family heirloom, restaurant repeat, holiday-favorites), the Flux PURPOSE coupling, the fifteen-cuisine breadth surface, and the allergen-aware import gate. The podcast walks the architecture as designed. Phase 1 live, Phase 2 planned, and v2 vision are distinguished below so the listener (and the seller) walks in knowing the score. The CFMP Capabilities Map at `https://ca-visionkit-portal.gentlestone-9b49b099.eastus2.azurecontainerapps.io/architecture` is the authoritative live-state source.
+
+**Phase 1 live (today):** Meal-Plan composition (10-step pipeline), `recipe_library` seeded, catalog_specialist `recipe_for_items`, cuisine-tagging in `Gold_VV_Catalog`, MERML 796-SKU catalog.
+
+**Phase 1 partial / in-progress:** Meal Plan shopping-list UI (ITEM column blank, UNIT/LINE $0.00, recipe slug-to-title not resolved).
+
+**Phase 2+ planned (not live today):** YouTube-to-recipe capture, friend-shared recipe import, family-heirloom recipes (Mom's dishes, generational tagging), restaurant meal repeat (AI reverse-engineer), holiday favorites plus Flux PURPOSE coupling, cuisine-breadth discovery surface (fifteen cultures), specialty-ingredient sourcing via providers, allergen-aware import gate.
+
+**v2 vision (architectural commitment, not designed yet):** family heirloom plus voice narration; restaurant reverse-engineering as a discipline.
+
+---
+
 ## The conversation
 
 ### The recipe library today vs. tomorrow
