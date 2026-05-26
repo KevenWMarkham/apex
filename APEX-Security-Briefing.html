@@ -1,0 +1,1631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>APEX Security — Reference One-Pager</title>
+<meta name="description" content="APEX security reference: identity, data protection, audit discipline, regulatory posture, and Microsoft-native fit." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  /* Dark-first warm midnight, per APEX Appendix N + reference artifacts */
+  --bg-0: #07090F;
+  --bg-1: #0C1119;
+  --bg-2: #141B27;
+  --bg-3: #1C2433;
+  --line: rgba(255,255,255,0.08);
+  --line-strong: rgba(255,255,255,0.16);
+  --ink-0: #F4EFE5;
+  --ink-1: #D9D2C3;
+  --ink-2: #9A9383;
+  --ink-3: #6B6757;
+
+  /* Semantic palette (Appendix N) */
+  --amber: #E8A33D;     /* HITL / decision surfaces */
+  --teal:  #3DD9C4;     /* agent / autonomous */
+  --crimson: #D94B5A;   /* critical severity */
+  --gold:  #C89D3A;     /* outcomes */
+  --ember: #E87B3C;     /* identity + trust */
+  --violet:#9B7BE0;     /* schema / canonical */
+  --sky:   #6FB6E5;     /* data plane */
+  --success:#5DD39E;
+
+  --radius: 14px;
+  --radius-sm: 8px;
+  --ease: cubic-bezier(.22, .68, .24, 1);
+}
+
+body.light {
+  --bg-0: #FAF7F0;
+  --bg-1: #F2EDDE;
+  --bg-2: #E8E0CB;
+  --bg-3: #DCD2B7;
+  --line: rgba(20, 14, 4, 0.10);
+  --line-strong: rgba(20, 14, 4, 0.22);
+  --ink-0: #1A1508;
+  --ink-1: #3D3420;
+  --ink-2: #6B5F45;
+  --ink-3: #8E8367;
+  --amber: #B8791F;
+  --teal: #147A6C;
+  --crimson: #A22A39;
+  --gold: #8E6A1E;
+  --ember: #B0551B;
+  --violet: #6548B0;
+  --sky: #2C6896;
+  --success: #1F7A3D;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg-0);
+  color: var(--ink-0);
+  font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  font-size: 15.5px;
+  line-height: 1.6;
+  font-feature-settings: "ss01", "ss02";
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background .5s var(--ease), color .5s var(--ease);
+}
+
+body::before {
+  content: "";
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(1200px 600px at 8% -10%, rgba(232,123,60,0.08), transparent 60%),
+    radial-gradient(900px 500px at 95% 110%, rgba(155,123,224,0.06), transparent 60%),
+    radial-gradient(600px 400px at 50% 35%, rgba(61,217,196,0.04), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+body.light::before { opacity: 0.4; }
+
+/* ─────────── Layout ─────────── */
+.shell {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: 0;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+@media (max-width: 960px) {
+  .shell { grid-template-columns: 1fr; }
+  .nav-rail { display: none; }
+}
+
+/* ─────────── Nav rail ─────────── */
+.nav-rail {
+  position: sticky;
+  top: 0;
+  align-self: start;
+  height: 100vh;
+  padding: 32px 22px;
+  border-right: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(28,36,51,0.4), rgba(7,9,15,0));
+  backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+body.light .nav-rail {
+  background: linear-gradient(180deg, rgba(232,224,203,0.6), rgba(250,247,240,0));
+}
+
+.nav-brand {
+  font-family: "Fraunces", serif;
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: -0.01em;
+  color: var(--ink-0);
+}
+.nav-brand .dot { color: var(--ember); }
+.nav-tag {
+  font-size: 11.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  margin-top: 2px;
+}
+
+.nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.nav-list a {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  color: var(--ink-1);
+  font-size: 13.5px;
+  font-weight: 500;
+  transition: background .2s var(--ease), color .2s var(--ease);
+  border-left: 2px solid transparent;
+}
+.nav-list a:hover {
+  background: rgba(255,255,255,0.04);
+  color: var(--ink-0);
+}
+body.light .nav-list a:hover { background: rgba(20,14,4,0.04); }
+.nav-list a.active {
+  background: rgba(232,123,60,0.10);
+  color: var(--ember);
+  border-left-color: var(--ember);
+}
+.nav-list .num {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  color: var(--ink-3);
+  width: 20px;
+  flex-shrink: 0;
+}
+
+.nav-foot {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 11px;
+  color: var(--ink-3);
+}
+.theme-toggle {
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  color: var(--ink-1);
+  padding: 6px 10px;
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background .2s var(--ease), border-color .2s var(--ease);
+}
+.theme-toggle:hover { background: rgba(255,255,255,0.05); border-color: var(--ember); color: var(--ember); }
+
+/* ─────────── Main column ─────────── */
+.main {
+  padding: 0 56px 80px;
+  max-width: 1080px;
+}
+@media (max-width: 720px) {
+  .main { padding: 0 24px 60px; }
+}
+
+/* ─────────── Section base ─────────── */
+.sec {
+  padding: 64px 0 28px;
+  border-bottom: 1px solid var(--line);
+}
+.sec:last-of-type { border-bottom: none; }
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  margin-bottom: 16px;
+}
+.eyebrow .pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border-radius: 100px;
+  background: rgba(232,123,60,0.13);
+  color: var(--ember);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+.eyebrow .clock {
+  color: var(--ink-3);
+  font-size: 11.5px;
+  letter-spacing: 0.05em;
+  text-transform: none;
+}
+
+.sec h2 {
+  font-family: "Fraunces", serif;
+  font-weight: 600;
+  font-size: clamp(28px, 4vw, 44px);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  margin: 0 0 16px;
+  color: var(--ink-0);
+}
+
+.sec .lede {
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--ink-1);
+  max-width: 720px;
+  margin: 0 0 28px;
+}
+
+.sec h3 {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: -0.005em;
+  margin: 28px 0 10px;
+  color: var(--ink-0);
+}
+
+.sec p { margin: 0 0 14px; color: var(--ink-1); }
+.sec p strong { color: var(--ink-0); }
+.sec ul, .sec ol {
+  margin: 0 0 14px;
+  padding-left: 22px;
+  color: var(--ink-1);
+}
+.sec li { margin-bottom: 6px; }
+
+.sec code {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+  color: var(--teal);
+  background: rgba(61,217,196,0.08);
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+body.light .sec code { background: rgba(20,122,108,0.10); }
+
+/* ─────────── Cover ─────────── */
+.cover {
+  padding: 96px 0 56px;
+}
+.cover .eyebrow { color: var(--ember); }
+.cover h1 {
+  font-family: "Fraunces", serif;
+  font-weight: 800;
+  font-size: clamp(40px, 6vw, 72px);
+  line-height: 1.0;
+  letter-spacing: -0.025em;
+  margin: 0 0 18px;
+  background: linear-gradient(135deg, var(--ember) 0%, var(--gold) 50%, var(--amber) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.cover .sub {
+  font-family: "Fraunces", serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.4;
+  color: var(--ink-1);
+  max-width: 680px;
+  margin: 0 0 32px;
+}
+.cover .meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 18px;
+  max-width: 760px;
+  padding: 22px 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-1);
+}
+.meta-item .lbl {
+  display: block;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 6px;
+}
+.meta-item .val {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-0);
+}
+
+/* ─────────── Roadmap chips ─────────── */
+.roadmap {
+  margin-top: 36px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, rgba(232,123,60,0.04), rgba(155,123,224,0.02));
+}
+.roadmap-title {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  margin-bottom: 16px;
+}
+.roadmap-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+}
+.roadmap-chip {
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--bg-2);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.roadmap-chip .ix {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  color: var(--ember);
+  letter-spacing: 0.08em;
+}
+.roadmap-chip .title {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--ink-0);
+}
+.roadmap-chip .clock {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  color: var(--ink-3);
+}
+
+/* ─────────── Architecture diagram ─────────── */
+.arch-wrap {
+  margin: 22px 0;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-1);
+  overflow-x: auto;
+}
+.arch-wrap svg {
+  width: 100%;
+  height: auto;
+  max-height: 78vh;
+  display: block;
+}
+.arch-zone-ember { fill: rgba(232,123,60,0.04); stroke: var(--ember); stroke-width: 1.2; }
+.arch-zone-sky   { fill: rgba(111,182,229,0.03); stroke: var(--sky); stroke-width: 1.4; }
+.arch-zone-controls { fill: rgba(255,255,255,0.02); stroke: var(--line-strong); stroke-width: 1; }
+body.light .arch-zone-controls { fill: rgba(20,14,4,0.025); }
+
+.arch-box        { fill: var(--bg-2); stroke: var(--line-strong); stroke-width: 1; }
+.arch-box-ember  { fill: rgba(232,123,60,0.10); stroke: var(--ember); stroke-width: 1; }
+.arch-box-sky    { fill: rgba(111,182,229,0.05); stroke: var(--sky); stroke-width: 1; }
+.arch-box-teal   { fill: rgba(61,217,196,0.06); stroke: var(--teal); stroke-width: 1; }
+.arch-box-amber  { fill: rgba(232,163,61,0.06); stroke: var(--amber); stroke-width: 1; }
+.arch-box-violet { fill: rgba(155,123,224,0.08); stroke: var(--violet); stroke-width: 1; }
+.arch-control-box{ fill: var(--bg-2); stroke: var(--line-strong); stroke-width: 1; }
+
+.arch-medallion-bronze { fill: rgba(180,120,50,0.12); stroke: rgba(180,120,50,0.55); stroke-width: 1; }
+.arch-medallion-silver { fill: rgba(180,180,180,0.10); stroke: rgba(180,180,180,0.55); stroke-width: 1; }
+.arch-medallion-gold   { fill: rgba(200,157,58,0.14); stroke: var(--gold); stroke-width: 1; }
+
+.arch-zone-label {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  font-weight: 500;
+  fill: #C8BFAA;
+}
+body.light .arch-zone-label { fill: #5A4F3E; }
+
+/* Dark-mode defaults — explicit colors so SVG fill swaps reliably across browsers */
+.arch-text       { fill: #F4EFE5; font-family: "IBM Plex Sans", sans-serif; font-size: 13px; font-weight: 500; }
+.arch-text-label { fill: #C8BFAA; font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: 0.1em; font-weight: 500; }
+.arch-text-muted { fill: #B8B0A0; font-family: "IBM Plex Sans", sans-serif; font-size: 11px; }
+.arch-text-faint { fill: #A39A86; font-family: "IBM Plex Sans", sans-serif; font-size: 10px; font-style: italic; }
+
+.arch-line        { fill: none; stroke: #B8B0A0; stroke-width: 1.4; }
+.arch-line-dashed { fill: none; stroke: #A39A86; stroke-width: 1.2; stroke-dasharray: 4 3; }
+.arch-line-amber  { fill: none; stroke: #E8A33D; stroke-width: 1.6; }
+.arch-line-violet { fill: none; stroke: #9B7BE0; stroke-width: 1.4; stroke-dasharray: 3 3; }
+.arch-arrow       { fill: #B8B0A0; }
+.arch-arrow-amber { fill: #E8A33D; }
+.arch-arrow-violet{ fill: #9B7BE0; }
+
+/* Light-mode overrides */
+body.light .arch-text       { fill: #1A1508; }
+body.light .arch-text-label { fill: #6B5F45; }
+body.light .arch-text-muted { fill: #5A4F3E; }
+body.light .arch-text-faint { fill: #6B5F45; }
+body.light .arch-line        { stroke: #6B5F45; }
+body.light .arch-line-dashed { stroke: #8E8367; }
+body.light .arch-line-amber  { stroke: #B8791F; }
+body.light .arch-line-violet { stroke: #6548B0; }
+body.light .arch-arrow       { fill: #6B5F45; }
+body.light .arch-arrow-amber { fill: #B8791F; }
+body.light .arch-arrow-violet{ fill: #6548B0; }
+
+.arch-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--line);
+  font-size: 12px;
+  color: var(--ink-2);
+}
+.arch-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.arch-legend i {
+  display: inline-block; width: 12px; height: 12px; border-radius: 3px; border: 1px solid var(--line-strong);
+}
+.arch-legend i.lg-ember  { background: rgba(232,123,60,0.25); border-color: var(--ember); }
+.arch-legend i.lg-sky    { background: rgba(111,182,229,0.18); border-color: var(--sky); }
+.arch-legend i.lg-teal   { background: rgba(61,217,196,0.20); border-color: var(--teal); }
+.arch-legend i.lg-amber  { background: rgba(232,163,61,0.20); border-color: var(--amber); }
+.arch-legend i.lg-violet { background: rgba(155,123,224,0.25); border-color: var(--violet); }
+
+/* ─────────── Operation tree (anchor diagram) ─────────── */
+.op-tree {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--ember);
+  border-radius: var(--radius-sm);
+  padding: 22px 24px;
+  margin: 16px 0 8px;
+  overflow-x: auto;
+  color: var(--ink-1);
+  white-space: pre;
+}
+.op-tree .root { color: var(--ember); font-weight: 700; }
+.op-tree .agent { color: var(--teal); }
+.op-tree .tool { color: var(--sky); }
+.op-tree .gate { color: var(--amber); }
+.op-tree .audit { color: var(--violet); }
+.op-tree .ms { color: var(--ink-3); }
+.op-tree .pointer { color: var(--success); }
+
+/* ─────────── Cards ─────────── */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin: 22px 0;
+}
+.card {
+  padding: 20px 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-1);
+  transition: border-color .2s var(--ease), transform .2s var(--ease);
+}
+.card:hover { border-color: var(--line-strong); transform: translateY(-1px); }
+.card.ember { border-left: 3px solid var(--ember); }
+.card.violet { border-left: 3px solid var(--violet); }
+.card.amber { border-left: 3px solid var(--amber); }
+.card.teal { border-left: 3px solid var(--teal); }
+.card.sky { border-left: 3px solid var(--sky); }
+.card.crimson { border-left: 3px solid var(--crimson); }
+.card.success { border-left: 3px solid var(--success); }
+
+.card h4 {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  margin: 0 0 8px;
+  color: var(--ink-0);
+}
+.card p {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--ink-1);
+  margin: 0;
+}
+.card .kbd {
+  display: inline-block;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(232,123,60,0.13);
+  color: var(--ember);
+  margin-bottom: 8px;
+}
+
+/* ─────────── Tables ─────────── */
+.tbl-wrap {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin: 18px 0;
+  background: var(--bg-1);
+}
+table.apex {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+table.apex th, table.apex td {
+  padding: 11px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+table.apex thead th {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  background: var(--bg-2);
+}
+table.apex tbody tr:last-child td { border-bottom: none; }
+table.apex tbody tr:hover { background: rgba(255,255,255,0.02); }
+body.light table.apex tbody tr:hover { background: rgba(20,14,4,0.025); }
+
+.tag {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 100px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+.tag.req { background: rgba(217,75,90,0.15); color: var(--crimson); }
+.tag.par { background: rgba(232,163,61,0.15); color: var(--amber); }
+.tag.na  { background: rgba(255,255,255,0.05); color: var(--ink-3); }
+body.light .tag.na { background: rgba(20,14,4,0.05); }
+
+/* ─────────── Two-column ─────────── */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  margin: 22px 0;
+}
+@media (max-width: 720px) { .two-col { grid-template-columns: 1fr; } }
+
+/* ─────────── Identity diagram ─────────── */
+.id-diagram {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 18px;
+  margin: 22px 0;
+}
+@media (max-width: 720px) { .id-diagram { grid-template-columns: 1fr; } }
+.id-col {
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-1);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.id-col .id-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: "Fraunces", serif;
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--ink-0);
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+}
+.id-col.users .id-head { color: var(--sky); }
+.id-col.mi .id-head { color: var(--ember); }
+.id-col.sp .id-head { color: var(--violet); }
+
+.id-col .id-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 10px;
+  background: var(--bg-2);
+  border-radius: 6px;
+  border-left: 2px solid var(--line-strong);
+}
+.id-col .id-name {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  color: var(--ink-0);
+  font-weight: 500;
+}
+.id-col .id-role {
+  font-size: 11.5px;
+  color: var(--ink-2);
+}
+
+/* ─────────── Quote / callout ─────────── */
+.callout {
+  margin: 22px 0;
+  padding: 18px 22px;
+  border-left: 3px solid var(--violet);
+  background: var(--bg-1);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-family: "Fraunces", serif;
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--ink-1);
+}
+.callout strong { color: var(--ink-0); font-style: normal; font-family: "IBM Plex Sans", sans-serif; }
+.callout.ember { border-left-color: var(--ember); }
+.callout.amber { border-left-color: var(--amber); }
+.callout.crimson { border-left-color: var(--crimson); }
+
+/* ─────────── Q&A ─────────── */
+.qa {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 22px 0;
+}
+.qa-item {
+  padding: 18px 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-1);
+}
+.qa-q {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  margin-bottom: 10px;
+}
+.qa-q .q-mark {
+  font-family: "Fraunces", serif;
+  font-weight: 800;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--ember);
+}
+.qa-q .q-text {
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--ink-0);
+}
+.qa-a {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-1);
+  padding-left: 26px;
+}
+
+/* ─────────── Footer ─────────── */
+.foot {
+  margin-top: 80px;
+  padding: 36px 0 0;
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+@media (max-width: 720px) { .foot { grid-template-columns: 1fr; } }
+.foot-col h5 {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 0 0 12px;
+  font-weight: 500;
+}
+.foot-col ul { list-style: none; padding: 0; margin: 0; }
+.foot-col li { margin-bottom: 6px; }
+.foot-col code {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  color: var(--ink-1);
+}
+.indep {
+  margin-top: 28px;
+  padding: 14px 18px;
+  font-size: 12px;
+  color: var(--ink-3);
+  border-top: 1px solid var(--line);
+  font-style: italic;
+  line-height: 1.55;
+}
+
+/* ─────────── Print ─────────── */
+@media print {
+  body { background: white; color: black; font-size: 10pt; }
+  body::before { display: none; }
+  .nav-rail { display: none; }
+  .shell { grid-template-columns: 1fr; max-width: none; }
+  .main { padding: 0 12mm; max-width: none; }
+  .sec { page-break-inside: avoid; padding: 24px 0; }
+  .cover { padding: 0 0 24px; }
+  .cover h1 { -webkit-text-fill-color: black; color: black; background: none; }
+  .card, .tbl-wrap, .roadmap, .op-tree, .qa-item, .id-col, .callout, .arch-wrap {
+    background: white; border-color: #ccc;
+  }
+  .arch-wrap svg .arch-text,
+  .arch-wrap svg .arch-text-label,
+  .arch-wrap svg .arch-text-muted,
+  .arch-wrap svg .arch-text-faint { fill: #1a1a1a; }
+  .arch-wrap svg .arch-line,
+  .arch-wrap svg .arch-line-dashed { stroke: #555; }
+  .arch-wrap svg .arch-arrow { fill: #555; }
+  table.apex thead th { background: #f3f3f3; color: black; }
+  a { color: black; text-decoration: underline; }
+  .theme-toggle { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- ─────────── Nav rail ─────────── -->
+  <aside class="nav-rail" aria-label="Section navigation">
+    <div>
+      <div class="nav-brand">APEX<span class="dot">·</span>SEC</div>
+      <div class="nav-tag">Security reference</div>
+    </div>
+
+    <ul class="nav-list">
+      <li><a href="#cover" class="active"><span class="num">00</span>Overview</a></li>
+      <li><a href="#sec-arch"><span class="num">01</span>Architecture</a></li>
+      <li><a href="#sec1"><span class="num">02</span>Where data lives</a></li>
+      <li><a href="#sec2"><span class="num">03</span>If an agent goes wrong</a></li>
+      <li><a href="#sec3"><span class="num">04</span>Proving what happened</a></li>
+      <li><a href="#sec4"><span class="num">05</span>Regulatory fit</a></li>
+      <li><a href="#sec5"><span class="num">06</span>Microsoft-native fit</a></li>
+      <li><a href="#sec6"><span class="num">07</span>FAQ</a></li>
+    </ul>
+
+    <div class="nav-foot">
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light/dark theme">Toggle theme</button>
+      <div>APEX Core v1.2 · 2026-04-18</div>
+      <div>Independence-safe · Synthetic examples</div>
+    </div>
+  </aside>
+
+  <!-- ─────────── Main ─────────── -->
+  <main class="main">
+
+    <!-- ─────────── Cover ─────────── -->
+    <section id="cover" class="cover">
+      <div class="eyebrow">
+        <span class="pill">SECURITY REFERENCE</span>
+      </div>
+
+      <h1>APEX Security</h1>
+
+      <p class="sub">
+        How a domain-canonical agentic framework keeps client data inside the client's tenant, every decision traceable to a human,
+        and every audit row immutable — built end-to-end on Microsoft-native infrastructure.
+      </p>
+
+      <div class="meta">
+        <div class="meta-item">
+          <span class="lbl">Framework</span>
+          <span class="val">APEX Core v1.2 · Agentic Platform for Enterprise eXecution</span>
+        </div>
+        <div class="meta-item">
+          <span class="lbl">Substrate</span>
+          <span class="val">Microsoft Entra · Fabric · Purview · Azure AI · Logic Apps</span>
+        </div>
+        <div class="meta-item">
+          <span class="lbl">Source of truth</span>
+          <span class="val">APEX Developer Guide · Companion 05</span>
+        </div>
+        <div class="meta-item">
+          <span class="lbl">Posture</span>
+          <span class="val">Independence-safe · client-tenant data planes</span>
+        </div>
+      </div>
+
+      <div class="callout ember" style="margin-top: 36px;">
+        <strong>The thesis.</strong> APEX bakes observability and security into the contract, not bolts them on —
+        every agent invocation is a traceable operation under one <code style="color:var(--amber);background:rgba(232,163,61,0.12)">operation_Id</code>,
+        every data access is governed by managed identity + OneLake path-ACL + Purview label, and every decision is signed by an Entra-authenticated human.
+      </div>
+    </section>
+
+    <!-- ─────────── Section: Architecture ─────────── -->
+    <section id="sec-arch" class="sec">
+      <div class="eyebrow">
+        <span class="pill" style="background:rgba(111,182,229,0.14);color:var(--sky)">01 · ARCHITECTURE &amp; DEPLOYMENT</span>
+      </div>
+      <h2>Deployment topology</h2>
+      <p class="lede">
+        APEX has two clearly separated trust zones — a Deloitte-owned <strong>authoring zone</strong> that produces
+        signed framework artifacts and never holds client data, and the <strong>client Azure tenant</strong> where every
+        runtime component, every byte of client data, every audit row, and every encryption key lives.
+      </p>
+
+      <div class="arch-wrap" role="figure" aria-label="APEX deployment architecture diagram">
+        <svg viewBox="0 0 1000 580" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="archtitle archdesc">
+          <title id="archtitle">APEX deployment architecture</title>
+          <desc id="archdesc">Two trust zones — Deloitte authoring at top, client Azure tenant below — connected by a signed GitOps pull. The client tenant contains sources, Microsoft Fabric (Bronze/Silver/Gold + audit), Azure AI Agent Service, MCP servers, Logic Apps orchestrations, Microsoft Teams for HITL, and a band of cross-cutting controls (Entra ID, Purview, App Insights, Key Vault, Defender for Cloud).</desc>
+
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+              <path d="M 0 0 L 10 5 L 0 10 z" class="arch-arrow"/>
+            </marker>
+            <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+              <path d="M 0 0 L 10 5 L 0 10 z" class="arch-arrow-amber"/>
+            </marker>
+            <marker id="arrow-violet" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+              <path d="M 0 0 L 10 5 L 0 10 z" class="arch-arrow-violet"/>
+            </marker>
+          </defs>
+
+          <!-- ─── DELOITTE AUTHORING ZONE ─── -->
+          <text x="40" y="18" class="arch-zone-label" fill="#E87B3C">DELOITTE AUTHORING ZONE — IP ONLY · NO CLIENT DATA</text>
+          <rect x="20" y="24" width="960" height="58" rx="10" class="arch-zone-ember" stroke-dasharray="6 4"/>
+
+          <rect x="60"  y="38" width="200" height="32" rx="6" class="arch-box-ember"/>
+          <text x="160" y="59" text-anchor="middle" class="arch-text">apex-core / edition</text>
+
+          <line x1="260" y1="54" x2="318" y2="54" class="arch-line" marker-end="url(#arrow)"/>
+
+          <rect x="320" y="38" width="200" height="32" rx="6" class="arch-box-ember"/>
+          <text x="420" y="59" text-anchor="middle" class="arch-text">Manifest validator</text>
+
+          <line x1="520" y1="54" x2="578" y2="54" class="arch-line" marker-end="url(#arrow)"/>
+
+          <rect x="580" y="38" width="240" height="32" rx="6" class="arch-box-ember"/>
+          <text x="700" y="59" text-anchor="middle" class="arch-text">Fleet release bundler</text>
+
+          <text x="836" y="59" class="arch-text-muted">signed bundles ▶</text>
+
+          <!-- Trust boundary cross -->
+          <line x1="500" y1="84" x2="500" y2="106" class="arch-line-amber" marker-end="url(#arrow-amber)"/>
+          <text x="510" y="100" class="arch-text-faint">GitOps pull · signed bundle</text>
+
+          <!-- ─── CLIENT AZURE TENANT ─── -->
+          <text x="40" y="120" class="arch-zone-label" fill="#6FB6E5">CLIENT AZURE TENANT — DATA SOVEREIGNTY BOUNDARY</text>
+          <rect x="20" y="126" width="960" height="438" rx="14" class="arch-zone-sky"/>
+
+          <!-- Sources -->
+          <rect x="40" y="148" width="180" height="84" rx="8" class="arch-box"/>
+          <text x="50"  y="166" class="arch-text-label">SOURCES</text>
+          <text x="50"  y="188" class="arch-text">POS · ERP · WMS</text>
+          <text x="50"  y="206" class="arch-text">IoT · EDI feeds</text>
+          <text x="50"  y="224" class="arch-text-muted">Event Grid triggers</text>
+
+          <line x1="220" y1="190" x2="268" y2="190" class="arch-line" marker-end="url(#arrow)"/>
+
+          <!-- Fabric / OneLake -->
+          <text x="290" y="143" class="arch-zone-label" fill="#6FB6E5">MICROSOFT FABRIC · ONELAKE</text>
+          <rect x="270" y="148" width="690" height="118" rx="10" class="arch-box-sky"/>
+
+          <rect x="290" y="166" width="180" height="40" rx="6" class="arch-medallion-bronze"/>
+          <text x="380" y="183" text-anchor="middle" class="arch-text">Bronze</text>
+          <text x="380" y="198" text-anchor="middle" class="arch-text-muted">raw — cleartext OK</text>
+
+          <line x1="470" y1="186" x2="508" y2="186" class="arch-line" marker-end="url(#arrow)"/>
+          <text x="489" y="178" text-anchor="middle" class="arch-text-faint">tokenize</text>
+
+          <rect x="510" y="166" width="180" height="40" rx="6" class="arch-medallion-silver"/>
+          <text x="600" y="183" text-anchor="middle" class="arch-text">Silver</text>
+          <text x="600" y="198" text-anchor="middle" class="arch-text-muted">tokens · Purview labels</text>
+
+          <line x1="690" y1="186" x2="728" y2="186" class="arch-line" marker-end="url(#arrow)"/>
+
+          <rect x="730" y="166" width="180" height="40" rx="6" class="arch-medallion-gold"/>
+          <text x="820" y="183" text-anchor="middle" class="arch-text">Gold</text>
+          <text x="820" y="198" text-anchor="middle" class="arch-text-muted">curated · agent-readable</text>
+
+          <!-- Audit row -->
+          <rect x="290" y="218" width="650" height="34" rx="6" class="arch-box-violet"/>
+          <text x="615" y="232" text-anchor="middle" class="arch-text">silver_decision_audit</text>
+          <text x="615" y="246" text-anchor="middle" class="arch-text-muted">append-only · CMK · 5–7y retention · Deloitte cannot read without client role</text>
+
+          <!-- Runtime row -->
+          <rect x="40"  y="290" width="220" height="78" rx="8" class="arch-box-teal"/>
+          <text x="52"  y="307" class="arch-text-label" fill="#3DD9C4">AZURE AI AGENT SERVICE</text>
+          <text x="52"  y="328" class="arch-text">Agent runtime</text>
+          <text x="52"  y="346" class="arch-text-muted">mi-apex-{practice}-agent</text>
+          <text x="52"  y="361" class="arch-text-muted">per-tenant scope</text>
+
+          <line x1="260" y1="328" x2="298" y2="328" class="arch-line" marker-end="url(#arrow)"/>
+
+          <rect x="300" y="290" width="220" height="78" rx="8" class="arch-box"/>
+          <text x="312" y="307" class="arch-text-label">MCP TOOL SERVERS</text>
+          <text x="312" y="328" class="arch-text">fabric-mcp · fda-mcp</text>
+          <text x="312" y="346" class="arch-text-muted">tokenizer-mcp · ledger-mcp</text>
+          <text x="312" y="361" class="arch-text-muted">managed-id authenticated</text>
+
+          <line x1="520" y1="328" x2="558" y2="328" class="arch-line" marker-end="url(#arrow)"/>
+
+          <rect x="560" y="290" width="220" height="78" rx="8" class="arch-box-amber"/>
+          <text x="572" y="307" class="arch-text-label" fill="#E8A33D">LOGIC APPS · ORCHESTRATION</text>
+          <text x="572" y="328" class="arch-text">12 ORCH state machines</text>
+          <text x="572" y="346" class="arch-text-muted">gate_kind enforced</text>
+          <text x="572" y="361" class="arch-text-muted">rollback_pointer recorded</text>
+
+          <line x1="780" y1="328" x2="818" y2="328" class="arch-line-amber" marker-end="url(#arrow-amber)"/>
+
+          <rect x="820" y="290" width="140" height="78" rx="8" class="arch-box-amber"/>
+          <text x="832" y="307" class="arch-text-label" fill="#E8A33D">MS TEAMS</text>
+          <text x="832" y="328" class="arch-text">HITL Card</text>
+          <text x="832" y="346" class="arch-text-muted">decider_oid =</text>
+          <text x="832" y="361" class="arch-text-muted">e-signature</text>
+
+          <!-- Tool query down to Fabric -->
+          <path d="M 410 290 Q 410 274 580 268" class="arch-line-dashed" marker-end="url(#arrow)" />
+          <text x="500" y="284" class="arch-text-faint">SELECT (tokens only)</text>
+
+          <!-- Audit insert from gate up to audit table -->
+          <path d="M 890 290 Q 890 268 720 256" class="arch-line-violet" marker-end="url(#arrow-violet)" />
+          <text x="810" y="282" class="arch-text-faint">audit.insert</text>
+
+          <!-- ─── CROSS-CUTTING CONTROLS ─── -->
+          <text x="50" y="397" class="arch-zone-label">CROSS-CUTTING SECURITY CONTROLS — APPLIED AT EVERY TIER</text>
+          <rect x="40" y="404" width="920" height="148" rx="10" class="arch-zone-controls"/>
+
+          <!-- Entra -->
+          <rect x="55"  y="420" width="172" height="118" rx="8" class="arch-control-box"/>
+          <text x="141" y="440" text-anchor="middle" class="arch-text-label" fill="#E87B3C">ENTRA ID</text>
+          <text x="141" y="464" text-anchor="middle" class="arch-text">Users (HITL)</text>
+          <text x="141" y="482" text-anchor="middle" class="arch-text">Managed identities</text>
+          <text x="141" y="500" text-anchor="middle" class="arch-text">Service principals</text>
+          <text x="141" y="524" text-anchor="middle" class="arch-text-muted">authn · electronic sig.</text>
+
+          <!-- Purview -->
+          <rect x="243" y="420" width="172" height="118" rx="8" class="arch-control-box"/>
+          <text x="329" y="440" text-anchor="middle" class="arch-text-label" fill="#9B7BE0">PURVIEW</text>
+          <text x="329" y="464" text-anchor="middle" class="arch-text">Sensitivity labels</text>
+          <text x="329" y="482" text-anchor="middle" class="arch-text">DLP · -32003 block</text>
+          <text x="329" y="500" text-anchor="middle" class="arch-text">Compliance reports</text>
+          <text x="329" y="524" text-anchor="middle" class="arch-text-muted">classification + DLP</text>
+
+          <!-- App Insights -->
+          <rect x="431" y="420" width="172" height="118" rx="8" class="arch-control-box"/>
+          <text x="517" y="440" text-anchor="middle" class="arch-text-label" fill="#6FB6E5">APP INSIGHTS</text>
+          <text x="517" y="464" text-anchor="middle" class="arch-text">operation_Id tree</text>
+          <text x="517" y="482" text-anchor="middle" class="arch-text">KQL workbook</text>
+          <text x="517" y="500" text-anchor="middle" class="arch-text">5 mandatory alerts</text>
+          <text x="517" y="524" text-anchor="middle" class="arch-text-muted">trace · telemetry</text>
+
+          <!-- Key Vault -->
+          <rect x="619" y="420" width="172" height="118" rx="8" class="arch-control-box"/>
+          <text x="705" y="440" text-anchor="middle" class="arch-text-label" fill="#5DD39E">KEY VAULT</text>
+          <text x="705" y="464" text-anchor="middle" class="arch-text">Customer-managed</text>
+          <text x="705" y="482" text-anchor="middle" class="arch-text">keys (CMK)</text>
+          <text x="705" y="500" text-anchor="middle" class="arch-text">Fabric encryption</text>
+          <text x="705" y="524" text-anchor="middle" class="arch-text-muted">client owns the key</text>
+
+          <!-- Defender -->
+          <rect x="807" y="420" width="138" height="118" rx="8" class="arch-control-box"/>
+          <text x="876" y="440" text-anchor="middle" class="arch-text-label" fill="#D94B5A">DEFENDER</text>
+          <text x="876" y="464" text-anchor="middle" class="arch-text">Cloud posture</text>
+          <text x="876" y="482" text-anchor="middle" class="arch-text">Threat detect</text>
+          <text x="876" y="500" text-anchor="middle" class="arch-text">Fabric workspace</text>
+          <text x="876" y="524" text-anchor="middle" class="arch-text-muted">posture · threats</text>
+        </svg>
+
+        <div class="arch-legend">
+          <span><i class="lg-ember"></i>Deloitte authoring zone (no client data)</span>
+          <span><i class="lg-sky"></i>Client Azure tenant boundary</span>
+          <span><i class="lg-teal"></i>Agent runtime (managed identity)</span>
+          <span><i class="lg-amber"></i>Decision gate · HITL surface</span>
+          <span><i class="lg-violet"></i>Audit · provenance</span>
+        </div>
+      </div>
+
+      <h3>Reading the diagram</h3>
+      <ul>
+        <li><strong>Two trust zones, one signed boundary.</strong> Deloitte authors APEX (top); client deploys it (bottom). The only thing that crosses is a signed manifest bundle pulled GitOps-style — never client data going up, never Deloitte secrets coming down.</li>
+        <li><strong>Data flow is left-to-right inside the tenant.</strong> Sources → Bronze → Silver → Gold. Tokenisation happens at the Bronze→Silver boundary — cleartext PII never reaches Silver, Gold, or any agent.</li>
+        <li><strong>Decision flow is bottom-to-top.</strong> Agent reasons → MCP tool calls Fabric (tokens only) → Logic Apps orchestrates → Teams prompts a human → audit row written.</li>
+        <li><strong>Cross-cutting controls run alongside everything.</strong> Entra authenticates every actor, Purview labels and DLP-blocks every data egress, App Insights traces every span, Key Vault holds the CMK, Defender watches the posture.</li>
+      </ul>
+
+      <div class="callout" style="border-left-color: var(--sky);">
+        <strong>The bottom line.</strong> Every component above is a Microsoft-managed service or a workload running on
+        one — no Deloitte-hosted middleware, no parallel security plane. If the client's Azure tenant is governed to
+        Microsoft's Well-Architected baseline, APEX inherits that posture for free.
+      </div>
+    </section>
+
+    <!-- ─────────── Section 1 ─────────── -->
+    <section id="sec1" class="sec">
+      <div class="eyebrow">
+        <span class="pill" style="background:rgba(232,123,60,0.13);color:var(--ember)">02 · DATA SOVEREIGNTY</span>
+      </div>
+      <h2>Where does our data live?</h2>
+      <p class="lede">
+        APEX is a framework, not a product. Clients deploy APEX-shaped solutions on their own Microsoft infrastructure.
+        There is no Deloitte-side runtime, no Deloitte-side retention, and no shared multi-tenant control plane.
+      </p>
+
+      <h3>The Independence posture, in three rules</h3>
+      <div class="cards">
+        <div class="card ember">
+          <span class="kbd">RULE 1</span>
+          <h4>Client-tenant data planes</h4>
+          <p>Every byte of client data lives inside the client's Azure tenant — Bronze/Silver/Gold lakehouses, the audit log, PII tokens, decision records. Deloitte does not host an APEX runtime.</p>
+        </div>
+        <div class="card ember">
+          <span class="kbd">RULE 2</span>
+          <h4>Client-issued identities</h4>
+          <p>Deloitte personnel deploying or operating APEX use client-issued Entra identities, not Deloitte service principals. The client's IAM is the audit boundary.</p>
+        </div>
+        <div class="card ember">
+          <span class="kbd">RULE 3</span>
+          <h4>No client identity in code</h4>
+          <p>The <code>PRACTICE-ACCOUNT-ID</code> validation rule enforces opaque account IDs in shipped artifacts — client identity stays out of Deloitte-owned source and logs.</p>
+        </div>
+      </div>
+
+      <h3>The identity model — three classes, one picture</h3>
+      <p>Every authenticated action in APEX falls into exactly one of three identity classes. Each class has a different threat model and a different audit footprint.</p>
+
+      <div class="id-diagram">
+        <div class="id-col users">
+          <div class="id-head">👤 Entra ID Users</div>
+          <div class="id-row"><span class="id-name">Marisol Reyes</span><span class="id-role">Store MOD — HITL approver</span></div>
+          <div class="id-row"><span class="id-name">Regional Ops Director</span><span class="id-role">Escalation gate</span></div>
+          <div class="id-row"><span class="id-name">Compliance Officer</span><span class="id-role">Audit log reader</span></div>
+        </div>
+        <div class="id-col mi">
+          <div class="id-head">🔐 Managed Identities</div>
+          <div class="id-row"><span class="id-name">mi-apex-rc-agent</span><span class="id-role">Agent runtime</span></div>
+          <div class="id-row"><span class="id-name">mi-apex-rc-mcp</span><span class="id-role">Tool servers</span></div>
+          <div class="id-row"><span class="id-name">mi-apex-rc-ingest</span><span class="id-role">Bronze writer</span></div>
+          <div class="id-row"><span class="id-name">mi-apex-rc-pii-unlock</span><span class="id-role">Reverse-tokenise (audited)</span></div>
+        </div>
+        <div class="id-col sp">
+          <div class="id-head">🔧 Service Principals</div>
+          <div class="id-row"><span class="id-name">sp-apex-ci-cd</span><span class="id-role">Pipeline deploys</span></div>
+          <div class="id-row"><span class="id-name">sp-apex-release</span><span class="id-role">Manifest promotion</span></div>
+        </div>
+      </div>
+
+      <h3>Per-tenant identity segregation (belt-and-suspenders)</h3>
+      <p>
+        Each L4 tenant gets its <em>own</em> managed identity — <code>mi-apex-&lt;tenant&gt;-mcp-read</code>. So even if the
+        header-based tenant scoping ever broke, the identity itself cannot read another tenant's data: OneLake path-ACLs deny
+        the token before the query reaches the SQL engine.
+      </p>
+
+      <div class="callout">
+        <strong>The bottom line.</strong> Data sovereignty in APEX is enforced at three independent layers — tenant
+        Entra boundary, OneLake path-ACL, and per-tenant managed identity — and checked by a CI lint rule that fails the build
+        on any cross-tenant code path.
+      </div>
+    </section>
+
+    <!-- ─────────── Section 2 ─────────── -->
+    <section id="sec2" class="sec">
+      <div class="eyebrow">
+        <span class="pill" style="background:rgba(232,163,61,0.13);color:var(--amber)">03 · DECISION INTEGRITY</span>
+      </div>
+      <h2>What if an agent goes wrong?</h2>
+      <p class="lede">
+        Every APEX orchestration declares — at design time, in the manifest — which decisions need a human, which need an
+        acknowledgement, and which can run zero-touch. There is no implicit autonomy.
+      </p>
+
+      <h3>The gate taxonomy</h3>
+      <p>Every agent and every orchestration carries an explicit <code>gate_kind</code>. The runtime refuses to execute an unannotated decision path.</p>
+
+      <div class="tbl-wrap">
+        <table class="apex">
+          <thead>
+            <tr>
+              <th>Gate kind</th>
+              <th>What it means</th>
+              <th>Where it shows up</th>
+              <th>Who decides</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="tag req">HITL</span></td>
+              <td>Human approval required before the action commits.</td>
+              <td>Teams Adaptive Card · timeout per service SLO</td>
+              <td>Entra-authenticated approver (recorded in audit)</td>
+            </tr>
+            <tr>
+              <td><span class="tag par">ACK_ONLY</span></td>
+              <td>Action runs; a human acknowledges within a window or it escalates.</td>
+              <td>Teams notification + ack button</td>
+              <td>Designated owner (operator, manager, etc.)</td>
+            </tr>
+            <tr>
+              <td><span class="tag na">ZERO_TOUCH</span></td>
+              <td>Fully autonomous — but only after a manifest review approved the gate-kind during release.</td>
+              <td>Logged but not surfaced to a human</td>
+              <td>The manifest itself (signed at release time)</td>
+            </tr>
+            <tr>
+              <td><span class="tag req">ESCALATION</span></td>
+              <td>Auto-promoted to a higher approver when the primary times out or breaches policy.</td>
+              <td>Teams escalation channel · paging</td>
+              <td>Higher-tier approver with audit trail</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Three layers of "if it goes wrong"</h3>
+      <div class="cards">
+        <div class="card amber">
+          <h4>1. The gate stops it</h4>
+          <p>For HITL gates, no commit happens until a human says yes — recorded as an Entra <code>decider_oid</code> on the gate span.</p>
+        </div>
+        <div class="card teal">
+          <h4>2. The rollback pointer reverses it</h4>
+          <p>Every state-changing orchestration writes a <code>rollback_pointer</code> — the ID of a compensating orchestration. Reversible within 7 days for most services.</p>
+        </div>
+        <div class="card violet">
+          <h4>3. The DLP gate blocks the leak</h4>
+          <p>Even if an agent tries to return cleartext PII in an outbound response, Purview DLP returns <code>-32003 DLP_VIOLATION</code> instead of the data.</p>
+        </div>
+      </div>
+
+      <h3>The decision audit row</h3>
+      <p>Every HITL approval writes one row to <code>silver_decision_audit</code>. The row includes:</p>
+      <ul>
+        <li>The full <code>operation_Id</code> tree pointer (so the decision is reconstructable)</li>
+        <li>The decider's Entra <code>oid</code> — that <em>is</em> the electronic signature for FDA 21 CFR Part 11</li>
+        <li>SHA-256 hash of the input the human saw, and of the output that committed</li>
+        <li>The <code>rollback_pointer</code> if reversal is in scope</li>
+      </ul>
+
+      <div class="callout amber">
+        <strong>The bottom line.</strong> "Agent went rogue" stories do not apply to APEX the way they apply to ad-hoc
+        deployments. The gate is part of the contract, not a runtime decoration — and the manifest validator refuses to
+        ship any agent or orchestration without one.
+      </div>
+    </section>
+
+    <!-- ─────────── Section 3 ─────────── -->
+    <section id="sec3" class="sec">
+      <div class="eyebrow">
+        <span class="pill" style="background:rgba(155,123,224,0.14);color:var(--violet)">04 · PROVABILITY</span>
+      </div>
+      <h2>Can we prove what happened?</h2>
+      <p class="lede">
+        Every trigger event creates a single <code>operation_Id</code> tree in App Insights that stitches every downstream
+        ingest, transform, agent reasoning step, MCP tool call, HITL prompt, decision, and rollback pointer into one
+        traceable operation.
+      </p>
+
+      <h3>One excursion = one operation tree</h3>
+      <pre class="op-tree"><span class="root">operation_Id: 3fa9b4c2-…-e1f7c09b</span>
+│
+├── ingest.bronze_write             <span class="ms">15 ms</span>
+├── silver.transform                <span class="ms">82 ms</span>
+├── eventgrid.publish               <span class="ms">4 ms</span>
+│
+├── orchestration.start (ORCH-03)
+│   │
+│   ├── <span class="agent">agent.invoke (SCM-A04)</span>      <span class="ms">2,140 ms</span>
+│   │   ├── <span class="tool">tool.call (fabric-mcp.read_cold_chain_telemetry)</span>   <span class="ms">120 ms</span>
+│   │   │   └── fabric.sql.query                                <span class="ms">94 ms</span>
+│   │   └── <span class="tool">tool.call (fda-mcp.lookup_threshold)</span>                <span class="ms">42 ms</span>
+│   │
+│   ├── <span class="agent">agent.invoke (SCM-A05)</span>      <span class="ms">2,980 ms</span>
+│   │   ├── <span class="tool">tool.call (fabric-mcp.read_lot_exposure)</span>            <span class="ms">180 ms</span>
+│   │   └── <span class="tool">tool.call (tokenizer-mcp.lookup_consent)</span>            <span class="ms">18 ms</span>
+│   │
+│   ├── <span class="agent">agent.invoke (SCM-A06)</span>      <span class="ms">1,620 ms</span>
+│   │   └── <span class="tool">tool.call (ledger-mcp.stage_writeoff)</span>               <span class="ms">73 ms</span>
+│   │
+│   └── <span class="gate">hitl.prompt (Teams card)</span>    <span class="ms">pending → 84,322 ms (user decision)</span>
+│       └── <span class="audit">audit.insert</span>            <span class="ms">12 ms</span>
+│
+└── <span class="pointer">rollback_pointer_ready          orch_id_5c8d (reversible within 7 days)</span></pre>
+
+      <h3>What rides on every span</h3>
+      <p>Every span in that tree carries the same set of attributes — so a single KQL query can answer "who decided what, with what input, in what tenant, against which manifest version."</p>
+
+      <div class="tbl-wrap">
+        <table class="apex">
+          <thead>
+            <tr><th style="width:32%">Attribute</th><th>Purpose</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>tenant_id</code></td><td>Per-tenant scoping; required in every span</td></tr>
+            <tr><td><code>practice</code></td><td>RC / HLS / ER / AXLE / ICE / TH / TMT</td></tr>
+            <tr><td><code>service_id</code></td><td>Which service SKU the invocation belongs to</td></tr>
+            <tr><td><code>agent_id</code> + <code>agent_version</code></td><td>What reasoned</td></tr>
+            <tr><td><code>orchestration_id</code> + version</td><td>What orchestrated</td></tr>
+            <tr><td><code>gate_kind</code></td><td>HITL / ACK_ONLY / ZERO_TOUCH / ESCALATION</td></tr>
+            <tr><td><code>decider_oid</code></td><td>Entra object ID of the approver — the electronic signature</td></tr>
+            <tr><td><code>input_hash</code> / <code>output_hash</code></td><td>SHA-256 of canonical input / output for reproducibility</td></tr>
+            <tr><td><code>rollback_pointer</code></td><td>ID of the compensating orchestration</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Where the audit lives — and stays</h3>
+      <div class="cards">
+        <div class="card violet">
+          <h4>Append-only</h4>
+          <p>The <code>silver_decision_audit</code> table is append-only by ACL — no UPDATE, no DELETE. The MI that writes audit rows cannot modify them.</p>
+        </div>
+        <div class="card violet">
+          <h4>Customer-managed keys</h4>
+          <p>Encrypted with Fabric CMK, key in the client's Azure Key Vault. Even Deloitte personnel operating the engagement cannot read the audit log without client-issued role assignment.</p>
+        </div>
+        <div class="card violet">
+          <h4>Retention by practice</h4>
+          <p>7 years for HLS/ER (HIPAA / FERC / 21 CFR Part 11), 5 years for RC/AXLE/TH/TMT/ICE — unless a regulation pins it longer. Monthly Purview audit reports auto-delivered to compliance officers.</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>The bottom line.</strong> "Show me what this agent did last Tuesday at 2:14 PM" is a single KQL query.
+        For a forensic investigator, the entire decision chain — including the human signature — reconstructs from one
+        <code>operation_Id</code>.
+      </div>
+    </section>
+
+    <!-- ─────────── Section 4 ─────────── -->
+    <section id="sec4" class="sec">
+      <div class="eyebrow">
+        <span class="pill" style="background:rgba(217,75,90,0.14);color:var(--crimson)">05 · REGULATORY FIT</span>
+      </div>
+      <h2>Does this fit our regulators?</h2>
+      <p class="lede">
+        APEX maps each industry edition to the regulations it must satisfy, and ships the controls — not the policy
+        statements — that satisfy them. The control lives in the manifest, the validator, or the data plane; it is not a
+        slide deck.
+      </p>
+
+      <h3>Practice × regulation matrix</h3>
+      <div class="tbl-wrap">
+        <table class="apex">
+          <thead>
+            <tr>
+              <th>Regulation</th>
+              <th>RC</th>
+              <th>HLS</th>
+              <th>ER</th>
+              <th>AXLE</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>HIPAA</strong></td><td><span class="tag na">n/a</span></td><td><span class="tag req">required</span></td><td><span class="tag na">n/a</span></td><td><span class="tag na">n/a</span></td></tr>
+            <tr><td><strong>SOX</strong></td><td><span class="tag par">partial</span></td><td><span class="tag par">partial</span></td><td><span class="tag req">required</span></td><td><span class="tag req">required</span></td></tr>
+            <tr><td><strong>PCI DSS</strong></td><td><span class="tag req">required</span></td><td><span class="tag na">n/a</span></td><td><span class="tag na">n/a</span></td><td><span class="tag na">n/a</span></td></tr>
+            <tr><td><strong>GDPR / CCPA</strong></td><td><span class="tag req">required</span></td><td><span class="tag req">required</span></td><td><span class="tag req">required</span></td><td><span class="tag req">required</span></td></tr>
+            <tr><td><strong>FDA 21 CFR Part 11</strong></td><td><span class="tag par">partial</span></td><td><span class="tag req">required</span></td><td><span class="tag na">n/a</span></td><td><span class="tag par">partial</span></td></tr>
+            <tr><td><strong>FERC reliability</strong></td><td><span class="tag na">n/a</span></td><td><span class="tag na">n/a</span></td><td><span class="tag req">required</span></td><td><span class="tag na">n/a</span></td></tr>
+            <tr><td><strong>ISO 27001</strong></td><td><span class="tag req">required</span></td><td><span class="tag req">required</span></td><td><span class="tag req">required</span></td><td><span class="tag req">required</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Where each control lives</h3>
+      <div class="tbl-wrap">
+        <table class="apex">
+          <thead>
+            <tr><th style="width:24%">Regulation</th><th>APEX control</th><th>Where it lives</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>HIPAA</strong></td>
+              <td>PHI tokenisation + audited reverse-lookup</td>
+              <td>Silver transforms · <code>tokenizer-mcp</code> · <code>mi-*-pii-unlock</code></td>
+            </tr>
+            <tr>
+              <td><strong>SOX</strong></td>
+              <td>Decision audit log — immutable, 7y retention, customer-managed keys</td>
+              <td><code>silver_decision_audit</code> with Fabric CMK</td>
+            </tr>
+            <tr>
+              <td><strong>PCI DSS</strong></td>
+              <td>No card data in schemas; segregated card data lives in a PCI enclave</td>
+              <td>Practice-level; <code>MANIFEST-PCI-FORBIDDEN</code> CI rule</td>
+            </tr>
+            <tr>
+              <td><strong>GDPR / CCPA</strong></td>
+              <td>Right-to-erasure replay; consent-gated fields</td>
+              <td><code>tokenizer-mcp</code> · erasure workflow · loyalty consent flag</td>
+            </tr>
+            <tr>
+              <td><strong>FDA 21 CFR Part 11</strong></td>
+              <td>Electronic signature on every HITL approval; system-generated audit trail</td>
+              <td>Decision audit row + Entra signed-in identity</td>
+            </tr>
+            <tr>
+              <td><strong>FERC</strong></td>
+              <td>Access logs + change control for grid-anomaly orchestrations</td>
+              <td>Practice-level; manifest review gate</td>
+            </tr>
+            <tr>
+              <td><strong>ISO 27001</strong></td>
+              <td>Change management via Fabric Git + manifest validation</td>
+              <td>Cross-cutting</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>The PII regime in plain English</h3>
+      <div class="cards">
+        <div class="card crimson">
+          <h4>Cleartext PII never crosses Bronze→Silver</h4>
+          <p>Tokenisation is contractual at the medallion boundary, enforced by the manifest validator. Any pipeline that violates the contract fails CI.</p>
+        </div>
+        <div class="card crimson">
+          <h4>Tokens are stable</h4>
+          <p>The same cleartext maps to the same token across invocations — joins still work; the cleartext does not need to be rehydrated to do the work.</p>
+        </div>
+        <div class="card crimson">
+          <h4>Reverse-tokenisation is audited</h4>
+          <p>Requires <code>mi-apex-&lt;practice&gt;-pii-unlock</code> and emits an audit row on every call. Agents never reverse-tokenise; pipelines do, narrowly.</p>
+        </div>
+      </div>
+
+      <div class="callout crimson">
+        <strong>The bottom line.</strong> The right-to-erasure replay pattern handles the hard case — when the row is still
+        within regulatory retention but the customer has exercised erasure. APEX re-tokenises with an unrelated token,
+        tombstones the original, and replays the last 30 days of orchestrations that touched it. Documented step-by-step.
+      </div>
+    </section>
+
+    <!-- ─────────── Section 5 ─────────── -->
+    <section id="sec5" class="sec">
+      <div class="eyebrow">
+        <span class="pill" style="background:rgba(111,182,229,0.14);color:var(--sky)">06 · MICROSOFT-NATIVE FIT</span>
+      </div>
+      <h2>Does this fit our Microsoft-native investments?</h2>
+      <p class="lede">
+        APEX uses the security primitives Microsoft already gives a properly-governed Azure tenant — the way Microsoft's
+        Well-Architected Framework recommends. There is no parallel security plane to maintain.
+      </p>
+
+      <h3>How APEX maps to Microsoft platforms</h3>
+      <div class="tbl-wrap">
+        <table class="apex">
+          <thead>
+            <tr><th style="width:24%">APEX concern</th><th>Microsoft service</th><th>Pattern</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Authentication &amp; identity</td>
+              <td><strong>Microsoft Entra ID</strong></td>
+              <td>Users for HITL approval; managed identities for runtime; service principals only for CI/CD pipelines</td>
+            </tr>
+            <tr>
+              <td>Data classification &amp; DLP</td>
+              <td><strong>Microsoft Purview</strong></td>
+              <td>Sensitivity labels at Silver write time; DLP blocks cleartext PII in outbound agent responses</td>
+            </tr>
+            <tr>
+              <td>Data residency &amp; ACLs</td>
+              <td><strong>Microsoft Fabric · OneLake</strong></td>
+              <td>Per-tenant lakehouse with path-ACL; CMK encryption; append-only audit table</td>
+            </tr>
+            <tr>
+              <td>Telemetry &amp; tracing</td>
+              <td><strong>Azure Monitor · App Insights</strong></td>
+              <td>Single <code>operation_Id</code> per excursion; KQL workbook with five mandatory panels</td>
+            </tr>
+            <tr>
+              <td>Agent runtime</td>
+              <td><strong>Azure AI Agent Service</strong></td>
+              <td>Hosts agents with managed-identity-based tool access via MCP servers</td>
+            </tr>
+            <tr>
+              <td>Workflow orchestration</td>
+              <td><strong>Azure Logic Apps</strong></td>
+              <td>State-machine orchestrations carry the gate kind and emit decision audit rows</td>
+            </tr>
+            <tr>
+              <td>Approver UX</td>
+              <td><strong>Microsoft Teams</strong></td>
+              <td>Adaptive Cards for HITL prompts; the Teams identity <em>is</em> the signature</td>
+            </tr>
+            <tr>
+              <td>Posture &amp; secrets</td>
+              <td><strong>Defender for Cloud · Key Vault</strong></td>
+              <td>CMK lives in client-owned Key Vault; Defender posture extends to Fabric workspaces</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>The five mandatory dashboards (Azure Monitor workbook)</h3>
+      <p>Every APEX deployment ships with one workbook. Five panels, non-negotiable.</p>
+
+      <div class="cards">
+        <div class="card sky">
+          <span class="kbd">PANEL 1</span>
+          <h4>Orchestration success rate</h4>
+          <p>24h, by <code>orchestration_id</code>. Target ≥ 98.5%.</p>
+        </div>
+        <div class="card sky">
+          <span class="kbd">PANEL 2</span>
+          <h4>Mean time to decision</h4>
+          <p>p50 / p95 / p99. Target: p95 ≤ service SLO.</p>
+        </div>
+        <div class="card sky">
+          <span class="kbd">PANEL 3</span>
+          <h4>HITL queue depth</h4>
+          <p>Real-time, per gate owner. Alert > 10 pending for > 30 min.</p>
+        </div>
+        <div class="card sky">
+          <span class="kbd">PANEL 4</span>
+          <h4>Schema drift incidents</h4>
+          <p>7d, count by rule. Target: 0 critical findings.</p>
+        </div>
+        <div class="card sky">
+          <span class="kbd">PANEL 5</span>
+          <h4>MCP tool failure rate</h4>
+          <p>24h by tool. Alert > 1% over a 15-min window.</p>
+        </div>
+      </div>
+
+      <h3>The five mandatory alerts</h3>
+      <div class="tbl-wrap">
+        <table class="apex">
+          <thead>
+            <tr><th>Alert</th><th>Trigger</th><th>Pages</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>ManifestDrift</code></td><td>Critical schema-drift finding</td><td>Practice SRE</td></tr>
+            <tr><td><code>SloBurnHITL</code></td><td>HITL p95 &gt; SLO for 3 × 15-min windows</td><td>Practice SRE + service owner</td></tr>
+            <tr><td><code>SloBurnAgent</code></td><td>Agent p95 &gt; 8s for 3 × 15-min windows</td><td>Agent owner</td></tr>
+            <tr><td><code>DecisionBacklog</code></td><td>HITL queue &gt; threshold for 30 min</td><td>Tenant manager</td></tr>
+            <tr><td><code>MCPToolFailureSpike</code></td><td>Tool failure rate &gt; 1% (15-min)</td><td>Tool owner</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout" style="border-left-color: var(--sky);">
+        <strong>The bottom line.</strong> APEX is what "agentic AI on Azure done right" looks like as a
+        repeatable pattern — managed identity everywhere, Purview labels at the data boundary, App Insights for the
+        operation tree, Fabric CMK for the audit. Nothing exotic; everything in the Well-Architected playbook.
+      </div>
+    </section>
+
+    <!-- ─────────── Section 6 ─────────── -->
+    <section id="sec6" class="sec">
+      <div class="eyebrow">
+        <span class="pill" style="background:rgba(93,211,158,0.14);color:var(--success)">07 · FAQ</span>
+      </div>
+      <h2>Frequently asked questions</h2>
+      <p class="lede">The questions experienced enterprise security teams reach for first. If yours isn't here, the dev-guide companion linked at the bottom of the page goes deeper.</p>
+
+      <div class="qa">
+        <div class="qa-item">
+          <div class="qa-q"><span class="q-mark">Q1</span><span class="q-text">"Could a malicious prompt trick an agent into exfiltrating PII?"</span></div>
+          <div class="qa-a">
+            Three independent layers say no. (1) Agents read tokens, not cleartext — the tokeniser sits at the Silver
+            boundary. (2) The MCP tool that returns customer-impacting fields checks the consent flag before it returns
+            even the token. (3) Purview DLP on the outbound channel returns <code>-32003 DLP_VIOLATION</code> if cleartext
+            PII appears in any outgoing response. All three layers must fail simultaneously for an exfiltration to land.
+          </div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q"><span class="q-mark">Q2</span><span class="q-text">"Who can read the audit log? Can Deloitte personnel read it?"</span></div>
+          <div class="qa-a">
+            Only identities the client grants <code>mi-apex-*-observability</code> read role to. Deloitte personnel
+            operating an engagement use client-issued identities; the role assignment is controlled by client IAM. The
+            audit table is encrypted with a CMK in the client's Key Vault — even if Deloitte's storage subscription were
+            compromised, the audit ciphertext is unreadable without the client's key.
+          </div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q"><span class="q-mark">Q3</span><span class="q-text">"What stops an agent from running in zero-touch mode for a decision that should require a human?"</span></div>
+          <div class="qa-a">
+            The manifest validator. Every agent and orchestration declares <code>gate_kind</code> at design time;
+            <code>validate-manifest.js</code> fails the build if a state-changing orchestration ships with
+            <code>ZERO_TOUCH</code> outside the allow-list. Promotion from HITL → ACK_ONLY → ZERO_TOUCH is a manifest
+            change reviewed and signed at release time, not a runtime toggle.
+          </div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q"><span class="q-mark">Q4</span><span class="q-text">"How does GDPR right-to-erasure work when records are still in regulatory retention?"</span></div>
+          <div class="qa-a">
+            The replay pattern: <code>tokenizer-mcp.reverse_lookup</code> finds the stable token (audited). Rows past
+            retention are deleted in place. Rows still under retention are re-tokenised with an unrelated token and the
+            original token is tombstoned. The last 30 days of affected orchestrations replay to confirm no decision
+            output depends on the now-erased cleartext. Erasure itself is logged with a retention-exempt flag.
+          </div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q"><span class="q-mark">Q5</span><span class="q-text">"What is the blast radius of a compromised managed identity?"</span></div>
+          <div class="qa-a">
+            Bounded by three things: (a) the role assignment scope — typically per-tenant, per-practice, single-purpose;
+            (b) OneLake path-ACL — even with a valid token, the MI can only read paths it is granted; (c) the per-tenant
+            MI variant (<code>mi-apex-&lt;tenant&gt;-mcp-read</code>) cannot reach another tenant's lakehouse. Rotation is
+            handled by Entra; revocation is immediate.
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer / cross-references -->
+      <div class="foot">
+        <div class="foot-col">
+          <h5>Source documents</h5>
+          <ul>
+            <li><code>docs/dev-guide/05-observability-security.md</code> — the canonical security &amp; observability companion</li>
+            <li><code>docs/guides/APEX-solution-overview.md</code> — Independence posture, Part 0 language rules</li>
+            <li><code>apex-core/data/edition-registry.json</code> — practices, schemas, agent counts</li>
+            <li><code>docs/plans/2026-04-17-schema-versioning-manifest-design.md</code> — manifest model design</li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h5>Cross-references in the Developer Guide</h5>
+          <ul>
+            <li><code>01-fabric-layering.md</code> §4 — where tenant data physically lives</li>
+            <li><code>02-medallion-sor.md</code> §3.2 — PII tokenisation in the pipeline</li>
+            <li><code>03-mcp-servers.md</code> §4 — MCP token acquisition</li>
+            <li><code>04-agent-lifecycle.md</code> §5.3 — decision audit row schema</li>
+            <li><code>06-testing-topology.md</code> — testing the security instrumentation</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="indep">
+        Examples in this document use synthetic, clearly fictional client and persona names, consistent with APEX
+        Part 0 (Compliance &amp; Language Constraints). Microsoft is referenced as the platform on which APEX-shaped
+        solutions are deployed; no commercial-relationship language is used.
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+// Theme toggle
+(function () {
+  var btn = document.getElementById('themeToggle');
+  var saved = null;
+  try { saved = localStorage.getItem('apex-sec-theme'); } catch (e) {}
+  if (saved === 'light') document.body.classList.add('light');
+  btn.addEventListener('click', function () {
+    document.body.classList.toggle('light');
+    try {
+      localStorage.setItem('apex-sec-theme',
+        document.body.classList.contains('light') ? 'light' : 'dark');
+    } catch (e) {}
+  });
+})();
+
+// Active section in nav
+(function () {
+  var links = document.querySelectorAll('.nav-list a');
+  var sections = Array.from(links).map(function (a) {
+    var id = a.getAttribute('href').slice(1);
+    return { id: id, el: document.getElementById(id), link: a };
+  }).filter(function (s) { return s.el; });
+
+  function onScroll() {
+    var y = window.scrollY + 120;
+    var current = sections[0];
+    sections.forEach(function (s) {
+      if (s.el.offsetTop <= y) current = s;
+    });
+    links.forEach(function (a) { a.classList.remove('active'); });
+    if (current) current.link.classList.add('active');
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+</script>
+
+</body>
+</html>

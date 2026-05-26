@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>APEX-M for a Merch Agentic Client · Architecture Brief</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Aptos:wght@400;600;700&family=Cascadia+Mono&display=swap" rel="stylesheet">
+  <style>
+  :root {
+    --navy: #1A2339;
+    --rust: #B85450;
+    --sage: #7C8968;
+    --gold: #C4A55A;
+    --cream: #F8F6F1;
+    --bg: #ffffff;
+    --text: #1F2937;
+    --dim: #64748B;
+    --border: #E5E7EB;
+    --code-bg: #F5F5F7;
+    --bronze: #B87333;
+    --silver: #9CA3AF;
+    --gold-mart: #D4AF37;
+    --ms-blue: #0078D4;
+  }
+  body.dark {
+    --bg: #0F172A; --text: #E5E7EB; --code-bg: #1E293B;
+    --border: #334155; --dim: #94A3B8; --cream: #111827;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; overflow-x: hidden; }
+  body {
+    font-family: "Source Serif 4", Charter, Georgia, "Times New Roman", serif;
+    background: var(--bg); color: var(--text);
+    line-height: 1.62; font-size: 16.5px;
+  }
+
+  /* Topbar */
+  .topbar {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--navy); color: #fff;
+    padding: 10px 28px; display: flex; align-items: center; gap: 16px;
+    border-bottom: 3px solid var(--rust);
+  }
+  .topbar .brand {
+    font-family: Aptos, "Segoe UI", sans-serif;
+    font-weight: 700; font-size: 15px; letter-spacing: 0.02em;
+  }
+  .topbar .brand .accent { color: #2DD4BF; }
+  .topbar .brand .label { color: var(--gold); margin-left: 8px; font-size: 12.5px; letter-spacing: 0.18em; text-transform: uppercase; }
+  .topbar .spacer { flex: 1; }
+  .topbar a, .topbar button {
+    color: #fff; text-decoration: none; font-size: 12.5px;
+    font-family: Aptos, sans-serif; padding: 5px 12px;
+    border: 1px solid rgba(255,255,255,0.3); border-radius: 4px;
+    background: transparent; cursor: pointer;
+  }
+  .topbar a:hover, .topbar button:hover { background: rgba(255,255,255,0.1); }
+
+  /* Confidentiality ribbon */
+  .ribbon {
+    background: var(--rust); color: #fff;
+    padding: 5px 28px; text-align: center;
+    font-family: Aptos, sans-serif; font-size: 10.5px;
+    letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700;
+  }
+
+  /* Hero */
+  .hero {
+    padding: 56px 60px 40px;
+    background: linear-gradient(135deg, var(--navy) 0%, #2A3349 100%);
+    color: #fff;
+    border-bottom: 8px solid;
+    border-image: linear-gradient(90deg, var(--gold), var(--rust), var(--sage)) 1;
+  }
+  .hero .eyebrow {
+    font-family: Aptos, sans-serif; font-size: 12px; letter-spacing: 0.28em;
+    text-transform: uppercase; color: var(--gold); font-weight: 700;
+  }
+  .hero h1 {
+    font-family: Aptos, sans-serif; font-size: 46px; font-weight: 700;
+    line-height: 1.08; margin: 12px 0 8px; color: #fff;
+  }
+  .hero h1 .accent { color: #2DD4BF; }
+  .hero .subtitle {
+    font-family: Aptos, sans-serif; font-size: 19px; color: #cbd5e1;
+    font-weight: 400; margin: 0 0 22px;
+  }
+  .hero .lede {
+    font-size: 17px; color: #cbd5e1; max-width: 820px;
+    line-height: 1.6; margin: 0;
+  }
+  .hero .meta {
+    margin-top: 26px; padding-top: 18px;
+    border-top: 1px solid rgba(255,255,255,0.18);
+    display: flex; gap: 28px; flex-wrap: wrap;
+    font-size: 13px; color: #94A3B8;
+  }
+  .hero .meta strong { color: #cbd5e1; }
+
+  /* Main + sections */
+  main {
+    max-width: 1100px; margin: 0 auto; padding: 36px 32px 64px;
+  }
+  section { margin: 0 0 48px; }
+  h2 {
+    font-family: Aptos, sans-serif; color: var(--navy);
+    font-size: 26px; margin: 0 0 8px;
+    border-bottom: 1px solid var(--border); padding-bottom: 8px;
+  }
+  body.dark h2 { color: #E5E7EB; }
+  h2 .num {
+    display: inline-block; background: var(--rust); color: #fff;
+    font-size: 12px; letter-spacing: 0.18em;
+    padding: 2px 9px; border-radius: 3px; vertical-align: 5px;
+    margin-right: 12px; font-weight: 700;
+  }
+  h3 {
+    font-family: Aptos, sans-serif; color: var(--navy);
+    font-size: 18px; margin: 28px 0 10px;
+  }
+  body.dark h3 { color: #cbd5e1; }
+  .lead { font-size: 16.5px; color: var(--dim); margin: 0 0 18px; max-width: 850px; }
+
+  code, pre {
+    font-family: "Cascadia Mono", "Consolas", "Courier New", monospace;
+    font-size: 13.5px;
+  }
+  code {
+    background: var(--code-bg); padding: 1px 6px; border-radius: 3px;
+    font-size: 13.5px; color: var(--rust);
+  }
+  body.dark code { color: #FDA4AF; }
+
+  /* Tables */
+  .tbl-wrap { overflow-x: auto; margin: 16px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+  th {
+    background: var(--navy); color: #fff;
+    padding: 9px 12px; text-align: left;
+    font-family: Aptos, sans-serif; font-weight: 600; font-size: 13px;
+    letter-spacing: 0.02em;
+  }
+  td { padding: 9px 12px; border: 1px solid var(--border); vertical-align: top; }
+  tr:nth-child(even) td { background: var(--code-bg); }
+  body.dark tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  td.muted { color: var(--dim); font-size: 13px; }
+  td.center { text-align: center; }
+  td .pill {
+    display: inline-block; padding: 1px 8px; border-radius: 10px;
+    font-family: Aptos, sans-serif; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  .pill.new { background: var(--rust); color: #fff; }
+  .pill.existing { background: var(--sage); color: #fff; }
+  .pill.gold { background: var(--gold); color: var(--navy); }
+  .pill.tier3 { background: #4C1D95; color: #fff; }
+
+  /* Diagrams */
+  figure {
+    margin: 22px 0; padding: 20px 22px;
+    border: 1px solid var(--border); border-radius: 6px;
+    background: var(--cream);
+  }
+  body.dark figure { background: #0B1220; }
+  figure figcaption {
+    margin-top: 12px; padding-top: 10px;
+    border-top: 1px dashed var(--border);
+    font-size: 13px; color: var(--dim); font-family: Aptos, sans-serif;
+  }
+  figure .fig-label {
+    font-family: Aptos, sans-serif; font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--rust); font-weight: 700;
+    margin-bottom: 10px;
+  }
+  figure svg { width: 100%; height: auto; display: block; }
+
+  /* Callouts */
+  .callout {
+    margin: 22px 0; padding: 16px 22px; border-left: 4px solid;
+    background: var(--code-bg); border-radius: 0 4px 4px 0;
+  }
+  .callout .label {
+    font-family: Aptos, sans-serif; font-size: 11.5px; letter-spacing: 0.16em;
+    text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 6px;
+  }
+  .callout.rust { border-color: var(--rust); }
+  .callout.rust .label { color: var(--rust); }
+  .callout.sage { border-color: var(--sage); }
+  .callout.sage .label { color: var(--sage); }
+  .callout.gold { border-color: var(--gold); }
+  .callout.gold .label { color: var(--gold); }
+  .callout.navy { border-color: var(--navy); background: var(--cream); }
+  body.dark .callout.navy { background: #0B1220; border-color: #cbd5e1; }
+  .callout.navy .label { color: var(--navy); }
+  body.dark .callout.navy .label { color: #cbd5e1; }
+  .callout p:last-child { margin-bottom: 0; }
+
+  /* Wave cards */
+  .waves {
+    display: grid; grid-template-columns: 1fr; gap: 16px;
+    margin: 20px 0;
+  }
+  @media (min-width: 900px) {
+    .waves { grid-template-columns: 1fr 1fr 1fr; }
+  }
+  .wave {
+    padding: 18px 20px; border-radius: 6px;
+    border-top: 4px solid;
+    background: var(--code-bg);
+  }
+  body.dark .wave { background: rgba(255,255,255,0.03); }
+  .wave.w1 { border-color: var(--gold); }
+  .wave.w2 { border-color: var(--rust); }
+  .wave.w3 { border-color: var(--sage); }
+  .wave h3 { margin: 0 0 6px; font-size: 16px; }
+  .wave .sprints { font-family: Aptos, sans-serif; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); font-weight: 700; }
+  .wave .focus { font-size: 14px; margin: 8px 0 12px; color: var(--text); }
+  .wave ul { margin: 0; padding-left: 18px; font-size: 14px; }
+  .wave li { padding: 3px 0; }
+
+  /* Options */
+  .options {
+    display: grid; grid-template-columns: 1fr; gap: 16px;
+    margin: 18px 0;
+  }
+  @media (min-width: 900px) {
+    .options { grid-template-columns: repeat(3, 1fr); }
+  }
+  .option {
+    padding: 20px 22px; border: 1px solid var(--border); border-radius: 6px;
+    background: var(--bg);
+  }
+  body.dark .option { background: rgba(255,255,255,0.02); }
+  .option.recommended { border: 2px solid var(--rust); position: relative; }
+  .option.recommended::before {
+    content: "RECOMMENDED";
+    position: absolute; top: -10px; left: 18px;
+    background: var(--rust); color: #fff;
+    font-family: Aptos, sans-serif; font-size: 10px; letter-spacing: 0.18em;
+    font-weight: 700; padding: 2px 10px; border-radius: 3px;
+  }
+  .option .opt-num {
+    font-family: Aptos, sans-serif; font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--dim); font-weight: 700;
+  }
+  .option h3 { margin: 6px 0 10px; font-size: 17px; }
+  .option .filename { font-family: "Cascadia Mono", monospace; font-size: 12px; color: var(--rust); margin: 6px 0 12px; word-break: break-all; }
+
+  /* Links */
+  a { color: var(--rust); }
+  a:hover { text-decoration: underline; }
+  .ms-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    text-decoration: none;
+  }
+  .ms-badge {
+    display: inline-block; background: var(--ms-blue); color: #fff;
+    font-family: Aptos, sans-serif; font-size: 9.5px; letter-spacing: 0.14em;
+    font-weight: 700; padding: 1px 6px; border-radius: 3px;
+    text-transform: uppercase;
+  }
+
+  /* Footer */
+  footer {
+    margin-top: 60px; padding: 24px 32px;
+    border-top: 2px solid var(--border);
+    text-align: center;
+    font-size: 12.5px; color: var(--dim);
+    font-family: Aptos, sans-serif;
+  }
+  footer strong { color: var(--text); }
+
+  @media print {
+    .topbar, .ribbon { display: none; }
+    .hero { padding: 24px 0; }
+    main { padding: 0 16px; }
+    section { page-break-inside: avoid; }
+  }
+  </style>
+</head>
+<body>
+  <div class="ribbon">Internal Architecture Brief · Merch Agentic Client · APEX-M Overlay · Do Not Redistribute</div>
+  <header class="topbar">
+    <span class="brand">Professional <span class="accent">APEX</span><span class="label">· Architecture Brief</span></span>
+    <span class="spacer"></span>
+    <a href="Professional-APEX-M-Library.html">← Back to Library</a>
+    <a href="Professional-APEX-M-Implementation-Guide-(Vuori-Example).html">Vuori Implementation Guide →</a>
+    <button id="darkToggle" title="Toggle dark mode">◐</button>
+  </header>
+
+  <section class="hero">
+    <div class="eyebrow">APEX-M · Architecture Brief · Merch Agentic Client</div>
+    <h1>Building the <span class="accent">Full Merch Suite</span> on APEX-M</h1>
+    <div class="subtitle">Buy · Plan · Allocate · Price · Replenish · Promote · Item · Supplier · Compliance</div>
+    <p class="lede">A strict superset of the Vuori WBR pattern. APEX-M sits alongside the merch systems, reading their outputs through the medallion and producing exception, recommendation, and decision artefacts back. Nine subject-area MCP servers · ten-to-fourteen named personas · ~70 use cases · ~24 sprints across three waves. The medallion shape, OIDC federation, five substrates, fifteen PSG gates, and LEDGER + Purview audit are unchanged from the Vuori build.</p>
+    <div class="meta">
+      <span><strong>MCPs</strong> · 9 subject-area + 1 external signal</span>
+      <span><strong>Personas</strong> · 10–14</span>
+      <span><strong>UCs</strong> · ~70 + 3 cross-domain journeys</span>
+      <span><strong>Sprints</strong> · ~24 (2 squads)</span>
+      <span><strong>Stays the same</strong> · medallion · OIDC · PSG · LEDGER</span>
+    </div>
+  </section>
+
+  <main>
+
+  <!-- ================== 1. The merch landscape ================== -->
+  <section>
+    <h2><span class="num">01</span>The Merch Suite Landscape</h2>
+    <p class="lead">The starting point — the canonical merchandising-systems landscape. Upstream systems feed the merch domain; downstream consumers receive the decisions. Nine capability boxes inside the merch envelope: six on the line (Buy / Plan / Allocate / Price / Replenish / Promote) and three masters underneath (Item / Supplier / Compliance).</p>
+
+    <figure>
+      <div class="fig-label">Figure 1 · The merch suite — as-is</div>
+      <svg viewBox="0 0 1100 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The merch suite landscape">
+        <defs>
+          <linearGradient id="env" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stop-color="#F8F6F1"/>
+            <stop offset="1" stop-color="#E7E2D6"/>
+          </linearGradient>
+        </defs>
+        <style>
+          .label { font-family: Aptos, sans-serif; font-size: 13px; fill: #1A2339; font-weight: 600; }
+          .label-up { font-family: Aptos, sans-serif; font-size: 14px; fill: #1A2339; font-weight: 700; }
+          .box-lbl { font-family: Aptos, sans-serif; font-size: 12.5px; fill: #1A2339; font-weight: 600; }
+        </style>
+
+        <!-- Upstream chevron -->
+        <polygon points="0,30 150,30 200,140 150,250 0,250 50,140" fill="url(#env)" stroke="#1A2339" stroke-width="1.5"/>
+        <text x="80" y="20" text-anchor="middle" class="label-up">Upstream Systems</text>
+
+        <!-- Merch envelope -->
+        <polygon points="210,30 880,30 920,140 880,250 210,250 250,140" fill="url(#env)" stroke="#1A2339" stroke-width="1.5"/>
+        <text x="280" y="20" text-anchor="start" class="label-up">Merchandising Systems</text>
+
+        <!-- Top row boxes -->
+        <rect x="240" y="65" width="105" height="38" rx="5" fill="#fff" stroke="#1A2339" stroke-width="1.3"/>
+        <text x="292" y="89" text-anchor="middle" class="box-lbl">Buy / OTB</text>
+
+        <rect x="355" y="65" width="105" height="38" rx="5" fill="#fff" stroke="#1A2339" stroke-width="1.3"/>
+        <text x="407" y="89" text-anchor="middle" class="box-lbl">Planning</text>
+
+        <rect x="470" y="65" width="105" height="38" rx="5" fill="#fff" stroke="#1A2339" stroke-width="1.3"/>
+        <text x="522" y="89" text-anchor="middle" class="box-lbl">Allocation</text>
+
+        <rect x="585" y="65" width="105" height="38" rx="5" fill="#fff" stroke="#1A2339" stroke-width="1.3"/>
+        <text x="637" y="89" text-anchor="middle" class="box-lbl">Pricing</text>
+
+        <rect x="700" y="65" width="115" height="38" rx="5" fill="#fff" stroke="#1A2339" stroke-width="1.3"/>
+        <text x="757" y="89" text-anchor="middle" class="box-lbl">Replenishment</text>
+
+        <rect x="825" y="65" width="55" height="38" rx="5" fill="#fff" stroke="#1A2339" stroke-width="1.3"/>
+        <rect x="700" y="65" width="115" height="38" rx="5" fill="#fff" stroke="#1A2339" stroke-width="1.3"/>
+        <text x="757" y="89" text-anchor="middle" class="box-lbl">Replenishment</text>
+        <rect x="820" y="65" width="80" height="38" rx="5" fill="#fff" stroke="#1A2339" stroke-width="1.3"/>
+        <text x="860" y="89" text-anchor="middle" class="box-lbl">Promotion</text>
+
+        <!-- Bottom row boxes (masters / cross-cut) -->
+        <rect x="355" y="125" width="105" height="38" rx="5" fill="#fff" stroke="#1A2339" stroke-width="1.3"/>
+        <text x="407" y="149" text-anchor="middle" class="box-lbl">Item</text>
+
+        <rect x="470" y="125" width="105" height="38" rx="5" fill="#fff" stroke="#1A2339" stroke-width="1.3"/>
+        <text x="522" y="149" text-anchor="middle" class="box-lbl">Supplier</text>
+
+        <rect x="585" y="125" width="105" height="38" rx="5" fill="#fff" stroke="#1A2339" stroke-width="1.3"/>
+        <text x="637" y="149" text-anchor="middle" class="box-lbl">Compliance</text>
+
+        <!-- Downstream chevron -->
+        <polygon points="930,30 1080,30 1100,140 1080,250 930,250 970,140" fill="url(#env)" stroke="#1A2339" stroke-width="1.5"/>
+        <text x="1005" y="20" text-anchor="middle" class="label-up">Downstream Systems</text>
+
+        <!-- Labels underneath: row labels -->
+        <text x="240" y="200" class="label" style="font-size:11px;fill:#64748B;font-weight:700">FLOW · OPERATIONAL DECISIONS</text>
+        <text x="240" y="220" class="label" style="font-size:11.5px;fill:#1A2339">Buy → Plan → Allocate → Price → Replenish → Promote</text>
+
+        <text x="500" y="240" class="label" style="font-size:11px;fill:#64748B;font-weight:700">MASTERS &amp; CROSS-CUT · Item · Supplier · Compliance</text>
+      </svg>
+      <figcaption>Six on-the-line operational domains; three masters/cross-cuts. APEX-M's job is to lift exceptions and decisions out of each domain and tie them together into a single narrative — without replacing any of these systems.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ================== 2. APEX-M overlay ================== -->
+  <section>
+    <h2><span class="num">02</span>The APEX-M Overlay</h2>
+    <p class="lead">APEX-M sits <em>alongside</em> the merch systems, not on top of them. Every system stays in place. The medallion lifts upstream + merch data into a substrate-blind shape; nine MCP servers expose typed tools per domain; the agent fleet composes those tools per the Microsoft Agent Framework patterns; HITL gates pause every Tier-2+ decision; LEDGER + Purview anchor the audit.</p>
+
+    <figure>
+      <div class="fig-label">Figure 2 · APEX-M layered onto the merch suite</div>
+      <svg viewBox="0 0 1100 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="APEX-M overlay">
+        <defs>
+          <linearGradient id="lay-up" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#7C8968"/><stop offset="1" stop-color="#5F6B4F"/></linearGradient>
+          <linearGradient id="lay-med" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#1A2339"/><stop offset="1" stop-color="#2A3349"/></linearGradient>
+          <linearGradient id="lay-mcp" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#C4A55A"/><stop offset="1" stop-color="#A88845"/></linearGradient>
+          <linearGradient id="lay-ag" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#B85450"/><stop offset="1" stop-color="#9C3F3C"/></linearGradient>
+          <linearGradient id="lay-down" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#7C8968"/><stop offset="1" stop-color="#5F6B4F"/></linearGradient>
+          <linearGradient id="lay-fnd" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#475569"/><stop offset="1" stop-color="#334155"/></linearGradient>
+          <marker id="arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#1A2339"/>
+          </marker>
+        </defs>
+        <style>
+          .layer-cap { font-family: Aptos, sans-serif; font-size: 11px; fill: #64748B; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; }
+          .layer-name { font-family: Aptos, sans-serif; font-size: 14px; fill: #fff; font-weight: 700; }
+          .layer-name-dark { font-family: Aptos, sans-serif; font-size: 14px; fill: #1A2339; font-weight: 700; }
+          .layer-sub { font-family: Aptos, sans-serif; font-size: 11.5px; fill: #fff; opacity: 0.9; }
+          .layer-sub-dark { font-family: Aptos, sans-serif; font-size: 11.5px; fill: #1A2339; opacity: 0.85; }
+        </style>
+
+        <!-- Upstream -->
+        <text x="20" y="20" class="layer-cap">Upstream Systems</text>
+        <rect x="20" y="28" width="1060" height="44" rx="6" fill="url(#lay-up)"/>
+        <text x="36" y="50" class="layer-name">POS · ERP (D365)</text>
+        <text x="220" y="50" class="layer-name">PLM (Centric)</text>
+        <text x="360" y="50" class="layer-name">Ecomm (Shopify)</text>
+        <text x="540" y="50" class="layer-name">Vendor SCM portals</text>
+        <text x="730" y="50" class="layer-name">Forecast (iSEYON, NPD)</text>
+        <text x="950" y="50" class="layer-name">External (ConCON)</text>
+        <text x="36" y="65" class="layer-sub">Fivetran · ADF · SFTP · Snowpipe · Event Grid</text>
+
+        <!-- Medallion -->
+        <text x="20" y="92" class="layer-cap">Medallion · Snowflake or Microsoft Fabric Lakehouse</text>
+        <rect x="20" y="100" width="345" height="56" rx="6" fill="url(#lay-med)"/>
+        <text x="36" y="124" class="layer-name">RAW</text>
+        <text x="36" y="142" class="layer-sub">source-native shapes</text>
+        <rect x="370" y="100" width="345" height="56" rx="6" fill="url(#lay-med)"/>
+        <text x="386" y="124" class="layer-name">CLEANSED</text>
+        <text x="386" y="142" class="layer-sub">typed · deduped · dual-calendar · MAC margin</text>
+        <rect x="720" y="100" width="360" height="56" rx="6" fill="url(#lay-med)"/>
+        <text x="736" y="124" class="layer-name">CURATED</text>
+        <text x="736" y="142" class="layer-sub">subject-area · agent-readable · per-domain views</text>
+
+        <!-- MCP Servers -->
+        <text x="20" y="178" class="layer-cap">Nine subject-area MCP servers (one per merch box)</text>
+        <rect x="20" y="186" width="116" height="56" rx="6" fill="url(#lay-mcp)"/>
+        <text x="78" y="208" text-anchor="middle" class="layer-name-dark">buyml-mcp</text>
+        <text x="78" y="226" text-anchor="middle" class="layer-sub-dark">Buy / OTB</text>
+        <rect x="142" y="186" width="116" height="56" rx="6" fill="url(#lay-mcp)"/>
+        <text x="200" y="208" text-anchor="middle" class="layer-name-dark">planml-mcp</text>
+        <text x="200" y="226" text-anchor="middle" class="layer-sub-dark">Planning</text>
+        <rect x="264" y="186" width="116" height="56" rx="6" fill="url(#lay-mcp)"/>
+        <text x="322" y="208" text-anchor="middle" class="layer-name-dark">allocml-mcp</text>
+        <text x="322" y="226" text-anchor="middle" class="layer-sub-dark">Allocation</text>
+        <rect x="386" y="186" width="116" height="56" rx="6" fill="url(#lay-mcp)"/>
+        <text x="444" y="208" text-anchor="middle" class="layer-name-dark">priceml-mcp</text>
+        <text x="444" y="226" text-anchor="middle" class="layer-sub-dark">Pricing</text>
+        <rect x="508" y="186" width="116" height="56" rx="6" fill="url(#lay-mcp)"/>
+        <text x="566" y="208" text-anchor="middle" class="layer-name-dark">replenml-mcp</text>
+        <text x="566" y="226" text-anchor="middle" class="layer-sub-dark">Replenishment</text>
+        <rect x="630" y="186" width="116" height="56" rx="6" fill="url(#lay-mcp)"/>
+        <text x="688" y="208" text-anchor="middle" class="layer-name-dark">promoml-mcp</text>
+        <text x="688" y="226" text-anchor="middle" class="layer-sub-dark">Promotion</text>
+        <rect x="752" y="186" width="106" height="56" rx="6" fill="url(#lay-mcp)"/>
+        <text x="805" y="208" text-anchor="middle" class="layer-name-dark">itemml-mcp</text>
+        <text x="805" y="226" text-anchor="middle" class="layer-sub-dark">Item · master</text>
+        <rect x="864" y="186" width="106" height="56" rx="6" fill="url(#lay-mcp)"/>
+        <text x="917" y="208" text-anchor="middle" class="layer-name-dark">supml-mcp</text>
+        <text x="917" y="226" text-anchor="middle" class="layer-sub-dark">Supplier · master</text>
+        <rect x="976" y="186" width="104" height="56" rx="6" fill="url(#lay-mcp)"/>
+        <text x="1028" y="208" text-anchor="middle" class="layer-name-dark">compml-mcp</text>
+        <text x="1028" y="226" text-anchor="middle" class="layer-sub-dark">Compliance</text>
+
+        <!-- Agent fleet -->
+        <text x="20" y="264" class="layer-cap">Agent fleet · 10–14 personas · Microsoft Agent Framework</text>
+        <rect x="20" y="272" width="1060" height="56" rx="6" fill="url(#lay-ag)"/>
+        <text x="36" y="294" class="layer-name">The Analyst · Demand Checker · Finance Lead · Operations Lead · Briefer</text>
+        <text x="36" y="312" class="layer-sub">+ The Buyer · Planner · Allocator · Pricer · Replenisher · Promoter · Compliance Officer · Coordinator (Magentic)</text>
+
+        <!-- Downstream -->
+        <text x="20" y="350" class="layer-cap">Downstream Systems</text>
+        <rect x="20" y="358" width="1060" height="44" rx="6" fill="url(#lay-down)"/>
+        <text x="36" y="380" class="layer-name">Adaptive Cards · Power BI / Valo · Anaplan push-back · Allocation engines · CSR cockpit · Compliance ledger</text>
+        <text x="36" y="395" class="layer-sub">Read by merchants, planners, sourcing, marketing, compliance — same brief, role-targeted slices</text>
+
+        <!-- Foundation -->
+        <text x="20" y="422" class="layer-cap">Foundation</text>
+        <rect x="20" y="430" width="1060" height="26" rx="5" fill="url(#lay-fnd)"/>
+        <text x="36" y="448" class="layer-name">Azure AI Foundry · Entra ID (Agent IDs + persona bindings) · Key Vault · Purview (LEDGER + audit) · PSG-1..15 gates</text>
+      </svg>
+      <figcaption>Six layers. The medallion + nine MCPs are the architectural substrate; the agent fleet composes them per the Microsoft Agent Framework. Foundation services (Foundry, Entra, Key Vault, Purview) are unchanged from the Vuori build.</figcaption>
+    </figure>
+
+    <div class="callout sage">
+      <span class="label">Augmentation, not replacement</span>
+      <p>The merch systems stay. Anaplan still owns planning; Centric still owns PLM; the allocation engine still allocates. APEX-M reads their outputs, finds the exceptions, proposes the next action, and routes it back into those systems through their existing inputs (planning push-back, allocation override, markdown trigger). This is the same posture the Vuori WBR build uses; it just scales horizontally.</p>
+    </div>
+  </section>
+
+  <!-- ================== 3. Canonical APEX pancake (10-layer stack) ================== -->
+  <section>
+    <h2><span class="num">03</span>The Canonical APEX Pancake</h2>
+    <p class="lead">The overlay in §02 is a flat view. The canonical APEX architecture — narrated layer-by-layer in <a href="../reference/APEX-Stacked-Architecture-Narrated.html" target="_blank" rel="noopener">APEX · End-to-End Stacked Logical Architecture</a> — presents the same components as a <strong>ten-layer pancake stack</strong>. Every arrow of data flows up; every line of governance flows down. The Merch Agentic Client occupies every layer; nothing in the engagement sits outside the stack.</p>
+
+    <figure>
+      <div class="fig-label">Figure 3 · APEX 10-layer pancake · Merch Agentic Client mapping</div>
+      <svg viewBox="0 0 1100 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="APEX canonical 10-layer pancake with Merch Agentic Client components mapped to each layer">
+        <defs>
+          <linearGradient id="r-exp" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#F59E0B"/><stop offset="1" stop-color="#C4A55A"/></linearGradient>
+          <linearGradient id="r-svc" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#C4A55A"/><stop offset="1" stop-color="#A88845"/></linearGradient>
+          <linearGradient id="r-orc" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#2DD4BF"/><stop offset="1" stop-color="#14B8A6"/></linearGradient>
+          <linearGradient id="r-ctrl" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#B85450"/><stop offset="1" stop-color="#8B5CF6"/></linearGradient>
+          <linearGradient id="r-rt" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#0EA5E9"/><stop offset="1" stop-color="#B85450"/></linearGradient>
+          <linearGradient id="r-rsn" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#2DD4BF"/><stop offset="1" stop-color="#0EA5E9"/></linearGradient>
+          <linearGradient id="r-mcp" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#8B5CF6"/><stop offset="1" stop-color="#7C3AED"/></linearGradient>
+          <linearGradient id="r-sch" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#8B5CF6"/><stop offset="1" stop-color="#0EA5E9"/></linearGradient>
+          <linearGradient id="r-data" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#0EA5E9"/><stop offset="1" stop-color="#0369A1"/></linearGradient>
+          <linearGradient id="r-fnd" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#F97316"/><stop offset="1" stop-color="#B85450"/></linearGradient>
+          <marker id="up-arr" viewBox="0 0 10 10" refX="5" refY="0" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 10 L 5 0 L 10 10" fill="none" stroke="#0EA5E9" stroke-width="1.5"/></marker>
+          <marker id="dn-arr" viewBox="0 0 10 10" refX="5" refY="10" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 5 10 L 10 0" fill="none" stroke="#B85450" stroke-width="1.5"/></marker>
+        </defs>
+        <style>
+          .l-num { font-family: Aptos, sans-serif; font-size: 12px; fill: #64748B; font-weight: 700; }
+          .l-name { font-family: Aptos, sans-serif; font-size: 13.5px; fill: #1A2339; font-weight: 700; }
+          .l-tag { font-family: Aptos, sans-serif; font-size: 10.5px; fill: #64748B; font-weight: 600; letter-spacing: 0.06em; }
+          .l-merch { font-family: "Cascadia Mono", monospace; font-size: 11.5px; fill: #1A2339; }
+          .cap-side { font-family: "Cascadia Mono", monospace; font-size: 9.5px; fill: #64748B; letter-spacing: 0.16em; text-transform: uppercase; }
+        </style>
+
+        <!-- Caption -->
+        <text x="30" y="14" class="cap-side">The Stack · Top ↓ Bottom</text>
+        <text x="1070" y="14" text-anchor="end" class="cap-side">Data ↑ flows up · Governance ↓ flows down</text>
+
+        <!-- Side directional rails -->
+        <line x1="13" y1="500" x2="13" y2="36" stroke="#0EA5E9" stroke-width="1.2" stroke-dasharray="2 3" marker-end="url(#up-arr)"/>
+        <text x="9" y="270" class="cap-side" transform="rotate(-90 9 270)">DATA UP</text>
+
+        <line x1="1087" y1="36" x2="1087" y2="500" stroke="#B85450" stroke-width="1.2" stroke-dasharray="2 3" marker-end="url(#dn-arr)"/>
+        <text x="1095" y="270" class="cap-side" transform="rotate(90 1095 270)">GOV DOWN</text>
+
+        <!-- L10 Experience -->
+        <rect x="30" y="32" width="1040" height="42" rx="5" fill="#fffaeb" stroke="#E5E7EB"/>
+        <rect x="30" y="32" width="4" height="42" fill="url(#r-exp)"/>
+        <text x="50" y="49" class="l-num">L10</text>
+        <text x="84" y="49" class="l-name">Experience Plane</text>
+        <text x="84" y="65" class="l-tag">where humans meet agents · Copilot</text>
+        <text x="430" y="58" class="l-merch">Adaptive Cards · Power BI / Valo · Teams · merchant cockpit · CSR escalation surface</text>
+
+        <!-- L09 Service -->
+        <rect x="30" y="80" width="1040" height="42" rx="5" fill="#fefce8" stroke="#E5E7EB"/>
+        <rect x="30" y="80" width="4" height="42" fill="url(#r-svc)"/>
+        <text x="50" y="97" class="l-num">L09</text>
+        <text x="84" y="97" class="l-name">Service Catalog</text>
+        <text x="84" y="113" class="l-tag">what the client buys · productized envelope</text>
+        <text x="430" y="106" class="l-merch">RC-MERCH-AGENTIC · Wave 1 → 2 → 3 KPI envelope · two-contract Independence</text>
+
+        <!-- L08 Orchestration -->
+        <rect x="30" y="128" width="1040" height="42" rx="5" fill="#ecfeff" stroke="#E5E7EB"/>
+        <rect x="30" y="128" width="4" height="42" fill="url(#r-orc)"/>
+        <text x="50" y="145" class="l-num">L08</text>
+        <text x="84" y="145" class="l-name">Orchestration Layer</text>
+        <text x="84" y="161" class="l-tag">how agents compose · 47 archetypes</text>
+        <text x="430" y="154" class="l-merch">Sequential · Concurrent · Handoff · Group Chat · Magentic (The Coordinator)</text>
+
+        <!-- L07 Control Plane -->
+        <rect x="30" y="176" width="1040" height="42" rx="5" fill="#fdf2f8" stroke="#E5E7EB"/>
+        <rect x="30" y="176" width="4" height="42" fill="url(#r-ctrl)"/>
+        <text x="50" y="193" class="l-num">L07</text>
+        <text x="84" y="193" class="l-name">Control Plane</text>
+        <text x="84" y="209" class="l-tag">parent/child · manifest registry · Redis · LEDGER</text>
+        <text x="430" y="202" class="l-merch">HITL gates · approver routing · LEDGER hash chain · PSG-1..15 · manifest pinning</text>
+
+        <!-- L06 Runtime Plane -->
+        <rect x="30" y="224" width="1040" height="42" rx="5" fill="#f0f9ff" stroke="#E5E7EB"/>
+        <rect x="30" y="224" width="4" height="42" fill="url(#r-rt)"/>
+        <text x="50" y="241" class="l-num">L06</text>
+        <text x="84" y="241" class="l-name">Runtime Plane</text>
+        <text x="84" y="257" class="l-tag">gateway · safety · evaluation · observability</text>
+        <text x="430" y="250" class="l-merch">APIM · Content Safety + Prompt Shields · Foundry evals · App Insights · cost/decision</text>
+
+        <!-- L05 Reasoning -->
+        <rect x="30" y="272" width="1040" height="42" rx="5" fill="#ecfeff" stroke="#E5E7EB"/>
+        <rect x="30" y="272" width="4" height="42" fill="url(#r-rsn)"/>
+        <text x="50" y="289" class="l-num">L05</text>
+        <text x="84" y="289" class="l-name">Reasoning Plane</text>
+        <text x="84" y="305" class="l-tag">agent fleet · Azure AI Foundry</text>
+        <text x="430" y="298" class="l-merch">10–14 personas: Analyst · Buyer · Planner · Allocator · Pricer · Replenisher · Promoter · …</text>
+
+        <!-- L04 MCP -->
+        <rect x="30" y="320" width="1040" height="42" rx="5" fill="#f5f3ff" stroke="#E5E7EB"/>
+        <rect x="30" y="320" width="4" height="42" fill="url(#r-mcp)"/>
+        <text x="50" y="337" class="l-num">L04</text>
+        <text x="84" y="337" class="l-name">MCP Tool Binding</text>
+        <text x="84" y="353" class="l-tag">one typed tool per Gold view · the seam</text>
+        <text x="430" y="346" class="l-merch">9 subject-area MCPs: buyml · planml · allocml · priceml · replenml · promoml · itemml · supml · compml</text>
+
+        <!-- L03 Schema -->
+        <rect x="30" y="368" width="1040" height="42" rx="5" fill="#eff6ff" stroke="#E5E7EB"/>
+        <rect x="30" y="368" width="4" height="42" fill="url(#r-sch)"/>
+        <text x="50" y="385" class="l-num">L03</text>
+        <text x="84" y="385" class="l-name">Canonical Schema Layer</text>
+        <text x="84" y="401" class="l-tag">~35+ schemas · the acceleration kernel</text>
+        <text x="430" y="394" class="l-merch">RC family: MERML · SCML · CXML + merch-suite extensions (BuyML · PriceML · CompML)</text>
+
+        <!-- L02 Data -->
+        <rect x="30" y="416" width="1040" height="42" rx="5" fill="#f0f9ff" stroke="#E5E7EB"/>
+        <rect x="30" y="416" width="4" height="42" fill="url(#r-data)"/>
+        <text x="50" y="433" class="l-num">L02</text>
+        <text x="84" y="433" class="l-name">Data Plane</text>
+        <text x="84" y="449" class="l-tag">medallion · OneLake or Snowflake on Azure</text>
+        <text x="430" y="442" class="l-merch">Bronze (Fivetran / ADF) → Silver (CLEANSED, dbt) → Gold (CURATED, agent-safe)</text>
+
+        <!-- L01 Foundation -->
+        <rect x="30" y="464" width="1040" height="42" rx="5" fill="#fff7ed" stroke="#E5E7EB"/>
+        <rect x="30" y="464" width="4" height="42" fill="url(#r-fnd)"/>
+        <text x="50" y="481" class="l-num">L01</text>
+        <text x="84" y="481" class="l-name">Foundation</text>
+        <text x="84" y="497" class="l-tag">identity &amp; trust · always on, always underneath</text>
+        <text x="430" y="490" class="l-merch">Entra (Agent IDs + persona bindings) · Purview (LEDGER + audit + lineage)</text>
+      </svg>
+      <figcaption>Top-down: Experience → Service → Orchestration → Control → Runtime → Reasoning → MCP → Schema → Data → Foundation. The 6-layer overlay in §02 is a simplified projection of this canonical 10-layer pancake. Source: <a href="../reference/APEX-Stacked-Architecture-Narrated.html" target="_blank" rel="noopener">APEX · End-to-End Stacked Logical Architecture</a> (Overview tab).</figcaption>
+    </figure>
+
+    <div class="callout navy">
+      <span class="label">How to read the pancake against the Merch overlay</span>
+      <p>The §02 overlay collapses several pancake layers into single bands for legibility: the <em>"Foundation"</em> band there carries L01 (Entra + Purview) alone; the <em>"Medallion"</em> band there is L02 (Data Plane) — the L03 canonical schema is implicit in the CURATED views; the <em>"MCP Servers"</em> band there is L04; the <em>"Agent Fleet"</em> band there spans L05 (Reasoning), L06 (Runtime), L07 (Control Plane) and L08 (Orchestration); the <em>"Downstream Systems"</em> band there is L10 (Experience). L09 (Service Catalog) is the productized engagement envelope around all of it. When a question gets pointed enough to need the layer-by-layer rationale — the audit-row anatomy, the Redis control-plane state model, the four-band Runtime Plane, the six reasons agentic AI benefits categorically more from canonical schema than BI — go to the narrated source.</p>
+    </div>
+
+    <div class="callout gold">
+      <span class="label">Reading order</span>
+      <p><strong>(1)</strong> The flat overlay in §02 to see <em>what</em> APEX-M overlays on the merch landscape. <strong>(2)</strong> The pancake here to see <em>where</em> each component lives canonically. <strong>(3)</strong> The narrated source for the <em>why</em> of each layer's design commitments — Experience plane HITL gating, Control Plane manifest versioning, MCP typed-tool isolation, Canonical Schema as the acceleration kernel, Data Plane Bronze/Silver/Gold with PII tokenized at Silver, Foundation as the always-on Entra + Purview substrate.</p>
+    </div>
+  </section>
+
+  <!-- ================== 4. Nine MCP servers ================== -->
+  <section>
+    <h2><span class="num">04</span>Nine MCP Servers · One Per Merch System</h2>
+    <p class="lead">SQL stays inside the MCP server. Agents see only typed tools. Each MCP authenticates Entra Agent IDs; Tier-3 PII unlocks (vendor contact info, labor certifications, customer-level joins) require an explicit consent ticket and audit on every hit.</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <tr>
+          <th style="width:13%">Merch box</th>
+          <th style="width:13%">MCP server</th>
+          <th>What it exposes</th>
+          <th style="width:23%">Primary persona(s)</th>
+        </tr>
+        <tr>
+          <td><strong>Buy / OTB</strong></td>
+          <td><code>buyml-mcp</code></td>
+          <td>OTB position by category × season, open vendor POs, depth recommendations, buy-quantity proposals, vendor lead-time forecast, MOQ check</td>
+          <td>The Buyer <span class="pill new">new</span> · Finance Lead</td>
+        </tr>
+        <tr>
+          <td><strong>Planning</strong></td>
+          <td><code>planml-mcp</code></td>
+          <td>Top-down (Gender × Channel × Season), bottoms-up (Class × Channel × Week), plan-vs-actual gap, reconciliation, season roll-forward</td>
+          <td>The Planner <span class="pill new">new</span> · The Analyst</td>
+        </tr>
+        <tr>
+          <td><strong>Allocation</strong></td>
+          <td><code>allocml-mcp</code></td>
+          <td>Initial allocation by cluster, on-hand position, transfer recommendations, new-store seed, demand-shift cluster overrides</td>
+          <td>The Allocator <span class="pill new">new</span> · Ops Lead</td>
+        </tr>
+        <tr>
+          <td><strong>Pricing</strong></td>
+          <td><code>priceml-mcp</code></td>
+          <td>List / reg / markdown prices, elasticity reads, MAC margin, competitive price gap, markdown cadence recommendations</td>
+          <td>The Pricer <span class="pill new">new</span> · Finance Lead</td>
+        </tr>
+        <tr>
+          <td><strong>Replenishment</strong></td>
+          <td><code>replenml-mcp</code></td>
+          <td>DC on-hand, in-transit, weeks-of-supply, replen triggers, vendor SLA breach, stockout risk by store</td>
+          <td>Ops Lead · The Replenisher <span class="pill new">new</span></td>
+        </tr>
+        <tr>
+          <td><strong>Promotion</strong></td>
+          <td><code>promoml-mcp</code></td>
+          <td>Promo calendar, lift forecasts, attach-rate, post-promo decomposition, cannibalization detection, conflict resolution</td>
+          <td>The Promoter <span class="pill new">new</span> · The Briefer</td>
+        </tr>
+        <tr>
+          <td><strong>Item</strong></td>
+          <td><code>itemml-mcp</code> <span class="pill gold">master</span></td>
+          <td>Style/SKU hierarchy, attribute completeness, lifecycle stage, launch / intended-exit dates, BOM, collection attribution</td>
+          <td>All personas (read) · The Analyst</td>
+        </tr>
+        <tr>
+          <td><strong>Supplier</strong></td>
+          <td><code>supml-mcp</code> <span class="pill gold">master</span></td>
+          <td>Vendor master, scorecard, MAC cost trend, lead-time, country-of-origin, sourcing certifications</td>
+          <td>The Buyer · The Compliance Officer <span class="pill new">new</span></td>
+        </tr>
+        <tr>
+          <td><strong>Compliance</strong></td>
+          <td><code>compml-mcp</code> <span class="pill tier3">tier-3</span></td>
+          <td>Country-of-origin checks, HTS classification, Section 301 exposure, labor certification expiry, dual-control attestation log</td>
+          <td>The Compliance Officer · The Briefer</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="callout rust">
+      <span class="label">cxml-mcp · the 10th MCP</span>
+      <p>The external-signal MCP from the Vuori build (ConvergeCONSUMER, intent score, competitive share shift) stays in place as the 10th MCP. The Demand Checker queries it before recommending whether an exception is demand-side or supply-side — same pattern, expanded reach across the nine domains.</p>
+    </div>
+  </section>
+
+  <!-- ================== 5. Agent fleet ================== -->
+  <section>
+    <h2><span class="num">05</span>The Agent Fleet · 10–14 Personas</h2>
+    <p class="lead">Vuori's WBR shipped five named personas. The full merch suite needs ten to fourteen, depending on whether <em>The Coordinator</em> (the Magentic manager) and <em>The Archivist</em> (LEDGER curator + Gate-6 calibration) are in scope.</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <tr>
+          <th style="width:21%">Persona</th>
+          <th style="width:8%">Agent ID</th>
+          <th>Owns</th>
+          <th style="width:14%">Pattern</th>
+          <th style="width:11%">Status</th>
+        </tr>
+        <tr><td>The Analyst</td><td>A13</td><td>Cross-domain exception detection &amp; severity ranking</td><td>Sequential</td><td><span class="pill existing">from Vuori</span></td></tr>
+        <tr><td>The Demand Checker</td><td>A1</td><td>External signal · intent · competitive shift</td><td>Sequential</td><td><span class="pill existing">from Vuori</span></td></tr>
+        <tr><td>The Finance Lead</td><td>A4</td><td>OTB / margin / markdown / aggregate-spend guardrails</td><td>Concurrent</td><td><span class="pill existing">from Vuori</span></td></tr>
+        <tr><td>The Operations Lead</td><td>A8</td><td>Replen + rebalance + DC routing</td><td>Sequential</td><td><span class="pill existing">from Vuori</span></td></tr>
+        <tr><td>The Briefer</td><td>A13.3</td><td>Weekly synthesis + Adaptive Card delivery</td><td>Group Chat</td><td><span class="pill existing">from Vuori</span></td></tr>
+        <tr><td><strong>The Buyer</strong></td><td>A2</td><td>OTB position + buy-quantity decisions + vendor MOQ</td><td>Sequential + HITL</td><td><span class="pill new">new</span></td></tr>
+        <tr><td><strong>The Planner</strong></td><td>A3</td><td>Top-down ↔ bottoms-up reconciliation; season roll-forward</td><td>Sequential</td><td><span class="pill new">new</span></td></tr>
+        <tr><td><strong>The Allocator</strong></td><td>A5</td><td>Initial allocation + cluster overrides + transfers</td><td>Concurrent</td><td><span class="pill new">new</span></td></tr>
+        <tr><td><strong>The Pricer</strong></td><td>A6</td><td>Markdown cadence + elasticity reads + competitive reprice</td><td>Sequential + HITL</td><td><span class="pill new">new</span></td></tr>
+        <tr><td><strong>The Replenisher</strong></td><td>A9</td><td>Daily replen triggers + SLA monitoring</td><td>Sequential</td><td><span class="pill new">new</span></td></tr>
+        <tr><td><strong>The Promoter</strong></td><td>A7</td><td>Promo calendar conflict + lift vs forecast + cannibalization</td><td>Group Chat</td><td><span class="pill new">new</span></td></tr>
+        <tr><td><strong>The Compliance Officer</strong></td><td>A14</td><td>Country-of-origin · HTS · Section 301 · labor-cert attestation</td><td>Sequential + HITL (Tier-3)</td><td><span class="pill new">new</span></td></tr>
+        <tr><td><strong>The Coordinator</strong></td><td>A15</td><td>Cross-domain orchestrator — picks the next agent dynamically</td><td>Magentic</td><td><span class="pill new">new · optional</span></td></tr>
+        <tr><td><strong>The Archivist</strong></td><td>A16</td><td>LEDGER curator + Gate-6 weekly calibration</td><td>Sequential</td><td><span class="pill new">new · optional</span></td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- ================== 6. Use cases ================== -->
+  <section>
+    <h2><span class="num">06</span>Use Case Clusters · ~70 Total</h2>
+    <p class="lead">Vuori's 21-UC catalog grows to ~70 UCs across the merch suite, plus three cross-domain journeys. Each UC has a primary persona, an MCP, a steps.yaml file in the harness, and acceptance criteria mapped back to the engagement's gap inventory.</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <tr>
+          <th>Domain</th>
+          <th style="width:10%" class="center">UC count</th>
+          <th>Anchor use cases</th>
+        </tr>
+        <tr><td>Buy / OTB</td><td class="center">8</td><td>UC-22 Detect OTB overrun · UC-23 Buy-qty rebalance · UC-24 Vendor lead-time risk · UC-25 Open-PO reconciliation</td></tr>
+        <tr><td>Planning</td><td class="center">6</td><td>UC-26 Top-down ↔ bottoms-up gap · UC-27 Season reconciliation · UC-28 Plan vs actual at class × week</td></tr>
+        <tr><td>Allocation</td><td class="center">7</td><td>UC-29 Cluster override on demand shift · UC-30 Inter-store transfer · UC-31 New-store seed allocation</td></tr>
+        <tr><td>Pricing</td><td class="center">8</td><td>UC-32 Markdown cadence trigger · UC-33 Margin floor breach · UC-34 Competitive price gap · UC-35 Elasticity-aware reprice</td></tr>
+        <tr><td>Replenishment</td><td class="center">6</td><td>UC-36 DC stockout risk · UC-37 In-transit reconciliation · UC-38 Vendor SLA breach</td></tr>
+        <tr><td>Promotion</td><td class="center">7</td><td>UC-39 Promo lift vs forecast · UC-40 Cannibalization detection · UC-41 Promo-calendar conflict</td></tr>
+        <tr><td>Item</td><td class="center">4</td><td>UC-42 Launch-date drift · UC-43 Attribute completeness · UC-44 Lifecycle-stage transition</td></tr>
+        <tr><td>Supplier</td><td class="center">5</td><td>UC-45 Vendor scorecard · UC-46 MAC-cost shift · UC-47 Country-of-origin change</td></tr>
+        <tr><td>Compliance</td><td class="center">6</td><td>UC-48 HTS misclassification · UC-49 Section 301 exposure · UC-50 Labor-cert expiry · UC-51 Dual-control attestation</td></tr>
+        <tr><td colspan="3" style="background:#F8F6F1;font-style:italic"><strong style="color:var(--rust)">+ Cross-domain journeys (3):</strong> <strong>J1</strong> Weekly Merch Review (all-domain WBR) · <strong>J2</strong> Pre-season buy commit · <strong>J3</strong> End-of-life exit playbook</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- ================== 7. Build sequence ================== -->
+  <section>
+    <h2><span class="num">07</span>Build Sequence · Three Waves · ~24 Sprints</h2>
+    <p class="lead">Wave taxonomy stays consistent with the APEX framework — W1 foundations, W2 the highest-margin loop, W3 operational depth. Two-squad recommendation for ~24 sprints; a single squad can deliver in ~36 if Wave 3 stretches.</p>
+
+    <div class="waves">
+      <div class="wave w1">
+        <div class="sprints">WAVE 1 · SPRINTS 1–6</div>
+        <h3>Foundations</h3>
+        <p class="focus">The medallion, the 5 Vuori personas, the master MCPs, and the planning foundation.</p>
+        <ul>
+          <li><code>itemml-mcp</code> · master</li>
+          <li><code>supml-mcp</code> · master</li>
+          <li><code>planml-mcp</code> · plan reconciliation</li>
+          <li>Personas: 5 Vuori personas + The Planner</li>
+          <li>UCs: ~25</li>
+          <li>Smoke + PR pipeline live</li>
+        </ul>
+      </div>
+      <div class="wave w2">
+        <div class="sprints">WAVE 2 · SPRINTS 7–14</div>
+        <h3>The Buy / Plan / Price Loop</h3>
+        <p class="focus">The highest-margin agent value. Pre-season buy + markdown + promotion as a single closed loop.</p>
+        <ul>
+          <li><code>buyml-mcp</code> + The Buyer</li>
+          <li><code>priceml-mcp</code> + The Pricer</li>
+          <li><code>promoml-mcp</code> + The Promoter</li>
+          <li>Cross-domain journey J2 (pre-season commit)</li>
+          <li>UCs: ~30</li>
+          <li>Stage substrate live</li>
+        </ul>
+      </div>
+      <div class="wave w3">
+        <div class="sprints">WAVE 3 · SPRINTS 15–24</div>
+        <h3>Allocate · Replen · Comply</h3>
+        <p class="focus">Operational depth + the Magentic coordinator. End-of-life and full-WBR journeys land here.</p>
+        <ul>
+          <li><code>allocml-mcp</code> + The Allocator</li>
+          <li><code>replenml-mcp</code> + The Replenisher</li>
+          <li><code>compml-mcp</code> + The Compliance Officer (Tier-3)</li>
+          <li>The Coordinator wires Magentic</li>
+          <li>Journeys J1 (full WBR) + J3 (EOL)</li>
+          <li>Prod cutover</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================== 8. Delta from Vuori ================== -->
+  <section>
+    <h2><span class="num">08</span>Delta From the Vuori WBR Slice</h2>
+    <p class="lead">The Vuori Implementation Guide (the Companion volume in the Library) is the WBR slice — a perfect microcosm of the full suite. Here's what scales up.</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <tr><th style="width:18%">Area</th><th>Vuori WBR slice</th><th>Full Merch Agentic Client</th></tr>
+        <tr><td><strong>MCPs</strong></td><td>2 (<code>merml-mcp</code> + <code>cxml-mcp</code>)</td><td>9 subject-area + 1 external signal</td></tr>
+        <tr><td><strong>Personas</strong></td><td>5</td><td>10–14</td></tr>
+        <tr><td><strong>UCs</strong></td><td>21 + 1 journey</td><td>~70 + 3 journeys</td></tr>
+        <tr><td><strong>Sprints</strong></td><td>12 / 173 pts</td><td>~24 / ~360 pts (2 squads)</td></tr>
+        <tr><td><strong>Patterns used</strong></td><td>Sequential · Concurrent · Handoff · Group Chat</td><td>+ <strong>Magentic</strong> at The Coordinator</td></tr>
+        <tr><td><strong>HITL approvers</strong></td><td>4 roles (Planning Lead · VP SC · DMM · Chief Merchant)</td><td>+ <strong>DMM-Item</strong>, <strong>VP Sourcing</strong>, <strong>Marketing Lead</strong></td></tr>
+        <tr><td><strong>Test harness</strong></td><td>277 tests at v0.1.0</td><td>~500+ tests at v0.3.0</td></tr>
+        <tr><td><strong>Tier-3 PII</strong></td><td>Limited (customer escalation in Briefer)</td><td>Heavy in <code>compml-mcp</code> + <code>supml-mcp</code></td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- ================== 9. What stays identical ================== -->
+  <section>
+    <h2><span class="num">09</span>What Stays Identical</h2>
+    <p class="lead">The architectural backbone is unchanged. Every Wave-3 capability rides the same substrate as the Wave-1 stub.</p>
+
+    <ul style="font-size: 15px; line-height: 1.75;">
+      <li><strong>Medallion shape</strong> — RAW / CLEANSED / CURATED, dbt-owned lifts, dual-calendar reconciliation, MAC-as-margin proxy.</li>
+      <li><strong>OIDC federation + 5 substrates</strong> — laptop → dev → test → stage → prod with the same per-substrate Entra apps and Key Vault scopes.</li>
+      <li><strong>PSG-1..15 deploy gates</strong> — every gate applies unchanged; PSG-15 just resolves more persona bindings.</li>
+      <li><strong>LEDGER hash chain + Purview echo</strong> — audit substrate scales linearly with the number of personas.</li>
+      <li><strong>MCP authentication via Entra Agent ID</strong> — same bearer-token pattern; <code>compml-mcp</code> is the heaviest user of Tier-3 consent tickets.</li>
+      <li><strong>Test harness</strong> — same <code>mvp_test_harness</code> shape; manifest swap pattern (<code>generic-apparel-retailer.yaml</code> → <code>&lt;client&gt;.yaml</code>) unchanged.</li>
+      <li><strong>Wizard + apex.py entry point</strong> — <code>python apex.py launch</code> drives the wizard against any substrate.</li>
+    </ul>
+  </section>
+
+  <!-- ================== 10. Microsoft Learn ================== -->
+  <section>
+    <h2><span class="num">10</span>Microsoft Learn · New-Domain Anchors</h2>
+    <p class="lead">Where the merch suite expands beyond the Vuori book's reference list, here are the canonical Microsoft sources.</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <tr><th style="width:30%">New surface</th><th>Authoritative Microsoft reference</th></tr>
+        <tr>
+          <td>Foundry Agent Service · Connected agents (cross-domain handoff)</td>
+          <td><a class="ms-link" href="https://learn.microsoft.com/azure/ai-foundry/agents/how-to/connected-agents" target="_blank" rel="noopener"><span class="ms-badge">MS Learn</span> Connected agents in Foundry</a></td>
+        </tr>
+        <tr>
+          <td>Magentic orchestration (The Coordinator)</td>
+          <td><a class="ms-link" href="https://learn.microsoft.com/agent-framework/workflows/orchestrations/magentic" target="_blank" rel="noopener"><span class="ms-badge">MS Learn</span> Magentic orchestration</a></td>
+        </tr>
+        <tr>
+          <td>Microsoft Fabric medallion for the heavier data load</td>
+          <td><a class="ms-link" href="https://learn.microsoft.com/fabric/onelake/onelake-medallion-lakehouse-architecture" target="_blank" rel="noopener"><span class="ms-badge">MS Learn</span> OneLake medallion lakehouse</a></td>
+        </tr>
+        <tr>
+          <td>Direct Lake for downstream Power BI consumption</td>
+          <td><a class="ms-link" href="https://learn.microsoft.com/fabric/get-started/direct-lake-overview" target="_blank" rel="noopener"><span class="ms-badge">MS Learn</span> Direct Lake overview</a></td>
+        </tr>
+        <tr>
+          <td>Purview DSPM for AI (compliance domain)</td>
+          <td><a class="ms-link" href="https://learn.microsoft.com/purview/dspm-for-ai" target="_blank" rel="noopener"><span class="ms-badge">MS Learn</span> DSPM for AI</a></td>
+        </tr>
+        <tr>
+          <td>AI agent orchestration patterns (architecture)</td>
+          <td><a class="ms-link" href="https://learn.microsoft.com/azure/architecture/ai-ml/guide/ai-agent-design-patterns" target="_blank" rel="noopener"><span class="ms-badge">MS Arch</span> Agent orchestration patterns</a></td>
+        </tr>
+        <tr>
+          <td>Baseline Foundry chat reference architecture</td>
+          <td><a class="ms-link" href="https://learn.microsoft.com/azure/architecture/ai-ml/architecture/baseline-microsoft-foundry-chat" target="_blank" rel="noopener"><span class="ms-badge">MS Arch</span> Baseline Foundry chat</a></td>
+        </tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- ================== 11. Folding into the book ================== -->
+  <section>
+    <h2><span class="num">11</span>Folding This Into the Book — Three Options</h2>
+    <p class="lead">If this becomes a permanent artefact, here are three places it can live in the Library. The decision shapes how future engagements consume the reference.</p>
+
+    <div class="options">
+      <div class="option">
+        <div class="opt-num">Option 1</div>
+        <h3>New Part VI in the Vuori Implementation Guide</h3>
+        <div class="filename">Professional-APEX-M-Implementation-Guide-(Vuori-Example).html</div>
+        <p>Add three chapters: Buy-Plan-Price loop · Allocate-Replen-Comply · The Coordinator + Magentic. Keeps the engagement-scoped tone; the Vuori book becomes the canonical narrative across the full suite.</p>
+        <p style="color: var(--dim); font-size: 13.5px; margin-top: 10px;"><strong>Trade-off:</strong> conflates a worked example with reusable architecture. Vuori book grows past 7,000 lines.</p>
+      </div>
+
+      <div class="option recommended">
+        <div class="opt-num">Option 2</div>
+        <h3>A second Companion volume in the Library</h3>
+        <div class="filename">Professional-APEX-M-Implementation-Guide-(Merch-Suite-Reference).html</div>
+        <p>Generic across clients. The architecture in this brief becomes its own runnable reference companion — fork-able by future engagements (Kohl's, REI, etc.). Keeps the Vuori book engagement-pure.</p>
+        <p style="color: var(--dim); font-size: 13.5px; margin-top: 10px;"><strong>Best fit</strong> · preserves the Trilogy + Companions structure introduced in the Library landing.</p>
+      </div>
+
+      <div class="option">
+        <div class="opt-num">Option 3</div>
+        <h3>New chapter in the Services Guide (Volume II)</h3>
+        <div class="filename">Professional-APEX-M-Services-Guide.html</div>
+        <p>Keeps the Trilogy doctrine + Companion case-study split intact. The merch-suite reference architecture lives in the doctrine volume; individual client examples remain in Companions.</p>
+        <p style="color: var(--dim); font-size: 13.5px; margin-top: 10px;"><strong>Trade-off:</strong> the Services Guide is generic across all 38 services. A merch-specific chapter sits unevenly next to e.g. HLS or TMT chapters.</p>
+      </div>
+    </div>
+
+    <div class="callout navy">
+      <span class="label">Recommendation</span>
+      <p><strong>Option 2.</strong> The Library already accommodates Companions (the Vuori Implementation Guide is one). Adding a generic Merch-Suite-Reference Companion lets future merch engagements fork from a canonical architecture without disturbing the Trilogy doctrine or the Vuori engagement narrative. When a new client like REI or Kohl's commissions an engagement, their team clones the reference Companion to <code>Professional-APEX-M-Implementation-Guide-(REI-Example).html</code> and edits the specifics — the same pattern the Vuori engagement followed.</p>
+    </div>
+  </section>
+
+  </main>
+
+  <footer>
+    <strong>APEX-M · Merch Agentic Client · Architecture Brief</strong> · Keven Markham · VP Enterprise Transformation · Deloitte Microsoft Technology &amp; Services Practice · May 2026 · Internal Use Only
+  </footer>
+
+  <script>
+    const btn = document.getElementById('darkToggle');
+    if (btn) {
+      const apply = (on) => document.body.classList.toggle('dark', on);
+      const stored = localStorage.getItem('apex-merch-brief-dark');
+      if (stored === '1') apply(true);
+      btn.addEventListener('click', () => {
+        const on = !document.body.classList.contains('dark');
+        apply(on);
+        localStorage.setItem('apex-merch-brief-dark', on ? '1' : '0');
+      });
+    }
+  </script>
+</body>
+</html>

@@ -5,52 +5,59 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CFMP Capabilities Map</title>
 <meta name="description" content="Eleven swimlanes · 120 business capabilities · ~250 code files mapped · 13 episodes · audit-honest statuses (2026-05-26).">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!--
+  Theme: matched to /architecture page (Wave 38, 2026-05-26).
+  Drops Google Fonts dependency entirely — uses the same system-ui stack
+  + browser default monospace as the portal architecture page. The
+  prior custom palette (warm cream + Fraunces serif + Instrument Sans
+  + JetBrains Mono) is replaced by GitHub-dark tokens so the two pages
+  feel like one product. All hundreds of style rules below reference
+  CSS custom properties (--bg, --ink, --purple, etc.) so the reskin
+  flows through automatically.
+-->
 <style>
 :root[data-theme="dark"]{
-  --bg:#0E0B08; --bg-1:#15110C; --bg-2:#1C1711;
-  --surface:#201A13; --surface-2:#28211A;
-  --border:#2E2619; --border-2:#3D3324;
-  --ink:#EFE6DB; --ink-2:#B8AB99; --ink-3:#85785F;
-  --teal:#5DCAA5; --teal-dim:#2E8568; --teal-bg:#0D2A22;
-  --purple:#AFA9EC; --purple-dim:#6860B8; --purple-bg:#1E1B3A;
-  --amber:#F2A623; --amber-dim:#B07715; --amber-bg:#3A2608;
-  --crimson:#E24B4A; --crimson-dim:#A32D2D; --crimson-bg:#341414;
-  --gold:#E8C547; --gold-dim:#A6892C; --gold-bg:#2D2308;
-  --muted-teal:#1A3A35;
+  --bg:#010409; --bg-1:#0d1117; --bg-2:#161b22;
+  --surface:#0d1117; --surface-2:#1c2128;
+  --border:#21262d; --border-2:#30363d;
+  --ink:#cdd9e5; --ink-2:#8b949e; --ink-3:#7d8590;
+  --teal:#7ee787; --teal-dim:#2e8568; --teal-bg:#0a3d2e;
+  --purple:#58a6ff; --purple-dim:#1f6feb; --purple-bg:#0c2d6b;
+  --amber:#fbbf24; --amber-dim:#b07715; --amber-bg:#3a2608;
+  --crimson:#f87171; --crimson-dim:#b91c1c; --crimson-bg:#3b1212;
+  --gold:#d4a72c; --gold-dim:#a6892c; --gold-bg:#2d2308;
+  --muted-teal:#0a3d2e;
 }
 :root[data-theme="light"]{
-  --bg:#FAF6EF; --bg-1:#F2ECE0; --bg-2:#EBE3D1;
-  --surface:#FFFCF5; --surface-2:#F5EEDD;
-  --border:#D5C9B3; --border-2:#BBAD92;
-  --ink:#2A1F14; --ink-2:#554838; --ink-3:#8A7965;
-  --teal:#0F6E56; --teal-dim:#1D9E75; --teal-bg:#E1F5EE;
-  --purple:#3C3489; --purple-dim:#534AB7; --purple-bg:#EEEDFE;
-  --amber:#854F0B; --amber-dim:#BA7517; --amber-bg:#FAEEDA;
-  --crimson:#791F1F; --crimson-dim:#A32D2D; --crimson-bg:#FCEBEB;
-  --gold:#6B5412; --gold-dim:#A6892C; --gold-bg:#F5EAC7;
-  --muted-teal:#D6EBE5;
+  --bg:#ffffff; --bg-1:#f6f8fa; --bg-2:#eaeef2;
+  --surface:#ffffff; --surface-2:#f6f8fa;
+  --border:#d0d7de; --border-2:#afb8c1;
+  --ink:#1f2328; --ink-2:#656d76; --ink-3:#848d97;
+  --teal:#1a7f37; --teal-dim:#2da44e; --teal-bg:#dafbe1;
+  --purple:#0969da; --purple-dim:#0550ae; --purple-bg:#ddf4ff;
+  --amber:#9a6700; --amber-dim:#bf8700; --amber-bg:#fff8c5;
+  --crimson:#cf222e; --crimson-dim:#a40e26; --crimson-bg:#ffebe9;
+  --gold:#9a6700; --gold-dim:#7d4e00; --gold-bg:#fff8c5;
+  --muted-teal:#dafbe1;
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
 body{
   background:var(--bg); color:var(--ink);
-  font-family:"Instrument Sans",system-ui,sans-serif;
+  font-family:system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
   font-size:14.5px; line-height:1.55;
   -webkit-font-smoothing:antialiased;
   transition:background .25s ease,color .25s ease;
 }
 .wrap{max-width:1320px;margin:0 auto;padding:0 28px}
-.display{font-family:"Fraunces",Georgia,serif;font-weight:400;letter-spacing:-.01em}
-.mono{font-family:"JetBrains Mono",monospace;font-size:.86em}
+.display{font-family:inherit;font-weight:600;letter-spacing:-.01em}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;font-size:.86em}
 a{color:var(--purple)}
 
 /* ---- page head ---- */
 .page-head{padding:36px 0 18px}
 .page-head .hd-row{display:flex;align-items:flex-end;gap:24px;flex-wrap:wrap}
-.page-head h1{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(30px,4vw,46px);line-height:1.05;letter-spacing:-.025em;margin:0;color:var(--ink)}
+.page-head h1{font-family:inherit;font-weight:600;font-weight:400;font-size:clamp(30px,4vw,46px);line-height:1.05;letter-spacing:-.025em;margin:0;color:var(--ink)}
 .page-head h1 em{font-style:italic;color:var(--purple);font-weight:300}
 .page-head .sub{font-size:14px;color:var(--ink-2);margin-top:10px;max-width:760px}
 .page-head .sub .mono{color:var(--purple)}
@@ -70,14 +77,14 @@ button.theme-toggle:hover{color:var(--ink);border-color:var(--border-2)}
 }
 .privacy-banner .wrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .pb-shield{font-size:22px;line-height:1}
-.pb-title{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.18em;color:var(--teal);font-weight:600;text-transform:uppercase}
+.pb-title{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;font-size:11px;letter-spacing:.18em;color:var(--teal);font-weight:600;text-transform:uppercase}
 .pb-body{font-size:12.5px;line-height:1.45;color:var(--ink);max-width:880px}
 .pb-body .alexa{color:var(--amber);font-weight:600}
 
 /* ---- openers ---- */
 .openers{padding:18px 0 4px}
 .section-label{
-  font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.18em;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;font-size:11px;letter-spacing:.18em;
   text-transform:uppercase;color:var(--ink-3);margin-bottom:10px;
 }
 .openers-row{display:flex;flex-wrap:wrap;gap:8px}
@@ -88,7 +95,7 @@ button.theme-toggle:hover{color:var(--ink);border-color:var(--border-2)}
 }
 .opener-chip:hover{color:var(--ink);border-color:var(--border-2)}
 .opener-chip.active{background:var(--purple-bg);border-color:var(--purple-dim);color:var(--ink)}
-.opener-chip .ocode{font-family:"JetBrains Mono",monospace;font-size:10.5px;color:var(--purple);margin-right:7px}
+.opener-chip .ocode{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;font-size:10.5px;color:var(--purple);margin-right:7px}
 
 /* ---- persona ribbon ---- */
 .persona-ribbon{padding:18px 0 4px}
@@ -102,7 +109,7 @@ button.theme-toggle:hover{color:var(--ink);border-color:var(--border-2)}
 .persona-chip:hover{color:var(--ink);border-color:var(--border-2)}
 .persona-chip.active{background:var(--teal-bg);border-color:var(--teal-dim);color:var(--ink)}
 .persona-chip .pemoji{font-size:18px;line-height:1}
-.persona-chip .prole{font-size:11px;color:var(--ink-3);font-family:"JetBrains Mono",monospace}
+.persona-chip .prole{font-size:11px;color:var(--ink-3);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace}
 .persona-chip.active .prole{color:var(--teal)}
 
 /* ---- status summary ---- */
@@ -112,7 +119,7 @@ button.theme-toggle:hover{color:var(--ink);border-color:var(--border-2)}
   border-radius:6px; overflow:hidden; margin-bottom:9px;
 }
 .cc-seg{height:100%;display:flex;align-items:center;justify-content:center;
-  font-family:"JetBrains Mono",monospace;font-size:10px;color:#0E0B08;font-weight:600;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;font-size:10px;color:#0E0B08;font-weight:600;
   min-width:0;transition:filter .15s ease;
 }
 .cc-seg:hover{filter:brightness(1.1)}
@@ -125,7 +132,7 @@ button.theme-toggle:hover{color:var(--ink);border-color:var(--border-2)}
 .status-chips{display:flex;flex-wrap:wrap;gap:7px}
 .status-chip{
   background:var(--surface);border:1px solid var(--border);color:var(--ink-2);
-  font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.04em;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;font-size:10.5px;letter-spacing:.04em;
   padding:5px 11px;border-radius:6px;cursor:pointer;transition:all .15s ease;
   display:inline-flex;align-items:center;gap:7px;
 }
@@ -148,14 +155,14 @@ button.theme-toggle:hover{color:var(--ink);border-color:var(--border-2)}
 }
 .parity-chip:hover{color:var(--ink);border-color:var(--border-2)}
 .parity-chip.active{background:var(--crimson-bg);border-color:var(--crimson-dim);color:var(--ink)}
-.parity-summary{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--ink-3);letter-spacing:.04em}
-.cap-mp{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.04em}
+.parity-summary{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;font-size:11px;color:var(--ink-3);letter-spacing:.04em}
+.cap-mp{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;font-size:10.5px;letter-spacing:.04em}
 .cap-mp.mp-live{color:var(--teal)}
 .cap-mp.mp-partial{color:var(--amber)}
 .cap-mp.mp-missing{color:var(--crimson)}
 .cap-box.mp-dim{opacity:.22;pointer-events:none}
 .cp-mp-row{display:flex;flex-direction:column;gap:4px}
-.cp-mp-verdict{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.04em}
+.cp-mp-verdict{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;font-size:12px;letter-spacing:.04em}
 .cp-mp-verdict.mp-live{color:var(--teal)}
 .cp-mp-verdict.mp-partial{color:var(--amber)}
 .cp-mp-verdict.mp-missing{color:var(--crimson)}
@@ -173,14 +180,14 @@ button.theme-toggle:hover{color:var(--ink);border-color:var(--border-2)}
 }
 .lane-head:hover{background:var(--surface-2)}
 .lane-head .l-emoji{font-size:21px;line-height:1}
-.lane-head .l-id{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--ink-3);letter-spacing:.06em}
-.lane-head .l-name{font-family:"Fraunces",serif;font-size:18px;color:var(--ink);font-weight:500}
+.lane-head .l-id{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;font-size:11px;color:var(--ink-3);letter-spacing:.06em}
+.lane-head .l-name{font-family:inherit;font-weight:600;font-size:18px;color:var(--ink);font-weight:500}
 .lane-head .l-ep{
-  font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.08em;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;font-size:10px;letter-spacing:.08em;
   padding:3px 9px;border-radius:5px;background:var(--purple-bg);color:var(--purple);
   border:1px solid var(--purple-dim);
 }
-.lane-head .l-count{margin-left:auto;font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--ink-3)}
+.lane-head .l-count{margin-left:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;font-size:11px;color:var(--ink-3)}
 .lane-head .l-caret{color:var(--ink-3);font-size:13px;margin-left:8px;transition:transform .15s ease}
 .swim-lane.collapsed .l-caret{transform:rotate(-90deg)}
 .swim-lane.collapsed .lane-boxes{display:none}
@@ -212,9 +219,9 @@ button.theme-toggle:hover{color:var(--ink);border-color:var(--border-2)}
 }
 .cap-status-proposed .cap-status-dot{border:1px dashed var(--cap-color);background:transparent}
 .cap-name{font-size:13px;line-height:1.35;color:var(--ink);font-weight:500}
-.cap-id{font-family:"JetBrains Mono",monospace;font-size:9.5px;color:var(--ink-3);letter-spacing:.04em;margin-bottom:-2px}
+.cap-id{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;font-size:9.5px;color:var(--ink-3);letter-spacing:.04em;margin-bottom:-2px}
 .cap-meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:auto}
-.cap-meta span{font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--ink-3)}
+.cap-meta span{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;font-size:10px;color:var(--ink-3)}
 .cap-ep{color:var(--purple) !important}
 .cap-pct{color:var(--teal) !important}
 .cap-gap{
@@ -249,8 +256,8 @@ button.theme-toggle:hover{color:var(--ink);border-color:var(--border-2)}
   padding:18px 22px 14px;border-bottom:1px solid var(--border);
   display:flex;align-items:flex-start;gap:12px;
 }
-.cp-head .cp-id{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--purple);letter-spacing:.06em;display:block;margin-bottom:5px}
-.cp-head .cp-name{font-family:"Fraunces",serif;font-size:20px;line-height:1.2;color:var(--ink);font-weight:500;letter-spacing:-.01em}
+.cp-head .cp-id{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;font-size:11px;color:var(--purple);letter-spacing:.06em;display:block;margin-bottom:5px}
+.cp-head .cp-name{font-family:inherit;font-weight:600;font-size:20px;line-height:1.2;color:var(--ink);font-weight:500;letter-spacing:-.01em}
 .cp-close{
   margin-left:auto;background:var(--surface);border:1px solid var(--border);color:var(--ink-2);
   font-size:18px;line-height:1;width:32px;height:32px;border-radius:7px;cursor:pointer;
@@ -260,7 +267,7 @@ button.theme-toggle:hover{color:var(--ink);border-color:var(--border-2)}
 .cp-body{padding:18px 22px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:18px}
 .cp-meta-row{display:flex;flex-wrap:wrap;gap:7px}
 .cp-tag{
-  font-family:"JetBrains Mono",monospace;font-size:10.5px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;font-size:10.5px;
   background:var(--surface);border:1px solid var(--border);color:var(--ink-2);
   padding:4px 10px;border-radius:5px;
 }
@@ -272,11 +279,11 @@ button.theme-toggle:hover{color:var(--ink);border-color:var(--border-2)}
 .cp-tag.ep{color:var(--purple);border-color:var(--purple-dim);background:var(--purple-bg)}
 .cp-tag.pct{color:var(--teal);border-color:var(--teal-dim);background:var(--teal-bg)}
 .cp-section h4{
-  font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.12em;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;font-size:10.5px;letter-spacing:.12em;
   text-transform:uppercase;color:var(--ink-3);font-weight:500;margin:0 0 8px;
 }
 .cp-section p{margin:0;font-size:13px;line-height:1.55;color:var(--ink-2)}
-.cp-design{font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--purple);line-height:1.5;word-break:break-all}
+.cp-design{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;font-size:11.5px;color:var(--purple);line-height:1.5;word-break:break-all}
 .cp-personas{display:flex;flex-wrap:wrap;gap:7px}
 .cp-pers{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--border);padding:4px 9px;border-radius:999px;font-size:12px;color:var(--ink-2)}
 .cp-pers .pe{font-size:14px;line-height:1}
@@ -285,15 +292,15 @@ button.theme-toggle:hover{color:var(--ink);border-color:var(--border-2)}
   border:1px solid var(--border);border-radius:7px;background:var(--surface);
   padding:9px 11px;display:flex;flex-direction:column;gap:3px;
 }
-.cp-file .fpath{font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--ink);word-break:break-all}
-.cp-file .fmeta{font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--ink-3);letter-spacing:.04em}
+.cp-file .fpath{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;font-size:11.5px;color:var(--ink);word-break:break-all}
+.cp-file .fmeta{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;font-size:10px;color:var(--ink-3);letter-spacing:.04em}
 .cp-file .frole{font-size:12px;color:var(--ink-2);line-height:1.45;margin-top:2px}
 .cp-gaps{border-left:3px solid var(--crimson);background:var(--crimson-bg);padding:9px 12px;border-radius:5px;font-size:12.5px;line-height:1.5;color:var(--ink)}
 .cp-gaps ul{margin:0;padding-left:18px}
 .cp-gaps li{margin:3px 0}
 .cp-seealso{display:flex;flex-wrap:wrap;gap:6px}
 .cp-sa{
-  font-family:"JetBrains Mono",monospace;font-size:11px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;font-size:11px;
   background:var(--surface-2);border:1px solid var(--border);color:var(--ink-2);
   padding:3px 9px;border-radius:5px;cursor:pointer;transition:all .15s ease;
 }
@@ -306,7 +313,7 @@ button.theme-toggle:hover{color:var(--ink);border-color:var(--border-2)}
 
 /* ---- gap analysis ---- */
 .gap-analysis{padding:18px 0 36px;display:flex;flex-direction:column;gap:10px}
-.gap-analysis h2{font-family:"Fraunces",serif;font-weight:500;font-size:24px;margin:0 0 6px;color:var(--ink);letter-spacing:-.01em}
+.gap-analysis h2{font-family:inherit;font-weight:600;font-weight:500;font-size:24px;margin:0 0 6px;color:var(--ink);letter-spacing:-.01em}
 .ga-details{border:1px solid var(--border);border-radius:11px;background:var(--bg-1);overflow:hidden}
 .ga-details summary{cursor:pointer;padding:13px 18px;display:flex;align-items:center;gap:11px;list-style:none;user-select:none;transition:background .15s ease}
 .ga-details summary::-webkit-details-marker{display:none}
@@ -314,21 +321,21 @@ button.theme-toggle:hover{color:var(--ink);border-color:var(--border-2)}
 .ga-details[open] summary::before{transform:rotate(90deg)}
 .ga-details summary:hover{background:var(--surface)}
 .ga-label{font-size:13.5px;font-weight:600;color:var(--ink)}
-.ga-count{margin-left:auto;font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--ink-3)}
+.ga-count{margin-left:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;font-size:11px;color:var(--ink-3)}
 .ga-list{padding:6px 18px 16px;display:flex;flex-direction:column;gap:8px}
 .ga-item{
   border:1px solid var(--border);border-radius:8px;background:var(--surface);
   padding:10px 13px;display:flex;flex-direction:column;gap:4px;cursor:pointer;
 }
 .ga-item:hover{border-color:var(--border-2)}
-.ga-item .ga-id{font-family:"JetBrains Mono",monospace;font-size:10.5px;color:var(--purple);letter-spacing:.05em}
+.ga-item .ga-id{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;font-size:10.5px;color:var(--purple);letter-spacing:.05em}
 .ga-item .ga-name{font-size:13.5px;color:var(--ink);font-weight:500}
 .ga-item .ga-text{font-size:12.5px;color:var(--ink-2);line-height:1.5}
 
 /* ---- episode index ---- */
 .ep-index{padding:18px 0 6px}
 .ep-index h2{
-  font-family:"Fraunces",serif;font-weight:500;font-size:22px;margin:0 0 12px;
+  font-family:inherit;font-weight:600;font-weight:500;font-size:22px;margin:0 0 12px;
   color:var(--ink);letter-spacing:-.01em;
 }
 .ep-list{
@@ -342,7 +349,7 @@ button.theme-toggle:hover{color:var(--ink);border-color:var(--border-2)}
 }
 .ep-list li:hover{border-color:var(--border-2);color:var(--ink)}
 .ep-list li strong{
-  font-family:"JetBrains Mono",monospace;font-size:11.5px;letter-spacing:.04em;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;font-size:11.5px;letter-spacing:.04em;
   color:var(--purple);font-weight:600;margin-right:4px;
 }
 .ep-note{
@@ -358,7 +365,7 @@ button.theme-toggle:hover{color:var(--ink);border-color:var(--border-2)}
 
 /* ---- privacy banner depth link ---- */
 .pb-depth{
-  margin-left:auto;font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.04em;
+  margin-left:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;font-size:11px;letter-spacing:.04em;
   color:var(--teal);text-decoration:none;border:1px solid var(--teal-dim);
   padding:5px 10px;border-radius:6px;background:var(--bg-1);
   transition:all .15s ease;flex:none;
@@ -366,7 +373,7 @@ button.theme-toggle:hover{color:var(--ink);border-color:var(--border-2)}
 .pb-depth:hover{color:var(--ink);border-color:var(--teal);background:var(--muted-teal)}
 
 /* ---- footer ---- */
-footer{padding:24px 0 48px;border-top:1px solid var(--border);font-size:11.5px;color:var(--ink-3);font-family:"JetBrains Mono",monospace;line-height:1.7}
+footer{padding:24px 0 48px;border-top:1px solid var(--border);font-size:11.5px;color:var(--ink-3);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;line-height:1.7}
 footer .fwrap{display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between}
 
 /* responsive */
@@ -490,7 +497,7 @@ footer .fwrap{display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between
 
 <script>
 const CAP_DATA = {
-  "generated_at": "2026-05-25T23:53:23",
+  "generated_at": "2026-05-26T17:28:16",
   "iot_device_root": "C:\\code\\iot_device",
   "lanes": [
     {
@@ -688,8 +695,8 @@ const CAP_DATA = {
       "id": "C1.1",
       "lane": "L1",
       "name": "SCAN-first home screen (camera is the front door)",
-      "status": "in_progress",
-      "progress_pct": 60,
+      "status": "completed",
+      "progress_pct": 100,
       "episode": "03",
       "design_ref": "CFMP-Mobile-ScanFirst-Design.md §1-3",
       "personas": [
@@ -708,10 +715,8 @@ const CAP_DATA = {
         "C1.6",
         "C3.3"
       ],
-      "gaps": [
-        "Live at /preview only (Scan-First MVP Sprint 1 partial); not yet the main home"
-      ],
-      "mobile_parity": "partial",
+      "gaps": [],
+      "mobile_parity": "live",
       "files": [
         {
           "path": "mobile/app/page.tsx",
@@ -739,9 +744,9 @@ const CAP_DATA = {
         },
         {
           "path": "mobile/components/ScanResultCard.tsx",
-          "lines": 350,
+          "lines": 645,
           "role": "ScanResultCard — the anchor pattern for the Scan-First Home (Sprint 1, T1.D.3).",
-          "last_mod": "2026-05-24"
+          "last_mod": "2026-05-26"
         }
       ]
     },
@@ -826,7 +831,7 @@ const CAP_DATA = {
       "lane": "L1",
       "name": "Shopping Lot archetype (trip-bound)",
       "status": "completed",
-      "progress_pct": 100,
+      "progress_pct": 95,
       "episode": "03",
       "design_ref": "CFMP-Mobile-Design-Document.md §2.1",
       "personas": [
@@ -840,7 +845,9 @@ const CAP_DATA = {
         "C2.1",
         "C3.1"
       ],
-      "gaps": [],
+      "gaps": [
+        "Live state badges (packed_by → ready → picked_up) ship in lots.py state machine; mobile renders state chip but the per-second prep-time stream from picker hardware isn't wired"
+      ],
       "mobile_parity": "live",
       "files": [
         {
@@ -861,8 +868,8 @@ const CAP_DATA = {
       "id": "C1.4",
       "lane": "L1",
       "name": "StayLot archetype (vacation/cabin location)",
-      "status": "completed",
-      "progress_pct": 100,
+      "status": "in_progress",
+      "progress_pct": 70,
       "episode": "03",
       "design_ref": "CFMP-Mobile-Lots-Expert-Focus.md §3 (StayLot)",
       "personas": [
@@ -874,8 +881,10 @@ const CAP_DATA = {
       "see_also": [
         "C11.6"
       ],
-      "gaps": [],
-      "mobile_parity": "live",
+      "gaps": [
+        "kind=stay schema fields (stay_start_date, stay_end_date, delivery_target_ref) exist; multi-leg delivery scheduling (staples 24h ahead + cold leg at check-in + mid-stay top-up) is design-only — needs cabin booking ingest + scheduler."
+      ],
+      "mobile_parity": "partial",
       "files": [
         {
           "path": "orchestrator/lots.py",
@@ -890,7 +899,7 @@ const CAP_DATA = {
       "lane": "L1",
       "name": "Care-Lot archetype (proxy shopping for a dependent)",
       "status": "in_progress",
-      "progress_pct": 55,
+      "progress_pct": 70,
       "episode": "03",
       "design_ref": "CFMP-Mobile-Lots-Expert-Focus.md §4 (Care-Lot)",
       "personas": [
@@ -905,7 +914,8 @@ const CAP_DATA = {
         "C7.10"
       ],
       "gaps": [
-        "Read access works; full Diana caregiver delegation flow is design (depends on Pharmacy spec)"
+        "Prescription mask is enforced by scope taxonomy EXCLUSION (ALL_SCOPES doesn't list 'prescriptions') but the actual Pharmacy-tenancy isolation is a Sprint 5 cross-cutting task — until that lands, the exclusion is correct-but-vacuous (no pharmacy rows anywhere to leak)",
+        "Real-invite flow (dependent must accept the caregiver) is still demo-mode self-service; production wire-up is a Sprint 5 dependency on the Pharmacy + Identity teams"
       ],
       "mobile_parity": "partial",
       "files": [
@@ -927,8 +937,8 @@ const CAP_DATA = {
       "id": "C1.6",
       "lane": "L1",
       "name": "Scan-coupon flow (barcode -> instant savings)",
-      "status": "completed",
-      "progress_pct": 100,
+      "status": "in_progress",
+      "progress_pct": 80,
       "episode": "03",
       "design_ref": "CFMP-Mobile-Design-Document.md §3 (Coupons)",
       "personas": [
@@ -942,14 +952,17 @@ const CAP_DATA = {
       "see_also": [
         "C3.3"
       ],
-      "gaps": [],
+      "gaps": [
+        "Demo-mode scan-coupon flow works end-to-end (Wave 40 shipped the orchestrator branch + mobile CouponVariant); real Kroger Plus / Instacart coupon ingestion is Sprint 6 (T6.C.x)",
+        "apply_coupon CTA currently calls onPrimaryAction stub — needs wiring to a real applied_coupons row + loyalty-card linkage when the active CartLot exists (Sprint 3 dependency)"
+      ],
       "mobile_parity": "partial",
       "files": [
         {
           "path": "orchestrator/coupons.py",
-          "lines": 227,
+          "lines": 386,
           "role": "Coupons · Phase-1 flat coupon table + matching logic.",
-          "last_mod": "2026-05-24"
+          "last_mod": "2026-05-26"
         },
         {
           "path": "orchestrator/scan_history.py",
@@ -970,7 +983,7 @@ const CAP_DATA = {
       "lane": "L1",
       "name": "Meal-plan composition (recipes -> lot)",
       "status": "in_progress",
-      "progress_pct": 70,
+      "progress_pct": 90,
       "episode": "11",
       "design_ref": "CFMP-Mobile-Design-Document.md §6 (Recipe Library)",
       "personas": [
@@ -986,17 +999,15 @@ const CAP_DATA = {
         "C9.2"
       ],
       "gaps": [
-        "ITEM column blank in shopping list UI",
-        "UNIT/LINE prices not wired ($0.00)",
-        "recipe slug not resolved to title"
+        "Recipe → CartLot composition via POST /api/lots/from-recipe is a Sprint 3 task (T3.A.2) — not yet built (single remaining gap on this capability now that the shopping-list UI bug is closed)"
       ],
       "mobile_parity": "partial",
       "files": [
         {
           "path": "orchestrator/meal_planner.py",
-          "lines": 636,
+          "lines": 648,
           "role": "Meal Planner — taste-palette aware, perishable-prioritizing, budget-bounded.",
-          "last_mod": "2026-05-23"
+          "last_mod": "2026-05-26"
         },
         {
           "path": "mobile/app/plan/page.tsx",
@@ -1034,7 +1045,7 @@ const CAP_DATA = {
         "C1.1"
       ],
       "gaps": [],
-      "mobile_parity": "partial",
+      "mobile_parity": "live",
       "files": [
         {
           "path": "orchestrator/image_ocr.py",
@@ -1044,9 +1055,9 @@ const CAP_DATA = {
         },
         {
           "path": "orchestrator/product_db.py",
-          "lines": 232,
+          "lines": 256,
           "role": "Product DB backed by Azure Database for PostgreSQL + pgvector.",
-          "last_mod": "2026-05-25"
+          "last_mod": "2026-05-26"
         },
         {
           "path": "orchestrator/product_resolver.py",
@@ -1067,7 +1078,7 @@ const CAP_DATA = {
       "lane": "L1",
       "name": "Scan-receipt to close lot",
       "status": "in_progress",
-      "progress_pct": 40,
+      "progress_pct": 75,
       "episode": "03",
       "design_ref": "CFMP-Mobile-Use-Cases.md §5 (receipt close)",
       "personas": [
@@ -1081,7 +1092,8 @@ const CAP_DATA = {
         "C3.7"
       ],
       "gaps": [
-        "Receipt OCR -> line-item match against trip lot incomplete; no shrinkage reconciliation"
+        "Reconciliation reports matched / missing / extras correctly; 'Close lot' action wired through to lots.set_state is a Sprint 3 task (T3.A.x) — Wave 44 ships the read-side report",
+        "Real receipts vs canned demo — Azure CV Read API works end-to-end but no auto-tuning of heuristics from real-world receipt variants yet (header skip-list + price-regex are hand-curated)"
       ],
       "mobile_parity": "partial",
       "files": [
@@ -1104,7 +1116,7 @@ const CAP_DATA = {
       "lane": "L1",
       "name": "Scan-pantry to replenish (camera -> auto-orders)",
       "status": "in_progress",
-      "progress_pct": 55,
+      "progress_pct": 80,
       "episode": "04",
       "design_ref": "CFMP-Mobile-Design-Document.md §4 (replenish)",
       "personas": [
@@ -1119,15 +1131,16 @@ const CAP_DATA = {
         "C2.2"
       ],
       "gaps": [
-        "Scanned-pantry snapshot does not yet feed cadence model; manual approval still required for every order"
+        "Suggestion flow ships (Wave 43) — user STILL must tap 'Set auto-replenish' to confirm; production enroll wire-up to the stub onEnroll callback lands in Sprint 3 (T3.A.x)",
+        "Persistent snooze for dismissed suggestions deferred to Sprint 5 per Reyes-G observation (need usage data on whether users want hours-vs-weeks snooze)"
       ],
-      "mobile_parity": "partial",
+      "mobile_parity": "live",
       "files": [
         {
           "path": "orchestrator/auto_orders.py",
-          "lines": 419,
+          "lines": 647,
           "role": "PARS · Private Auto-Replenishment Service runtime.",
-          "last_mod": "2026-05-23"
+          "last_mod": "2026-05-26"
         },
         {
           "path": "orchestrator/scan_history.py",
@@ -1190,7 +1203,7 @@ const CAP_DATA = {
       "lane": "L1",
       "name": "Recipe library (seeded only)",
       "status": "in_progress",
-      "progress_pct": 50,
+      "progress_pct": 45,
       "episode": "11",
       "design_ref": "CFMP-Mobile-Design-Document.md §6 (Recipe Library)",
       "personas": [
@@ -1206,15 +1219,17 @@ const CAP_DATA = {
         "C9.3"
       ],
       "gaps": [
-        "Seeded recipes only; no YouTube/friend/heirloom capture flows"
+        "Seeded recipes only (meal_planner.list_recipes returns the demo set)",
+        "No URL ingest flow — user can't paste a Bon Appetit / Smitten Kitchen link and get a parsed recipe",
+        "No friend-share / heirloom capture (text or photo of a handwritten card, OCR'd into structured ingredients)"
       ],
       "mobile_parity": "partial",
       "files": [
         {
           "path": "orchestrator/meal_planner.py",
-          "lines": 636,
+          "lines": 648,
           "role": "Meal Planner — taste-palette aware, perishable-prioritizing, budget-bounded.",
-          "last_mod": "2026-05-23"
+          "last_mod": "2026-05-26"
         },
         {
           "path": "mobile/app/plan/page.tsx",
@@ -1339,15 +1354,21 @@ const CAP_DATA = {
       "files": [
         {
           "path": "orchestrator/auto_orders.py",
-          "lines": 419,
+          "lines": 647,
           "role": "PARS · Private Auto-Replenishment Service runtime.",
-          "last_mod": "2026-05-23"
+          "last_mod": "2026-05-26"
         },
         {
           "path": "mobile/app/api/auto-orders/route.ts",
           "lines": 8,
           "role": "",
           "last_mod": "2026-05-23"
+        },
+        {
+          "path": "mobile/app/api/auto-orders/cadence-suggestions/route.ts",
+          "lines": 25,
+          "role": "GET /api/auto-orders/cadence-suggestions — per-actor cadence learning",
+          "last_mod": "2026-05-26"
         },
         {
           "path": "mobile/app/api/auto-orders/bundles/[id]/route.ts",
@@ -1496,15 +1517,21 @@ const CAP_DATA = {
         },
         {
           "path": "mobile/app/me/page.tsx",
-          "lines": 567,
+          "lines": 630,
           "role": "/me — Me tab.",
-          "last_mod": "2026-05-25"
+          "last_mod": "2026-05-26"
         },
         {
           "path": "mobile/app/profile/page.tsx",
           "lines": 123,
           "role": "",
           "last_mod": "2026-05-23"
+        },
+        {
+          "path": "mobile/app/me/caregivers/page.tsx",
+          "lines": 420,
+          "role": "/me/caregivers — Care-Lot delegation Settings page (C1.5 / Wave 42).",
+          "last_mod": "2026-05-26"
         },
         {
           "path": "mobile/app/me/flux/page.tsx",
@@ -1552,9 +1579,9 @@ const CAP_DATA = {
       "files": [
         {
           "path": "mobile/app/layout.tsx",
-          "lines": 99,
+          "lines": 123,
           "role": "Design-system fonts (T0.D.1). Expose as CSS variables; the theme.css",
-          "last_mod": "2026-05-25"
+          "last_mod": "2026-05-26"
         },
         {
           "path": "mobile/components/BottomNav.tsx",
@@ -1589,9 +1616,15 @@ const CAP_DATA = {
       "files": [
         {
           "path": "mobile/app/me/page.tsx",
-          "lines": 567,
+          "lines": 630,
           "role": "/me — Me tab.",
-          "last_mod": "2026-05-25"
+          "last_mod": "2026-05-26"
+        },
+        {
+          "path": "mobile/app/me/caregivers/page.tsx",
+          "lines": 420,
+          "role": "/me/caregivers — Care-Lot delegation Settings page (C1.5 / Wave 42).",
+          "last_mod": "2026-05-26"
         },
         {
           "path": "mobile/app/me/flux/page.tsx",
@@ -1659,9 +1692,9 @@ const CAP_DATA = {
       "files": [
         {
           "path": "orchestrator/flux.py",
-          "lines": 923,
+          "lines": 1043,
           "role": "Sprint 5 / Wave 27 · FLUX — household-composition + presence events.",
-          "last_mod": "2026-05-25"
+          "last_mod": "2026-05-26"
         },
         {
           "path": "mobile/app/api/flux/route.ts",
@@ -1713,9 +1746,9 @@ const CAP_DATA = {
         },
         {
           "path": "mobile/components/FluxApprovalSheet.tsx",
-          "lines": 838,
+          "lines": 860,
           "role": "FluxApprovalSheet — Sprint 5, T5.F.6 (Wave 29).",
-          "last_mod": "2026-05-25"
+          "last_mod": "2026-05-26"
         },
         {
           "path": "mobile/components/FluxBanner.tsx",
@@ -1758,9 +1791,9 @@ const CAP_DATA = {
       "files": [
         {
           "path": "orchestrator/flux.py",
-          "lines": 923,
+          "lines": 1043,
           "role": "Sprint 5 / Wave 27 · FLUX — household-composition + presence events.",
-          "last_mod": "2026-05-25"
+          "last_mod": "2026-05-26"
         },
         {
           "path": "mobile/app/api/flux/[event_id]/route.ts",
@@ -2121,9 +2154,9 @@ const CAP_DATA = {
       "files": [
         {
           "path": "orchestrator/coupons.py",
-          "lines": 227,
+          "lines": 386,
           "role": "Coupons · Phase-1 flat coupon table + matching logic.",
-          "last_mod": "2026-05-24"
+          "last_mod": "2026-05-26"
         },
         {
           "path": "orchestrator/scan_history.py",
@@ -2263,9 +2296,9 @@ const CAP_DATA = {
       "files": [
         {
           "path": "orchestrator/auto_orders.py",
-          "lines": 419,
+          "lines": 647,
           "role": "PARS · Private Auto-Replenishment Service runtime.",
-          "last_mod": "2026-05-23"
+          "last_mod": "2026-05-26"
         },
         {
           "path": "orchestrator/scan_history.py",
@@ -2364,15 +2397,15 @@ const CAP_DATA = {
       "files": [
         {
           "path": "portal/app/page.tsx",
-          "lines": 189,
+          "lines": 208,
           "role": "",
-          "last_mod": "2026-05-23"
+          "last_mod": "2026-05-26"
         },
         {
           "path": "portal/app/architecture/page.tsx",
-          "lines": 2363,
+          "lines": 2609,
           "role": "/architecture — Live deployment & planned-architecture status page.",
-          "last_mod": "2026-05-25"
+          "last_mod": "2026-05-26"
         },
         {
           "path": "portal/app/architecture/resourceDetails.ts",
@@ -2522,6 +2555,18 @@ const CAP_DATA = {
           "lines": 22,
           "role": "Demo helper: forwards arbitrary webhook payloads to the orchestrator's",
           "last_mod": "2026-05-25"
+        },
+        {
+          "path": "portal/app/api/fulfillment/orders/[order_id]/route.ts",
+          "lines": 22,
+          "role": "GET /api/fulfillment/orders/{order_id} → single fulfillment order + substitutions[].",
+          "last_mod": "2026-05-26"
+        },
+        {
+          "path": "portal/app/api/fulfillment/orders/[order_id]/status/route.ts",
+          "lines": 25,
+          "role": "GET /api/fulfillment/orders/{order_id}/status — polls provider for fresh status.",
+          "last_mod": "2026-05-26"
         }
       ]
     },
@@ -3216,9 +3261,9 @@ const CAP_DATA = {
       "files": [
         {
           "path": "portal/app/architecture/page.tsx",
-          "lines": 2363,
+          "lines": 2609,
           "role": "/architecture — Live deployment & planned-architecture status page.",
-          "last_mod": "2026-05-25"
+          "last_mod": "2026-05-26"
         },
         {
           "path": "portal/app/architecture/resourceDetails.ts",
@@ -3324,9 +3369,9 @@ const CAP_DATA = {
         },
         {
           "path": "orchestrator/product_db.py",
-          "lines": 232,
+          "lines": 256,
           "role": "Product DB backed by Azure Database for PostgreSQL + pgvector.",
-          "last_mod": "2026-05-25"
+          "last_mod": "2026-05-26"
         },
         {
           "path": "orchestrator/product_resolver.py",
@@ -3416,9 +3461,9 @@ const CAP_DATA = {
         },
         {
           "path": "orchestrator/auto_orders.py",
-          "lines": 419,
+          "lines": 647,
           "role": "PARS · Private Auto-Replenishment Service runtime.",
-          "last_mod": "2026-05-23"
+          "last_mod": "2026-05-26"
         }
       ]
     },
@@ -4639,9 +4684,9 @@ const CAP_DATA = {
       "files": [
         {
           "path": "orchestrator/auto_orders.py",
-          "lines": 419,
+          "lines": 647,
           "role": "PARS · Private Auto-Replenishment Service runtime.",
-          "last_mod": "2026-05-23"
+          "last_mod": "2026-05-26"
         },
         {
           "path": "orchestrator/concierge.py",
@@ -4674,15 +4719,15 @@ const CAP_DATA = {
       "files": [
         {
           "path": "portal/app/page.tsx",
-          "lines": 189,
+          "lines": 208,
           "role": "",
-          "last_mod": "2026-05-23"
+          "last_mod": "2026-05-26"
         },
         {
           "path": "portal/app/architecture/page.tsx",
-          "lines": 2363,
+          "lines": 2609,
           "role": "/architecture — Live deployment & planned-architecture status page.",
-          "last_mod": "2026-05-25"
+          "last_mod": "2026-05-26"
         },
         {
           "path": "portal/app/architecture/resourceDetails.ts",
@@ -5005,9 +5050,9 @@ const CAP_DATA = {
       "files": [
         {
           "path": "orchestrator/http_server.py",
-          "lines": 2497,
+          "lines": 2900,
           "role": "Internal HTTP API for the orchestrator.",
-          "last_mod": "2026-05-25"
+          "last_mod": "2026-05-26"
         },
         {
           "path": "orchestrator/main.py",
@@ -5773,15 +5818,15 @@ const CAP_DATA = {
       "files": [
         {
           "path": "orchestrator/flux.py",
-          "lines": 923,
+          "lines": 1043,
           "role": "Sprint 5 / Wave 27 · FLUX — household-composition + presence events.",
-          "last_mod": "2026-05-25"
+          "last_mod": "2026-05-26"
         },
         {
           "path": "orchestrator/meal_planner.py",
-          "lines": 636,
+          "lines": 648,
           "role": "Meal Planner — taste-palette aware, perishable-prioritizing, budget-bounded.",
-          "last_mod": "2026-05-23"
+          "last_mod": "2026-05-26"
         }
       ]
     },
@@ -5807,9 +5852,9 @@ const CAP_DATA = {
       "files": [
         {
           "path": "orchestrator/meal_planner.py",
-          "lines": 636,
+          "lines": 648,
           "role": "Meal Planner — taste-palette aware, perishable-prioritizing, budget-bounded.",
-          "last_mod": "2026-05-23"
+          "last_mod": "2026-05-26"
         }
       ]
     },
@@ -6464,9 +6509,9 @@ const CAP_DATA = {
       "files": []
     }
   ],
-  "files_scanned": 324,
-  "files_mapped": 253,
-  "unmapped_count": 71,
+  "files_scanned": 347,
+  "files_mapped": 257,
+  "unmapped_count": 90,
   "unmapped_sample": [
     {
       "path": "README.md",
@@ -6487,6 +6532,48 @@ const CAP_DATA = {
       "last_mod": "2026-05-22"
     },
     {
+      "path": "mobile/app/api/caregivers/dependents/route.ts",
+      "lines": 17,
+      "role": "GET /api/caregivers/dependents — everyone the bearer may act for.",
+      "last_mod": "2026-05-26"
+    },
+    {
+      "path": "mobile/app/api/caregivers/link/route.ts",
+      "lines": 21,
+      "role": "POST /api/caregivers/link — record a new delegation. C1.5 / Wave 42.",
+      "last_mod": "2026-05-26"
+    },
+    {
+      "path": "mobile/app/api/caregivers/seed-demo/route.ts",
+      "lines": 21,
+      "role": "POST /api/caregivers/seed-demo — create a demo \"Mother\" dependent",
+      "last_mod": "2026-05-26"
+    },
+    {
+      "path": "mobile/app/api/caregivers/stats/route.ts",
+      "lines": 16,
+      "role": "GET /api/caregivers/stats — diagnostic counters. C1.5 / Wave 42.",
+      "last_mod": "2026-05-26"
+    },
+    {
+      "path": "mobile/app/api/caregivers/unlink/route.ts",
+      "lines": 22,
+      "role": "POST /api/caregivers/unlink — revoke a delegation. Soft-delete on the",
+      "last_mod": "2026-05-26"
+    },
+    {
+      "path": "mobile/app/api/caregivers/who-can-see-me/route.ts",
+      "lines": 17,
+      "role": "GET /api/caregivers/who-can-see-me — every caregiver authorized for",
+      "last_mod": "2026-05-26"
+    },
+    {
+      "path": "mobile/app/api/scan/identify-receipt/route.ts",
+      "lines": 35,
+      "role": "POST /api/scan/identify-receipt — receipt OCR + optional reconciliation",
+      "last_mod": "2026-05-26"
+    },
+    {
       "path": "mobile/app/legacy/page.tsx",
       "lines": 57,
       "role": "/legacy — the legacy chat-first home, kept as an opt-in route after Wave 12",
@@ -6494,9 +6581,9 @@ const CAP_DATA = {
     },
     {
       "path": "mobile/app/lots/page.tsx",
-      "lines": 172,
-      "role": "/lots — Lots tab placeholder.",
-      "last_mod": "2026-05-25"
+      "lines": 252,
+      "role": "/lots — Lots tab.",
+      "last_mod": "2026-05-26"
     },
     {
       "path": "mobile/app/manifest.ts",
@@ -6506,15 +6593,39 @@ const CAP_DATA = {
     },
     {
       "path": "mobile/app/preview/page.tsx",
-      "lines": 1026,
+      "lines": 1032,
       "role": "CFMP Mobile — Design System v2 Preview",
-      "last_mod": "2026-05-25"
+      "last_mod": "2026-05-26"
     },
     {
       "path": "mobile/app/providers.tsx",
       "lines": 17,
       "role": "Providers — client-side boundary wrapper.",
       "last_mod": "2026-05-25"
+    },
+    {
+      "path": "mobile/components/ActingAsBanner.tsx",
+      "lines": 85,
+      "role": "ActingAsBanner — sticky strip at the top of any v2 page that announces",
+      "last_mod": "2026-05-26"
+    },
+    {
+      "path": "mobile/components/CadenceSuggestionsStrip.tsx",
+      "lines": 335,
+      "role": "CadenceSuggestionsStrip — Sprint 1 / C1.10 / Wave 43.",
+      "last_mod": "2026-05-26"
+    },
+    {
+      "path": "mobile/components/ReceiptScanSheet.tsx",
+      "lines": 587,
+      "role": "ReceiptScanSheet — C1.9 / Wave 44.",
+      "last_mod": "2026-05-26"
+    },
+    {
+      "path": "mobile/components/ThemeToggle.tsx",
+      "lines": 103,
+      "role": "ThemeToggle — segmented 3-state control for System / Light / Dark",
+      "last_mod": "2026-05-26"
     },
     {
       "path": "orchestrator/README.md",
@@ -6533,6 +6644,24 @@ const CAP_DATA = {
       "lines": 38,
       "role": "One-shot smoke test for customer_profile module.",
       "last_mod": "2026-05-23"
+    },
+    {
+      "path": "orchestrator/caregiver_link.py",
+      "lines": 319,
+      "role": "Care-Lot caregiver delegation — Wave 42 (C1.5).",
+      "last_mod": "2026-05-26"
+    },
+    {
+      "path": "orchestrator/lot_aggregator.py",
+      "lines": 172,
+      "role": "LOTS-in-Azure-DB aggregator — unifies open Lots across Postgres tables.",
+      "last_mod": "2026-05-26"
+    },
+    {
+      "path": "orchestrator/receipt_ocr.py",
+      "lines": 406,
+      "role": "Receipt OCR + reconciliation pipeline (C1.9 / Wave 44).",
+      "last_mod": "2026-05-26"
     },
     {
       "path": "orchestrator/scripts/trigger_ota.py",
@@ -6563,90 +6692,6 @@ const CAP_DATA = {
       "lines": 97,
       "role": "============================================================================",
       "last_mod": "2026-05-24"
-    },
-    {
-      "path": "orchestrator/sql/customer_360_view.sql",
-      "lines": 112,
-      "role": "============================================================================",
-      "last_mod": "2026-05-23"
-    },
-    {
-      "path": "orchestrator/sql/customer_profile_schema.sql",
-      "lines": 216,
-      "role": "============================================================================",
-      "last_mod": "2026-05-23"
-    },
-    {
-      "path": "orchestrator/sql/fulfillment_schema.sql",
-      "lines": 128,
-      "role": "CFMP Fulfillment · Plug-in tier schema (Sprint 0 Stream A).",
-      "last_mod": "2026-05-25"
-    },
-    {
-      "path": "orchestrator/sql/gold_vv_audit.sql",
-      "lines": 42,
-      "role": "============================================================================",
-      "last_mod": "2026-05-23"
-    },
-    {
-      "path": "orchestrator/sql/gold_vv_auto_orders.sql",
-      "lines": 73,
-      "role": "============================================================================",
-      "last_mod": "2026-05-23"
-    },
-    {
-      "path": "orchestrator/sql/gold_vv_catalog.sql",
-      "lines": 39,
-      "role": "============================================================================",
-      "last_mod": "2026-05-23"
-    },
-    {
-      "path": "orchestrator/sql/gold_vv_weather.sql",
-      "lines": 35,
-      "role": "============================================================================",
-      "last_mod": "2026-05-23"
-    },
-    {
-      "path": "orchestrator/sql/meal_planner_schema.sql",
-      "lines": 114,
-      "role": "============================================================================",
-      "last_mod": "2026-05-23"
-    },
-    {
-      "path": "orchestrator/sql/shopping_trips_schema.sql",
-      "lines": 130,
-      "role": "============================================================================",
-      "last_mod": "2026-05-24"
-    },
-    {
-      "path": "orchestrator/sql/sonos_schema.sql",
-      "lines": 59,
-      "role": "CFMP Sonos · Cloud Control tenancy schema (Sprint 0 Stream A).",
-      "last_mod": "2026-05-25"
-    },
-    {
-      "path": "orchestrator/tests/__init__.py",
-      "lines": 2,
-      "role": "Test package marker. Lets pytest discover tests/ as a package.",
-      "last_mod": "2026-05-25"
-    },
-    {
-      "path": "orchestrator/tests/conftest.py",
-      "lines": 25,
-      "role": "Pytest configuration for orchestrator tests.",
-      "last_mod": "2026-05-25"
-    },
-    {
-      "path": "orchestrator/tests/test_camera_snapshots.py",
-      "lines": 143,
-      "role": "Unit tests for orchestrator/camera_snapshots.py — Wave 18.",
-      "last_mod": "2026-05-25"
-    },
-    {
-      "path": "orchestrator/tests/test_flux.py",
-      "lines": 567,
-      "role": "Unit tests for orchestrator/flux.py — Sprint 5 / Wave 27 / T5.F.1.",
-      "last_mod": "2026-05-25"
     }
   ],
   "status_histogram": {

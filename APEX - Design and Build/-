@@ -1,0 +1,14 @@
+{
+  "ts": "2026-05-23T04:28:39.656735+00:00",
+  "input_blob": "clip-1779510513623.wav",
+  "transcript": "Oreo cookies.",
+  "agent_reply": "We have Oreo Original chocolate sandwich cookies with creme filling, available in a 14.3oz pack for $4.49. They contain wheat and soy allergens and we currently have 42 packs in stock.",
+  "follow_ups": [
+    "Show me other cookies",
+    "Add Oreo to cart",
+    "Any Oreo flavors?",
+    "What are the allergens?"
+  ],
+  "reply_blob": "clip-1779510513623.reply.wav",
+  "sonos_played": false
+}

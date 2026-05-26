@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>APEX × Snowflake Integration · Architecture Reference</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Aptos:wght@400;600;700&family=Cascadia+Mono&display=swap" rel="stylesheet">
+  <style>
+  :root {
+    --navy: #1A2339;
+    --navy-soft: #2A3349;
+    --ms-blue: #0078D4;
+    --ms-blue-dark: #005A9E;
+    --sf-blue: #29B5E8;
+    --sf-blue-dark: #11567F;
+    --apex-gold: #C89D3A;
+    --apex-gold-dark: #A07F2E;
+    --deloitte-green: #86BC25;
+    --deloitte-green-dark: #5C9300;
+    --slate: #64748B;
+    --slate-light: #94A3B8;
+    --amber: #D97706;
+    --green: #047857;
+    --rust: #B85450;
+    --bg: #ffffff;
+    --bg-soft: #FAFAF7;
+    --border: #E5E7EB;
+    --text: #1F2937;
+    --code-bg: #F5F5F7;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "Source Serif 4", Charter, Georgia, "Times New Roman", serif;
+    background: var(--bg); color: var(--text);
+    line-height: 1.62; font-size: 16px;
+  }
+
+  .classification {
+    background: var(--amber); color: #fff;
+    padding: 6px 24px; text-align: center;
+    font-family: Aptos, sans-serif; font-size: 10.5px;
+    letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700;
+  }
+
+  header.cover {
+    padding: 44px 56px 28px;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-soft) 100%);
+    color: #fff;
+    border-bottom: 6px solid var(--ms-blue);
+  }
+  header.cover .eyebrow {
+    font-family: Aptos, sans-serif; font-size: 11px; letter-spacing: 0.28em;
+    text-transform: uppercase; color: var(--sf-blue); font-weight: 700;
+  }
+  header.cover h1 {
+    font-family: Aptos, sans-serif; font-size: 36px; font-weight: 700;
+    line-height: 1.12; margin: 12px 0 6px; color: #fff;
+  }
+  header.cover .subtitle {
+    font-family: Aptos, sans-serif; font-size: 18px; color: #cbd5e1;
+    font-weight: 400; margin: 0 0 20px;
+  }
+  header.cover .meta {
+    display: flex; gap: 22px; flex-wrap: wrap;
+    font-family: Aptos, sans-serif; font-size: 12.5px; color: #94A3B8;
+    padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.16);
+  }
+  header.cover .meta strong { color: #cbd5e1; font-weight: 600; }
+
+  main { max-width: 1180px; margin: 0 auto; padding: 36px 32px 64px; }
+  section { margin: 0 0 40px; }
+  section.summary {
+    margin-top: -28px; background: var(--bg-soft);
+    border: 1px solid var(--border); border-radius: 8px;
+    padding: 24px 28px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+
+  h2 {
+    font-family: Aptos, sans-serif; color: var(--navy);
+    font-size: 23px; margin: 0 0 6px;
+    border-bottom: 1px solid var(--border); padding-bottom: 8px;
+  }
+  h2 .num {
+    display: inline-block; background: var(--ms-blue); color: #fff;
+    font-size: 11px; letter-spacing: 0.16em;
+    padding: 2px 9px; border-radius: 3px; vertical-align: 5px;
+    margin-right: 12px; font-weight: 700;
+  }
+  h3 {
+    font-family: Aptos, sans-serif; color: var(--navy);
+    font-size: 17px; margin: 24px 0 8px;
+  }
+  h4 {
+    font-family: Aptos, sans-serif; color: var(--ms-blue-dark);
+    font-size: 13px; margin: 18px 0 6px;
+    text-transform: uppercase; letter-spacing: 0.1em;
+  }
+  .lead { font-size: 16px; color: var(--slate); margin: 0 0 14px; max-width: 920px; }
+
+  code {
+    font-family: "Cascadia Mono", "Consolas", monospace;
+    font-size: 13.5px; background: var(--code-bg);
+    padding: 1px 5px; border-radius: 3px; color: var(--navy);
+  }
+
+  /* Tables */
+  .tbl-wrap { overflow-x: auto; margin: 14px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th {
+    background: var(--navy); color: #fff;
+    padding: 9px 12px; text-align: left;
+    font-family: Aptos, sans-serif; font-weight: 600; font-size: 12.5px;
+    letter-spacing: 0.02em;
+  }
+  td { padding: 8px 12px; border: 1px solid var(--border); vertical-align: top; }
+  tr:nth-child(even) td { background: var(--bg-soft); }
+  td.pat { font-family: Aptos, sans-serif; font-weight: 700; color: var(--navy); }
+  td.num { text-align: right; font-family: "Cascadia Mono", monospace; font-size: 13px; }
+
+  /* Figure */
+  figure {
+    border: 1px solid var(--border); border-left: 4px solid var(--ms-blue);
+    padding: 18px 22px; background: #fff; border-radius: 0 6px 6px 0;
+    margin: 18px 0; overflow: hidden;
+  }
+  figure .fig-label {
+    font-family: Aptos, sans-serif; font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--ms-blue-dark); font-weight: 700;
+    margin-bottom: 10px;
+  }
+  figure svg { display: block; width: 100%; height: auto; }
+  figcaption {
+    margin-top: 12px; padding-top: 10px;
+    border-top: 1px dashed var(--border);
+    font-size: 13px; color: var(--slate); line-height: 1.55;
+  }
+
+  /* Callouts */
+  .callout {
+    margin: 18px 0; padding: 14px 20px; border-left: 4px solid;
+    border-radius: 0 4px 4px 0; font-size: 14.5px;
+  }
+  .callout.method { border-color: var(--amber); background: #FEF3C7; }
+  .callout.method .label { color: var(--amber); }
+  .callout.note { border-color: var(--ms-blue); background: #DBEAFE; }
+  .callout.note .label { color: var(--ms-blue-dark); }
+  .callout.sf { border-color: var(--sf-blue-dark); background: #E0F2FE; }
+  .callout.sf .label { color: var(--sf-blue-dark); }
+  .callout.independence { border-color: var(--apex-gold); background: rgba(200, 157, 58, 0.08); }
+  .callout.independence .label { color: var(--apex-gold-dark); }
+  .callout .label {
+    font-family: Aptos, sans-serif; font-size: 11px; letter-spacing: 0.15em;
+    text-transform: uppercase; font-weight: 700;
+    margin-bottom: 6px; display: block;
+  }
+  .callout p:last-child { margin: 0; }
+
+  /* Source badges */
+  .src {
+    display: inline-block; font-family: Aptos, sans-serif;
+    font-size: 10px; letter-spacing: 0.1em; font-weight: 700;
+    padding: 2px 8px; border-radius: 3px; margin-right: 6px;
+    background: var(--slate); color: #fff; text-transform: uppercase;
+  }
+  .src.ms { background: var(--ms-blue); }
+  .src.snowflake { background: var(--sf-blue); color: var(--navy); }
+  .src.deloitte { background: var(--deloitte-green); }
+  .src.apex { background: var(--apex-gold); color: var(--navy); }
+  .src.client { background: var(--navy); }
+
+  /* Pattern cards */
+  .pattern-grid {
+    display: grid; grid-template-columns: 1fr; gap: 14px;
+    margin: 16px 0;
+  }
+  @media (min-width: 800px) {
+    .pattern-grid { grid-template-columns: 1fr 1fr; }
+  }
+  .pattern-card {
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--apex-gold);
+    padding: 14px 18px; background: var(--bg-soft); border-radius: 0 0 6px 6px;
+  }
+  .pattern-card h4 {
+    color: var(--navy); margin: 0 0 6px;
+    text-transform: none; letter-spacing: 0; font-size: 15px;
+  }
+  .pattern-card .pat-num {
+    display: inline-block; background: var(--apex-gold); color: var(--navy);
+    font-family: Aptos, sans-serif; font-weight: 700; font-size: 10px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 2px 7px; border-radius: 3px; margin-right: 8px;
+  }
+  .pattern-card ul {
+    margin: 6px 0 0; padding-left: 18px; font-size: 13.5px; color: var(--text);
+  }
+  .pattern-card li { padding: 2px 0; }
+
+  /* Seller steps with sub-tasks (collapsible) */
+  .steps { counter-reset: step; list-style: none; padding-left: 0; margin: 14px 0 18px; }
+  .steps > li {
+    counter-increment: step;
+    position: relative; padding: 8px 8px 8px 44px; margin: 6px 0;
+    border-left: 3px solid var(--ms-blue); background: rgba(0, 120, 212, 0.04);
+    font-size: 15px;
+  }
+  .steps > li::before {
+    content: counter(step);
+    position: absolute; left: 8px; top: 8px;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--navy); color: #fff;
+    font-family: Aptos, sans-serif; font-weight: 700; font-size: 13px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .steps > li > details { margin: 0; }
+  .steps > li > details > summary {
+    list-style: none; cursor: pointer; display: block;
+    position: relative; padding-right: 26px; outline: none;
+  }
+  .steps > li > details > summary::-webkit-details-marker { display: none; }
+  .steps > li > details > summary::after {
+    content: "▾"; position: absolute; right: 2px; top: 0;
+    color: var(--slate); font-size: 12px;
+    transition: transform 0.18s ease;
+    font-family: Aptos, sans-serif;
+  }
+  .steps > li > details[open] > summary::after { transform: rotate(180deg); color: var(--ms-blue); }
+
+  .subtasks {
+    margin: 12px 0 4px; padding: 12px 14px;
+    background: #fff; border: 1px solid var(--border);
+    border-left: 3px solid var(--ms-blue); border-radius: 4px;
+    font-size: 13.5px; line-height: 1.55;
+  }
+  .subtasks-label {
+    font-family: Aptos, sans-serif;
+    font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ms-blue); font-weight: 700; margin-bottom: 8px;
+  }
+  .subtasks ul { list-style: none; padding: 0; margin: 0; }
+  .subtasks li { padding: 3px 0; margin: 0; }
+  .subtasks label {
+    display: flex; gap: 9px; align-items: flex-start; cursor: pointer;
+  }
+  .subtasks input[type="checkbox"] {
+    margin: 4px 0 0; flex-shrink: 0;
+    accent-color: var(--ms-blue);
+    width: 14px; height: 14px; cursor: pointer;
+  }
+  .subtasks li:has(input:checked) span { text-decoration: line-through; color: var(--slate); }
+
+  /* References list */
+  .refs {
+    background: var(--bg-soft); padding: 18px 22px;
+    border: 1px solid var(--border); border-radius: 6px;
+    font-size: 14px;
+  }
+  .refs ol { margin: 0; padding-left: 22px; }
+  .refs li { margin: 8px 0; }
+  .refs li .ref-source {
+    font-family: Aptos, sans-serif; font-size: 10.5px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ms-blue-dark); font-weight: 700;
+    margin-right: 8px;
+  }
+
+  /* Footer */
+  footer {
+    margin-top: 56px; padding: 22px 32px;
+    background: var(--bg-soft); border-top: 2px solid var(--border);
+    font-family: Aptos, sans-serif; font-size: 12px; color: var(--slate);
+    text-align: center;
+  }
+  footer strong { color: var(--text); }
+
+  /* Tab navigation */
+  .tab-nav {
+    position: sticky; top: 0; z-index: 100;
+    background: #fff; border-bottom: 2px solid var(--border);
+    padding: 0 32px; display: flex; gap: 4px; flex-wrap: wrap;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+  .tab-btn {
+    border: none; background: transparent;
+    padding: 14px 18px; cursor: pointer;
+    font-family: Aptos, sans-serif; font-size: 13px;
+    font-weight: 600; letter-spacing: 0.02em;
+    color: var(--slate); border-bottom: 3px solid transparent;
+    margin-bottom: -2px; transition: all 0.15s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .tab-btn:hover { color: var(--navy); background: var(--bg-soft); }
+  .tab-btn.active { color: var(--navy); border-bottom-color: var(--ms-blue); }
+  .tab-btn[data-vendor="sf"].active { border-bottom-color: var(--sf-blue-dark); }
+  .tab-btn .vmark {
+    display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+  }
+  .tab-btn .vmark.ms { background: var(--ms-blue); }
+  .tab-btn .vmark.sf { background: var(--sf-blue); }
+  .tab-btn .vmark.apex { background: var(--apex-gold); }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  @media print {
+    .classification { background: #fff; color: #000; border-bottom: 1px solid #000; }
+    header.cover { background: #fff; color: #000; border-bottom: 2px solid #000; }
+    header.cover h1, header.cover .subtitle, header.cover .meta strong, header.cover .eyebrow { color: #000; }
+    .tab-nav { display: none; }
+    .tab-panel { display: block !important; }
+    section, figure, .pattern-card { page-break-inside: avoid; }
+  }
+  </style>
+</head>
+<body>
+
+<div class="classification">Reference document · Discovery-stage · Architecture &amp; Integration Pack · Companion to APEX Sellers Handbook</div>
+
+<header class="cover">
+  <div class="eyebrow">APEX × Snowflake · Architecture Reference</div>
+  <h1>APEX Integrating with Snowflake Data</h1>
+  <div class="subtitle">Five integration patterns for deploying APEX agents on Microsoft against client Snowflake data</div>
+  <div class="meta">
+    <span><strong>Audience:</strong> DMTSP sellers · practice tech leaders · Microsoft account team</span>
+    <span><strong>From:</strong> Keven Markham · Deloitte's Microsoft Technology &amp; Services Practice</span>
+    <span><strong>Status:</strong> Discovery · pre-engagement reference</span>
+    <span><strong>Companion to:</strong> Sellers Handbook · APEX-M Trilogy</span>
+  </div>
+</header>
+
+<nav class="tab-nav" role="tablist" aria-label="Document sections">
+  <button class="tab-btn active" data-tab="overview" role="tab" aria-selected="true">Overview &amp; Diagrams</button>
+  <button class="tab-btn" data-tab="microsoft" data-vendor="ms" role="tab" aria-selected="false"><span class="vmark ms"></span>Microsoft Stack</button>
+  <button class="tab-btn" data-tab="snowflake" data-vendor="sf" role="tab" aria-selected="false"><span class="vmark sf"></span>Snowflake Stack</button>
+  <button class="tab-btn" data-tab="seller" data-vendor="apex" role="tab" aria-selected="false"><span class="vmark apex"></span>Seller Positioning</button>
+  <button class="tab-btn" data-tab="references" role="tab" aria-selected="false">References &amp; Notes</button>
+</nav>
+
+<main>
+
+<div class="tab-panel active" data-panel="overview" role="tabpanel">
+
+<section class="summary">
+  <div style="font-family:Aptos,sans-serif;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ms-blue-dark);font-weight:700;margin-bottom:8px;">Executive summary · the one paragraph</div>
+  <p style="font-size:16.5px;margin:0;">Many enterprise clients run <strong>Snowflake</strong> as their analytics data cloud and want to deploy <strong>agentic AI on Microsoft</strong> (Fabric · Foundry · Agent 365 · Copilot) without rebuilding the data estate. APEX — Deloitte's internal delivery accelerator — supports <strong>five integration patterns</strong> that let APEX-on-Microsoft agents read, reason over, and write back to client Snowflake data, while preserving Independence (three contracts: Microsoft · Snowflake · Deloitte). This document is the architecture reference: <strong>Figure 1</strong> shows the end-to-end stack; <strong>Figure 2</strong> shows the pattern-selection decision tree; §03 details each pattern; §04 shows sellers when to lead with which; §05 covers Independence guardrails.</p>
+</section>
+
+<section>
+  <h2><span class="num">01</span>What this document does</h2>
+  <p class="lead">The APEX Sellers Handbook teaches the seller motion. This document is the <em>architecture reference</em> for one of the most common client realities — Snowflake as the data cloud, Microsoft as the agent platform, Deloitte as the services provider. Reference-only; discovery-stage; not a proposal.</p>
+
+  <div class="callout method">
+    <span class="label">Reading order</span>
+    <p>Read this document for the architecture and the integration patterns. Read the <em>APEX Sellers Handbook</em> for the end-to-end selling motion (Ready → Meet → Wedge → Sell → Scale → Annuity). The two documents are designed to be read in either order — the patterns here drop into Wave 1 design (Sellers Handbook Ch 20) and the seller-positioning section (§04 below) maps directly to the Functional Areas chapters (Sellers Handbook Ch 13–17).</p>
+  </div>
+
+  <div class="callout sf">
+    <span class="label">A note on Snowflake positioning</span>
+    <p>Snowflake is the <strong>client's existing data investment</strong>. APEX-on-Microsoft <em>integrates with</em> Snowflake; Deloitte does not displace it, does not resell it, and does not commingle Snowflake licensing into the Deloitte SOW. The client holds three contracts: <span class="src client">Client</span> ↔ <span class="src ms">Microsoft</span> for Fabric / Foundry / Agent 365; <span class="src client">Client</span> ↔ <span class="src snowflake">Snowflake</span> for the data cloud; <span class="src client">Client</span> ↔ <span class="src deloitte">Deloitte</span> for delivery services. See §05.</p>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">02</span>End-to-end architecture</h2>
+  <p class="lead">Eight layers, deployed inside the client's combined Microsoft and Snowflake tenants. APEX (Deloitte's internal accelerator) orchestrates from the agent reasoning plane down through whichever of the five integration patterns the use case calls for.</p>
+
+  <figure>
+    <div class="fig-label">Figure 1 · APEX on Microsoft × Snowflake — end-to-end stack</div>
+    <svg viewBox="0 0 1140 780" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="End-to-end architecture for APEX agents on Microsoft integrating with Snowflake data">
+      <defs>
+        <linearGradient id="lay-ms" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stop-color="#0078D4"/><stop offset="1" stop-color="#005A9E"/>
+        </linearGradient>
+        <linearGradient id="lay-sf" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stop-color="#29B5E8"/><stop offset="1" stop-color="#11567F"/>
+        </linearGradient>
+        <linearGradient id="lay-navy" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stop-color="#1A2339"/><stop offset="1" stop-color="#2A3349"/>
+        </linearGradient>
+        <linearGradient id="lay-slate" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stop-color="#64748B"/><stop offset="1" stop-color="#475569"/>
+        </linearGradient>
+        <linearGradient id="lay-gold" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stop-color="#C89D3A"/><stop offset="1" stop-color="#A07F2E"/>
+        </linearGradient>
+        <marker id="arr-up" viewBox="0 0 10 10" refX="5" refY="0" markerWidth="8" markerHeight="8" orient="auto">
+          <path d="M 0 10 L 5 0 L 10 10" fill="none" stroke="#0078D4" stroke-width="1.4"/>
+        </marker>
+        <marker id="arr-down" viewBox="0 0 10 10" refX="5" refY="10" markerWidth="8" markerHeight="8" orient="auto">
+          <path d="M 0 0 L 5 10 L 10 0" fill="none" stroke="#B85450" stroke-width="1.4"/>
+        </marker>
+      </defs>
+      <style>
+        .lyr-cap { font-family: Aptos, sans-serif; font-size: 10.5px; fill: #64748B; font-weight: 700; text-transform: uppercase; letter-spacing: 0.13em; }
+        .lyr-name { font-family: Aptos, sans-serif; font-size: 13px; fill: #fff; font-weight: 700; }
+        .lyr-sub { font-family: Aptos, sans-serif; font-size: 10.5px; fill: #fff; opacity: 0.92; }
+        .lyr-name-dark { font-family: Aptos, sans-serif; font-size: 13px; fill: #1A2339; font-weight: 700; }
+        .lyr-sub-dark { font-family: Aptos, sans-serif; font-size: 10.5px; fill: #1A2339; opacity: 0.85; }
+        .lane-cap { font-family: 'Cascadia Mono', Consolas, monospace; font-size: 9.5px; fill: #64748B; letter-spacing: 0.18em; text-transform: uppercase; }
+        .apex-tag { font-family: Aptos, sans-serif; font-size: 9.5px; fill: #1A2339; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+      </style>
+
+      <text x="20" y="16" class="lane-cap">Data flow up</text>
+      <text x="1120" y="16" text-anchor="end" class="lane-cap">Governance flow down</text>
+      <line x1="13" y1="700" x2="13" y2="36" stroke="#0078D4" stroke-width="1" stroke-dasharray="2 3" marker-end="url(#arr-up)"/>
+      <line x1="1127" y1="36" x2="1127" y2="700" stroke="#B85450" stroke-width="1" stroke-dasharray="2 3" marker-end="url(#arr-down)"/>
+
+      <!-- L1 Consumption -->
+      <text x="30" y="40" class="lyr-cap">L1 · Consumption — who sees the answer</text>
+      <rect x="30" y="48" width="350" height="56" rx="6" fill="url(#lay-ms)"/>
+      <text x="44" y="68" class="lyr-name">Microsoft Teams · Copilot Studio</text>
+      <text x="44" y="84" class="lyr-sub">Adaptive Cards · Persona surfaces · HITL approval inline</text>
+      <text x="44" y="98" class="lyr-sub">Store-101 facilitator · GM · Regional buyer (APEX personas)</text>
+
+      <rect x="390" y="48" width="340" height="56" rx="6" fill="url(#lay-ms)"/>
+      <text x="404" y="68" class="lyr-name">Power BI</text>
+      <text x="404" y="84" class="lyr-sub">Direct Lake on Fabric Gold · Direct Query on Snowflake</text>
+      <text x="404" y="98" class="lyr-sub">Heatmaps · KPI dashboards · cohort drilldowns</text>
+
+      <rect x="740" y="48" width="370" height="56" rx="6" fill="url(#lay-ms)"/>
+      <text x="754" y="68" class="lyr-name">Custom web · branded consumer surface</text>
+      <text x="754" y="84" class="lyr-sub">React / Next.js · loyalty · service · 1:1 personalization</text>
+      <text x="754" y="98" class="lyr-sub">L4 B2C agent endpoints</text>
+
+      <!-- L2 Agent reasoning -->
+      <text x="30" y="124" class="lyr-cap">L2 · Agent reasoning — APEX orchestrates the agent chain</text>
+      <rect x="30" y="132" width="1080" height="62" rx="6" fill="url(#lay-ms)"/>
+      <text x="44" y="152" class="lyr-name">Microsoft Agent 365 · Azure AI Foundry · Microsoft Agent Framework</text>
+      <text x="44" y="170" class="lyr-sub">Per-agent Entra workload identity · HITL gate via Tool Approval flow · audit row per decision</text>
+      <text x="44" y="186" class="lyr-sub">Reads from whichever integration pattern (§03) the use case calls for · typed tool contracts</text>
+      <rect x="998" y="142" width="100" height="22" rx="4" fill="#fff" stroke="#C89D3A" stroke-width="1.5"/>
+      <text x="1048" y="158" text-anchor="middle" class="apex-tag">APEX OVERLAY</text>
+
+      <!-- L3 Inference & MCP -->
+      <text x="30" y="214" class="lyr-cap">L3 · Inference &amp; MCP servers — typed tool surface for the agents</text>
+      <rect x="30" y="222" width="530" height="58" rx="6" fill="url(#lay-ms)"/>
+      <text x="44" y="242" class="lyr-name">Foundry inference · model catalog · evaluation</text>
+      <text x="44" y="260" class="lyr-sub">Hosts GPT · Phi · custom edition models per APEX agent</text>
+      <text x="44" y="274" class="lyr-sub">Streaming · function-calling · tool-use</text>
+
+      <rect x="570" y="222" width="540" height="58" rx="6" fill="url(#lay-gold)"/>
+      <text x="584" y="242" class="lyr-name-dark">MCP server library — Microsoft + Snowflake</text>
+      <text x="584" y="260" class="lyr-sub-dark">Microsoft MCP (Fabric · Foundry · Purview) + Snowflake MCP (Cortex · queries · Iceberg)</text>
+      <text x="584" y="274" class="lyr-sub-dark">Per-tool identity passthrough · gate-aware · audit-stamped</text>
+
+      <!-- L4 Microsoft data plane (Fabric OneLake) -->
+      <text x="30" y="300" class="lyr-cap">L4 · Microsoft data plane — Fabric OneLake medallion</text>
+      <rect x="30" y="308" width="350" height="58" rx="6" fill="url(#lay-navy)"/>
+      <text x="44" y="328" class="lyr-name">Bronze · raw landing</text>
+      <text x="44" y="346" class="lyr-sub">Source-native shapes from non-Snowflake operational systems</text>
+      <text x="44" y="360" class="lyr-sub">Eventstream · scheduled ingest · CDC</text>
+
+      <rect x="390" y="308" width="340" height="58" rx="6" fill="url(#lay-navy)"/>
+      <text x="404" y="328" class="lyr-name">Silver · canonical + typed</text>
+      <text x="404" y="346" class="lyr-sub">Conformed keys · PII tokenized · APEX schema</text>
+      <text x="404" y="360" class="lyr-sub">Joinable to Snowflake-shaped views</text>
+
+      <rect x="740" y="308" width="370" height="58" rx="6" fill="url(#lay-navy)"/>
+      <text x="754" y="328" class="lyr-name">Gold · per-agent joinable views</text>
+      <text x="754" y="346" class="lyr-sub">Direct Lake reads · cross-source agent semantic model</text>
+      <text x="754" y="360" class="lyr-sub">Microsoft + Snowflake joined here</text>
+
+      <!-- L5 Integration patterns -->
+      <text x="30" y="386" class="lyr-cap">L5 · Integration layer — the five APEX × Snowflake patterns (see §03 + Figure 2)</text>
+      <rect x="30" y="394" width="208" height="78" rx="6" fill="url(#lay-gold)"/>
+      <text x="44" y="414" class="lyr-name-dark">① OneLake shortcut</text>
+      <text x="44" y="432" class="lyr-sub-dark">Fabric → Snowflake</text>
+      <text x="44" y="446" class="lyr-sub-dark">Zero-copy reference</text>
+      <text x="44" y="464" class="lyr-sub-dark" style="font-style:italic">virtual table</text>
+
+      <rect x="246" y="394" width="208" height="78" rx="6" fill="url(#lay-gold)"/>
+      <text x="260" y="414" class="lyr-name-dark">② Iceberg open tables</text>
+      <text x="260" y="432" class="lyr-sub-dark">Snowflake-managed Iceberg</text>
+      <text x="260" y="446" class="lyr-sub-dark">Read by Fabric/Foundry</text>
+      <text x="260" y="464" class="lyr-sub-dark" style="font-style:italic">open format</text>
+
+      <rect x="462" y="394" width="208" height="78" rx="6" fill="url(#lay-gold)"/>
+      <text x="476" y="414" class="lyr-name-dark">③ Fabric mirroring</text>
+      <text x="476" y="432" class="lyr-sub-dark">Continuous replication</text>
+      <text x="476" y="446" class="lyr-sub-dark">SF → OneLake</text>
+      <text x="476" y="464" class="lyr-sub-dark" style="font-style:italic">high-perf reads</text>
+
+      <rect x="678" y="394" width="208" height="78" rx="6" fill="url(#lay-gold)"/>
+      <text x="692" y="414" class="lyr-name-dark">④ Snowflake MCP</text>
+      <text x="692" y="432" class="lyr-sub-dark">Foundry agent →</text>
+      <text x="692" y="446" class="lyr-sub-dark">SF via MCP server</text>
+      <text x="692" y="464" class="lyr-sub-dark" style="font-style:italic">agent-native</text>
+
+      <rect x="894" y="394" width="216" height="78" rx="6" fill="url(#lay-gold)"/>
+      <text x="908" y="414" class="lyr-name-dark">⑤ Snowpark Containers</text>
+      <text x="908" y="432" class="lyr-sub-dark">APEX agent runs</text>
+      <text x="908" y="446" class="lyr-sub-dark">inside Snowflake</text>
+      <text x="908" y="464" class="lyr-sub-dark" style="font-style:italic">data never moves</text>
+
+      <!-- L6 Snowflake data cloud -->
+      <text x="30" y="492" class="lyr-cap">L6 · Snowflake data cloud — client's existing investment</text>
+      <rect x="30" y="500" width="350" height="68" rx="6" fill="url(#lay-sf)"/>
+      <text x="44" y="520" class="lyr-name">Snowflake Warehouses · Databases</text>
+      <text x="44" y="538" class="lyr-sub">Curated marts · transformed analytics models</text>
+      <text x="44" y="554" class="lyr-sub">dbt · semantic layer · governance via Horizon</text>
+
+      <rect x="390" y="500" width="340" height="68" rx="6" fill="url(#lay-sf)"/>
+      <text x="404" y="520" class="lyr-name">Snowflake-managed Iceberg tables</text>
+      <text x="404" y="538" class="lyr-sub">Open-format tables · cross-engine read</text>
+      <text x="404" y="554" class="lyr-sub">Polaris catalog · external read by Fabric/Foundry</text>
+
+      <rect x="740" y="500" width="370" height="68" rx="6" fill="url(#lay-sf)"/>
+      <text x="754" y="520" class="lyr-name">Snowpark · Cortex · Container Services</text>
+      <text x="754" y="538" class="lyr-sub">UDFs · LLM functions · containerized workloads</text>
+      <text x="754" y="554" class="lyr-sub">Where Pattern ⑤ APEX agent containers run</text>
+
+      <!-- L7 Source systems -->
+      <text x="30" y="588" class="lyr-cap">L7 · Source systems — feed both Microsoft and Snowflake</text>
+      <rect x="30" y="596" width="210" height="58" rx="6" fill="url(#lay-slate)"/>
+      <text x="44" y="616" class="lyr-name">ERP · SAP · Oracle</text>
+      <text x="44" y="632" class="lyr-sub">Finance · supply chain · HR</text>
+
+      <rect x="250" y="596" width="210" height="58" rx="6" fill="url(#lay-slate)"/>
+      <text x="264" y="616" class="lyr-name">CRM</text>
+      <text x="264" y="632" class="lyr-sub">Salesforce · D365 Sales · HubSpot</text>
+
+      <rect x="470" y="596" width="210" height="58" rx="6" fill="url(#lay-slate)"/>
+      <text x="484" y="616" class="lyr-name">MES · IoT · telemetry</text>
+      <text x="484" y="632" class="lyr-sub">SCADA · historian · device feeds</text>
+
+      <rect x="690" y="596" width="210" height="58" rx="6" fill="url(#lay-slate)"/>
+      <text x="704" y="616" class="lyr-name">SaaS · marketing</text>
+      <text x="704" y="632" class="lyr-sub">Marketo · clickstream · ad-tech</text>
+
+      <rect x="910" y="596" width="200" height="58" rx="6" fill="url(#lay-slate)"/>
+      <text x="924" y="616" class="lyr-name">Files · documents</text>
+      <text x="924" y="632" class="lyr-sub">SharePoint · S3 · OneDrive</text>
+
+      <!-- L8 Foundation -->
+      <text x="30" y="676" class="lyr-cap">L8 · Always-on foundation — identity, governance, audit (joint Microsoft + Snowflake)</text>
+      <rect x="30" y="684" width="1080" height="72" rx="6" fill="#334155"/>
+      <text x="50" y="708" class="lyr-name">Microsoft Entra ID</text>
+      <text x="50" y="724" class="lyr-sub">Per-agent workload identity</text>
+      <text x="50" y="740" class="lyr-sub">Conditional access · SCIM to Snowflake</text>
+
+      <text x="285" y="708" class="lyr-name">Microsoft Purview</text>
+      <text x="285" y="724" class="lyr-sub">DLP · sensitivity labels</text>
+      <text x="285" y="740" class="lyr-sub">Lineage · DSPM-for-AI</text>
+
+      <text x="510" y="708" class="lyr-name">Snowflake Horizon</text>
+      <text x="510" y="724" class="lyr-sub">Object-level access · tags</text>
+      <text x="510" y="740" class="lyr-sub">Row/column policies · audit</text>
+
+      <text x="745" y="708" class="lyr-name">APEX audit ledger</text>
+      <text x="745" y="724" class="lyr-sub">Hash chain · cross-platform</text>
+      <text x="745" y="740" class="lyr-sub">Regulator-replayable evidence</text>
+
+      <text x="950" y="708" class="lyr-name">Defender · monitoring</text>
+      <text x="950" y="724" class="lyr-sub">Cross-cloud SIEM</text>
+      <text x="950" y="740" class="lyr-sub">OT + cloud + SaaS</text>
+    </svg>
+    <figcaption>Eight layers. Microsoft components (blue) own the agent reasoning plane (L2) and the Fabric data plane (L4). Snowflake components (light blue) hold the curated analytics estate at L6. The integration layer (L5, gold) is where APEX expresses one of five patterns to bridge them. All sources at L7 feed both Microsoft and Snowflake depending on client architecture. Foundation (L8) is jointly governed — Entra + Purview from Microsoft, Horizon from Snowflake, audit chain from APEX. Three contracts always: client ↔ Microsoft, client ↔ Snowflake, client ↔ Deloitte.</figcaption>
+  </figure>
+
+  <p style="margin-top:14px;">
+    <span class="src ms">Microsoft</span>
+    <span class="src snowflake">Snowflake</span>
+    <span class="src apex">APEX</span>
+    <span class="src client">Client</span>
+    <span class="src deloitte">Deloitte</span>
+    Five component classes appear in the stack. Microsoft is the agent platform · Snowflake is the data cloud · APEX is Deloitte's internal accelerator overlay · Client owns both platform contracts and source systems · Deloitte delivers the services that bridge them.
+  </p>
+</section>
+
+<section>
+  <h2><span class="num">03</span>The five integration patterns</h2>
+  <p class="lead">APEX-on-Microsoft can integrate with Snowflake five ways. Pattern choice depends on data sovereignty posture, latency need, governance ownership, and whether Snowflake tables are Iceberg-managed. Figure 2 below is the decision tree.</p>
+
+  <figure>
+    <div class="fig-label">Figure 2 · Pattern selector — when to use which integration pattern</div>
+    <svg viewBox="0 0 1140 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Decision tree for choosing among the five APEX-Snowflake integration patterns">
+      <defs>
+        <linearGradient id="ps-ms" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#0078D4"/><stop offset="1" stop-color="#005A9E"/></linearGradient>
+        <linearGradient id="ps-sf" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#29B5E8"/><stop offset="1" stop-color="#11567F"/></linearGradient>
+        <linearGradient id="ps-gold" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#C89D3A"/><stop offset="1" stop-color="#A07F2E"/></linearGradient>
+        <marker id="ps-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10" fill="#64748B"/></marker>
+      </defs>
+      <style>
+        .ps-cap { font-family: Aptos, sans-serif; font-size: 10.5px; fill: #64748B; font-weight: 700; text-transform: uppercase; letter-spacing: 0.13em; }
+        .ps-q { font-family: Aptos, sans-serif; font-size: 12.5px; fill: #1A2339; font-weight: 700; }
+        .ps-yn { font-family: 'Cascadia Mono', Consolas, monospace; font-size: 11px; fill: #64748B; font-weight: 700; letter-spacing: 0.1em; }
+        .ps-pat-name { font-family: Aptos, sans-serif; font-size: 13px; fill: #1A2339; font-weight: 700; }
+        .ps-pat-sub { font-family: Aptos, sans-serif; font-size: 10px; fill: #1A2339; opacity: 0.85; }
+        .ps-num { font-family: Aptos, sans-serif; font-size: 14px; fill: #fff; font-weight: 700; }
+      </style>
+
+      <text x="20" y="24" class="ps-cap">Decision tree · four questions select one of five patterns</text>
+
+      <!-- Start node -->
+      <rect x="20" y="40" width="170" height="58" rx="8" fill="#1A2339"/>
+      <text x="105" y="65" text-anchor="middle" font-family="Aptos, sans-serif" font-size="13" font-weight="700" fill="#fff">START</text>
+      <text x="105" y="84" text-anchor="middle" font-family="Aptos, sans-serif" font-size="10.5" fill="#94A3B8">Pick integration pattern</text>
+
+      <!-- Q1: Data sovereignty critical -->
+      <rect x="220" y="40" width="220" height="58" rx="8" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
+      <text x="330" y="62" text-anchor="middle" class="ps-q">Q1 · Data must never</text>
+      <text x="330" y="78" text-anchor="middle" class="ps-q">leave Snowflake?</text>
+      <text x="330" y="92" text-anchor="middle" class="ps-yn">(regulatory / sovereignty)</text>
+
+      <line x1="190" y1="69" x2="218" y2="69" stroke="#64748B" stroke-width="1.5" marker-end="url(#ps-arr)"/>
+
+      <!-- Q1 YES → Pattern 5 -->
+      <line x1="330" y1="100" x2="330" y2="130" stroke="#64748B" stroke-width="1.5" marker-end="url(#ps-arr)"/>
+      <text x="338" y="116" class="ps-yn">YES</text>
+      <rect x="220" y="132" width="220" height="64" rx="8" fill="url(#ps-gold)"/>
+      <circle cx="244" cy="148" r="11" fill="#1A2339"/><text x="244" y="153" text-anchor="middle" class="ps-num">5</text>
+      <text x="262" y="153" class="ps-pat-name">Snowpark Containers</text>
+      <text x="232" y="172" class="ps-pat-sub">APEX agent containers run inside</text>
+      <text x="232" y="186" class="ps-pat-sub">Snowflake · data never moves</text>
+
+      <!-- Q1 NO → Q2 -->
+      <line x1="440" y1="69" x2="468" y2="69" stroke="#64748B" stroke-width="1.5" marker-end="url(#ps-arr)"/>
+      <text x="448" y="63" class="ps-yn">NO</text>
+
+      <!-- Q2: Real-time agent queries -->
+      <rect x="470" y="40" width="220" height="58" rx="8" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
+      <text x="580" y="62" text-anchor="middle" class="ps-q">Q2 · Sub-second agent</text>
+      <text x="580" y="78" text-anchor="middle" class="ps-q">queries to Snowflake?</text>
+      <text x="580" y="92" text-anchor="middle" class="ps-yn">(typed tool calls)</text>
+
+      <!-- Q2 YES → Pattern 4 -->
+      <line x1="580" y1="100" x2="580" y2="130" stroke="#64748B" stroke-width="1.5" marker-end="url(#ps-arr)"/>
+      <text x="588" y="116" class="ps-yn">YES</text>
+      <rect x="470" y="132" width="220" height="64" rx="8" fill="url(#ps-gold)"/>
+      <circle cx="494" cy="148" r="11" fill="#1A2339"/><text x="494" y="153" text-anchor="middle" class="ps-num">4</text>
+      <text x="512" y="153" class="ps-pat-name">Snowflake MCP server</text>
+      <text x="482" y="172" class="ps-pat-sub">Foundry agent → SF via MCP</text>
+      <text x="482" y="186" class="ps-pat-sub">Typed tool · gate-aware · audit</text>
+
+      <!-- Q2 NO → Q3 -->
+      <line x1="690" y1="69" x2="718" y2="69" stroke="#64748B" stroke-width="1.5" marker-end="url(#ps-arr)"/>
+      <text x="698" y="63" class="ps-yn">NO</text>
+
+      <!-- Q3: High-perf read analytics -->
+      <rect x="720" y="40" width="220" height="58" rx="8" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
+      <text x="830" y="62" text-anchor="middle" class="ps-q">Q3 · High-perf analytics</text>
+      <text x="830" y="78" text-anchor="middle" class="ps-q">+ Direct Lake on SF data?</text>
+      <text x="830" y="92" text-anchor="middle" class="ps-yn">(read-heavy)</text>
+
+      <!-- Q3 YES → Pattern 3 -->
+      <line x1="830" y1="100" x2="830" y2="130" stroke="#64748B" stroke-width="1.5" marker-end="url(#ps-arr)"/>
+      <text x="838" y="116" class="ps-yn">YES</text>
+      <rect x="720" y="132" width="220" height="64" rx="8" fill="url(#ps-gold)"/>
+      <circle cx="744" cy="148" r="11" fill="#1A2339"/><text x="744" y="153" text-anchor="middle" class="ps-num">3</text>
+      <text x="762" y="153" class="ps-pat-name">Fabric mirroring</text>
+      <text x="732" y="172" class="ps-pat-sub">Continuous SF → OneLake</text>
+      <text x="732" y="186" class="ps-pat-sub">Direct Lake on the mirror</text>
+
+      <!-- Q3 NO → Q4 -->
+      <line x1="940" y1="69" x2="968" y2="69" stroke="#64748B" stroke-width="1.5" marker-end="url(#ps-arr)"/>
+      <text x="948" y="63" class="ps-yn">NO</text>
+
+      <!-- Q4: Iceberg already in place -->
+      <rect x="970" y="40" width="150" height="58" rx="8" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
+      <text x="1045" y="62" text-anchor="middle" class="ps-q">Q4 · Snowflake</text>
+      <text x="1045" y="78" text-anchor="middle" class="ps-q">tables in Iceberg?</text>
+      <text x="1045" y="92" text-anchor="middle" class="ps-yn">(open-table)</text>
+
+      <!-- Q4 YES → Pattern 2 -->
+      <line x1="1045" y1="100" x2="1045" y2="130" stroke="#64748B" stroke-width="1.5" marker-end="url(#ps-arr)"/>
+      <text x="1053" y="116" class="ps-yn">YES</text>
+      <rect x="970" y="132" width="150" height="64" rx="8" fill="url(#ps-gold)"/>
+      <circle cx="990" cy="148" r="11" fill="#1A2339"/><text x="990" y="153" text-anchor="middle" class="ps-num">2</text>
+      <text x="1008" y="153" class="ps-pat-name">Iceberg tables</text>
+      <text x="980" y="172" class="ps-pat-sub">Foundry reads</text>
+      <text x="980" y="186" class="ps-pat-sub">SF Iceberg direct</text>
+
+      <!-- Q4 NO → Pattern 1 (Default) -->
+      <line x1="1045" y1="220" x2="1045" y2="250" stroke="#64748B" stroke-width="1.5" marker-end="url(#ps-arr)"/>
+      <text x="1053" y="240" class="ps-yn">NO</text>
+      <rect x="970" y="252" width="150" height="64" rx="8" fill="url(#ps-gold)"/>
+      <circle cx="990" cy="268" r="11" fill="#1A2339"/><text x="990" y="273" text-anchor="middle" class="ps-num">1</text>
+      <text x="1008" y="273" class="ps-pat-name">OneLake shortcut</text>
+      <text x="980" y="292" class="ps-pat-sub">Fabric → SF</text>
+      <text x="980" y="306" class="ps-pat-sub">Zero-copy virtual</text>
+
+      <!-- Bottom: Pattern comparison strip -->
+      <line x1="20" y1="350" x2="1120" y2="350" stroke="#1A2339" stroke-width="1.5"/>
+      <text x="20" y="376" font-family="Aptos, sans-serif" font-size="13" font-weight="700" fill="#1A2339">Pattern characteristics at a glance</text>
+
+      <text x="20" y="400" font-family="Aptos, sans-serif" font-size="12" font-weight="700" fill="#1A2339">Data movement:</text>
+      <text x="130" y="400" font-family="Aptos, sans-serif" font-size="12" fill="#64748B">① zero-copy &nbsp; · &nbsp; ② zero-copy (open format) &nbsp; · &nbsp; ③ continuous replication &nbsp; · &nbsp; ④ per-query (no copy) &nbsp; · &nbsp; ⑤ data stays in SF (compute moves)</text>
+
+      <text x="20" y="424" font-family="Aptos, sans-serif" font-size="12" font-weight="700" fill="#1A2339">Latency:</text>
+      <text x="130" y="424" font-family="Aptos, sans-serif" font-size="12" fill="#64748B">① seconds &nbsp; · &nbsp; ② sub-second to seconds &nbsp; · &nbsp; ③ sub-second (Direct Lake) &nbsp; · &nbsp; ④ sub-second (warm warehouse) &nbsp; · &nbsp; ⑤ in-SF compute (fastest)</text>
+
+      <text x="20" y="448" font-family="Aptos, sans-serif" font-size="12" font-weight="700" fill="#1A2339">Governance:</text>
+      <text x="130" y="448" font-family="Aptos, sans-serif" font-size="12" fill="#64748B">① + ② + ④ joint Entra/Horizon &nbsp; · &nbsp; ③ Purview lineage on the mirror &nbsp; · &nbsp; ⑤ Horizon primary, Entra federated</text>
+
+      <text x="20" y="472" font-family="Aptos, sans-serif" font-size="12" font-weight="700" fill="#1A2339">Microsoft attach:</text>
+      <text x="130" y="472" font-family="Aptos, sans-serif" font-size="12" fill="#64748B">all patterns attach Fabric · Foundry · Agent 365 · Entra · Purview · Defender</text>
+
+      <text x="20" y="496" font-family="Aptos, sans-serif" font-size="12" font-weight="700" fill="#1A2339">Snowflake attach:</text>
+      <text x="130" y="496" font-family="Aptos, sans-serif" font-size="12" fill="#64748B">② Iceberg + Polaris &nbsp; · &nbsp; ④ Cortex + MCP &nbsp; · &nbsp; ⑤ Snowpark Container Services + compute</text>
+    </svg>
+    <figcaption>Four binary questions select among five patterns. Q1 (sovereignty) routes to Pattern ⑤ Snowpark Containers. Q2 (real-time agent queries) routes to Pattern ④ Snowflake MCP. Q3 (high-perf analytics) routes to Pattern ③ Fabric mirroring. Q4 (Iceberg in place) routes to Pattern ② Iceberg or Pattern ① OneLake shortcut. Most engagements end up with a primary pattern plus a secondary — Patterns ① and ④ commonly co-deploy.</figcaption>
+  </figure>
+
+  <h3>Pattern detail · comparison table</h3>
+  <div class="tbl-wrap"><table>
+    <thead>
+      <tr>
+        <th>Pattern</th>
+        <th>How it works</th>
+        <th>Data movement</th>
+        <th>Latency</th>
+        <th>When to use</th>
+        <th>Attach</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="pat">① OneLake shortcut</td>
+        <td>Fabric creates a shortcut into a Snowflake schema; queries pass through. No data copied; metadata only.</td>
+        <td>Zero-copy</td>
+        <td class="num">~seconds</td>
+        <td>Default starting pattern. Quickest to stand up. Read-mostly workloads with moderate latency tolerance.</td>
+        <td><span class="src ms">Fabric</span></td>
+      </tr>
+      <tr>
+        <td class="pat">② Iceberg open tables</td>
+        <td>Snowflake-managed Iceberg tables with Polaris catalog; Fabric and Foundry read directly as external tables.</td>
+        <td>Zero-copy (open format)</td>
+        <td class="num">~sub-sec to sec</td>
+        <td>Client has standardized on Iceberg or is migrating to it. Multi-engine read pattern. Best long-term posture.</td>
+        <td><span class="src ms">Fabric</span> <span class="src snowflake">Iceberg + Polaris</span></td>
+      </tr>
+      <tr>
+        <td class="pat">③ Fabric mirroring</td>
+        <td>Continuous replication of selected Snowflake databases into Fabric OneLake; Direct Lake reads on the mirror.</td>
+        <td>Replicated (~minutes lag)</td>
+        <td class="num">sub-second (Direct Lake)</td>
+        <td>Read-heavy analytics + Power BI Direct Lake. High-volume agent reads. Worth the duplication cost.</td>
+        <td><span class="src ms">Fabric Mirroring</span></td>
+      </tr>
+      <tr>
+        <td class="pat">④ Snowflake MCP</td>
+        <td>MCP server exposes Snowflake operations (query · Cortex · semantic search) as typed tools to Foundry agents.</td>
+        <td>Per-query (no copy)</td>
+        <td class="num">sub-second (warm warehouse)</td>
+        <td>Agent needs to ask Snowflake live, with HITL gating and audit. Most agent-native pattern.</td>
+        <td><span class="src ms">Foundry</span> <span class="src snowflake">Cortex + MCP</span></td>
+      </tr>
+      <tr>
+        <td class="pat">⑤ Snowpark Containers</td>
+        <td>APEX agent containers run inside Snowflake's Container Services; data plane never crosses out.</td>
+        <td>Compute moves to data</td>
+        <td class="num">in-SF compute</td>
+        <td>Data sovereignty / regulated industries / Snowflake-mandated data residency. Highest-trust pattern.</td>
+        <td><span class="src snowflake">Snowpark + Containers</span></td>
+      </tr>
+    </tbody>
+  </table></div>
+
+  <h3>Pattern cards · the per-pattern context</h3>
+  <div class="pattern-grid">
+    <div class="pattern-card">
+      <h4><span class="pat-num">Pattern ①</span>OneLake shortcut to Snowflake</h4>
+      <ul>
+        <li><strong>Mechanism:</strong> Fabric workspace creates a shortcut into a Snowflake schema; APEX Gold view joins shortcut + native Fabric data.</li>
+        <li><strong>Best for:</strong> Quick proof-of-concept · single use case · moderate read latency tolerance.</li>
+        <li><strong>Microsoft attach:</strong> Fabric capacity (F64+) · Power BI Direct Query.</li>
+        <li><strong>Trade-off:</strong> Latency depends on Snowflake warehouse warmth; not ideal for sub-second agents.</li>
+      </ul>
+    </div>
+    <div class="pattern-card">
+      <h4><span class="pat-num">Pattern ②</span>Apache Iceberg open tables</h4>
+      <ul>
+        <li><strong>Mechanism:</strong> Snowflake manages tables in Iceberg format; Polaris catalog publishes metadata; Fabric &amp; Foundry register as external tables.</li>
+        <li><strong>Best for:</strong> Long-term posture · multi-engine reads · cross-cloud portability.</li>
+        <li><strong>Microsoft attach:</strong> Fabric · Foundry · Synapse-compatible engines.</li>
+        <li><strong>Snowflake attach:</strong> Iceberg-managed tables · Polaris catalog · Horizon governance.</li>
+      </ul>
+    </div>
+    <div class="pattern-card">
+      <h4><span class="pat-num">Pattern ③</span>Fabric mirroring of Snowflake</h4>
+      <ul>
+        <li><strong>Mechanism:</strong> Native Fabric mirroring continuously replicates Snowflake databases into OneLake; APEX Gold views build on the mirror.</li>
+        <li><strong>Best for:</strong> Power BI Direct Lake · high-fan-out agent reads · stable schemas.</li>
+        <li><strong>Microsoft attach:</strong> Fabric mirroring SKU · Direct Lake · Power BI Premium.</li>
+        <li><strong>Trade-off:</strong> Storage duplication; ~minutes replication lag; not for write-back.</li>
+      </ul>
+    </div>
+    <div class="pattern-card">
+      <h4><span class="pat-num">Pattern ④</span>Snowflake MCP server for Foundry</h4>
+      <ul>
+        <li><strong>Mechanism:</strong> MCP server exposes typed tools (run query · Cortex search · semantic lookup) the Foundry agent calls live.</li>
+        <li><strong>Best for:</strong> Conversational agents · HITL-gated decisions · audit-row evidence required.</li>
+        <li><strong>Microsoft attach:</strong> Foundry · Agent 365 · MCP runtime.</li>
+        <li><strong>Snowflake attach:</strong> Cortex LLM functions · Cortex Analyst · semantic models.</li>
+      </ul>
+    </div>
+    <div class="pattern-card" style="grid-column: 1 / -1;">
+      <h4><span class="pat-num">Pattern ⑤</span>Snowpark Container Services — APEX agent runs inside Snowflake</h4>
+      <ul>
+        <li><strong>Mechanism:</strong> APEX agent containerized (OCI image with Agent Framework runtime); deployed into Snowpark Container Services; compute moves to data.</li>
+        <li><strong>Best for:</strong> Data sovereignty / residency · regulated industries (HLS · FS · Public Sector) · highest-trust HITL.</li>
+        <li><strong>Microsoft attach:</strong> Foundry control plane (orchestration · model catalog) · Entra federated identity.</li>
+        <li><strong>Snowflake attach:</strong> Snowpark Container Services · compute warehouses · Horizon-primary governance.</li>
+        <li><strong>Independence note:</strong> Client procures both Snowflake compute (for the container) and Microsoft control-plane licensing separately.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</div><!-- /overview panel -->
+
+<!-- =========== MICROSOFT TAB =========== -->
+<div class="tab-panel" data-panel="microsoft" role="tabpanel">
+<section>
+  <h2><span class="num">M1</span>Microsoft stack · what each component does in the integration</h2>
+  <p class="lead">The Microsoft side of the integration is the agent reasoning plane, the medallion data plane, and the trust foundation. APEX overlays both.</p>
+
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Component</th><th>Role in the integration</th><th>Used by patterns</th></tr></thead>
+    <tbody>
+      <tr><td class="pat">Microsoft Fabric · OneLake</td><td>Unified data plane. Bronze · Silver · Gold medallion. Holds non-Snowflake data and the joined Gold views.</td><td>① ② ③</td></tr>
+      <tr><td class="pat">Fabric shortcuts</td><td>Zero-copy virtual references into Snowflake schemas. Fastest pattern to stand up.</td><td>①</td></tr>
+      <tr><td class="pat">Fabric mirroring</td><td>Continuous replication engine SF → OneLake. Powers Direct Lake on mirrored data.</td><td>③</td></tr>
+      <tr><td class="pat">Azure AI Foundry</td><td>Agent runtime · model catalog · evaluation. Hosts APEX edition agents.</td><td>① ② ③ ④ ⑤ (control plane)</td></tr>
+      <tr><td class="pat">Microsoft Agent 365</td><td>Production agent framework · HITL gates · Teams/M365 surface.</td><td>all</td></tr>
+      <tr><td class="pat">Microsoft 365 Copilot &middot; Copilot Studio</td><td>Conversational UX in Teams / Outlook / Word. Studio agents call Foundry agents.</td><td>all (L1 surface)</td></tr>
+      <tr><td class="pat">Microsoft Entra ID</td><td>Per-agent workload identity · Conditional Access · federated to Snowflake via SCIM.</td><td>all (L8 foundation)</td></tr>
+      <tr><td class="pat">Microsoft Purview</td><td>DLP · sensitivity labels · lineage · DSPM-for-AI. Lineage extends to Snowflake via APEX audit ledger.</td><td>all (L8 foundation)</td></tr>
+      <tr><td class="pat">Power BI</td><td>Direct Lake on Gold (or on Fabric mirror) · Direct Query on Snowflake fallback.</td><td>all (L1 surface)</td></tr>
+    </tbody>
+  </table></div>
+</section>
+</div>
+
+<!-- =========== SNOWFLAKE TAB =========== -->
+<div class="tab-panel" data-panel="snowflake" role="tabpanel">
+<section>
+  <h2><span class="num">S1</span>Snowflake stack · what each component does in the integration</h2>
+  <p class="lead">The Snowflake side of the integration is the curated data cloud, the open-table layer, and the in-database compute that Pattern ⑤ uses.</p>
+
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Component</th><th>Role in the integration</th><th>Used by patterns</th></tr></thead>
+    <tbody>
+      <tr><td class="pat">Snowflake Warehouses · Databases</td><td>Curated analytics models · dbt-managed marts · semantic layer. Source of truth on the Snowflake side.</td><td>all</td></tr>
+      <tr><td class="pat">Snowflake-managed Iceberg tables</td><td>Open-format storage; metadata published via Polaris catalog; multi-engine read.</td><td>②</td></tr>
+      <tr><td class="pat">Polaris Catalog</td><td>Open metastore for Iceberg tables; Fabric/Foundry register as external catalog source.</td><td>②</td></tr>
+      <tr><td class="pat">Snowpark</td><td>Python/Java UDFs and stored procedures running inside Snowflake compute.</td><td>⑤</td></tr>
+      <tr><td class="pat">Snowpark Container Services</td><td>Container runtime inside Snowflake; APEX agent containers deploy here for Pattern ⑤.</td><td>⑤</td></tr>
+      <tr><td class="pat">Snowflake Cortex</td><td>In-database LLM functions (complete, summarize, classify, embed) · Cortex Search · Cortex Analyst.</td><td>④ ⑤</td></tr>
+      <tr><td class="pat">Snowflake MCP server</td><td>Exposes Snowflake operations (query · Cortex · semantic search) as typed MCP tools for Foundry agents.</td><td>④</td></tr>
+      <tr><td class="pat">Snowflake Horizon</td><td>Object-level access · column/row policies · tag-based governance · access history audit.</td><td>all (L8 foundation)</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="callout sf">
+    <span class="label">Cortex in the agent loop</span>
+    <p>When Pattern ④ is in play, the Foundry agent often calls Cortex Analyst (for semantic-model NL → SQL) or Cortex Search (for retrieval) <em>inside Snowflake</em>, then uses Foundry's reasoning model to compose the final response. This is a natural pairing — Snowflake's data-proximity LLM functions plus Microsoft's general-purpose reasoning models.</p>
+  </div>
+</section>
+</div>
+
+<!-- =========== SELLER POSITIONING TAB =========== -->
+<div class="tab-panel" data-panel="seller" role="tabpanel">
+<section>
+  <h2><span class="num">04</span>Seller positioning · when to lead with which pattern</h2>
+  <p class="lead">During the Sellers Handbook Discovery Framework (Ch 12) and Functional Area mapping (Ch 13–17), the seller learns the client's data posture and picks the pattern that fits. Below are the four conversation patterns sellers should be ready for, with sub-task checklists.</p>
+
+  <ol class="steps">
+    <li><details>
+      <summary><strong>Pattern ① OneLake Shortcut</strong> · use when the client wants a quick Wave 1 demo with minimal commitment.</summary>
+      <div class="subtasks">
+        <div class="subtasks-label">Seller sub-tasks</div>
+        <ul>
+          <li><label><input type="checkbox"><span>Confirm client Snowflake account + role available for service principal</span></label></li>
+          <li><label><input type="checkbox"><span>Provision Fabric workspace · F64+ capacity</span></label></li>
+          <li><label><input type="checkbox"><span>Create OneLake shortcut to target Snowflake schema</span></label></li>
+          <li><label><input type="checkbox"><span>Build APEX Gold view joining shortcut + Fabric-native data</span></label></li>
+          <li><label><input type="checkbox"><span>Power BI Direct Query test against shortcut</span></label></li>
+          <li><label><input type="checkbox"><span>Verify Entra → Snowflake auth via SCIM provisioning</span></label></li>
+        </ul>
+      </div>
+    </details></li>
+    <li><details>
+      <summary><strong>Pattern ② Iceberg open tables</strong> · use when the client has standardized on Iceberg or is migrating to it.</summary>
+      <div class="subtasks">
+        <div class="subtasks-label">Seller sub-tasks</div>
+        <ul>
+          <li><label><input type="checkbox"><span>Confirm Snowflake tables are Iceberg-managed (or scope migration)</span></label></li>
+          <li><label><input type="checkbox"><span>Polaris catalog endpoint registered with Fabric &amp; Foundry</span></label></li>
+          <li><label><input type="checkbox"><span>External catalog wired into the APEX Gold view</span></label></li>
+          <li><label><input type="checkbox"><span>Joint governance plan (Horizon tags ↔ Purview labels)</span></label></li>
+          <li><label><input type="checkbox"><span>Long-term posture documented · multi-engine read tested</span></label></li>
+        </ul>
+      </div>
+    </details></li>
+    <li><details>
+      <summary><strong>Pattern ③ Fabric mirroring</strong> · use when read latency matters more than freshness.</summary>
+      <div class="subtasks">
+        <div class="subtasks-label">Seller sub-tasks</div>
+        <ul>
+          <li><label><input type="checkbox"><span>Mirroring SKU sized · client procures from Microsoft</span></label></li>
+          <li><label><input type="checkbox"><span>Target Snowflake databases selected (cost vs. coverage)</span></label></li>
+          <li><label><input type="checkbox"><span>Replication lag SLA agreed with client analytics team</span></label></li>
+          <li><label><input type="checkbox"><span>Direct Lake on the mirror tested with Power BI Premium</span></label></li>
+          <li><label><input type="checkbox"><span>Purview lineage extended to mirrored tables</span></label></li>
+        </ul>
+      </div>
+    </details></li>
+    <li><details>
+      <summary><strong>Pattern ④ Snowflake MCP server</strong> · use when the agent needs to ask Snowflake live with HITL gating.</summary>
+      <div class="subtasks">
+        <div class="subtasks-label">Seller sub-tasks</div>
+        <ul>
+          <li><label><input type="checkbox"><span>Snowflake MCP server deployed (Snowflake-hosted or self-hosted)</span></label></li>
+          <li><label><input type="checkbox"><span>Typed tool surface defined (query · Cortex Analyst · Cortex Search)</span></label></li>
+          <li><label><input type="checkbox"><span>Foundry agent wired to MCP via Tool Approval flow</span></label></li>
+          <li><label><input type="checkbox"><span>HITL gate per tool · audit-row schema includes MCP call</span></label></li>
+          <li><label><input type="checkbox"><span>Warm-warehouse policy tuned for sub-second response</span></label></li>
+          <li><label><input type="checkbox"><span>Identity passthrough verified (Entra ↔ Snowflake on-behalf-of)</span></label></li>
+        </ul>
+      </div>
+    </details></li>
+    <li><details>
+      <summary><strong>Pattern ⑤ Snowpark Container Services</strong> · use when data sovereignty is non-negotiable.</summary>
+      <div class="subtasks">
+        <div class="subtasks-label">Seller sub-tasks</div>
+        <ul>
+          <li><label><input type="checkbox"><span>Confirm regulatory driver (sovereignty · residency · regulated industry)</span></label></li>
+          <li><label><input type="checkbox"><span>APEX agent containerized as OCI image · Agent Framework runtime</span></label></li>
+          <li><label><input type="checkbox"><span>Snowpark Container Services compute pool sized</span></label></li>
+          <li><label><input type="checkbox"><span>Foundry as control plane only · no client data crosses out</span></label></li>
+          <li><label><input type="checkbox"><span>Horizon-primary governance · Entra federated for identity</span></label></li>
+          <li><label><input type="checkbox"><span>Independence review: three contracts confirmed clean</span></label></li>
+        </ul>
+      </div>
+    </details></li>
+  </ol>
+
+  <h3>Mapping to Sellers Handbook Functional Areas</h3>
+  <p class="lead">Which functional-area buyer is most likely to ask for each pattern. Use this in the 30-minute discovery (Sellers Handbook Ch 12).</p>
+
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Functional Area</th><th>Likely pattern</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>Finance &amp; Risk (CFO · CRO · CCO)</td><td>④ MCP or ⑤ Snowpark</td><td>Audit-row + sovereignty demands; Cortex Analyst as the BVA engine.</td></tr>
+      <tr><td>Operations &amp; Supply Chain (COO · CSCO)</td><td>③ Mirroring or ④ MCP</td><td>High-volume reads; agents need live decisions on stock + telemetry.</td></tr>
+      <tr><td>Marketing &amp; CX (CMO · CXO)</td><td>③ Mirroring or ④ MCP</td><td>Direct Lake on mirrored profile data; Cortex Analyst for 1:1 personalization.</td></tr>
+      <tr><td>Sales &amp; Merchandising (CRO · CMerchO)</td><td>① Shortcut or ② Iceberg</td><td>Wave 1 fast-start; long-term Iceberg for cross-engine reads.</td></tr>
+      <tr><td>Tech · Data · Talent (CIO · CDO · CHRO)</td><td>② Iceberg or ⑤ Snowpark</td><td>CIO buys long-term posture; CDO + CISO drive sovereignty.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+</div>
+
+<!-- =========== REFERENCES TAB =========== -->
+<div class="tab-panel" data-panel="references" role="tabpanel">
+<section>
+  <h2><span class="num">05</span>Independence &amp; Data Sovereignty guardrails</h2>
+  <p class="lead">Deloitte audits Microsoft. The commercial structure of any APEX × Snowflake engagement must keep the three contracts clean and prevent any commingling.</p>
+
+  <div class="callout independence">
+    <span class="label">The three-contract test</span>
+    <p>Every APEX × Snowflake engagement involves three independent contracts:</p>
+    <ol style="margin: 8px 0 0; padding-left: 20px;">
+      <li><span class="src client">Client</span> ↔ <span class="src ms">Microsoft</span> — Fabric capacity, Foundry, Agent 365, Copilot, Entra, Purview. Direct.</li>
+      <li><span class="src client">Client</span> ↔ <span class="src snowflake">Snowflake</span> — Warehouses, Snowpark, Cortex, Container Services, Horizon. Direct.</li>
+      <li><span class="src client">Client</span> ↔ <span class="src deloitte">Deloitte</span> — Services SOW (Wave 1 design · build · deploy · sustain). Independent of both platforms.</li>
+    </ol>
+    <p style="margin-top: 8px;">No platform licensing flows through Deloitte. No Microsoft credits appear inside the Deloitte SOW. No Snowflake credits appear inside the Deloitte SOW. Co-fund motions (Microsoft MCI, Snowflake co-fund) travel <em>alongside</em> the SOW, never <em>inside</em> it.</p>
+  </div>
+
+  <div class="callout independence">
+    <span class="label">Data sovereignty posture</span>
+    <p>Client data lives in client tenants — Microsoft tenant for Fabric/Foundry, Snowflake tenant for the data cloud. Deloitte's GSSC Lab is for synthetic-data demos only; production data never enters Deloitte tenants. APEX is Deloitte's internal IP and never appears on a client SOW. At engagement exit, the client owns: their Microsoft platform, their Snowflake data cloud, their deployed agents, their audit rows. Deloitte retains the APEX framework methodology for the next engagement.</p>
+  </div>
+
+  <div class="callout method">
+    <span class="label">Pattern ⑤ requires extra scrutiny</span>
+    <p>Pattern ⑤ (Snowpark Container Services) is the only pattern where Deloitte-built code (the APEX agent container image) runs inside Snowflake compute. Independence review must confirm: (a) the container image is delivered as part of the Deloitte services SOW, not as licensed IP; (b) the client owns the deployed image post-engagement; (c) no operational liability for the container runtime sits with Deloitte. This pattern is the most powerful for regulated clients but carries the heaviest Independence load.</p>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">06</span>References &amp; notes</h2>
+  <div class="refs">
+    <ol>
+      <li><span class="ref-source">Microsoft</span>Fabric mirroring for Snowflake · official documentation · "Mirror Snowflake in Microsoft Fabric"</li>
+      <li><span class="ref-source">Microsoft</span>OneLake shortcuts to external data sources · Fabric documentation</li>
+      <li><span class="ref-source">Microsoft</span>Azure AI Foundry · Microsoft Agent Framework · Agent 365 reference architecture</li>
+      <li><span class="ref-source">Microsoft</span>Model Context Protocol (MCP) · open-standard tool surface for agents</li>
+      <li><span class="ref-source">Snowflake</span>Apache Iceberg tables in Snowflake · Polaris Catalog · open-table specification</li>
+      <li><span class="ref-source">Snowflake</span>Snowpark Container Services · runtime architecture · governance posture</li>
+      <li><span class="ref-source">Snowflake</span>Cortex LLM functions · Cortex Analyst · Cortex Search · reference architecture</li>
+      <li><span class="ref-source">Snowflake</span>Snowflake MCP server · public preview · GitHub reference implementation</li>
+      <li><span class="ref-source">Snowflake</span>Horizon governance · object-level access · row/column policies</li>
+      <li><span class="ref-source">Deloitte</span>APEX Sellers Handbook · Ch 12 Discovery Framework · Ch 13–17 Functional Areas · Ch 20 L2 Agentic Services</li>
+      <li><span class="ref-source">Deloitte</span>APEX Solution Overview · Part 6 Seven-Layer Reference Architecture</li>
+      <li><span class="ref-source">Deloitte</span>Independence guidelines · DMTSP language standards · three-contract discipline</li>
+    </ol>
+  </div>
+</section>
+</div>
+
+</main>
+
+<footer>
+  <strong>APEX × Snowflake Integration Architecture</strong> · Discovery-stage reference pack · v1.0 · 2026-05-13<br>
+  Companion to the <em>APEX Sellers Handbook to Agentic AI on Microsoft</em> · Authored by Keven Markham, DMTSP · For internal Deloitte use
+</footer>
+
+<script>
+  // Tab navigation
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tab = btn.dataset.tab;
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.toggle('active', b === btn);
+        b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
+      });
+      document.querySelectorAll('.tab-panel').forEach(p => {
+        p.classList.toggle('active', p.dataset.panel === tab);
+      });
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    });
+  });
+</script>
+
+</body>
+</html>

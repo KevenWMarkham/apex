@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Professional APEX-M · Library</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Aptos:wght@400;600;700&family=Cascadia+Mono&display=swap" rel="stylesheet">
+  <style>
+  :root {
+    --gold: #C89D3A;
+    --wrox-red: #B8232F;
+    --apex-teal: #2DD4BF;
+    --navy: #1A2339;
+    --dim: #64748B;
+    --bg: #ffffff;
+    --text: #1F2937;
+    --code-bg: #F5F5F7;
+    --border: #E5E7EB;
+    --keyplay-purple: #8B5CF6;
+  }
+  body.dark {
+    --bg: #0F172A; --text: #E5E7EB; --code-bg: #1E293B;
+    --border: #334155; --dim: #94A3B8;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "Source Serif 4", Charter, Georgia, "Times New Roman", serif;
+    background: var(--bg); color: var(--text);
+    line-height: 1.65; font-size: 17px;
+  }
+
+  /* Topbar — same shape as the three volumes for visual continuity */
+  .topbar {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--navy); color: #fff;
+    padding: 12px 24px; display: flex; align-items: center; gap: 16px;
+    border-bottom: 2px solid var(--gold);
+  }
+  .topbar .book-brand {
+    font-family: Aptos, "Segoe UI", sans-serif;
+    font-weight: 700; font-size: 16px; color: #fff; text-decoration: none;
+  }
+  .topbar .book-brand .accent { color: var(--gold); }
+  .topbar .spacer { flex: 1; }
+  .topbar button {
+    background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.3);
+    padding: 6px 10px; border-radius: 6px; font-size: 13px; cursor: pointer;
+  }
+
+  /* Trilogy navigation chip — appears in every volume's topbar too */
+  .trilogy-nav {
+    display: flex; align-items: center; gap: 4px;
+    font-family: Aptos, sans-serif; font-size: 12px;
+  }
+  .trilogy-nav .label {
+    color: #94A3B8; letter-spacing: 0.15em; font-size: 10px;
+    font-weight: 700; text-transform: uppercase; margin-right: 6px;
+  }
+  .trilogy-nav a {
+    display: inline-block; padding: 4px 10px;
+    border: 1px solid rgba(255,255,255,0.25); border-radius: 4px;
+    color: #fff; text-decoration: none; font-weight: 700;
+    transition: background 0.12s ease;
+  }
+  .trilogy-nav a.active {
+    background: var(--gold); color: var(--navy);
+    border-color: var(--gold);
+  }
+  .trilogy-nav a:hover:not(.active) {
+    background: rgba(255,255,255,0.10);
+  }
+
+  main { max-width: 1100px; margin: 0 auto; padding: 0 24px 80px; }
+
+  /* Hero / cover-style intro */
+  .hero {
+    margin: -40px -24px 40px;
+    padding: 80px 60px;
+    text-align: center;
+    background: linear-gradient(135deg, var(--navy) 0%, #0B111E 100%);
+    color: #fff; border-bottom: 3px solid var(--gold);
+  }
+  .hero .brand {
+    font-family: Aptos, sans-serif;
+    font-size: 18px; letter-spacing: 0.4em; color: var(--gold);
+    text-transform: uppercase; font-weight: 700;
+  }
+  .hero .title {
+    font-family: Aptos, sans-serif;
+    font-size: 56px; line-height: 1.1; margin: 16px 0 8px; font-weight: 700;
+  }
+  .hero .title .accent { color: var(--gold); }
+  .hero .subtitle {
+    font-family: Aptos, sans-serif;
+    font-size: 24px; color: var(--apex-teal); margin: 8px 0 16px;
+  }
+  .hero .tagline {
+    font-size: 17px; color: #E5E7EB; max-width: 720px;
+    margin: 8px auto 28px; line-height: 1.55;
+  }
+  .hero .meta-row {
+    display: inline-flex; gap: 20px; padding: 12px 20px;
+    background: rgba(255,255,255,0.05); border-radius: 6px;
+    font-family: Aptos, sans-serif; font-size: 13px; color: #94A3B8;
+  }
+  .hero .meta-row strong { color: var(--gold); font-weight: 700; }
+
+  /* Section headers */
+  h2.section-title {
+    font-family: Aptos, sans-serif; font-size: 30px; color: var(--navy);
+    margin: 56px 0 8px; padding-bottom: 12px;
+    border-bottom: 3px solid var(--gold);
+  }
+  .section-lead {
+    font-size: 17px; color: var(--text); max-width: 820px;
+    margin-bottom: 24px;
+  }
+
+  /* Volume cards */
+  .volume-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+  @media (min-width: 900px) {
+    .volume-grid { grid-template-columns: 1fr 1fr; }
+  }
+  .volume-card {
+    border: 1px solid var(--border); border-radius: 8px;
+    padding: 0; overflow: hidden;
+    background: var(--bg); display: flex; flex-direction: column;
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
+  }
+  .volume-card:hover {
+    box-shadow: 0 6px 20px rgba(26,35,57,0.10);
+    transform: translateY(-1px);
+  }
+  .volume-card .card-header {
+    padding: 24px 28px 18px;
+    background: linear-gradient(135deg, var(--navy) 0%, #0B111E 100%);
+    color: #fff; border-bottom: 3px solid var(--gold);
+  }
+  .volume-card.vol-i .card-header { border-bottom-color: var(--wrox-red); }
+  .volume-card.vol-ii .card-header { border-bottom-color: var(--apex-teal); }
+  .volume-card.vol-iii .card-header { border-bottom-color: var(--keyplay-purple); }
+  .volume-card .vol-num {
+    display: inline-block;
+    font-family: Aptos, sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.3em; color: var(--gold);
+    border: 1px solid var(--gold); padding: 4px 12px;
+    border-radius: 3px; margin-bottom: 14px;
+  }
+  .volume-card .vol-title {
+    font-family: Aptos, sans-serif; font-size: 28px; font-weight: 700;
+    margin: 4px 0 4px; line-height: 1.15;
+  }
+  .volume-card .vol-title .accent { color: var(--gold); }
+  .volume-card .vol-subtitle {
+    font-family: Aptos, sans-serif; font-size: 15px;
+    color: var(--apex-teal); margin: 4px 0 0;
+  }
+  .volume-card .card-body {
+    padding: 22px 28px 12px; flex: 1;
+    display: flex; flex-direction: column;
+  }
+  .volume-card .vol-question {
+    font-style: italic; color: var(--dim); font-size: 15px;
+    margin: 0 0 14px; line-height: 1.5;
+  }
+  .volume-card .vol-question strong { color: var(--text); font-weight: 700; }
+  .volume-card .field {
+    font-family: Aptos, sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--gold); margin: 10px 0 4px;
+  }
+  .volume-card .field-content { font-size: 14px; line-height: 1.55; margin: 0; }
+  .volume-card .stats {
+    display: flex; gap: 22px; flex-wrap: wrap;
+    padding: 14px 0; margin: 12px 0 4px;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    font-family: Aptos, sans-serif;
+  }
+  .volume-card .stats .stat { display: flex; flex-direction: column; }
+  .volume-card .stats .stat-num {
+    font-size: 22px; font-weight: 700; color: var(--navy); line-height: 1;
+  }
+  .volume-card .stats .stat-lbl {
+    font-size: 11px; color: var(--dim); letter-spacing: 0.05em;
+    text-transform: uppercase; margin-top: 4px;
+  }
+  .volume-card .card-footer {
+    padding: 16px 28px 22px; display: flex; justify-content: space-between; align-items: center;
+  }
+  .volume-card .open-btn {
+    display: inline-block;
+    background: var(--gold); color: var(--navy);
+    padding: 10px 18px; border-radius: 5px;
+    font-family: Aptos, sans-serif; font-weight: 700;
+    text-decoration: none; font-size: 13px; letter-spacing: 0.05em;
+  }
+  .volume-card .open-btn:hover { background: #B0851E; }
+  .volume-card .file-info {
+    font-family: 'Cascadia Mono', monospace; font-size: 11px; color: var(--dim);
+  }
+
+  /* How they fit together — diagram */
+  .fit-diagram {
+    margin: 24px 0;
+    background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px;
+    padding: 24px;
+  }
+  .fit-diagram svg { display: block; width: 100%; height: auto; }
+
+  /* Reading paths */
+  .path-grid {
+    display: grid; grid-template-columns: 1fr; gap: 16px;
+    margin: 24px 0;
+  }
+  @media (min-width: 800px) {
+    .path-grid { grid-template-columns: 1fr 1fr; }
+  }
+  .path-card {
+    border-left: 4px solid var(--gold);
+    background: var(--code-bg);
+    padding: 18px 22px; border-radius: 4px;
+  }
+  .path-card .role {
+    font-family: Aptos, sans-serif; font-weight: 700;
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 8px;
+  }
+  .path-card .role-name {
+    font-family: Aptos, sans-serif; font-size: 17px; font-weight: 700;
+    color: var(--navy); margin: 0 0 8px;
+  }
+  .path-card .order {
+    font-size: 14px; line-height: 1.55; margin: 0;
+  }
+  .path-card .order strong { color: var(--gold); }
+  .path-card.urgent { border-left-color: var(--wrox-red); }
+  .path-card.urgent .role { color: var(--wrox-red); }
+  .path-card.tech { border-left-color: var(--apex-teal); }
+  .path-card.tech .role { color: var(--apex-teal); }
+  .path-card.deploy { border-left-color: var(--keyplay-purple); }
+  .path-card.deploy .role { color: var(--keyplay-purple); }
+
+  /* Callouts (matching the trilogy convention) */
+  .callout {
+    margin: 24px 0; padding: 16px 20px;
+    border-left: 4px solid; background: var(--code-bg);
+    border-radius: 4px; font-size: 15px;
+  }
+  .callout-label {
+    font-family: Aptos, sans-serif; font-weight: 700;
+    font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .callout.independence { border-color: var(--gold); background: rgba(200, 157, 58, 0.08); }
+  .callout.independence .callout-label { color: var(--gold); }
+
+  /* Footer */
+  footer.library-footer {
+    margin: 60px -24px -80px; padding: 30px 60px 36px;
+    background: var(--navy); color: #94A3B8;
+    text-align: center;
+    border-top: 3px solid var(--gold);
+    font-size: 13px; font-family: Aptos, sans-serif;
+  }
+  footer.library-footer strong { color: var(--gold); }
+
+  a { color: var(--gold); }
+
+  hr.section-rule { border: none; border-bottom: 1px solid var(--border); margin: 32px 0; }
+
+  @media print {
+    .topbar { display: none; }
+    .volume-card .open-btn { display: none; }
+  }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <a href="#" class="book-brand">Professional <span class="accent">APEX</span> · The Trilogy</a>
+    <div class="spacer"></div>
+    <nav class="trilogy-nav" aria-label="APEX Trilogy navigation">
+      <span class="label">Library</span>
+      <a href="Professional-APEX-M-Sellers-Guide.html" title="Volume I — The Sellers Guide">I</a>
+      <a href="Professional-APEX-M-Services-Guide.html" title="Volume II — The Services Guide">II</a>
+      <a href="Professional-APEX-M-Deployment-Guide.html" title="Volume III — The Deployment Guide">III</a>
+    </nav>
+    <button id="darkToggle" title="Toggle dark mode">◐</button>
+  </header>
+
+  <main>
+
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <section class="hero">
+    <div class="brand">Professional APEX</div>
+    <div class="title">The <span class="accent">Trilogy</span></div>
+    <div class="subtitle">Three Volumes · One Architecture · One Commitment</div>
+    <p class="tagline">A library for the Deloitte Microsoft Technology &amp; Services Practice and the client teams it serves. <strong>APEX is a framework that accelerates the building of services and agents on the Microsoft Platform</strong> — what clients buy are Services with KPI envelopes, not the framework itself. Each volume below is distinct in audience and content; together they answer every question that arises between "how do we position this Service?" and "the Service is live in the client tenant."</p>
+    <div class="meta-row">
+      <span><strong>Volumes</strong> · 3 Trilogy + 1 Companion + Executive Summary</span>
+      <span><strong>Total chapters</strong> · 80+</span>
+      <span><strong>Services covered</strong> · 38</span>
+      <span><strong>Practices</strong> · 7</span>
+      <span><strong>Edition</strong> · April–May 2026</span>
+    </div>
+    <div style="margin-top: 28px;">
+      <a href="Professional-APEX-M-Executive-Summary.html" style="display: inline-block; background: var(--gold); color: var(--navy); padding: 10px 20px; border-radius: 5px; font-family: Aptos, sans-serif; font-weight: 700; text-decoration: none; font-size: 13px; letter-spacing: 0.05em;">📋 New · Read the 10-page Executive Summary →</a>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CURRENCY BANNER — Fabric IQ adoption (May 2026)
+       ============================================================ -->
+  <section style="margin: 0 0 40px; padding: 22px 26px; background: rgba(184,84,80,0.06); border-left: 6px solid #B85450; border-radius: 0 6px 6px 0;">
+    <div style="font-family: Aptos, sans-serif; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: #B85450; font-weight: 700; margin-bottom: 10px;">Currency · Fabric IQ adoption · May 2026</div>
+    <p style="margin: 0 0 12px; font-size: 15.5px;">Microsoft shipped <strong>Fabric IQ</strong> as a Fabric workload in May 2026 — Ontology · Plan · Graph · <strong>Data Agent (GA)</strong> · Operations Agent · Power BI semantic models. Each Trilogy volume now carries a focused addendum documenting what changes when a client adopts Fabric IQ at the Fabric layer. Existing chapters remain correct for non-Fabric-IQ clients (e.g., Snowflake-on-Azure engagements).</p>
+    <div style="display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 14px;">
+      <a href="Professional-APEX-M-Services-Guide.html#appendix-o" style="display: block; padding: 10px 14px; background: rgba(184,84,80,0.04); border: 1px solid rgba(184,84,80,0.2); border-radius: 4px; text-decoration: none; color: var(--text); font-size: 14px;">
+        <strong style="color: #B85450; font-family: Aptos, sans-serif; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;">Services Guide · Appendix O</strong><br>
+        <span style="font-family: 'Source Serif 4', serif;">Fabric IQ Adoption — full 14-edit list across Parts II–VI (architectural impact)</span>
+      </a>
+      <a href="Professional-APEX-M-Deployment-Guide.html#appendix-m" style="display: block; padding: 10px 14px; background: rgba(184,84,80,0.04); border: 1px solid rgba(184,84,80,0.2); border-radius: 4px; text-decoration: none; color: var(--text); font-size: 14px;">
+        <strong style="color: #B85450; font-family: Aptos, sans-serif; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;">Deployment Guide · Appendix M</strong><br>
+        <span style="font-family: 'Source Serif 4', serif;">Fabric IQ Deployment Mechanics — F-SKU floor · region affinity · PSG-16 candidate · Fabric deployment pipelines</span>
+      </a>
+      <a href="Professional-APEX-M-Sellers-Guide.html#appendix-ab" style="display: block; padding: 10px 14px; background: rgba(184,84,80,0.04); border: 1px solid rgba(184,84,80,0.2); border-radius: 4px; text-decoration: none; color: var(--text); font-size: 14px;">
+        <strong style="color: #B85450; font-family: Aptos, sans-serif; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;">Sellers Guide · Appendix AB</strong><br>
+        <span style="font-family: 'Source Serif 4', serif;">Positioning Fabric IQ — the four pitch shifts and the "aren't you obsolete?" handler</span>
+      </a>
+    </div>
+    <p style="margin: 14px 0 0; font-size: 12.5px; color: var(--dim); font-style: italic;">Design doc: <code style="font-family: 'Cascadia Mono', monospace; background: var(--code-bg); padding: 1px 6px; border-radius: 3px; font-size: 0.9em;">docs/plans/2026-05-11-trilogy-fabric-iq-adoption-design.md</code>. Status pin updates as Fabric IQ preview items reach GA.</p>
+  </section>
+
+  <!-- ============================================================
+       WHAT APEX IS — read this first
+       ============================================================ -->
+  <section style="margin: 0 0 40px; padding: 24px 28px; background: rgba(45,212,191,0.06); border-left: 4px solid var(--apex-teal); border-radius: 4px;">
+    <div style="font-family: Aptos, sans-serif; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--apex-teal); font-weight: 700; margin-bottom: 10px;">What APEX Is — read this first</div>
+    <p style="margin: 0 0 12px;"><strong>APEX is a framework that accelerates the building of services and agents on the Microsoft Platform.</strong> It is the architectural substrate Deloitte's Microsoft practice uses internally — the medallion data plane in Microsoft Fabric, the MCP tool catalog, the LEDGER hash chain anchored to Microsoft.KeyVault HSM, the agent runtime contract, the orchestration parity between n8n and Azure Logic Apps Hybrid, the trust envelope and identity model on Microsoft Entra ID — to deliver Services faster, more consistently, and with more rigorous governance than rebuilding from raw components each engagement.</p>
+    <p style="margin: 0 0 12px;"><strong>APEX is not a product and is not sold to clients.</strong> What clients buy are <em>Services</em> — the 38-Service catalog (RC-E2E-03 · HLS-E2E-04 · TMT-TEL-RAA-04 · etc.), each a productized envelope with a KPI commitment, scope, persona model, and two-contract Independence-compliant commercial structure (client ↔ Microsoft for platform, client ↔ Deloitte for the Service-delivery engagement). The Service is the contractable unit; the framework is the means.</p>
+    <p style="margin: 0;"><strong>How to read the trilogy through this lens:</strong> the <a href="Professional-APEX-M-Sellers-Guide.html" style="color:var(--gold);">Sellers Guide</a> teaches sellers to position APEX-accelerated Services to anchor accounts. The <a href="Professional-APEX-M-Services-Guide.html" style="color:var(--gold);">Services Guide</a> teaches Service architects to use the APEX framework primitives to build those Services. The <a href="Professional-APEX-M-Deployment-Guide.html" style="color:var(--gold);">Deployment Guide</a> teaches delivery teams to deploy Services on the Microsoft Platform via APEX-accelerated Bicep, agent images, and orchestration. None of the three volumes is selling APEX; all three are about Services that the framework makes possible.</p>
+  </section>
+
+  <!-- ============================================================
+       OVERVIEW
+       ============================================================ -->
+  <h2 class="section-title">What Each Volume Answers</h2>
+  <p class="section-lead">The trilogy partitions the APEX engagement lifecycle by audience and question. Sellers position the platform; service architects and data engineers build the data + agent + orchestration layer; deployment leads stand up the Microsoft platform substrate that runs it. Each volume is read on its own; the trilogy is read by the team.</p>
+
+  <!-- ============================================================
+       VOLUME CARDS
+       ============================================================ -->
+  <div class="volume-grid">
+
+    <!-- Volume I — Sellers Guide -->
+    <article class="volume-card vol-i">
+      <header class="card-header">
+        <div class="vol-num">VOLUME I</div>
+        <h2 class="vol-title">The <span class="accent">Sellers</span> Guide</h2>
+        <div class="vol-subtitle">Pursuing Microsoft Revenue in Industry Accounts</div>
+      </header>
+      <div class="card-body">
+        <p class="vol-question"><strong>Answers:</strong> What is APEX, why does it win, how do you sell it under the two-contract Independence model, and how does it map to Microsoft Fabric · Foundry · Copilot · Purview revenue at industry anchor accounts?</p>
+
+        <div class="field">Audience</div>
+        <p class="field-content">Sellers · Global Practice Leaders · co-selling account teams · Microsoft alliance leads · industry GTM</p>
+
+        <div class="field">What you'll find</div>
+        <p class="field-content">The APEX commercial arc · the four Microsoft pillars · seven industry playbooks · thirteen anchor-account playbooks · the Wave 1 → Wave 2 → Wave 3 motion · KPI envelopes · ECIF eligibility · Independence language. Includes the Runtime Addendum (gateway, safety, evaluation, observability, cost-as-the-sixth-envelope).</p>
+
+        <div class="stats">
+          <div class="stat"><span class="stat-num">5</span><span class="stat-lbl">Parts</span></div>
+          <div class="stat"><span class="stat-num">28+</span><span class="stat-lbl">Chapters</span></div>
+          <div class="stat"><span class="stat-num">13</span><span class="stat-lbl">Anchor accounts</span></div>
+          <div class="stat"><span class="stat-num">7</span><span class="stat-lbl">Industry plays</span></div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <a href="Professional-APEX-M-Sellers-Guide.html" class="open-btn">Open Volume I →</a>
+        <span class="file-info">~7,200 lines</span>
+      </div>
+    </article>
+
+    <!-- Volume II — Services Guide -->
+    <article class="volume-card vol-ii">
+      <header class="card-header">
+        <div class="vol-num">VOLUME II</div>
+        <h2 class="vol-title">The <span class="accent">Services</span> Guide</h2>
+        <div class="vol-subtitle">Data, Schemas, Orchestrations, Agent Composition</div>
+      </header>
+      <div class="card-body">
+        <p class="vol-question"><strong>Answers:</strong> What data drives each Service, how is it shaped through the Bronze → Silver → Gold medallion in Microsoft Fabric, what schemas does it conform to, what MCP tools surface it to agents, and how do orchestrations compose agents into a Service?</p>
+
+        <div class="field">Audience</div>
+        <p class="field-content">Service architects · data engineers · MCP catalog editors · orchestration authors · agent maintainers</p>
+
+        <div class="field">What you'll find</div>
+        <p class="field-content">14 canonical schema families (SCML, MERML, EHRML, CMSML, etc.) with DDL + ERDs · Microsoft Fabric Real-Time Intelligence ingestion · 4-tier PII classification with pii-unlock identity · per-Service Gold marts · MCP tool surface · workflow patterns (n8n on laptop, Azure Logic Apps Hybrid on Azure) · all 38 Service profiles by practice · the LEDGER + Redis Cache learning loop that grows superagents.</p>
+
+        <div class="stats">
+          <div class="stat"><span class="stat-num">7</span><span class="stat-lbl">Parts</span></div>
+          <div class="stat"><span class="stat-num">26</span><span class="stat-lbl">Chapters</span></div>
+          <div class="stat"><span class="stat-num">38</span><span class="stat-lbl">Services profiled</span></div>
+          <div class="stat"><span class="stat-num">~165</span><span class="stat-lbl">MCP tools</span></div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <a href="Professional-APEX-M-Services-Guide.html" class="open-btn">Open Volume II →</a>
+        <span class="file-info">~5,000 lines</span>
+      </div>
+    </article>
+
+    <!-- Volume III — Deployment Guide -->
+    <article class="volume-card vol-iii">
+      <header class="card-header">
+        <div class="vol-num">VOLUME III</div>
+        <h2 class="vol-title">The <span class="accent">Deployment</span> Guide</h2>
+        <div class="vol-subtitle">Three-Layer Strategy on Microsoft Platform</div>
+      </header>
+      <div class="card-body">
+        <p class="vol-question"><strong>Answers:</strong> How does APEX deploy on the Microsoft platform under the two-contract model — Layer 1 Platform per tenant, Layer 2 Service per envelope, Layer 3 Agent images reusable across Services — with Bicep, PowerShell, the two-registry boundary, and the Day-Zero through canary-rollout motion?</p>
+
+        <div class="field">Audience</div>
+        <p class="field-content">Delivery leads · platform architects · agent maintainers · client-tenant deployment engineers</p>
+
+        <div class="field">What you'll find</div>
+        <p class="field-content">The three-layer cake · substrate parity (laptop docker-compose ↔ Azure Container Apps) · Microsoft.* resource types pinned by API version · Microsoft Notation + cosign signing · two-Container-Registry mirror boundary · Day-Zero tenant onboarding · per-Service Bicep · agent-image canary &amp; traffic-split · rollback &amp; DR · PowerShell Deployment Cookbook with line-level Az PowerShell + Bicep commands · zero-cost laptop development guarantee.</p>
+
+        <div class="stats">
+          <div class="stat"><span class="stat-num">5</span><span class="stat-lbl">Parts</span></div>
+          <div class="stat"><span class="stat-num">17</span><span class="stat-lbl">Chapters</span></div>
+          <div class="stat"><span class="stat-num">7</span><span class="stat-lbl">Architecture diagrams</span></div>
+          <div class="stat"><span class="stat-num">8</span><span class="stat-lbl">Appendices</span></div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <a href="Professional-APEX-M-Deployment-Guide.html" class="open-btn">Open Volume III →</a>
+        <span class="file-info">~4,100 lines</span>
+      </div>
+    </article>
+
+  </div>
+
+  <!-- ============================================================
+       COMPANION VOLUME — in the Library, NOT in the Trilogy
+       ============================================================ -->
+  <hr class="section-rule">
+
+  <h2 class="section-title">Companion Volume <span style="color: #B85450; font-size: 0.5em; letter-spacing: 0.18em; font-family: Aptos, sans-serif; font-weight: 700; vertical-align: middle; margin-left: 8px;">SUPPLEMENT · NOT PART OF THE TRILOGY</span></h2>
+  <p class="section-lead">The Library hosts one volume outside the Trilogy. Where the three Trilogy volumes are role-and-lifecycle partitions of the full APEX engagement, the <em>Implementation Guide</em> is a worked engineering example — one client, one Service, one runnable reference implementation, end to end. It does not replace the Services Guide or the Deployment Guide; it shows what their abstractions look like when an engineering team makes them concrete for a specific engagement. Read it after Volume II when you need a code-level companion.</p>
+
+  <div class="volume-grid" style="grid-template-columns: 1fr; max-width: 720px; margin: 0 auto 32px;">
+
+    <!-- Companion — Implementation Guide (Vuori-Example) -->
+    <article class="volume-card" style="border-top: 4px solid #B85450; background: linear-gradient(180deg, rgba(184,84,80,0.05), transparent 40%);">
+      <header class="card-header">
+        <div class="vol-num" style="color: #B85450;">COMPANION VOLUME · IMPLEMENTATION GUIDE</div>
+        <h2 class="vol-title">The <span class="accent" style="color: #B85450;">Implementation</span> Guide
+          <span style="display: inline-block; background: rgba(184,84,80,0.12); color: #B85450; padding: 2px 8px; font-family: Aptos, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.15em; border-radius: 3px; vertical-align: 6px; margin-left: 8px;">VUORI-EXAMPLE</span>
+        </h2>
+        <div class="vol-subtitle">Building the Agentic WBR on APEX-M · A worked engineering example</div>
+      </header>
+      <div class="card-body">
+        <p class="vol-question"><strong>Answers:</strong> How does a Service from the Services Guide actually get built, sprint by sprint, against a single client (Vuori) in their Snowflake-on-Azure + Foundry tenant — with code-level examples for ingestion, medallion, MCP servers, Microsoft Agent Framework wiring, the MVP test harness, GitHub OIDC, and CI/CD?</p>
+
+        <div class="field">Audience</div>
+        <p class="field-content">Engineers building or onboarding to a Vuori-shaped agentic engagement · architects benchmarking the Services Guide patterns in a concrete context · delivery leads validating the engagement plan</p>
+
+        <div class="field">What you'll find</div>
+        <p class="field-content">5 parts · 11 chapters · 13 numbered figures (mix of inline SVG + Mermaid sequence/flowchart/Gantt) · 12-sprint backlog with story points (173 pts total · ~14.4 pts/sprint sustained) · concrete code derived from the MVP reference implementation · GitHub OIDC federation per substrate · pre-commit → PR → main → deploy pipeline with PSG gates · LEDGER hash chain + Purview audit · curated Microsoft Learn + Tech Community references per chapter plus a consolidated reference appendix.</p>
+
+        <div class="stats">
+          <div class="stat"><span class="stat-num">5</span><span class="stat-lbl">Parts</span></div>
+          <div class="stat"><span class="stat-num">11</span><span class="stat-lbl">Chapters</span></div>
+          <div class="stat"><span class="stat-num">13</span><span class="stat-lbl">Figures</span></div>
+          <div class="stat"><span class="stat-num">173</span><span class="stat-lbl">Story points</span></div>
+        </div>
+
+        <div style="margin-top: 14px; padding: 10px 14px; background: rgba(184,84,80,0.06); border-left: 3px solid #B85450; border-radius: 0 4px 4px 0; font-size: 13px;">
+          <strong style="color: #B85450; font-family: Aptos, sans-serif;">Confidentiality:</strong> This volume references Vuori-specific business framing and uses Vuori as the running example. All code examples use synthetic data only — no production Vuori data. Engagement-scoped; do not cross-reference with other client engagements.
+        </div>
+      </div>
+      <div class="card-footer">
+        <a href="Professional-APEX-M-Implementation-Guide-(Vuori-Example).html" class="open-btn" style="background: #B85450;">Open the Companion →</a>
+        <span class="file-info">~5,400 lines</span>
+      </div>
+    </article>
+
+  </div>
+
+  <aside class="callout" style="background: rgba(184,84,80,0.04); border-left: 4px solid #B85450; padding: 16px 20px; margin: 0 0 32px; border-radius: 0 4px 4px 0;">
+    <div class="callout-label" style="font-family: Aptos, sans-serif; font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 700; color: #B85450; margin-bottom: 8px;">Why a companion, not a fourth Trilogy volume?</div>
+    <p style="margin: 0 0 8px;">The Trilogy partitions the <em>full engagement lifecycle</em> by audience: sellers position, architects design, delivery leads deploy. Each Trilogy volume is generic — it teaches the framework primitives that apply to <em>every</em> Service, <em>every</em> tenant.</p>
+    <p style="margin: 0 0 8px;">The Implementation Guide is the opposite — <em>one</em> Service, <em>one</em> tenant, end-to-end. It is engineering-deep and engagement-narrow. Promoting it to a Trilogy volume would conflate a worked example with reusable framework content, and the firewall between general framework guidance and client-specific implementation matters for Independence posture and confidentiality.</p>
+    <p style="margin: 0;">The Library holds both. The Trilogy is the <em>doctrine</em>; the Companion is the <em>case study</em>.</p>
+  </aside>
+
+  <!-- ============================================================
+       HOW THEY FIT TOGETHER (DIAGRAM)
+       ============================================================ -->
+  <h2 class="section-title">How the Three Volumes Fit Together</h2>
+  <p class="section-lead">The trilogy is sequenced by the question each volume answers. A client engagement begins commercially (Volume I), realizes itself in Service architecture (Volume II), and lands in production via the Microsoft platform (Volume III). Each volume references the others by chapter number; Volume II's <em>Appendix G</em> indexes the cross-volume links along with external Microsoft Learn deep dives.</p>
+
+  <div class="fit-diagram">
+  <svg viewBox="0 0 1040 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="How the three volumes fit together">
+    <defs>
+      <marker id="lib-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0,0 L10,5 L0,10 z" fill="#64748B"/>
+      </marker>
+    </defs>
+
+    <!-- Three volume blocks -->
+    <rect x="40" y="60" width="280" height="220" rx="8" fill="rgba(184,35,47,0.04)" stroke="#B8232F" stroke-width="1.6"/>
+    <rect x="380" y="60" width="280" height="220" rx="8" fill="rgba(45,212,191,0.04)" stroke="#2DD4BF" stroke-width="1.6"/>
+    <rect x="720" y="60" width="280" height="220" rx="8" fill="rgba(139,92,246,0.04)" stroke="#8B5CF6" stroke-width="1.6"/>
+
+    <!-- Volume labels at top -->
+    <rect x="40" y="60" width="280" height="32" rx="8 8 0 0" fill="#B8232F"/>
+    <rect x="380" y="60" width="280" height="32" rx="8 8 0 0" fill="#2DD4BF"/>
+    <rect x="720" y="60" width="280" height="32" rx="8 8 0 0" fill="#8B5CF6"/>
+
+    <text x="180" y="80" text-anchor="middle" font-family="Aptos, sans-serif" font-size="11" font-weight="700" letter-spacing="0.30em" fill="#FFFFFF">VOLUME I</text>
+    <text x="520" y="80" text-anchor="middle" font-family="Aptos, sans-serif" font-size="11" font-weight="700" letter-spacing="0.30em" fill="#1A2339">VOLUME II</text>
+    <text x="860" y="80" text-anchor="middle" font-family="Aptos, sans-serif" font-size="11" font-weight="700" letter-spacing="0.30em" fill="#FFFFFF">VOLUME III</text>
+
+    <!-- Volume titles -->
+    <text x="180" y="118" text-anchor="middle" font-family="Aptos, sans-serif" font-size="22" font-weight="700" fill="#1A2339">Sellers Guide</text>
+    <text x="520" y="118" text-anchor="middle" font-family="Aptos, sans-serif" font-size="22" font-weight="700" fill="#1A2339">Services Guide</text>
+    <text x="860" y="118" text-anchor="middle" font-family="Aptos, sans-serif" font-size="22" font-weight="700" fill="#1A2339">Deployment Guide</text>
+
+    <!-- The question each answers -->
+    <text x="180" y="142" text-anchor="middle" font-family="Aptos, sans-serif" font-size="11" font-style="italic" fill="#B8232F">What to sell &amp; why</text>
+    <text x="520" y="142" text-anchor="middle" font-family="Aptos, sans-serif" font-size="11" font-style="italic" fill="#0F9D8F">What data &amp; how to compose</text>
+    <text x="860" y="142" text-anchor="middle" font-family="Aptos, sans-serif" font-size="11" font-style="italic" fill="#7C4DDB">How to deploy on Microsoft platform</text>
+
+    <!-- Audience -->
+    <text x="180" y="178" text-anchor="middle" font-family="Aptos, sans-serif" font-size="10" font-weight="700" letter-spacing="0.10em" fill="#64748B">AUDIENCE</text>
+    <text x="180" y="194" text-anchor="middle" font-family="'Source Serif 4', serif" font-size="12" fill="#1A2339">Sellers · GPLs</text>
+    <text x="180" y="210" text-anchor="middle" font-family="'Source Serif 4', serif" font-size="12" fill="#1A2339">Account teams</text>
+
+    <text x="520" y="178" text-anchor="middle" font-family="Aptos, sans-serif" font-size="10" font-weight="700" letter-spacing="0.10em" fill="#64748B">AUDIENCE</text>
+    <text x="520" y="194" text-anchor="middle" font-family="'Source Serif 4', serif" font-size="12" fill="#1A2339">Service architects</text>
+    <text x="520" y="210" text-anchor="middle" font-family="'Source Serif 4', serif" font-size="12" fill="#1A2339">Data engineers · MCP editors</text>
+
+    <text x="860" y="178" text-anchor="middle" font-family="Aptos, sans-serif" font-size="10" font-weight="700" letter-spacing="0.10em" fill="#64748B">AUDIENCE</text>
+    <text x="860" y="194" text-anchor="middle" font-family="'Source Serif 4', serif" font-size="12" fill="#1A2339">Delivery leads</text>
+    <text x="860" y="210" text-anchor="middle" font-family="'Source Serif 4', serif" font-size="12" fill="#1A2339">Platform architects · DevOps</text>
+
+    <!-- Key artifact -->
+    <text x="180" y="240" text-anchor="middle" font-family="Aptos, sans-serif" font-size="10" font-weight="700" letter-spacing="0.10em" fill="#64748B">KEY ARTIFACT</text>
+    <text x="180" y="256" text-anchor="middle" font-family="'Cascadia Mono', monospace" font-size="11" fill="#1A2339">Service envelopes</text>
+    <text x="180" y="270" text-anchor="middle" font-family="'Cascadia Mono', monospace" font-size="11" fill="#1A2339">Anchor playbooks</text>
+
+    <text x="520" y="240" text-anchor="middle" font-family="Aptos, sans-serif" font-size="10" font-weight="700" letter-spacing="0.10em" fill="#64748B">KEY ARTIFACT</text>
+    <text x="520" y="256" text-anchor="middle" font-family="'Cascadia Mono', monospace" font-size="11" fill="#1A2339">Schema library + DDL</text>
+    <text x="520" y="270" text-anchor="middle" font-family="'Cascadia Mono', monospace" font-size="11" fill="#1A2339">MCP manifests · workflow JSON</text>
+
+    <text x="860" y="240" text-anchor="middle" font-family="Aptos, sans-serif" font-size="10" font-weight="700" letter-spacing="0.10em" fill="#64748B">KEY ARTIFACT</text>
+    <text x="860" y="256" text-anchor="middle" font-family="'Cascadia Mono', monospace" font-size="11" fill="#1A2339">Bicep modules</text>
+    <text x="860" y="270" text-anchor="middle" font-family="'Cascadia Mono', monospace" font-size="11" fill="#1A2339">PowerShell cookbook · CI</text>
+
+    <!-- Sequence arrows -->
+    <line x1="324" y1="170" x2="376" y2="170" stroke="#64748B" stroke-width="2" marker-end="url(#lib-arr)"/>
+    <line x1="664" y1="170" x2="716" y2="170" stroke="#64748B" stroke-width="2" marker-end="url(#lib-arr)"/>
+    <text x="350" y="160" text-anchor="middle" font-family="Aptos, sans-serif" font-size="10" font-style="italic" fill="#64748B">commercial → architecture</text>
+    <text x="690" y="160" text-anchor="middle" font-family="Aptos, sans-serif" font-size="10" font-style="italic" fill="#64748B">architecture → deployment</text>
+
+    <!-- Sequence label at bottom -->
+    <text x="520" y="320" text-anchor="middle" font-family="Aptos, sans-serif" font-size="13" font-weight="700" letter-spacing="0.20em" fill="#1A2339">ENGAGEMENT FLOW · LEFT TO RIGHT</text>
+    <text x="520" y="340" text-anchor="middle" font-family="'Source Serif 4', serif" font-size="12" font-style="italic" fill="#64748B">Each volume is also read independently by its audience.</text>
+  </svg>
+  </div>
+
+  <!-- ============================================================
+       READING PATHS
+       ============================================================ -->
+  <h2 class="section-title">Recommended Reading Paths</h2>
+  <p class="section-lead">Each role enters the trilogy at a different volume. The recommended path below is what an effective practitioner in that role reads <em>first, then in support</em>.</p>
+
+  <div class="path-grid">
+    <div class="path-card urgent">
+      <div class="role">Role · Seller</div>
+      <h3 class="role-name">Going to a client meeting</h3>
+      <p class="order">Read <strong>Volume I</strong> end-to-end. Skim the relevant industry chapter (Part III) and anchor-account chapter (Part IV) before the meeting. Skim <strong>Volume II</strong>'s Service profile in Part VI for the specific Service the client cares about — that's your "we have built this before" credibility moment. <strong>Volume III</strong> only when a CIO asks "but how does it deploy in our tenant?"</p>
+    </div>
+
+    <div class="path-card tech">
+      <div class="role">Role · Service Architect</div>
+      <h3 class="role-name">Designing a Service composition</h3>
+      <p class="order"><strong>Volume II</strong> is your day-job. Read Parts I–IV in order, then jump to your Service in Part VI. Use <strong>Appendix A</strong> (Schema Library) and <strong>Appendix B</strong> (MCP Tool Catalog) as references. Refer to <strong>Volume I</strong> for KPI envelopes and persona briefs. Refer to <strong>Volume III</strong> when the Service is about to onboard into a tenant. When you need a code-level worked example, open the <strong>Implementation Guide</strong> Companion.</p>
+    </div>
+
+    <div class="path-card" style="border-left: 4px solid #B85450; background: rgba(184,84,80,0.04);">
+      <div class="role" style="color: #B85450;">Role · Build Engineer / Tech Lead</div>
+      <h3 class="role-name">Implementing a Service for a specific client</h3>
+      <p class="order">The <strong>Implementation Guide</strong> Companion is your entry point. Walk Parts I–II to see the engagement framed against APEX, Parts III–IV for the code-level MCP + Agent Framework + test harness wiring, and Part V for the 12-sprint plan and CI/CD shape. Use <strong>Volume II</strong> as your generic-pattern reference and <strong>Volume III</strong> for the substrate-side onboarding mechanics. The Companion is engagement-scoped — your specific client's Implementation Guide may differ.</p>
+    </div>
+
+    <div class="path-card tech">
+      <div class="role">Role · Data Engineer</div>
+      <h3 class="role-name">Building Bronze → Silver → Gold pipelines</h3>
+      <p class="order"><strong>Volume II</strong> Parts II–IV plus Chapter 9 (schema deep dive) plus Appendix A. The DDL and ERDs are your reference. Refer to <strong>Volume III §6.3</strong> for Microsoft Fabric resource pinning when the pipeline becomes a Bicep concern.</p>
+    </div>
+
+    <div class="path-card deploy">
+      <div class="role">Role · Delivery Lead</div>
+      <h3 class="role-name">Onboarding a new tenant</h3>
+      <p class="order"><strong>Volume III</strong> Chapter 13 (Day-Zero) is the entry point. Use <strong>Appendix B</strong> (Per-Tenant Onboarding Checklist) as your runbook. Reach back to <strong>Volume II</strong> Part VI for the Service-specific data + agent + MCP context. Reference <strong>Volume I</strong> for the commercial envelope your delivery is committed to.</p>
+    </div>
+
+    <div class="path-card deploy">
+      <div class="role">Role · Agent Maintainer</div>
+      <h3 class="role-name">Shipping or upgrading an agent image</h3>
+      <p class="order"><strong>Volume III</strong> Chapter 10 (image pipeline) and Chapter 12 (versioning + compatibility) are the essentials. Cross-reference <strong>Volume II</strong> Chapter 13 (MCP) and Chapter 25 (LEDGER + Redis learning loop) when training on accumulated decisions. <strong>Volume I §6.12.7</strong> (Runtime Addendum) sets the longer-term superagent trajectory.</p>
+    </div>
+
+    <div class="path-card urgent">
+      <div class="role">Role · Practice Leader / Industry GM</div>
+      <h3 class="role-name">Strategic positioning + portfolio view</h3>
+      <p class="order"><strong>Volume I</strong> Parts I–III for the thesis and the industry plays. <strong>Volume II</strong> Part VI for the realized 38-Service catalog as the portfolio map. Skim <strong>Volume III</strong>'s three-layer cake (Chapter 1) — it's how delivery economics fall as Services per tenant grow.</p>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       INDEPENDENCE
+       ============================================================ -->
+  <h2 class="section-title">A Note on Independence</h2>
+  <p class="section-lead">All three volumes share the same Independence posture, enforced both stylistically (language) and structurally (architecture). The trilogy says it once below for the reader who lands here first.</p>
+
+  <aside class="callout independence">
+    <div class="callout-label">Independence — the two-contract model</div>
+    <p>Across the three volumes the Deloitte–Microsoft delivery relationship is described as <strong>"Deloitte's Microsoft practice," "DMTSP," "Microsoft platform capabilities,"</strong> or <strong>"Microsoft-native deployment."</strong> Never <em>partner</em>, <em>alliance</em>, or <em>strategic alliance</em>. The two-contract structure — client ↔ Microsoft for the platform, client ↔ Deloitte for services, ECIF flowing direct from Microsoft — is enforced architecturally by: the two Container Registries (Volume III §1.4), the per-tenant Microsoft Fabric workspace (Volume II §8.4), the Microsoft Entra ID identity boundary (Volume III §5), the Microsoft.KeyVault HSM customer-managed key (Volume III §4.4), and the Microsoft Purview audit graph (Volume II §10). If a client-facing artifact derived from these volumes erodes any of those boundaries, the deployment posture has slipped before the words have. Restate the boundaries and rebuild the artifact.</p>
+  </aside>
+
+  <hr class="section-rule">
+
+  <!-- ============================================================
+       INTERNAL META
+       ============================================================ -->
+  <h2 class="section-title">Library Maintenance</h2>
+  <div style="display: grid; grid-template-columns: 1fr; gap: 16px;">
+    <p>The trilogy is maintained alongside the canonical reference artifacts under <code style="font-family:'Cascadia Mono',monospace; background:var(--code-bg); padding:1px 6px; border-radius:3px; font-size:0.9em;">APEX/docs/</code>. Volume II's <strong>Appendix G</strong> indexes external Microsoft Learn / Tech Community / Architecture Center / open-source / industry-standards references — the same references support all three Trilogy volumes. When updating any volume, follow the cross-reference convention: cite the sibling volume by chapter or section number (e.g., "Deployment Guide §4.3" or "Sellers Guide Chapter 6"), not by title-only, so the reference resolves even when titles evolve.</p>
+    <p>Each Trilogy volume's cover carries a Volume number and the trilogy navigation appears in every topbar — see the three pills at the top of this page. The pill for the volume currently open is highlighted; the other two link to their siblings. Returning to this library landing is one click on the "Library" label or any deactivated pill from a sibling volume.</p>
+    <p><strong>Companion volumes</strong> — currently just the Vuori-Example Implementation Guide — sit alongside the Trilogy in the Library but do <em>not</em> appear in the trilogy-nav pills. They are engagement-scoped artefacts with their own confidentiality posture and visual identity (rust accent vs. the Trilogy gold). Each engagement may produce its own Implementation Guide companion; each lives in <code style="font-family:'Cascadia Mono',monospace; background:var(--code-bg); padding:1px 6px; border-radius:3px; font-size:0.9em;">docs/book/Professional-APEX-M-Implementation-Guide-(&lt;Client&gt;-Example).html</code> and is linked from the Library's Companion section above.</p>
+  </div>
+
+  </main>
+
+  <footer class="library-footer">
+    <strong>Professional APEX · The Trilogy</strong> &nbsp;·&nbsp; Keven Markham · VP Enterprise Transformation · Deloitte's Microsoft Technology &amp; Services Practice &nbsp;·&nbsp; April–May 2026 &nbsp;·&nbsp; Internal Use Only
+  </footer>
+
+  <script>
+    const darkBtn = document.getElementById('darkToggle');
+    if (darkBtn) {
+      const apply = (on) => document.body.classList.toggle('dark', on);
+      const stored = localStorage.getItem('apex-trilogy-dark');
+      if (stored === '1') apply(true);
+      darkBtn.addEventListener('click', () => {
+        const on = !document.body.classList.contains('dark');
+        apply(on);
+        localStorage.setItem('apex-trilogy-dark', on ? '1' : '0');
+      });
+    }
+  </script>
+</body>
+</html>
