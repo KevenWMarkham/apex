@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CFMP Capabilities Map</title>
-<meta name="description" content="Eleven swimlanes of business capabilities mapped to the CFMP code base — filterable by persona, opener, and build status, with side-panel file detail.">
+<meta name="description" content="Eleven swimlanes · 120 business capabilities · ~250 code files mapped · 13 episodes · audit-honest statuses (2026-05-26).">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -325,6 +325,46 @@ button.theme-toggle:hover{color:var(--ink);border-color:var(--border-2)}
 .ga-item .ga-name{font-size:13.5px;color:var(--ink);font-weight:500}
 .ga-item .ga-text{font-size:12.5px;color:var(--ink-2);line-height:1.5}
 
+/* ---- episode index ---- */
+.ep-index{padding:18px 0 6px}
+.ep-index h2{
+  font-family:"Fraunces",serif;font-weight:500;font-size:22px;margin:0 0 12px;
+  color:var(--ink);letter-spacing:-.01em;
+}
+.ep-list{
+  list-style:none;padding:0;margin:0 0 12px;
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:7px 16px;
+}
+.ep-list li{
+  font-size:13px;line-height:1.5;color:var(--ink-2);
+  padding:7px 13px;border:1px solid var(--border);border-radius:8px;
+  background:var(--surface);transition:border-color .15s ease;
+}
+.ep-list li:hover{border-color:var(--border-2);color:var(--ink)}
+.ep-list li strong{
+  font-family:"JetBrains Mono",monospace;font-size:11.5px;letter-spacing:.04em;
+  color:var(--purple);font-weight:600;margin-right:4px;
+}
+.ep-note{
+  font-style:italic;color:var(--ink-3);font-size:12px;margin-left:4px;
+}
+.ep-discipline{
+  font-size:12.5px;line-height:1.6;color:var(--ink-2);
+  max-width:920px;margin:8px 0 0;padding:10px 14px;
+  border-left:2px solid var(--teal-dim);background:var(--bg-1);border-radius:0 6px 6px 0;
+}
+.ep-discipline em{color:var(--teal);font-style:normal;font-weight:500}
+.ep-discipline a{color:var(--purple);text-decoration:underline;text-decoration-color:var(--purple-dim)}
+
+/* ---- privacy banner depth link ---- */
+.pb-depth{
+  margin-left:auto;font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.04em;
+  color:var(--teal);text-decoration:none;border:1px solid var(--teal-dim);
+  padding:5px 10px;border-radius:6px;background:var(--bg-1);
+  transition:all .15s ease;flex:none;
+}
+.pb-depth:hover{color:var(--ink);border-color:var(--teal);background:var(--muted-teal)}
+
 /* ---- footer ---- */
 footer{padding:24px 0 48px;border-top:1px solid var(--border);font-size:11.5px;color:var(--ink-3);font-family:"JetBrains Mono",monospace;line-height:1.7}
 footer .fwrap{display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between}
@@ -344,7 +384,7 @@ footer .fwrap{display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between
     <div class="hd-row">
       <div>
         <h1>CFMP <em>Capabilities Map</em></h1>
-        <div class="sub">Eleven swimlanes <span class="mono">·</span> 106 business capabilities <span class="mono">·</span> 252 code files mapped <span class="mono">·</span> episodes 01–12.</div>
+        <div class="sub">Eleven swimlanes <span class="mono">·</span> 120 business capabilities <span class="mono">·</span> ~250 code files mapped <span class="mono">·</span> 13 episodes <span class="mono">·</span> audit-honest statuses (2026-05-26).</div>
       </div>
       <button class="theme-toggle" onclick="toggleTheme()">◐ Theme</button>
     </div>
@@ -361,6 +401,7 @@ footer .fwrap{display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between
         <span class="alexa">NOT the Alexa pattern</span> — no public-cloud microphone always-listening, no vendor lock-in of household telemetry.
       </div>
     </div>
+    <a class="pb-depth" href="#sec-status" title="Episode 12 — Privacy as the moat (home + telco edge)">depth: Ep 12 · Privacy as the moat →</a>
   </div>
 </section>
 
@@ -377,13 +418,34 @@ footer .fwrap{display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between
 </section>
 
 <section class="status-summary" id="sec-status">
-  <div class="section-label">Build Status · 106 capabilities</div>
+  <div class="section-label">Build Status · 120 capabilities</div>
   <div class="cc-bar" id="status-bar"></div>
   <div class="status-chips" id="status-chips"></div>
   <div class="parity-row" id="parity-row">
     <button class="parity-chip" id="parity-chip" onclick="toggleParityFilter()" title="Show only capabilities where Mobile lacks parity with Portal">🪞 Mobile parity gaps only</button>
     <span class="parity-summary" id="parity-summary"></span>
   </div>
+</section>
+
+<!-- Episode Index -->
+<section class="ep-index">
+  <h2>📚 The 13-episode series</h2>
+  <ol class="ep-list">
+    <li><strong>Ep 01 ·</strong> Sarah's Day — the customer problem CFMP exists to solve</li>
+    <li><strong>Ep 02 ·</strong> Agent fleet &amp; APEX audit chain</li>
+    <li><strong>Ep 03 ·</strong> Mobile · SCAN &amp; LOT</li>
+    <li><strong>Ep 04 ·</strong> Mobile · Trips, Replenish &amp; home channel</li>
+    <li><strong>Ep 05 ·</strong> Portal · operator console &amp; multi-tenant</li>
+    <li><strong>Ep 06 ·</strong> Sonos · ambient voice channel</li>
+    <li><strong>Ep 07 ·</strong> Fulfillment · plug-in tier <em class="ep-note">(v2 design — not live today)</em></li>
+    <li><strong>Ep 08 ·</strong> Identity, consent, HIPAA &amp; senior accessibility</li>
+    <li><strong>Ep 09 ·</strong> The seller's playbook — CFMP on APEX-M <em class="ep-note">(series finale)</em></li>
+    <li><strong>Ep 10 ·</strong> Flux — household composition &amp; presence events</li>
+    <li><strong>Ep 11 ·</strong> Recipes — the meal-plan front door <em class="ep-note">(v2 vision)</em></li>
+    <li><strong>Ep 12 ·</strong> Privacy as the moat — home + telco edge</li>
+    <li><strong>Ep 13 ·</strong> Phase 1 Live — the honest demo map <em class="ep-note">(canonical 1:1 with /architecture)</em></li>
+  </ol>
+  <p class="ep-discipline">Episodes 01–12 walk the architecture <em>as designed</em>; each carries an in-episode honesty header distinguishing Phase 1 live · Phase 2 planned · ❓ v2 vision. Episode 13 walks the architecture <em>as shipped</em> — every claim verifiable on the live <a href="/architecture">/architecture</a> page.</p>
 </section>
 
 <main class="lanes" id="lanes-root"></main>
