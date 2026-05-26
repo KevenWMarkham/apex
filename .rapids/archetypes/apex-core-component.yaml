@@ -1,0 +1,26 @@
+archetype:
+  id: apex-core-component
+  name: APEX Cloud-Neutral Core Component
+  version: 1.0.0
+  description: |
+    Build a new Cloud-Neutral Core component (e.g., a new specialist agent,
+    a new service, a new schema validator). Includes Helm chart, interface
+    impl stubs for all three Cloud Profiles, unit tests, and integration tests.
+  when_to_use:
+    - New Core service (e.g., new Specialist Sub-Agent)
+    - New shared utility (e.g., new replay tool)
+    - New cross-component capability
+  inputs_required:
+    - component_name
+    - depends_on_interfaces   # subset of the 14
+    - exposes_apis            # list of REST/gRPC endpoints
+  outputs:
+    - apex-core/<component>/ (full service skeleton)
+    - apex-core/<component>/Dockerfile
+    - helm/apex-core-<component>/ (Helm chart)
+    - apex-m/adapters/<component>.py (APEX-M impl stub)
+    - apex-g/adapters/<component>.py (APEX-G impl stub)
+    - apex-a/adapters/<component>.py (APEX-A impl stub)
+    - tests/<component>/test_*.py
+  workflow: workflows/core-component.yaml
+  estimated_effort: 1-2 weeks

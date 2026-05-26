@@ -1,0 +1,18 @@
+agent:
+  id: helm-bicep-generator
+  name: Helm / Bicep Generator
+  model: sonnet
+  description: Generates IaC + Helm values for the pack from manifests.
+  capabilities:
+    - generate Bicep modules per Azure resource (APEX-M)
+    - generate Terraform modules (APEX-G · APEX-A)
+    - generate Helm chart values file
+    - generate parameter files for lab + prod
+    - generate CI workflow stubs
+  inputs:
+    - pack_manifest
+    - target_cloud_profile
+  outputs:
+    - iac/ directory populated
+    - helm/values-*.yaml
+  tools: [Read, Write, Edit]

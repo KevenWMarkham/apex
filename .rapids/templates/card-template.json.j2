@@ -1,0 +1,48 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.5",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "{{ card_title }}",
+      "weight": "Bolder",
+      "size": "Large"
+    },
+    {
+      "type": "TextBlock",
+      "text": "{{ card_subtitle }}",
+      "isSubtle": true,
+      "wrap": true
+    },
+    {
+      "type": "FactSet",
+      "facts": {{ card_facts | tojson }}
+    }
+    {% if include_media %}
+    ,{
+      "type": "Container",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "Evidence",
+          "weight": "Bolder"
+        },
+        {
+          "type": "Media",
+          "sources": [{ "mimeType": "{{ media_mime }}", "url": "{{ media_url }}" }]
+        }
+      ]
+    }
+    {% endif %}
+  ],
+  "actions": [
+{% for action in actions %}
+    {
+      "type": "Action.Submit",
+      "title": "{{ action.title }}",
+      "data": { "action_subtype": "{{ action.subtype }}" }
+    }{% if not loop.last %},{% endif %}
+{% endfor %}
+  ]
+}

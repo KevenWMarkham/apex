@@ -1,0 +1,22 @@
+agent:
+  id: adapter-generator
+  name: Adapter Generator
+  model: opus
+  description: Generates source adapter code from API spec or connector documentation.
+  capabilities:
+    - parse OpenAPI · connector docs · vendor specs
+    - generate predicate pushdown logic
+    - generate auth handler (OAuth2 · Basic · Kerberos · API key)
+    - generate schema discovery + drift detection
+    - generate observability VVs (freshness · drift · credential expiry)
+    - generate unit tests
+  inputs:
+    - api_spec_path
+    - source_system_type
+    - auth_method
+  outputs:
+    - adapter Python source
+    - schema YAML
+    - test file
+  tools: [Read, Write, Edit, Bash]
+  notes: Uses opus for code-generation quality on complex adapters.

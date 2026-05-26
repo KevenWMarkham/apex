@@ -1,0 +1,23 @@
+archetype:
+  id: apex-adapter
+  name: APEX Source Adapter
+  version: 1.0.0
+  description: |
+    Build a new source adapter for the federation engine (e.g., SAP IS-Retail,
+    Oracle Retail, Salesforce, Workday, ServiceNow). Includes predicate pushdown,
+    schema discovery, credential management, and observability VVs.
+  when_to_use:
+    - First-time integration with a new SOR
+    - Client uses a non-standard upstream system
+  inputs_required:
+    - adapter_id              # e.g., oracle_retail_rms
+    - source_system_type      # SAP | Oracle | Salesforce | Workday | custom
+    - api_spec_path           # OpenAPI spec or connector doc
+    - auth_method             # OAuth2 | Basic | Kerberos | API key
+  outputs:
+    - packs/<industry>/adapters/<adapter>.py
+    - packs/<industry>/adapters/<adapter>_schema.yaml
+    - packs/<industry>/adapters/test_<adapter>.py
+    - Observability VVs (freshness · schema_drift · credential_expiry)
+  workflow: workflows/adapter.yaml
+  estimated_effort: 2-5 days

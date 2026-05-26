@@ -1,0 +1,28 @@
+archetype:
+  id: apex-featurizer
+  name: APEX Featurizer (Multimodal)
+  version: 1.0.0
+  description: |
+    Build a new ML featurizer that turns a non-SQL source (video, audio, document,
+    image, binary telemetry) into canonical event rows + multimodal embeddings.
+    Includes containerization, model card, observability, and PII redaction.
+  when_to_use:
+    - New video source (e.g., plant safety cam · store shelf cam)
+    - New audio source (e.g., call center · industrial audio anomaly)
+    - New document corpus (e.g., contracts · regulatory filings)
+    - New imaging source (e.g., quality inspection · X-ray)
+  inputs_required:
+    - featurizer_id           # e.g., mfg.production_line_vision_v2
+    - source_type             # video_stream | audio_stream | document_corpus | image_set | binary_telemetry
+    - target_schema           # canonical event row schema
+    - model_choice            # YOLO | CLIP | Whisper | OCR | etc.
+    - latency_class           # realtime | near_realtime | batch
+  outputs:
+    - packs/<industry>/featurizers/<featurizer>/
+    - packs/<industry>/featurizers/<featurizer>/Dockerfile
+    - packs/<industry>/featurizers/<featurizer>/model_card.md
+    - packs/<industry>/featurizers/<featurizer>/inference.py
+    - packs/<industry>/featurizers/<featurizer>/observability.yaml
+    - packs/<industry>/featurizers/<featurizer>/pii_redaction.yaml
+  workflow: workflows/featurizer.yaml
+  estimated_effort: 1-3 weeks

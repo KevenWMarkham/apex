@@ -47,8 +47,11 @@ ENV/
 # uv
 .uv-cache/
 
-# IDE / agent state
-.claude/
+# IDE / agent state — keep shared assets, ignore local settings
+.claude/*
+!.claude/agents/
+!.claude/commands/
+!.claude/skills/
 
 # Bicep build artifacts for the APEX-M GSSC Lab templates.
 # Each .bicep file produces a sibling .json on `az bicep build`.

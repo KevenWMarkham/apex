@@ -1,0 +1,53 @@
+# Phase-gate enforcement for all RAPIDS-driven APEX work.
+# Each gate must pass before the workflow can advance to the next phase.
+
+gates:
+  research:
+    artifacts_required:
+      - docs/research/stakeholder-map.md
+      - docs/research/regulatory-scan.md
+      - docs/research/persona-discovery.md
+    approver: industry-sme
+    blocker: true
+    sla: 5 business days
+
+  analysis:
+    artifacts_required:
+      - docs/analysis/canonical-schema.yaml
+      - docs/analysis/threshold-strategy.md
+    approver: apex-architecture-council
+    blocker: true
+    sla: 10 business days
+
+  plan:
+    artifacts_required:
+      - packs/<industry>/constitution.yaml
+      - docs/plan/funding-strategy.md
+    approver: independence-legal
+    blocker: true
+    sla: 10 business days
+
+  implement:
+    artifacts_required:
+      - packs/<industry>/views/*.yaml
+      - packs/<industry>/scenarios/*.yaml
+      - packs/<industry>/tests/test_*.py
+    ci_required: pack-acceptance-pack
+    blocker: true
+
+  deploy:
+    artifacts_required:
+      - packs/<industry>/iac/main.bicep
+      - packs/<industry>/helm/values.yaml
+    ci_required: gssc-lab-acceptance
+    external_approval: concon-arb
+    blocker: true
+    sla: 14 business days (ARB)
+
+  sustain:
+    artifacts_required:
+      - packs/<industry>/runbooks/operate-runbook.md
+      - packs/<industry>/runbooks/threshold-tuning-runbook.md
+      - packs/<industry>/runbooks/incident-response-runbook.md
+    approver: apex-operate-steering
+    blocker: false

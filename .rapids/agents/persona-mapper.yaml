@@ -1,0 +1,17 @@
+agent:
+  id: persona-mapper
+  name: Persona Mapper
+  model: sonnet
+  description: Maps client identity provider groups to canonical pack personas.
+  capabilities:
+    - ingest client AD/Entra/IAM group dump
+    - match against canonical pack personas.yaml
+    - infer SLA · escalation chain · channel binding per persona
+    - flag personas with no matching client group (gap report)
+  inputs:
+    - client_identity_dump
+    - pack_personas_yaml
+  outputs:
+    - client_personas.yaml (mapped)
+    - gap_report.md
+  tools: [Read, Write, Edit, Grep]

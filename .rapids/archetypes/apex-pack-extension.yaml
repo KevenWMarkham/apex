@@ -1,0 +1,25 @@
+archetype:
+  id: apex-pack-extension
+  name: APEX Pack Extension
+  version: 1.0.0
+  description: |
+    Add a new Virtual View, scenario chain, featurizer, or adapter to an
+    existing industry pack. Updates lineage, regenerates acceptance tests,
+    bumps pack SemVer (minor).
+  when_to_use:
+    - New VV in existing sub-domain
+    - New scenario chain composing existing VVs
+    - New featurizer for an existing source type
+    - New source adapter in an existing industry
+  inputs_required:
+    - pack_id            # e.g., manufacturing | merchandising
+    - extension_type     # vv | scenario | featurizer | adapter
+    - extension_spec     # NL requirement
+  outputs:
+    - One or more manifest YAMLs added to pack
+    - Acceptance tests regenerated
+    - Lineage updated (Schema → VV → Scenario)
+    - Pack SemVer bumped (minor)
+  workflow: workflows/pack-extension.yaml
+  estimated_effort: 1-3 days
+  baseline_effort_without_rapids: 3-5 days for VV · 1-2 weeks for scenario · 2-3 weeks for featurizer

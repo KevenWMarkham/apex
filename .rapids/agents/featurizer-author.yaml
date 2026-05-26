@@ -1,0 +1,21 @@
+agent:
+  id: featurizer-author
+  name: Featurizer Author
+  model: sonnet
+  description: Scaffolds ML featurizer containers for multimodal sources.
+  capabilities:
+    - select model architecture per source type
+    - generate Dockerfile + inference.py
+    - generate model card
+    - generate observability VVs
+    - generate PII redaction policy
+    - generate Helm chart
+  inputs:
+    - featurizer_id
+    - source_type
+    - target_schema
+    - model_choice
+    - latency_class
+  outputs:
+    - featurizer directory complete
+  tools: [Read, Write, Edit, Bash]

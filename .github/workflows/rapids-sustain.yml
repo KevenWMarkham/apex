@@ -1,0 +1,32 @@
+# Operate handoff CI · runs when an engagement transitions to T5 Operate
+name: RAPIDS Operate Handoff
+
+on:
+  workflow_dispatch:
+    inputs:
+      pack:
+        description: 'Pack id (e.g., manufacturing)'
+        required: true
+      client:
+        description: 'Client id'
+        required: true
+
+jobs:
+  operate-handoff:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Generate handoff package
+        run: |
+          python tools/generate-operate-handoff.py \
+            --pack ${{ inputs.pack }} \
+            --client ${{ inputs.client }} \
+            --output handoffs/${{ inputs.client }}/$(date +%Y-%m-%d)/
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: operate-handoff-${{ inputs.client }}
+          path: handoffs/${{ inputs.client }}/

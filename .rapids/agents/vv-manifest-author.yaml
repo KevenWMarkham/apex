@@ -1,0 +1,21 @@
+agent:
+  id: vv-manifest-author
+  name: VV Manifest Author
+  model: sonnet
+  description: Generates Virtual View YAML manifests from natural-language requirements and a source schema.
+  capabilities:
+    - parse natural-language requirements
+    - cross-reference source schema for column resolution
+    - propose canonical pack namespace + view_id
+    - infer pushable predicates
+    - default sustain_window and cache settings
+    - delegate threshold band design to Threshold Tuner
+    - delegate persona binding to Persona Mapper
+  inputs:
+    - nl_requirement
+    - source_schema
+    - pack_namespace
+    - target_sub_domain
+  outputs:
+    - manifest_file: packs/<industry>/views/<view_id>.yaml
+  tools: [Read, Write, Edit, Grep, Glob]

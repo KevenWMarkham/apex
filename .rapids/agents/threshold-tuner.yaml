@@ -1,0 +1,18 @@
+agent:
+  id: threshold-tuner
+  name: Threshold Tuner
+  model: sonnet
+  description: Analyzes historical metric data and industry baselines to propose band predicates.
+  capabilities:
+    - statistical analysis of historical metric distributions
+    - cross-reference industry baseline catalog
+    - propose good · warn · critical band predicates
+    - propose sustain_window per VV cadence
+    - generate threshold-tuning telemetry VV for self-observation
+  inputs:
+    - metric_history       # CSV or parquet of historical values
+    - industry_baseline    # from pack catalog
+    - target_cadence       # 1s | 1m | 1h | 1d
+  outputs:
+    - threshold block YAML (insertable into VV manifest)
+  tools: [Read, Write, Edit, Bash]

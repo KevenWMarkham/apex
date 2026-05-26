@@ -1,0 +1,9 @@
+# Workflow for archetype apex-adapter
+# 6-phase orchestration with APEX governance gates
+# TODO: detailed phase definitions (mirrors workflows/pack-new.yaml shape)
+
+workflow:
+  id: apex-adapter
+  version: 0.1.0  # SKELETON · expand in PR
+  archetype: apex-adapter
+  status: skeleton

@@ -1,0 +1,46 @@
+# Adaptive Triage detector for APEX context
+# Loaded by RAPIDS Core plugin when /rapids-init or /apex-init is invoked.
+
+detector:
+  name: apex-context-detector
+  version: 1.0.0
+
+  matchers:
+    - if: "exists('apex-core/conventions/vv-manifest-schema.yaml') OR exists('apex-core/')"
+      then:
+        context: apex-repo-root
+        priority_archetypes: [apex-pack-new]
+        message: "Detected APEX repo. Offering APEX archetypes."
+
+    - if: "cwd_matches('apex-core/**')"
+      then:
+        context: apex-core
+        priority_archetypes: [apex-core-component]
+
+    - if: "cwd_matches('apex-m/**') OR cwd_matches('apex-g/**') OR cwd_matches('apex-a/**')"
+      then:
+        context: apex-cloud-profile
+        priority_archetypes: [apex-profile-impl]
+
+    - if: "cwd_matches('packs/*/views/**')"
+      then:
+        context: apex-pack-views
+        priority_archetypes: [apex-pack-extension]
+
+    - if: "cwd_matches('packs/*/adapters/**')"
+      then:
+        context: apex-pack-adapters
+        priority_archetypes: [apex-adapter]
+
+    - if: "cwd_matches('packs/*/featurizers/**')"
+      then:
+        context: apex-pack-featurizers
+        priority_archetypes: [apex-featurizer]
+
+    - if: "cwd_matches('packs/*/overlays/**')"
+      then:
+        context: apex-pack-overlay
+        priority_archetypes: [apex-overlay-client]
+
+  fallback:
+    use: rapids-generic-archetypes

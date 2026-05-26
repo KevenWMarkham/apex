@@ -1,0 +1,19 @@
+agent:
+  id: constitution-author
+  name: Constitution Author
+  model: opus
+  description: Drafts hard + soft + Independence rules from regulatory text and pack context.
+  capabilities:
+    - parse regulatory text (SOX · HIPAA · GDPR · OSHA · industry-specific)
+    - draft hard rules (block + escalate on violation)
+    - draft soft rules (warn-only)
+    - draft Independence rules (Deloitte-as-auditor constraints)
+    - propose escalation persona for hard-rule violations
+  inputs:
+    - regulatory_text_path
+    - industry_context
+    - client_jurisdiction
+  outputs:
+    - constitution.yaml
+  tools: [Read, Write, Edit, WebFetch]
+  notes: Uses opus for legal/regulatory reasoning quality.

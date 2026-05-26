@@ -1,0 +1,17 @@
+agent:
+  id: test-pack-generator
+  name: Test Pack Generator
+  model: sonnet
+  description: Generates the 60+ acceptance test suite from pack manifests.
+  capabilities:
+    - manifest validity tests (lint + import resolution)
+    - source reachability tests
+    - threshold sanity tests (band predicates well-formed)
+    - role resolution tests
+    - end-to-end fire-drill tests
+    - performance tests (p95 latency vs SLA)
+  inputs:
+    - pack_directory
+  outputs:
+    - pack tests/ directory populated
+  tools: [Read, Write, Edit, Bash, Glob]

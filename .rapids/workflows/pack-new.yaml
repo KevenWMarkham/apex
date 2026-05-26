@@ -1,0 +1,105 @@
+# Workflow for archetype apex-pack-new
+# 6-phase orchestration with APEX governance gates
+
+workflow:
+  id: apex-pack-new
+  version: 1.0.0
+  archetype: apex-pack-new
+
+  phases:
+
+    - id: research
+      agents: [constitution-author, vv-manifest-author]
+      activities:
+        - "Industry SME interview · capture stakeholder map"
+        - "Regulatory text scan (SOX · HIPAA · GDPR · OSHA · industry-specific)"
+        - "Persona discovery from industry library"
+        - "Cross-pack precedent search (similar packs)"
+      artifacts_required:
+        - docs/research/<pack>-stakeholder-map.md
+        - docs/research/<pack>-regulatory-scan.md
+        - docs/research/<pack>-persona-discovery.md
+      governance_gate:
+        approver: industry-sme
+        blocker: true
+
+    - id: analysis
+      agents: [vv-manifest-author, threshold-tuner]
+      activities:
+        - "Source schema mapping"
+        - "Canonical entity design"
+        - "Threshold baseline analysis"
+        - "GO/NO-GO checkpoint with client/sponsor"
+      artifacts_required:
+        - docs/analysis/<pack>-canonical-schema.yaml
+        - docs/analysis/<pack>-threshold-strategy.md
+      governance_gate:
+        approver: apex-architecture-council
+        blocker: true
+
+    - id: plan
+      agents: [constitution-author, scenario-designer]
+      activities:
+        - "Draft constitution.yaml (hard + soft + Independence rules)"
+        - "Design scenario chain catalog"
+        - "Funding strategy declaration"
+      artifacts_required:
+        - packs/<pack>/constitution.yaml
+        - packs/<pack>/plan.yaml
+      governance_gate:
+        approver: independence-legal
+        blocker: true
+
+    - id: implement
+      agents:
+        - vv-manifest-author
+        - threshold-tuner
+        - persona-mapper
+        - scenario-designer
+        - adapter-generator
+        - test-pack-generator
+        - featurizer-author
+        - helm-bicep-generator
+      activities:
+        - "Author VV manifests (20-30)"
+        - "Compose scenario chains (5-10)"
+        - "Generate source adapters"
+        - "Generate Adaptive Card templates"
+        - "Generate acceptance tests (60+)"
+        - "Author featurizers"
+        - "Scaffold IaC + Helm"
+      artifacts_required:
+        - packs/<pack>/views/*.yaml
+        - packs/<pack>/scenarios/*.yaml
+        - packs/<pack>/adapters/*.py
+        - packs/<pack>/cards/*.json
+        - packs/<pack>/tests/test_*.py
+      ci_required: pack-acceptance-pack
+      governance_gate:
+        blocker: true
+
+    - id: deploy
+      activities:
+        - "Provision GSSC Lab environment"
+        - "Helm rollout"
+        - "Run pack acceptance pack against lab tenant"
+        - "Submit ConCon ARB conformance package"
+      ci_required: gssc-lab-acceptance
+      external_approval: concon-arb
+      governance_gate:
+        blocker: true
+
+    - id: sustain
+      activities:
+        - "Generate Operate runbook"
+        - "Generate threshold-tuning runbook"
+        - "Generate incident-response runbook"
+        - "Establish SLO baseline"
+        - "T5 Operate handoff"
+      artifacts_required:
+        - packs/<pack>/runbooks/operate-runbook.md
+        - packs/<pack>/runbooks/threshold-tuning-runbook.md
+        - packs/<pack>/runbooks/incident-response-runbook.md
+      governance_gate:
+        approver: apex-operate-steering
+        blocker: false  # warning only

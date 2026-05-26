@@ -1,0 +1,18 @@
+agent:
+  id: scenario-designer
+  name: Scenario Designer
+  model: sonnet
+  description: Composes scenario chains from existing VVs to deliver business outcomes.
+  capabilities:
+    - parse business outcome statement (NL)
+    - traverse pack catalog to find relevant VVs
+    - propose cross-pack imports if needed
+    - design step sequence (agent + persona + decision points)
+    - generate Adaptive Card templates
+  inputs:
+    - pack_catalog
+    - business_outcome_nl
+  outputs:
+    - scenario chain YAML
+    - card template JSON
+  tools: [Read, Write, Edit, Grep, Glob]

@@ -1,0 +1,27 @@
+# Pack Acceptance Pack CI · runs after every PR that touches packs/
+name: RAPIDS Pack Acceptance
+
+on:
+  pull_request:
+    paths:
+      - 'packs/**'
+      - '.rapids/templates/**'
+  workflow_dispatch:
+
+jobs:
+  pack-acceptance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install -e .[test]
+      - name: Run pack acceptance tests
+        run: pytest packs/ -v --tb=short
+      - name: Pack manifest lint
+        run: python tools/lint-pack-manifests.py packs/
+      - name: Report
+        if: always()
+        run: echo "::notice::Pack acceptance pack complete · see test results"

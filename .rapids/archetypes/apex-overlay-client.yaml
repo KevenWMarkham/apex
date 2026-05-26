@@ -1,0 +1,27 @@
+archetype:
+  id: apex-overlay-client
+  name: APEX Client Overlay
+  version: 1.0.0
+  description: |
+    Build a client-specific overlay (delta-only YAML) over a base pack. Overlay
+    can override thresholds, personas, resolution routes, and add client-specific
+    VVs. Base pack updates flow through transparently.
+  when_to_use:
+    - First engagement with a new client (Pack Lite or Pack Standard)
+    - Client-specific threshold tuning required
+    - Client has unique persona structure
+    - Client has unique regulatory or policy requirements
+  inputs_required:
+    - client_id          # e.g., at-t | sgws | sonepar
+    - base_pack_id       # e.g., manufacturing
+    - base_pack_version  # SemVer
+    - client_identity_dump  # AD/Entra/IAM group dump
+    - client_thresholds   # historical baselines if available
+  outputs:
+    - packs/<pack>/overlays/<client>/overlay.yaml
+    - packs/<pack>/overlays/<client>/personas.yaml
+    - packs/<pack>/overlays/<client>/cards/*.json
+    - packs/<pack>/overlays/<client>/tests/test_*.py    (client-specific acceptance)
+  workflow: workflows/overlay-client.yaml
+  estimated_effort: 1-2 days
+  baseline_effort_without_rapids: 2-3 weeks

@@ -1,0 +1,9 @@
+# Workflow for archetype apex-overlay-client
+# 6-phase orchestration with APEX governance gates
+# TODO: detailed phase definitions (mirrors workflows/pack-new.yaml shape)
+
+workflow:
+  id: apex-overlay-client
+  version: 0.1.0  # SKELETON · expand in PR
+  archetype: apex-overlay-client
+  status: skeleton

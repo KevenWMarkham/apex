@@ -1,0 +1,43 @@
+# Independence allowlist for APEX engagements.
+# Pre-cleared funding paths · rate sources · action types.
+
+independence:
+  funding_paths:
+    permitted:
+      - BVA (client-funded)
+      - DCIF (Deloitte co-investment)
+      - ISV Marketplace burndown (via approved ISV)
+      - SI teaming POC (non-competing SI · e.g., Slalom · Infosys · HCL)
+      - Client direct
+      - T&M
+    prohibited:
+      - ECIF direct to Deloitte (Microsoft auditor constraint)
+
+  rate_sources:
+    permitted_for_sox_class:
+      - Bloomberg (Terminal feed)
+      - Refinitiv (LSEG)
+      - ECB (free public)
+      - ICE Data Services
+    permitted_for_general:
+      - All above plus:
+      - MSN/Yahoo Finance
+      - Google Finance
+      - IEX Cloud
+    prohibited:
+      - Mid-market estimates
+      - Client-provided rates without third-party verification
+
+  action_types:
+    permitted_to_auto_dispatch:
+      - notification (info only)
+      - workflow trigger (idempotent)
+      - approval request (HITL gate before action)
+    require_hitl:
+      - financial decision > $1M
+      - regulatory submission
+      - personnel action
+    prohibited:
+      - financial forecast for SEC-registered clients
+      - audit opinion
+      - tax position

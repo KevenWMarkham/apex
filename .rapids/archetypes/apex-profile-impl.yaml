@@ -1,0 +1,23 @@
+archetype:
+  id: apex-profile-impl
+  name: APEX Cloud Profile Implementation
+  version: 1.0.0
+  description: |
+    Implement or evolve a Cloud Profile (APEX-M, APEX-G, APEX-A) for one or
+    more of the 14 interfaces. Used when adding a new cloud-native binding or
+    when onboarding a new cloud profile from scratch.
+  when_to_use:
+    - Onboard APEX-G or APEX-A for the first time
+    - Add a new interface impl (e.g., Interface #14 Translator for APEX-A)
+    - Refactor a profile to a new cloud-native service
+  inputs_required:
+    - cloud_profile          # apex-m | apex-g | apex-a
+    - interfaces_in_scope    # subset of 1-14
+  outputs:
+    - apex-<profile>/adapters/<iface>.py
+    - apex-<profile>/helm/values-<iface>.yaml
+    - apex-<profile>/bicep/<iface>.bicep (M) | tf | cf
+    - tests/profile/<profile>/test_<iface>.py
+    - apex-<profile>/marketplace/<iface>.yaml (Azure/GCP/AWS SKU)
+  workflow: workflows/profile-impl.yaml
+  estimated_effort: 1-2 weeks per interface

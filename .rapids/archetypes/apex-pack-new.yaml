@@ -1,0 +1,44 @@
+archetype:
+  id: apex-pack-new
+  name: APEX Industry Pack (greenfield)
+  version: 1.0.0
+  description: |
+    Scaffold a brand-new APEX Industry Solution Pack from scratch. Produces the
+    full 10-asset bundle (views · scenarios · adapters · cards · personas ·
+    demo-data · BVA · envelopes · tests · runbooks) plus IaC and an Operate
+    handoff package.
+  when_to_use:
+    - New industry pack (Healthcare · Energy · Public Sector · Insurance · etc.)
+    - Net-new pack in an existing industry vertical
+  inputs_required:
+    - industry_name      # e.g., Healthcare
+    - namespace          # e.g., HEALTHML
+    - target_cloud_profile  # apex-m | apex-g | apex-a
+    - regulatory_context # SOX · HIPAA · GDPR · etc.
+  outputs:
+    - packs/<industry>/views/*.yaml             (20-30 VVs)
+    - packs/<industry>/scenarios/*.yaml          (5-10 scenario chains)
+    - packs/<industry>/adapters/*.py             (industry source adapters)
+    - packs/<industry>/cards/*.json              (Adaptive Card templates)
+    - packs/<industry>/personas.yaml             (pack personas binding)
+    - packs/<industry>/constitution.yaml         (hard + soft + Independence rules)
+    - packs/<industry>/intelligence.yaml         (memory · reasoning · calibration)
+    - packs/<industry>/translation-policy.yaml   (FX + language defaults)
+    - packs/<industry>/profile-overrides.yaml    (per-VV elevations)
+    - packs/<industry>/demo-data/*               (synthetic dataset + generator)
+    - packs/<industry>/bva/<industry>-roi.xlsx   (BVA workbook)
+    - packs/<industry>/envelopes/*.docx          (T2 Lite/Standard/Enterprise SOWs)
+    - packs/<industry>/tests/test_*.py           (60+ acceptance tests)
+    - packs/<industry>/runbooks/*.md             (operate · tuning · incident)
+    - packs/<industry>/iac/*.bicep               (IaC modules)
+    - packs/<industry>/helm/values.yaml          (Helm values)
+  workflow: workflows/pack-new.yaml
+  phases:
+    - research
+    - analysis
+    - plan
+    - implement
+    - deploy
+    - sustain
+  estimated_effort: 3-4 weeks
+  baseline_effort_without_rapids: 6-9 months
