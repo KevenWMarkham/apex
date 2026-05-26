@@ -205,6 +205,7 @@ EPISODES = [
     "10-flux-household-composition.md",
     "11-recipes-meal-plan-front-door.md",
     "12-privacy-as-the-moat.md",
+    "13-phase-1-live-the-honest-demo-map.md",
 ]
 
 
