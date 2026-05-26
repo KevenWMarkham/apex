@@ -180,6 +180,34 @@ When audio production is approved separately, the planned voices are:
 
 Runtime target per episode: **38–42 minutes** (±5 min acceptable) at ~145 wpm. Word target: **5,200–6,500 spoken words** per episode (excluding `## Further reading`).
 
+## Narrative tone discipline (re-tone pass · 2026-05-26)
+
+The series leads with **business and consumer outcomes**, not architecture. Technical vocabulary serves the story; it never leads. The seller listens to this show to position a product, the engineer listens to understand the design, the stakeholder listens to learn why CFMP exists — and all three should feel addressed, with the consumer's moment always the entry point.
+
+**The opening discipline.** Every sub-section opens with a **concrete consumer or business moment** — a Sarah scene, a Robert scene, a Diana scene, a Marcus scene, an operator's morning, a seller's inbox, a CIO's question — *before* any architectural term enters the prose. The moment establishes the why; the architecture is what makes the moment work.
+
+**The technical-vocabulary rule.** Technical terms are tucked into asides, parentheticals, or *"here's the architectural property that makes this work"* closers. Never the leading sentence of a paragraph. Examples:
+
+> *Less narrative:* "The MCP boundary is enforced at runtime; every agent tool call hits a composed Gold view."
+> *More narrative:* "Sarah doesn't see the data complexity — the agent only ever sees the curated answer, never the raw source systems. (Architecturally, that's what the MCP boundary enforces.)"
+
+> *Less narrative:* "The orchestrator runs in `ca-visionkit-orchestrator` as a Container App in East US 2."
+> *More narrative:* "The agent that answers Sarah lives in the Azure cloud — close enough to feel instant, far enough to scale to ten thousand households without buying ten thousand devices."
+
+**The stair-step rule.** When a primitive first appears in the series (LOT, SCAN, the agent fleet, the audit row, the Cue Bus), introduce it through a moment, then build complexity by *referencing* — not re-explaining — in later episodes. Listeners encounter each concept once at full depth and afterwards as a familiar word.
+
+**Host emphasis.**
+- **Keven** leans into the *seller / buyer* frame — what convinces the CIO, what makes Sarah's Sunday work, what holds a thirty-minute architect's-review meeting together. The Microsoft platform vocabulary stays, but it serves a business outcome, not a feature catalog.
+- **Reid** stays the honesty enforcer but pivots his pushback from *"is the boundary enforced at runtime?"* to *"is Sarah actually going to use this?"* and *"is this real for the customer or is it slideware?"* The cross-cloud architect's eye trained on consumer reality.
+
+**Section-close discipline.** Every sub-section ends on a **business or consumer outcome** — what changes for Sarah, what the seller can defend in the room, what the CFO can see in the cost case — never on a code path or an internal class name.
+
+**What technical terms still belong on tape (when they sharpen understanding).** *MCP boundary · LedgerRow · LOT · SCAN · Cue Bus · trace_id · Vision Kit · APEX · Acceleration Framework · the agent fleet · the four specialists · Phase 1 live / Phase 2 planned*. These are the durable nouns; they appear when the explanation actually requires them. Specialist names, Container App identifiers, SQL table names, and service IDs (`ca-visionkit-orchestrator`, `Gold_VV_Customer360`, `parsml-mcp`, `pg-visionkit-4459`) appear only when the moment genuinely demands the specificity — never as garnish.
+
+**What stays the same across the re-tone.** The 13-title arc, the honesty-calibration headers (Phase 1 live / Phase 2 planned — those are orientation, not body), the personas, the disagreement + carry-forward structure, the Ep 09 sign-off (*"See you in the field"* — reserved), the Ep 13 closer (*"Two conversations. Demo first. Roadmap second."*).
+
+**The audience test.** A senior leader at the customer who has never seen the design docs should finish each episode understanding *what changes for their customer* and *what gives them confidence in the architecture* — in that order.
+
 ## Pacing rules carried from the sibling series
 
 - **No dogpiling.** One section makes one point; the next section makes the next.
