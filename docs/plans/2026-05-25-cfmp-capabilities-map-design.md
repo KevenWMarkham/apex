@@ -18,7 +18,16 @@
 
 A single interactive HTML page that maps the CFMP solution's **business capabilities** (not technical components) to their podcast episodes, design-doc sections, and supporting code — so a seller, engineer, or stakeholder can answer in one screen: *what does CFMP do, where is it covered, where is the code, and what's still proposed or gapped?* Plus two new podcast episodes that fill the most material design+code gaps the map surfaces.
 
-## The podcast — extended from 9 to 11 episodes
+## Privacy as the headline differentiator (cross-cutting)
+
+The architecture has the privacy DNA today (Vision Kit local inference, Sonos household-local, phone-mic STT not cloud-streamed, MCP boundary, customer-owned audit chain) but the podcast frames it as "trust" without naming the **Alexa contrast**: public-cloud-always-listening → vendor lock-in. The map elevates this to the headline through:
+
+1. **A sticky top banner** above the seller's-opener row: "🛡️ Privacy is the moat — runs on your home network + telco edge; not the Alexa/Google-Home public-cloud surveillance pattern; the customer owns the audit chain."
+2. **Lane 11 — 🛡️ Privacy-First Architecture · Home & Telco Edge** — added as the synthesizing closing lane. Capabilities: voice-on-device · Vision Kit local inference · Sonos household-local · MCP boundary as privacy boundary · customer-owned identity · selective uplink · telco-edge orchestrator (v2 ❓) · on-device LedgerRow witness (v2 ❓) · local-first fallback · anti-vendor-lock-in posture.
+3. **Episode 12 · Privacy as the moat** — dedicated episode framing the differentiator vs. Alexa/Google-Home. Series becomes 12.
+4. **Surgical edits to Ep 09 Seller's Playbook** — promote privacy to a headline (a) 7th discovery opener: *"Does your assistant listen to everything in your home — or only what you ask?"* (b) 6th honest claim: *"Privacy is architectural, not a setting."* (c) 4th 'recommend NOT Microsoft' scenario: the customer who wants always-listening public-cloud AI.
+
+## The podcast — extended from 9 to 12 episodes
 
 Eps 01–09 stay as-is. The Ep 09 finale + "See you in the field" sign-off remains the headline arc close. Eps 10 and 11 are **documentary deep-dives** appended after the finale — for the seller who wants the meal-plan front door or the household-composition substrate, queued when the client conversation goes there.
 
@@ -47,6 +56,7 @@ Audio for Ep 10 + Ep 11 uses the same two-Andrew voice pair (continuity), gets s
 | 8 | ⚙️ Operations, Portal & Multi-Tenant | Ep 05 + 02 | `/architecture` hero, operator console, chat panel, vision-kit, retailer multi-tenant |
 | 9 | 🍳 Recipe Capture & Cultural Breadth | Ep 11 NEW | mostly ❓ Proposed — the v2 roadmap argument |
 | 10 | 🍷 Pairings & Mixers | (no episode) | mostly ❓ Proposed — wine · beer · cocktails · holiday · age-gate via the pharmacy-pattern reuse |
+| 11 | 🛡️ Privacy-First Architecture · Home & Telco Edge | Ep 12 NEW | voice on device · Vision Kit local · MCP boundary · customer-owned identity · selective uplink · telco-edge orchestrator (v2) · on-device witness (v2) · anti-vendor-lock-in |
 
 Cross-lane "see also" tags will link related capabilities (e.g., *walk-the-aisle navigation* in Lane 3 references the route cue in Lane 5).
 

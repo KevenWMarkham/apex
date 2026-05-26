@@ -2,7 +2,7 @@
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** Build a single self-contained interactive HTML capability map for CFMP (10 swimlanes, 80–100 capability boxes, episode + design-doc + code-file traceability, persona/opener/status filters), plus the two new podcast episodes that fill the largest design+code gaps the map surfaces (Ep 10 Flux, Ep 11 Recipes).
+**Goal:** Build a single self-contained interactive HTML capability map for CFMP (**11 swimlanes** with a sticky privacy banner, 80–100 capability boxes, episode + design-doc + code-file traceability, persona/opener/status filters), plus **three new podcast episodes** that fill the largest design+code gaps the map surfaces (Ep 10 Flux, Ep 11 Recipes, **Ep 12 Privacy as the moat**) and surgical edits to Ep 09 promoting privacy to a headline claim.
 
 **Architecture:** Hand-authored capability inventory in a Python scanner (`_build_capabilities_map.py`) that walks `C:\code\iot_device\`, tags files by capability box, and emits the JSON the HTML embeds inline. The HTML mirrors the Cross-Cloud Study Guide's design language (warm-midnight palette, three-font stack, `.paq-details` collapse pattern). Two new podcast scripts written and audio-produced through the existing `_build_audio.py` + `_apply_music.py` pipeline.
 
