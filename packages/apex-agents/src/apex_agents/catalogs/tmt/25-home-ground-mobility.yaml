@@ -1,0 +1,48 @@
+kind: agent
+name: apex.tmt.agents.home-ground-mobility
+version: 0.1.0
+practice: tmt
+persona: Household Traveler
+service_codes: [TMT-TEL-HOM-15]
+model_tier: standard
+model_pin: claude-sonnet-4-6
+prompt_sha: ""
+description: >
+  Airport transfer, rental car pickup, in-destination mobility, EV-charging
+  on route across Uber, Lyft, Hertz, Avis, Enterprise, Turo, Zipcar,
+  ChargePoint, EVgo, Tesla Supercharger. Highest take-rate travel segment;
+  auto-books within budget threshold, HITL above.
+archetype_id: F2-event-cluster-pattern-match
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.home.read_trip_current_state
+    purpose: Read traveler trip context
+  - tool_id: apex.tmt.mcp.uber.request_ride
+    purpose: Request Uber ride
+    write: true
+  - tool_id: apex.tmt.mcp.lyft.request_ride
+    purpose: Request Lyft ride
+    write: true
+  - tool_id: apex.tmt.mcp.hertz.reserve
+    purpose: Reserve Hertz rental
+    write: true
+  - tool_id: apex.tmt.mcp.turo.reserve
+    purpose: Reserve Turo P2P rental
+    write: true
+  - tool_id: apex.tmt.mcp.chargepoint.plan_route
+    purpose: Plan EV-charging stops on a road-trip route
+    write: true
+
+hitl_gates:
+  - name: ground_budget_threshold
+    description: Ground-mobility booking over $100 requires user approval
+    fires_when: booking_total_usd > 100
+    surface: mobile_push
+    sla_minutes: 15
+
+oversight_modes: [HOTL]
+
+kpis:
+  - { name: door-to-door time (min), direction: down }
+  - { name: ground-mobility cost per trip, direction: down }

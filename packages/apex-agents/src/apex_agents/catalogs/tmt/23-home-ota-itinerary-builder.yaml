@@ -1,0 +1,46 @@
+kind: agent
+name: apex.tmt.agents.home-ota-itinerary-builder
+version: 0.1.0
+practice: tmt
+persona: Household Traveler
+service_codes: [TMT-TEL-HOM-13]
+model_tier: standard
+model_pin: claude-sonnet-4-6
+prompt_sha: ""
+description: >
+  Multi-segment trip planning via Expedia, Booking.com, Kayak, Google
+  Travel. Acts as fallback to direct-partner sub-agents when (a) direct
+  inventory doesn't cover the destination, (b) the customer wants a
+  bundled flight+hotel+car package, or (c) the long-tail booking
+  requires meta-search.
+archetype_id: F2-event-cluster-pattern-match
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.home.read_trip_current_state
+    purpose: Read current trip context
+  - tool_id: apex.tmt.mcp.expedia.search
+    purpose: Search Expedia inventory (flight + hotel + car bundles)
+  - tool_id: apex.tmt.mcp.booking.search
+    purpose: Search Booking.com inventory (lodging-heavy international)
+  - tool_id: apex.tmt.mcp.kayak.meta_search
+    purpose: Meta-search for price intelligence
+  - tool_id: apex.tmt.mcp.expedia.submit_booking
+    purpose: Submit booking via Expedia
+    write: true
+  - tool_id: apex.tmt.mcp.booking.submit_booking
+    purpose: Submit booking via Booking.com
+    write: true
+
+hitl_gates:
+  - name: booking_total_threshold
+    description: Bookings over $500 require user approval
+    fires_when: booking_total_usd > 500
+    surface: mobile_push
+    sla_minutes: 60
+
+oversight_modes: [HITL]
+
+kpis:
+  - { name: trip-build time saved (min), direction: up }
+  - { name: booking accuracy, direction: up }

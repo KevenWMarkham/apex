@@ -1,0 +1,52 @@
+kind: agent
+name: apex.tmt.agents.home-flight-concierge
+version: 0.1.0
+practice: tmt
+persona: Household Traveler
+service_codes: [TMT-TEL-HOM-11]
+model_tier: premium
+model_pin: claude-opus-4-7
+prompt_sha: ""
+description: >
+  Flight booking, status, IROPS rebooking, seat upgrade, baggage tracking
+  across American Airlines, Delta, United, Southwest, JetBlue, Alaska.
+  IROPS recovery is the wedge — detects disruption, cross-references
+  household calendar + traveler preferences, proposes alternate routing
+  (across carriers via Expedia fallback), submits rebook with attached
+  loyalty number.
+archetype_id: F1-continuous-monitor-hitl-alert
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.home.read_disruption_inflight
+    purpose: Read gold.v_tmt_hom_disruption_inflight
+  - tool_id: apex.tmt.mcp.home.read_trip_current_state
+    purpose: Read traveler trip context
+  - tool_id: apex.tmt.mcp.home.read_loyalty_balances
+    purpose: Read AAdvantage / SkyMiles / MileagePlus balances and tier
+  - tool_id: apex.tmt.mcp.aa.search_alternate_routings
+    purpose: Query AA for alternate routings
+  - tool_id: apex.tmt.mcp.expedia.search_cross_carrier
+    purpose: Fallback search across all carriers via Expedia partner endpoint
+  - tool_id: apex.tmt.mcp.aa.submit_rebook
+    purpose: Submit rebook to AA with attached AAdvantage member number
+    write: true
+  - tool_id: apex.tmt.mcp.delta.submit_rebook
+    purpose: Same for Delta
+    write: true
+  - tool_id: apex.tmt.mcp.united.submit_rebook
+    purpose: Same for United
+    write: true
+
+hitl_gates:
+  - name: irops_fare_difference
+    description: Rebooks with > $300 fare difference require user approval
+    fires_when: rebook_fare_difference_usd > 300
+    surface: mobile_push
+    sla_minutes: 5
+
+oversight_modes: [HITL]
+
+kpis:
+  - { name: IROPS recovery time (min), direction: down, target_band: "< 15 min median" }
+  - { name: rebook acceptance rate, direction: up }
