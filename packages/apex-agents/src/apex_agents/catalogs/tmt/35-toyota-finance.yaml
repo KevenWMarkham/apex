@@ -1,0 +1,40 @@
+kind: agent
+name: apex.tmt.agents.toyota-finance-insurance
+version: 0.1.0
+practice: tmt
+persona: Household Primary Account Holder
+service_codes: [TMT-TEL-MOB-04]
+model_tier: premium
+model_pin: claude-opus-4-7
+prompt_sha: ""
+description: >
+  Toyota Financial Services (loan, lease, refi) + Toyota Insurance
+  Management Solutions (UBI). Cross-OEM bench includes Ford Credit,
+  GM Financial. Insurance side may hand off to future Finance Channel.
+archetype_id: F3-predictive-trigger-workflow-aware
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.home.read_insurance_renewal_horizon
+    purpose: Read gold.v_tmt_mob_insurance_renewal_horizon
+  - tool_id: apex.tmt.mcp.toyota.financial.quote_refi
+    purpose: Quote a refi on existing TFS loan
+  - tool_id: apex.tmt.mcp.toyota.insurance.quote_ubi
+    purpose: Quote TIMS UBI policy
+  - tool_id: apex.tmt.mcp.toyota.financial.submit_refi_application
+    purpose: Submit refi application
+    write: true
+
+hitl_gates:
+  - name: financial_application
+    description: Any financial-application submission requires user approval
+    fires_when: action_type IN ("submit_refi_application","submit_lease_extension","switch_insurance")
+    surface: mobile_push
+    sla_minutes: 1440
+
+oversight_modes: [HITL]
+forbidden_classifications: []
+
+kpis:
+  - { name: TFS refi attach rate, direction: up }
+  - { name: UBI premium-savings $ per HH / yr, direction: up }

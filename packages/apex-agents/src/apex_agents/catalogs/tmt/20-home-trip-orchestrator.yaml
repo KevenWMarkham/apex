@@ -1,0 +1,36 @@
+kind: agent
+name: apex.tmt.agents.home-trip-orchestrator
+version: 0.1.0
+practice: tmt
+persona: Household Primary Account Holder (traveling)
+service_codes: [TMT-TEL-HOM-10]
+model_tier: premium
+model_pin: claude-opus-4-7
+prompt_sha: ""
+description: >
+  Trip-mode meta-orchestrator. Detects upcoming travel via calendar /
+  booking signals, drives household-state transitions
+  (At-Home → Departing → In-Transit → On-Location → Returning → Reunified),
+  routes trip intents to HOM-11..17 sub-agents, and coordinates with the
+  Home Orchestrator (HOM-99) on home-side posture.
+archetype_id: F4-orchestrator-with-subagents
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.home.read_trip_current_state
+    purpose: Read gold.v_tmt_hom_trip_current_state
+  - tool_id: apex.tmt.mcp.home.read_traveler_360_household
+    purpose: Read gold.v_tmt_hom_traveler_360_household
+  - tool_id: apex.tmt.mcp.home.transition_trip_state
+    purpose: Write trip_state_event and update rollup
+    write: true
+  - tool_id: apex.tmt.mcp.home.route_trip_intent
+    purpose: Dispatch to a trip sub-agent (HOM-11..17)
+    write: true
+
+oversight_modes: [HOTL]
+forbidden_classifications: [phi, cpni]
+
+kpis:
+  - { name: successful trip intent rate, direction: up, target_band: "+10 to +20 pp" }
+  - { name: state-transition latency (s), direction: down }

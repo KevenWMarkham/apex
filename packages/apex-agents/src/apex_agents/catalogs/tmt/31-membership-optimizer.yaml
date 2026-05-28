@@ -1,0 +1,38 @@
+kind: agent
+name: apex.tmt.agents.membership-optimizer
+version: 0.1.0
+practice: tmt
+persona: Household Primary Account Holder
+service_codes: [TMT-TEL-RTL-04]
+model_tier: standard
+model_pin: claude-sonnet-4-6
+prompt_sha: ""
+description: >
+  Walmart+ / Costco / Sam's Club / Amazon Prime tier optimization.
+  Tracks benefits-used vs annual-fee; recommends keep / cancel / downgrade
+  / upgrade based on actual household-usage pattern.
+archetype_id: F2-event-cluster-pattern-match
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.home.read_membership_payback
+    purpose: Read gold.v_tmt_rtl_membership_payback
+  - tool_id: apex.tmt.mcp.walmart.plus.modify
+    purpose: Add / cancel / upgrade Walmart+
+    write: true
+  - tool_id: apex.tmt.mcp.costco.modify
+    purpose: Add / upgrade Costco membership
+    write: true
+
+hitl_gates:
+  - name: membership_change
+    description: Cancellation or downgrade requires user approval
+    fires_when: action_type IN ("cancel","downgrade")
+    surface: mobile_push
+    sla_minutes: 240
+
+oversight_modes: [HOTL]
+
+kpis:
+  - { name: net annual savings on memberships, direction: up }
+  - { name: payback-ratio improvement, direction: up }

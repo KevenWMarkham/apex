@@ -1,0 +1,43 @@
+kind: agent
+name: apex.tmt.agents.toyota-dealer
+version: 0.1.0
+practice: tmt
+persona: Household Vehicle Owner
+service_codes: [TMT-TEL-MOB-02]
+model_tier: standard
+model_pin: claude-sonnet-4-6
+prompt_sha: ""
+description: >
+  Dealer service scheduling + recall coordination + OTA software updates.
+  Multi-OEM — routes by vehicle's OEM. The recall-reconciliation wedge
+  lives here.
+archetype_id: F1-continuous-monitor-hitl-alert
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.home.read_open_recalls
+    purpose: Read gold.v_tmt_mob_open_recalls
+  - tool_id: apex.tmt.mcp.home.read_service_due
+    purpose: Read gold.v_tmt_mob_service_due
+  - tool_id: apex.tmt.mcp.toyota.dealer.book_appointment
+    purpose: Book Toyota dealer appointment
+    write: true
+  - tool_id: apex.tmt.mcp.ford.dealer.book_appointment
+    purpose: Book Ford dealer appointment
+    write: true
+  - tool_id: apex.tmt.mcp.gm.dealer.book_appointment
+    purpose: Book GM dealer appointment
+    write: true
+
+hitl_gates:
+  - name: dealer_service_cost
+    description: Service estimated > $300 requires user approval
+    fires_when: estimated_cost_usd > 300
+    surface: mobile_push
+    sla_minutes: 240
+
+oversight_modes: [HITL]
+
+kpis:
+  - { name: recall completion rate, direction: up }
+  - { name: on-time scheduled service, direction: up }

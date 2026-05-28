@@ -1,0 +1,39 @@
+kind: agent
+name: apex.tmt.agents.sazerac-allocation-alerts
+version: 0.1.0
+practice: tmt
+persona: Household Primary Account Holder (collector)
+service_codes: [TMT-TEL-BEV-02]
+model_tier: premium
+model_pin: claude-opus-4-7
+prompt_sha: ""
+description: >
+  Buffalo Trace Antique Collection, Pappy Van Winkle, Eagle Rare 17,
+  George T. Stagg, William Larue Weller — allocation drop alerts with
+  reserved-hold mechanics via Sazerac-mediated partnership with licensed
+  retailers.
+archetype_id: F2-event-cluster-pattern-match
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.home.read_active_alerts
+    purpose: Read gold.v_tmt_bev_active_alerts
+  - tool_id: apex.tmt.mcp.sazerac.allocation.register_watch
+    purpose: Register a watch on a specific SKU + retailer market
+    write: true
+  - tool_id: apex.tmt.mcp.sazerac.allocation.reserve
+    purpose: Place a reserved hold on a drop
+    write: true
+
+hitl_gates:
+  - name: reserved_hold_confirmation
+    description: All reserved holds require customer confirmation before commit
+    fires_when: any_reserved_hold_proposed
+    surface: mobile_push
+    sla_minutes: 30
+
+oversight_modes: [HITL]
+
+kpis:
+  - { name: allocation hit rate, direction: up }
+  - { name: customer conversion on drop, direction: up }

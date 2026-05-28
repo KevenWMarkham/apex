@@ -1,0 +1,40 @@
+kind: agent
+name: apex.tmt.agents.home-maintenance-orchestrator
+version: 0.1.0
+practice: tmt
+persona: Household Primary Account Holder
+service_codes: [TMT-TEL-HOM-04]
+model_tier: standard
+model_pin: claude-sonnet-4-6
+prompt_sha: ""
+description: >
+  Filter, fluid, firmware, and recall triage across the household's
+  appliance fleet. Auto-orders consumables under a household-set
+  threshold; HITL for service-call dispatch and warranty co-sell.
+archetype_id: F2-event-cluster-pattern-match
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.home.read_appliance_health
+    purpose: Read diagnostic codes + firmware status per device
+  - tool_id: apex.tmt.mcp.cpsc.recall_lookup
+    purpose: Cross-reference household devices against CPSC/NHTSA recall feeds
+  - tool_id: apex.tmt.mcp.home.order_consumable
+    purpose: Order replacement filters / fluids / consumables
+    write: true
+  - tool_id: apex.tmt.mcp.servicepartner.book_dispatch
+    purpose: Book HVAC / plumbing / appliance-service dispatch
+    write: true
+
+hitl_gates:
+  - name: service_call_dispatch
+    description: Service-call dispatch requires customer approval
+    fires_when: dispatch_estimated_cost_usd > 100
+    surface: mobile_push
+    sla_minutes: 240
+
+oversight_modes: [HOTL]
+
+kpis:
+  - { name: repair-avoidance $ per HH, direction: up }
+  - { name: on-time consumable replacement rate, direction: up }

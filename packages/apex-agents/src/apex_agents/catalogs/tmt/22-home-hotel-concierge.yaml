@@ -1,0 +1,49 @@
+kind: agent
+name: apex.tmt.agents.home-hotel-concierge
+version: 0.1.0
+practice: tmt
+persona: Household Traveler
+service_codes: [TMT-TEL-HOM-12]
+model_tier: premium
+model_pin: claude-opus-4-7
+prompt_sha: ""
+description: >
+  Hotel booking, mobile-key delivery, room-prefs, on-property orchestration
+  across Marriott Bonvoy, Hilton Honors, Hyatt World, IHG One Rewards,
+  Accor ALL. Hotel-walk handling is the secondary wedge — when a property
+  is overbooked, pre-arranges a sister-property walk before the customer
+  arrives.
+archetype_id: F3-predictive-trigger-workflow-aware
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.home.read_trip_current_state
+    purpose: Read traveler trip context for hotel segment
+  - tool_id: apex.tmt.mcp.home.read_loyalty_balances
+    purpose: Read Bonvoy / Honors / World / One Rewards balances and tier
+  - tool_id: apex.tmt.mcp.marriott.search_property
+    purpose: Search Marriott direct inventory at the destination
+  - tool_id: apex.tmt.mcp.hilton.search_property
+    purpose: Same for Hilton
+  - tool_id: apex.tmt.mcp.marriott.submit_booking
+    purpose: Submit hotel-direct booking with Bonvoy attached
+    write: true
+  - tool_id: apex.tmt.mcp.marriott.request_mobile_key
+    purpose: Provision mobile key into household vault
+    write: true
+  - tool_id: apex.tmt.mcp.marriott.update_room_prefs
+    purpose: Update room preferences (high-floor, quiet, etc.)
+    write: true
+
+hitl_gates:
+  - name: rate_change_on_rebook
+    description: Hotel rebook with > 15% rate increase requires user approval
+    fires_when: rate_change_pct > 15
+    surface: mobile_push
+    sla_minutes: 30
+
+oversight_modes: [HITL]
+
+kpis:
+  - { name: on-property NPS, direction: up }
+  - { name: hotel-walk recovery rate, direction: up }

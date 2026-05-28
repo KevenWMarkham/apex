@@ -1,0 +1,36 @@
+kind: agent
+name: apex.tmt.agents.home-return-reunification
+version: 0.1.0
+practice: tmt
+persona: Household Primary Account Holder
+service_codes: [TMT-TEL-HOM-17]
+model_tier: standard
+model_pin: claude-sonnet-4-6
+prompt_sha: ""
+description: >
+  Pre-arrival home prep + post-arrival reconciliation. Wakes home agents
+  (HOM-01..08) out of vacation posture as the traveler approaches home;
+  triggers fresh-restock grocery order, pre-cool/heat HVAC, re-arms
+  security to standard mode, resumes maintenance triage, runs welcome-home
+  wellness check.
+archetype_id: F4-orchestrator-with-subagents
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.home.read_trip_current_state
+    purpose: Determine return-leg ETA
+  - tool_id: apex.tmt.mcp.home.transition_trip_state
+    purpose: Move trip state to Reunified
+    write: true
+  - tool_id: apex.tmt.mcp.home.wake_home_agent
+    purpose: Resume any home agent from vacation posture
+    write: true
+  - tool_id: apex.tmt.mcp.home.read_household_360
+    purpose: Verify home-side baseline restored
+
+oversight_modes: [HOTL]
+forbidden_classifications: [phi, cpni]
+
+kpis:
+  - { name: time-to-home-baseline post-trip (hours), direction: down }
+  - { name: deferred-action reconciliation rate, direction: up }

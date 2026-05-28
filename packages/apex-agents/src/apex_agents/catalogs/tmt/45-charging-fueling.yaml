@@ -1,0 +1,37 @@
+kind: agent
+name: apex.tmt.agents.charging-fueling
+version: 0.1.0
+practice: tmt
+persona: Household Vehicle Owner
+service_codes: [TMT-TEL-AUT-06]
+model_tier: standard
+model_pin: claude-sonnet-4-6
+prompt_sha: ""
+description: >
+  Multi-network charging + fuel-price optimization. Shell + ChargePoint
+  anchors; Chevron / BP / ExxonMobil / Costco Gas + EVgo / Electrify
+  America / Tesla Supercharger bench. Reads telematics + GasBuddy +
+  charging-network feeds; surfaces lowest-cost station within range.
+archetype_id: F2-event-cluster-pattern-match
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.gasbuddy.price_compare
+    purpose: Compare fuel prices by location
+  - tool_id: apex.tmt.mcp.chargepoint.network_status
+    purpose: ChargePoint station availability
+  - tool_id: apex.tmt.mcp.evgo.network_status
+    purpose: EVgo station availability
+  - tool_id: apex.tmt.mcp.electrify_america.network_status
+    purpose: Electrify America station availability
+  - tool_id: apex.tmt.mcp.tesla.supercharger_status
+    purpose: Tesla Supercharger availability (and access for non-Tesla EVs)
+  - tool_id: apex.tmt.mcp.chargepoint.start_session
+    purpose: Start a ChargePoint session
+    write: true
+
+oversight_modes: [HOTL]
+
+kpis:
+  - { name: annual fuel/charging cost reduction, direction: up }
+  - { name: time-in-station, direction: down }

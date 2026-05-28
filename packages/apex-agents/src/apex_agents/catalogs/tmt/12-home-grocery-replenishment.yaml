@@ -1,0 +1,39 @@
+kind: agent
+name: apex.tmt.agents.home-grocery-replenishment
+version: 0.1.0
+practice: tmt
+persona: Household Primary Account Holder
+service_codes: [TMT-TEL-HOM-01]
+model_tier: standard
+model_pin: claude-sonnet-4-6
+prompt_sha: ""
+description: >
+  Pantry/fridge-driven grocery orchestration. Detects low/expiring items,
+  cross-checks calendar + budget, drafts an order, surfaces for approval,
+  submits to the household's connected grocer via vendor OAuth.
+archetype_id: F3-predictive-trigger-workflow-aware
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.home.read_pantry_state
+    purpose: Read gold.v_tmt_hom_pantry_state
+  - tool_id: apex.tmt.mcp.home.read_purchase_history
+    purpose: Read trailing purchase history for consumption-rate calibration
+  - tool_id: apex.tmt.mcp.home.draft_cart
+    purpose: Compose proposed grocery cart
+  - tool_id: apex.tmt.mcp.kroger.submit_order
+    purpose: Submit cart to grocer via vendor OAuth
+    write: true
+
+hitl_gates:
+  - name: order_value_threshold
+    description: Orders > $150 require user approval in app
+    fires_when: cart_total_usd > 150
+    surface: mobile_push
+    sla_minutes: 60
+
+oversight_modes: [HITL]
+
+kpis:
+  - { name: grocery time saved per HH, direction: up, target_band: "+30 to +60 min/wk" }
+  - { name: order accuracy, direction: up }

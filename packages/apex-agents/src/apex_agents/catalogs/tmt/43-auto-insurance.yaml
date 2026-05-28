@@ -1,0 +1,55 @@
+kind: agent
+name: apex.tmt.agents.auto-insurance
+version: 0.1.0
+practice: tmt
+persona: Household Primary Account Holder
+service_codes: [TMT-TEL-AUT-04]
+model_tier: premium
+model_pin: claude-opus-4-7
+prompt_sha: ""
+description: >
+  Auto-insurance quote, bind, and management. Progressive Snapshot UBI
+  anchor; bench across State Farm, Geico, Allstate, Liberty Mutual, Root,
+  Lemonade Car, USAA. Reads household telematics to pre-compute UBI
+  discount; surfaces savings; binds policy with HITL.
+archetype_id: F3-predictive-trigger-workflow-aware
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.progressive.quote_with_ubi
+    purpose: Progressive Snapshot quote with household telematics
+    write: true
+  - tool_id: apex.tmt.mcp.state_farm.quote
+    purpose: State Farm Drive Safe & Save quote
+    write: true
+  - tool_id: apex.tmt.mcp.geico.quote
+    purpose: Geico DriveEasy quote
+    write: true
+  - tool_id: apex.tmt.mcp.allstate.quote
+    purpose: Allstate Drivewise quote
+    write: true
+  - tool_id: apex.tmt.mcp.progressive.bind_policy
+    purpose: Bind Progressive policy
+    write: true
+  - tool_id: apex.tmt.mcp.home.read_household_fleet_360
+    purpose: Read household-fleet context for multi-vehicle quotes
+  - tool_id: apex.tmt.mcp.home.read_telematics_summary
+    purpose: Read telematics summary for UBI pre-computation
+
+hitl_gates:
+  - name: policy_bind
+    description: Every policy bind requires HITL
+    fires_when: action_type IN ("*.bind_policy")
+    surface: mobile_push
+    sla_minutes: 30
+  - name: ubi_enrollment
+    description: UBI telematics-data sharing requires explicit opt-in per carrier
+    fires_when: any_ubi_enrollment
+    surface: mobile_push
+    sla_minutes: 60
+
+oversight_modes: [HITL]
+
+kpis:
+  - { name: annual premium savings per HH, direction: up, target_band: "$200 to $800 / yr" }
+  - { name: UBI participation rate, direction: up }

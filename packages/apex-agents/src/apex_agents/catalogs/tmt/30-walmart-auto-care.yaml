@@ -1,0 +1,36 @@
+kind: agent
+name: apex.tmt.agents.walmart-auto-care
+version: 0.1.0
+practice: tmt
+persona: Household Primary Account Holder
+service_codes: [TMT-TEL-RTL-03]
+model_tier: standard
+model_pin: claude-sonnet-4-6
+prompt_sha: ""
+description: >
+  Walmart Auto Care (TLE) oil change, tire service, battery service.
+  Coordinates with Mobility Channel (MOB-02 dealer) on warranty boundary
+  — under warranty routes to OEM dealer; out of warranty routes by cost
+  and convenience.
+archetype_id: F3-predictive-trigger-workflow-aware
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.home.read_service_due
+    purpose: Read upcoming auto-service signals
+  - tool_id: apex.tmt.mcp.walmart.auto_care.book_tle
+    purpose: Book TLE appointment
+    write: true
+
+hitl_gates:
+  - name: service_cost_estimate
+    description: Service estimated > $150 requires user approval
+    fires_when: estimated_cost_usd > 150
+    surface: mobile_push
+    sla_minutes: 60
+
+oversight_modes: [HOTL]
+
+kpis:
+  - { name: avoided unplanned service events, direction: up }
+  - { name: on-time scheduled maintenance, direction: up }

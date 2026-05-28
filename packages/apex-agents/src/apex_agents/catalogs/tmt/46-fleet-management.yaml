@@ -1,0 +1,40 @@
+kind: agent
+name: apex.tmt.agents.fleet-management
+version: 0.1.0
+practice: tmt
+persona: Multi-Vehicle Household / Small Business Account Holder
+service_codes: [TMT-TEL-AUT-07]
+model_tier: standard
+model_pin: claude-sonnet-4-6
+prompt_sha: ""
+description: >
+  Multi-vehicle household + small-business fleet management. IRS-grade
+  mileage log per vehicle per driver. Tax-deduction tracking; per-vehicle
+  cost-of-ownership rollup. B2B handoff to Element Fleet / Wheels Donlen
+  for true small-business fleets.
+archetype_id: F1-continuous-monitor-hitl-alert
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.home.read_household_fleet_360
+    purpose: Read multi-vehicle fleet state
+  - tool_id: apex.tmt.mcp.home.read_fleet_mileage_log
+    purpose: Read IRS-compliant mileage log
+  - tool_id: apex.tmt.mcp.home.read_telematics_summary
+    purpose: Read trip-by-trip telematics for mileage attribution
+  - tool_id: apex.tmt.mcp.element.fleet_handoff
+    purpose: Hand off to Element Fleet for B2B-grade fleet mgmt
+    write: true
+
+hitl_gates:
+  - name: tax_deduction_submission
+    description: Tax-deduction submission requires user approval
+    fires_when: action_type == "tax_deduction.submit"
+    surface: mobile_push
+    sla_minutes: 1440
+
+oversight_modes: [HOTL]
+
+kpis:
+  - { name: tax deduction $ captured, direction: up }
+  - { name: mileage log accuracy (IRS audit pass rate), direction: up }

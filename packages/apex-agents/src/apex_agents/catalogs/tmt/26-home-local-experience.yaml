@@ -1,0 +1,44 @@
+kind: agent
+name: apex.tmt.agents.home-local-experience
+version: 0.1.0
+practice: tmt
+persona: Household Traveler
+service_codes: [TMT-TEL-HOM-16]
+model_tier: standard
+model_pin: claude-sonnet-4-6
+prompt_sha: ""
+description: >
+  Dining, activities, tours, reservations at destination. Coordinates
+  OpenTable, Resy, Tock, Viator, GetYourGuide. Reads traveler dietary
+  preferences and party-size from household vault; books with
+  appropriate restaurant or activity given trip pacing.
+archetype_id: F2-event-cluster-pattern-match
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.home.read_trip_current_state
+    purpose: Read traveler trip context
+  - tool_id: apex.tmt.mcp.opentable.search
+    purpose: Search OpenTable availability at destination
+  - tool_id: apex.tmt.mcp.opentable.reserve
+    purpose: Reserve dining
+    write: true
+  - tool_id: apex.tmt.mcp.resy.reserve
+    purpose: Same for Resy
+    write: true
+  - tool_id: apex.tmt.mcp.viator.book_experience
+    purpose: Book tours and activities via Viator
+    write: true
+
+hitl_gates:
+  - name: reservation_conflict
+    description: Reservations that conflict with existing itinerary require user review
+    fires_when: itinerary_conflict_detected == true
+    surface: mobile_push
+    sla_minutes: 60
+
+oversight_modes: [HOTL]
+
+kpis:
+  - { name: bookings completed per trip, direction: up }
+  - { name: itinerary-conflict rate, direction: down }

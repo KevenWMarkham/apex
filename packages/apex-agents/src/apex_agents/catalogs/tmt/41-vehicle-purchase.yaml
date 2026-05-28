@@ -1,0 +1,59 @@
+kind: agent
+name: apex.tmt.agents.vehicle-purchase
+version: 0.1.0
+practice: tmt
+persona: Household Primary Account Holder
+service_codes: [TMT-TEL-AUT-02]
+model_tier: premium
+model_pin: claude-opus-4-7
+prompt_sha: ""
+description: >
+  Purchase orchestrator. Coordinates dealer-direct negotiation (AutoNation
+  anchor + Lithia / Penske bench), used-car retailer alternatives (CarMax,
+  Carvana), pre-arrival pricing commitment, DMV automation. Orchestrates
+  AUT-03 financing and AUT-04 insurance into the purchase flow.
+archetype_id: F4-orchestrator-with-subagents
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.autonation.inventory_search
+    purpose: Search AutoNation inventory
+  - tool_id: apex.tmt.mcp.autonation.negotiation_initiate
+    purpose: Start dealer-direct negotiation with target OTD price
+    write: true
+  - tool_id: apex.tmt.mcp.autonation.reserve_vehicle
+    purpose: Reserve a specific vehicle pending appointment
+    write: true
+  - tool_id: apex.tmt.mcp.carmax.inventory_search
+    purpose: Search CarMax used inventory
+  - tool_id: apex.tmt.mcp.carvana.inventory_search
+    purpose: Search Carvana used inventory
+  - tool_id: apex.tmt.mcp.vitu.dmv_pre_fill
+    purpose: Pre-fill DMV title + registration paperwork
+    write: true
+  - tool_id: apex.tmt.mcp.home.route_intent
+    purpose: Route to AUT-03 (financing), AUT-04 (insurance), AUT-08 (resale)
+    write: true
+
+hitl_gates:
+  - name: otd_above_shortlist_median
+    description: Out-the-door price > shortlist median +$5K requires user approval
+    fires_when: otd_delta_usd > 5000
+    surface: mobile_push
+    sla_minutes: 60
+  - name: trade_in_delta
+    description: Trade-in offer differs from KBB valuation by > $2K requires user approval
+    fires_when: trade_in_delta_vs_kbb_usd > 2000
+    surface: mobile_push
+    sla_minutes: 60
+  - name: final_purchase_commit
+    description: Every final-purchase commitment requires HITL
+    fires_when: action_type == "autonation.reserve_vehicle" and commit_intent == true
+    surface: mobile_push
+    sla_minutes: 5
+
+oversight_modes: [HITL]
+
+kpis:
+  - { name: walk-out time (min), direction: down, target_band: "< 60 min" }
+  - { name: OTD price vs market median, direction: down }

@@ -1,0 +1,45 @@
+kind: agent
+name: apex.tmt.agents.home-vacation-rental
+version: 0.1.0
+practice: tmt
+persona: Household Traveler
+service_codes: [TMT-TEL-HOM-14]
+model_tier: standard
+model_pin: claude-sonnet-4-6
+prompt_sha: ""
+description: >
+  Vacation rental booking + check-in friction layer across Airbnb, Vrbo,
+  Plum Guide, Sonder. Handles host-comms, key-pad codes, local-services
+  bundling, and Airbnb Experiences cross-sell. Identity-verification
+  handoff leverages the household vault.
+archetype_id: F3-predictive-trigger-workflow-aware
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.home.read_trip_current_state
+    purpose: Read traveler trip context
+  - tool_id: apex.tmt.mcp.airbnb.search
+    purpose: Search Airbnb inventory at destination
+  - tool_id: apex.tmt.mcp.vrbo.search
+    purpose: Search Vrbo inventory at destination
+  - tool_id: apex.tmt.mcp.airbnb.submit_booking
+    purpose: Submit Airbnb booking
+    write: true
+  - tool_id: apex.tmt.mcp.airbnb.fetch_checkin_instructions
+    purpose: Pull check-in instructions into household vault
+  - tool_id: apex.tmt.mcp.airbnb.send_host_message
+    purpose: Send host message via Airbnb Messaging
+    write: true
+
+hitl_gates:
+  - name: cancellation_refund_flow
+    description: Cancellations / refunds require user approval
+    fires_when: action_type IN ("airbnb.cancel_booking")
+    surface: mobile_push
+    sla_minutes: 60
+
+oversight_modes: [HITL]
+
+kpis:
+  - { name: check-in friction reduction (min), direction: up }
+  - { name: host-comms response rate, direction: up }

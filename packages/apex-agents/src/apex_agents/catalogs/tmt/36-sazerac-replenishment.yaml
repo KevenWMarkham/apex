@@ -1,0 +1,50 @@
+kind: agent
+name: apex.tmt.agents.sazerac-replenishment
+version: 0.1.0
+practice: tmt
+persona: Household Primary Account Holder (legal-age verified)
+service_codes: [TMT-TEL-BEV-01]
+model_tier: standard
+model_pin: claude-sonnet-4-6
+prompt_sha: ""
+description: >
+  Age-verified adult-beverage replenishment with state-shipping compliance.
+  Reads cellar inventory + cocktail-recipe upcoming needs; submits orders
+  to Total Wine / BevMo / Binny's / Costco wine / Walmart liquor / direct
+  distillery per state-rules engine.
+archetype_id: F3-predictive-trigger-workflow-aware
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.home.read_household_cellar
+    purpose: Read gold.v_tmt_bev_household_cellar
+  - tool_id: apex.tmt.mcp.home.read_state_eligibility
+    purpose: Check state-eligibility for a SKU at order time
+  - tool_id: apex.tmt.mcp.totalwine.submit_order
+    purpose: Submit Total Wine order
+    write: true
+  - tool_id: apex.tmt.mcp.bevmo.submit_order
+    purpose: Submit BevMo order
+    write: true
+  - tool_id: apex.tmt.mcp.veratad.verify_age
+    purpose: Run age verification
+    write: true
+
+hitl_gates:
+  - name: age_verification
+    description: Every order requires fresh or cached age verification
+    fires_when: any_order
+    surface: mobile_push
+    sla_minutes: 30
+  - name: state_eligibility_fail
+    description: Order denied by state-rules engine — surface to user
+    fires_when: state_eligibility == false
+    surface: mobile_push
+    sla_minutes: 5
+
+oversight_modes: [HITL]
+forbidden_classifications: []
+
+kpis:
+  - { name: compliant-order rate, direction: up }
+  - { name: cellar-replenishment lead time, direction: down }

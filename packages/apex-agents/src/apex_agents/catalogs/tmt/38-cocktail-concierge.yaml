@@ -1,0 +1,32 @@
+kind: agent
+name: apex.tmt.agents.cocktail-concierge
+version: 0.1.0
+practice: tmt
+persona: Household Primary Account Holder
+service_codes: [TMT-TEL-BEV-03]
+model_tier: standard
+model_pin: claude-sonnet-4-6
+prompt_sha: ""
+description: >
+  Cocktail recipes + ingredient orchestration across BEV (spirits) and
+  Retail (mixers, citrus, garnish). Reads cellar; suggests recipes based
+  on cellar + weather + day-of-week + household preferences.
+archetype_id: F2-event-cluster-pattern-match
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.home.read_household_cellar
+    purpose: Read household cellar state
+  - tool_id: apex.tmt.mcp.sazerac.cocktail_library
+    purpose: Read Sazerac-licensed recipe library
+  - tool_id: apex.tmt.mcp.diffords.cocktail_library
+    purpose: Read Diffords-licensed recipes
+  - tool_id: apex.tmt.mcp.home.route_intent
+    purpose: Route ingredient-purchase intents to BEV-01 / RTL-01
+    write: true
+
+oversight_modes: [HOTL]
+
+kpis:
+  - { name: recipes completed per HH, direction: up }
+  - { name: cross-Channel basket attach, direction: up }

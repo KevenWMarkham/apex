@@ -1,0 +1,38 @@
+kind: agent
+name: apex.tmt.agents.vehicle-discovery
+version: 0.1.0
+practice: tmt
+persona: Household Vehicle Researcher
+service_codes: [TMT-TEL-AUT-01]
+model_tier: standard
+model_pin: claude-sonnet-4-6
+prompt_sha: ""
+description: >
+  Vehicle research, shortlisting, side-by-side comparison across KBB,
+  Autotrader, Edmunds, CarGurus, TrueCar, and OEM-direct inventory.
+  Read-only; never commits purchases or credit pulls.
+archetype_id: F2-event-cluster-pattern-match
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.kbb.search_listings
+    purpose: Search KBB inventory + valuations
+  - tool_id: apex.tmt.mcp.autotrader.search_listings
+    purpose: Search Autotrader inventory
+  - tool_id: apex.tmt.mcp.edmunds.research
+    purpose: Read Edmunds reviews and pricing
+  - tool_id: apex.tmt.mcp.cargurus.search_listings
+    purpose: Search CarGurus
+  - tool_id: apex.tmt.mcp.consumer_reports.reliability
+    purpose: Read Consumer Reports reliability data
+  - tool_id: apex.tmt.mcp.home.read_vehicle_portfolio
+    purpose: Read household's existing vehicle portfolio for replacement context
+  - tool_id: apex.tmt.mcp.home.shortlist_update
+    purpose: Update household's vehicle shortlist (vault write)
+    write: true
+
+oversight_modes: [HOTL]
+
+kpis:
+  - { name: time-to-shortlist (hrs), direction: down }
+  - { name: shortlist-to-purchase conversion, direction: up }

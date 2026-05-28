@@ -1,0 +1,33 @@
+kind: agent
+name: apex.tmt.agents.home-energy-optimizer
+version: 0.1.0
+practice: tmt
+persona: Household Primary Account Holder
+service_codes: [TMT-TEL-HOM-02]
+model_tier: standard
+model_pin: claude-sonnet-4-6
+prompt_sha: ""
+description: >
+  Tariff-aware HVAC, EV-charge, and discretionary-load shifting against
+  utility ToU windows and the customer's posted tariff. Optional
+  demand-response enrolment shares capacity-payment back to the household.
+archetype_id: F1-continuous-monitor-hitl-alert
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.home.read_energy_household_hourly
+    purpose: Read gold.v_tmt_hom_energy_household_hourly
+  - tool_id: apex.tmt.mcp.home.read_climate_state
+    purpose: Read current HVAC + thermostat + occupancy state
+  - tool_id: apex.tmt.mcp.nest.set_setpoint
+    purpose: Adjust thermostat setpoint within user-defined band
+    write: true
+  - tool_id: apex.tmt.mcp.chargepoint.schedule_charge
+    purpose: Schedule EV charging window
+    write: true
+
+oversight_modes: [HOTL]
+
+kpis:
+  - { name: $/mo energy saved per HH, direction: up, target_band: "+8 to +18 USD" }
+  - { name: peak-window load reduction, direction: up }

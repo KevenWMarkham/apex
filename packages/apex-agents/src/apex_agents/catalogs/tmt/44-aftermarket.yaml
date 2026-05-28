@@ -1,0 +1,43 @@
+kind: agent
+name: apex.tmt.agents.aftermarket
+version: 0.1.0
+practice: tmt
+persona: Household Vehicle Owner
+service_codes: [TMT-TEL-AUT-05]
+model_tier: standard
+model_pin: claude-sonnet-4-6
+prompt_sha: ""
+description: >
+  Aftermarket parts + accessories orchestration across AutoZone (anchor),
+  Advance Auto, O'Reilly, NAPA, RockAuto, Amazon Auto. Cross-retailer
+  price comparison; routes to nearest in-stock + cheapest combination.
+archetype_id: F2-event-cluster-pattern-match
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.autozone.parts_search
+    purpose: Search AutoZone parts
+  - tool_id: apex.tmt.mcp.advance_auto.parts_search
+    purpose: Search Advance Auto Parts
+  - tool_id: apex.tmt.mcp.oreilly.parts_search
+    purpose: Search O'Reilly Auto Parts
+  - tool_id: apex.tmt.mcp.napa.parts_search
+    purpose: Search NAPA Auto Parts
+  - tool_id: apex.tmt.mcp.rockauto.parts_search
+    purpose: Search RockAuto catalog
+  - tool_id: apex.tmt.mcp.autozone.submit_order
+    purpose: Submit AutoZone order
+    write: true
+
+hitl_gates:
+  - name: parts_order_threshold
+    description: Parts orders > $200 require user approval
+    fires_when: order_total_usd > 200
+    surface: mobile_push
+    sla_minutes: 60
+
+oversight_modes: [HOTL]
+
+kpis:
+  - { name: cross-retailer price savings, direction: up }
+  - { name: order accuracy, direction: up }

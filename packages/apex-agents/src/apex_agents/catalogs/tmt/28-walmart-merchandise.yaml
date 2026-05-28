@@ -1,0 +1,45 @@
+kind: agent
+name: apex.tmt.agents.walmart-merchandise
+version: 0.1.0
+practice: tmt
+persona: Household Primary Account Holder
+service_codes: [TMT-TEL-RTL-01]
+model_tier: standard
+model_pin: claude-sonnet-4-6
+prompt_sha: ""
+description: >
+  Multi-retailer general-merchandise + errand-chain orchestration. Walmart
+  is the anchor; the orchestrator routes to Target, Costco, Best Buy,
+  Home Depot, Lowes when those retailers fit better. Composes optimized
+  errand chains across the household's preferred shopping route.
+archetype_id: F2-event-cluster-pattern-match
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.home.read_errand_chain_proposal
+    purpose: Read gold.v_tmt_rtl_errand_chain_proposal
+  - tool_id: apex.tmt.mcp.walmart.search
+    purpose: Search Walmart inventory + price
+  - tool_id: apex.tmt.mcp.target.search
+    purpose: Same for Target
+  - tool_id: apex.tmt.mcp.costco.search
+    purpose: Same for Costco
+  - tool_id: apex.tmt.mcp.walmart.submit_pickup_order
+    purpose: Submit Walmart pickup order
+    write: true
+  - tool_id: apex.tmt.mcp.target.submit_pickup_order
+    purpose: Submit Target pickup order
+    write: true
+
+hitl_gates:
+  - name: chain_total_threshold
+    description: Errand chain with total > $200 requires user approval
+    fires_when: chain_total_usd > 200
+    surface: mobile_push
+    sla_minutes: 60
+
+oversight_modes: [HOTL]
+
+kpis:
+  - { name: errand-chain time saved per HH (min), direction: up }
+  - { name: chain-completion rate, direction: up }

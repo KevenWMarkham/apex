@@ -1,0 +1,34 @@
+kind: agent
+name: apex.tmt.agents.toyota-connected
+version: 0.1.0
+practice: tmt
+persona: Household Vehicle Owner
+service_codes: [TMT-TEL-MOB-01]
+model_tier: standard
+model_pin: claude-sonnet-4-6
+prompt_sha: ""
+description: >
+  Toyota Connected Services extension; also bridges Ford SYNC 4 + GM
+  OnStar + Tesla + Honda HondaLink + Hyundai Bluelink + Stellantis
+  Uconnect under one household-fleet view. Extends HOM-07 (vehicle).
+archetype_id: F1-continuous-monitor-hitl-alert
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.home.read_household_fleet_360
+    purpose: Read gold.v_tmt_mob_household_fleet_360
+  - tool_id: apex.tmt.mcp.toyota.connected.read_vehicle_health
+    purpose: Read Toyota Connected telematics
+  - tool_id: apex.tmt.mcp.ford.sync.read_vehicle_health
+    purpose: Same for Ford
+  - tool_id: apex.tmt.mcp.gm.onstar.read_vehicle_health
+    purpose: Same for GM
+  - tool_id: apex.tmt.mcp.toyota.connected.remote_start
+    purpose: Remote start (write)
+    write: true
+
+oversight_modes: [HOTL]
+
+kpis:
+  - { name: telematics-coverage rate, direction: up }
+  - { name: cross-OEM signal latency (s), direction: down }
