@@ -1,0 +1,60 @@
+kind: agent
+name: apex.tmt.agents.auto-financing
+version: 0.1.0
+practice: tmt
+persona: Household Primary Account Holder
+service_codes: [TMT-TEL-AUT-03]
+model_tier: premium
+model_pin: claude-opus-4-7
+prompt_sha: ""
+description: >
+  Pre-approval shopping across Capital One Auto Navigator (soft-pull
+  anchor), Ally, Chase Auto, USAA, AutoNation Finance, and credit unions.
+  Manages soft-vs-hard credit-pull discipline; surfaces best-APR offer;
+  executes final financing only with explicit HITL consent.
+archetype_id: F3-predictive-trigger-workflow-aware
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.capital_one.auto_pre_approval
+    purpose: Run Capital One Auto Navigator soft-pull pre-approval
+    write: true
+  - tool_id: apex.tmt.mcp.ally.auto_pre_approval
+    purpose: Run Ally Auto pre-approval
+    write: true
+  - tool_id: apex.tmt.mcp.chase.auto_pre_approval
+    purpose: Run Chase Auto pre-approval
+    write: true
+  - tool_id: apex.tmt.mcp.usaa.auto_pre_approval
+    purpose: Run USAA Auto pre-approval (eligibility required)
+    write: true
+  - tool_id: apex.tmt.mcp.autonation_finance.pre_approval
+    purpose: Run AutoNation Finance pre-approval
+    write: true
+  - tool_id: apex.tmt.mcp.capital_one.auto_finalize
+    purpose: Finalize Capital One auto loan (hard pull)
+    write: true
+
+hitl_gates:
+  - name: soft_pull_session
+    description: Authorize soft-pull session (required at start of shopping window)
+    fires_when: any_pre_approval_action and no_active_soft_pull_session
+    surface: mobile_push
+    sla_minutes: 5
+  - name: hard_pull_authorization
+    description: Every hard credit pull requires explicit per-application HITL
+    fires_when: any_hard_pull
+    surface: mobile_push
+    sla_minutes: 5
+  - name: final_finance_commitment
+    description: Final financing decision requires HITL
+    fires_when: action_type == "*.auto_finalize"
+    surface: mobile_push
+    sla_minutes: 30
+
+oversight_modes: [HITL]
+forbidden_classifications: []
+
+kpis:
+  - { name: best-APR delta vs dealer-direct, direction: down }
+  - { name: pre-approval acceptance rate, direction: up }

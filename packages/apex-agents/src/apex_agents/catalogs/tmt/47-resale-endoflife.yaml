@@ -1,0 +1,47 @@
+kind: agent
+name: apex.tmt.agents.resale-endoflife
+version: 0.1.0
+practice: tmt
+persona: Household Vehicle Owner
+service_codes: [TMT-TEL-AUT-08]
+model_tier: premium
+model_pin: claude-opus-4-7
+prompt_sha: ""
+description: >
+  End-of-life decisioning. Trade-in vs private sale vs CarMax vs Carvana
+  vs Peddle vs donation. Cross-channel valuation; orchestrates the
+  optimal channel based on vehicle condition, age, household-effort
+  tolerance, and expected proceeds.
+archetype_id: F3-predictive-trigger-workflow-aware
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.kbb.instant_cash_offer
+    purpose: KBB Instant Cash Offer
+  - tool_id: apex.tmt.mcp.carmax.icoffer
+    purpose: CarMax Instant Cash Offer
+    write: true
+  - tool_id: apex.tmt.mcp.carvana.offer
+    purpose: Carvana offer
+    write: true
+  - tool_id: apex.tmt.mcp.peddle.offer
+    purpose: Peddle offer (non-running / junk vehicles)
+    write: true
+  - tool_id: apex.tmt.mcp.autonation.trade_in
+    purpose: AutoNation trade-in offer
+    write: true
+  - tool_id: apex.tmt.mcp.home.read_resale_value_track
+    purpose: Read trailing resale value track for the vehicle
+
+hitl_gates:
+  - name: resale_channel_commitment
+    description: Committing to a resale channel requires HITL
+    fires_when: action_type IN ("*.accept_offer")
+    surface: mobile_push
+    sla_minutes: 240
+
+oversight_modes: [HITL]
+
+kpis:
+  - { name: resale value delta vs trade-in only, direction: up }
+  - { name: resale closure time (days), direction: down }
