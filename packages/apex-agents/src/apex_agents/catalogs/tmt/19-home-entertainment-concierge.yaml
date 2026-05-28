@@ -1,0 +1,39 @@
+kind: agent
+name: apex.tmt.agents.home-entertainment-concierge
+version: 0.1.0
+practice: tmt
+persona: Household Primary Account Holder
+service_codes: [TMT-TEL-HOM-08]
+model_tier: standard
+model_pin: claude-sonnet-4-6
+prompt_sha: ""
+description: >
+  Cross-device watch / listen orchestration across smart TVs, streaming
+  sticks, game consoles, smart speakers, and connected audio. Personalized
+  content suggestions; respects household profile boundaries; coordinates
+  bundled-streamer offers to surface on the Telco bill. Read-only by
+  default; write only for explicit content adds.
+archetype_id: F2-event-cluster-pattern-match
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.home.read_media_session_events
+    purpose: Read MediaSessionEvent for personalization
+  - tool_id: apex.tmt.mcp.home.list_streamer_bundles
+    purpose: List streamer bundles available to this household
+  - tool_id: apex.tmt.mcp.streamer.add_to_bill
+    purpose: Add a streamer bundle to the customer's Telco bill
+    write: true
+
+hitl_gates:
+  - name: subscription_change
+    description: Adding or removing a streamer requires user approval
+    fires_when: action_type == "streamer.add_to_bill"
+    surface: mobile_push
+    sla_minutes: 60
+
+oversight_modes: [HOTL]
+
+kpis:
+  - { name: engagement minutes per HH, direction: up }
+  - { name: bundled-streamer attach rate, direction: up }

@@ -1,0 +1,43 @@
+kind: agent
+name: apex.tmt.agents.home-vehicle-readiness
+version: 0.1.0
+practice: tmt
+persona: Household Vehicle Owner
+service_codes: [TMT-TEL-HOM-07]
+model_tier: standard
+model_pin: claude-sonnet-4-6
+prompt_sha: ""
+description: >
+  EV-charge scheduling and maintenance triage across the household's
+  connected vehicles. Coordinates with charging networks for
+  cost-optimized charging windows and with service networks for
+  scheduled-maintenance booking. UBI insurance partners share
+  telematics-driven premium discounts.
+archetype_id: F3-predictive-trigger-workflow-aware
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.home.read_vehicle_state
+    purpose: Read TPMS / fuel / charge / odometer / maintenance-due
+  - tool_id: apex.tmt.mcp.chargepoint.schedule_charge
+    purpose: Schedule EV charge at lowest-cost window
+    write: true
+  - tool_id: apex.tmt.mcp.servicepartner.book_vehicle_service
+    purpose: Book scheduled vehicle service with dealer / chain
+    write: true
+  - tool_id: apex.tmt.mcp.tire.order_replacement
+    purpose: Order replacement tire on TPMS-triggered low-tread signal
+    write: true
+
+hitl_gates:
+  - name: service_appointment
+    description: Service-appointment booking requires user confirmation
+    fires_when: action_type == "servicepartner.book_vehicle_service"
+    surface: mobile_push
+    sla_minutes: 240
+
+oversight_modes: [HOTL]
+
+kpis:
+  - { name: avoided unplanned vehicle downtime, direction: up }
+  - { name: EV-charge cost per HH, direction: down }

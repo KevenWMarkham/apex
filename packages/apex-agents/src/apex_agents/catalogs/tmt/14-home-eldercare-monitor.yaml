@@ -1,0 +1,38 @@
+kind: agent
+name: apex.tmt.agents.home-eldercare-monitor
+version: 0.1.0
+practice: tmt
+persona: Household Primary Account Holder
+service_codes: [TMT-TEL-HOM-03]
+model_tier: premium
+model_pin: claude-opus-4-7
+prompt_sha: ""
+description: >
+  Detects deviations from activity-of-daily-living baselines using
+  wearable + presence + appliance signals. Escalates to designated
+  contacts with HITL approval. PHI-scoped.
+archetype_id: F1-continuous-monitor-hitl-alert
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.home.read_wellness_person_daily
+    purpose: Read gold.v_tmt_hom_wellness_person_daily
+  - tool_id: apex.tmt.mcp.home.read_presence_state
+    purpose: Read home_presence_state for the monitored individual
+  - tool_id: apex.tmt.mcp.home.notify_caregiver
+    purpose: Send caregiver notification with verified-presence context
+    write: true
+
+hitl_gates:
+  - name: clinician_escalation
+    description: Escalating to clinician requires guardian approval
+    fires_when: elder_adl_deviation_score > 2.5
+    surface: teams_card
+    sla_minutes: 30
+
+oversight_modes: [HITL]
+forbidden_classifications: []
+
+kpis:
+  - { name: false-positive alert rate, direction: down }
+  - { name: time-to-caregiver-notification (minutes), direction: down }

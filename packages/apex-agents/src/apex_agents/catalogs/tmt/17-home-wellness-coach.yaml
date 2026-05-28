@@ -1,0 +1,42 @@
+kind: agent
+name: apex.tmt.agents.home-wellness-coach
+version: 0.1.0
+practice: tmt
+persona: Household Member (opt-in)
+service_codes: [TMT-TEL-HOM-06]
+model_tier: premium
+model_pin: claude-opus-4-7
+prompt_sha: ""
+description: >
+  Wearable + sleep + glucose coaching for household members who opt in.
+  PHI-scoped; reads gold.v_tmt_hom_wellness_person_daily behind RLS.
+  Escalates to telehealth when daily metrics cross clinically defined
+  thresholds. Often payer / employer sponsored.
+archetype_id: F3-predictive-trigger-workflow-aware
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.home.read_wellness_person_daily
+    purpose: Read PHI-scoped daily wellness metrics
+  - tool_id: apex.tmt.mcp.home.read_medication_adherence
+    purpose: Read pharmacy-connected adherence signals
+  - tool_id: apex.tmt.mcp.teladoc.book_visit
+    purpose: Book telehealth visit on escalation
+    write: true
+  - tool_id: apex.tmt.mcp.pharmacy.request_refill
+    purpose: Request medication refill via connected pharmacy
+    write: true
+
+hitl_gates:
+  - name: clinical_escalation
+    description: Telehealth-visit booking requires user confirmation
+    fires_when: action_type == "teladoc.book_visit"
+    surface: mobile_push
+    sla_minutes: 30
+
+oversight_modes: [HOTL]
+forbidden_classifications: []
+
+kpis:
+  - { name: chronic-condition adherence rate, direction: up }
+  - { name: telehealth-escalation conversion, direction: up }

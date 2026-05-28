@@ -1,0 +1,32 @@
+kind: agent
+name: apex.tmt.agents.home-orchestrator
+version: 0.1.0
+practice: tmt
+persona: Household Primary Account Holder
+service_codes: [TMT-TEL-HOM-99]
+model_tier: premium
+model_pin: claude-opus-4-7
+prompt_sha: ""
+description: >
+  Meta-orchestrator for the Home Agentic suite. Routes household intents
+  ("order groceries", "lower the bill", "make sure Mom's OK") to the
+  appropriate sub-agent and aggregates results. Reads Gold views only —
+  never raw Bronze/Silver — and writes only via sub-agent tools.
+archetype_id: F4-orchestrator-with-subagents
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.home.read_household_360
+    purpose: Read v_tmt_hom_household_360
+  - tool_id: apex.tmt.mcp.home.list_subscribed_agents
+    purpose: Discover which sub-agents the household has subscribed to
+  - tool_id: apex.tmt.mcp.home.route_intent
+    purpose: Dispatch to a sub-agent
+    write: true
+
+oversight_modes: [HOTL]
+forbidden_classifications: [phi, cpni]
+
+kpis:
+  - { name: successful intent rate, direction: up, target_band: "+10 to +20 pp" }
+  - { name: customer NPS for Home Agentic, direction: up }

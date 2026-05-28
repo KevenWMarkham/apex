@@ -1,0 +1,44 @@
+kind: agent
+name: apex.tmt.agents.home-security-presence
+version: 0.1.0
+practice: tmt
+persona: Household Primary Account Holder
+service_codes: [TMT-TEL-HOM-05]
+model_tier: standard
+model_pin: claude-sonnet-4-6
+prompt_sha: ""
+description: >
+  Presence-aware arming, visitor verification, and package-theft
+  response across cameras, locks, motion sensors, and alarm panels.
+  P&C insurance carriers fund a premium discount the Telco shares.
+archetype_id: F1-continuous-monitor-hitl-alert
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.home.read_presence_state
+    purpose: Read household home_presence_state
+  - tool_id: apex.tmt.mcp.home.read_camera_events
+    purpose: Read verified camera / doorbell events
+  - tool_id: apex.tmt.mcp.alarm.set_arming_mode
+    purpose: Adjust alarm-panel arming mode based on presence
+    write: true
+  - tool_id: apex.tmt.mcp.locks.grant_access
+    purpose: Grant or revoke time-bounded access to a guest / service worker
+    write: true
+  - tool_id: apex.tmt.mcp.rapidsos.dispatch
+    purpose: Route verified emergency events to PSAP
+    write: true
+
+hitl_gates:
+  - name: third_party_access_grant
+    description: Granting third-party physical access requires explicit approval
+    fires_when: action_type == "locks.grant_access"
+    surface: mobile_push
+    sla_minutes: 5
+
+oversight_modes: [HITL]
+forbidden_classifications: []
+
+kpis:
+  - { name: false-alarm rate, direction: down }
+  - { name: P&C insurance-premium discount captured, direction: up }
