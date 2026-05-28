@@ -1,0 +1,38 @@
+kind: agent
+name: apex.tmt.agents.tasting-events
+version: 0.1.0
+practice: tmt
+persona: Household Primary Account Holder
+service_codes: [TMT-TEL-BEV-04]
+model_tier: standard
+model_pin: claude-sonnet-4-6
+prompt_sha: ""
+description: >
+  Distillery tours, tasting events, allocation-line VIP access. Cross-
+  coordinates with Travel Channel for out-of-state experiences (e.g.,
+  Sazerac House in NOLA, Buffalo Trace in Frankfort).
+archetype_id: F2-event-cluster-pattern-match
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.home.read_upcoming_tastings
+    purpose: Read gold.v_tmt_bev_upcoming_tastings
+  - tool_id: apex.tmt.mcp.sazerac.tasting.book
+    purpose: Book Sazerac-affiliated tasting / tour
+    write: true
+  - tool_id: apex.tmt.mcp.diageo.experience.book
+    purpose: Book Diageo distillery experience
+    write: true
+
+hitl_gates:
+  - name: booking_fee_threshold
+    description: Bookings > $100 / seat require user approval
+    fires_when: price_per_seat_usd > 100
+    surface: mobile_push
+    sla_minutes: 60
+
+oversight_modes: [HITL]
+
+kpis:
+  - { name: event attendance rate, direction: up }
+  - { name: repeat-booking rate, direction: up }

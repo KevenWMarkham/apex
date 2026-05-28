@@ -1,0 +1,36 @@
+kind: agent
+name: apex.tmt.agents.toyota-next-vehicle
+version: 0.1.0
+practice: tmt
+persona: Household Primary Account Holder
+service_codes: [TMT-TEL-MOB-03]
+model_tier: premium
+model_pin: claude-opus-4-7
+prompt_sha: ""
+description: >
+  Next-vehicle decisioning. Trade-in valuation, configurator, lease-end
+  coordination, multi-OEM inventory search. Reads household composition,
+  repair-cost trends, and lease-end horizon.
+archetype_id: F3-predictive-trigger-workflow-aware
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.home.read_lease_end_horizon
+    purpose: Read gold.v_tmt_mob_lease_end_horizon
+  - tool_id: apex.tmt.mcp.home.read_household_fleet_360
+    purpose: Read household-fleet context
+  - tool_id: apex.tmt.mcp.toyota.inventory.search
+    purpose: Search Toyota inventory
+  - tool_id: apex.tmt.mcp.ford.inventory.search
+    purpose: Search Ford inventory
+  - tool_id: apex.tmt.mcp.kbb.valuation
+    purpose: Trade-in valuation via KBB
+  - tool_id: apex.tmt.mcp.toyota.dealer.start_test_drive_booking
+    purpose: Start test-drive booking
+    write: true
+
+oversight_modes: [HITL]
+
+kpis:
+  - { name: next-vehicle attribution rate, direction: up }
+  - { name: trade-in conversion, direction: up }

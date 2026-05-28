@@ -1,0 +1,44 @@
+kind: agent
+name: apex.tmt.agents.walmart-pharmacy
+version: 0.1.0
+practice: tmt
+persona: Household Member (opt-in, PHI-scoped)
+service_codes: [TMT-TEL-RTL-02]
+model_tier: premium
+model_pin: claude-opus-4-7
+prompt_sha: ""
+description: >
+  Pharmacy refills + Walmart Health + OTC reconciliation. PHI-scoped.
+  Refill due-date triggers chain-with-errand-chain. Walmart Health PMPM
+  share for chronic conditions where the household opts in.
+archetype_id: F1-continuous-monitor-hitl-alert
+primary_contact: tmt-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.tmt.mcp.home.read_prescription_state
+    purpose: Read gold.v_tmt_rtl_prescription_state
+  - tool_id: apex.tmt.mcp.walmart.pharmacy.refill_request
+    purpose: Submit refill request
+    write: true
+  - tool_id: apex.tmt.mcp.walmart.health.book_appointment
+    purpose: Book Walmart Health clinic appointment
+    write: true
+
+hitl_gates:
+  - name: phi_action
+    description: Any PHI-classified action requires user approval
+    fires_when: any_phi_action
+    surface: mobile_push
+    sla_minutes: 30
+  - name: controlled_substance
+    description: Controlled-substance refills require explicit re-verification
+    fires_when: drug_class == "controlled"
+    surface: mobile_push
+    sla_minutes: 15
+
+oversight_modes: [HITL]
+forbidden_classifications: []
+
+kpis:
+  - { name: refill on-time rate, direction: up }
+  - { name: adherence rate, direction: up }
