@@ -254,6 +254,21 @@ HOW TO USE IT
   .slip-panel ul li::before { content: '\26A0'; position: absolute; left: 0; color: #92400E; }
   .slip-panel ul li b { color: #92400E; }
 
+  /* PRACTICE FILTER */
+  .practice-filter { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; margin-bottom: 14px; }
+  .practice-filter h5 { font-family: 'Outfit', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--accent-navy); font-weight: 800; margin-bottom: 8px; }
+  .pf-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+  .pf-chip { padding: 5px 10px; border: 1.5px solid var(--border); border-radius: 14px; background: white; cursor: pointer; font-family: 'Outfit', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; color: var(--text-secondary); transition: all 0.12s; display: inline-flex; align-items: center; gap: 5px; }
+  .pf-chip:hover { transform: translateY(-1px); border-color: var(--accent-navy); }
+  .pf-chip.active { background: var(--accent-navy); border-color: var(--accent-navy); color: white; }
+  .pf-chip .pf-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--pc); flex-shrink: 0; }
+  .pf-chip .pf-count { background: rgba(0,0,0,0.06); padding: 1px 6px; border-radius: 8px; font-size: 9px; font-weight: 800; }
+  .pf-chip.active .pf-count { background: rgba(255,255,255,0.2); color: white; }
+
+  /* Practice badge on tasks */
+  .task-practice { display: inline-block; font-size: 8.5px; font-weight: 800; letter-spacing: 0.6px; padding: 1px 6px; border-radius: 3px; margin-right: 6px; vertical-align: middle; color: white; }
+  .seller-task.dim { opacity: 0.25; }
+
   /* ============================================== MODALS ============================================== */
   .stk-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(13,40,24,0.78); z-index: 1000; justify-content: center; align-items: center; padding: 30px; }
   .stk-modal-overlay.show { display: flex; }
@@ -661,7 +676,24 @@ HOW TO USE IT
    APEX × AGENTIC-TELCO × LA28 OLYMPICS — Delivery Tracker
    ============================================================================ */
 
-const STORAGE_KEY = 'apex-olympics-tracker-v1';
+const STORAGE_KEY = 'apex-olympics-tracker-v2';
+
+/* ----- DATA: DMTSP Practices ----- */
+const PRACTICES = [
+  { code: 'ALL',   name: 'All Practices', color: '#012169' },
+  { code: 'TMT',   name: 'TMT',           color: '#E8A33D' },
+  { code: 'RC',    name: 'RC',            color: '#3DD9C4' },
+  { code: 'AXLE',  name: 'AXLE',          color: '#9B7BE0' },
+  { code: 'ER',    name: 'ER',            color: '#5B8C3E' },
+  { code: 'HLS',   name: 'HLS',           color: '#4A90D9' },
+  { code: 'ICE',   name: 'ICE',           color: '#8C6D32' },
+  { code: 'FSI',   name: 'FSI',           color: '#1E5AA8' },
+  { code: 'GPS',   name: 'GPS',           color: '#2C3E78' },
+  { code: 'RISK',  name: 'Risk Advisory', color: '#6B3FA0' },
+  { code: 'CROSS', name: 'Cross-Practice',color: '#012169' },
+];
+function practiceColor(code) { const p = PRACTICES.find(p => p.code === code); return p ? p.color : '#94A3B8'; }
+function practiceName(code) { const p = PRACTICES.find(p => p.code === code); return p ? p.name : code; }
 
 /* ----- DATA: 8 milestones from M-24 → Games end ----- */
 const MILESTONES = [
@@ -678,10 +710,14 @@ const MILESTONES = [
       'Deloitte pursuit team formed (DMTSP TMT Practice + delivery architects)',
     ],
     sellerTasks: [
-      { who: 'Deloitte VP', text: '<b>Brief AT&T CCO + CTO</b> on Agentic Marketplace + LA28 positioning. Confirm Default Home Channel as Wave-1 deliverable.' },
-      { who: 'Deloitte VP', text: '<b>Open LA28 sponsorship conversation</b> via Casey Wasserman BD team. Clarify Games-period rights vs platform-vendor positioning.' },
-      { who: 'Account SE', text: '<b>Microsoft AE alignment</b>: confirm CAF capacity for projected Games load. ECIF funding for Wave-1 scoped.' },
-      { who: 'Deloitte VP', text: '<b>Identify NBCUniversal Sports + Olympics counsel</b>. Open scope-boundary conversation before any Media Channel commitment.' },
+      { practice: 'TMT', who: 'TMT VP', text: '<b>Brief AT&T CCO + CTO</b> on Agentic Marketplace + LA28 positioning. Confirm Default Home Channel as Wave-1 deliverable.' },
+      { practice: 'TMT', who: 'TMT VP', text: '<b>Open T-Mobile / Verizon / Charter / Lumen relationships</b> for Wave-2 syndication post-LA28. Soft commitments now; W2 contracts after AT&T proof point.' },
+      { practice: 'TMT', who: 'TMT VP', text: '<b>Open LA28 sponsorship conversation</b> via Casey Wasserman BD team. Clarify Games-period rights vs platform-vendor positioning.' },
+      { practice: 'TMT', who: 'TMT VP', text: '<b>Identify NBCUniversal Sports + Olympics counsel</b>. Open scope-boundary conversation before any Media Channel commitment.' },
+      { practice: 'CROSS', who: 'Account SE', text: '<b>Microsoft AE alignment</b>: confirm CAF capacity for projected Games load. ECIF funding for Wave-1 scoped.' },
+      { practice: 'CROSS', who: 'DMTSP Account Lead', text: '<b>Form pursuit team</b> with named leads from TMT + RC + AXLE + ER + HLS + ICE + FSI + GPS + Risk Advisory. Weekly Practice-leads sync established.' },
+      { practice: 'GPS', who: 'GPS Account Lead', text: '<b>Open LA City Mayor\'s office</b> on Games-period public-sector coordination. Early flag — long lead times for federal/state coord.' },
+      { practice: 'RISK', who: 'Risk Advisory Partner', text: '<b>Initiate national-office Independence pre-clear</b> for all named anchor partners (TMT + future RC/AXLE/ER/HLS/ICE/FSI/GPS).' },
     ],
     gate: [
       'AT&T Wave-1 charter signed for Default Home Channel build',
@@ -719,10 +755,15 @@ const MILESTONES = [
       'Audit row + LEDGER substrate operating end-to-end',
     ],
     sellerTasks: [
-      { who: 'Delivery Architect', text: '<b>Stand up the marketplace meta-pack</b> tables (Channel, ChannelSubscription, partner_directory) + Home pack TMTML entities.' },
-      { who: 'Delivery Architect', text: '<b>Land the 9 Home agents</b> (HOM-01..08 + HOM-99) in CAF substrate. Shadow-run on 4 quarters of AT&T-anonymized IoT data.' },
-      { who: 'Account SE', text: '<b>Wire AT&T mobile app + bill insert</b> with line-item rendering. Validate against existing streaming-bundle UX precedent.' },
-      { who: 'Delivery Architect', text: '<b>Vault + KMS production</b> — customer-held key model validated by AT&T Security + Privacy office.' },
+      { practice: 'TMT', who: 'TMT Delivery Architect', text: '<b>Stand up the marketplace meta-pack</b> tables (Channel, ChannelSubscription, partner_directory) + Home pack TMTML entities.' },
+      { practice: 'TMT', who: 'TMT Delivery Architect', text: '<b>Land the 9 Home agents</b> (HOM-01..08 + HOM-99) in CAF substrate. Shadow-run on 4 quarters of AT&T-anonymized IoT data.' },
+      { practice: 'TMT', who: 'TMT Account SE', text: '<b>Wire AT&T mobile app + bill insert</b> with line-item rendering. Validate against existing streaming-bundle UX precedent.' },
+      { practice: 'TMT', who: 'TMT Delivery Architect', text: '<b>Vault + KMS production</b> — customer-held key model validated by AT&T Security + Privacy office.' },
+      { practice: 'HLS', who: 'HLS Risk Lead', text: '<b>HIPAA BAA template + PHI tokenisation review</b> at vault edge — pre-architecture for future Health Channel even though it ships later.' },
+      { practice: 'FSI', who: 'FSI Risk Lead', text: '<b>PCI + GLBA pre-architecture scoping</b> for future Finance Channel — confirm tokenisation pattern survives PCI DSS 4.0 / GLBA.' },
+      { practice: 'GPS', who: 'GPS Account Lead', text: '<b>LA City Mayor\'s office data-exchange MOU framework drafted</b> — Games-period venue + transit + permits coordination spine.' },
+      { practice: 'RISK', who: 'Risk Advisory Partner', text: '<b>National-office Independence pre-clear delivered</b> for AT&T Wave-1 SOW. Verbal + memo.' },
+      { practice: 'CROSS', who: 'Microsoft CSA + DMTSP', text: '<b>Joint architectural readout</b> at AT&T — CAF substrate validation, A2A Swarm pattern, LangFuse trace volumes.' },
     ],
     gate: [
       'HOM-01..08 + HOM-99 deployed in AT&T shadow environment',
@@ -758,11 +799,17 @@ const MILESTONES = [
       'NBCUniversal Media Channel scope agreement signed (ride-along terms)',
     ],
     sellerTasks: [
-      { who: 'Deloitte VP', text: '<b>AA AAdvantage workshop</b> at DFW HQ · walk the IROPS wedge + co-branded enrolment offer + multi-Telco distribution proposition.' },
-      { who: 'Deloitte VP', text: '<b>Marriott Bonvoy session</b> at Bethesda HQ · mobile-key + on-property orchestration + co-branded SKU economics.' },
-      { who: 'Account SE', text: '<b>Walmart Bentonville workshop</b> · Walmart+ co-bundle · RTL-01..04 service-code reservation · pharmacy data-handling.' },
-      { who: 'Deloitte VP', text: '<b>NBCUniversal counsel close</b> · ride-along terms · scope boundary explicit · LA28 broadcast precedence preserved.' },
-      { who: 'Account SE', text: '<b>Expedia + Airbnb dual-MOU</b> · OTA + STR partner-protocol implementation plan.' },
+      { practice: 'TMT', who: 'TMT VP', text: '<b>AA AAdvantage workshop</b> at DFW HQ · walk the IROPS wedge + co-branded enrolment offer + multi-Telco distribution proposition.' },
+      { practice: 'TMT', who: 'TMT VP', text: '<b>Marriott Bonvoy session</b> at Bethesda HQ · mobile-key + on-property orchestration + co-branded SKU economics.' },
+      { practice: 'TMT', who: 'TMT Account SE', text: '<b>Expedia + Airbnb dual-MOU</b> · OTA + STR partner-protocol implementation plan.' },
+      { practice: 'TMT', who: 'TMT VP', text: '<b>NBCUniversal counsel close</b> · ride-along terms · scope boundary explicit · LA28 broadcast precedence preserved.' },
+      { practice: 'RC', who: 'RC Account Lead', text: '<b>Walmart Bentonville workshop</b> · Walmart+ co-bundle · RTL-01..04 service-code reservation · pharmacy data-handling.' },
+      { practice: 'HLS', who: 'HLS VP', text: '<b>Kaiser Permanente LA + CVS Health joint workshop</b> · Health Channel scope · cross-state Rx transfer · MinuteClinic walk-in routing.' },
+      { practice: 'HLS', who: 'HLS Account Lead', text: '<b>UnitedHealth Optum D-SNP outcome-share framework</b> · MA payer PMPM methodology · attribution-window agreement opener.' },
+      { practice: 'FSI', who: 'FSI VP', text: '<b>JPMorgan Chase Sapphire travel-mode pilot workshop</b> · Games-period fraud-suppression posture · sponsorship rails + ticketing flows.' },
+      { practice: 'FSI', who: 'FSI Account Lead', text: '<b>Visa + Mastercard ride-along scoping</b> · TOP-sponsor coordination · payment-rail commercial terms.' },
+      { practice: 'GPS', who: 'GPS Account Lead', text: '<b>LA City venue + transit data-exchange MOU drafted</b> · Metro K Line + shuttle + parking integration framework.' },
+      { practice: 'RISK', who: 'Risk Advisory Partner', text: '<b>Risk pre-clear memo updated</b> with each anchor MOU as signed · Independence posture maintained per-partner.' },
     ],
     gate: [
       'American Airlines MOU signed (AAdvantage MCP integration)',
@@ -802,11 +849,19 @@ const MILESTONES = [
       'EV-charging-network roaming MOUs (ChargePoint + EVgo + Tesla Supercharger) signed',
     ],
     sellerTasks: [
-      { who: 'Deloitte VP', text: '<b>Toyota Connected workshop</b> at Toyota North America HQ in Plano · resolve TOP-program coordination · TFS + TIMS scope.' },
-      { who: 'Deloitte VP', text: '<b>AutoNation + Cox + Progressive triangle session</b> · multi-anchor commercial terms · brand-neutrality commitments.' },
-      { who: 'Account SE', text: '<b>Sazerac workshop in New Orleans</b> · host-city commemorative single-cask commit · allocation-mechanics walkthrough · age-verification flow.' },
-      { who: 'Delivery Architect', text: '<b>Avalara Beverage Alcohol</b> contract close · state-rules engine integration plan · 50-state coverage timeline.' },
-      { who: 'Account SE', text: '<b>EV-charging MOUs</b> · ChargePoint + EVgo + Electrify America + Tesla Supercharger roaming network terms.' },
+      { practice: 'AXLE', who: 'AXLE VP', text: '<b>Toyota Connected workshop</b> at Toyota North America HQ in Plano · resolve TOP-program coordination · TFS + TIMS scope.' },
+      { practice: 'AXLE', who: 'AXLE VP', text: '<b>AutoNation + Cox + Progressive triangle session</b> · multi-anchor commercial terms · brand-neutrality commitments.' },
+      { practice: 'AXLE', who: 'AXLE Account SE', text: '<b>EV-charging MOUs</b> · ChargePoint + EVgo + Electrify America + Tesla Supercharger roaming network terms.' },
+      { practice: 'RC', who: 'RC VP', text: '<b>Sazerac workshop in New Orleans</b> · host-city commemorative single-cask commit · allocation mechanics · age-verification flow.' },
+      { practice: 'RC', who: 'RC Delivery Architect', text: '<b>Avalara Beverage Alcohol</b> contract close · state-rules engine integration plan · 50-state coverage timeline.' },
+      { practice: 'ER', who: 'ER VP', text: '<b>PG&E + SCE + Tesla Energy + LADWP joint MOU</b> · demand-response aggregation framework · LA28 venue power integration scope.' },
+      { practice: 'ER', who: 'ER Account Lead', text: '<b>LA28 venue power profiles obtained</b> · per-venue peak forecast · grid-stability coordination with utilities.' },
+      { practice: 'ICE', who: 'ICE VP', text: '<b>AECOM + Honeywell + Siemens venue workshop</b> · BMS data-feed scope · Metro K Line transit-system integration · equipment-uptime monitoring.' },
+      { practice: 'ICE', who: 'ICE Account Lead', text: '<b>Caterpillar equipment-uptime program</b> · ops-critical machinery (lifts, generators, water pumps) telemetry into Industrial Channel.' },
+      { practice: 'HLS', who: 'HLS VP', text: '<b>UnitedHealth / Humana D-SNP MOU signed</b> · outcome-share PMPM with explicit attribution methodology · HIPAA BAA in place.' },
+      { practice: 'FSI', who: 'FSI VP', text: '<b>Visa + Mastercard MOU close</b> · TOP-coordination explicit · sponsorship + ticketing payment-rail commercial terms.' },
+      { practice: 'GPS', who: 'GPS VP', text: '<b>California state engagement (ABC + DMV + Insurance)</b> · CPG compliance · Toyota TIMS state rules · age-gating CA-specific edge cases.' },
+      { practice: 'RISK', who: 'Risk Advisory Partner', text: '<b>Risk-pre-clear memo for each new Channel MOU</b> · per-partner posture · audit-committee defensible.' },
     ],
     gate: [
       'Toyota Connected MOU signed (TOP coordination resolved)',
@@ -845,10 +900,20 @@ const MILESTONES = [
       'After-action review with all anchor partners',
     ],
     sellerTasks: [
-      { who: 'Delivery Architect', text: '<b>Stand up Super Bowl pilot cohort</b> · 2,000-5,000 AT&T households in host metro · all 6 Channels live · monitoring stack ready.' },
-      { who: 'Account SE', text: '<b>Coordinate partner readiness</b> · AA + Marriott + Walmart + Toyota + Sazerac + NBC engaged on Game-weekend operating posture.' },
-      { who: 'Delivery Architect', text: '<b>Load test cross-Channel orchestration</b> at 1.5x projected LA28 peak · CAF Dynamic Orchestrator capacity validated · A2A Swarm latency SLO confirmed.' },
-      { who: 'Deloitte VP', text: '<b>After-action review</b> with all anchor partners · capture every IROPS + hotel-walk + allocation event · refine playbooks for LA28.' },
+      { practice: 'TMT', who: 'TMT Delivery Architect', text: '<b>Stand up Super Bowl pilot cohort</b> · 2,000-5,000 AT&T households in host metro · all Channels live · monitoring stack ready.' },
+      { practice: 'TMT', who: 'TMT Account SE', text: '<b>AA + Marriott + Expedia + Airbnb</b> staffed for Super Bowl weekend · IROPS + hotel-walk drill · single-customer journey traced.' },
+      { practice: 'TMT', who: 'TMT Account SE', text: '<b>NBCUniversal media-ride-along test</b> · time-zone-aware push for Super Bowl viewers · partner Peacock cross-promo (with disclosure) measured.' },
+      { practice: 'RC', who: 'RC Account Lead', text: '<b>Walmart errand-chain scenarios validated live</b> at Super Bowl host city · pharmacy + GM + TLE chain executed.' },
+      { practice: 'RC', who: 'RC Delivery Architect', text: '<b>Sazerac Super-Bowl-host-city allocation test</b> · BTAC-analog limited release tested at one licensed retailer · age-verification flow exercised.' },
+      { practice: 'AXLE', who: 'AXLE Account Lead', text: '<b>Toyota Connected + AutoNation + Progressive scenarios live</b> · pre-Game tire-check + UBI-rider + dealer routing validated.' },
+      { practice: 'ER', who: 'ER Account Lead', text: '<b>Demand-response aggregation drill</b> with host-city utility · Channel-enrolled households contribute virtual capacity during Game-day venue peak.' },
+      { practice: 'HLS', who: 'HLS Account Lead', text: '<b>Cross-state Rx transfer tested</b> with CVS · traveling-family pharmacy refill executed mid-trip in host city.' },
+      { practice: 'ICE', who: 'ICE Account Lead', text: '<b>Venue BMS data integration tested</b> at Super Bowl stadium · spectator-throughput metrics fed back to Channel mobility routing.' },
+      { practice: 'FSI', who: 'FSI Account Lead', text: '<b>Travel-mode payment routing validated</b> · Chase Sapphire fraud-suppression posture exercised during Game-weekend spending surge.' },
+      { practice: 'GPS', who: 'GPS Account Lead', text: '<b>Federal-state-city coordination posture tested</b> · street-closure + transit-reroute data flowing into Channel routing.' },
+      { practice: 'CROSS', who: 'Microsoft CAF + Delivery', text: '<b>Load test cross-Channel orchestration at 1.5x projected LA28 peak</b> · CAF Dynamic Orchestrator capacity validated · A2A Swarm latency SLO confirmed.' },
+      { practice: 'CROSS', who: 'DMTSP Account Lead', text: '<b>After-action review with ALL Practices + anchor partners</b> · capture every wedge event · refine playbooks for LA28 · cross-Practice escalation matrix updated.' },
+      { practice: 'RISK', who: 'Risk Advisory Partner', text: '<b>Independence + privacy after-action audit</b> · zero compliance events during pilot · LA28 readiness signed off.' },
     ],
     gate: [
       'Super Bowl pilot cohort launched (all 6 Channels)',
@@ -886,11 +951,17 @@ const MILESTONES = [
       'Final cross-Channel orchestration drill (full-load production simulation)',
     ],
     sellerTasks: [
-      { who: 'Delivery Architect', text: '<b>California compliance close</b> · ABC rules + DTC shipping + dry-county geofencing live for CPG Channel.' },
-      { who: 'Account SE', text: '<b>LA28 venue + transit data</b> · venue geo-feed integrated · Metro K Line + Olympic-shuttle data feeds into Travel + Mobility Channels.' },
-      { who: 'Delivery Architect', text: '<b>Final cross-Channel orchestration drill</b> · full-load production sim · all 6 Channels concurrent · 8,000+ scenarios/hour throughput target.' },
-      { who: 'Account SE', text: '<b>AT&T Customer Care surge-staffing</b> · 24/7 coverage Jul 14–30 · Channel-by-Channel triage matrix · escalation paths to anchor partners.' },
-      { who: 'Deloitte VP', text: '<b>Final LA28 readout to AT&T CEO</b> · go/no-go decision · 30-min Adaptive Card report · all gates green required.' },
+      { practice: 'TMT', who: 'TMT VP', text: '<b>Final LA28 readout to AT&T CEO</b> · go/no-go decision · 30-min Adaptive Card report · all gates green required.' },
+      { practice: 'TMT', who: 'TMT Account SE', text: '<b>AT&T Customer Care surge-staffing</b> · 24/7 coverage Jul 14-30 · Channel-by-Channel triage matrix · escalation paths to anchor partners.' },
+      { practice: 'RC', who: 'RC Delivery Architect', text: '<b>California compliance close</b> · ABC rules + DTC shipping + dry-county geofencing live for CPG Channel (Sazerac CA-ready).' },
+      { practice: 'AXLE', who: 'AXLE Account Lead', text: '<b>CA-specific Toyota mobility scenarios validated</b> · LA traffic patterns + Toyota Connected + TIMS state-specific rules.' },
+      { practice: 'ER', who: 'ER Delivery Architect', text: '<b>LA28 venue power integration completed</b> · per-venue real-time demand forecast feeding Channel + utility coord.' },
+      { practice: 'HLS', who: 'HLS Account Lead', text: '<b>Cross-state Rx transfer at scale</b> · Kaiser + CVS + Walmart Pharmacy chain validated for traveling-household scenarios.' },
+      { practice: 'ICE', who: 'ICE Delivery Architect', text: '<b>LA28 venue + transit data integrated</b> · Metro K Line + Olympic shuttle + venue BMS feeds into Travel + Mobility Channels.' },
+      { practice: 'FSI', who: 'FSI Account Lead', text: '<b>PCI compliance closed; travel-mode payment rules live</b> · Chase + Visa + Mastercard sponsorship + ticketing flows ready.' },
+      { practice: 'GPS', who: 'GPS VP', text: '<b>Federal-state-city coordination MOU operational</b> · street-closure feeds + emergency-services routing tested · DHS/TSA international-visitor flows confirmed.' },
+      { practice: 'CROSS', who: 'Delivery Architect', text: '<b>Final cross-Channel orchestration drill</b> · full-load production sim · all Channels concurrent · 8,000+ scenarios/hour throughput target.' },
+      { practice: 'RISK', who: 'Risk Advisory Partner', text: '<b>Final Independence + privacy review across all Channels</b> · zero open issues · audit-committee defensible · Games-period operations authorized.' },
     ],
     gate: [
       'California ABC age-gating rules engine live (Sazerac CA-ready)',
@@ -932,11 +1003,20 @@ const MILESTONES = [
       'Zero brand-event incidents',
     ],
     sellerTasks: [
-      { who: 'Delivery Architect', text: '<b>Production ops command center</b> stood up in LA · 24/7 coverage · live dashboards · all anchor partners staffed.' },
-      { who: 'Account SE', text: '<b>Daily Adaptive Card to AT&T CEO</b> · 8 AM PT · Channel-by-Channel status · wedge events captured · escalations.' },
-      { who: 'Deloitte VP', text: '<b>Capture every wedge event</b> · IROPS recoveries, hotel walks, allocation pickups, eldercare alerts · narrative + metrics for case study.' },
-      { who: 'Account SE', text: '<b>Real-time partner coordination</b> · AA + Marriott + Walmart + Toyota + Sazerac + NBC all-hands daily standup at 7 AM PT.' },
-      { who: 'Delivery Architect', text: '<b>SLO monitoring</b> · all Channels green · automated escalation if any Channel breaches SLO for >5 min.' },
+      { practice: 'TMT', who: 'TMT VP + Delivery', text: '<b>Production ops command center</b> stood up in LA · 24/7 coverage · live dashboards · all anchor partners staffed.' },
+      { practice: 'TMT', who: 'TMT Account SE', text: '<b>Daily Adaptive Card to AT&T CEO</b> · 8 AM PT · Channel-by-Channel status · wedge events captured · escalations.' },
+      { practice: 'TMT', who: 'TMT Account SE', text: '<b>AA + Marriott + Expedia + Airbnb daily standup</b> · 7 AM PT · trip-mode scenarios overnight · day-ahead trip-volume forecast.' },
+      { practice: 'TMT', who: 'TMT Account SE', text: '<b>NBCUniversal ride-along live</b> · watch-party suggestions + Peacock cross-promo (with disclosure) firing during competition windows.' },
+      { practice: 'RC', who: 'RC Account Lead', text: '<b>Walmart errand-chain + Sazerac allocation operations live</b> · pharmacy refills for travelers + host-city BTAC pickup events captured.' },
+      { practice: 'AXLE', who: 'AXLE Account Lead', text: '<b>Toyota + AutoNation + Progressive vehicle scenarios live</b> · trip-mode insurance riders + dealer-coordination + UBI continuous.' },
+      { practice: 'ER', who: 'ER Account Lead', text: '<b>Demand-response events fired</b> during venue peak load · LA utility partners credit Channel-enrolled households · grid stability maintained.' },
+      { practice: 'HLS', who: 'HLS Account Lead', text: '<b>Real-time Rx + MinuteClinic routing</b> for traveling families · D-SNP back-home eldercare continuous monitoring · payer outcome data captured.' },
+      { practice: 'ICE', who: 'ICE Account Lead', text: '<b>Venue BMS + transit data live feed</b> · Metro K Line + shuttle real-time · venue spectator-throughput informing arrival predictions.' },
+      { practice: 'FSI', who: 'FSI Account Lead', text: '<b>Payment-fraud monitoring + sponsorship + ticketing rails</b> live · Chase Sapphire travel-mode reducing false positives · ticketing payment flows clean.' },
+      { practice: 'GPS', who: 'GPS Account Lead', text: '<b>Public-Sector coordination + emergency-services routing</b> live · street-closure feeds active · LAPD + DHS escalation paths exercised.' },
+      { practice: 'CROSS', who: 'Delivery Architect', text: '<b>SLO monitoring</b> · all Channels green · automated escalation if any Channel breaches SLO for >5 min · LangFuse trace volumes within forecast.' },
+      { practice: 'CROSS', who: 'DMTSP Account Lead', text: '<b>Capture every wedge event</b> · IROPS recoveries, hotel walks, allocation pickups, eldercare alerts, payment-fraud avoids · narrative + metrics for case study.' },
+      { practice: 'RISK', who: 'Risk Advisory Partner', text: '<b>Live incident-audit + Independence-event monitoring</b> · zero brand-event incidents required · daily review with all Practice leads.' },
     ],
     gate: [
       'Opening Ceremony Jul 14 operations green',
@@ -975,11 +1055,18 @@ const MILESTONES = [
       'Marketplace meta-pack updated with post-LA28 enhancements',
     ],
     sellerTasks: [
-      { who: 'Deloitte VP', text: '<b>Joint readout</b> with AT&T CEO + all anchor partners + LA28 · 90-min · Beverly Hills HQ · case-study + scaling-plan.' },
-      { who: 'Account SE', text: '<b>Case study publication</b> · with explicit approval from every named partner · Deloitte + Microsoft co-branded.' },
-      { who: 'Deloitte VP', text: '<b>Wave-2 Telco BD open</b> · T-Mobile + Verizon + Charter · LA28 as proof point.' },
-      { who: 'Delivery Architect', text: '<b>Marketplace meta-pack v1.1</b> · capture LA28 enhancements · agent-pack updates · published to internal repo.' },
-      { who: 'Account SE', text: '<b>Next-Games scaling plan</b> · Brisbane 2032 · timeline + partnership-overlap analysis · 8-page proposal.' },
+      { practice: 'TMT', who: 'TMT VP', text: '<b>Joint readout</b> with AT&T CEO + all anchor partners + LA28 · 90-min · Beverly Hills HQ · case-study + scaling-plan.' },
+      { practice: 'TMT', who: 'TMT VP', text: '<b>Wave-2 Telco BD open</b> · T-Mobile + Verizon + Charter + Lumen + DIRECTV · LA28 as proof point.' },
+      { practice: 'RC', who: 'RC Account Lead', text: '<b>Walmart W2 expansion proposal</b> · Target / Costco / Best Buy / Home Depot full bench live for next-Games cycle · Sazerac next-allocation calendar.' },
+      { practice: 'AXLE', who: 'AXLE Account Lead', text: '<b>Toyota next-Games positioning</b> · Brisbane 2032 mobility scope · Ford / GM / Tesla bench-onboarding plan.' },
+      { practice: 'ER', who: 'ER Account Lead', text: '<b>Demand-response economics report to utilities</b> · MW-hours of capacity provided to LA grid · revenue-share settlement.' },
+      { practice: 'HLS', who: 'HLS VP', text: '<b>Outcome-share results published with payers</b> · D-SNP cohort outcome attribution · MA payer renewal + expansion conversation.' },
+      { practice: 'ICE', who: 'ICE Account Lead', text: '<b>Venue ops handover</b> from Games to permanent · BMS data continuity · post-Games venue legacy use cases proposed.' },
+      { practice: 'FSI', who: 'FSI Account Lead', text: '<b>Payment-flow + fraud-prevention case study</b> · Chase + Visa + Mastercard joint metrics · sponsorship-rail performance data.' },
+      { practice: 'GPS', who: 'GPS VP', text: '<b>Public-Sector debrief + federal coordination memo</b> · LA City + State + Federal · template for next-host-city (Brisbane 2032).' },
+      { practice: 'CROSS', who: 'Delivery Architect', text: '<b>Marketplace meta-pack v1.1</b> · capture LA28 enhancements · agent-pack updates · published to internal repo.' },
+      { practice: 'CROSS', who: 'DMTSP Account Lead', text: '<b>Per-Practice post-mortem + lessons-learned</b> · distributed to all DMTSP Practice leads · what to repeat at Brisbane, what to change.' },
+      { practice: 'RISK', who: 'Risk Advisory Partner', text: '<b>Final Independence audit + memo</b> · zero events during Games window · post-engagement attestation.' },
     ],
     gate: [
       'After-Games joint readout completed',
@@ -1237,6 +1324,7 @@ function loadState() {
     today: null,        // null = use real today; otherwise ISO string
     activeMilestone: 0,
     checks: {},
+    practiceFilter: 'ALL',
   };
 }
 
@@ -1461,14 +1549,36 @@ function renderActivePhase() {
   const nextUnlocked = state.activeMilestone < MILESTONES.length - 1;
 
   const objectivesHtml = m.objectives.map(o => `<li>${o}</li>`).join('');
-  const tasksHtml = m.sellerTasks.map((t, i) => `
-    <div class="seller-task">
-      <div class="task-num">${i + 1}</div>
-      <div>
-        <div class="task-text">${t.text}</div>
-        <span class="task-owner">Owner: ${t.who}</span>
-      </div>
-    </div>`).join('');
+
+  // Practice-filter counts for THIS milestone
+  const practiceCounts = {};
+  PRACTICES.forEach(p => { practiceCounts[p.code] = 0; });
+  m.sellerTasks.forEach(t => {
+    practiceCounts['ALL']++;
+    if (practiceCounts[t.practice] !== undefined) practiceCounts[t.practice]++;
+  });
+
+  const filter = state.practiceFilter || 'ALL';
+
+  const filterChipsHtml = PRACTICES.filter(p => p.code === 'ALL' || practiceCounts[p.code] > 0).map(p => {
+    const isActive = filter === p.code;
+    return `<button class="pf-chip ${isActive ? 'active' : ''}" style="--pc:${p.color};" onclick="setPracticeFilter('${p.code}')">
+      <span class="pf-dot"></span>${p.name}<span class="pf-count">${practiceCounts[p.code]}</span>
+    </button>`;
+  }).join('');
+
+  const tasksHtml = m.sellerTasks.map((t, i) => {
+    const dim = (filter !== 'ALL' && t.practice !== filter && t.practice !== 'CROSS') ? 'dim' : '';
+    const pcolor = practiceColor(t.practice);
+    return `
+      <div class="seller-task ${dim}">
+        <div class="task-num" style="background:${pcolor};">${i + 1}</div>
+        <div>
+          <div class="task-text"><span class="task-practice" style="background:${pcolor};">${practiceName(t.practice)}</span>${t.text}</div>
+          <span class="task-owner">Owner: ${t.who}</span>
+        </div>
+      </div>`;
+  }).join('');
   const gateHtml = m.gate.map((g, i) => {
     const key = m.id + '.' + i;
     const checked = !!state.checks[key];
@@ -1493,9 +1603,14 @@ function renderActivePhase() {
       <ul>${objectivesHtml}</ul>
     </div>
 
-    <div style="background:var(--white); border-left:4px solid var(--c-mobility); border-radius:4px; padding:12px 16px; margin-bottom:14px;">
-      <h4 style="font-size:10px; text-transform:uppercase; letter-spacing:1px; color:var(--c-mobility); font-weight:800; margin-bottom:8px;">Action items</h4>
-      ${tasksHtml.replace(/seller-task/g, 'seller-task').replace(/task-num/g, 'task-num')}
+    <div class="practice-filter">
+      <h5>Filter action items by Practice &middot; <span style="font-weight:500;color:var(--text-secondary);text-transform:none;letter-spacing:0;">supports multiple seller teams working this milestone in parallel</span></h5>
+      <div class="pf-chips">${filterChipsHtml}</div>
+    </div>
+
+    <div style="background:var(--white); border-left:4px solid var(--accent-navy); border-radius:4px; padding:12px 16px; margin-bottom:14px;">
+      <h4 style="font-size:10px; text-transform:uppercase; letter-spacing:1px; color:var(--accent-navy); font-weight:800; margin-bottom:8px;">Action items <span style="color:var(--text-secondary); font-weight:600; letter-spacing:0; text-transform:none;">&middot; ${filter === 'ALL' ? 'all Practices' : practiceName(filter) + ' team + cross-Practice'} &middot; ${filter === 'ALL' ? practiceCounts.ALL : (practiceCounts[filter] + (filter !== 'CROSS' ? practiceCounts.CROSS : 0))} of ${practiceCounts.ALL}</span></h4>
+      ${tasksHtml}
     </div>
 
     <div class="gate ${complete ? 'passed' : ''}">
@@ -1508,10 +1623,10 @@ function renderActivePhase() {
     </div>
 
     <style>
-      .seller-task { display: grid; grid-template-columns: 24px 1fr; gap: 8px; padding: 6px 0; border-bottom: 1px dashed var(--border); align-items: start; }
+      .seller-task { display: grid; grid-template-columns: 24px 1fr; gap: 8px; padding: 6px 0; border-bottom: 1px dashed var(--border); align-items: start; transition: opacity 0.2s; }
       .seller-task:last-child { border-bottom: none; }
-      .seller-task .task-num { background: var(--c-mobility); color: white; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; font-family: 'Outfit', sans-serif; }
-      .seller-task .task-text { font-size: 12px; line-height: 1.5; color: var(--text-primary); }
+      .seller-task .task-num { color: white; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; font-family: 'Outfit', sans-serif; flex-shrink: 0; }
+      .seller-task .task-text { font-size: 12px; line-height: 1.6; color: var(--text-primary); }
       .seller-task .task-text b { color: var(--accent-navy); }
       .seller-task .task-owner { display: block; font-size: 9.5px; color: var(--text-secondary); margin-top: 2px; font-style: italic; }
     </style>
@@ -1544,6 +1659,12 @@ function setActivePhase(idx) {
   state.activeMilestone = idx;
   saveState();
   render();
+}
+
+function setPracticeFilter(code) {
+  state.practiceFilter = code;
+  saveState();
+  renderActivePhase();
 }
 
 function toggleGate(key) {
