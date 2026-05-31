@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>APEX · Agentic Merchandising Subscription — Reference Architecture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-0: #07090F;
+  --bg-1: #0C1119;
+  --bg-2: #141B27;
+  --bg-3: #1C2433;
+  --line: rgba(255,255,255,0.08);
+  --line-strong: rgba(255,255,255,0.16);
+  --ink-0: #F4EFE5;
+  --ink-1: #D9D2C3;
+  --ink-2: #9A9383;
+  --ink-3: #6B6757;
+
+  --amber: #E8A33D;
+  --teal: #3DD9C4;
+  --crimson: #D94B5A;
+  --gold: #C89D3A;
+  --ember: #E87B3C;
+  --violet: #9B7BE0;
+  --sky: #6FB6E5;
+
+  /* Channel accents — Default Telco anchored on amber */
+  --c-home:       #E8A33D;
+  --c-travel:     #6FB6E5;
+  --c-retail:     #3DD9C4;
+  --c-mobility:   #9B7BE0;
+  --c-automobile: #E87B3C;
+  --c-cpg:        #D94B5A;
+  --c-future:     #6B6757;
+
+  --radius: 14px;
+  --radius-sm: 8px;
+  --ease: cubic-bezier(.22,.68,.24,1);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg-0);
+  color: var(--ink-0);
+  font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.55;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+body::before {
+  content: "";
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(232,163,61,0.08), transparent 60%),
+    radial-gradient(900px 500px at 95% 110%, rgba(61,217,196,0.07), transparent 60%),
+    radial-gradient(600px 400px at 50% 40%, rgba(155,123,224,0.05), transparent 70%);
+  pointer-events: none; z-index: 0;
+}
+
+.hero {
+  position: relative; z-index: 1;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 64px 48px 56px;
+  border-bottom: 1px solid var(--line);
+}
+.eyebrow {
+  display: inline-block;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--line-strong);
+  padding: 6px 12px;
+  border-radius: 999px;
+  margin-bottom: 32px;
+}
+h1 {
+  font-family: "Fraunces", serif;
+  font-weight: 600;
+  font-size: clamp(38px, 6vw, 84px);
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  margin: 0 0 20px;
+  color: var(--ink-0);
+}
+h1 em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--amber);
+}
+.subhead {
+  font-size: clamp(16px, 1.6vw, 20px);
+  color: var(--ink-1);
+  max-width: 920px;
+  margin: 0 0 32px;
+  font-weight: 400;
+}
+.hero-meta {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  color: var(--ink-2);
+  border-top: 1px solid var(--line);
+  padding-top: 24px;
+}
+.hero-meta b {
+  color: var(--ink-0);
+  font-weight: 500;
+}
+
+section {
+  position: relative; z-index: 1;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 64px 48px;
+  border-bottom: 1px solid var(--line);
+}
+.section-head { margin-bottom: 32px; }
+.section-eye {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 8px;
+}
+h2 {
+  font-family: "Fraunces", serif;
+  font-weight: 500;
+  font-size: clamp(28px, 3.5vw, 44px);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin: 0 0 16px;
+  color: var(--ink-0);
+}
+h3 {
+  font-family: "Fraunces", serif;
+  font-weight: 500;
+  font-size: 22px;
+  margin: 0 0 12px;
+  color: var(--ink-0);
+}
+.lead {
+  font-size: 17px;
+  color: var(--ink-1);
+  max-width: 920px;
+}
+
+/* CHANNEL GRID */
+.ch-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-top: 32px;
+}
+@media (max-width: 900px) { .ch-grid { grid-template-columns: 1fr; } }
+.ch-card {
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  transition: transform .25s var(--ease), border-color .25s var(--ease);
+}
+.ch-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--line-strong);
+}
+.ch-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  background: var(--accent);
+}
+.ch-card .accent-dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin-right: 8px;
+  vertical-align: middle;
+}
+.ch-card .label {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ch-card .label .badge {
+  font-size: 9px;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  padding: 2px 6px;
+  border-radius: 999px;
+}
+.ch-card .label .badge.default { background: var(--accent); color: var(--bg-0); }
+.ch-card h4 {
+  font-family: "Fraunces", serif;
+  font-size: 20px;
+  font-weight: 500;
+  margin: 0 0 8px;
+  color: var(--ink-0);
+}
+.ch-card .anchors {
+  font-size: 12.5px;
+  color: var(--ink-2);
+  margin-bottom: 10px;
+  font-style: italic;
+}
+.ch-card .blurb {
+  color: var(--ink-1);
+  font-size: 13.5px;
+  line-height: 1.55;
+  margin-bottom: 16px;
+}
+.ch-card .meta {
+  display: flex;
+  gap: 12px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10.5px;
+  color: var(--ink-2);
+  flex-wrap: wrap;
+}
+.ch-card .meta span {
+  border: 1px solid var(--line);
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+
+/* PLANES */
+.plane {
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 240px 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+  margin-bottom: 14px;
+}
+@media (max-width: 1100px) { .plane { grid-template-columns: 1fr; } }
+.plane-name {
+  font-family: "Fraunces", serif;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--ink-0);
+}
+.plane-name .pcode {
+  display: block;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+.plane-cap { font-size: 13.5px; color: var(--ink-1); }
+.plane-cap b { color: var(--ink-0); font-weight: 600; }
+.plane-tmt {
+  font-size: 13px;
+  color: var(--ink-1);
+  background: var(--bg-2);
+  border-left: 3px solid var(--accent);
+  padding: 12px 14px;
+  border-radius: 4px;
+}
+.plane-tmt .tmt-tag {
+  display: block;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+/* WEDGE SCENARIOS */
+.scenarios {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  margin-top: 32px;
+}
+@media (max-width: 900px) { .scenarios { grid-template-columns: 1fr; } }
+.scenario {
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 28px;
+  position: relative;
+  border-left: 4px solid var(--accent);
+}
+.scenario .scen-id {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: .12em;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.scenario h4 {
+  font-family: "Fraunces", serif;
+  font-size: 22px;
+  font-weight: 500;
+  margin: 0 0 16px;
+  color: var(--ink-0);
+}
+.chain {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 10px;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+.chain .ck {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10.5px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  padding-top: 2px;
+}
+.chain.scen .ck    { color: var(--amber); }
+.chain.sol .ck     { color: var(--teal); }
+.chain.uc .ck      { color: var(--sky); }
+.chain.svc .ck     { color: var(--violet); }
+.chain.persona .ck { color: var(--crimson); }
+.chain.kpi .ck     { color: var(--gold); }
+.chain .cv { color: var(--ink-1); line-height: 1.5; }
+
+/* CAF STACK */
+.caf-stack {
+  margin-top: 32px;
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 32px;
+}
+.layer {
+  border-radius: var(--radius-sm);
+  padding: 18px 22px;
+  margin-bottom: 14px;
+  position: relative;
+}
+.layer-apex { background: rgba(232,163,61,0.06); border: 1px solid rgba(232,163,61,0.25); }
+.layer-a2a  { background: rgba(155,123,224,0.10); border: 1px solid rgba(155,123,224,0.35); text-align: center; padding: 12px; }
+.layer-caf  { background: rgba(61,217,196,0.06); border: 1px solid rgba(61,217,196,0.25); }
+.layer-title {
+  font-family: "Fraunces", serif;
+  font-size: 18px;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+.layer-apex .layer-title { color: var(--amber); }
+.layer-caf  .layer-title { color: var(--teal); }
+.layer-a2a  .layer-title { color: var(--violet); margin: 0; }
+.layer-sub {
+  color: var(--ink-2);
+  font-size: 12.5px;
+  margin-bottom: 16px;
+  font-style: italic;
+}
+.layer-blocks {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+}
+.layer-blocks.caf { grid-template-columns: repeat(7, 1fr); }
+@media (max-width: 900px) {
+  .layer-blocks, .layer-blocks.caf { grid-template-columns: repeat(2, 1fr); }
+}
+.lblock {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  font-size: 12px;
+  color: var(--ink-1);
+  text-align: center;
+}
+.lblock b {
+  display: block;
+  font-weight: 600;
+  color: var(--ink-0);
+  margin-bottom: 4px;
+  font-size: 12.5px;
+}
+
+/* WAVE MODEL */
+.waves {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 32px;
+}
+@media (max-width: 900px) { .waves { grid-template-columns: 1fr; } }
+.wave {
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 24px;
+  position: relative;
+}
+.wave::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  background: var(--accent);
+}
+.wave .wname {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.wave h4 {
+  font-family: "Fraunces", serif;
+  font-size: 22px;
+  margin: 0 0 12px;
+  color: var(--ink-0);
+}
+.wave .wdetail {
+  font-size: 13.5px;
+  color: var(--ink-1);
+  margin-bottom: 14px;
+}
+.wave ul { margin: 0; padding-left: 18px; color: var(--ink-1); font-size: 13px; }
+.wave ul li { margin-bottom: 4px; }
+.wave .env {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11.5px;
+  color: var(--gold);
+}
+
+/* ARCHETYPES */
+.arch-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 32px;
+}
+@media (max-width: 1100px) { .arch-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px)  { .arch-grid { grid-template-columns: 1fr; } }
+.arch {
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+}
+.arch .acode {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10.5px;
+  letter-spacing: .1em;
+  color: var(--violet);
+  margin-bottom: 6px;
+}
+.arch h5 {
+  margin: 0 0 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-0);
+}
+.arch .a-blurb { font-size: 12.5px; color: var(--ink-2); }
+
+/* DOMAIN MATRIX */
+.domain-matrix {
+  display: grid;
+  grid-template-columns: repeat(13, 1fr);
+  gap: 6px;
+  margin-top: 24px;
+}
+@media (max-width: 900px) { .domain-matrix { grid-template-columns: repeat(3, 1fr); } }
+.dom {
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 10px 8px;
+  text-align: center;
+  font-size: 11px;
+  color: var(--ink-1);
+}
+.dom .dcode {
+  display: block;
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 600;
+  font-size: 10px;
+  color: var(--gold);
+  margin-bottom: 4px;
+  letter-spacing: .08em;
+}
+.dom.hi { background: rgba(232,163,61,0.10); border-color: rgba(232,163,61,0.3); }
+.dom.hi .dcode { color: var(--amber); }
+
+/* SCHEMA */
+.schema-table {
+  margin-top: 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.schema-row {
+  display: grid;
+  grid-template-columns: 220px 1fr 2fr;
+  gap: 16px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+}
+.schema-row:last-child { border-bottom: none; }
+.schema-row.hdr {
+  background: var(--bg-2);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.schema-row .sname {
+  font-family: "JetBrains Mono", monospace;
+  color: var(--violet);
+  font-weight: 600;
+}
+.schema-row .sshape { color: var(--ink-1); }
+.schema-row .suse { color: var(--ink-2); font-style: italic; }
+@media (max-width: 700px) { .schema-row { grid-template-columns: 1fr; } }
+
+/* PARTNER CLIENTS */
+.refclients {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  margin-top: 24px;
+}
+@media (max-width: 900px) { .refclients { grid-template-columns: repeat(3, 1fr); } }
+.refclient {
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  border-left: 3px solid var(--accent);
+}
+.refclient .rname { font-weight: 600; font-size: 13.5px; color: var(--ink-0); margin-bottom: 6px; }
+.refclient .rind {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: .1em;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+.refclient .rcount { margin-top: 8px; font-size: 11px; color: var(--ink-2); }
+
+footer {
+  position: relative; z-index: 1;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 40px 48px 64px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  color: var(--ink-3);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+footer a { color: var(--ink-2); text-decoration: none; }
+footer a:hover { color: var(--ink-0); }
+
+.gap-32 { height: 32px; }
+.callout {
+  background: var(--bg-2);
+  border-left: 4px solid var(--gold);
+  border-radius: 4px;
+  padding: 18px 22px;
+  margin: 24px 0;
+}
+.callout.violet { border-left-color: var(--violet); }
+.callout.teal   { border-left-color: var(--teal); }
+.callout.crim   { border-left-color: var(--crimson); }
+.callout-tag {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 6px;
+  display: block;
+}
+.callout.violet .callout-tag { color: var(--violet); }
+.callout.teal   .callout-tag { color: var(--teal); }
+.callout.crim   .callout-tag { color: var(--crimson); }
+.callout p { margin: 0; color: var(--ink-1); font-size: 14px; line-height: 1.6; }
+
+/* MARKETPLACE LAYER DIAGRAM */
+.mp-diagram {
+  margin-top: 32px;
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 32px;
+}
+.mp-band {
+  border-radius: var(--radius-sm);
+  padding: 18px 22px;
+  margin-bottom: 14px;
+  border: 1px solid var(--line);
+}
+.mp-band.household { background: rgba(255,255,255,0.02); }
+.mp-band.orchestrator { background: rgba(232,163,61,0.08); border-color: rgba(232,163,61,0.30); }
+.mp-band.channels { background: rgba(155,123,224,0.05); border-color: rgba(155,123,224,0.20); }
+.mp-band.partners { background: rgba(61,217,196,0.05); border-color: rgba(61,217,196,0.20); }
+.mp-band.bill { background: rgba(217,75,90,0.06); border-color: rgba(217,75,90,0.25); }
+.mp-band .mp-title {
+  font-family: "Fraunces", serif;
+  font-size: 17px;
+  font-weight: 500;
+  margin: 0 0 4px;
+}
+.mp-band.orchestrator .mp-title { color: var(--amber); }
+.mp-band.channels .mp-title { color: var(--violet); }
+.mp-band.partners .mp-title { color: var(--teal); }
+.mp-band.bill .mp-title { color: var(--crimson); }
+.mp-band .mp-sub {
+  font-size: 12px;
+  color: var(--ink-2);
+  font-style: italic;
+  margin-bottom: 12px;
+}
+.mp-band .mp-row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+}
+@media (max-width: 900px) { .mp-band .mp-row { grid-template-columns: repeat(2, 1fr); } }
+.mp-chip {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 10px;
+  font-size: 11.5px;
+  color: var(--ink-1);
+  text-align: center;
+}
+.mp-chip b { display: block; color: var(--ink-0); font-weight: 600; margin-bottom: 2px; font-size: 12px; }
+.mp-chip.acc { border-color: var(--accent); }
+.mp-chip.acc b { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<!-- ================== HERO ================== -->
+<header class="hero">
+  <div class="eyebrow">APEX · Agentic Merchandising Subscription · Reference Architecture</div>
+  <h1>Default Telco services. <em>Plug-in</em> Channels. One bill.</h1>
+  <p class="subhead">
+    How the Telco's existing streaming-bundle muscle — Hulu, ESPN, Discovery on one invoice —
+    extends to the agentic era. <b>Default Telco Services</b> anchor the Home Channel. Brand-operated
+    Channels (Walmart, American Airlines, Marriott, Expedia, Airbnb, Toyota, AutoNation, Cox
+    Automotive, Progressive, Sazerac) <b>plug in</b> via an open MCP partner protocol. The household
+    routes intents across all Channels through a single Home Orchestrator. This document is the
+    reference architecture that ties the marketplace meta-pack to the per-Channel build-spec
+    amendments.
+  </p>
+  <div class="hero-meta">
+    <div><b>Practice</b> · TMT (Telco-anchored marketplace)</div>
+    <div><b>Channels at launch</b> · 6 (Home Default + 5 plug-in)</div>
+    <div><b>Functional domains</b> · 13</div>
+    <div><b>Featured wedge scenarios</b> · 6</div>
+    <div><b>Substrate</b> · CAF (via A2A + MCP)</div>
+    <div><b>Service-code families</b> · HOM · TRV · RTL · MOB · AUT · BEV</div>
+    <div><b>Reference packs</b> · agentic-packs/_marketplace + 6 verticals</div>
+  </div>
+</header>
+
+<!-- ================== 1 · CHANNEL TOPOLOGY ================== -->
+<section>
+  <div class="section-head">
+    <div class="section-eye">§ 1 · Channel topology</div>
+    <h2>One marketplace. One Default. Five plug-in Channels at launch.</h2>
+    <p class="lead">
+      The marketplace is structured the way the Telco's existing content bundle is structured.
+      <b>Default Telco Services</b> — the Home Channel — ship with every subscriber and anchor the
+      household state machine. Every other Channel is <b>plug-in</b>: a brand-operated set of
+      sub-agents bundled or à-la-carte on the same monthly Telco bill, settled with the partner
+      brand on the back end. New Channels (Health, Finance, additional verticals) onboard without
+      changing the substrate.
+    </p>
+  </div>
+
+  <div class="ch-grid">
+    <div class="ch-card" style="--accent: var(--c-home)">
+      <div class="label"><span><span class="accent-dot"></span>Home · TMT-TEL-HOM-01..08, 99</span><span class="badge default">DEFAULT</span></div>
+      <h4>The Default Telco Channel</h4>
+      <div class="anchors">Samsung Family Hub · LG ThinQ · Whirlpool · Nest · Ring · Dexcom · ChargePoint</div>
+      <p class="blurb">Grocery, energy, eldercare, maintenance, security, wellness, vehicle, entertainment, orchestrator. Ships with every Telco subscriber; the Home Orchestrator is the entry-point for every other Channel's intents.</p>
+      <div class="meta">
+        <span>9 sub-agents</span>
+        <span>Telco-operated</span>
+        <span>Pack: agentic-packs/telco/</span>
+      </div>
+    </div>
+
+    <div class="ch-card" style="--accent: var(--c-travel)">
+      <div class="label"><span><span class="accent-dot"></span>Travel · TMT-TEL-HOM-10..17</span><span class="badge">PLUG-IN</span></div>
+      <h4>Travel &amp; Hospitality</h4>
+      <div class="anchors">American Airlines · Marriott · Expedia · Airbnb · Hertz · Uber · OpenTable · Viator</div>
+      <p class="blurb">Trip-mode posture extends the household state machine — flight, hotel, OTA, vacation rental, ground mobility, local experience, return reunification. IROPS recovery is the wedge.</p>
+      <div class="meta">
+        <span>8 sub-agents</span>
+        <span>Multi-anchor</span>
+        <span>Pack: travel-hospitality/</span>
+      </div>
+    </div>
+
+    <div class="ch-card" style="--accent: var(--c-retail)">
+      <div class="label"><span><span class="accent-dot"></span>Retail · TMT-TEL-RTL-01..04</span><span class="badge">PLUG-IN</span></div>
+      <h4>Walmart Retail</h4>
+      <div class="anchors">Walmart · Target · Costco · Sam's Club · Best Buy · Home Depot · Lowes</div>
+      <p class="blurb">Multi-retailer general merchandise, pharmacy + Walmart Health, auto care (TLE), and membership-tier optimization (Walmart+ / Costco / Sam's / Prime). Errand chaining is the wedge.</p>
+      <div class="meta">
+        <span>4 sub-agents</span>
+        <span>Walmart anchor</span>
+        <span>Pack: retail/</span>
+      </div>
+    </div>
+
+    <div class="ch-card" style="--accent: var(--c-mobility)">
+      <div class="label"><span><span class="accent-dot"></span>Mobility · TMT-TEL-MOB-01..04</span><span class="badge">PLUG-IN</span></div>
+      <h4>Toyota Connected</h4>
+      <div class="anchors">Toyota Connected Services · Toyota Financial Services · Toyota Insurance Mgmt Solutions · Ford · GM · Tesla · Honda · Hyundai · Stellantis</div>
+      <p class="blurb">OEM-mediated connected vehicle, dealer service + recall coordination, next-vehicle decisioning, TFS finance + TIMS UBI insurance. Multi-OEM household-fleet recall reconciliation is the wedge.</p>
+      <div class="meta">
+        <span>4 sub-agents</span>
+        <span>Toyota anchor</span>
+        <span>Pack: mobility-auto/</span>
+      </div>
+    </div>
+
+    <div class="ch-card" style="--accent: var(--c-automobile)">
+      <div class="label"><span><span class="accent-dot"></span>Automobile · TMT-TEL-AUT-01..08</span><span class="badge">PLUG-IN</span></div>
+      <h4>Vehicle Ownership Lifecycle</h4>
+      <div class="anchors">AutoNation · Cox Automotive (KBB · Autotrader · Manheim) · Progressive · Capital One Auto · CarMax · AutoZone · Shell · ChargePoint</div>
+      <p class="blurb">Discovery → purchase → financing → insurance → aftermarket → charging/fueling → fleet → resale. Brand-neutral routing across all OEMs, dealers, lenders, insurers. Saturday-research-to-Tuesday-drive-home is the wedge.</p>
+      <div class="meta">
+        <span>8 sub-agents</span>
+        <span>Multi-anchor</span>
+        <span>Pack: automobile/</span>
+      </div>
+    </div>
+
+    <div class="ch-card" style="--accent: var(--c-cpg)">
+      <div class="label"><span><span class="accent-dot"></span>CPG / Beverage · TMT-TEL-BEV-01..04</span><span class="badge">PLUG-IN</span></div>
+      <h4>Sazerac House</h4>
+      <div class="anchors">Sazerac (Buffalo Trace · Pappy · Eagle Rare · Stagg) · Diageo · Pernod Ricard · Brown-Forman · Constellation</div>
+      <p class="blurb">Age-gated adult-beverage replenishment, allocation alerts (BTAC, Pappy) with reserved holds, cocktail concierge, distillery tour bookings. State-by-state compliance + age verification first-class. BTAC allocation alert is the wedge.</p>
+      <div class="meta">
+        <span>4 sub-agents</span>
+        <span>Sazerac anchor</span>
+        <span>Pack: cpg-adult-beverage/</span>
+      </div>
+    </div>
+
+    <div class="ch-card" style="--accent: var(--c-future); opacity: .55;">
+      <div class="label"><span><span class="accent-dot"></span>Health · TMT-TEL-HLT-* (future)</span><span class="badge">ROADMAP</span></div>
+      <h4>Health &amp; Pharmacy</h4>
+      <div class="anchors">CVS Caremark · MinuteClinic · Walgreens · UnitedHealth Optum · Walmart Health</div>
+      <p class="blurb">Prescription orchestration, telehealth, chronic-condition programs, lab-results management. Materially extends the trust framework (PHI). Ships after Home, Travel, Retail, Mobility, CPG are stable.</p>
+      <div class="meta"><span>Compliance gate</span><span>HIPAA · BAA</span></div>
+    </div>
+
+    <div class="ch-card" style="--accent: var(--c-future); opacity: .55;">
+      <div class="label"><span><span class="accent-dot"></span>Finance · TMT-TEL-FIN-* (future)</span><span class="badge">ROADMAP</span></div>
+      <h4>Finance &amp; Insurance</h4>
+      <div class="anchors">Chase · Amex · Capital One · State Farm · Progressive (cross-Channel) · Plaid · MX</div>
+      <p class="blurb">Multi-bank account orchestration, bill negotiation, insurance shop/renew, sub-account budgeting per household member. PCI + GLBA compliance footprint significantly extends framework.</p>
+      <div class="meta"><span>Compliance gate</span><span>PCI · GLBA</span></div>
+    </div>
+
+    <div class="ch-card" style="--accent: var(--c-future); opacity: .55;">
+      <div class="label"><span><span class="accent-dot"></span>Future Channels</span><span class="badge">OPEN MCP</span></div>
+      <h4>Open marketplace</h4>
+      <div class="anchors">Any brand implementing apex.tmt.mcp.partner.v1</div>
+      <p class="blurb">Streaming concierge (Disney+, Netflix), productivity (Microsoft 365 Family), education (Outschool, Khan), pet-care (Rover, Chewy), or any consumer brand willing to implement the open partner protocol can list as a Channel.</p>
+      <div class="meta"><span>Net-additive</span><span>Zero-code-change</span></div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-tag">Design rule</span>
+    <p>Adding a new Channel is <b>net-additive</b>. No core platform change required. The Channel category, MCP-partner-protocol implementation, service-code-family reservation, and build-spec amendment are sufficient. The marketplace's coherence is enforced by APEX-conformant Bronze / Silver / Gold lint + the shared partner-MCP spec — not by central code ownership.</p>
+  </div>
+</section>
+
+<!-- ================== 2 · APEX 5 PLANES ================== -->
+<section>
+  <div class="section-head">
+    <div class="section-eye">§ 2 · APEX five planes — Marketplace view</div>
+    <h2>The five planes seen from the Channel Store.</h2>
+    <p class="lead">
+      The plane model is constant across Practices and across the new Channel-marketplace
+      construct. What changes is the data shapes (Channel + ChannelSubscription added to TMTML),
+      the persona cast (the household replaces the enterprise as primary persona), and the
+      surface patterns (mobile-first HITL replaces wallboard-first dashboards).
+    </p>
+  </div>
+
+  <div class="plane" style="--accent: var(--ember)">
+    <div class="plane-name"><span class="pcode">Plane 1</span>Experience</div>
+    <div class="plane-cap">
+      <p><b>What the plane does.</b> Surfaces named-persona household decision moments. Mobile push, "My Channels" surface in the Telco app, voice-intent on smart speakers, bill line-items, contact-center CSR views (consent-bounded).</p>
+    </div>
+    <div class="plane-tmt">
+      <span class="tmt-tag">Marketplace specialization</span>
+      "My Channels" view (subscribe / pause / cancel any Channel in one tap); HITL Adaptive Cards for purchase / rebooking / allocation-hold approvals; orchestrator-routing transparency ("Routing to Walmart — change to Costco?"). Primary persona is the Household Primary Account Holder, not an enterprise role.
+    </div>
+  </div>
+
+  <div class="plane" style="--accent: var(--amber)">
+    <div class="plane-name"><span class="pcode">Plane 2</span>Decision</div>
+    <div class="plane-cap">
+      <p><b>What the plane does.</b> Hosts the agents and HITL gates. Each Channel publishes sub-agents (orchestrator + 4–8 specialists). The Home Orchestrator (HOM-99) sits above all Channels and routes household intents to the appropriate Channel's sub-agent.</p>
+    </div>
+    <div class="plane-tmt">
+      <span class="tmt-tag">Marketplace specialization</span>
+      Cross-Channel intent routing is first-class. Default Telco sub-agents (HOM-01..08) coordinate posture with plug-in Channels (e.g., Travel sets home to vacation-mode; Automobile triggers HOM-07 telematics for UBI quotes). HITL gates declared per-Channel; consent grants gate per-scope.
+    </div>
+  </div>
+
+  <div class="plane" style="--accent: var(--teal)">
+    <div class="plane-name"><span class="pcode">Plane 3</span>Runtime</div>
+    <div class="plane-cap">
+      <p><b>What the plane does.</b> The orchestration engine. Reads the per-Channel manifests, dispatches agents in the declared archetype pattern, routes through the policy + consent + state-rules layer.</p>
+    </div>
+    <div class="plane-tmt">
+      <span class="tmt-tag">Marketplace specialization</span>
+      Per-Channel latency tiers: Default Telco runs sub-minute for IoT events; Travel runs sub-second for IROPS alerts; Retail runs near-real-time for inventory + pricing; CPG runs second-scale for allocation drops. Same archetype, different SLO. CAF Dynamic Orchestrator + A2A Swarm + MCP partner endpoints carry the dispatch.
+    </div>
+  </div>
+
+  <div class="plane" style="--accent: var(--violet)">
+    <div class="plane-name"><span class="pcode">Plane 4</span>Integration</div>
+    <div class="plane-cap">
+      <p><b>What the plane does.</b> Open MCP partner protocol (<code>apex.tmt.mcp.partner.v1</code>) + vertical extensions. Connectors to household IoT (Samsung, LG, Nest, Ring), to in-vehicle telematics (Toyota, Ford, GM), to brand APIs (AA, Marriott, Walmart, AutoNation, Progressive, Sazerac).</p>
+    </div>
+    <div class="plane-tmt">
+      <span class="tmt-tag">Marketplace specialization</span>
+      Partner-MCP onboarding is the only integration footprint per Channel partner. Every brand implements the open spec once; lists across every participating Telco. Bilateral integration tax = zero. Schema canonicalization to TMTML extended for Channel + Trip + Booking + RetailOrder + Vehicle + CellarItem + ChannelSubscription.
+    </div>
+  </div>
+
+  <div class="plane" style="--accent: var(--gold)">
+    <div class="plane-name"><span class="pcode">Plane 5</span>Ledger</div>
+    <div class="plane-cap">
+      <p><b>What the plane does.</b> 14-field audit row + per-household vault + consent ledger + Channel-billing settlement records. Composes the audit row from CAF LangFuse traces + Channel context.</p>
+    </div>
+    <div class="plane-tmt">
+      <span class="tmt-tag">Marketplace specialization</span>
+      Household vault is the per-tenant ledger root (customer-held KMS key). Channel-subscription + per-Channel-action audit rows feed Telco billing settlement to partner brands. Regulatory evidence per Channel: HOM (CPNI/PHI/PII), TRV (loyalty CPNI), RTL (PHI for RTL-02), MOB (CPNI for embedded SIM), AUT (FCRA + FTC CARS Rule), BEV (state ABC compliance).
+    </div>
+  </div>
+</section>
+
+<!-- ================== 3 · CANONICAL SCHEMA ================== -->
+<section>
+  <div class="section-head">
+    <div class="section-eye">§ 3 · Canonical schema — TMTML + Channel extensions</div>
+    <h2>One Practice schema family, one set of Channel extensions.</h2>
+    <p class="lead">
+      TMTML — the APEX canonical schema family for TMT — extends with marketplace primitives
+      (<code>Household</code>, <code>Vault</code>, <code>Channel</code>, <code>ChannelSubscription</code>) plus per-Channel reference and event entities.
+      Every Channel agent reads and writes against TMTML, not the underlying partner SoR — that
+      is what makes Channels portable across Telcos and Channel partnerships substitutable
+      without manifest rewrites.
+    </p>
+  </div>
+
+  <div class="schema-table">
+    <div class="schema-row hdr">
+      <div>Shape</div>
+      <div>What it is</div>
+      <div>Used by (Channel / scenario)</div>
+    </div>
+
+    <div class="schema-row">
+      <div class="sname">TMTML.Household</div>
+      <div class="sshape">Tenant root with vault, KMS key, members, plan tier, consent ledger</div>
+      <div class="suse">All Channels · the tenancy substrate; RLS-enforced</div>
+    </div>
+    <div class="schema-row">
+      <div class="sname">TMTML.Channel</div>
+      <div class="sshape">Marketplace Channel registry entry — category, operator, service-code prefix</div>
+      <div class="suse">Marketplace meta · drives "My Channels" surface + billing settlement</div>
+    </div>
+    <div class="schema-row">
+      <div class="sname">TMTML.ChannelSubscription</div>
+      <div class="sshape">Per-household Channel subscription — plan, bundle, status, engagement</div>
+      <div class="suse">Marketplace meta · billing + churn surfaces</div>
+    </div>
+    <div class="schema-row">
+      <div class="sname">TMTML.Device</div>
+      <div class="sshape">Hardware device + capability + classification + last-seen + location</div>
+      <div class="suse">Home · all 70+ device classes feed HOM-01..08</div>
+    </div>
+    <div class="schema-row">
+      <div class="sname">TMTML.InventoryReading</div>
+      <div class="sshape">Pantry / fridge / cellar inventory state, multi-source</div>
+      <div class="suse">Home (HOM-01) + Retail (RTL-01) + CPG (BEV-01..03)</div>
+    </div>
+    <div class="schema-row">
+      <div class="sname">TMTML.Trip</div>
+      <div class="sshape">Travel unit + state machine (At-Home → Departing → … → Reunified)</div>
+      <div class="suse">Travel · drives Channel-cross-talk during trips</div>
+    </div>
+    <div class="schema-row">
+      <div class="sname">TMTML.Booking</div>
+      <div class="sshape">Flight / hotel / STR / rental / dining / experience confirmation</div>
+      <div class="suse">Travel (HOM-11..16) · also Automobile (AUT-02 purchase)</div>
+    </div>
+    <div class="schema-row">
+      <div class="sname">TMTML.LoyaltyAccount</div>
+      <div class="sshape">CPNI-tokenised member-number reference + tier + balance</div>
+      <div class="suse">Travel (AAdvantage, Bonvoy, etc.) + Retail (Walmart+, Costco) + Automobile</div>
+    </div>
+    <div class="schema-row">
+      <div class="sname">TMTML.RetailOrder</div>
+      <div class="sshape">Multi-retailer order across Walmart / Target / Costco / Best Buy / Home Depot</div>
+      <div class="suse">Retail · errand-chain composition; AUT-05 aftermarket parts</div>
+    </div>
+    <div class="schema-row">
+      <div class="sname">TMTML.Prescription</div>
+      <div class="sshape">PHI-classified prescription metadata, tokenised rx-number</div>
+      <div class="suse">Retail (RTL-02) · future Health Channel</div>
+    </div>
+    <div class="schema-row">
+      <div class="sname">TMTML.Vehicle</div>
+      <div class="sshape">Vehicle entity + telematics + lifecycle_state (researching → resold)</div>
+      <div class="suse">Mobility (Toyota Connected) + Automobile (full lifecycle) + Home (HOM-07)</div>
+    </div>
+    <div class="schema-row">
+      <div class="sname">TMTML.VehicleListing</div>
+      <div class="sshape">For-sale inventory the household is researching / shopping</div>
+      <div class="suse">Automobile (AUT-01 discovery, AUT-02 purchase, AUT-08 resale)</div>
+    </div>
+    <div class="schema-row">
+      <div class="sname">TMTML.AutoPolicy</div>
+      <div class="sshape">Insurance policy + UBI score + carrier + premium history</div>
+      <div class="suse">Mobility (TIMS) + Automobile (Progressive Snapshot)</div>
+    </div>
+    <div class="schema-row">
+      <div class="sname">TMTML.AllocationAlert</div>
+      <div class="sshape">SKU + retailer + drop time + reserved-hold expiration</div>
+      <div class="suse">CPG (BEV-02) · Sazerac allocation engine</div>
+    </div>
+    <div class="schema-row">
+      <div class="sname">TMTML.CellarItem</div>
+      <div class="sshape">Household spirits / wine inventory with open-state + remaining-pct</div>
+      <div class="suse">CPG (BEV-01 replenishment, BEV-03 cocktail concierge)</div>
+    </div>
+    <div class="schema-row">
+      <div class="sname">TMTML.AgeVerification</div>
+      <div class="sshape">Tokenised ID-document reference + verification provider + expiry</div>
+      <div class="suse">CPG (every BEV transaction) · Travel (Real ID at check-in)</div>
+    </div>
+    <div class="schema-row">
+      <div class="sname">TMTML.HealthMetric</div>
+      <div class="sshape">PHI-classified wearable / CGM / sleep / glucose readings</div>
+      <div class="suse">Home (HOM-03 eldercare, HOM-06 wellness) · future Health Channel</div>
+    </div>
+    <div class="schema-row">
+      <div class="sname">TMTML.Engagement</div>
+      <div class="sshape">Per-Channel agent-run + action + state-transition rollup</div>
+      <div class="suse">All Channels · powers retention + marketplace-engagement scoring</div>
+    </div>
+  </div>
+
+  <div class="callout violet">
+    <span class="callout-tag">Schema discipline</span>
+    <p>Channel extensions inherit the base. Retail's <code>RetailOrder</code> extends with <code>sponsored</code> flag for Walmart Connect-style disclosure; CPG's <code>BeverageOrder</code> extends with <code>age_verified</code> + <code>state_eligibility</code>; Automobile's <code>FinancingApplication</code> extends with <code>credit_pull_type</code> + <code>authorization_token</code> for FCRA discipline. The base shapes stay stable so cross-Channel scenarios (Travel-x-Automobile insurance, Mobility-x-Retail service routing) work without schema gymnastics.</p>
+  </div>
+</section>
+
+<!-- ================== 4 · FEATURED WEDGE SCENARIOS ================== -->
+<section>
+  <div class="section-head">
+    <div class="section-eye">§ 4 · Featured wedge scenarios — one per Channel</div>
+    <h2>The six wedge moments that anchor each Channel's adoption.</h2>
+    <p class="lead">
+      One emotional, high-stakes moment per Channel that justifies the subscription on first use.
+      Each is authored as the full Scenario → Solution → Use Case → Service → Persona → KPI chain.
+      These are the moments a customer remembers and tells other households about.
+    </p>
+  </div>
+
+  <div class="scenarios">
+
+    <!-- HOM-01 (Default Telco) -->
+    <div class="scenario" style="--accent: var(--c-home)">
+      <div class="scen-id">TMT-CX-21 · HOME (DEFAULT) · CX</div>
+      <h4>Grocery replenishment from fridge + pantry signals</h4>
+      <div class="chain scen"><div class="ck">SCENARIO</div><div class="cv">Household runs out of staple items mid-week; lost time on emergency trips, waste from expiring product. Inventory state exists across smart fridge + pantry sensors + trash scanner but no single agent reasons over it.</div></div>
+      <div class="chain sol"><div class="ck">SOLUTION</div><div class="cv">Grocery-replenishment agent fuses Inventory, PurchaseHistory, Calendar, Budget. Drafts a cart at pantry-days-remaining threshold; cross-checks dinner-party events; submits via Kroger / Instacart / Walmart MCP. HITL above cart-total threshold.</div></div>
+      <div class="chain uc"><div class="ck">USE CASE</div><div class="cv">Predict-and-replenish pantry. Reads TMTML.Device + InventoryReading + Booking. 4-agent orchestration.</div></div>
+      <div class="chain svc"><div class="ck">SERVICE</div><div class="cv">TMT-TEL-HOM-01 · part of Default Telco Channel.</div></div>
+      <div class="chain persona"><div class="ck">PERSONA</div><div class="cv">Household Primary Account Holder. HITL gate at cart-total &gt; $150 via mobile push.</div></div>
+      <div class="chain kpi"><div class="ck">KPI</div><div class="cv">Grocery time saved 30–60 min/wk · food waste $5–12/wk · order accuracy &gt;95% · audit-row 100%.</div></div>
+    </div>
+
+    <!-- HOM-11 (Travel) -->
+    <div class="scenario" style="--accent: var(--c-travel)">
+      <div class="scen-id">TMT-CX-31 · TRAVEL · CX</div>
+      <h4>IROPS rebook across carriers</h4>
+      <div class="chain scen"><div class="ck">SCENARIO</div><div class="cv">AA flight cancelled 11 PM; AA offers 36-hr-later rebook. Customer has kid's recital tomorrow PM. Today the customer joins the CSR queue and accepts whatever's offered.</div></div>
+      <div class="chain sol"><div class="ck">SOLUTION</div><div class="cv">Flight Concierge ingests AA disruption webhook, cross-references household calendar + AAdvantage tier, searches Expedia for alt-carrier routings, finds Delta DL1234 returning 4:15 PM, submits AA-mediated rebook with AAdvantage attached. HITL on fare-delta &gt; $300.</div></div>
+      <div class="chain uc"><div class="ck">USE CASE</div><div class="cv">Cross-carrier IROPS recovery. Reads TMTML.Trip + DisruptionEvent + LoyaltyAccount + Booking. 6-agent fan-out across carriers.</div></div>
+      <div class="chain svc"><div class="ck">SERVICE</div><div class="cv">TMT-TEL-HOM-11 · part of Travel Channel (American Airlines anchor).</div></div>
+      <div class="chain persona"><div class="ck">PERSONA</div><div class="cv">Household Traveler. HITL gate within 5 min mobile push.</div></div>
+      <div class="chain kpi"><div class="ck">KPI</div><div class="cv">IROPS recovery time &lt;15 min median · rebook acceptance &gt;85% · cross-carrier route success rate &gt;70% · customer remembers forever.</div></div>
+    </div>
+
+    <!-- RTL-01 (Retail) -->
+    <div class="scenario" style="--accent: var(--c-retail)">
+      <div class="scen-id">TMT-CX-38 · RETAIL · CX</div>
+      <h4>Saturday-morning errand-chain orchestration</h4>
+      <div class="chain scen"><div class="ck">SCENARIO</div><div class="cv">Typical Saturday: pantry restock + Mom's prescription + oil change + kid's birthday gift + paper goods + light fixture. Four stores. 3.5–4.5 hrs unplanned. The household has no single coordination view.</div></div>
+      <div class="chain sol"><div class="ck">SOLUTION</div><div class="cv">Walmart Merchandise agent reads pantry (HOM-01), pharmacy due (RTL-02), vehicle service (HOM-07), calendar, previous-week purchases, home backlog (HOM-04). Composes optimized 4-store chain: Costco → Walmart Supercenter (groceries + Pharmacy + TLE) → Target → Home Depot. Surfaces with ETA.</div></div>
+      <div class="chain uc"><div class="ck">USE CASE</div><div class="cv">Multi-retailer errand chain. Reads cross-Channel state. 5-agent composition with cross-Channel handoffs.</div></div>
+      <div class="chain svc"><div class="ck">SERVICE</div><div class="cv">TMT-TEL-RTL-01 · Walmart Retail Channel.</div></div>
+      <div class="chain persona"><div class="ck">PERSONA</div><div class="cv">Household Primary Account Holder. HITL gate at chain-total &gt; $200.</div></div>
+      <div class="chain kpi"><div class="ck">KPI</div><div class="cv">Errand-chain time 3.5 hr → 2.5 hr · chain-completion rate &gt;80% · cross-retailer price savings $40–150/yr · audit-row per chain 100%.</div></div>
+    </div>
+
+    <!-- MOB-02 (Mobility) -->
+    <div class="scenario" style="--accent: var(--c-mobility)">
+      <div class="scen-id">TMT-CX-43 · MOBILITY · CX</div>
+      <h4>Multi-OEM household-fleet recall reconciliation</h4>
+      <div class="chain scen"><div class="ck">SCENARIO</div><div class="cv">Household owns 2 Toyotas + 1 Honda. NHTSA pushes two recall campaigns (21V-573 + 23V-340). Customer ignores OEM emails. NHTSA estimates ~25% of recalled vehicles never get repaired.</div></div>
+      <div class="chain sol"><div class="ck">SOLUTION</div><div class="cv">Dealer Network agent cross-references NHTSA + OEM recall feeds against household fleet, pulls dealer availability for Toyota + Honda, reads telematics for low-usage windows, coordinates HOM-15 loaner-mobility. Single notification: two appointments, one approval.</div></div>
+      <div class="chain uc"><div class="ck">USE CASE</div><div class="cv">Multi-OEM recall coordination. Reads TMTML.Vehicle + VehicleRecall + DealerAppointment + Trip. Hierarchical orchestration.</div></div>
+      <div class="chain svc"><div class="ck">SERVICE</div><div class="cv">TMT-TEL-MOB-02 · Toyota Connected Channel (extends to bench OEMs).</div></div>
+      <div class="chain persona"><div class="ck">PERSONA</div><div class="cv">Household Vehicle Owner. HITL gate above $300 service estimate.</div></div>
+      <div class="chain kpi"><div class="ck">KPI</div><div class="cv">Recall completion rate +30 pts · on-time scheduled service +25 pts · safety-incident expected-value $200–600/HH/yr · NHTSA exposure ↓.</div></div>
+    </div>
+
+    <!-- AUT-02 (Automobile) -->
+    <div class="scenario" style="--accent: var(--c-automobile)">
+      <div class="scen-id">TMT-CX-51 · AUTOMOBILE · CX</div>
+      <h4>Saturday-research-to-Tuesday-drive-home</h4>
+      <div class="chain scen"><div class="ck">SCENARIO</div><div class="cv">Replacing the 2017 Highlander. Today's process: 15+ apps, 20–40 hrs spread over weeks, dealership friction, opaque pricing across financing + insurance + trade-in.</div></div>
+      <div class="chain sol"><div class="ck">SOLUTION</div><div class="cv">Sat 9 AM: Discovery shortlists 2-3 vehicles. Sun: comparison + trade-in offers. Mon AM: Capital One Auto Navigator soft-pull pre-approvals (4 lenders) + Progressive Snapshot UBI-aware quotes (4 carriers). Mon PM: AutoNation reservation. Tue PM: 45-min walk-out, financing executed, insurance bound, DMV pre-filled via Vitu.</div></div>
+      <div class="chain uc"><div class="ck">USE CASE</div><div class="cv">Full purchase orchestration. Reads + writes across VehicleListing, FinancingApplication, InsuranceQuote, PurchaseOffer. F4 orchestrator-with-subagents pattern.</div></div>
+      <div class="chain svc"><div class="ck">SERVICE</div><div class="cv">TMT-TEL-AUT-02 · Automobile Channel (multi-anchor: AutoNation + Cox + Progressive).</div></div>
+      <div class="chain persona"><div class="ck">PERSONA</div><div class="cv">Household Primary Account Holder. HITL at OTD &gt; shortlist median +$5K, trade-in delta &gt; $2K, every commit.</div></div>
+      <div class="chain kpi"><div class="ck">KPI</div><div class="cv">Walk-out time 45 min · customer effort 6 hr over 3 days (vs 20–40 hr) · financing APR delta vs dealer-direct ↓ · long-tail churn protection (multi-year).</div></div>
+    </div>
+
+    <!-- BEV-02 (CPG) -->
+    <div class="scenario" style="--accent: var(--c-cpg)">
+      <div class="scen-id">TMT-CX-47 · CPG · CX</div>
+      <h4>Buffalo Trace allocation alert with reserved hold</h4>
+      <div class="chain scen"><div class="ck">SCENARIO</div><div class="cv">2024 BTAC: 3-bottle drop of Eagle Rare 17 lands at Pearson's Wine in DC at 9:14 AM. Today: customers hunt by walking in randomly, or pay 3–10x on the secondary market. Sazerac wants to route product to enthusiasts, not scalpers.</div></div>
+      <div class="chain sol"><div class="ck">SOLUTION</div><div class="cv">Allocation Alerts agent matches drop against customer watchlist + market + age-verification status + reserved-hold preference. Submits Sazerac-mediated reserved-hold to Pearson's. Pearson's confirms 1-bottle hold until 7 PM. Mobile push to customer with one-tap confirm. Customer arrives age-verified at 6:15 PM.</div></div>
+      <div class="chain uc"><div class="ck">USE CASE</div><div class="cv">Authorized allocation distribution. Reads TMTML.AllocationAlert + AgeVerification + LoyaltyAccount. Streaming detect + reserve-and-confirm pattern.</div></div>
+      <div class="chain svc"><div class="ck">SERVICE</div><div class="cv">TMT-TEL-BEV-02 · Sazerac House Channel.</div></div>
+      <div class="chain persona"><div class="ck">PERSONA</div><div class="cv">Household Collector. HITL on every reserved hold via 30-min mobile push window.</div></div>
+      <div class="chain kpi"><div class="ck">KPI</div><div class="cv">Allocation hit-rate &gt;80% on active watchlists · scalper-share reduction · BTAC-distribution efficiency ↑ · customer remembers forever.</div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================== 5 · MARKETPLACE STACK ================== -->
+<section>
+  <div class="section-head">
+    <div class="section-eye">§ 5 · Marketplace stack — APEX over CAF, plug-ins over MCP</div>
+    <h2>How Default + plug-in fit on the same substrate.</h2>
+    <p class="lead">
+      The marketplace is one APEX layer above CAF substrate, with brand-operated Channels plugging
+      in over MCP partner protocol. Same A2A bridge APEX uses across Practices is the same bridge
+      across Channels. The household vault sits below APEX; the Telco invoice sits beside it.
+    </p>
+  </div>
+
+  <div class="mp-diagram">
+
+    <div class="mp-band household">
+      <p class="mp-title" style="color: var(--ink-0);">Household</p>
+      <p class="mp-sub">tenant root · vault · KMS key · consent ledger · "My Channels" surface</p>
+      <div class="mp-row">
+        <div class="mp-chip"><b>Vault</b>per-HH bucket; customer-held KMS</div>
+        <div class="mp-chip"><b>Consent</b>per-scope, per-Channel, revocable</div>
+        <div class="mp-chip"><b>State machine</b>At-Home / In-Trip / Researching / …</div>
+        <div class="mp-chip"><b>"My Channels"</b>subscribe / pause / cancel</div>
+        <div class="mp-chip"><b>Voice / mobile</b>intent surfaces</div>
+        <div class="mp-chip"><b>Bill insert</b>line-item per Channel</div>
+      </div>
+    </div>
+
+    <div class="mp-band orchestrator">
+      <p class="mp-title">Home Orchestrator (HOM-99) — Default Telco entry-point</p>
+      <p class="mp-sub">brand-neutral intent routing across all subscribed Channels · disclosed-sponsorship-aware</p>
+      <div class="mp-row">
+        <div class="mp-chip acc" style="--accent: var(--c-home)"><b>HOM-99</b>orchestrator-with-subagents</div>
+        <div class="mp-chip"><b>Routing logic</b>read-only; proprietary</div>
+        <div class="mp-chip"><b>Consent enforcement</b>per-run check</div>
+        <div class="mp-chip"><b>HITL dispatch</b>by Channel + envelope tier</div>
+        <div class="mp-chip"><b>Audit chain</b>parent_run_id linkage</div>
+        <div class="mp-chip"><b>Sponsored disclosure</b>inline labelling</div>
+      </div>
+    </div>
+
+    <div class="mp-band channels">
+      <p class="mp-title">Channels — APEX scenario manifests (Deloitte IP) + per-Channel agents</p>
+      <p class="mp-sub">one Default + N plug-ins · each maps 1:1 to an agentic-pack + build-spec amendment</p>
+      <div class="mp-row">
+        <div class="mp-chip acc" style="--accent: var(--c-home)"><b>Home</b>HOM-01..08 (Default)</div>
+        <div class="mp-chip acc" style="--accent: var(--c-travel)"><b>Travel</b>HOM-10..17 (plug-in)</div>
+        <div class="mp-chip acc" style="--accent: var(--c-retail)"><b>Retail</b>RTL-01..04 (plug-in)</div>
+        <div class="mp-chip acc" style="--accent: var(--c-mobility)"><b>Mobility</b>MOB-01..04 (plug-in)</div>
+        <div class="mp-chip acc" style="--accent: var(--c-automobile)"><b>Automobile</b>AUT-01..08 (plug-in)</div>
+        <div class="mp-chip acc" style="--accent: var(--c-cpg)"><b>CPG</b>BEV-01..04 (plug-in)</div>
+      </div>
+    </div>
+
+    <div class="mp-band partners">
+      <p class="mp-title">Partner MCP endpoints — <code>apex.tmt.mcp.partner.v1</code> + vertical extensions</p>
+      <p class="mp-sub">brand-side · open spec · build once, list across every participating Telco</p>
+      <div class="mp-row">
+        <div class="mp-chip acc" style="--accent: var(--c-home)"><b>Samsung · LG · Whirlpool · Nest · Ring</b>device MCP</div>
+        <div class="mp-chip acc" style="--accent: var(--c-travel)"><b>AA · Marriott · Expedia · Airbnb · Hertz · Uber</b>travel MCP</div>
+        <div class="mp-chip acc" style="--accent: var(--c-retail)"><b>Walmart · Target · Costco · Best Buy · Home Depot</b>retail MCP</div>
+        <div class="mp-chip acc" style="--accent: var(--c-mobility)"><b>Toyota · Ford · GM · Tesla · Honda · Hyundai</b>OEM MCP</div>
+        <div class="mp-chip acc" style="--accent: var(--c-automobile)"><b>AutoNation · Cox · Progressive · Capital One · AutoZone · Shell</b>auto MCP</div>
+        <div class="mp-chip acc" style="--accent: var(--c-cpg)"><b>Sazerac · Diageo · Pernod · Brown-Forman</b>CPG MCP</div>
+      </div>
+    </div>
+
+    <div class="mp-band bill">
+      <p class="mp-title">Telco bill — single household invoice</p>
+      <p class="mp-sub">line-item per Channel · settled with each partner brand on the back end · same shape as today's content bundle</p>
+      <div class="mp-row">
+        <div class="mp-chip"><b>Subscription</b>per-Channel $4.99–$19.99</div>
+        <div class="mp-chip"><b>Action commerce</b>3–8% share to Telco</div>
+        <div class="mp-chip"><b>Outcome share</b>UBI · MA PMPM · IROPS</div>
+        <div class="mp-chip"><b>Bundle discount</b>33% off à-la-carte</div>
+        <div class="mp-chip"><b>Single bill UX</b>same as today's streaming</div>
+        <div class="mp-chip"><b>Per-Channel churn</b>independent cancel</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="callout teal">
+    <span class="callout-tag">CAF substrate (unchanged)</span>
+    <p>The marketplace runs on the same CAF substrate APEX-TMT runs on today — AEF LLM Gateway, A2A Swarm, Dynamic Orchestrator, Guardrails (GSO + Prompt Eval), 301-tier agents, Margin Maker blueprint pattern, LangFuse + Registry. No CAF capability is reinvented for Channels. Each Channel manifest references CAF capabilities by tag (<code>cap:inventory-stream</code>, <code>cap:irops-disruption-stream</code>, <code>cap:credit-pull-soft</code>, <code>cap:age-verification</code>); CAF Registry resolves to the live tier-301 agent.</p>
+  </div>
+
+  <div class="callout violet">
+    <span class="callout-tag">A2A is the cross-Channel bridge</span>
+    <p>Cross-Channel scenarios are A2A-native — a Travel-x-Automobile insurance scenario (rental coverage during a trip), a Mobility-x-Retail service-routing decision (Walmart TLE vs Toyota dealer), an Automobile-x-Home charging-coordination decision are all A2A sessions. One APEX scenario manifest dispatches across two Channel agent fleets, CAF A2A routes, the audit row composes from both Channels' traces. APEX never re-implements that primitive.</p>
+  </div>
+</section>
+
+<!-- ================== 6 · DOMAIN COVERAGE ================== -->
+<section>
+  <div class="section-head">
+    <div class="section-eye">§ 6 · Functional domain coverage</div>
+    <h2>Where the marketplace lights up across the 13 APEX domains.</h2>
+    <p class="lead">
+      APEX organizes scenarios by 13 functional domains (cross-Practice). The marketplace lights
+      up 11 of the 13. Highlighted cells have Channel coverage today (Default Home + 5 plug-ins);
+      remaining domains will light up as Health, Finance, and Productivity Channels onboard.
+    </p>
+  </div>
+
+  <div class="domain-matrix">
+    <div class="dom hi"><span class="dcode">CLIN</span>Clinical-care</div>
+    <div class="dom hi"><span class="dcode">NET</span>Network-infrastructure</div>
+    <div class="dom hi"><span class="dcode">ENG</span>Engineering-RD</div>
+    <div class="dom hi"><span class="dcode">SUPCHN</span>Supply-chain</div>
+    <div class="dom hi"><span class="dcode">ASSET</span>Asset-maintenance</div>
+    <div class="dom hi"><span class="dcode">QUAL</span>Quality-compliance</div>
+    <div class="dom hi"><span class="dcode">RISK</span>Risk-fraud-security</div>
+    <div class="dom hi"><span class="dcode">PRICE</span>Pricing-revenue</div>
+    <div class="dom hi"><span class="dcode">CX</span>Customer-experience</div>
+    <div class="dom hi"><span class="dcode">MKTG</span>Marketing-growth</div>
+    <div class="dom hi"><span class="dcode">OPS</span>Operations-workforce</div>
+    <div class="dom"><span class="dcode">CHAN</span>Channel-partner-dealer</div>
+    <div class="dom"><span class="dcode">OTHER</span>Other</div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-tag">Domain mix by Channel</span>
+    <p><b>Home (Default):</b> CX-heavy (grocery / eldercare / wellness / entertainment), with ASSET (maintenance), RISK (security), QUAL (recall). <b>Travel:</b> CX-heavy (IROPS / hotel / mobility / dining), with OPS (loyalty optimization). <b>Retail:</b> CX-heavy (errand chain), with SUPCHN (replenishment), CLIN (pharmacy), PRICE (cross-retailer). <b>Mobility:</b> ASSET-heavy (vehicle telematics, service), with QUAL (recall), RISK (insurance). <b>Automobile:</b> PRICE-heavy (purchase, financing, insurance shopping), with MKTG (discovery), OPS (fleet logging), CX (resale). <b>CPG:</b> SUPCHN-heavy (allocation, replenishment), with QUAL (age-gating), MKTG (tasting events).</p>
+  </div>
+</section>
+
+<!-- ================== 7 · WAVE MODEL ================== -->
+<section>
+  <div class="section-head">
+    <div class="section-eye">§ 7 · Channel rollout wave model</div>
+    <h2>Default first. Anchor plug-ins second. Marketplace breadth third.</h2>
+    <p class="lead">
+      Same APEX W1/W2/W3 wave pattern; specialized to the Channel-marketplace shape. Default Telco
+      services light up in W1 (the Home Channel ships with the substrate). Anchor plug-ins
+      (Travel + Retail) light up in W2. Full marketplace breadth (Mobility + Automobile + CPG +
+      future Channels) lights up in W3.
+    </p>
+  </div>
+
+  <div class="waves">
+    <div class="wave" style="--accent: var(--c-home)">
+      <div class="wname">Wave 1 · Foundation · Default Telco</div>
+      <h4>Home Channel live; vault + consent ledger; orchestrator entry-point</h4>
+      <div class="wdetail">Establish TMTML schema for marketplace primitives (Household, Vault, Channel, ChannelSubscription, Device, InventoryReading, HealthMetric). Land HOM-01..08 + HOM-99. Wire Adaptive Card + voice + bill insert. Audit row + per-household vault end-to-end on shadow data.</div>
+      <ul>
+        <li>1 Channel live (Home Default), 1 Telco reference client</li>
+        <li>9 agents (HOM-01..08 + HOM-99), full per-Channel HITL framework</li>
+        <li>Vault + customer-held KMS in production</li>
+        <li>Bill-line-item UX validated against existing streaming bundle UX</li>
+        <li>Shadow-run on prior 4 quarters of historical IoT data</li>
+      </ul>
+      <div class="env">Envelope · $2M – $5M · 6–10 months</div>
+    </div>
+
+    <div class="wave" style="--accent: var(--c-travel)">
+      <div class="wname">Wave 2 · Pilot · Anchor plug-ins</div>
+      <h4>Travel + Retail Channels live; marketplace billing settlement exercised</h4>
+      <div class="wdetail">Travel Channel onboards anchor partners (AA + Marriott + Expedia + Airbnb). Retail Channel onboards Walmart as anchor + Target/Costco bench. Marketplace billing settlement runs through full per-Channel rev-share with partner brands. One IROPS wedge + one errand-chain wedge in production.</div>
+      <ul>
+        <li>Default + 2 plug-in Channels live</li>
+        <li>17 additional sub-agents across Travel (8) + Retail (4) + cross-Channel ops</li>
+        <li>Partner-MCP onboarding lifecycle exercised end-to-end</li>
+        <li>Billing settlement reconciles to partner-side ledgers</li>
+        <li>One cross-Channel scenario delivered (Home-x-Travel vacation continuity)</li>
+      </ul>
+      <div class="env">Envelope · $6M – $14M · 9–14 months</div>
+    </div>
+
+    <div class="wave" style="--accent: var(--c-automobile)">
+      <div class="wname">Wave 3 · Scale &amp; Fuse · Marketplace breadth</div>
+      <h4>Mobility + Automobile + CPG live; cross-Channel composition default</h4>
+      <div class="wdetail">Toyota Connected (Mobility), AutoNation/Cox/Progressive (Automobile), and Sazerac (CPG) Channels go live. Cross-Channel scenarios as routine. Quarterly regulatory evidence packets feed FCC (Telco), NHTSA (recall), CFPB + FTC (Automobile financing + dealer transparency), state ABC (CPG age-gating). Practice-level marketplace economics measured at enterprise run-rate.</div>
+      <ul>
+        <li>6 Channels live; future Health + Finance roadmapped</li>
+        <li>16+ additional sub-agents across Mobility (4) + Automobile (8) + CPG (4)</li>
+        <li>Multi-anchor partnership patterns proven (Travel + Automobile model)</li>
+        <li>Cross-Channel scenarios native (Travel-x-Auto insurance, Mobility-x-Retail service)</li>
+        <li>External regulators / auditors consuming Channel evidence directly</li>
+        <li>$7–14B/yr GP envelope demonstrated for 20M-HH Telco at full marketplace</li>
+      </ul>
+      <div class="env">Envelope · $18M – $48M · 14–22 months</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================== 8 · ARCHETYPES ================== -->
+<section>
+  <div class="section-head">
+    <div class="section-eye">§ 8 · Orchestration archetypes most-used in the marketplace</div>
+    <h2>Which of the 47 APEX archetypes anchor Channel scenarios.</h2>
+    <p class="lead">
+      Channel scenarios cluster around the same eight archetypes already proven for TMT, with
+      one addition (<b>A-CSC-09 — Cross-Channel composition via orchestrator</b>) introduced to
+      handle the cross-Channel routing that the marketplace makes routine.
+    </p>
+  </div>
+
+  <div class="arch-grid">
+    <div class="arch">
+      <div class="acode">A-PFG-01</div>
+      <h5>Parallel fan-out / gather</h5>
+      <p class="a-blurb">Used by IROPS rebook (parallel carriers via Expedia), financing pre-approvals (parallel lenders), insurance quotes (parallel carriers), allocation watchlists (parallel retailers).</p>
+    </div>
+    <div class="arch">
+      <div class="acode">A-HRC-02</div>
+      <h5>Hierarchical root + children</h5>
+      <p class="a-blurb">Used by Home Orchestrator (HOM-99) routing to Channel sub-agents, Purchase orchestrator (AUT-02) composing financing + insurance + trade-in + DMV.</p>
+    </div>
+    <div class="arch">
+      <div class="acode">A-FBL-03</div>
+      <h5>Feedback loop / learning</h5>
+      <p class="a-blurb">Used by pantry-replenishment (consumption-rate calibration), UBI score refresh, allocation hit-rate self-tuning, trip-state-machine geofence smoothing.</p>
+    </div>
+    <div class="arch">
+      <div class="acode">A-HGC-04</div>
+      <h5>HITL-gated commit</h5>
+      <p class="a-blurb">Used by cart-total threshold, IROPS fare-delta, OTD-above-shortlist-median, allocation reserved-hold confirm, hard-credit-pull authorization, age-verification gate.</p>
+    </div>
+    <div class="arch">
+      <div class="acode">A-SDS-05</div>
+      <h5>Streaming detect-and-suppress</h5>
+      <p class="a-blurb">Used by airline disruption webhooks, Sazerac allocation drops, recall-feed cross-references, IoT anomaly alerts, eldercare ADL deviation.</p>
+    </div>
+    <div class="arch">
+      <div class="acode">A-CRP-06</div>
+      <h5>Cross-Practice fusion (via A2A)</h5>
+      <p class="a-blurb">Used by Home-x-Travel vacation continuity, Mobility-x-Retail service routing, Automobile-x-Home EV-charging coordination, CPG-x-Travel out-of-state distillery tours.</p>
+    </div>
+    <div class="arch">
+      <div class="acode">A-SQC-07</div>
+      <h5>Sequential conditional</h5>
+      <p class="a-blurb">Used by purchase orchestration (discovery → finance → insurance → DMV chain), trip state machine, lifecycle state transitions in Automobile Channel.</p>
+    </div>
+    <div class="arch">
+      <div class="acode">A-RSP-08</div>
+      <h5>Real-time stream / push</h5>
+      <p class="a-blurb">Used by IROPS alerts (sub-minute), allocation drops (sub-second), eldercare emergencies, in-trip mobility dispatch, BEV reserved-hold confirmations.</p>
+    </div>
+    <div class="arch" style="background: rgba(155,123,224,0.08); border-color: rgba(155,123,224,0.4);">
+      <div class="acode" style="color: var(--violet);">A-CSC-09 · NEW</div>
+      <h5>Cross-Channel composition via orchestrator</h5>
+      <p class="a-blurb">Marketplace-specific. HOM-99 routes one household intent across two or more Channel sub-agent fleets, aggregates results, presents a single decision. Audit row links parent_run_id across Channels.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================== 9 · ANCHOR PARTNER COVERAGE ================== -->
+<section>
+  <div class="section-head">
+    <div class="section-eye">§ 9 · Anchor partner coverage</div>
+    <h2>Who anchors which plug-in Channel at launch.</h2>
+    <p class="lead">
+      Each plug-in Channel has one or more anchor partners and a bench. Anchors fund Channel-launch
+      cost, get co-branded ("Marriott — official hotel partner of [Telco] Home") + flagship
+      marketplace placement. Bench partners pay smaller onboarding fees and compete on
+      brand-neutral routing.
+    </p>
+  </div>
+
+  <div class="refclients">
+    <!-- Home (Default) -->
+    <div class="refclient" style="--accent: var(--c-home)">
+      <div class="rind">Home · Default</div>
+      <div class="rname">Samsung Family Hub</div>
+      <div class="rcount">device anchor · vision-based pantry</div>
+    </div>
+    <div class="refclient" style="--accent: var(--c-home)">
+      <div class="rind">Home · Default</div>
+      <div class="rname">LG ThinQ</div>
+      <div class="rcount">device anchor · multi-appliance</div>
+    </div>
+    <div class="refclient" style="--accent: var(--c-home)">
+      <div class="rind">Home · Default</div>
+      <div class="rname">Nest · Ring · Dexcom</div>
+      <div class="rcount">climate + security + wellness</div>
+    </div>
+
+    <!-- Travel -->
+    <div class="refclient" style="--accent: var(--c-travel)">
+      <div class="rind">Travel</div>
+      <div class="rname">American Airlines</div>
+      <div class="rcount">flight anchor · AAdvantage co-brand</div>
+    </div>
+    <div class="refclient" style="--accent: var(--c-travel)">
+      <div class="rind">Travel</div>
+      <div class="rname">Marriott</div>
+      <div class="rcount">hotel anchor · Bonvoy co-brand</div>
+    </div>
+    <div class="refclient" style="--accent: var(--c-travel)">
+      <div class="rind">Travel</div>
+      <div class="rname">Expedia · Airbnb</div>
+      <div class="rcount">OTA + STR anchor</div>
+    </div>
+
+    <!-- Retail -->
+    <div class="refclient" style="--accent: var(--c-retail)">
+      <div class="rind">Retail</div>
+      <div class="rname">Walmart</div>
+      <div class="rcount">anchor · GM + Pharmacy + TLE + Walmart+</div>
+    </div>
+    <div class="refclient" style="--accent: var(--c-retail)">
+      <div class="rind">Retail</div>
+      <div class="rname">Target · Costco · Sam's</div>
+      <div class="rcount">bench · multi-retailer routing</div>
+    </div>
+    <div class="refclient" style="--accent: var(--c-retail)">
+      <div class="rind">Retail</div>
+      <div class="rname">Best Buy · Home Depot · Lowes</div>
+      <div class="rcount">bench · specialty</div>
+    </div>
+
+    <!-- Mobility -->
+    <div class="refclient" style="--accent: var(--c-mobility)">
+      <div class="rind">Mobility</div>
+      <div class="rname">Toyota Motor NA</div>
+      <div class="rcount">anchor · Connected + TFS + TIMS</div>
+    </div>
+    <div class="refclient" style="--accent: var(--c-mobility)">
+      <div class="rind">Mobility</div>
+      <div class="rname">Ford · GM · Tesla</div>
+      <div class="rcount">bench · OEM multi-brand</div>
+    </div>
+    <div class="refclient" style="--accent: var(--c-mobility)">
+      <div class="rind">Mobility</div>
+      <div class="rname">Honda · Hyundai · Stellantis</div>
+      <div class="rcount">bench · expanded OEM</div>
+    </div>
+
+    <!-- Automobile -->
+    <div class="refclient" style="--accent: var(--c-automobile)">
+      <div class="rind">Automobile</div>
+      <div class="rname">AutoNation</div>
+      <div class="rcount">anchor · dealer-group + finance + insurance</div>
+    </div>
+    <div class="refclient" style="--accent: var(--c-automobile)">
+      <div class="rind">Automobile</div>
+      <div class="rname">Cox Automotive</div>
+      <div class="rcount">anchor · KBB · Autotrader · Manheim</div>
+    </div>
+    <div class="refclient" style="--accent: var(--c-automobile)">
+      <div class="rind">Automobile</div>
+      <div class="rname">Progressive</div>
+      <div class="rcount">anchor · Snapshot UBI</div>
+    </div>
+
+    <!-- CPG -->
+    <div class="refclient" style="--accent: var(--c-cpg)">
+      <div class="rind">CPG · Beverage</div>
+      <div class="rname">Sazerac</div>
+      <div class="rcount">anchor · BTAC · Pappy · Eagle Rare · Stagg</div>
+    </div>
+    <div class="refclient" style="--accent: var(--c-cpg)">
+      <div class="rind">CPG · Beverage</div>
+      <div class="rname">Diageo · Pernod Ricard</div>
+      <div class="rcount">bench · international portfolio</div>
+    </div>
+    <div class="refclient" style="--accent: var(--c-cpg)">
+      <div class="rind">CPG · Beverage</div>
+      <div class="rname">Brown-Forman · Constellation</div>
+      <div class="rcount">bench · bourbon · whiskey · tequila</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-tag">Why brands accept the marketplace</span>
+    <p>Each plug-in partner gets four things they cannot build alone: <b>(1)</b> direct billing on the Telco invoice — no card-on-file friction, ~2% payment-fail rate vs ~8% direct; <b>(2)</b> verified-context household signal (calendar, eldercare, vehicle telematics) brand-direct can never see; <b>(3)</b> multi-Telco distribution from a single MCP integration — build once, list across every Telco partner; <b>(4)</b> regulated-utility brand-permission posture — the Telco's privacy-regulation envelope protects the partner from headline risk. None of these is replicable by any single brand acting alone.</p>
+  </div>
+</section>
+
+<!-- ================== 10 · NEXT STEPS ================== -->
+<section>
+  <div class="section-head">
+    <div class="section-eye">§ 10 · Next steps</div>
+    <h2>From reference architecture to engagement.</h2>
+  </div>
+
+  <ol style="font-size:14.5px; color:var(--ink-1); line-height:1.7; padding-left:24px; max-width:920px;">
+    <li><b>Pick the W1 Telco partner.</b> AT&amp;T or T-Mobile is the highest-leverage Default-Telco anchor — broadest household reach + most mature billing+bundle infrastructure. Charter / Verizon FIOS as W2 candidates given prior FIOS-of-digital-content precedent.</li>
+    <li><b>Stand up the Default Home Channel.</b> 9 agents (HOM-01..08 + HOM-99), vault + customer-held KMS, "My Channels" surface, Adaptive Card HITL framework, shadow-run on partner IoT data (Samsung / LG / Whirlpool / Nest / Ring / Dexcom).</li>
+    <li><b>Land the first plug-in.</b> Travel Channel with AA + Marriott + Expedia + Airbnb is the recommended W2 wedge — high-emotional-stakes IROPS recovery + bundle muscle parallel to streaming.</li>
+    <li><b>Open the partner-MCP onboarding lane.</b> Publish <code>apex.tmt.mcp.partner.v1</code> as an open spec. Walk Walmart, Toyota, AutoNation, Cox, Progressive, Sazerac through the channel-design workshop + MCP-implementation plan + commercial-terms negotiation.</li>
+    <li><b>Walk the cross-Channel scenarios.</b> Home-x-Travel vacation continuity, Mobility-x-Retail service routing, Automobile-x-Home EV-charging are the proof points that demonstrate the marketplace is more than the sum of its Channels.</li>
+    <li><b>Preserve independence posture.</b> All marketplace commercial materials use "Deloitte's Microsoft practice," "DMTSP," "Microsoft platform capabilities," "Microsoft-native deployment." The terms "partner," "alliance," and "strategic alliance" do not appear.</li>
+  </ol>
+
+  <div class="gap-32"></div>
+  <div class="callout crim">
+    <span class="callout-tag">Independence note</span>
+    <p>Several anchor partner brands have audit-firm relationships that affect engagement structuring (notably some Telco accounts, AutoNation, and the OEMs). Before any W1 Default-Telco contract or W2 plug-in-partner-onboarding contract goes to drafting, confirm Deloitte's audit posture relative to each named brand and route the SOW through the Independence office. The APEX marketplace pattern is independence-safe by design; specific engagements are not assumed — they are designed.</p>
+  </div>
+</section>
+
+<!-- ================== FOOTER ================== -->
+<footer>
+  <div>APEX · Agentic Merchandising Subscription · Reference Architecture · v1.0</div>
+  <div>
+    Companion artifacts ·
+    <a href="./APEX-Stacked-Architecture-Narrated.html">Narrated HTML</a> ·
+    <a href="../agentic-packs/_marketplace/">Marketplace meta-pack</a> ·
+    <a href="../agentic-packs/telco/">Home (Default) pack</a> ·
+    <a href="../agentic-packs/travel-hospitality/">Travel pack</a> ·
+    <a href="../agentic-packs/retail/">Retail pack</a> ·
+    <a href="../agentic-packs/mobility-auto/">Mobility pack</a> ·
+    <a href="../agentic-packs/automobile/">Automobile pack</a> ·
+    <a href="../agentic-packs/cpg-adult-beverage/">CPG pack</a>
+  </div>
+  <div>Deloitte · Microsoft Technology Solutions &amp; Practices</div>
+</footer>
+
+</body>
+</html>
