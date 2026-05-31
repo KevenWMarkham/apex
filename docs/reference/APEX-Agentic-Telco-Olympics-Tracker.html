@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+<!--
+==================================================================================
+APEX × AGENTIC-TELCO × LA28 OLYMPICS · INTERACTIVE DELIVERY TRACKER
+==================================================================================
+Built from the Agentic Merchandising Subscription reference architecture +
+the LA28 Summer Olympics anchor scenario (one-pager).
+
+WHAT IT IS
+  An interactive HTML tool for the Deloitte pursuit + delivery team to
+  track the 24-month build-to-Games motion. Countdown clock anchored on
+  the LA28 opening-ceremony date. Draggable timeline slider scrubs across
+  the build window. Click any milestone or any partner-org node to open
+  a "how-to-achieve" or "stakeholder" modal. Validation checklists must
+  be completed before advancing to the next milestone.
+
+  Visual + interaction pattern modelled directly on the Sonepar Pursuit
+  Tracker (Deloitte-green brand, gate-validated phases, modal stakeholder
+  details, localStorage state). Olympic-gold accent layered for Games motif.
+
+HOW TO USE IT
+  1. Open in any browser.
+  2. Countdown clock auto-runs to LA28 opening ceremony (default 14 Jul 2028).
+  3. Drag the timeline slider to scrub across milestones; the active milestone
+     auto-selects.
+  4. Click any milestone tab to load its action plan + validation gate.
+  5. Click any partner / role in the org chart for the stakeholder modal.
+  6. Click "How to achieve" on any milestone for the meetings + comms playbook.
+  7. State persists in localStorage.
+==================================================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>APEX × Agentic Telco · LA28 Delivery Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --deloitte-green: #86BC25;
+    --deloitte-dark: #0D2818;
+    --accent-teal: #00A3A1;
+    --accent-blue: #0076A8;
+    --accent-navy: #012169;
+    --bg-light: #F7F9FA;
+    --text-primary: #1A1A2E;
+    --text-secondary: #4A5568;
+    --border: #E2E8F0;
+    --white: #FFFFFF;
+    --red-flag: #C53030;
+    --amber: #D69E2E;
+    --green-ok: #38A169;
+    --ms-blue: #0078D4;
+    --olympic-gold: #C8A02F;
+    --olympic-blue: #0085C7;
+    --olympic-red: #DF0024;
+    --lock-gray: #94A3B8;
+
+    /* Channel accents */
+    --c-home:       #E8A33D;
+    --c-travel:     #6FB6E5;
+    --c-retail:     #3DD9C4;
+    --c-mobility:   #9B7BE0;
+    --c-automobile: #E87B3C;
+    --c-cpg:        #D94B5A;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg-light); color: var(--text-primary); font-family: 'DM Sans', sans-serif; line-height: 1.55; }
+  body { padding: 0; min-height: 100vh; }
+
+  /* ============================================== HEADER ============================================== */
+  .pt-header { background: linear-gradient(135deg, var(--deloitte-dark) 0%, #0a3620 50%, #0d4428 100%); color: white; padding: 22px 28px 22px; border-bottom: 4px solid var(--olympic-gold); }
+  .pt-header-grid { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; max-width: 1440px; margin: 0 auto; }
+  .pt-title h1 { font-family: 'Outfit', sans-serif; font-size: 22px; font-weight: 700; letter-spacing: -0.3px; }
+  .pt-title .eyebrow { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--olympic-gold); margin-bottom: 4px; font-weight: 700; }
+  .pt-title .sub { font-size: 11.5px; opacity: 0.75; margin-top: 4px; }
+  .pt-controls { display: flex; gap: 10px; align-items: center; }
+  .pt-stat { background: rgba(255,255,255,0.06); border: 1px solid rgba(200,160,47,0.4); padding: 8px 14px; border-radius: 8px; text-align: center; min-width: 95px; }
+  .pt-stat .label { font-size: 8px; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.7; display: block; font-weight: 600; }
+  .pt-stat .value { font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 700; color: var(--olympic-gold); }
+  .pt-btn { background: var(--olympic-gold); color: var(--deloitte-dark); border: none; padding: 9px 14px; border-radius: 6px; cursor: pointer; font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; transition: transform 0.1s ease, box-shadow 0.1s ease; }
+  .pt-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(200,160,47,0.4); }
+  .pt-btn.ghost { background: transparent; color: rgba(255,255,255,0.85); border: 1px solid rgba(255,255,255,0.2); }
+  .pt-btn.ghost:hover { background: rgba(255,255,255,0.06); }
+
+  /* ============================================== COUNTDOWN ============================================== */
+  .countdown-band { background: rgba(0,0,0,0.25); padding: 16px 28px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .countdown-grid { max-width: 1440px; margin: 0 auto; display: grid; grid-template-columns: auto 1fr auto; gap: 28px; align-items: center; }
+  .cd-label { color: var(--olympic-gold); font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+  .cd-label .cd-event { display: block; color: white; font-size: 14px; letter-spacing: 0.5px; text-transform: none; font-weight: 500; margin-top: 2px; opacity: 0.9; }
+  .cd-clock { display: flex; gap: 18px; justify-content: center; }
+  .cd-unit { text-align: center; color: white; min-width: 60px; }
+  .cd-unit .cd-num { font-family: 'JetBrains Mono', monospace; font-size: 32px; font-weight: 700; color: var(--olympic-gold); line-height: 1; letter-spacing: -1px; }
+  .cd-unit .cd-name { font-size: 9px; text-transform: uppercase; letter-spacing: 2px; opacity: 0.7; margin-top: 4px; font-weight: 600; }
+  .cd-rings { display: grid; grid-template-columns: repeat(3, 18px); grid-template-rows: repeat(2, 18px); gap: 2px 8px; }
+  .cd-ring { width: 18px; height: 18px; border-radius: 50%; border: 2.5px solid var(--c); }
+  .cd-ring:nth-child(1) { --c: #0085C7; }
+  .cd-ring:nth-child(2) { --c: #FFFFFF; }
+  .cd-ring:nth-child(3) { --c: #DF0024; }
+  .cd-ring:nth-child(4) { --c: #F4C300; transform: translateX(13px); }
+  .cd-ring:nth-child(5) { --c: #009F3D; transform: translateX(13px); }
+
+  /* ============================================== TIMELINE SLIDER ============================================== */
+  .ts-band { background: white; border-bottom: 1px solid var(--border); padding: 18px 28px; }
+  .ts-wrap { max-width: 1440px; margin: 0 auto; }
+  .ts-title { font-family: 'Outfit', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent-navy); font-weight: 700; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; }
+  .ts-title .ts-when { font-size: 12px; color: var(--olympic-gold); font-weight: 700; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px; text-transform: none; }
+  .ts-track-wrap { position: relative; padding: 18px 0 40px; }
+  .ts-track { position: relative; height: 6px; background: linear-gradient(90deg, var(--border), var(--olympic-gold)); border-radius: 3px; }
+  .ts-fill { position: absolute; top: 0; left: 0; height: 100%; background: var(--olympic-gold); border-radius: 3px; transition: width 0.1s ease; }
+  .ts-handle { position: absolute; top: 50%; width: 24px; height: 24px; border-radius: 50%; background: white; border: 3px solid var(--olympic-gold); transform: translate(-50%, -50%); cursor: grab; box-shadow: 0 4px 12px rgba(200,160,47,0.4); transition: transform 0.1s; z-index: 5; }
+  .ts-handle:hover { transform: translate(-50%, -50%) scale(1.15); }
+  .ts-handle.dragging { cursor: grabbing; transform: translate(-50%, -50%) scale(1.2); }
+  .ts-handle::after { content: ''; position: absolute; top: 50%; left: 50%; width: 8px; height: 8px; background: var(--olympic-gold); border-radius: 50%; transform: translate(-50%, -50%); }
+  .ts-marker { position: absolute; top: 50%; width: 14px; height: 14px; border-radius: 50%; background: white; border: 3px solid var(--lock-gray); transform: translate(-50%, -50%); cursor: pointer; z-index: 3; transition: all 0.15s; }
+  .ts-marker:hover { transform: translate(-50%, -50%) scale(1.3); border-color: var(--accent-navy); }
+  .ts-marker.passed { background: var(--green-ok); border-color: var(--green-ok); }
+  .ts-marker.active { background: var(--olympic-gold); border-color: var(--olympic-gold); animation: pulse-mark 1.6s infinite; }
+  .ts-marker.games { width: 22px; height: 22px; background: var(--olympic-red); border-color: var(--olympic-red); }
+  @keyframes pulse-mark { 0%,100% { box-shadow: 0 0 0 0 rgba(200,160,47,0.5); } 50% { box-shadow: 0 0 0 10px rgba(200,160,47,0); } }
+  .ts-mark-label { position: absolute; top: 28px; transform: translateX(-50%); font-size: 9px; font-weight: 700; color: var(--text-secondary); white-space: nowrap; pointer-events: none; }
+  .ts-mark-label.games { color: var(--olympic-red); font-size: 10px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; }
+  .ts-handle-label { position: absolute; bottom: -28px; background: var(--accent-navy); color: white; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 4px; transform: translateX(-50%); white-space: nowrap; font-weight: 600; }
+  .ts-handle-label::before { content: ''; position: absolute; top: -4px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-bottom: 4px solid var(--accent-navy); }
+
+  /* progress bar (header) */
+  .pt-progress { height: 4px; background: rgba(255,255,255,0.1); margin-top: 16px; border-radius: 2px; overflow: hidden; max-width: 1440px; margin-left: auto; margin-right: auto; }
+  .pt-progress-fill { height: 100%; background: linear-gradient(90deg, var(--olympic-gold), #d4b042); border-radius: 2px; transition: width 0.4s ease; }
+
+  /* ============================================== MAIN GRID ============================================== */
+  .pt-body { max-width: 1440px; margin: 0 auto; padding: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  @media (max-width: 1100px) { .pt-body { grid-template-columns: 1fr; } }
+
+  .pt-section { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 22px 26px; }
+  .pt-section h2 { font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 700; color: var(--accent-navy); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid var(--olympic-gold); display: flex; align-items: center; gap: 8px; }
+
+  /* ============================================== ORG HIERARCHY ============================================== */
+  .h-tree { width: 100%; height: 580px; }
+  .h-node { position: relative; cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease; user-select: none; }
+  .h-node:hover { transform: translateY(-2px); }
+  .h-card { background: var(--white); border: 2px solid var(--border); border-radius: 10px; padding: 9px 11px; text-align: center; position: relative; transition: all 0.15s ease; height: 100%; }
+  .h-node:hover .h-card { box-shadow: 0 6px 16px rgba(13,40,24,0.15); }
+  .h-card .h-role { font-size: 8.5px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); font-weight: 700; }
+  .h-card .h-name { font-family: 'Outfit', sans-serif; font-size: 12.5px; font-weight: 700; color: var(--accent-navy); margin: 2px 0; line-height: 1.15; }
+  .h-card .h-title { font-size: 10px; color: var(--text-secondary); line-height: 1.3; }
+  .h-card .h-tag { display: inline-block; font-size: 8px; font-weight: 800; padding: 1px 6px; border-radius: 3px; letter-spacing: 0.6px; text-transform: uppercase; margin-top: 4px; }
+  .h-card.sponsor { background: linear-gradient(135deg, #FFF8E5, #FFFFFF); border-color: var(--olympic-gold); }
+  .h-card.sponsor .h-tag { background: var(--olympic-gold); color: var(--deloitte-dark); }
+  .h-card.telco { background: linear-gradient(135deg, #FEF7E8, #FFFFFF); border-color: var(--c-home); }
+  .h-card.telco .h-tag { background: var(--c-home); color: white; }
+  .h-card.media { background: linear-gradient(135deg, #FFE4E6, #FFFFFF); border-color: var(--olympic-red); }
+  .h-card.media .h-tag { background: var(--olympic-red); color: white; }
+  .h-card.travel { background: linear-gradient(135deg, #E5F2FB, #FFFFFF); border-color: var(--c-travel); }
+  .h-card.travel .h-tag { background: var(--c-travel); color: white; }
+  .h-card.retail { background: linear-gradient(135deg, #E0F7F3, #FFFFFF); border-color: var(--c-retail); }
+  .h-card.retail .h-tag { background: var(--c-retail); color: var(--deloitte-dark); }
+  .h-card.mobility { background: linear-gradient(135deg, #EFE7F8, #FFFFFF); border-color: var(--c-mobility); }
+  .h-card.mobility .h-tag { background: var(--c-mobility); color: white; }
+  .h-card.auto { background: linear-gradient(135deg, #FCE7DC, #FFFFFF); border-color: var(--c-automobile); }
+  .h-card.auto .h-tag { background: var(--c-automobile); color: white; }
+  .h-card.cpg { background: linear-gradient(135deg, #FBE3E6, #FFFFFF); border-color: var(--c-cpg); }
+  .h-card.cpg .h-tag { background: var(--c-cpg); color: white; }
+  .h-card.platform { background: linear-gradient(135deg, #E9F4FB, #FFFFFF); border-color: var(--ms-blue); }
+  .h-card.platform .h-tag { background: var(--ms-blue); color: white; }
+  .h-card.delivery { background: linear-gradient(135deg, #ECFAE0, #FFFFFF); border-color: var(--deloitte-green); }
+  .h-card.delivery .h-tag { background: var(--deloitte-green); color: var(--deloitte-dark); }
+
+  .h-legend { display: flex; gap: 10px; font-size: 9.5px; margin-top: 10px; flex-wrap: wrap; color: var(--text-secondary); }
+  .h-legend .dot { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: middle; margin-right: 4px; }
+
+  /* ============================================== MILESTONES ============================================== */
+  .phase-list { display: flex; gap: 4px; margin-bottom: 18px; flex-wrap: wrap; }
+  .phase-tab { flex: 1; min-width: 95px; padding: 9px 7px; border: 2px solid var(--border); border-radius: 8px; background: var(--white); cursor: pointer; transition: all 0.15s ease; position: relative; overflow: hidden; }
+  .phase-tab:hover { border-color: var(--olympic-gold); transform: translateY(-1px); }
+  .phase-tab.active { background: var(--accent-navy); border-color: var(--accent-navy); color: white; }
+  .phase-tab.complete { background: var(--green-ok); border-color: var(--green-ok); color: white; }
+  .phase-tab.locked { background: #F1F5F9; border-color: var(--border); color: var(--lock-gray); cursor: not-allowed; opacity: 0.7; }
+  .phase-tab.games-tab { background: var(--olympic-red); border-color: var(--olympic-red); color: white; }
+  .phase-tab.games-tab.active { background: var(--olympic-red); }
+  .phase-tab .phase-num { font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 800; opacity: 0.7; }
+  .phase-tab .phase-name { font-size: 10px; font-weight: 700; line-height: 1.2; margin-top: 2px; }
+  .phase-tab .phase-days { font-size: 9px; opacity: 0.65; margin-top: 2px; letter-spacing: 0.3px; }
+  .phase-tab .phase-lock { position: absolute; top: 3px; right: 5px; font-size: 10px; }
+
+  .phase-body { background: linear-gradient(180deg, #FBFCFD 0%, #FFFFFF 100%); border-radius: 10px; padding: 18px 20px; border: 1px solid var(--border); }
+  .phase-body h3 { font-family: 'Outfit', sans-serif; font-size: 16px; color: var(--accent-navy); margin-bottom: 6px; }
+  .phase-body .phase-meta { display: flex; gap: 12px; font-size: 10.5px; color: var(--text-secondary); margin-bottom: 12px; flex-wrap: wrap; }
+  .phase-body .phase-meta .meta-pill { background: #EEF1F5; padding: 3px 9px; border-radius: 12px; font-weight: 600; }
+  .phase-body .phase-meta .meta-pill b { color: var(--accent-navy); }
+
+  .how-to-btn { background: var(--accent-blue); color: white; border: none; padding: 7px 12px; border-radius: 5px; cursor: pointer; font-family: 'Outfit', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; transition: all 0.15s; margin-left: 8px; }
+  .how-to-btn:hover { background: var(--accent-navy); transform: translateY(-1px); }
+
+  .phase-objectives { background: var(--white); border-left: 4px solid var(--accent-blue); border-radius: 4px; padding: 10px 14px; margin-bottom: 14px; }
+  .phase-objectives h4 { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-blue); font-weight: 800; margin-bottom: 6px; }
+  .phase-objectives ul { list-style: none; padding: 0; font-size: 12px; line-height: 1.55; }
+  .phase-objectives ul li { padding: 3px 0 3px 16px; position: relative; }
+  .phase-objectives ul li::before { content: '\25B8'; position: absolute; left: 0; color: var(--accent-blue); font-weight: bold; }
+
+  /* GATE */
+  .gate { background: linear-gradient(180deg, #FFF8E5 0%, #FFFFFF 100%); border: 2px solid var(--amber); border-radius: 8px; padding: 14px 18px; }
+  .gate.passed { border-color: var(--green-ok); background: linear-gradient(180deg, #DCFCE7 0%, #FFFFFF 100%); }
+  .gate h4 { font-family: 'Outfit', sans-serif; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #92400E; font-weight: 800; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .gate.passed h4 { color: var(--green-ok); }
+  .gate h4 .gate-status { background: var(--amber); color: white; padding: 3px 8px; border-radius: 4px; font-size: 9px; font-weight: 800; letter-spacing: 1px; }
+  .gate.passed h4 .gate-status { background: var(--green-ok); }
+  .gate-item { display: grid; grid-template-columns: 22px 1fr; gap: 8px; padding: 7px 0; align-items: start; cursor: pointer; user-select: none; border-bottom: 1px dashed var(--border); }
+  .gate-item:last-of-type { border-bottom: none; }
+  .gate-item:hover { background: rgba(0,0,0,0.02); border-radius: 4px; }
+  .gate-item .gate-check { width: 18px; height: 18px; border: 2px solid var(--text-secondary); border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; color: white; transition: all 0.15s ease; margin-top: 1px; }
+  .gate-item.checked .gate-check { background: var(--green-ok); border-color: var(--green-ok); }
+  .gate-item.checked .gate-check::after { content: '\2713'; }
+  .gate-item .gate-text { font-size: 12px; line-height: 1.5; color: var(--text-primary); }
+  .gate-item.checked .gate-text { color: var(--text-secondary); text-decoration: line-through; opacity: 0.7; }
+  .gate-action { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; gap: 12px; flex-wrap: wrap; }
+  .gate-progress-mini { font-size: 11px; color: var(--text-secondary); }
+  .gate-progress-mini b { color: var(--accent-navy); font-weight: 700; }
+  .advance-btn { background: var(--accent-navy); color: white; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; transition: all 0.15s ease; }
+  .advance-btn.ready { background: var(--green-ok); animation: pulse-ready 1.6s infinite; }
+  .advance-btn:disabled { background: var(--lock-gray); cursor: not-allowed; }
+  @keyframes pulse-ready { 0%,100% { box-shadow: 0 0 0 0 rgba(56,161,105,0.5); } 50% { box-shadow: 0 0 0 8px rgba(56,161,105,0); } }
+
+  /* SLIP DETECTION */
+  .slip-panel { background: #FEF3C7; border-left: 4px solid var(--amber); border-radius: 4px; padding: 12px 16px; margin-top: 18px; font-size: 11.5px; line-height: 1.55; }
+  .slip-panel h4 { color: #92400E; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; margin-bottom: 8px; }
+  .slip-panel ul { list-style: none; padding: 0; }
+  .slip-panel ul li { padding: 5px 0 5px 18px; position: relative; border-bottom: 1px dashed rgba(146,64,14,0.2); }
+  .slip-panel ul li:last-child { border-bottom: none; }
+  .slip-panel ul li::before { content: '\26A0'; position: absolute; left: 0; color: #92400E; }
+  .slip-panel ul li b { color: #92400E; }
+
+  /* ============================================== MODALS ============================================== */
+  .stk-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(13,40,24,0.78); z-index: 1000; justify-content: center; align-items: center; padding: 30px; }
+  .stk-modal-overlay.show { display: flex; }
+  .stk-modal { background: white; border-radius: 12px; max-width: 820px; width: 100%; max-height: 88vh; overflow-y: auto; position: relative; box-shadow: 0 24px 70px rgba(0,0,0,0.5); }
+  .stk-close { position: absolute; top: 16px; right: 18px; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.32); color: white; font-size: 22px; cursor: pointer; line-height: 1; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Outfit', sans-serif; }
+  .stk-head { background: linear-gradient(135deg, var(--deloitte-dark), #0a3620); color: white; padding: 24px 30px 18px; border-radius: 12px 12px 0 0; border-bottom: 4px solid var(--olympic-gold); }
+  .stk-head .stk-role-tag { display: inline-block; font-size: 9px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; padding: 3px 9px; border-radius: 4px; background: var(--olympic-gold); color: var(--deloitte-dark); }
+  .stk-head h2 { font-family: 'Outfit', sans-serif; font-size: 22px; margin: 8px 0 2px; color: white; }
+  .stk-head .stk-title { color: rgba(255,255,255,0.85); font-size: 14px; }
+  .stk-head .stk-org { color: rgba(255,255,255,0.65); font-size: 11.5px; margin-top: 4px; }
+  .stk-body { padding: 22px 30px 26px; font-size: 13px; line-height: 1.6; color: var(--text-primary); }
+  .stk-body h3 { font-family: 'Outfit', sans-serif; font-size: 11px; color: var(--accent-navy); margin: 16px 0 6px; padding-bottom: 3px; border-bottom: 1px solid var(--border); text-transform: uppercase; letter-spacing: 1px; }
+  .stk-body h3:first-child { margin-top: 0; }
+  .stk-body p { margin: 0 0 8px; }
+  .stk-body ul { margin: 4px 0 10px; padding-left: 18px; }
+  .stk-body ul li { margin-bottom: 4px; }
+  .stk-ask { background: linear-gradient(135deg, #ECFDF5, #FFFFFF); border-left: 4px solid var(--green-ok); padding: 12px 16px; border-radius: 4px; margin: 10px 0; font-size: 12.5px; font-style: italic; line-height: 1.55; }
+  .stk-ask b { color: var(--green-ok); font-style: normal; }
+
+  /* milestone modal (how-to-achieve) */
+  .ms-meet { background: #F0F7FF; border-left: 4px solid var(--accent-blue); padding: 10px 14px; border-radius: 4px; margin: 6px 0; font-size: 12px; }
+  .ms-meet b { color: var(--accent-navy); display: block; margin-bottom: 4px; }
+  .ms-comm { background: #FEF7E8; border-left: 4px solid var(--olympic-gold); padding: 10px 14px; border-radius: 4px; margin: 6px 0; font-size: 12px; }
+  .ms-comm b { color: var(--olympic-gold); display: block; margin-bottom: 4px; }
+
+  /* ============================================== FOOTER ============================================== */
+  .pt-footer { background: var(--deloitte-dark); color: rgba(255,255,255,0.55); padding: 14px 28px; text-align: center; font-size: 10px; letter-spacing: 0.5px; }
+  .pt-footer b { color: var(--olympic-gold); }
+</style>
+</head>
+<body>
+
+<!-- ============================================== HEADER ============================================== -->
+<div class="pt-header">
+  <div class="pt-header-grid">
+    <div class="pt-title">
+      <div class="eyebrow">APEX × Agentic Telco × LA28 Olympics · Delivery Tracker</div>
+      <h1>24-Month Build-to-Games Plan · Milestone-Validated</h1>
+      <div class="sub">Default Telco + plug-in Channels live for the LA28 opening ceremony. Drag the timeline to scrub through milestones; click any partner-org for the stakeholder modal; click "How to achieve" on any milestone for the meetings &amp; comms playbook. State persists in your browser.</div>
+    </div>
+    <div class="pt-controls">
+      <div class="pt-stat"><span class="label">Today</span><span class="value" id="stat-today">—</span></div>
+      <div class="pt-stat"><span class="label">Milestone</span><span class="value" id="stat-milestone">1 / 8</span></div>
+      <div class="pt-stat"><span class="label">Validated</span><span class="value" id="stat-progress">0%</span></div>
+      <button class="pt-btn ghost" onclick="setGamesDate()">Set Games date</button>
+      <button class="pt-btn ghost" onclick="setToday()">Set today</button>
+      <button class="pt-btn ghost" onclick="resetState()">Reset</button>
+    </div>
+  </div>
+  <div class="pt-progress"><div class="pt-progress-fill" id="progress-fill" style="width:0%"></div></div>
+</div>
+
+<!-- ============================================== COUNTDOWN ============================================== -->
+<div class="countdown-band">
+  <div class="countdown-grid">
+    <div class="cd-label">
+      Countdown to opening
+      <span class="cd-event" id="cd-event">LA28 Opening Ceremony · 14 July 2028</span>
+    </div>
+    <div class="cd-clock" id="cd-clock">
+      <div class="cd-unit"><div class="cd-num" id="cd-y">—</div><div class="cd-name">Years</div></div>
+      <div class="cd-unit"><div class="cd-num" id="cd-mo">—</div><div class="cd-name">Months</div></div>
+      <div class="cd-unit"><div class="cd-num" id="cd-d">—</div><div class="cd-name">Days</div></div>
+      <div class="cd-unit"><div class="cd-num" id="cd-h">—</div><div class="cd-name">Hours</div></div>
+      <div class="cd-unit"><div class="cd-num" id="cd-m">—</div><div class="cd-name">Minutes</div></div>
+      <div class="cd-unit"><div class="cd-num" id="cd-s">—</div><div class="cd-name">Seconds</div></div>
+    </div>
+    <div class="cd-rings" aria-label="Olympic rings">
+      <div class="cd-ring"></div>
+      <div class="cd-ring"></div>
+      <div class="cd-ring"></div>
+      <div class="cd-ring"></div>
+      <div class="cd-ring"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================== TIMELINE SLIDER ============================================== -->
+<div class="ts-band">
+  <div class="ts-wrap">
+    <div class="ts-title">
+      <span>Drag the slider to scrub time · click any milestone marker to jump</span>
+      <span class="ts-when" id="ts-when">—</span>
+    </div>
+    <div class="ts-track-wrap">
+      <div class="ts-track">
+        <div class="ts-fill" id="ts-fill"></div>
+        <div id="ts-markers"></div>
+        <div class="ts-handle" id="ts-handle">
+          <div class="ts-handle-label" id="ts-handle-label">today</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================== BODY ============================================== -->
+<div class="pt-body">
+
+  <!-- ====================== LEFT: PARTNER ORG CHART ====================== -->
+  <div class="pt-section">
+    <h2>Partner org chart &middot; <span style="font-size:11px;color:var(--text-secondary);font-weight:600;text-transform:none;letter-spacing:0;">click any node for stakeholder detail</span></h2>
+
+    <svg viewBox="0 0 700 580" class="h-tree" id="hierarchy-svg">
+      <!-- Connection lines -->
+      <g stroke="#94A3B8" stroke-width="1.3" fill="none">
+        <!-- LA28 → Telco -->
+        <path d="M350 75 L350 115"/>
+        <!-- Telco → Microsoft + Deloitte -->
+        <path d="M350 175 L350 210"/>
+        <path d="M120 210 L580 210"/>
+        <path d="M120 210 L120 245"/>
+        <path d="M580 210 L580 245"/>
+        <!-- Telco → Channel anchors (mid row) -->
+        <path d="M350 175 L350 340"/>
+        <path d="M80 340 L620 340"/>
+        <path d="M80 340 L80 380"/>
+        <path d="M215 340 L215 380"/>
+        <path d="M350 340 L350 380"/>
+        <path d="M485 340 L485 380"/>
+        <path d="M620 340 L620 380"/>
+        <!-- Travel sub-anchors -->
+        <path d="M215 480 L120 510" stroke-dasharray="4 4" stroke="#6FB6E5"/>
+        <path d="M215 480 L310 510" stroke-dasharray="4 4" stroke="#6FB6E5"/>
+      </g>
+
+      <!-- LA28 / IOC sponsor -->
+      <foreignObject x="225" y="10" width="250" height="70">
+        <div xmlns="http://www.w3.org/1999/xhtml" class="h-node" onclick="openStakeholder('la28')">
+          <div class="h-card sponsor">
+            <div class="h-role">Games Organizing Committee</div>
+            <div class="h-name">LA28 + IOC</div>
+            <div class="h-title">Casey Wasserman · LA28 Chair · venue + transit + sponsorship</div>
+            <div class="h-tag">Games sponsor</div>
+          </div>
+        </div>
+      </foreignObject>
+
+      <!-- Telco Anchor (AT&T) -->
+      <foreignObject x="225" y="115" width="250" height="70">
+        <div xmlns="http://www.w3.org/1999/xhtml" class="h-node" onclick="openStakeholder('telco')">
+          <div class="h-card telco">
+            <div class="h-role">Default Telco · Anchor</div>
+            <div class="h-name">AT&amp;T</div>
+            <div class="h-title">CCO + CTO + Head of Bundle · Home Channel + bill</div>
+            <div class="h-tag">Telco anchor</div>
+          </div>
+        </div>
+      </foreignObject>
+
+      <!-- Microsoft (platform substrate) -->
+      <foreignObject x="20" y="245" width="200" height="80">
+        <div xmlns="http://www.w3.org/1999/xhtml" class="h-node" onclick="openStakeholder('microsoft')">
+          <div class="h-card platform">
+            <div class="h-role">Substrate</div>
+            <div class="h-name">Microsoft Azure</div>
+            <div class="h-title">CAF · Foundry · A2A Swarm · vault runtime</div>
+            <div class="h-tag">Platform</div>
+          </div>
+        </div>
+      </foreignObject>
+
+      <!-- Deloitte (delivery) -->
+      <foreignObject x="480" y="245" width="200" height="80">
+        <div xmlns="http://www.w3.org/1999/xhtml" class="h-node" onclick="openStakeholder('deloitte')">
+          <div class="h-card delivery">
+            <div class="h-role">Delivery + Pursuit</div>
+            <div class="h-name">Deloitte DMTSP</div>
+            <div class="h-title">TMT Practice · APEX architects · MS-platform engagement</div>
+            <div class="h-tag">SI Delivery</div>
+          </div>
+        </div>
+      </foreignObject>
+
+      <!-- Channel Anchor Row -->
+      <foreignObject x="0" y="380" width="160" height="100">
+        <div xmlns="http://www.w3.org/1999/xhtml" class="h-node" onclick="openStakeholder('travel')">
+          <div class="h-card travel">
+            <div class="h-role">Channel · Travel</div>
+            <div class="h-name">AA · Marriott · Expedia · Airbnb</div>
+            <div class="h-title">Multi-anchor · IROPS + mobile-key + STR + OTA</div>
+            <div class="h-tag">Travel anchor</div>
+          </div>
+        </div>
+      </foreignObject>
+
+      <foreignObject x="135" y="380" width="160" height="100">
+        <div xmlns="http://www.w3.org/1999/xhtml" class="h-node" onclick="openStakeholder('retail')">
+          <div class="h-card retail">
+            <div class="h-role">Channel · Retail</div>
+            <div class="h-name">Walmart</div>
+            <div class="h-title">Walmart+ · Pharmacy · TLE · errand chain in host city</div>
+            <div class="h-tag">Retail anchor</div>
+          </div>
+        </div>
+      </foreignObject>
+
+      <foreignObject x="270" y="380" width="160" height="100">
+        <div xmlns="http://www.w3.org/1999/xhtml" class="h-node" onclick="openStakeholder('mobility')">
+          <div class="h-card mobility">
+            <div class="h-role">Channel · Mobility</div>
+            <div class="h-name">Toyota</div>
+            <div class="h-title">LA28 mobility sponsor · Connected Services · TFS · TIMS</div>
+            <div class="h-tag">Mobility anchor</div>
+          </div>
+        </div>
+      </foreignObject>
+
+      <foreignObject x="405" y="380" width="160" height="100">
+        <div xmlns="http://www.w3.org/1999/xhtml" class="h-node" onclick="openStakeholder('automobile')">
+          <div class="h-card auto">
+            <div class="h-role">Channel · Automobile</div>
+            <div class="h-name">AutoNation · Cox · Progressive</div>
+            <div class="h-title">Multi-anchor · purchase + finance + UBI insurance</div>
+            <div class="h-tag">Auto anchor</div>
+          </div>
+        </div>
+      </foreignObject>
+
+      <foreignObject x="540" y="380" width="160" height="100">
+        <div xmlns="http://www.w3.org/1999/xhtml" class="h-node" onclick="openStakeholder('cpg')">
+          <div class="h-card cpg">
+            <div class="h-role">Channel · CPG</div>
+            <div class="h-name">Sazerac</div>
+            <div class="h-title">Buffalo Trace host-city release · age-gated commerce</div>
+            <div class="h-tag">CPG anchor</div>
+          </div>
+        </div>
+      </foreignObject>
+
+      <!-- Media (NBCUniversal) — separate row beneath Travel -->
+      <foreignObject x="40" y="495" width="160" height="80">
+        <div xmlns="http://www.w3.org/1999/xhtml" class="h-node" onclick="openStakeholder('media')">
+          <div class="h-card media">
+            <div class="h-role">Channel · Media</div>
+            <div class="h-name">NBCUniversal · Peacock</div>
+            <div class="h-title">US Olympics rights holder · streaming continuity</div>
+            <div class="h-tag">Media anchor</div>
+          </div>
+        </div>
+      </foreignObject>
+
+      <foreignObject x="240" y="495" width="180" height="80">
+        <div xmlns="http://www.w3.org/1999/xhtml" class="h-node" onclick="openStakeholder('vault-trust')">
+          <div class="h-card sponsor">
+            <div class="h-role">Trust + Standards</div>
+            <div class="h-name">CSA Matter · Trinsic · Skyflow</div>
+            <div class="h-tag">Independence</div>
+          </div>
+        </div>
+      </foreignObject>
+
+      <foreignObject x="460" y="495" width="180" height="80">
+        <div xmlns="http://www.w3.org/1999/xhtml" class="h-node" onclick="openStakeholder('payer')">
+          <div class="h-card sponsor">
+            <div class="h-role">Outcome Sponsor</div>
+            <div class="h-name">UnitedHealth · Humana · CVS</div>
+            <div class="h-tag">Eldercare PMPM</div>
+          </div>
+        </div>
+      </foreignObject>
+    </svg>
+
+    <div class="h-legend">
+      <span><span class="dot" style="background:var(--olympic-gold)"></span>Games sponsor</span>
+      <span><span class="dot" style="background:var(--c-home)"></span>Telco anchor</span>
+      <span><span class="dot" style="background:var(--c-travel)"></span>Travel</span>
+      <span><span class="dot" style="background:var(--c-retail)"></span>Retail</span>
+      <span><span class="dot" style="background:var(--c-mobility)"></span>Mobility</span>
+      <span><span class="dot" style="background:var(--c-automobile)"></span>Auto</span>
+      <span><span class="dot" style="background:var(--c-cpg)"></span>CPG</span>
+      <span><span class="dot" style="background:var(--olympic-red)"></span>Media</span>
+      <span><span class="dot" style="background:var(--ms-blue)"></span>Platform</span>
+      <span><span class="dot" style="background:var(--deloitte-green)"></span>Delivery</span>
+    </div>
+  </div>
+
+  <!-- ====================== RIGHT: MILESTONE TIMELINE ====================== -->
+  <div class="pt-section">
+    <h2>8 milestones to LA28 &middot; <span style="font-size:11px;color:var(--text-secondary);font-weight:600;text-transform:none;letter-spacing:0;">validate every gate before advancing</span></h2>
+
+    <div class="phase-list" id="phase-list">
+      <!-- Milestone tabs injected by JS -->
+    </div>
+
+    <div class="phase-body" id="phase-body">
+      <!-- Active milestone rendered by JS -->
+    </div>
+
+    <div class="slip-panel">
+      <h4>Slip-detection patterns</h4>
+      <ul>
+        <li><b>Anchor Telco contract stalls at finance review</b> — shows up M1-M2 when Wave-1 Home Channel envelope can't justify Olympics opex. <b>Response:</b> reframe as multi-year amortization with LA28 as the W2 proof point, not the W1 anchor.</li>
+        <li><b>NBCUniversal rights overlap conflict</b> — shows up M4 when Media Channel scope touches their broadcast monopoly. <b>Response:</b> scope Media Channel to ride-along (notification, watch-party orchestration), not replacement-distribution. Run by NBC legal at M4 explicitly.</li>
+        <li><b>Toyota LA28 sponsorship rights vs Channel commercial terms</b> — shows up M5 when Toyota's IOC TOP sponsorship constrains co-branding language. <b>Response:</b> Channel branding stays Telco-led; Toyota's TOP status referenced in narrative, not in surface chrome.</li>
+        <li><b>Sazerac age-gating in CA differs from KY baseline</b> — shows up M6 when California ABC rules force re-architecture. <b>Response:</b> CA state-rules engine integration must complete by M6 or Sazerac Channel ships in 25-state mode for LA28 with CA on roadmap.</li>
+        <li><b>Cross-Channel orchestration fails at scale</b> — shows up M6-M7 when load testing reveals HOM-99 orchestrator latency degradation. <b>Response:</b> CAF Dynamic Orchestrator capacity reservation must be locked at M6; trigger CAF platform-team escalation if SLO drift detected.</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============================================== STAKEHOLDER MODAL ============================================== -->
+<div id="stk-modal-overlay" class="stk-modal-overlay" onclick="if(event.target===this) closeStakeholder()">
+  <div class="stk-modal">
+    <div class="stk-head">
+      <button class="stk-close" onclick="closeStakeholder()" aria-label="Close">&times;</button>
+      <span class="stk-role-tag" id="stk-role-tag">STAKEHOLDER</span>
+      <h2 id="stk-name">&nbsp;</h2>
+      <div class="stk-title" id="stk-title">&nbsp;</div>
+      <div class="stk-org" id="stk-org">&nbsp;</div>
+    </div>
+    <div class="stk-body" id="stk-body"></div>
+  </div>
+</div>
+
+<!-- ============================================== MILESTONE MODAL ============================================== -->
+<div id="ms-modal-overlay" class="stk-modal-overlay" onclick="if(event.target===this) closeMilestone()">
+  <div class="stk-modal">
+    <div class="stk-head" style="background:linear-gradient(135deg,var(--accent-navy),#1a3a8f);">
+      <button class="stk-close" onclick="closeMilestone()" aria-label="Close">&times;</button>
+      <span class="stk-role-tag" id="ms-role-tag" style="background:var(--olympic-gold);">MILESTONE</span>
+      <h2 id="ms-name">&nbsp;</h2>
+      <div class="stk-title" id="ms-when">&nbsp;</div>
+      <div class="stk-org" id="ms-summary">&nbsp;</div>
+    </div>
+    <div class="stk-body" id="ms-body"></div>
+  </div>
+</div>
+
+<div class="pt-footer">
+  <b>APEX × Agentic Telco × LA28 Olympics</b> &middot; v1.0 &middot; Delivery Tracker &middot; built from agentic-packs/_marketplace + Olympics one-pager &middot; <b>CONFIDENTIAL · INTERNAL USE ONLY</b>
+</div>
+
+<script>
+/* ============================================================================
+   APEX × AGENTIC-TELCO × LA28 OLYMPICS — Delivery Tracker
+   ============================================================================ */
+
+const STORAGE_KEY = 'apex-olympics-tracker-v1';
+
+/* ----- DATA: 8 milestones from M-24 → Games end ----- */
+const MILESTONES = [
+  {
+    id: 'm1', num: '1', name: 'Anchor Telco + Games sponsor commit',
+    monthsBefore: 24,
+    days: 'M-24 → M-22',
+    primary: 'AT&T + LA28 BD',
+    objectives: [
+      'Anchor Telco (AT&T) signs Wave-1 charter for Default Home Channel build',
+      'LA28 sponsorship rights review — confirm what is in/out of TOP-program scope',
+      'NBCUniversal rights conversation opened (Media Channel scope boundaries)',
+      'Microsoft Azure CAF capacity reservation for 2028 Q3 confirmed',
+      'Deloitte pursuit team formed (DMTSP TMT Practice + delivery architects)',
+    ],
+    sellerTasks: [
+      { who: 'Deloitte VP', text: '<b>Brief AT&T CCO + CTO</b> on Agentic Marketplace + LA28 positioning. Confirm Default Home Channel as Wave-1 deliverable.' },
+      { who: 'Deloitte VP', text: '<b>Open LA28 sponsorship conversation</b> via Casey Wasserman BD team. Clarify Games-period rights vs platform-vendor positioning.' },
+      { who: 'Account SE', text: '<b>Microsoft AE alignment</b>: confirm CAF capacity for projected Games load. ECIF funding for Wave-1 scoped.' },
+      { who: 'Deloitte VP', text: '<b>Identify NBCUniversal Sports + Olympics counsel</b>. Open scope-boundary conversation before any Media Channel commitment.' },
+    ],
+    gate: [
+      'AT&T Wave-1 charter signed for Default Home Channel build',
+      'LA28 sponsorship rights position confirmed (in/out of TOP scope)',
+      'NBCUniversal rights conversation opened with counsel',
+      'Microsoft Azure CAF 2028 Q3 capacity reservation confirmed',
+      'Deloitte pursuit team named (VP + delivery architect)',
+    ],
+    howTo: {
+      summary: 'The launch wave. Without Telco anchor + Games-sponsor clarity + NBC rights scope, nothing downstream is buildable. Lock these in the first 60 days of the build window.',
+      meetings: [
+        { with: 'AT&T CCO + CTO', topic: 'Wave-1 Home Channel charter signing · joint Deloitte + Microsoft architectural readout · 90-min · Dallas HQ or Microsoft Teams.', when: 'M-24 week 1-3' },
+        { with: 'LA28 sponsorship BD team', topic: 'Sponsorship-rights scoping meeting · clarify what is in/out of TOP program · 60-min.', when: 'M-24 week 2-4' },
+        { with: 'NBCUniversal Sports & Olympics counsel', topic: 'Media Channel scope boundary conversation · what does the Channel surface vs what does NBC broadcast · 60-min.', when: 'M-23' },
+        { with: 'Microsoft AE + Azure CAF team', topic: 'CAF capacity reservation · 2028 Q3 forecast · ECIF + MACC posture · 60-min.', when: 'M-23' },
+      ],
+      communications: [
+        { type: 'AT&T internal memo', text: 'Wave-1 charter language: Default Home Channel built; LA28 is the W2 proof point; Olympic-period scenarios are the customer-facing wedge.' },
+        { type: 'LA28 BD brief', text: 'Position the platform as utility-substrate (no TOP-program conflict); Channel-anchored brands (Toyota, etc.) handle their own TOP-status obligations.' },
+        { type: 'NBC outreach', text: 'Frame Media Channel as ride-along orchestration (watch-party suggestions, time-zone-aware push) — not as competitive distribution.' },
+        { type: 'Microsoft co-investment one-pager', text: 'Wave-1 ECIF sizing + MACC pull-through documented before SOW close.' },
+      ],
+    },
+  },
+  {
+    id: 'm2', num: '2', name: 'Default Home Channel live (shadow)',
+    monthsBefore: 21,
+    days: 'M-21 → M-18',
+    primary: 'AT&T CTO + Microsoft CSA',
+    objectives: [
+      'HOM-01..08 + HOM-99 deployed in AT&T shadow environment',
+      'Per-household vault + customer-held KMS in production',
+      '"My Channels" UX in AT&T mobile app (beta tier)',
+      'Bill insert + line-item rendering validated',
+      'Audit row + LEDGER substrate operating end-to-end',
+    ],
+    sellerTasks: [
+      { who: 'Delivery Architect', text: '<b>Stand up the marketplace meta-pack</b> tables (Channel, ChannelSubscription, partner_directory) + Home pack TMTML entities.' },
+      { who: 'Delivery Architect', text: '<b>Land the 9 Home agents</b> (HOM-01..08 + HOM-99) in CAF substrate. Shadow-run on 4 quarters of AT&T-anonymized IoT data.' },
+      { who: 'Account SE', text: '<b>Wire AT&T mobile app + bill insert</b> with line-item rendering. Validate against existing streaming-bundle UX precedent.' },
+      { who: 'Delivery Architect', text: '<b>Vault + KMS production</b> — customer-held key model validated by AT&T Security + Privacy office.' },
+    ],
+    gate: [
+      'HOM-01..08 + HOM-99 deployed in AT&T shadow environment',
+      'Vault + customer-held KMS validated by AT&T Security office',
+      '"My Channels" UX live in AT&T mobile app beta',
+      'Bill insert + line-item rendering approved by AT&T Billing',
+      'Audit row + LEDGER substrate operational',
+    ],
+    howTo: {
+      summary: 'The Default Home Channel must be operating in production before plug-in Channels can attach. Shadow-mode at this milestone; soft-launch by M3.',
+      meetings: [
+        { with: 'AT&T Privacy + Security office', topic: 'Customer-held KMS validation · vault residency posture · GDPR/CCPA conformance · 90-min technical review.', when: 'M-21' },
+        { with: 'AT&T Billing platform team', topic: 'Channel line-item rendering · settlement-to-partner workflow design · 90-min architecture review.', when: 'M-20' },
+        { with: 'AT&T mobile app product', topic: '"My Channels" UX walkthrough + beta-tier launch criteria · 60-min.', when: 'M-19' },
+      ],
+      communications: [
+        { type: 'Technical brief to AT&T CTO', text: 'Shadow-environment validation report: 9 agents operational, vault validated, LEDGER substrate live. Recommend soft-launch in next milestone.' },
+        { type: 'Beta-tier customer comms (AT&T)', text: 'Opt-in beta language for "My Channels" surface; consent grants explicit per-Channel.' },
+        { type: 'Microsoft CSA progress report', text: 'CAF capacity utilization + LangFuse trace volumes + Registry agent-tier resolution working as designed.' },
+      ],
+    },
+  },
+  {
+    id: 'm3', num: '3', name: 'Travel + Retail + Media Channels signed',
+    monthsBefore: 18,
+    days: 'M-18 → M-12',
+    primary: 'AA + Marriott + Walmart + NBC',
+    objectives: [
+      'American Airlines AAdvantage Channel MCP integration MOU signed',
+      'Marriott Bonvoy mobile-key + room-prefs MCP MOU signed',
+      'Expedia + Airbnb integration committed',
+      'Walmart anchor MOU signed (RTL-01..04 scope)',
+      'NBCUniversal Media Channel scope agreement signed (ride-along terms)',
+    ],
+    sellerTasks: [
+      { who: 'Deloitte VP', text: '<b>AA AAdvantage workshop</b> at DFW HQ · walk the IROPS wedge + co-branded enrolment offer + multi-Telco distribution proposition.' },
+      { who: 'Deloitte VP', text: '<b>Marriott Bonvoy session</b> at Bethesda HQ · mobile-key + on-property orchestration + co-branded SKU economics.' },
+      { who: 'Account SE', text: '<b>Walmart Bentonville workshop</b> · Walmart+ co-bundle · RTL-01..04 service-code reservation · pharmacy data-handling.' },
+      { who: 'Deloitte VP', text: '<b>NBCUniversal counsel close</b> · ride-along terms · scope boundary explicit · LA28 broadcast precedence preserved.' },
+      { who: 'Account SE', text: '<b>Expedia + Airbnb dual-MOU</b> · OTA + STR partner-protocol implementation plan.' },
+    ],
+    gate: [
+      'American Airlines MOU signed (AAdvantage MCP integration)',
+      'Marriott Bonvoy MOU signed',
+      'Expedia + Airbnb integration MOUs signed',
+      'Walmart Wave-1 MOU signed (RTL-01..04)',
+      'NBCUniversal Media Channel ride-along agreement signed',
+    ],
+    howTo: {
+      summary: 'Three anchor Channels signed in 6 months. Each is a major BD motion; multi-anchor model means parallel pursuit. NBC is the highest-risk timeline (must finish before Games rights window tightens).',
+      meetings: [
+        { with: 'American Airlines · VP Customer Innovation', topic: 'IROPS recovery wedge demo · cross-carrier rebook flow · AAdvantage enrolment funnel economics.', when: 'M-18 to M-16' },
+        { with: 'Marriott · VP Digital + Bonvoy Director', topic: 'Mobile-key delivery to vault · on-property orchestration · co-branded "Home + Bonvoy" SKU pricing.', when: 'M-17 to M-15' },
+        { with: 'Expedia · VP API Partnerships', topic: 'Multi-segment search + book MCP implementation · package fallback positioning vs direct-anchor preference.', when: 'M-17 to M-14' },
+        { with: 'Airbnb · Head of Identity', topic: 'Verified-identity STR booking flow · vault-resident check-in instructions · host-comms surface.', when: 'M-16 to M-13' },
+        { with: 'Walmart · Bentonville workshop', topic: 'RTL-01..04 service-code reservation · Walmart+ co-bundle · pharmacy PHI handling · errand-chain demo.', when: 'M-16 to M-14' },
+        { with: 'NBCUniversal Sports & Olympics + counsel', topic: 'Ride-along Media Channel scope · LA28 broadcast precedence + watch-party orchestration boundaries.', when: 'M-15 to M-12' },
+      ],
+      communications: [
+        { type: 'AA exec narrative', text: 'IROPS recovery is the Olympics wedge — AAdvantage members traveling to LA28 get cross-carrier rebooking that competitors\' apps structurally cannot deliver.' },
+        { type: 'Marriott Bonvoy brief', text: 'Mobile-key in vault means zero-friction check-in for Olympics-period guests; on-property orchestration during peak demand windows.' },
+        { type: 'Walmart Walmart+ co-bundle proposal', text: 'Walmart+ + AT&T Family Bundle co-pricing; cross-promotion through bill insert; pharmacy refill convenience for traveling families.' },
+        { type: 'NBC ride-along terms doc', text: 'Channel does NOT distribute Olympic broadcast content; surfaces watch-party suggestions, time-zone-aware push, and partner Peacock cross-promotion (with disclosure).' },
+      ],
+    },
+  },
+  {
+    id: 'm4', num: '4', name: 'Mobility + Automobile + CPG Channels signed',
+    monthsBefore: 12,
+    days: 'M-12 → M-9',
+    primary: 'Toyota + AutoNation + Sazerac',
+    objectives: [
+      'Toyota Connected MOU signed (TOP-program coordination resolved)',
+      'AutoNation + Cox Automotive + Progressive joint MOU signed',
+      'Sazerac MOU signed with host-city allocation commit',
+      'State-by-state age-gating engine partnership signed (Avalara Bev Alcohol)',
+      'EV-charging-network roaming MOUs (ChargePoint + EVgo + Tesla Supercharger) signed',
+    ],
+    sellerTasks: [
+      { who: 'Deloitte VP', text: '<b>Toyota Connected workshop</b> at Toyota North America HQ in Plano · resolve TOP-program coordination · TFS + TIMS scope.' },
+      { who: 'Deloitte VP', text: '<b>AutoNation + Cox + Progressive triangle session</b> · multi-anchor commercial terms · brand-neutrality commitments.' },
+      { who: 'Account SE', text: '<b>Sazerac workshop in New Orleans</b> · host-city commemorative single-cask commit · allocation-mechanics walkthrough · age-verification flow.' },
+      { who: 'Delivery Architect', text: '<b>Avalara Beverage Alcohol</b> contract close · state-rules engine integration plan · 50-state coverage timeline.' },
+      { who: 'Account SE', text: '<b>EV-charging MOUs</b> · ChargePoint + EVgo + Electrify America + Tesla Supercharger roaming network terms.' },
+    ],
+    gate: [
+      'Toyota Connected MOU signed (TOP coordination resolved)',
+      'AutoNation + Cox + Progressive joint MOU signed',
+      'Sazerac MOU signed (host-city allocation committed)',
+      'Avalara Beverage Alcohol contract signed',
+      'EV-charging roaming MOUs all signed (4 networks)',
+    ],
+    howTo: {
+      summary: 'Three more Channels onboarded. Toyota is delicate due to existing IOC TOP relationship — sequence the conversation carefully. Sazerac requires host-city commitment for the wedge demo.',
+      meetings: [
+        { with: 'Toyota Connected (Plano TX)', topic: 'TFS + TIMS + connected-services MCP integration · TOP-program brand-coordination explicit · LA28 mobility positioning.', when: 'M-12 to M-10' },
+        { with: 'AutoNation + Cox + Progressive (joint)', topic: 'Multi-anchor commercial terms · brand-neutrality + revenue-share splits · LA28-period vehicle-purchase scenarios.', when: 'M-11 to M-9' },
+        { with: 'Sazerac (New Orleans)', topic: 'BTAC mechanics walkthrough · host-city LA28 single-cask commit · age-verification + state-rules integration.', when: 'M-11' },
+        { with: 'Avalara Beverage Alcohol', topic: 'State-rules engine contract · 50-state coverage prioritized for LA28-period California.', when: 'M-10' },
+        { with: 'ChargePoint + EVgo + EA + Tesla', topic: 'Roaming network terms · LA28 venue corridor coverage · billing settlement architecture.', when: 'M-10 to M-9' },
+      ],
+      communications: [
+        { type: 'Toyota TOP-program brief', text: 'Channel branding is Telco-led; Toyota TOP-status referenced in narrative not surface chrome; Connected Services + TFS + TIMS commercial scope clean from TOP conflict.' },
+        { type: 'Sazerac host-city commit memo', text: 'LA28 commemorative single-cask release confirmed for licensed retailer in LA metro; allocation feed live by M6.' },
+        { type: 'Multi-anchor Auto brief', text: 'AutoNation + Cox + Progressive each anchor a slice of AUT-01..08; brand-neutrality clauses preclude exclusive routing.' },
+        { type: 'EV-charging coordination doc', text: 'LA28 corridor coverage by all four networks; roaming-billing tested by M5.' },
+      ],
+    },
+  },
+  {
+    id: 'm5', num: '5', name: 'Super Bowl warm-up · cross-Channel rehearsal',
+    monthsBefore: 6,
+    days: 'M-6 → M-5',
+    primary: 'AT&T + all anchor Channels',
+    objectives: [
+      'Super Bowl LXII (Feb 2028) used as live cross-Channel test event',
+      'All 6 Channels active simultaneously for selected pilot households',
+      'IROPS rebook + hotel walk + ground-mobility scenarios validated live',
+      'Load test exceeds projected LA28 peak by 1.5x',
+      'After-action review with all anchor partners',
+    ],
+    sellerTasks: [
+      { who: 'Delivery Architect', text: '<b>Stand up Super Bowl pilot cohort</b> · 2,000-5,000 AT&T households in host metro · all 6 Channels live · monitoring stack ready.' },
+      { who: 'Account SE', text: '<b>Coordinate partner readiness</b> · AA + Marriott + Walmart + Toyota + Sazerac + NBC engaged on Game-weekend operating posture.' },
+      { who: 'Delivery Architect', text: '<b>Load test cross-Channel orchestration</b> at 1.5x projected LA28 peak · CAF Dynamic Orchestrator capacity validated · A2A Swarm latency SLO confirmed.' },
+      { who: 'Deloitte VP', text: '<b>After-action review</b> with all anchor partners · capture every IROPS + hotel-walk + allocation event · refine playbooks for LA28.' },
+    ],
+    gate: [
+      'Super Bowl pilot cohort launched (all 6 Channels)',
+      'Cross-Channel scenarios validated in production (IROPS + hotel walk + ground)',
+      'Load test exceeds 1.5x projected LA28 peak',
+      'CAF Dynamic Orchestrator capacity confirmed for Games window',
+      'After-action review completed; LA28 playbooks updated',
+    ],
+    howTo: {
+      summary: 'The Super Bowl is the warm-up. Smaller-scale cross-Channel test, real customers, real partner exposure, lower stakes than LA28. Anything that fails here can be fixed in 6 months; anything that fails at LA28 is a brand event.',
+      meetings: [
+        { with: 'All anchor partners (joint kickoff)', topic: 'Super Bowl operating posture · who watches what · escalation contacts · cross-Channel handoff drills.', when: 'M-7 to M-6' },
+        { with: 'AT&T Network Operations', topic: 'Pilot cohort selection · monitoring stack readiness · capacity confirmation · 90-min.', when: 'M-6 week 1' },
+        { with: 'Microsoft CAF platform team', topic: 'Capacity reservation for Super Bowl weekend · A2A Swarm SLO validation · LangFuse trace volume forecast.', when: 'M-6 week 2' },
+        { with: 'All anchor partners (after-action)', topic: 'Post-Super-Bowl debrief · every scenario event reviewed · playbook updates approved for LA28.', when: 'M-5' },
+      ],
+      communications: [
+        { type: 'Partner operating-posture brief', text: 'Each anchor partner staffs a Games-weekend escalation channel · Telco-led incident-command structure · 24/7 coverage for the 4-day Super Bowl window.' },
+        { type: 'Pilot customer comms', text: 'Opt-in beta language for Super Bowl pilot · explicit consent to Olympics-window service · feedback channel embedded.' },
+        { type: 'After-action report', text: 'Distributed to all anchor partners + Microsoft + AT&T CTO · gaps + remediation timeline + LA28 playbook updates.' },
+      ],
+    },
+  },
+  {
+    id: 'm6', num: '6', name: 'LA28 readiness · California + venue + transit',
+    monthsBefore: 3,
+    days: 'M-3 → M-1',
+    primary: 'LA28 + California state + venues',
+    objectives: [
+      'California ABC age-gating rules engine live (CPG Channel CA-ready)',
+      'LA28 venue + transit data integration completed',
+      'CA-specific Toyota mobility scenarios validated (LA traffic patterns)',
+      'Olympic-village pickup + delivery scenarios coordinated with LA28',
+      'Concierge surge-staffing model approved by AT&T Customer Care',
+      'Final cross-Channel orchestration drill (full-load production simulation)',
+    ],
+    sellerTasks: [
+      { who: 'Delivery Architect', text: '<b>California compliance close</b> · ABC rules + DTC shipping + dry-county geofencing live for CPG Channel.' },
+      { who: 'Account SE', text: '<b>LA28 venue + transit data</b> · venue geo-feed integrated · Metro K Line + Olympic-shuttle data feeds into Travel + Mobility Channels.' },
+      { who: 'Delivery Architect', text: '<b>Final cross-Channel orchestration drill</b> · full-load production sim · all 6 Channels concurrent · 8,000+ scenarios/hour throughput target.' },
+      { who: 'Account SE', text: '<b>AT&T Customer Care surge-staffing</b> · 24/7 coverage Jul 14–30 · Channel-by-Channel triage matrix · escalation paths to anchor partners.' },
+      { who: 'Deloitte VP', text: '<b>Final LA28 readout to AT&T CEO</b> · go/no-go decision · 30-min Adaptive Card report · all gates green required.' },
+    ],
+    gate: [
+      'California ABC age-gating rules engine live (Sazerac CA-ready)',
+      'LA28 venue + transit data integrated into Travel + Mobility Channels',
+      'CA-specific Toyota mobility scenarios validated',
+      'AT&T Customer Care surge-staffing approved for Jul 14-30',
+      'Final cross-Channel orchestration drill passed (8,000+ scenarios/hour)',
+      'AT&T CEO go-decision received',
+    ],
+    howTo: {
+      summary: 'Last-mile readiness. California compliance is the biggest external dependency (state ABC rules can shift); LA28 venue data integration is the biggest technical dependency. Go/no-go at the end of this milestone.',
+      meetings: [
+        { with: 'California ABC + Avalara', topic: 'CA age-gating rules implementation review · DTC shipping · dry-county geofencing · 60-min.', when: 'M-3 week 1' },
+        { with: 'LA28 venue + transit ops', topic: 'Data-feed integration · Metro + shuttle coordination · venue geo for Travel/Mobility Channels.', when: 'M-3 week 2' },
+        { with: 'AT&T Customer Care leadership', topic: 'Surge-staffing model · 24/7 coverage Jul 14-30 · Channel triage matrix.', when: 'M-2' },
+        { with: 'All anchor partners (final drill)', topic: 'Full-load production simulation · cross-Channel orchestration · 8,000+ scenarios/hour target.', when: 'M-2 week 4' },
+        { with: 'AT&T CEO + CCO + CTO', topic: 'Final go/no-go readout · all gates green · LA28 launch authorization.', when: 'M-1' },
+      ],
+      communications: [
+        { type: 'CA compliance attestation', text: 'Memo to AT&T GC + Sazerac counsel · 50-state age-gating live · CA-specific edge cases documented.' },
+        { type: 'LA28 data-integration ack', text: 'LA28 ops team confirms venue + transit feeds delivered + tested.' },
+        { type: 'Customer Care runbook', text: 'AT&T-side Channel-by-Channel triage matrix · escalation paths to anchor partners · 24/7 staffing roster.' },
+        { type: 'AT&T CEO authorization memo', text: 'Single-page authorization for Olympic-window operation · all 6 Channels green · launch authorized.' },
+      ],
+    },
+  },
+  {
+    id: 'm7', num: '7', name: 'LA28 Games live · Olympic-period operations',
+    monthsBefore: 0,
+    games: true,
+    days: 'Jul 14 → Jul 30, 2028',
+    primary: 'All hands · Games-window ops',
+    objectives: [
+      'Opening Ceremony (Jul 14) · Default Telco + all 5 plug-in Channels active',
+      '16-day Games window operating at projected scale',
+      'Wedge events captured (IROPS rebook · hotel walk · BTAC pickup · eldercare continuity)',
+      'Closing Ceremony (Jul 30) · clean operations through final day',
+      'Daily Adaptive Card briefing to AT&T CEO + LA28 leadership',
+      'Zero brand-event incidents',
+    ],
+    sellerTasks: [
+      { who: 'Delivery Architect', text: '<b>Production ops command center</b> stood up in LA · 24/7 coverage · live dashboards · all anchor partners staffed.' },
+      { who: 'Account SE', text: '<b>Daily Adaptive Card to AT&T CEO</b> · 8 AM PT · Channel-by-Channel status · wedge events captured · escalations.' },
+      { who: 'Deloitte VP', text: '<b>Capture every wedge event</b> · IROPS recoveries, hotel walks, allocation pickups, eldercare alerts · narrative + metrics for case study.' },
+      { who: 'Account SE', text: '<b>Real-time partner coordination</b> · AA + Marriott + Walmart + Toyota + Sazerac + NBC all-hands daily standup at 7 AM PT.' },
+      { who: 'Delivery Architect', text: '<b>SLO monitoring</b> · all Channels green · automated escalation if any Channel breaches SLO for >5 min.' },
+    ],
+    gate: [
+      'Opening Ceremony Jul 14 operations green',
+      '16-day Games window completed without brand-event incident',
+      'All 6 Channels operated within SLO throughout',
+      'Wedge events captured (target: 1000+ IROPS recoveries, 100+ allocation pickups, 0 missed eldercare escalations)',
+      'Closing Ceremony Jul 30 operations green',
+    ],
+    howTo: {
+      summary: '16 days of live operations. Everything built and tested in M1-M6 either works or it doesn\'t. Command center in LA · 24/7 coverage · daily exec briefings · all partners staffed. No new scope; only operations.',
+      meetings: [
+        { with: 'AT&T CEO + LA28 + all anchor partners', topic: 'Daily 8 AM PT standup · Channel-by-Channel status · wedge events · escalations · 20-min.', when: 'Every day Jul 14-30' },
+        { with: 'Anchor partner ops leads', topic: 'Anchor-by-anchor 7 AM PT standup · day-ahead briefing · staffing confirmation · 15-min.', when: 'Every day Jul 14-30' },
+        { with: 'Microsoft CAF on-call', topic: 'Continuous-availability standby · SLO-breach escalation · capacity headroom monitoring.', when: 'Continuous Jul 14-30' },
+        { with: 'AT&T Network Operations', topic: 'Real-time joint ops with Channel command center · network-load coordination.', when: 'Continuous Jul 14-30' },
+      ],
+      communications: [
+        { type: 'Daily 8 AM exec briefing', text: 'AT&T CEO + LA28 + anchor partners · Adaptive Card with Channel status, wedge events overnight, escalation queue, day-ahead risks.' },
+        { type: 'Wedge event press notes', text: 'Pre-drafted templates for memorable customer-side wedge events that have media value (drafts only; nothing released without AT&T comms approval).' },
+        { type: 'Internal status board', text: 'Live Channel-by-Channel SLO dashboard · auto-distributed to all anchor partner ops leads.' },
+        { type: 'Closing-Ceremony recap', text: 'Single-page summary of 16-day operations · wedge-event count · SLO-breach count (target: 0) · partner-side health.' },
+      ],
+    },
+  },
+  {
+    id: 'm8', num: '8', name: 'Wrap + case study + scaling plan',
+    monthsBefore: -1, // T+30 days post-Games
+    days: 'Jul 31 → Sep 30, 2028',
+    primary: 'AT&T + all partners + Deloitte',
+    objectives: [
+      'After-Games joint readout with all anchor partners + AT&T CEO + LA28',
+      'Case study published (with all partner approval) · marketplace proof point',
+      'Wedge-event narrative captured for next-Games scaling (Milan-Cortina 2026 already past; Brisbane 2032 next)',
+      'Lessons-learned doc distributed to broader Telco prospect base',
+      'Wave-2 scoping for non-Telco-anchor Telcos (T-Mobile, Verizon, Charter) opened',
+      'Marketplace meta-pack updated with post-LA28 enhancements',
+    ],
+    sellerTasks: [
+      { who: 'Deloitte VP', text: '<b>Joint readout</b> with AT&T CEO + all anchor partners + LA28 · 90-min · Beverly Hills HQ · case-study + scaling-plan.' },
+      { who: 'Account SE', text: '<b>Case study publication</b> · with explicit approval from every named partner · Deloitte + Microsoft co-branded.' },
+      { who: 'Deloitte VP', text: '<b>Wave-2 Telco BD open</b> · T-Mobile + Verizon + Charter · LA28 as proof point.' },
+      { who: 'Delivery Architect', text: '<b>Marketplace meta-pack v1.1</b> · capture LA28 enhancements · agent-pack updates · published to internal repo.' },
+      { who: 'Account SE', text: '<b>Next-Games scaling plan</b> · Brisbane 2032 · timeline + partnership-overlap analysis · 8-page proposal.' },
+    ],
+    gate: [
+      'After-Games joint readout completed',
+      'Case study published with all partner approvals',
+      'Lessons-learned doc distributed',
+      'Wave-2 Telco BD opened (T-Mobile + Verizon + Charter)',
+      'Marketplace meta-pack v1.1 published',
+      'Brisbane 2032 scaling plan delivered to AT&T',
+    ],
+    howTo: {
+      summary: 'Convert the LA28 success into Wave-2 Telco distribution. Case study is the load-bearing artifact; without explicit partner approval on every named reference, the multi-Telco motion stalls. Brisbane 2032 is the 4-year scaling target.',
+      meetings: [
+        { with: 'AT&T CEO + anchor partners + LA28 (joint)', topic: 'After-Games readout · KPI rollup · case-study approvals · scaling intent.', when: 'M+1' },
+        { with: 'T-Mobile + Verizon + Charter (separately)', topic: 'Wave-2 Telco BD opens · LA28 as proof point · multi-Telco distribution mechanics.', when: 'M+1 to M+3' },
+        { with: 'Microsoft CAF + Azure leadership', topic: 'Capacity post-mortem · forward-capacity reservations for Brisbane 2032 + intervening events.', when: 'M+2' },
+        { with: 'Deloitte TMT Practice + DMTSP leadership', topic: 'Marketplace meta-pack v1.1 review · learnings codified · internal distribution.', when: 'M+2' },
+      ],
+      communications: [
+        { type: 'Joint case study (Deloitte + AT&T + Microsoft + anchor partners)', text: 'Co-authored · published only after every named partner approves · positioned for Wave-2 Telco BD.' },
+        { type: 'AT&T CEO scaling memo', text: 'Recommend Wave-2 Telco syndication · Brisbane 2032 scaling plan · 4-year amortization.' },
+        { type: 'Internal lessons-learned distribution', text: 'Deloitte TMT Practice + DMTSP internal · what to repeat at Brisbane · what to change.' },
+        { type: 'Partner thank-you + post-engagement value summary', text: 'Per-partner write-up · revenue captured · brand impact · forward commitment.' },
+      ],
+    },
+  },
+];
+
+/* ----- DATA: stakeholders ----- */
+const STAKEHOLDERS = {
+  la28: {
+    name: 'LA28 + IOC',
+    role: 'GAMES SPONSOR',
+    title: 'LA28 Organizing Committee + International Olympic Committee',
+    org: 'Casey Wasserman (Chair, LA28) · governs venue, transit, sponsorship rights, broadcast windows for 14-30 Jul 2028 Games',
+    mandate: 'Successful Games delivery. Sponsor-rights enforcement. Venue + transit + safety coordination. Broadcast-rights protection for NBCUniversal as US rights holder.',
+    needs: '<ul><li><b>Sponsor-rights clarity</b> — the Channel platform is utility substrate, not a TOP-program competitor. Toyota\'s TOP status is preserved.</li><li><b>Broadcast-rights respect</b> — NBC keeps broadcast monopoly; Media Channel is ride-along only.</li><li><b>Venue + transit integration</b> — Channels read venue + Metro data; do not interfere with operational systems.</li></ul>',
+    pushback: '<i>"Is this competitive with our sponsorship program?"</i> Answer: no — the Channel platform is utility substrate (like the cellular network). Sponsor brands (Toyota, etc.) operate within their TOP scope; their Channel-side activity is incremental to TOP, not replacement.<br><br><i>"What about NBC broadcast rights?"</i> Answer: Channel never distributes Olympic broadcast content; only surfaces watch-party suggestions and time-zone-aware push.',
+    ask: '<b>Closing ask:</b> "Can we get LA28 sponsorship-rights confirmation in writing that Channel platform operation does not conflict with TOP-program obligations?"',
+    recruiter: 'Deloitte VP, opened via LA28 sponsorship BD team (M1, M-24 → M-22).',
+    phase: 'Engaged throughout build. Heaviest engagement M1 (rights conversation) and M6-M7 (venue + transit integration + Games-window ops).',
+  },
+  telco: {
+    name: 'AT&T',
+    role: 'TELCO ANCHOR · P&L AUTHORIZER',
+    title: 'Default Telco · Wave-1 anchor · bill owner',
+    org: 'AT&T CCO + CTO + Head of Bundle Programs · owns customer relationship, billing infrastructure, and Default Home Channel deployment',
+    mandate: 'Default Telco anchor for marketplace. Owns Home Channel build, customer-bill integration, vault + KMS infrastructure, and the customer-facing surface ("My Channels"). LA28 is the Wave-2 proof point that justifies the multi-year investment.',
+    needs: '<ul><li><b>Multi-year amortization</b> of Wave-1 build cost across LA28 + Brisbane 2032 + intermediate events.</li><li><b>Brand-positioning protection</b> — Channel is Telco-led; partner brands surface in narrative, not the surface chrome that competes with AT&T branding.</li><li><b>Operational integration</b> — Channel Customer Care folds into existing AT&T Customer Care, not standalone.</li><li><b>Independence + Regulatory posture</b> — vault-first, customer-held KMS, FCC + state PUC reporting evidence.</li></ul>',
+    pushback: '<i>"What\'s the ROI in the first year?"</i> Answer: Wave-1 ROI is connectivity-line churn protection (~$180M / 1% churn reduction on 50M-HH base). Olympics scenarios are the Wave-2 marketing wedge, not the W1 P&L justification.<br><br><i>"What if a Channel partner fails publicly during the Games?"</i> Answer: Channel-by-Channel HITL + escalation matrix isolates partner-side failures from AT&T brand. Risk allocation explicit in partner MOU.',
+    ask: '<b>Closing ask:</b> "Can we sign the Wave-1 Default Home Channel charter, with LA28 as the named Wave-2 proof point?"',
+    recruiter: 'Deloitte VP + Microsoft AE align to brief AT&T CCO and CTO together (M1, M-24 → M-22).',
+    phase: 'Anchor throughout. M1 charter signing; M2 shadow-environment validation; M7 Games-window operations.',
+  },
+  microsoft: {
+    name: 'Microsoft Azure',
+    role: 'PLATFORM SUBSTRATE',
+    title: 'CAF · Foundry · A2A Swarm · vault runtime',
+    org: 'Microsoft AE assigned to AT&T + Azure CSA + CAF platform team',
+    mandate: 'Platform substrate. Capacity reservation. AEF LLM Gateway + A2A Swarm + Dynamic Orchestrator + Foundry runtime. ECIF + MACC co-investment.',
+    needs: '<ul><li><b>Capacity forecast</b> for LA28 peak (Q3 2028) committed early.</li><li><b>Co-investment commercial structure</b> — ECIF sized, MACC burndown documented.</li><li><b>Joint reference architecture story</b> — Olympics validates marketplace + CAF combined.</li></ul>',
+    pushback: '<i>"Does CAF capacity hold under projected Games load?"</i> Answer: 1.5x projected peak validated at M5 (Super Bowl warm-up). CAF capacity reservation locked at M6. Headroom monitoring continuous during Games window.<br><br><i>"What\'s the Azure consumption forecast?"</i> Answer: detailed Bronze/Silver/Gold storage + inference token estimates per Channel · 24-month outlook · MACC alignment.',
+    ask: '<b>Closing ask:</b> "Can we confirm CAF capacity reservation for 2028 Q3 + co-investment commercial terms in the AT&T Wave-1 SOW?"',
+    recruiter: 'Account SE engages Microsoft AE directly · joint motion shape before AT&T contract signing.',
+    phase: 'Foundation in M1. Validation in M2 + M5. Live ops in M7.',
+  },
+  deloitte: {
+    name: 'Deloitte DMTSP',
+    role: 'SI · DELIVERY',
+    title: 'Deloitte Microsoft Technology Solutions &amp; Practices · TMT Practice + APEX',
+    org: 'Pursuit team: Deloitte VP (DMTSP) + Account SE + delivery architects · independence-safe per Microsoft platform-engagement framework',
+    mandate: 'Pursuit + delivery. Architecture + medallion build + agent pack authorship + Customer Care runbook + Independence posture.',
+    needs: '<ul><li><b>Independence posture</b> — Deloitte audits Microsoft; no alliance, no preferred-partner agreement.</li><li><b>Productized delivery model</b> — Wave-1 fixed-fee, Wave-2 outcome-linked.</li><li><b>Risk & Independence pre-clear</b> before any anchor-partner SOW signs.</li></ul>',
+    pushback: '<i>"Why Deloitte and not Accenture / IBM / Wipro?"</i> Answer: APEX marketplace meta-pack + per-Channel agentic packs are Deloitte IP; Olympics scenario asset is Deloitte-authored; Independence posture is structurally cleaner. Productized starting point shortens timeline.',
+    ask: '<b>Closing ask:</b> "Can we structure Wave-1 as fixed-fee productized delivery with named Independence pre-clear?"',
+    recruiter: 'Deloitte-internal pursuit team activation (already in flight).',
+    phase: 'Continuous engagement. Pursuit lead through M4, delivery lead M2-M8.',
+  },
+  media: {
+    name: 'NBCUniversal · Peacock',
+    role: 'MEDIA CHANNEL · US RIGHTS HOLDER',
+    title: 'US Olympics broadcast rights holder · Peacock streaming + NBC linear',
+    org: 'NBCU Sports & Olympics group + Olympics counsel · Mark Lazarus (NBCU Chair, Sports/Olympics historically) + Comcast leadership above',
+    mandate: 'Protect Olympic broadcast rights. Maximize Peacock subscriber acquisition during Games window. Surface NBCU content to Channel-eligible households without ceding distribution.',
+    needs: '<ul><li><b>Clear scope boundary</b> — Media Channel is ride-along (watch-party suggestions, time-zone-aware push), not replacement-distribution.</li><li><b>Peacock cross-promotion</b> in Channel UI (with disclosure) drives subscriber acquisition during Games window.</li><li><b>Counsel sign-off</b> on every scope decision; no ambiguity.</li></ul>',
+    pushback: '<i>"Is this competitive with NBC distribution?"</i> Answer: no. The Channel never distributes broadcast content. It surfaces Peacock cross-promotion + helps households find watch-time across time zones. NBC scope is preserved 100%.<br><br><i>"What about ad-targeting overlap with NBCU\'s own ad-tech?"</i> Answer: Channel does NOT operate an ad surface during Games window; suggestions are content-only.',
+    ask: '<b>Closing ask:</b> "Can we sign the Media Channel ride-along scope agreement with your counsel?"',
+    recruiter: 'Deloitte VP opens · NBCU Olympics counsel + AT&T legal in the room.',
+    phase: 'Open at M1; sign at M3. Quiet during M4-M6; live in M7.',
+  },
+  travel: {
+    name: 'Travel Channel Anchors',
+    role: 'TRAVEL CHANNEL · MULTI-ANCHOR',
+    title: 'American Airlines · Marriott · Expedia · Airbnb · Hertz · Uber · OpenTable · Viator',
+    org: 'Multi-anchor partnership — each brand owns a slice of HOM-10..17 service codes',
+    mandate: 'Travel Channel operates trip-mode posture during LA28 trip. IROPS recovery is the wedge. Cross-carrier rebook routing, mobile-key delivery, host-city dining, ground mobility.',
+    needs: '<ul><li><b>Loyalty co-promotion</b> for AAdvantage + Bonvoy enrolment during Games window.</li><li><b>Multi-Telco distribution</b> from one MCP integration.</li><li><b>Verified-household-context</b> customer signal partner-direct apps can\'t see.</li><li><b>Brand-neutrality clauses</b> protecting customer-aligned routing.</li></ul>',
+    pushback: '<i>"AA: How does cross-carrier rebook avoid undercutting our AAdvantage value?"</i> Answer: rebook is AA-mediated; AAdvantage attached on every rebook. Cross-carrier only when AA has no alt-routing within window. Loyalty status preserved.<br><br><i>"Marriott: How does mobile-key delivery to vault impact Bonvoy attach?"</i> Answer: zero-friction check-in for Bonvoy members increases on-property NPS; vault-resident key reduces Bonvoy-app friction.',
+    ask: '<b>Closing ask (per anchor):</b> "AA — can we sign the AAdvantage IROPS rebook MOU? Marriott — can we sign the mobile-key + on-property orchestration MOU? Expedia + Airbnb — can we co-launch the verified-traveler funnel?"',
+    recruiter: 'Deloitte VP runs each anchor workshop in M3.',
+    phase: 'M3 sign + M7 live ops. Wedge event peak demand Jul 14-30.',
+  },
+  retail: {
+    name: 'Walmart',
+    role: 'RETAIL CHANNEL ANCHOR',
+    title: 'Walmart · Walmart+ · Walmart Pharmacy · Walmart Auto Care · Sam\'s Club',
+    org: 'Walmart Bentonville + Walmart Health + Walmart Connect · Doug McMillon-era marketplace + retail-media flywheel',
+    mandate: 'Retail Channel anchor. Multi-retailer GM + Pharmacy + Auto Care + Membership-tier optimization. Walmart international footprint extends Channel into LA28 host-city retail.',
+    needs: '<ul><li><b>Walmart+ co-bundle</b> with AT&T Family Bundle for lower-CAC Walmart+ enrolment.</li><li><b>Pharmacy PHI handling</b> compliant with HIPAA + Walmart Health framework.</li><li><b>Walmart Connect sponsored-placement disclosure</b> mechanics in Channel UI.</li></ul>',
+    pushback: '<i>"How does cross-retailer routing not disadvantage Walmart?"</i> Answer: Walmart is default-routed; cross-retailer surfaces only on Walmart inventory miss + customer transparency. Walmart wins on density.<br><br><i>"What about Costco / Sam\'s overlap on membership opt?"</i> Answer: orchestrator picks best-payback per household; Sam\'s (Walmart-owned) gets Walmart-friendly defaults.',
+    ask: '<b>Closing ask:</b> "Can we sign the Wave-1 Walmart MOU covering RTL-01..04 with Walmart+ co-bundle term sheet?"',
+    recruiter: 'Account SE leads Bentonville workshop in M3.',
+    phase: 'M3 sign · M5 Super Bowl test · M7 live LA28.',
+  },
+  mobility: {
+    name: 'Toyota',
+    role: 'MOBILITY CHANNEL ANCHOR · LA28 TOP SPONSOR',
+    title: 'Toyota Connected · Toyota Financial Services · Toyota Insurance Management Solutions',
+    org: 'Toyota Motor North America (Plano TX) · existing LA28 mobility TOP-program sponsor',
+    mandate: 'Mobility Channel anchor. Connected Services + TFS + TIMS. LA28 mobility TOP sponsor — Channel coordination must respect TOP brand commitments without conflict.',
+    needs: '<ul><li><b>TOP-program coordination explicit</b> — Channel branding is Telco-led; Toyota TOP status referenced in narrative not surface chrome.</li><li><b>TFS Olympics-period rider</b> on lease/loan products for Olympics-travelling members.</li><li><b>TIMS UBI rider</b> with telematics-data preserved across trip to LA.</li></ul>',
+    pushback: '<i>"Channel + TOP-program co-branding rules?"</i> Answer: detailed in MOU. Channel branding does not co-present with Toyota TOP visuals; Toyota TOP status referenced in Channel narrative only with explicit copy approval.<br><br><i>"What about Ford / GM cross-routing?"</i> Answer: Toyota is default-routed for Toyota-household-fleet vehicles; brand-neutrality only applies on non-Toyota-vehicle decisions.',
+    ask: '<b>Closing ask:</b> "Can we sign the Toyota Connected + TFS + TIMS MOU with explicit TOP-program coordination terms?"',
+    recruiter: 'Deloitte VP runs Plano workshop in M4.',
+    phase: 'M4 sign · M5 Super Bowl test · M7 live LA28.',
+  },
+  automobile: {
+    name: 'AutoNation · Cox · Progressive',
+    role: 'AUTOMOBILE CHANNEL · MULTI-ANCHOR',
+    title: 'AutoNation (dealer + service + finance + insurance) · Cox Automotive (KBB / Autotrader / Manheim) · Progressive (Snapshot UBI)',
+    org: 'Joint multi-anchor structure across the vehicle ownership lifecycle',
+    mandate: 'Automobile Channel anchors. AutoNation owns purchase + dealer service + AutoNation Finance + AutoNation Insurance. Cox owns data + valuation infrastructure. Progressive owns UBI insurance.',
+    needs: '<ul><li><b>Multi-anchor commercial structure</b> — none of the three demands exclusivity; brand-neutrality enables routing.</li><li><b>Olympics-period vehicle-purchase scenarios</b> — pre-Games new-vehicle purchases coordinated with AT&T household-bill financing.</li><li><b>Progressive Snapshot UBI rider</b> for Olympics-traveling members.</li></ul>',
+    pushback: '<i>"Three anchors vs single anchor — too many cooks?"</i> Answer: each anchors a slice (purchase + data + insurance); brand-neutrality on per-decision routing.<br><br><i>"AutoNation: how does cross-dealer-group routing not hurt our walk-in rate?"</i> Answer: AutoNation gets default-routing in AutoNation-density markets; bench partners only when AutoNation lacks the vehicle.',
+    ask: '<b>Closing ask:</b> "Can we sign the joint AutoNation + Cox + Progressive MOU with brand-neutrality clauses + Olympics-period scenario commitments?"',
+    recruiter: 'Deloitte VP runs joint triangle session in M4.',
+    phase: 'M4 sign · M7 live LA28.',
+  },
+  cpg: {
+    name: 'Sazerac',
+    role: 'CPG CHANNEL ANCHOR',
+    title: 'Sazerac (Buffalo Trace · Pappy Van Winkle · Eagle Rare · Stagg · Sazerac Rye)',
+    org: 'Sazerac Company (New Orleans HQ) · BTAC allocation program · existing distribution + retailer network',
+    mandate: 'CPG Channel anchor. Age-gated commerce + allocation alerts + cocktail concierge + tasting events. LA28 host-city commemorative release is the wedge.',
+    needs: '<ul><li><b>Host-city commemorative single-cask commit</b> for LA Metro licensed retailer.</li><li><b>50-state age-gating engine</b> — California compliance critical for LA28.</li><li><b>Tied-house compliance</b> on tasting-event referrals + distillery experience routing.</li><li><b>Anti-scalper distribution</b> — allocation routes to enthusiasts, not flippers.</li></ul>',
+    pushback: '<i>"What if California ABC rules change mid-Games?"</i> Answer: Avalara state-rules engine integration handles real-time rule updates · CA-specific edge cases pre-built · fallback to in-state pickup if DTC fails.<br><br><i>"Anti-scalper enforcement?"</i> Answer: vault-resident identity prevents single-customer multi-account abuse · partner-side retailer enforces age + identity at pickup.',
+    ask: '<b>Closing ask:</b> "Can we sign the Sazerac MOU with explicit LA28 host-city allocation commit + CA-state compliance posture?"',
+    recruiter: 'Account SE runs New Orleans workshop in M4.',
+    phase: 'M4 sign · M6 CA compliance live · M7 host-city wedge event during Games window.',
+  },
+  'vault-trust': {
+    name: 'CSA Matter · Trinsic · Skyflow',
+    role: 'TRUST + STANDARDS',
+    title: 'Standards bodies + identity providers + tokenization platforms',
+    org: 'CSA (Matter standard) · Trinsic (verifiable credentials) · Skyflow (PII tokenization vault) · OneTrust + Privacera (privacy)',
+    mandate: 'Open standards layer. Matter device interop. Verifiable credentials for identity. PII tokenization for cross-Channel handling. Privacy + consent ledger compliance.',
+    needs: '<ul><li><b>Open Matter integration</b> for in-home device coverage at launch.</li><li><b>Verifiable-credential trust framework</b> for age-verification + travel-document tokenization.</li><li><b>Tokenization at vault edge</b> to prevent raw-PII flowing into Channel agents.</li></ul>',
+    pushback: '<i>"Standards-body partnerships are slow."</i> Answer: CSA membership in place from foundation; Trinsic + Skyflow are commercial contracts with fast onboarding.',
+    ask: '<b>Closing ask:</b> "Can we confirm CSA Matter + Trinsic + Skyflow partnership posture by M2 (vault production)?"',
+    recruiter: 'Account SE engages standards leads + commercial procurement.',
+    phase: 'M2 commercial close · M3+ continuous operation.',
+  },
+  payer: {
+    name: 'UnitedHealth · Humana · CVS Aetna',
+    role: 'OUTCOME SPONSOR · ELDERCARE PMPM',
+    title: 'Medicare Advantage payers · D-archetype outcome partners',
+    org: 'Top-3 MA payers · payer-direct + Optum (UNH) · 6+ month sales cycle for PMPM contract',
+    mandate: 'Outcome-share for HOM-03 eldercare. PMPM payment for fall-risk reduction in D-SNP cohorts. The wedge that turns the consumer subscription into a payer-sponsored offer.',
+    needs: '<ul><li><b>Outcome measurement methodology</b> with control cohort and attribution window.</li><li><b>HIPAA BAA</b> in place before any PHI flows.</li><li><b>D-SNP cohort identification</b> within AT&T household base.</li></ul>',
+    pushback: '<i>"How is outcome attribution validated?"</i> Answer: pre-agreed control cohort + 12-month attribution window + independent audit of fall-event rates.<br><br><i>"Olympics relevance?"</i> Answer: not directly Olympics; the eldercare-continuity wedge during a travel event (parent stays home, grandparent monitored remotely) is exactly the payer-relevant moment.',
+    ask: '<b>Closing ask:</b> "Can we open the outcome-share contract conversation with explicit D-SNP cohort + control-cohort methodology?"',
+    recruiter: 'Deloitte VP engages MA payer BD teams · Wave-2 timing.',
+    phase: 'Open conversation M3-M4; sign at Wave-2 (post-LA28).',
+  },
+};
+
+const LA28_DATE = new Date('2028-07-14T19:00:00-07:00');
+const POST_GAMES_BUFFER_DAYS = 60;
+
+/* ============================================================================
+   STATE MANAGEMENT
+   ============================================================================ */
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch (e) { console.warn('localStorage load failed', e); }
+  return {
+    gamesDate: LA28_DATE.toISOString(),
+    today: null,        // null = use real today; otherwise ISO string
+    activeMilestone: 0,
+    checks: {},
+  };
+}
+
+function saveState() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch (e) { console.warn('localStorage save failed', e); }
+}
+
+let state = loadState();
+
+function getGamesDate() { return new Date(state.gamesDate); }
+function getToday() { return state.today ? new Date(state.today) : new Date(); }
+
+/* ============================================================================
+   COUNTDOWN
+   ============================================================================ */
+
+function fmt(n, pad) { return String(Math.max(0, Math.floor(n))).padStart(pad, '0'); }
+
+function updateCountdown() {
+  const games = getGamesDate();
+  const now = getToday();
+  let delta = games.getTime() - now.getTime();
+  if (delta < 0) {
+    document.getElementById('cd-y').textContent = '00';
+    document.getElementById('cd-mo').textContent = '00';
+    document.getElementById('cd-d').textContent = '00';
+    document.getElementById('cd-h').textContent = '00';
+    document.getElementById('cd-m').textContent = '00';
+    document.getElementById('cd-s').textContent = '00';
+    document.getElementById('cd-event').textContent = 'LA28 Games in progress (Jul 14-30) or complete';
+    return;
+  }
+  const SEC = 1000;
+  const MIN = 60 * SEC;
+  const HOUR = 60 * MIN;
+  const DAY = 24 * HOUR;
+  const MO = 30.4375 * DAY;
+  const YR = 365.25 * DAY;
+  const y = Math.floor(delta / YR);  delta -= y * YR;
+  const mo = Math.floor(delta / MO); delta -= mo * MO;
+  const d = Math.floor(delta / DAY); delta -= d * DAY;
+  const h = Math.floor(delta / HOUR); delta -= h * HOUR;
+  const m = Math.floor(delta / MIN); delta -= m * MIN;
+  const s = Math.floor(delta / SEC);
+  document.getElementById('cd-y').textContent = fmt(y, 2);
+  document.getElementById('cd-mo').textContent = fmt(mo, 2);
+  document.getElementById('cd-d').textContent = fmt(d, 2);
+  document.getElementById('cd-h').textContent = fmt(h, 2);
+  document.getElementById('cd-m').textContent = fmt(m, 2);
+  document.getElementById('cd-s').textContent = fmt(s, 2);
+}
+
+/* ============================================================================
+   TIMELINE SLIDER
+   ============================================================================ */
+
+function timelineBounds() {
+  const games = getGamesDate();
+  const startMs = games.getTime() - 24 * 30.4375 * 24 * 3600 * 1000; // M-24
+  const endMs = games.getTime() + POST_GAMES_BUFFER_DAYS * 24 * 3600 * 1000;
+  return { startMs, endMs };
+}
+
+function dateToPct(dateMs) {
+  const { startMs, endMs } = timelineBounds();
+  const pct = ((dateMs - startMs) / (endMs - startMs)) * 100;
+  return Math.max(0, Math.min(100, pct));
+}
+
+function pctToDate(pct) {
+  const { startMs, endMs } = timelineBounds();
+  return new Date(startMs + (pct / 100) * (endMs - startMs));
+}
+
+function milestoneDate(ms) {
+  const games = getGamesDate();
+  const offsetMs = ms.monthsBefore * 30.4375 * 24 * 3600 * 1000;
+  return new Date(games.getTime() - offsetMs);
+}
+
+function renderTimeline() {
+  const handle = document.getElementById('ts-handle');
+  const fill = document.getElementById('ts-fill');
+  const markersDiv = document.getElementById('ts-markers');
+  const when = document.getElementById('ts-when');
+  const handleLabel = document.getElementById('ts-handle-label');
+
+  const today = getToday();
+  const todayPct = dateToPct(today.getTime());
+
+  handle.style.left = todayPct + '%';
+  fill.style.width = todayPct + '%';
+
+  // Active milestone — nearest upcoming or current
+  let activeIdx = 0;
+  for (let i = 0; i < MILESTONES.length; i++) {
+    const msDate = milestoneDate(MILESTONES[i]);
+    if (today <= msDate || i === MILESTONES.length - 1) { activeIdx = i; break; }
+  }
+  // Update if user hasn't manually changed it during this session
+  // (we don't auto-override user navigation; only set initial)
+
+  // Markers
+  let markersHtml = '';
+  MILESTONES.forEach((m, idx) => {
+    const msDate = milestoneDate(m);
+    const pct = dateToPct(msDate.getTime());
+    const passed = msDate.getTime() < today.getTime();
+    const isActive = idx === state.activeMilestone;
+    let cls = 'ts-marker';
+    if (m.games) cls += ' games';
+    if (passed) cls += ' passed';
+    if (isActive) cls += ' active';
+    markersHtml += `<div class="${cls}" style="left:${pct}%;" onclick="setActivePhase(${idx})" title="${m.name}"></div>`;
+    const labelCls = m.games ? 'ts-mark-label games' : 'ts-mark-label';
+    const labelText = m.games ? 'LA28 OPENING' : ('M' + m.num);
+    markersHtml += `<div class="${labelCls}" style="left:${pct}%;">${labelText}</div>`;
+  });
+  markersDiv.innerHTML = markersHtml;
+
+  const fmtDate = (d) => d.toISOString().slice(0,10);
+  when.textContent = fmtDate(today);
+  handleLabel.textContent = fmtDate(today);
+}
+
+/* drag */
+function initDrag() {
+  const handle = document.getElementById('ts-handle');
+  const track = document.querySelector('.ts-track');
+  let dragging = false;
+
+  function startDrag(e) {
+    dragging = true;
+    handle.classList.add('dragging');
+    document.body.style.cursor = 'grabbing';
+    e.preventDefault();
+  }
+
+  function doDrag(e) {
+    if (!dragging) return;
+    const rect = track.getBoundingClientRect();
+    const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+    const pct = Math.max(0, Math.min(100, (x / rect.width) * 100));
+    const newDate = pctToDate(pct);
+    state.today = newDate.toISOString();
+    saveState();
+    renderTimeline();
+    renderStats();
+  }
+
+  function stopDrag() {
+    if (!dragging) return;
+    dragging = false;
+    handle.classList.remove('dragging');
+    document.body.style.cursor = '';
+  }
+
+  handle.addEventListener('mousedown', startDrag);
+  document.addEventListener('mousemove', doDrag);
+  document.addEventListener('mouseup', stopDrag);
+  handle.addEventListener('touchstart', startDrag, { passive: false });
+  document.addEventListener('touchmove', doDrag, { passive: false });
+  document.addEventListener('touchend', stopDrag);
+}
+
+/* ============================================================================
+   MILESTONE PROGRESS + RENDER
+   ============================================================================ */
+
+function isMilestoneUnlocked(idx) {
+  if (idx === 0) return true;
+  return isMilestoneComplete(idx - 1);
+}
+
+function isMilestoneComplete(idx) {
+  const m = MILESTONES[idx];
+  return m.gate.every((_, i) => state.checks[m.id + '.' + i]);
+}
+
+function milestoneProgress(idx) {
+  const m = MILESTONES[idx];
+  const checked = m.gate.filter((_, i) => state.checks[m.id + '.' + i]).length;
+  return { checked, total: m.gate.length };
+}
+
+function overallProgress() {
+  let total = 0, checked = 0;
+  MILESTONES.forEach(m => {
+    total += m.gate.length;
+    checked += m.gate.filter((_, i) => state.checks[m.id + '.' + i]).length;
+  });
+  return Math.round((checked / total) * 100);
+}
+
+function renderPhaseList() {
+  const html = MILESTONES.map((m, idx) => {
+    const unlocked = isMilestoneUnlocked(idx);
+    const complete = isMilestoneComplete(idx);
+    const active = idx === state.activeMilestone;
+    let cls = 'phase-tab';
+    if (m.games) cls += ' games-tab';
+    if (active) cls += ' active';
+    else if (complete) cls += ' complete';
+    else if (!unlocked) cls += ' locked';
+    const lock = !unlocked ? '<span class="phase-lock">&#128274;</span>' : (complete ? '<span class="phase-lock">&#10003;</span>' : '');
+    return `<button class="${cls}" onclick="setActivePhase(${idx})" ${!unlocked ? 'disabled' : ''}>
+      <div class="phase-num">M${m.num}</div>
+      <div class="phase-name">${m.name}</div>
+      <div class="phase-days">${m.days}</div>
+      ${lock}
+    </button>`;
+  }).join('');
+  document.getElementById('phase-list').innerHTML = html;
+}
+
+function renderActivePhase() {
+  const m = MILESTONES[state.activeMilestone];
+  const prog = milestoneProgress(state.activeMilestone);
+  const complete = prog.checked === prog.total;
+  const nextUnlocked = state.activeMilestone < MILESTONES.length - 1;
+
+  const objectivesHtml = m.objectives.map(o => `<li>${o}</li>`).join('');
+  const tasksHtml = m.sellerTasks.map((t, i) => `
+    <div class="seller-task">
+      <div class="task-num">${i + 1}</div>
+      <div>
+        <div class="task-text">${t.text}</div>
+        <span class="task-owner">Owner: ${t.who}</span>
+      </div>
+    </div>`).join('');
+  const gateHtml = m.gate.map((g, i) => {
+    const key = m.id + '.' + i;
+    const checked = !!state.checks[key];
+    return `<div class="gate-item ${checked ? 'checked' : ''}" onclick="toggleGate('${key}')">
+      <div class="gate-check"></div>
+      <div class="gate-text">${g}</div>
+    </div>`;
+  }).join('');
+
+  const html = `
+    <h3>Milestone M${m.num} &middot; ${m.name}
+      <button class="how-to-btn" onclick="openMilestone(${state.activeMilestone})">How to achieve &rarr;</button>
+    </h3>
+    <div class="phase-meta">
+      <span class="meta-pill"><b>${m.days}</b></span>
+      <span class="meta-pill">Primary: <b>${m.primary}</b></span>
+      <span class="meta-pill">Gate: <b>${prog.checked} / ${prog.total}</b> validated</span>
+    </div>
+
+    <div class="phase-objectives">
+      <h4>Milestone outcomes</h4>
+      <ul>${objectivesHtml}</ul>
+    </div>
+
+    <div style="background:var(--white); border-left:4px solid var(--c-mobility); border-radius:4px; padding:12px 16px; margin-bottom:14px;">
+      <h4 style="font-size:10px; text-transform:uppercase; letter-spacing:1px; color:var(--c-mobility); font-weight:800; margin-bottom:8px;">Action items</h4>
+      ${tasksHtml.replace(/seller-task/g, 'seller-task').replace(/task-num/g, 'task-num')}
+    </div>
+
+    <div class="gate ${complete ? 'passed' : ''}">
+      <h4>Validation gate <span class="gate-status">${complete ? 'PASSED &#10003;' : 'IN PROGRESS'}</span></h4>
+      ${gateHtml}
+      <div class="gate-action">
+        <div class="gate-progress-mini">All <b>${prog.total}</b> items must be checked to unlock the next milestone.</div>
+        ${nextUnlocked ? `<button class="advance-btn ${complete ? 'ready' : ''}" onclick="advancePhase()" ${complete ? '' : 'disabled'}>${complete ? 'Advance to M' + (parseInt(m.num) + 1) + ' &rarr;' : 'Gate not yet passed'}</button>` : (complete ? `<span style="color:var(--green-ok);font-weight:700;font-size:11px;">&#10003; DELIVERY COMPLETE &mdash; Games operations + scaling plan running</span>` : '')}
+      </div>
+    </div>
+
+    <style>
+      .seller-task { display: grid; grid-template-columns: 24px 1fr; gap: 8px; padding: 6px 0; border-bottom: 1px dashed var(--border); align-items: start; }
+      .seller-task:last-child { border-bottom: none; }
+      .seller-task .task-num { background: var(--c-mobility); color: white; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; font-family: 'Outfit', sans-serif; }
+      .seller-task .task-text { font-size: 12px; line-height: 1.5; color: var(--text-primary); }
+      .seller-task .task-text b { color: var(--accent-navy); }
+      .seller-task .task-owner { display: block; font-size: 9.5px; color: var(--text-secondary); margin-top: 2px; font-style: italic; }
+    </style>
+  `;
+  document.getElementById('phase-body').innerHTML = html;
+}
+
+function renderStats() {
+  const today = getToday();
+  document.getElementById('stat-today').textContent = today.toISOString().slice(5,10);
+  document.getElementById('stat-milestone').textContent = `${state.activeMilestone + 1} / 8`;
+  const pct = overallProgress();
+  document.getElementById('stat-progress').textContent = pct + '%';
+  document.getElementById('progress-fill').style.width = pct + '%';
+}
+
+function render() {
+  renderPhaseList();
+  renderActivePhase();
+  renderStats();
+  renderTimeline();
+}
+
+/* ============================================================================
+   ACTIONS
+   ============================================================================ */
+
+function setActivePhase(idx) {
+  if (!isMilestoneUnlocked(idx)) return;
+  state.activeMilestone = idx;
+  saveState();
+  render();
+}
+
+function toggleGate(key) {
+  state.checks[key] = !state.checks[key];
+  saveState();
+  render();
+}
+
+function advancePhase() {
+  if (state.activeMilestone < MILESTONES.length - 1 && isMilestoneComplete(state.activeMilestone)) {
+    state.activeMilestone += 1;
+    saveState();
+    render();
+  }
+}
+
+function setGamesDate() {
+  const current = getGamesDate().toISOString().slice(0,10);
+  const input = prompt('Set Olympics opening-ceremony date (YYYY-MM-DD format).\n\nDefault: 2028-07-14 (LA28). Use 2026-02-06 for Milan-Cortina, 2032-07-23 for Brisbane.', current);
+  if (input && /^\d{4}-\d{2}-\d{2}$/.test(input)) {
+    state.gamesDate = new Date(input + 'T19:00:00Z').toISOString();
+    saveState();
+    render();
+  } else if (input !== null) {
+    alert('Invalid date. Use YYYY-MM-DD format.');
+  }
+}
+
+function setToday() {
+  const current = getToday().toISOString().slice(0,10);
+  const input = prompt('Override "today" date for the slider (YYYY-MM-DD).\n\nLeave empty to use real today.', current);
+  if (input === '') {
+    state.today = null;
+    saveState();
+    render();
+  } else if (input && /^\d{4}-\d{2}-\d{2}$/.test(input)) {
+    state.today = new Date(input + 'T12:00:00Z').toISOString();
+    saveState();
+    render();
+  } else if (input !== null) {
+    alert('Invalid date. Use YYYY-MM-DD format, or empty string to clear.');
+  }
+}
+
+function resetState() {
+  if (confirm('Reset all delivery progress?\n\nThis clears every checkmark and resets to Milestone 1. The Games date stays.')) {
+    state.activeMilestone = 0;
+    state.checks = {};
+    state.today = null;
+    saveState();
+    render();
+  }
+}
+
+/* Stakeholder modal */
+function openStakeholder(key) {
+  const s = STAKEHOLDERS[key];
+  if (!s) return;
+  document.getElementById('stk-role-tag').innerHTML = s.role;
+  document.getElementById('stk-name').innerHTML = s.name;
+  document.getElementById('stk-title').innerHTML = s.title;
+  document.getElementById('stk-org').innerHTML = s.org;
+  document.getElementById('stk-body').innerHTML = `
+    <h3>Mandate</h3>
+    <p>${s.mandate}</p>
+
+    <h3>What they need to hear</h3>
+    ${s.needs}
+
+    <h3>Pushback &amp; clean answer</h3>
+    <p>${s.pushback}</p>
+
+    <h3>Closing ask</h3>
+    <div class="stk-ask">${s.ask}</div>
+
+    <h3>Who recruits them</h3>
+    <p>${s.recruiter}</p>
+
+    <h3>Engagement timeline</h3>
+    <p>${s.phase}</p>
+  `;
+  document.getElementById('stk-modal-overlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeStakeholder() {
+  document.getElementById('stk-modal-overlay').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+/* Milestone "how to achieve" modal */
+function openMilestone(idx) {
+  const m = MILESTONES[idx];
+  if (!m) return;
+  document.getElementById('ms-role-tag').innerHTML = 'MILESTONE M' + m.num;
+  document.getElementById('ms-name').innerHTML = m.name;
+  document.getElementById('ms-when').innerHTML = m.days + ' &middot; primary: ' + m.primary;
+  document.getElementById('ms-summary').innerHTML = m.howTo.summary;
+
+  const meetingsHtml = m.howTo.meetings.map(mt => `
+    <div class="ms-meet">
+      <b>${mt.with}</b>
+      ${mt.topic}<br>
+      <span style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-secondary); margin-top:4px; display:inline-block;">When: ${mt.when}</span>
+    </div>
+  `).join('');
+
+  const commsHtml = m.howTo.communications.map(c => `
+    <div class="ms-comm">
+      <b>${c.type}</b>
+      ${c.text}
+    </div>
+  `).join('');
+
+  const gateChecklist = m.gate.map(g => `<li>${g}</li>`).join('');
+
+  document.getElementById('ms-body').innerHTML = `
+    <h3>How to achieve this milestone</h3>
+    <p>${m.howTo.summary}</p>
+
+    <h3>Meetings to book</h3>
+    ${meetingsHtml}
+
+    <h3>Communications to send</h3>
+    ${commsHtml}
+
+    <h3>Validation gate (the milestone is "achieved" when all of these are true)</h3>
+    <ul>${gateChecklist}</ul>
+
+    <h3>Action</h3>
+    <p style="margin-top:8px;">
+      <button class="how-to-btn" onclick="closeMilestone(); setActivePhase(${idx});" style="background:var(--accent-navy);">Open milestone in tracker</button>
+    </p>
+  `;
+  document.getElementById('ms-modal-overlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeMilestone() {
+  document.getElementById('ms-modal-overlay').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') { closeStakeholder(); closeMilestone(); }
+});
+
+/* ============================================================================
+   INIT
+   ============================================================================ */
+render();
+initDrag();
+updateCountdown();
+setInterval(updateCountdown, 1000);
+</script>
+
+</body>
+</html>
