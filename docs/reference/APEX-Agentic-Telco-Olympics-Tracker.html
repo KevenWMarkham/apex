@@ -447,10 +447,10 @@ HOW TO USE IT
       <foreignObject x="0" y="380" width="160" height="100">
         <div xmlns="http://www.w3.org/1999/xhtml" class="h-node" onclick="openStakeholder('travel')">
           <div class="h-card travel">
-            <div class="h-role">Channel · Travel</div>
+            <div class="h-role">TH · Travel</div>
             <div class="h-name">AA · Marriott · Expedia · Airbnb</div>
             <div class="h-title">Multi-anchor · IROPS + mobile-key + STR + OTA</div>
-            <div class="h-tag">Travel anchor</div>
+            <div class="h-tag">Travel · TH</div>
           </div>
         </div>
       </foreignObject>
@@ -585,13 +585,15 @@ HOW TO USE IT
     </svg>
 
     <div class="practice-strip" title="DMTSP Practice coverage across the marketplace at LA28">
-      <div class="practice-chip" style="background:var(--c-home);color:var(--deloitte-dark);"><span class="pc-name">TMT</span><span class="pc-channels">Home · Travel · Media</span></div>
+      <div class="practice-chip" style="background:var(--c-home);color:var(--deloitte-dark);"><span class="pc-name">TMT</span><span class="pc-channels">Telco · Home · Media</span></div>
+      <div class="practice-chip" style="background:var(--c-travel);color:var(--deloitte-dark);"><span class="pc-name">TH</span><span class="pc-channels">Travel · hospitality</span></div>
       <div class="practice-chip" style="background:var(--c-retail);color:var(--deloitte-dark);"><span class="pc-name">RC</span><span class="pc-channels">Retail · CPG</span></div>
       <div class="practice-chip" style="background:var(--c-mobility);"><span class="pc-name">AXLE</span><span class="pc-channels">Mobility · Auto</span></div>
       <div class="practice-chip" style="background:var(--c-energy);"><span class="pc-name">ER</span><span class="pc-channels">Energy · utilities</span></div>
       <div class="practice-chip" style="background:var(--c-health);"><span class="pc-name">HLS</span><span class="pc-channels">Health · pharma · payer</span></div>
       <div class="practice-chip" style="background:var(--c-industrial);"><span class="pc-name">ICE</span><span class="pc-channels">Industrial · venue · transit</span></div>
-      <div class="practice-chip" style="background:var(--c-finance);"><span class="pc-name">FSI / GPS</span><span class="pc-channels">Finance · Public Sector · Risk</span></div>
+      <div class="practice-chip" style="background:var(--c-finance);"><span class="pc-name">FSI</span><span class="pc-channels">Finance · payments</span></div>
+      <div class="practice-chip" style="background:var(--c-public);"><span class="pc-name">GPS</span><span class="pc-channels">Public Sector · Risk</span></div>
     </div>
 
     <div class="h-legend">
@@ -680,8 +682,9 @@ const STORAGE_KEY = 'apex-olympics-tracker-v2';
 
 /* ----- DATA: DMTSP Practices ----- */
 const PRACTICES = [
-  { code: 'ALL',   name: 'All Practices', color: '#012169' },
+  { code: 'ALL',   name: 'All',           color: '#012169' },
   { code: 'TMT',   name: 'TMT',           color: '#E8A33D' },
+  { code: 'TH',    name: 'TH',            color: '#6FB6E5' },
   { code: 'RC',    name: 'RC',            color: '#3DD9C4' },
   { code: 'AXLE',  name: 'AXLE',          color: '#9B7BE0' },
   { code: 'ER',    name: 'ER',            color: '#5B8C3E' },
@@ -689,8 +692,15 @@ const PRACTICES = [
   { code: 'ICE',   name: 'ICE',           color: '#8C6D32' },
   { code: 'FSI',   name: 'FSI',           color: '#1E5AA8' },
   { code: 'GPS',   name: 'GPS',           color: '#2C3E78' },
-  { code: 'RISK',  name: 'Risk Advisory', color: '#6B3FA0' },
-  { code: 'CROSS', name: 'Cross-Practice',color: '#012169' },
+  { code: 'RISK',  name: 'Risk',          color: '#6B3FA0' },
+  { code: 'CROSS', name: 'Cross',         color: '#012169' },
+];
+
+/* Practice-combo presets for parallel-Practice seller teams */
+const PRACTICE_PRESETS = [
+  { code: 'CONSUMER',  name: 'Consumer (TH + RC + AXLE)',     codes: ['TH','RC','AXLE'] },
+  { code: 'OPS',       name: 'Operations (ER + ICE + GPS)',   codes: ['ER','ICE','GPS'] },
+  { code: 'REGULATED', name: 'Regulated (HLS + FSI + Risk)',  codes: ['HLS','FSI','RISK'] },
 ];
 function practiceColor(code) { const p = PRACTICES.find(p => p.code === code); return p ? p.color : '#94A3B8'; }
 function practiceName(code) { const p = PRACTICES.find(p => p.code === code); return p ? p.name : code; }
@@ -712,8 +722,9 @@ const MILESTONES = [
     sellerTasks: [
       { practice: 'TMT', who: 'TMT VP', text: '<b>Brief AT&T CCO + CTO</b> on Agentic Marketplace + LA28 positioning. Confirm Default Home Channel as Wave-1 deliverable.' },
       { practice: 'TMT', who: 'TMT VP', text: '<b>Open T-Mobile / Verizon / Charter / Lumen relationships</b> for Wave-2 syndication post-LA28. Soft commitments now; W2 contracts after AT&T proof point.' },
-      { practice: 'TMT', who: 'TMT VP', text: '<b>Open LA28 sponsorship conversation</b> via Casey Wasserman BD team. Clarify Games-period rights vs platform-vendor positioning.' },
-      { practice: 'TMT', who: 'TMT VP', text: '<b>Identify NBCUniversal Sports + Olympics counsel</b>. Open scope-boundary conversation before any Media Channel commitment.' },
+      { practice: 'TMT', who: 'TMT VP', coordinatesWith: ['TH','RISK'], text: '<b>Open LA28 sponsorship conversation</b> via Casey Wasserman BD team. Clarify Games-period rights vs platform-vendor positioning.' },
+      { practice: 'TMT', who: 'TMT-Media VP', coordinatesWith: ['TH','RISK'], text: '<b>Identify NBCUniversal Sports + Olympics counsel</b>. Open scope-boundary conversation before any Media Channel commitment.' },
+      { practice: 'TH', who: 'TH VP', coordinatesWith: ['TMT'], text: '<b>Pre-warm Travel Channel anchor relationships</b> — informal calls into AA AAdvantage, Marriott Bonvoy, Expedia API Partnerships, Airbnb Identity teams. Set the stage for M3 workshops.' },
       { practice: 'CROSS', who: 'Account SE', text: '<b>Microsoft AE alignment</b>: confirm CAF capacity for projected Games load. ECIF funding for Wave-1 scoped.' },
       { practice: 'CROSS', who: 'DMTSP Account Lead', text: '<b>Form pursuit team</b> with named leads from TMT + RC + AXLE + ER + HLS + ICE + FSI + GPS + Risk Advisory. Weekly Practice-leads sync established.' },
       { practice: 'GPS', who: 'GPS Account Lead', text: '<b>Open LA City Mayor\'s office</b> on Games-period public-sector coordination. Early flag — long lead times for federal/state coord.' },
@@ -799,17 +810,17 @@ const MILESTONES = [
       'NBCUniversal Media Channel scope agreement signed (ride-along terms)',
     ],
     sellerTasks: [
-      { practice: 'TMT', who: 'TMT VP', text: '<b>AA AAdvantage workshop</b> at DFW HQ · walk the IROPS wedge + co-branded enrolment offer + multi-Telco distribution proposition.' },
-      { practice: 'TMT', who: 'TMT VP', text: '<b>Marriott Bonvoy session</b> at Bethesda HQ · mobile-key + on-property orchestration + co-branded SKU economics.' },
-      { practice: 'TMT', who: 'TMT Account SE', text: '<b>Expedia + Airbnb dual-MOU</b> · OTA + STR partner-protocol implementation plan.' },
-      { practice: 'TMT', who: 'TMT VP', text: '<b>NBCUniversal counsel close</b> · ride-along terms · scope boundary explicit · LA28 broadcast precedence preserved.' },
-      { practice: 'RC', who: 'RC Account Lead', text: '<b>Walmart Bentonville workshop</b> · Walmart+ co-bundle · RTL-01..04 service-code reservation · pharmacy data-handling.' },
-      { practice: 'HLS', who: 'HLS VP', text: '<b>Kaiser Permanente LA + CVS Health joint workshop</b> · Health Channel scope · cross-state Rx transfer · MinuteClinic walk-in routing.' },
-      { practice: 'HLS', who: 'HLS Account Lead', text: '<b>UnitedHealth Optum D-SNP outcome-share framework</b> · MA payer PMPM methodology · attribution-window agreement opener.' },
-      { practice: 'FSI', who: 'FSI VP', text: '<b>JPMorgan Chase Sapphire travel-mode pilot workshop</b> · Games-period fraud-suppression posture · sponsorship rails + ticketing flows.' },
-      { practice: 'FSI', who: 'FSI Account Lead', text: '<b>Visa + Mastercard ride-along scoping</b> · TOP-sponsor coordination · payment-rail commercial terms.' },
-      { practice: 'GPS', who: 'GPS Account Lead', text: '<b>LA City venue + transit data-exchange MOU drafted</b> · Metro K Line + shuttle + parking integration framework.' },
-      { practice: 'RISK', who: 'Risk Advisory Partner', text: '<b>Risk pre-clear memo updated</b> with each anchor MOU as signed · Independence posture maintained per-partner.' },
+      { practice: 'TH', who: 'TH VP', coordinatesWith: ['TMT','FSI','RISK'], text: '<b>AA AAdvantage workshop</b> at DFW HQ · walk the IROPS wedge + co-branded enrolment offer + multi-Telco distribution proposition. <em>Coordinate FSI on Chase Sapphire fraud-mode integration; TMT on anchor Telco bill mechanics.</em>' },
+      { practice: 'TH', who: 'TH VP', coordinatesWith: ['TMT','RISK'], text: '<b>Marriott Bonvoy session</b> at Bethesda HQ · mobile-key + on-property orchestration + co-branded SKU economics.' },
+      { practice: 'TH', who: 'TH Account SE', coordinatesWith: ['TMT'], text: '<b>Expedia + Airbnb dual-MOU</b> · OTA + STR partner-protocol implementation plan.' },
+      { practice: 'TMT', who: 'TMT-Media VP', coordinatesWith: ['TH','RISK'], text: '<b>NBCUniversal counsel close</b> · ride-along terms · scope boundary explicit · LA28 broadcast precedence preserved.' },
+      { practice: 'RC', who: 'RC Account Lead', coordinatesWith: ['HLS','FSI','RISK'], text: '<b>Walmart Bentonville workshop</b> · Walmart+ co-bundle · RTL-01..04 service-code reservation · pharmacy data-handling. <em>Coordinate HLS on PHI scope; FSI on Walmart+ co-bundle billing.</em>' },
+      { practice: 'HLS', who: 'HLS VP', coordinatesWith: ['RC','RISK'], text: '<b>Kaiser Permanente LA + CVS Health joint workshop</b> · Health Channel scope · cross-state Rx transfer · MinuteClinic walk-in routing.' },
+      { practice: 'HLS', who: 'HLS Account Lead', coordinatesWith: ['RISK','FSI'], text: '<b>UnitedHealth Optum D-SNP outcome-share framework</b> · MA payer PMPM methodology · attribution-window agreement opener.' },
+      { practice: 'FSI', who: 'FSI VP', coordinatesWith: ['TH','TMT','RISK'], text: '<b>JPMorgan Chase Sapphire travel-mode pilot workshop</b> · Games-period fraud-suppression posture · sponsorship rails + ticketing flows. <em>Coordinate TH on traveler-fraud signal exchange.</em>' },
+      { practice: 'FSI', who: 'FSI Account Lead', coordinatesWith: ['TMT'], text: '<b>Visa + Mastercard ride-along scoping</b> · TOP-sponsor coordination · payment-rail commercial terms.' },
+      { practice: 'GPS', who: 'GPS Account Lead', coordinatesWith: ['TH','ICE'], text: '<b>LA City venue + transit data-exchange MOU drafted</b> · Metro K Line + shuttle + parking integration framework.' },
+      { practice: 'RISK', who: 'Risk Advisory Partner', coordinatesWith: ['CROSS'], text: '<b>Risk pre-clear memo updated</b> with each anchor MOU as signed · Independence posture maintained per-partner.' },
     ],
     gate: [
       'American Airlines MOU signed (AAdvantage MCP integration)',
@@ -849,19 +860,19 @@ const MILESTONES = [
       'EV-charging-network roaming MOUs (ChargePoint + EVgo + Tesla Supercharger) signed',
     ],
     sellerTasks: [
-      { practice: 'AXLE', who: 'AXLE VP', text: '<b>Toyota Connected workshop</b> at Toyota North America HQ in Plano · resolve TOP-program coordination · TFS + TIMS scope.' },
-      { practice: 'AXLE', who: 'AXLE VP', text: '<b>AutoNation + Cox + Progressive triangle session</b> · multi-anchor commercial terms · brand-neutrality commitments.' },
-      { practice: 'AXLE', who: 'AXLE Account SE', text: '<b>EV-charging MOUs</b> · ChargePoint + EVgo + Electrify America + Tesla Supercharger roaming network terms.' },
-      { practice: 'RC', who: 'RC VP', text: '<b>Sazerac workshop in New Orleans</b> · host-city commemorative single-cask commit · allocation mechanics · age-verification flow.' },
-      { practice: 'RC', who: 'RC Delivery Architect', text: '<b>Avalara Beverage Alcohol</b> contract close · state-rules engine integration plan · 50-state coverage timeline.' },
-      { practice: 'ER', who: 'ER VP', text: '<b>PG&E + SCE + Tesla Energy + LADWP joint MOU</b> · demand-response aggregation framework · LA28 venue power integration scope.' },
-      { practice: 'ER', who: 'ER Account Lead', text: '<b>LA28 venue power profiles obtained</b> · per-venue peak forecast · grid-stability coordination with utilities.' },
-      { practice: 'ICE', who: 'ICE VP', text: '<b>AECOM + Honeywell + Siemens venue workshop</b> · BMS data-feed scope · Metro K Line transit-system integration · equipment-uptime monitoring.' },
-      { practice: 'ICE', who: 'ICE Account Lead', text: '<b>Caterpillar equipment-uptime program</b> · ops-critical machinery (lifts, generators, water pumps) telemetry into Industrial Channel.' },
-      { practice: 'HLS', who: 'HLS VP', text: '<b>UnitedHealth / Humana D-SNP MOU signed</b> · outcome-share PMPM with explicit attribution methodology · HIPAA BAA in place.' },
-      { practice: 'FSI', who: 'FSI VP', text: '<b>Visa + Mastercard MOU close</b> · TOP-coordination explicit · sponsorship + ticketing payment-rail commercial terms.' },
-      { practice: 'GPS', who: 'GPS VP', text: '<b>California state engagement (ABC + DMV + Insurance)</b> · CPG compliance · Toyota TIMS state rules · age-gating CA-specific edge cases.' },
-      { practice: 'RISK', who: 'Risk Advisory Partner', text: '<b>Risk-pre-clear memo for each new Channel MOU</b> · per-partner posture · audit-committee defensible.' },
+      { practice: 'AXLE', who: 'AXLE VP', coordinatesWith: ['TMT','GPS','RISK'], text: '<b>Toyota Connected workshop</b> at Toyota North America HQ in Plano · resolve TOP-program coordination · TFS + TIMS scope. <em>Coordinate TMT on TOP-program brand language; GPS on California TIMS state rules.</em>' },
+      { practice: 'AXLE', who: 'AXLE VP', coordinatesWith: ['FSI','RISK'], text: '<b>AutoNation + Cox + Progressive triangle session</b> · multi-anchor commercial terms · brand-neutrality commitments. <em>Coordinate FSI on Capital One Auto + Ally + Chase Auto financing alternatives.</em>' },
+      { practice: 'AXLE', who: 'AXLE Account SE', coordinatesWith: ['ER','TH'], text: '<b>EV-charging MOUs</b> · ChargePoint + EVgo + Electrify America + Tesla Supercharger roaming. <em>Coordinate ER on demand-response routing; TH on in-trip charging.</em>' },
+      { practice: 'RC', who: 'RC VP', coordinatesWith: ['GPS','RISK'], text: '<b>Sazerac workshop in New Orleans</b> · host-city commemorative single-cask commit · allocation mechanics · age-verification flow. <em>Coordinate GPS on California ABC compliance pathway.</em>' },
+      { practice: 'RC', who: 'RC Delivery Architect', coordinatesWith: ['GPS'], text: '<b>Avalara Beverage Alcohol</b> contract close · state-rules engine integration plan · 50-state coverage timeline.' },
+      { practice: 'ER', who: 'ER VP', coordinatesWith: ['ICE','TMT'], text: '<b>PG&E + SCE + Tesla Energy + LADWP joint MOU</b> · demand-response aggregation · LA28 venue power. <em>Coordinate ICE on venue BMS power data; TMT on AT&T grid-integration.</em>' },
+      { practice: 'ER', who: 'ER Account Lead', coordinatesWith: ['ICE','GPS'], text: '<b>LA28 venue power profiles obtained</b> · per-venue peak forecast · grid-stability coordination with utilities.' },
+      { practice: 'ICE', who: 'ICE VP', coordinatesWith: ['TH','ER','GPS'], text: '<b>AECOM + Honeywell + Siemens venue workshop</b> · BMS data + Metro K Line transit + equipment-uptime. <em>Feeds TH ground-mobility routing; ER venue power; GPS street-closure data.</em>' },
+      { practice: 'ICE', who: 'ICE Account Lead', coordinatesWith: ['ER'], text: '<b>Caterpillar equipment-uptime program</b> · ops-critical machinery (lifts, generators, water pumps) telemetry into Industrial Channel.' },
+      { practice: 'HLS', who: 'HLS VP', coordinatesWith: ['RISK','FSI'], text: '<b>UnitedHealth / Humana D-SNP MOU signed</b> · outcome-share PMPM with explicit attribution methodology · HIPAA BAA in place.' },
+      { practice: 'FSI', who: 'FSI VP', coordinatesWith: ['TH','TMT'], text: '<b>Visa + Mastercard MOU close</b> · TOP-coordination explicit · sponsorship + ticketing payment-rail commercial terms.' },
+      { practice: 'GPS', who: 'GPS VP', coordinatesWith: ['RC','AXLE','RISK'], text: '<b>California state engagement (ABC + DMV + Insurance)</b> · CPG compliance · Toyota TIMS state rules · age-gating CA-specific edge cases.' },
+      { practice: 'RISK', who: 'Risk Advisory Partner', coordinatesWith: ['CROSS'], text: '<b>Risk-pre-clear memo for each new Channel MOU</b> · per-partner posture · audit-committee defensible.' },
     ],
     gate: [
       'Toyota Connected MOU signed (TOP coordination resolved)',
@@ -901,8 +912,8 @@ const MILESTONES = [
     ],
     sellerTasks: [
       { practice: 'TMT', who: 'TMT Delivery Architect', text: '<b>Stand up Super Bowl pilot cohort</b> · 2,000-5,000 AT&T households in host metro · all Channels live · monitoring stack ready.' },
-      { practice: 'TMT', who: 'TMT Account SE', text: '<b>AA + Marriott + Expedia + Airbnb</b> staffed for Super Bowl weekend · IROPS + hotel-walk drill · single-customer journey traced.' },
-      { practice: 'TMT', who: 'TMT Account SE', text: '<b>NBCUniversal media-ride-along test</b> · time-zone-aware push for Super Bowl viewers · partner Peacock cross-promo (with disclosure) measured.' },
+      { practice: 'TH', who: 'TH Account SE', coordinatesWith: ['TMT','FSI'], text: '<b>AA + Marriott + Expedia + Airbnb</b> staffed for Super Bowl weekend · IROPS + hotel-walk drill · single-customer journey traced.' },
+      { practice: 'TMT', who: 'TMT-Media Account SE', coordinatesWith: ['TH'], text: '<b>NBCUniversal media-ride-along test</b> · time-zone-aware push for Super Bowl viewers · partner Peacock cross-promo (with disclosure) measured.' },
       { practice: 'RC', who: 'RC Account Lead', text: '<b>Walmart errand-chain scenarios validated live</b> at Super Bowl host city · pharmacy + GM + TLE chain executed.' },
       { practice: 'RC', who: 'RC Delivery Architect', text: '<b>Sazerac Super-Bowl-host-city allocation test</b> · BTAC-analog limited release tested at one licensed retailer · age-verification flow exercised.' },
       { practice: 'AXLE', who: 'AXLE Account Lead', text: '<b>Toyota Connected + AutoNation + Progressive scenarios live</b> · pre-Game tire-check + UBI-rider + dealer routing validated.' },
@@ -1005,8 +1016,8 @@ const MILESTONES = [
     sellerTasks: [
       { practice: 'TMT', who: 'TMT VP + Delivery', text: '<b>Production ops command center</b> stood up in LA · 24/7 coverage · live dashboards · all anchor partners staffed.' },
       { practice: 'TMT', who: 'TMT Account SE', text: '<b>Daily Adaptive Card to AT&T CEO</b> · 8 AM PT · Channel-by-Channel status · wedge events captured · escalations.' },
-      { practice: 'TMT', who: 'TMT Account SE', text: '<b>AA + Marriott + Expedia + Airbnb daily standup</b> · 7 AM PT · trip-mode scenarios overnight · day-ahead trip-volume forecast.' },
-      { practice: 'TMT', who: 'TMT Account SE', text: '<b>NBCUniversal ride-along live</b> · watch-party suggestions + Peacock cross-promo (with disclosure) firing during competition windows.' },
+      { practice: 'TH', who: 'TH Account SE', coordinatesWith: ['TMT','FSI','GPS'], text: '<b>AA + Marriott + Expedia + Airbnb daily standup</b> · 7 AM PT · trip-mode scenarios overnight · day-ahead trip-volume forecast.' },
+      { practice: 'TMT', who: 'TMT-Media Account SE', coordinatesWith: ['TH'], text: '<b>NBCUniversal ride-along live</b> · watch-party suggestions + Peacock cross-promo (with disclosure) firing during competition windows.' },
       { practice: 'RC', who: 'RC Account Lead', text: '<b>Walmart errand-chain + Sazerac allocation operations live</b> · pharmacy refills for travelers + host-city BTAC pickup events captured.' },
       { practice: 'AXLE', who: 'AXLE Account Lead', text: '<b>Toyota + AutoNation + Progressive vehicle scenarios live</b> · trip-mode insurance riders + dealer-coordination + UBI continuous.' },
       { practice: 'ER', who: 'ER Account Lead', text: '<b>Demand-response events fired</b> during venue peak load · LA utility partners credit Channel-enrolled households · grid stability maintained.' },
@@ -1324,7 +1335,7 @@ function loadState() {
     today: null,        // null = use real today; otherwise ISO string
     activeMilestone: 0,
     checks: {},
-    practiceFilter: 'ALL',
+    practiceFilter: [], // array of Practice codes; empty = show all
   };
 }
 
@@ -1558,27 +1569,58 @@ function renderActivePhase() {
     if (practiceCounts[t.practice] !== undefined) practiceCounts[t.practice]++;
   });
 
-  const filter = state.practiceFilter || 'ALL';
+  const filter = Array.isArray(state.practiceFilter) ? state.practiceFilter : [];
+  const filterActive = filter.length > 0;
 
+  // Filter chips (multi-select)
   const filterChipsHtml = PRACTICES.filter(p => p.code === 'ALL' || practiceCounts[p.code] > 0).map(p => {
-    const isActive = filter === p.code;
-    return `<button class="pf-chip ${isActive ? 'active' : ''}" style="--pc:${p.color};" onclick="setPracticeFilter('${p.code}')">
+    const isAll = p.code === 'ALL';
+    const isActive = isAll ? !filterActive : filter.includes(p.code);
+    return `<button class="pf-chip ${isActive ? 'active' : ''}" style="--pc:${p.color};" onclick="togglePracticeFilter('${p.code}')">
       <span class="pf-dot"></span>${p.name}<span class="pf-count">${practiceCounts[p.code]}</span>
     </button>`;
   }).join('');
 
+  // Preset chips
+  const presetChipsHtml = PRACTICE_PRESETS.map(ps => {
+    const isActive = ps.codes.length === filter.length && ps.codes.every(c => filter.includes(c));
+    return `<button class="pf-chip ${isActive ? 'active' : ''}" style="--pc:#012169; border-style:dashed;" onclick="applyPreset('${ps.code}')" title="${ps.name}">
+      ${ps.name}
+    </button>`;
+  }).join('');
+
+  // Determine task visibility:
+  //   - filter empty → show all
+  //   - filter set    → show tasks whose practice ∈ filter, OR coordinatesWith overlaps filter, OR practice == CROSS
+  function taskVisible(t) {
+    if (!filterActive) return 'primary';
+    if (filter.includes(t.practice)) return 'primary';
+    if (t.practice === 'CROSS') return 'cross';
+    if (Array.isArray(t.coordinatesWith) && t.coordinatesWith.some(c => filter.includes(c))) return 'coord';
+    return 'dim';
+  }
+
   const tasksHtml = m.sellerTasks.map((t, i) => {
-    const dim = (filter !== 'ALL' && t.practice !== filter && t.practice !== 'CROSS') ? 'dim' : '';
+    const vis = taskVisible(t);
+    const cls = vis === 'dim' ? 'dim' : (vis === 'coord' ? 'coord-only' : '');
     const pcolor = practiceColor(t.practice);
+    const coordsHtml = Array.isArray(t.coordinatesWith) && t.coordinatesWith.length
+      ? `<div class="task-coords"><span class="coord-label">Coordinate with:</span> ${t.coordinatesWith.map(c => `<span class="coord-badge" style="background:${practiceColor(c)};">${practiceName(c)}</span>`).join(' ')}</div>`
+      : '';
     return `
-      <div class="seller-task ${dim}">
+      <div class="seller-task ${cls}">
         <div class="task-num" style="background:${pcolor};">${i + 1}</div>
         <div>
           <div class="task-text"><span class="task-practice" style="background:${pcolor};">${practiceName(t.practice)}</span>${t.text}</div>
           <span class="task-owner">Owner: ${t.who}</span>
+          ${coordsHtml}
         </div>
       </div>`;
   }).join('');
+
+  // Active-filter summary line
+  const filterLabel = !filterActive ? 'all Practices' : ('filter: ' + filter.map(c => practiceName(c)).join(' + '));
+  const visibleCount = m.sellerTasks.filter(t => taskVisible(t) !== 'dim').length;
   const gateHtml = m.gate.map((g, i) => {
     const key = m.id + '.' + i;
     const checked = !!state.checks[key];
@@ -1604,12 +1646,15 @@ function renderActivePhase() {
     </div>
 
     <div class="practice-filter">
-      <h5>Filter action items by Practice &middot; <span style="font-weight:500;color:var(--text-secondary);text-transform:none;letter-spacing:0;">supports multiple seller teams working this milestone in parallel</span></h5>
+      <h5>Filter by Practice &middot; <span style="font-weight:500;color:var(--text-secondary);text-transform:none;letter-spacing:0;">click to add/remove · multiple Practices supported for parallel-seller views</span></h5>
       <div class="pf-chips">${filterChipsHtml}</div>
+      <h5 style="margin-top:10px;">Presets &middot; <span style="font-weight:500;color:var(--text-secondary);text-transform:none;letter-spacing:0;">common Practice combos for sector-aligned seller teams</span></h5>
+      <div class="pf-chips">${presetChipsHtml}</div>
     </div>
 
     <div style="background:var(--white); border-left:4px solid var(--accent-navy); border-radius:4px; padding:12px 16px; margin-bottom:14px;">
-      <h4 style="font-size:10px; text-transform:uppercase; letter-spacing:1px; color:var(--accent-navy); font-weight:800; margin-bottom:8px;">Action items <span style="color:var(--text-secondary); font-weight:600; letter-spacing:0; text-transform:none;">&middot; ${filter === 'ALL' ? 'all Practices' : practiceName(filter) + ' team + cross-Practice'} &middot; ${filter === 'ALL' ? practiceCounts.ALL : (practiceCounts[filter] + (filter !== 'CROSS' ? practiceCounts.CROSS : 0))} of ${practiceCounts.ALL}</span></h4>
+      <h4 style="font-size:10px; text-transform:uppercase; letter-spacing:1px; color:var(--accent-navy); font-weight:800; margin-bottom:8px;">Action items <span style="color:var(--text-secondary); font-weight:600; letter-spacing:0; text-transform:none;">&middot; ${filterLabel} &middot; ${visibleCount} of ${practiceCounts.ALL} visible</span></h4>
+      ${filterActive ? '<div class="filter-legend">Solid = your tasks · faded blue = coordination tasks owned by other Practices but touching yours · gray = unrelated to your filter</div>' : ''}
       ${tasksHtml}
     </div>
 
@@ -1623,12 +1668,19 @@ function renderActivePhase() {
     </div>
 
     <style>
-      .seller-task { display: grid; grid-template-columns: 24px 1fr; gap: 8px; padding: 6px 0; border-bottom: 1px dashed var(--border); align-items: start; transition: opacity 0.2s; }
+      .seller-task { display: grid; grid-template-columns: 24px 1fr; gap: 8px; padding: 8px 0; border-bottom: 1px dashed var(--border); align-items: start; transition: opacity 0.2s; }
       .seller-task:last-child { border-bottom: none; }
+      .seller-task.coord-only { background: rgba(111,182,229,0.07); border-radius: 4px; padding: 8px 10px; }
+      .seller-task.coord-only .task-text::after { content: ' · coordination dependency'; font-size: 9.5px; color: var(--ms-blue); font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; }
       .seller-task .task-num { color: white; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; font-family: 'Outfit', sans-serif; flex-shrink: 0; }
       .seller-task .task-text { font-size: 12px; line-height: 1.6; color: var(--text-primary); }
       .seller-task .task-text b { color: var(--accent-navy); }
+      .seller-task .task-text em { color: var(--ms-blue); font-style: italic; font-size: 11px; font-weight: 600; }
       .seller-task .task-owner { display: block; font-size: 9.5px; color: var(--text-secondary); margin-top: 2px; font-style: italic; }
+      .seller-task .task-coords { margin-top: 5px; display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+      .seller-task .coord-label { font-size: 9px; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; margin-right: 2px; }
+      .seller-task .coord-badge { display: inline-block; font-size: 8.5px; font-weight: 800; padding: 1px 6px; border-radius: 3px; color: white; letter-spacing: 0.4px; }
+      .filter-legend { font-size: 10px; color: var(--text-secondary); margin: 4px 0 10px; padding: 6px 10px; background: rgba(111,182,229,0.07); border-left: 3px solid var(--ms-blue); border-radius: 3px; }
     </style>
   `;
   document.getElementById('phase-body').innerHTML = html;
@@ -1661,8 +1713,26 @@ function setActivePhase(idx) {
   render();
 }
 
-function setPracticeFilter(code) {
-  state.practiceFilter = code;
+function togglePracticeFilter(code) {
+  if (!Array.isArray(state.practiceFilter)) state.practiceFilter = [];
+  if (code === 'ALL') {
+    state.practiceFilter = [];
+  } else {
+    const idx = state.practiceFilter.indexOf(code);
+    if (idx >= 0) state.practiceFilter.splice(idx, 1);
+    else state.practiceFilter.push(code);
+  }
+  saveState();
+  renderActivePhase();
+}
+
+function applyPreset(presetCode) {
+  const preset = PRACTICE_PRESETS.find(p => p.code === presetCode);
+  if (!preset) return;
+  // Toggle: if already exactly the preset, clear it
+  const cur = Array.isArray(state.practiceFilter) ? state.practiceFilter : [];
+  const same = preset.codes.length === cur.length && preset.codes.every(c => cur.includes(c));
+  state.practiceFilter = same ? [] : preset.codes.slice();
   saveState();
   renderActivePhase();
 }
