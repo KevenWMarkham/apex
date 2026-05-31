@@ -1102,7 +1102,7 @@ function fmt(n, pad) { return String(Math.max(0, Math.floor(n))).padStart(pad, '
 
 function updateCountdown() {
   const games = getGamesDate();
-  const now = getToday();
+  const now = new Date();
   let delta = games.getTime() - now.getTime();
   if (delta < 0) {
     document.getElementById('cd-y').textContent = '00';
