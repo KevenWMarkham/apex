@@ -56,13 +56,18 @@ HOW TO USE IT
     --olympic-red: #DF0024;
     --lock-gray: #94A3B8;
 
-    /* Channel accents */
-    --c-home:       #E8A33D;
-    --c-travel:     #6FB6E5;
-    --c-retail:     #3DD9C4;
-    --c-mobility:   #9B7BE0;
-    --c-automobile: #E87B3C;
-    --c-cpg:        #D94B5A;
+    /* Channel accents — each maps to a DMTSP Practice */
+    --c-home:       #E8A33D;  /* TMT Practice — Default Telco */
+    --c-travel:     #6FB6E5;  /* TH Practice  — Travel & Hospitality */
+    --c-retail:     #3DD9C4;  /* RC Practice  — Retail anchor */
+    --c-mobility:   #9B7BE0;  /* AXLE Practice — Mobility (OEM) */
+    --c-automobile: #E87B3C;  /* AXLE Practice — Auto lifecycle */
+    --c-cpg:        #D94B5A;  /* RC Practice  — CPG / Beverage */
+    --c-energy:     #5B8C3E;  /* ER Practice  — Energy & utilities */
+    --c-health:     #4A90D9;  /* HLS Practice — Health & pharmacy */
+    --c-industrial: #8C6D32;  /* ICE Practice — Industrial / venue */
+    --c-finance:    #1E5AA8;  /* FSI Practice — Finance / banking */
+    --c-public:     #2C3E78;  /* GPS Practice — Public sector / Games ops */
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { background: var(--bg-light); color: var(--text-primary); font-family: 'DM Sans', sans-serif; line-height: 1.55; }
@@ -139,7 +144,13 @@ HOW TO USE IT
   .pt-section h2 { font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 700; color: var(--accent-navy); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid var(--olympic-gold); display: flex; align-items: center; gap: 8px; }
 
   /* ============================================== ORG HIERARCHY ============================================== */
-  .h-tree { width: 100%; height: 580px; }
+  .h-tree { width: 100%; height: 760px; }
+  .practice-strip { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin: 12px 0 4px; padding: 10px; background: linear-gradient(135deg, #F7F9FA, #FFFFFF); border: 1px solid var(--border); border-radius: 8px; }
+  @media (max-width: 900px) { .practice-strip { grid-template-columns: repeat(3, 1fr); } }
+  .practice-chip { text-align: center; font-size: 9px; font-weight: 700; padding: 5px 4px; border-radius: 4px; color: white; letter-spacing: 0.4px; cursor: default; transition: transform 0.1s; }
+  .practice-chip:hover { transform: translateY(-1px); }
+  .practice-chip .pc-name { display: block; font-size: 10px; font-weight: 800; letter-spacing: 0.6px; }
+  .practice-chip .pc-channels { display: block; font-size: 8.5px; opacity: 0.85; font-weight: 500; margin-top: 1px; }
   .h-node { position: relative; cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease; user-select: none; }
   .h-node:hover { transform: translateY(-2px); }
   .h-card { background: var(--white); border: 2px solid var(--border); border-radius: 10px; padding: 9px 11px; text-align: center; position: relative; transition: all 0.15s ease; height: 100%; }
@@ -168,6 +179,16 @@ HOW TO USE IT
   .h-card.platform .h-tag { background: var(--ms-blue); color: white; }
   .h-card.delivery { background: linear-gradient(135deg, #ECFAE0, #FFFFFF); border-color: var(--deloitte-green); }
   .h-card.delivery .h-tag { background: var(--deloitte-green); color: var(--deloitte-dark); }
+  .h-card.energy { background: linear-gradient(135deg, #E8F1DE, #FFFFFF); border-color: var(--c-energy); }
+  .h-card.energy .h-tag { background: var(--c-energy); color: white; }
+  .h-card.health { background: linear-gradient(135deg, #E0EDFA, #FFFFFF); border-color: var(--c-health); }
+  .h-card.health .h-tag { background: var(--c-health); color: white; }
+  .h-card.industrial { background: linear-gradient(135deg, #F0E8D6, #FFFFFF); border-color: var(--c-industrial); }
+  .h-card.industrial .h-tag { background: var(--c-industrial); color: white; }
+  .h-card.finance { background: linear-gradient(135deg, #DDE6F4, #FFFFFF); border-color: var(--c-finance); }
+  .h-card.finance .h-tag { background: var(--c-finance); color: white; }
+  .h-card.public { background: linear-gradient(135deg, #DEE2EE, #FFFFFF); border-color: var(--c-public); }
+  .h-card.public .h-tag { background: var(--c-public); color: white; }
 
   .h-legend { display: flex; gap: 10px; font-size: 9.5px; margin-top: 10px; flex-wrap: wrap; color: var(--text-secondary); }
   .h-legend .dot { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: middle; margin-right: 4px; }
@@ -463,50 +484,117 @@ HOW TO USE IT
         </div>
       </foreignObject>
 
-      <!-- Media (NBCUniversal) — separate row beneath Travel -->
-      <foreignObject x="40" y="495" width="160" height="80">
+      <!-- Row 5: cross-Practice Channels — Media + Energy + Health + Industrial + Finance -->
+      <foreignObject x="5" y="495" width="135" height="90">
         <div xmlns="http://www.w3.org/1999/xhtml" class="h-node" onclick="openStakeholder('media')">
           <div class="h-card media">
-            <div class="h-role">Channel · Media</div>
-            <div class="h-name">NBCUniversal · Peacock</div>
-            <div class="h-title">US Olympics rights holder · streaming continuity</div>
-            <div class="h-tag">Media anchor</div>
+            <div class="h-role">TMT-MED · Media</div>
+            <div class="h-name">NBCUniversal</div>
+            <div class="h-title">Olympics rights · Peacock</div>
+            <div class="h-tag">Media · TMT</div>
+          </div>
+        </div>
+      </foreignObject>
+      <foreignObject x="145" y="495" width="135" height="90">
+        <div xmlns="http://www.w3.org/1999/xhtml" class="h-node" onclick="openStakeholder('energy')">
+          <div class="h-card energy">
+            <div class="h-role">ER · Energy</div>
+            <div class="h-name">PG&amp;E · SCE · Tesla Energy</div>
+            <div class="h-title">LA28 venue power · EV charge surge</div>
+            <div class="h-tag">Energy · ER</div>
+          </div>
+        </div>
+      </foreignObject>
+      <foreignObject x="285" y="495" width="135" height="90">
+        <div xmlns="http://www.w3.org/1999/xhtml" class="h-node" onclick="openStakeholder('health')">
+          <div class="h-card health">
+            <div class="h-role">HLS · Health</div>
+            <div class="h-name">Kaiser · CVS · UnitedHealth</div>
+            <div class="h-title">Athlete + spectator + traveler care</div>
+            <div class="h-tag">Health · HLS</div>
+          </div>
+        </div>
+      </foreignObject>
+      <foreignObject x="425" y="495" width="135" height="90">
+        <div xmlns="http://www.w3.org/1999/xhtml" class="h-node" onclick="openStakeholder('industrial')">
+          <div class="h-card industrial">
+            <div class="h-role">ICE · Industrial</div>
+            <div class="h-name">AECOM · Honeywell · Siemens</div>
+            <div class="h-title">Venue infra · equipment · transit</div>
+            <div class="h-tag">Industrial · ICE</div>
+          </div>
+        </div>
+      </foreignObject>
+      <foreignObject x="565" y="495" width="135" height="90">
+        <div xmlns="http://www.w3.org/1999/xhtml" class="h-node" onclick="openStakeholder('finance')">
+          <div class="h-card finance">
+            <div class="h-role">FSI · Finance</div>
+            <div class="h-name">JPMC · Visa · Mastercard · Plaid</div>
+            <div class="h-title">FX · fraud · sponsorship · ticketing</div>
+            <div class="h-tag">Finance · FSI</div>
           </div>
         </div>
       </foreignObject>
 
-      <foreignObject x="240" y="495" width="180" height="80">
+      <!-- Row 6: cross-cutting — Public Sector + Trust/Standards + Outcome payers -->
+      <foreignObject x="40" y="615" width="190" height="90">
+        <div xmlns="http://www.w3.org/1999/xhtml" class="h-node" onclick="openStakeholder('public')">
+          <div class="h-card public">
+            <div class="h-role">GPS · Public Sector</div>
+            <div class="h-name">LA City · CA State · Federal · LAPD · DHS</div>
+            <div class="h-title">Games ops · safety · transit · permits</div>
+            <div class="h-tag">Public · GPS</div>
+          </div>
+        </div>
+      </foreignObject>
+      <foreignObject x="250" y="615" width="200" height="90">
         <div xmlns="http://www.w3.org/1999/xhtml" class="h-node" onclick="openStakeholder('vault-trust')">
           <div class="h-card sponsor">
-            <div class="h-role">Trust + Standards</div>
-            <div class="h-name">CSA Matter · Trinsic · Skyflow</div>
-            <div class="h-tag">Independence</div>
+            <div class="h-role">Risk Advisory · Trust + Standards</div>
+            <div class="h-name">CSA Matter · Trinsic · Skyflow · OneTrust</div>
+            <div class="h-title">Privacy · consent ledger · Independence</div>
+            <div class="h-tag">Risk · Independence</div>
           </div>
         </div>
       </foreignObject>
-
-      <foreignObject x="460" y="495" width="180" height="80">
+      <foreignObject x="470" y="615" width="220" height="90">
         <div xmlns="http://www.w3.org/1999/xhtml" class="h-node" onclick="openStakeholder('payer')">
-          <div class="h-card sponsor">
-            <div class="h-role">Outcome Sponsor</div>
-            <div class="h-name">UnitedHealth · Humana · CVS</div>
-            <div class="h-tag">Eldercare PMPM</div>
+          <div class="h-card health">
+            <div class="h-role">HLS · MA Payer Outcome Sponsor</div>
+            <div class="h-name">UnitedHealth · Humana · CVS Aetna</div>
+            <div class="h-title">D-archetype PMPM · eldercare outcome</div>
+            <div class="h-tag">Outcome · HLS</div>
           </div>
         </div>
       </foreignObject>
     </svg>
 
+    <div class="practice-strip" title="DMTSP Practice coverage across the marketplace at LA28">
+      <div class="practice-chip" style="background:var(--c-home);color:var(--deloitte-dark);"><span class="pc-name">TMT</span><span class="pc-channels">Home · Travel · Media</span></div>
+      <div class="practice-chip" style="background:var(--c-retail);color:var(--deloitte-dark);"><span class="pc-name">RC</span><span class="pc-channels">Retail · CPG</span></div>
+      <div class="practice-chip" style="background:var(--c-mobility);"><span class="pc-name">AXLE</span><span class="pc-channels">Mobility · Auto</span></div>
+      <div class="practice-chip" style="background:var(--c-energy);"><span class="pc-name">ER</span><span class="pc-channels">Energy · utilities</span></div>
+      <div class="practice-chip" style="background:var(--c-health);"><span class="pc-name">HLS</span><span class="pc-channels">Health · pharma · payer</span></div>
+      <div class="practice-chip" style="background:var(--c-industrial);"><span class="pc-name">ICE</span><span class="pc-channels">Industrial · venue · transit</span></div>
+      <div class="practice-chip" style="background:var(--c-finance);"><span class="pc-name">FSI / GPS</span><span class="pc-channels">Finance · Public Sector · Risk</span></div>
+    </div>
+
     <div class="h-legend">
       <span><span class="dot" style="background:var(--olympic-gold)"></span>Games sponsor</span>
-      <span><span class="dot" style="background:var(--c-home)"></span>Telco anchor</span>
-      <span><span class="dot" style="background:var(--c-travel)"></span>Travel</span>
-      <span><span class="dot" style="background:var(--c-retail)"></span>Retail</span>
-      <span><span class="dot" style="background:var(--c-mobility)"></span>Mobility</span>
-      <span><span class="dot" style="background:var(--c-automobile)"></span>Auto</span>
-      <span><span class="dot" style="background:var(--c-cpg)"></span>CPG</span>
-      <span><span class="dot" style="background:var(--olympic-red)"></span>Media</span>
-      <span><span class="dot" style="background:var(--ms-blue)"></span>Platform</span>
-      <span><span class="dot" style="background:var(--deloitte-green)"></span>Delivery</span>
+      <span><span class="dot" style="background:var(--c-home)"></span>TMT · Telco/Home</span>
+      <span><span class="dot" style="background:var(--c-travel)"></span>TMT · Travel</span>
+      <span><span class="dot" style="background:var(--c-retail)"></span>RC · Retail</span>
+      <span><span class="dot" style="background:var(--c-cpg)"></span>RC · CPG</span>
+      <span><span class="dot" style="background:var(--c-mobility)"></span>AXLE · Mobility</span>
+      <span><span class="dot" style="background:var(--c-automobile)"></span>AXLE · Auto</span>
+      <span><span class="dot" style="background:var(--olympic-red)"></span>TMT · Media</span>
+      <span><span class="dot" style="background:var(--c-energy)"></span>ER · Energy</span>
+      <span><span class="dot" style="background:var(--c-health)"></span>HLS · Health</span>
+      <span><span class="dot" style="background:var(--c-industrial)"></span>ICE · Industrial</span>
+      <span><span class="dot" style="background:var(--c-finance)"></span>FSI · Finance</span>
+      <span><span class="dot" style="background:var(--c-public)"></span>GPS · Public Sector</span>
+      <span><span class="dot" style="background:var(--ms-blue)"></span>Microsoft Platform</span>
+      <span><span class="dot" style="background:var(--deloitte-green)"></span>Deloitte Delivery</span>
     </div>
   </div>
 
@@ -934,10 +1022,10 @@ const STAKEHOLDERS = {
     phase: 'Engaged throughout build. Heaviest engagement M1 (rights conversation) and M6-M7 (venue + transit integration + Games-window ops).',
   },
   telco: {
-    name: 'AT&T',
-    role: 'TELCO ANCHOR · P&L AUTHORIZER',
-    title: 'Default Telco · Wave-1 anchor · bill owner',
-    org: 'AT&T CCO + CTO + Head of Bundle Programs · owns customer relationship, billing infrastructure, and Default Home Channel deployment',
+    name: 'AT&T (W1 anchor) · T-Mobile · Verizon · Charter (W2 syndication)',
+    role: 'TMT PRACTICE · TELCO ANCHOR · P&L AUTHORIZER',
+    title: 'Default Telco · Wave-1 anchor · bill owner · multi-Telco syndication post-LA28',
+    org: 'AT&T CCO + CTO + Head of Bundle Programs (Wave-1) · T-Mobile / Verizon / Charter / Lumen / DIRECTV (Wave-2) · owns customer relationship, billing infrastructure, Default Home Channel deployment',
     mandate: 'Default Telco anchor for marketplace. Owns Home Channel build, customer-bill integration, vault + KMS infrastructure, and the customer-facing surface ("My Channels"). LA28 is the Wave-2 proof point that justifies the multi-year investment.',
     needs: '<ul><li><b>Multi-year amortization</b> of Wave-1 build cost across LA28 + Brisbane 2032 + intermediate events.</li><li><b>Brand-positioning protection</b> — Channel is Telco-led; partner brands surface in narrative, not the surface chrome that competes with AT&T branding.</li><li><b>Operational integration</b> — Channel Customer Care folds into existing AT&T Customer Care, not standalone.</li><li><b>Independence + Regulatory posture</b> — vault-first, customer-held KMS, FCC + state PUC reporting evidence.</li></ul>',
     pushback: '<i>"What\'s the ROI in the first year?"</i> Answer: Wave-1 ROI is connectivity-line churn protection (~$180M / 1% churn reduction on 50M-HH base). Olympics scenarios are the Wave-2 marketing wedge, not the W1 P&L justification.<br><br><i>"What if a Channel partner fails publicly during the Games?"</i> Answer: Channel-by-Channel HITL + escalation matrix isolates partner-side failures from AT&T brand. Risk allocation explicit in partner MOU.',
@@ -1041,21 +1129,86 @@ const STAKEHOLDERS = {
     recruiter: 'Account SE runs New Orleans workshop in M4.',
     phase: 'M4 sign · M6 CA compliance live · M7 host-city wedge event during Games window.',
   },
+  energy: {
+    name: 'PG&E · SCE · Tesla Energy',
+    role: 'ER PRACTICE · ENERGY CHANNEL',
+    title: 'Pacific Gas &amp; Electric · Southern California Edison · Tesla Energy · LADWP',
+    org: 'Energy &amp; Resources Practice anchor · LA28 venue power · EV-charge surge management · utility partner integration',
+    mandate: 'Power the Games. LA28 venue load + spectator-EV charging surge + grid stability during 16-day window. Channel orchestrates household-level demand response so AT&T-Channel households contribute capacity back to the LA grid during peak Olympic windows.',
+    needs: '<ul><li><b>Demand-response aggregation</b> — Channel-enrolled households as virtual capacity for SCE/LADWP during peak Olympic load periods.</li><li><b>EV-charging surge orchestration</b> — Tesla Supercharger + ChargePoint + EVgo + Electrify America roaming routed to lowest-grid-stress stations.</li><li><b>Venue-power integration</b> — LA28 venue energy data ingested into Channel for athlete + spectator + ops coordination.</li><li><b>Public sustainability narrative</b> — household-level kWh saved during Games window aggregated into the LA28 + AT&T sustainability story.</li></ul>',
+    pushback: '<i>"How does demand-response work without disrupting customer households?"</i> Answer: opt-in only; HOM-02 energy agent applies setback within customer-defined comfort band; shed-events compensated via Telco bill credit + utility rebate.<br><br><i>"Tesla Energy isn\'t a utility — different regulatory regime."</i> Answer: behind-the-meter (Powerwall) vs in-front-of-meter (PG&E/SCE) treated separately; Channel routes per topology.',
+    ask: '<b>Closing ask:</b> "Can we sign the SCE + PG&E + Tesla Energy joint MOU for LA28-period demand-response aggregation and EV-charge surge routing?"',
+    recruiter: 'ER Practice lead + Deloitte VP. LADWP relationship critical for LA-specific venue integration.',
+    phase: 'Onboarded in M4; live by M6 for LA28-period operations. Continuous engagement through Games window M7.',
+  },
+
+  health: {
+    name: 'Kaiser · CVS Health · UnitedHealth · LA28 Medical',
+    role: 'HLS PRACTICE · HEALTH CHANNEL',
+    title: 'Kaiser Permanente (LA region) · CVS Health + Caremark + MinuteClinic · UnitedHealth Optum · LA28 Athlete Medical Services',
+    org: 'Health &amp; Life Sciences Practice anchor · spectator + traveler + athlete care · pharmacy + telehealth + payer outcome',
+    mandate: 'Health Channel orchestrates: traveling-household pharmacy refills mid-trip, telehealth for travelers experiencing minor issues at the Games, MinuteClinic walk-in routing for spectators, prescription transfer mechanics for out-of-state visitors, and (separately) athlete medical operations coordination for LA28.',
+    needs: '<ul><li><b>Cross-state prescription transfer</b> — household pharmacy moves with traveler (Walmart Pharmacy → CVS LA pickup) without re-fax friction.</li><li><b>HIPAA-compliant PHI handling</b> at vault edge; tokenised rx-numbers; no raw PHI in Channel runtime.</li><li><b>MinuteClinic walk-in routing</b> for traveling families — kid sick at hotel → 15-min appointment auto-booked + insurance verified.</li><li><b>Eldercare-back-home D-SNP outcome share</b> (HOM-03 wedge) with MA payer.</li></ul>',
+    pushback: '<i>"Can prescription transfer happen safely cross-state?"</i> Answer: yes — pharmacist-to-pharmacist DEA-compliant transfer protocol; vault holds tokenised rx-reference; HIPAA BAA in place with every retail-pharmacy partner.<br><br><i>"How does this interact with athlete medical?"</i> Answer: athlete medical is LA28-owned; Channel is spectator + traveler scope only. Clear boundary documented.',
+    ask: '<b>Closing ask:</b> "Can we sign the Kaiser + CVS + UnitedHealth joint MOU for Games-period traveler health orchestration + LA28 spectator MinuteClinic routing?"',
+    recruiter: 'HLS Practice lead + Deloitte VP. Kaiser is the regional anchor; CVS provides Walmart-Pharmacy national coverage; UnitedHealth provides outcome-share infrastructure.',
+    phase: 'Onboarded in M3-M4; HIPAA BAA closed by M5; live by M6 for LA28-period traveler scenarios.',
+  },
+
+  industrial: {
+    name: 'AECOM · Honeywell · Siemens · Caterpillar',
+    role: 'ICE PRACTICE · INDUSTRIAL CHANNEL',
+    title: 'AECOM (LA28 venue construction) · Honeywell (building management) · Siemens (transit infrastructure) · Caterpillar (equipment uptime)',
+    org: 'Industrial, Construction, Equipment Practice anchor · venue operations + transit + equipment uptime + spectator throughput',
+    mandate: 'Industrial Channel orchestrates: venue building-management telemetry (HVAC, lighting, water at 30+ venues), transit-system integration (Metro K Line, Olympic shuttles, parking lots), equipment uptime for ops-critical machinery, and spectator-throughput metrics for venue capacity decisions.',
+    needs: '<ul><li><b>Venue BMS integration</b> — Honeywell + Siemens building-management systems at 30+ LA28 venues feed into a unified ops dashboard.</li><li><b>Transit-system real-time data</b> — Metro + shuttle + parking utilization streams into Travel Channel mobility routing.</li><li><b>Equipment uptime predictive maintenance</b> — Caterpillar + Siemens equipment telemetry triggers preventive ops actions before failures impact Games operations.</li><li><b>Spectator-throughput analytics</b> — venue capacity decisions informed by real-time crowd data.</li></ul>',
+    pushback: '<i>"This sounds like an enterprise platform play, not a household Channel."</i> Answer: correct on the enterprise-side data; consumer-side benefit is mobility-routing accuracy (Metro K Line live data feeding HOM-15 Ground Mobility), venue-arrival-time predictions, and parking availability surfacing to traveling families.<br><br><i>"AECOM/Honeywell/Siemens have existing contracts with LA28 — what\'s new?"</i> Answer: not displacing — composing the consumer-orchestration layer on top of their venue ops data.',
+    ask: '<b>Closing ask:</b> "Can we sign the Industrial Channel MOU with AECOM + Honeywell + Siemens for venue + transit data integration into the consumer marketplace?"',
+    recruiter: 'ICE Practice lead + Deloitte VP. AECOM is LA28-aligned through venue-construction lifecycle; Honeywell + Siemens hold the BMS install base.',
+    phase: 'Onboarded in M4-M5; venue data integration completes by M6 (LA28 venue readiness gate).',
+  },
+
+  finance: {
+    name: 'JPMorgan Chase · Visa · Mastercard · Plaid',
+    role: 'FSI PRACTICE · FINANCE CHANNEL',
+    title: 'JPMorgan Chase (Sapphire travel + retail banking) · Visa + Mastercard (rails) · Plaid + Stripe (integration)',
+    org: 'Financial Services Practice anchor · cross-currency travel · fraud prevention · sponsorship + ticketing payments · household budgeting',
+    mandate: 'Finance Channel orchestrates: cross-currency travel banking (FX rates, ATM routing abroad), fraud prevention during Games window (purchase-anomaly detection scoped to known travel patterns), sponsorship + ticketing payment flows, household budget orchestration (split AT&T bill + travel + Olympic spending across cards).',
+    needs: '<ul><li><b>Travel-mode card-routing</b> — Channel coordinates with Chase Sapphire / Amex Platinum to suspend false-positive fraud flags during legitimate Games-period spending.</li><li><b>Cross-currency wallet</b> — for international visitors using LA28 ride-along Channels.</li><li><b>Sponsorship + ticketing payment rails</b> — Visa is IOC TOP sponsor; integration honors that relationship.</li><li><b>Household budget surface</b> — pre-trip budget + in-trip spend tracking + post-trip reconciliation surfaced in Telco bill.</li><li><b>PCI + GLBA compliance</b> at vault edge; tokenised account references; no raw PAN in Channel runtime.</li></ul>',
+    pushback: '<i>"Why would Chase want to participate vs operating Sapphire concierge directly?"</i> Answer: Sapphire concierge is single-card; Channel handles cross-card households (Chase + Amex + Capital One) and cross-Telco distribution. Chase gains share via better in-trip-fraud reduction + lower CAC on Sapphire enrolments.<br><br><i>"Visa TOP sponsorship — conflict?"</i> Answer: Channel doesn\'t compete with Visa\'s payment rails; uses them. TOP language coordinated.',
+    ask: '<b>Closing ask:</b> "Can we sign the Chase + Visa + Mastercard + Plaid joint MOU for Games-period travel-mode payment orchestration?"',
+    recruiter: 'FSI Practice lead + Deloitte VP. Visa relationship managed alongside LA28 TOP-sponsor coordination.',
+    phase: 'Onboarded in M3 alongside Travel Channel; PCI compliance closed M5; live M6.',
+  },
+
+  public: {
+    name: 'LA City · CA State · Federal · LAPD · DHS',
+    role: 'GPS PRACTICE · PUBLIC SECTOR CHANNEL',
+    title: 'LA28 Local Organizing Committee · LA City · State of California · Federal coordination · LAPD · DHS · TSA · State Department',
+    org: 'Government &amp; Public Services Practice anchor · Games ops coordination · safety + permits + transit + emergency services',
+    mandate: 'Public Sector Channel orchestrates: federal-state-city coordination layer that traveling-household Channel intents must respect (street closures, transit re-routes, security perimeters), emergency-services routing during Games window, and the LA28-Federal-State coordination spine for Olympic-period ops.',
+    needs: '<ul><li><b>Real-time street + transit data</b> — Channel mobility routing respects venue lockdowns, security perimeters, ceremonial-route closures.</li><li><b>Emergency services routing</b> — HOM-03 eldercare + HOM-06 wellness escalations route to appropriate LA-area providers; ambulance + EMS coordination tested.</li><li><b>Federal coordination (TSA · DHS · State Dept)</b> — international-visitor entry data informs Travel Channel pre-arrival prep.</li><li><b>FOIA + public-records discipline</b> — Channel-side data interacting with public-sector data has appropriate handling.</li></ul>',
+    pushback: '<i>"Sounds like a federal procurement"</i> Answer: not procurement — data-exchange MOU for Games-period only; Channel-side compute stays Telco-side; public-sector signals consumed read-only.<br><br><i>"What about international Channel users entering the US?"</i> Answer: Travel Channel pre-arrival prep includes TSA Pre + Global Entry + visa-status reference (tokenised, never raw).',
+    ask: '<b>Closing ask:</b> "Can we open the joint LA28 LOC + LA City + State + Federal coordination workshop to establish data-exchange MOU for Games-period Channel operations?"',
+    recruiter: 'GPS Practice lead + Deloitte VP + AT&T Public Sector account team. LA City Mayor\'s office is the entry point for venue/transit coordination.',
+    phase: 'Workshop opens M2; MOU framework drafted M3-M4; data-exchange live M5-M6 for Games-window operations.',
+  },
+
   'vault-trust': {
-    name: 'CSA Matter · Trinsic · Skyflow',
-    role: 'TRUST + STANDARDS',
-    title: 'Standards bodies + identity providers + tokenization platforms',
-    org: 'CSA (Matter standard) · Trinsic (verifiable credentials) · Skyflow (PII tokenization vault) · OneTrust + Privacera (privacy)',
-    mandate: 'Open standards layer. Matter device interop. Verifiable credentials for identity. PII tokenization for cross-Channel handling. Privacy + consent ledger compliance.',
-    needs: '<ul><li><b>Open Matter integration</b> for in-home device coverage at launch.</li><li><b>Verifiable-credential trust framework</b> for age-verification + travel-document tokenization.</li><li><b>Tokenization at vault edge</b> to prevent raw-PII flowing into Channel agents.</li></ul>',
-    pushback: '<i>"Standards-body partnerships are slow."</i> Answer: CSA membership in place from foundation; Trinsic + Skyflow are commercial contracts with fast onboarding.',
-    ask: '<b>Closing ask:</b> "Can we confirm CSA Matter + Trinsic + Skyflow partnership posture by M2 (vault production)?"',
-    recruiter: 'Account SE engages standards leads + commercial procurement.',
-    phase: 'M2 commercial close · M3+ continuous operation.',
+    name: 'CSA Matter · Trinsic · Skyflow · OneTrust',
+    role: 'RISK ADVISORY · TRUST + STANDARDS',
+    title: 'Standards bodies + identity providers + tokenization platforms · Deloitte Risk Advisory Practice-aligned',
+    org: 'CSA (Matter standard) · Trinsic (verifiable credentials) · Skyflow (PII tokenization vault) · OneTrust + Privacera (privacy) — Risk Advisory + DMTSP collaboration',
+    mandate: 'Open standards layer. Matter device interop. Verifiable credentials for identity. PII tokenization for cross-Channel handling. Privacy + consent ledger compliance. Independence + regulatory posture across all Channels.',
+    needs: '<ul><li><b>Open Matter integration</b> for in-home device coverage at launch.</li><li><b>Verifiable-credential trust framework</b> for age-verification + travel-document tokenization.</li><li><b>Tokenization at vault edge</b> to prevent raw-PII flowing into Channel agents.</li><li><b>Cross-Channel Independence posture</b> — Risk Advisory pre-clear for every anchor-partner SOW.</li></ul>',
+    pushback: '<i>"Standards-body partnerships are slow."</i> Answer: CSA membership in place from foundation; Trinsic + Skyflow are commercial contracts with fast onboarding; Risk Advisory pre-clear runs in parallel with each anchor SOW.',
+    ask: '<b>Closing ask:</b> "Can we confirm CSA Matter + Trinsic + Skyflow partnership posture and Risk Advisory pre-clear cadence by M2 (vault production)?"',
+    recruiter: 'Account SE engages standards leads + commercial procurement + Deloitte Risk Advisory.',
+    phase: 'M2 commercial close · continuous operation across all Channels.',
   },
   payer: {
     name: 'UnitedHealth · Humana · CVS Aetna',
-    role: 'OUTCOME SPONSOR · ELDERCARE PMPM',
+    role: 'HLS PRACTICE · MA PAYER · OUTCOME SPONSOR',
     title: 'Medicare Advantage payers · D-archetype outcome partners',
     org: 'Top-3 MA payers · payer-direct + Optum (UNH) · 6+ month sales cycle for PMPM contract',
     mandate: 'Outcome-share for HOM-03 eldercare. PMPM payment for fall-risk reduction in D-SNP cohorts. The wedge that turns the consumer subscription into a payer-sponsored offer.',
