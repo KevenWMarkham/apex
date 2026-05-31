@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>APEX · Agentic Telco at the Olympics — One-Pager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-0: #07090F;
+  --bg-1: #0C1119;
+  --bg-2: #141B27;
+  --line: rgba(255,255,255,0.10);
+  --line-strong: rgba(255,255,255,0.18);
+  --ink-0: #F4EFE5;
+  --ink-1: #D9D2C3;
+  --ink-2: #9A9383;
+  --ink-3: #6B6757;
+
+  --amber: #E8A33D;
+  --teal: #3DD9C4;
+  --crimson: #D94B5A;
+  --gold: #C89D3A;
+  --ember: #E87B3C;
+  --violet: #9B7BE0;
+  --sky: #6FB6E5;
+  --olympic-gold: #FFD700;
+
+  --c-home:       #E8A33D;
+  --c-travel:     #6FB6E5;
+  --c-retail:     #3DD9C4;
+  --c-mobility:   #9B7BE0;
+  --c-automobile: #E87B3C;
+  --c-cpg:        #D94B5A;
+  --c-media:      #F4EFE5;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--bg-0);
+  color: var(--ink-0);
+  font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  font-size: 11.5px;
+  line-height: 1.4;
+}
+
+.page {
+  width: 1100px;
+  min-height: 1700px;
+  margin: 0 auto;
+  padding: 36px 44px;
+  position: relative;
+  background:
+    radial-gradient(800px 400px at 100% 0%, rgba(255,215,0,0.05), transparent 60%),
+    radial-gradient(600px 400px at 0% 100%, rgba(61,217,196,0.04), transparent 60%),
+    var(--bg-0);
+}
+
+@media print {
+  body { background: var(--bg-0); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .page { width: 100%; min-height: 100vh; padding: 24px 32px; }
+  @page { size: tabloid landscape; margin: 0; }
+}
+
+/* HERO */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  gap: 32px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--line-strong);
+  margin-bottom: 24px;
+}
+.eyebrow {
+  display: inline-block;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9.5px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--olympic-gold);
+  border: 1px solid var(--line-strong);
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+}
+h1 {
+  font-family: "Fraunces", serif;
+  font-weight: 500;
+  font-size: 42px;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0 0 10px;
+  color: var(--ink-0);
+}
+h1 em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--olympic-gold);
+}
+.subhead {
+  font-size: 13.5px;
+  color: var(--ink-1);
+  margin: 0;
+  max-width: 720px;
+}
+.rings {
+  display: grid;
+  grid-template-columns: repeat(3, 24px);
+  grid-template-rows: repeat(2, 24px);
+  gap: 4px 12px;
+  align-items: center;
+}
+.ring {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 3px solid var(--accent);
+}
+.ring:nth-child(1) { --accent: #0085C7; }
+.ring:nth-child(2) { --accent: var(--ink-0); }
+.ring:nth-child(3) { --accent: #DF0024; }
+.ring:nth-child(4) { --accent: #F4C300; transform: translateX(18px); }
+.ring:nth-child(5) { --accent: #009F3D; transform: translateX(18px); }
+
+.meta-bar {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9.5px;
+  color: var(--ink-2);
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.meta-bar b { color: var(--ink-0); font-weight: 500; }
+
+/* SECTIONS */
+section { margin-bottom: 22px; }
+.sec-head {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9.5px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--olympic-gold);
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed var(--line);
+}
+h2 {
+  font-family: "Fraunces", serif;
+  font-weight: 500;
+  font-size: 21px;
+  margin: 0 0 8px;
+  color: var(--ink-0);
+  letter-spacing: -0.01em;
+}
+.lead {
+  font-size: 12px;
+  color: var(--ink-1);
+  margin: 0 0 12px;
+}
+
+/* SCENARIO STAGE */
+.scenario-stage {
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 18px 22px;
+  margin-top: 10px;
+}
+.scenario-stage .stage-row {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 14px;
+  padding: 8px 0;
+  border-bottom: 1px dotted var(--line);
+  font-size: 11.5px;
+}
+.scenario-stage .stage-row:last-child { border-bottom: none; }
+.stage-row .when {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  color: var(--olympic-gold);
+  letter-spacing: .08em;
+}
+.stage-row .what { color: var(--ink-1); }
+.stage-row .what b { color: var(--ink-0); }
+.stage-row .what .ch {
+  display: inline-block;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9px;
+  letter-spacing: .08em;
+  padding: 1px 6px;
+  border-radius: 3px;
+  margin-left: 4px;
+  border: 1px solid var(--c);
+  color: var(--c);
+}
+
+/* CHANNEL ACTIVATION GRID */
+.activation {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  margin-top: 10px;
+}
+.act-channel {
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--accent);
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+.act-channel .ch-label {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9px;
+  letter-spacing: .12em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.act-channel h4 {
+  font-family: "Fraunces", serif;
+  font-size: 13px;
+  font-weight: 500;
+  margin: 0 0 6px;
+  color: var(--ink-0);
+}
+.act-channel .acts {
+  font-size: 10.5px;
+  color: var(--ink-1);
+  line-height: 1.45;
+}
+.act-channel .anchors {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 8.5px;
+  color: var(--ink-2);
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px dotted var(--line);
+  letter-spacing: .04em;
+}
+
+/* WEDGES */
+.wedges {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+}
+.wedge {
+  background: var(--bg-1);
+  border-left: 4px solid var(--accent);
+  border-radius: 4px;
+  padding: 12px 14px;
+}
+.wedge .w-tag {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9px;
+  letter-spacing: .12em;
+  color: var(--accent);
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+.wedge h4 {
+  font-family: "Fraunces", serif;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0 0 6px;
+  color: var(--ink-0);
+}
+.wedge p {
+  margin: 0;
+  font-size: 11px;
+  color: var(--ink-1);
+  line-height: 1.5;
+}
+
+/* KPI STRIP */
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+}
+.kpi {
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 14px;
+  text-align: center;
+}
+.kpi .kval {
+  font-family: "Fraunces", serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--olympic-gold);
+  line-height: 1;
+  margin-bottom: 6px;
+  letter-spacing: -0.02em;
+}
+.kpi .klabel {
+  font-size: 10px;
+  color: var(--ink-2);
+  line-height: 1.4;
+}
+
+/* PARTNER BAR */
+.partners {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-top: 10px;
+}
+.partner-cell {
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 8px 10px;
+  font-size: 10.5px;
+  text-align: center;
+}
+.partner-cell .pname { color: var(--ink-0); font-weight: 600; margin-bottom: 3px; }
+.partner-cell .prole {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 8.5px;
+  color: var(--accent);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+/* TWO-COL LAYOUT */
+.two-col {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 18px;
+  margin-top: 10px;
+}
+.box {
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 14px 16px;
+}
+.box h4 {
+  font-family: "Fraunces", serif;
+  font-size: 14px;
+  margin: 0 0 8px;
+  color: var(--olympic-gold);
+  font-weight: 500;
+}
+.box ul {
+  margin: 0;
+  padding-left: 16px;
+  font-size: 11px;
+  color: var(--ink-1);
+  line-height: 1.55;
+}
+.box ul li { margin-bottom: 4px; }
+.box ul li b { color: var(--ink-0); }
+
+/* FOOTER */
+footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line-strong);
+  margin-top: 16px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9px;
+  color: var(--ink-3);
+  letter-spacing: .08em;
+}
+footer .center { text-align: center; }
+footer .right { text-align: right; }
+footer b { color: var(--ink-1); }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div>
+      <div class="eyebrow">APEX · Agentic Telco · Reference Scenario · One-Pager</div>
+      <h1>The household at the <em>Olympics</em>, orchestrated end-to-end.</h1>
+      <p class="subhead">
+        Sixteen days. Six time zones. Five Channels firing simultaneously. The same Default Telco
+        Home Channel that runs the household at home extends — without a new app, a new login, or
+        a new vault — across flights, hotels, event tickets, dining, ground mobility, eldercare
+        back home, and the commemorative bottle of Buffalo Trace single-cask released for the host
+        city. One bill. One orchestrator. Every plug-in partner active.
+      </p>
+      <div class="meta-bar">
+        <div><b>Scenario</b> · Family-of-4 attending Olympic Games</div>
+        <div><b>Duration</b> · 16 days · 2 time-zones away</div>
+        <div><b>Channels active</b> · 6 of 6</div>
+        <div><b>Partner brands engaged</b> · 24+</div>
+        <div><b>Telco bill line items</b> · single invoice</div>
+      </div>
+    </div>
+    <div class="rings" aria-label="Olympic rings">
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+    </div>
+  </div>
+
+  <!-- THE SCENARIO -->
+  <section>
+    <div class="sec-head">§ 1 · The Olympics scenario · what the household actually experiences</div>
+    <h2>One trip. One vault. Every Channel awake.</h2>
+    <p class="lead">A four-person household — two parents, two teenagers, plus one elderly parent staying behind in the family home — travels to the Games. The household is on the marketplace's Family bundle + Travel Premium + Walmart Channel + Toyota Mobility + AutoNation Automobile + Sazerac CPG add-ons. The Home Orchestrator (HOM-99) is the single entry-point for every intent.</p>
+
+    <div class="scenario-stage">
+      <div class="stage-row" style="--c: var(--c-travel)">
+        <div class="when">T-30d</div>
+        <div class="what"><b>Discovery + booking.</b> Family decides on Games attendance. Travel Channel routes itinerary across <b>American Airlines + Expedia + Marriott Bonvoy + Airbnb</b>. Multi-leg trip drafted, side-trip to a partner venue added, all bookings land in the same vault. <span class="ch">HOM-13</span><span class="ch">HOM-12</span><span class="ch">HOM-14</span></div>
+      </div>
+      <div class="stage-row" style="--c: var(--c-home)">
+        <div class="when">T-14d</div>
+        <div class="what"><b>Departing posture.</b> Home Channel agents stage vacation posture. Grocery (<b>HOM-01</b>) schedules pause + fresh-restock for return day. Energy (<b>HOM-02</b>) sets vacation setback + pre-cool window. Eldercare (<b>HOM-03</b>) confirms back-home coverage plan for grandparent staying behind. Security (<b>HOM-05</b>) stages vacation arming + neighbor temp-code. Vehicle (<b>HOM-07</b>) pre-charges EV to 90%. <span class="ch">HOM-01..08</span></div>
+      </div>
+      <div class="stage-row" style="--c: var(--c-automobile)">
+        <div class="when">T-10d</div>
+        <div class="what"><b>Insurance + financing prep.</b> Automobile Channel runs UBI-aware international auto-insurance rider via <b>Progressive Snapshot</b>; coordinates with <b>AutoNation</b> for at-home vehicle storage during trip. <span class="ch">AUT-04</span></div>
+      </div>
+      <div class="stage-row" style="--c: var(--c-cpg)">
+        <div class="when">T-7d</div>
+        <div class="what"><b>Allocation alert pre-trip.</b> <b>Sazerac</b> announces a host-city commemorative single-cask release at a licensed retailer in the destination. Allocation Channel reserves a 1-bottle hold for in-trip pickup with age-verified document tokens in vault. <span class="ch">BEV-02</span></div>
+      </div>
+      <div class="stage-row" style="--c: var(--c-travel)">
+        <div class="when">Day 1 · wheels-up</div>
+        <div class="what"><b>Trip-mode active.</b> AA flight detects 2-hour delay; Flight Concierge (<b>HOM-11</b>) re-routes one parent via Delta connection to land in time for opening-ceremony tickets. Marriott Bonvoy mobile-key auto-delivers to family devices via the vault. <span class="ch">HOM-11</span><span class="ch">HOM-12</span></div>
+      </div>
+      <div class="stage-row" style="--c: var(--c-mobility)">
+        <div class="when">Day 1 · on-location</div>
+        <div class="what"><b>Ground mobility.</b> Airport → hotel coordinated via <b>Uber</b> partnership. International EV-rental via <b>Hertz</b> for venue-to-venue travel; <b>ChargePoint</b> roaming network surfaces lowest-cost charging within Games corridor. <span class="ch">HOM-15</span></div>
+      </div>
+      <div class="stage-row" style="--c: var(--c-home)">
+        <div class="when">Day 3 · back home</div>
+        <div class="what"><b>Eldercare deviation alert.</b> Grandparent's ADL deviation score hits 2.1. Home Eldercare (<b>HOM-03</b>) escalates to designated in-state family contact (sister three towns over) <b>without</b> triggering a vacation-ruining alarm to the travelers — quiet "back-home status" channel surfaces it for awareness only. <span class="ch">HOM-03</span></div>
+      </div>
+      <div class="stage-row" style="--c: var(--c-retail)">
+        <div class="when">Day 5 · daily</div>
+        <div class="what"><b>Retail in the host city.</b> Walmart Channel adapts to local retailers (<b>Walmart international, regional grocers</b>). Pharmacy refills for teenagers handled cross-border via <b>Walmart Pharmacy international partnership</b>. <span class="ch">RTL-01</span><span class="ch">RTL-02</span></div>
+      </div>
+      <div class="stage-row" style="--c: var(--c-cpg)">
+        <div class="when">Day 8 · pickup</div>
+        <div class="what"><b>Sazerac allocation pickup.</b> Reserved single-cask bottle ready at licensed retailer two metro stops from hotel. Age-verified via vault doc-token; one-tap confirm; cellar inventory in vault updates with new acquisition. <span class="ch">BEV-02</span></div>
+      </div>
+      <div class="stage-row" style="--c: var(--c-travel)">
+        <div class="when">Day 12 · dining</div>
+        <div class="what"><b>Local experience.</b> Reservation at host-city restaurant via <b>OpenTable</b> international + dietary-prefs from vault. Olympic-themed distillery experience via <b>Viator</b> booking; cross-Channel coordination with BEV-04 tasting events. <span class="ch">HOM-16</span></div>
+      </div>
+      <div class="stage-row" style="--c: var(--c-media)">
+        <div class="when">Days 1–16 · evenings</div>
+        <div class="what"><b>Entertainment continuity.</b> Bundled streaming (Peacock for Olympics; partner network) follows the household across time zones; teen content rules adapt to local. <b>NBCUniversal</b> rights flow via existing TMT bundle relationship. <span class="ch">HOM-08</span></div>
+      </div>
+      <div class="stage-row" style="--c: var(--c-travel)">
+        <div class="when">Day 16 · return</div>
+        <div class="what"><b>Reunification.</b> Return-flight rebook handled automatically when weather delays close. Home Channel wakes from vacation posture: pantry restocked (<b>HOM-01</b>), HVAC pre-conditioned (<b>HOM-02</b>), security re-armed standard mode (<b>HOM-05</b>), wellness check for traveler sleep debt + jet-lag recovery (<b>HOM-06</b>), vehicle post-trip status checked (<b>HOM-07</b>). New bottle catalogued in cellar; tasting-event suggestion surfaced for the bourbon collector parent. <span class="ch">HOM-17</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHANNEL ACTIVATION -->
+  <section>
+    <div class="sec-head">§ 2 · Channel activation map · which Channels fire when</div>
+    <h2>Every Channel earns its keep during a Games trip.</h2>
+
+    <div class="activation">
+      <div class="act-channel" style="--accent: var(--c-home)">
+        <div class="ch-label">Home · Default</div>
+        <h4>Continuous</h4>
+        <div class="acts">HOM-01..08 transition through Departing → In-Trip vacation posture → Reunified. HOM-99 orchestrator routes Olympics-period intents across Channels.</div>
+        <div class="anchors">Samsung · LG · Nest · Ring · Dexcom</div>
+      </div>
+      <div class="act-channel" style="--accent: var(--c-travel)">
+        <div class="ch-label">Travel · Plug-in</div>
+        <h4>Peak load</h4>
+        <div class="acts">HOM-10..17 carry the trip. Multi-segment booking, IROPS recovery (likely 1–2 events over 16 days), mobile-key + room prefs, dining + activities.</div>
+        <div class="anchors">AA · Marriott · Expedia · Airbnb · Hertz · Uber · OpenTable · Viator</div>
+      </div>
+      <div class="act-channel" style="--accent: var(--c-retail)">
+        <div class="ch-label">Retail · Plug-in</div>
+        <h4>Daily ops</h4>
+        <div class="acts">RTL-01 cross-border GM via Walmart international partner network. RTL-02 pharmacy refills handled per-country. RTL-04 Walmart+ benefits travel.</div>
+        <div class="anchors">Walmart Intl · regional grocers · pharmacy</div>
+      </div>
+      <div class="act-channel" style="--accent: var(--c-mobility)">
+        <div class="ch-label">Mobility · Plug-in</div>
+        <h4>At-home + abroad</h4>
+        <div class="acts">MOB-01 at-home Toyota stays monitored. MOB-04 international rider on Toyota Insurance. EV-charging-network roaming via Hertz EV rental.</div>
+        <div class="anchors">Toyota · Hertz EV · ChargePoint roaming</div>
+      </div>
+      <div class="act-channel" style="--accent: var(--c-automobile)">
+        <div class="ch-label">Automobile · Plug-in</div>
+        <h4>Steady-state + trip rider</h4>
+        <div class="acts">AUT-04 Progressive Snapshot suspends home-vehicle premium during trip-mode; pro-rated savings flow. AUT-06 fueling/charging routes to international networks.</div>
+        <div class="anchors">Progressive · ChargePoint · Shell intl</div>
+      </div>
+      <div class="act-channel" style="--accent: var(--c-cpg)">
+        <div class="ch-label">CPG · Plug-in</div>
+        <h4>Wedge event</h4>
+        <div class="acts">BEV-02 Sazerac host-city commemorative allocation alert + reserved hold. BEV-04 distillery experience near venue. Cellar inventory follows household.</div>
+        <div class="anchors">Sazerac · host-country licensed retailer</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WEDGES -->
+  <section>
+    <div class="sec-head">§ 3 · The three Olympic-moment wedges · customers remember these forever</div>
+    <h2>Memorable moments only the marketplace can deliver.</h2>
+
+    <div class="wedges">
+      <div class="wedge" style="--accent: var(--c-travel)">
+        <div class="w-tag">Travel × Home wedge</div>
+        <h4>The IROPS save that gets you to opening ceremony</h4>
+        <p>AA flight cancelled day-of-Games. Flight Concierge auto-routes via Delta + ground-handling at host airport so one parent + tickets arrive in time. Family calendar + venue arrival window cross-referenced; loyalty number attached; rebook submitted in &lt; 5 min. The marketplace turns a vacation-ending event into a footnote.</p>
+      </div>
+      <div class="wedge" style="--accent: var(--c-home)">
+        <div class="w-tag">Eldercare continuity wedge</div>
+        <h4>"Mom is OK" without a vacation-killer alarm</h4>
+        <p>Grandparent's ADL drift escalates to in-state family contact, not to the travelers — quiet status surfaces for awareness. Trip continues. This is the trust-asymmetry argument made concrete: only the vault-first Telco can route this signal carefully. No Big Tech alternative has the household state machine to know who to call.</p>
+      </div>
+      <div class="wedge" style="--accent: var(--c-cpg)">
+        <div class="w-tag">Allocation × Travel wedge</div>
+        <h4>The host-city commemorative bottle</h4>
+        <p>Sazerac releases a 100-bottle host-city single-cask at one licensed retailer. The customer never sees the secondary market price; the marketplace reserves a bottle before the customer leaves home, age-verified via vault, picked up two metro stops from the hotel. Cellar inventory updates. The collector parent talks about this trip for a decade.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- KPIs -->
+  <section>
+    <div class="sec-head">§ 4 · Value capture · per Olympics trip per household</div>
+    <h2>Aggregate envelope from one Games engagement.</h2>
+
+    <div class="kpis">
+      <div class="kpi">
+        <div class="kval">$3.8K–7K</div>
+        <div class="klabel">Total household action-commerce flow during 16-day trip</div>
+      </div>
+      <div class="kpi">
+        <div class="kval">$170–340</div>
+        <div class="klabel">Telco GP capture (Travel + Retail + CPG action share)</div>
+      </div>
+      <div class="kpi">
+        <div class="kval">25–40 hrs</div>
+        <div class="klabel">Household time saved vs. unorchestrated trip</div>
+      </div>
+      <div class="kpi">
+        <div class="kval">24+</div>
+        <div class="klabel">Partner brands engaged · zero new logins for the household</div>
+      </div>
+      <div class="kpi">
+        <div class="kval">1</div>
+        <div class="klabel">Telco invoice · all settled to partner brands on back end</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARTNERS -->
+  <section>
+    <div class="sec-head">§ 5 · Partner brands engaged · the Olympics-period network</div>
+    <h2>One MCP partner protocol. Twenty-plus brands lit up.</h2>
+
+    <div class="partners">
+      <div class="partner-cell" style="--accent: var(--c-travel)"><div class="pname">American Airlines</div><div class="prole">Flight + AAdvantage</div></div>
+      <div class="partner-cell" style="--accent: var(--c-travel)"><div class="pname">Delta</div><div class="prole">IROPS fallback</div></div>
+      <div class="partner-cell" style="--accent: var(--c-travel)"><div class="pname">Marriott Bonvoy</div><div class="prole">Mobile key + room prefs</div></div>
+      <div class="partner-cell" style="--accent: var(--c-travel)"><div class="pname">Airbnb</div><div class="prole">Pre/post extension</div></div>
+      <div class="partner-cell" style="--accent: var(--c-travel)"><div class="pname">Expedia</div><div class="prole">Multi-segment + bundles</div></div>
+      <div class="partner-cell" style="--accent: var(--c-travel)"><div class="pname">Hertz</div><div class="prole">International EV rental</div></div>
+      <div class="partner-cell" style="--accent: var(--c-travel)"><div class="pname">Uber</div><div class="prole">Airport + venue transfer</div></div>
+      <div class="partner-cell" style="--accent: var(--c-travel)"><div class="pname">OpenTable</div><div class="prole">Local dining</div></div>
+      <div class="partner-cell" style="--accent: var(--c-travel)"><div class="pname">Viator</div><div class="prole">Tours + experiences</div></div>
+      <div class="partner-cell" style="--accent: var(--c-retail)"><div class="pname">Walmart Intl</div><div class="prole">Cross-border GM</div></div>
+      <div class="partner-cell" style="--accent: var(--c-retail)"><div class="pname">Walmart Pharmacy</div><div class="prole">Rx refill</div></div>
+      <div class="partner-cell" style="--accent: var(--c-mobility)"><div class="pname">Toyota Connected</div><div class="prole">At-home telemetry</div></div>
+      <div class="partner-cell" style="--accent: var(--c-mobility)"><div class="pname">Toyota Insurance</div><div class="prole">Trip-mode rider</div></div>
+      <div class="partner-cell" style="--accent: var(--c-mobility)"><div class="pname">ChargePoint</div><div class="prole">EV roaming network</div></div>
+      <div class="partner-cell" style="--accent: var(--c-automobile)"><div class="pname">Progressive</div><div class="prole">UBI rider</div></div>
+      <div class="partner-cell" style="--accent: var(--c-automobile)"><div class="pname">AutoNation</div><div class="prole">Storage / service hold</div></div>
+      <div class="partner-cell" style="--accent: var(--c-cpg)"><div class="pname">Sazerac</div><div class="prole">Allocation + experience</div></div>
+      <div class="partner-cell" style="--accent: var(--c-cpg)"><div class="pname">Local licensed retailer</div><div class="prole">Pickup venue</div></div>
+      <div class="partner-cell" style="--accent: var(--c-home)"><div class="pname">Samsung · LG · Nest · Ring</div><div class="prole">Home vacation posture</div></div>
+      <div class="partner-cell" style="--accent: var(--c-home)"><div class="pname">Dexcom · Wearables</div><div class="prole">Wellness + jet-lag</div></div>
+      <div class="partner-cell" style="--accent: var(--c-media)"><div class="pname">NBCUniversal / Peacock</div><div class="prole">Olympics streaming</div></div>
+    </div>
+  </section>
+
+  <!-- WHY IT WORKS / WHY OLYMPICS -->
+  <section>
+    <div class="sec-head">§ 6 · Why the Olympics is the marketplace's proof point</div>
+    <h2>Highest-friction household event of the four-year cycle.</h2>
+
+    <div class="two-col">
+      <div class="box">
+        <h4>Why the Olympics maxes out the marketplace</h4>
+        <ul>
+          <li><b>Multi-stakeholder, multi-Channel, multi-time-zone.</b> Every Channel earns its keep simultaneously over a defined 16-day window.</li>
+          <li><b>Known event window.</b> Pre-trip orchestration starts T-30d; post-trip reunification ends T+24h. Tight enough to measure cleanly.</li>
+          <li><b>Cross-border friction.</b> Currency, language, regulation, payment, age-verification, prescription, vehicle insurance — all break in normal travel; marketplace pre-handles them.</li>
+          <li><b>Emotional stakes maximal.</b> A missed opening ceremony, a stranded grandparent, a lost bottle of single-cask — these are the moments the household remembers permanently.</li>
+          <li><b>Demonstrates cross-Channel composition.</b> Travel × Home × CPG × Mobility × Retail × Media all coordinate via the orchestrator. A pure-Travel app cannot do this.</li>
+          <li><b>Defensible against Big Tech.</b> No Apple/Google/Amazon equivalent can route the eldercare-back-home signal carefully <i>and</i> orchestrate the allocation pickup <i>and</i> handle the IROPS rebook <i>and</i> stay quiet during opening ceremony.</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h4>Telco upside · summary</h4>
+        <ul>
+          <li><b>$170–340 / HH GP</b> from a single Games trip (one household, one event).</li>
+          <li><b>Marketing-class moment</b>: customer-facing wedge events drive 2–3 referrals per successful trip.</li>
+          <li><b>Partnership pipeline accelerant</b>: every brand wants the Olympics surface; the marketplace becomes the obvious distribution path.</li>
+          <li><b>Multi-cycle compounding</b>: same households attend FIFA World Cup (2026), Super Bowl, Coachella, Burning Man, college reunions — the trip template repeats.</li>
+          <li><b>Sponsorship arbitrage</b>: brands pay premium for visibility during the Games window; marketplace surfaces (with disclosure) capture share that would otherwise go to TV / OOH.</li>
+          <li><b>Independence-safe</b>: the marketplace structure stays brand-neutral throughout — Telco never competes with any partner brand.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div><b>APEX</b> · Agentic Telco at the Olympics · One-Pager · v1.0</div>
+    <div class="center"><b>Companion</b> · docs/reference/APEX-Agentic-Merchandising-Architecture.html · agentic-packs/_marketplace/</div>
+    <div class="right">Deloitte · Microsoft Technology Solutions &amp; Practices</div>
+  </footer>
+
+</div>
+
+</body>
+</html>
