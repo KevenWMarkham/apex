@@ -118,8 +118,12 @@ HOW TO USE IT
   .ts-marker.active { background: var(--olympic-gold); border-color: var(--olympic-gold); animation: pulse-mark 1.6s infinite; }
   .ts-marker.games { width: 22px; height: 22px; background: var(--olympic-red); border-color: var(--olympic-red); }
   @keyframes pulse-mark { 0%,100% { box-shadow: 0 0 0 0 rgba(200,160,47,0.5); } 50% { box-shadow: 0 0 0 10px rgba(200,160,47,0); } }
-  .ts-mark-label { position: absolute; top: 28px; transform: translateX(-50%); font-size: 9px; font-weight: 700; color: var(--text-secondary); white-space: nowrap; pointer-events: none; }
+  .ts-mark-label { position: absolute; top: 28px; transform: translateX(-50%); font-size: 9px; font-weight: 700; color: var(--text-secondary); white-space: nowrap; cursor: pointer; padding: 4px 6px; border-radius: 4px; transition: all 0.15s; }
+  .ts-mark-label:hover { color: var(--accent-navy); background: rgba(200,160,47,0.15); }
   .ts-mark-label.games { color: var(--olympic-red); font-size: 10px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; }
+  .ts-mark-label.games:hover { background: rgba(223,0,36,0.12); }
+  .ts-now-btn { background: transparent; border: 1px solid var(--olympic-gold); color: var(--olympic-gold); font-family: 'Outfit', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; cursor: pointer; margin-left: 10px; transition: all 0.15s; }
+  .ts-now-btn:hover { background: var(--olympic-gold); color: var(--deloitte-dark); }
   .ts-handle-label { position: absolute; bottom: -28px; background: var(--accent-navy); color: white; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 4px; transform: translateX(-50%); white-space: nowrap; font-weight: 600; }
   .ts-handle-label::before { content: ''; position: absolute; top: -4px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-bottom: 4px solid var(--accent-navy); }
 
@@ -310,7 +314,7 @@ HOW TO USE IT
 <div class="ts-band">
   <div class="ts-wrap">
     <div class="ts-title">
-      <span>Drag the slider to scrub time · click any milestone marker to jump</span>
+      <span>Drag the slider · click any milestone marker for details · <button class="ts-now-btn" onclick="snapToToday()" title="Reset slider to live today">&#8634; Now</button></span>
       <span class="ts-when" id="ts-when">—</span>
     </div>
     <div class="ts-track-wrap">
@@ -1184,7 +1188,7 @@ function renderTimeline() {
   // Update if user hasn't manually changed it during this session
   // (we don't auto-override user navigation; only set initial)
 
-  // Markers
+  // Markers — click opens milestone-details modal AND sets active phase
   let markersHtml = '';
   MILESTONES.forEach((m, idx) => {
     const msDate = milestoneDate(m);
@@ -1195,10 +1199,10 @@ function renderTimeline() {
     if (m.games) cls += ' games';
     if (passed) cls += ' passed';
     if (isActive) cls += ' active';
-    markersHtml += `<div class="${cls}" style="left:${pct}%;" onclick="setActivePhase(${idx})" title="${m.name}"></div>`;
+    markersHtml += `<div class="${cls}" style="left:${pct}%;" onclick="markerClick(${idx})" title="${m.name} · click for details"></div>`;
     const labelCls = m.games ? 'ts-mark-label games' : 'ts-mark-label';
     const labelText = m.games ? 'LA28 OPENING' : ('M' + m.num);
-    markersHtml += `<div class="${labelCls}" style="left:${pct}%;">${labelText}</div>`;
+    markersHtml += `<div class="${labelCls}" style="left:${pct}%;" onclick="markerClick(${idx})" title="${m.name} · click for details">${labelText}</div>`;
   });
   markersDiv.innerHTML = markersHtml;
 
@@ -1441,6 +1445,26 @@ function resetState() {
   }
 }
 
+/* Click a milestone marker on the slider — open details modal AND set active */
+function markerClick(idx) {
+  if (!isMilestoneUnlocked(idx)) {
+    // Locked — still open the modal so user can see what's coming, but don't activate
+    openMilestone(idx);
+    return;
+  }
+  state.activeMilestone = idx;
+  saveState();
+  render();
+  openMilestone(idx);
+}
+
+/* Reset the slider to live real-time today */
+function snapToToday() {
+  state.today = null;
+  saveState();
+  render();
+}
+
 /* Stakeholder modal */
 function openStakeholder(key) {
   const s = STAKEHOLDERS[key];
@@ -1541,6 +1565,16 @@ render();
 initDrag();
 updateCountdown();
 setInterval(updateCountdown, 1000);
+
+/* Auto-advance the slider with real time, unless the user has explicitly
+   dragged it (state.today is non-null after drag). The countdown ticks
+   every second; the slider ticks every minute (visual cost is lower). */
+setInterval(function () {
+  if (state.today === null) {
+    renderTimeline();
+    renderStats();
+  }
+}, 60 * 1000);
 </script>
 
 </body>
