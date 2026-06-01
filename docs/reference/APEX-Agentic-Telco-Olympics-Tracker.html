@@ -304,6 +304,47 @@ HOW TO USE IT
   .stk-ask { background: linear-gradient(135deg, #ECFDF5, #FFFFFF); border-left: 4px solid var(--green-ok); padding: 12px 16px; border-radius: 4px; margin: 10px 0; font-size: 12.5px; font-style: italic; line-height: 1.55; }
   .stk-ask b { color: var(--green-ok); font-style: normal; }
 
+  /* ============================================== COLLAPSIBLE PHASE SECTIONS ============================================== */
+  .phase-section { background: var(--white); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 12px; transition: box-shadow 0.15s; }
+  .phase-section[open] { box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .phase-section > summary { padding: 11px 16px; cursor: pointer; list-style: none; font-family: 'Outfit', sans-serif; font-size: 10.5px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; user-select: none; }
+  .phase-section > summary::-webkit-details-marker { display: none; }
+  .phase-section > summary::before { content: '\\25BC'; font-size: 9px; opacity: 0.55; transition: transform 0.15s; }
+  .phase-section:not([open]) > summary::before { transform: rotate(-90deg); }
+  .phase-section > summary:hover { background: rgba(0,0,0,0.02); border-radius: 8px 8px 0 0; }
+  .phase-section > summary .ps-spacer { flex: 1; }
+  .phase-section > summary .ps-meta { font-family: 'DM Sans', sans-serif; font-size: 10.5px; font-weight: 600; text-transform: none; letter-spacing: 0; color: var(--text-secondary); }
+  .phase-section > .ps-body { padding: 4px 16px 14px; }
+
+  .phase-section.objectives { border-left: 4px solid var(--accent-blue); }
+  .phase-section.objectives > summary { color: var(--accent-blue); }
+  .phase-section.filter > summary { color: var(--accent-navy); }
+  .phase-section.actions { border-left: 4px solid var(--accent-navy); }
+  .phase-section.actions > summary { color: var(--accent-navy); }
+  .phase-section.gate { border: 2px solid var(--amber); background: linear-gradient(180deg, #FFF8E5 0%, #FFFFFF 100%); }
+  .phase-section.gate > summary { color: #92400E; }
+  .phase-section.gate.passed { border-color: var(--green-ok); background: linear-gradient(180deg, #DCFCE7 0%, #FFFFFF 100%); }
+  .phase-section.gate.passed > summary { color: var(--green-ok); }
+  .phase-section.gate .gate-status { background: var(--amber); color: white; padding: 2px 8px; border-radius: 4px; font-size: 9px; font-weight: 800; letter-spacing: 1px; }
+  .phase-section.gate.passed .gate-status { background: var(--green-ok); }
+
+  .phase-section .pf-section { margin-bottom: 10px; }
+  .phase-section .pf-section:last-child { margin-bottom: 0; }
+  .phase-section .pf-help { font-size: 10.5px; color: var(--text-secondary); margin: 0 0 6px; font-weight: 500; }
+
+  /* slip panel as collapsible */
+  details.slip-panel-coll { background: #FEF3C7; border-left: 4px solid var(--amber); border-radius: 4px; margin-top: 18px; }
+  details.slip-panel-coll > summary { padding: 11px 16px; cursor: pointer; list-style: none; color: #92400E; font-family: 'Outfit', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; display: flex; align-items: center; gap: 8px; user-select: none; }
+  details.slip-panel-coll > summary::-webkit-details-marker { display: none; }
+  details.slip-panel-coll > summary::before { content: '\\25BC'; font-size: 9px; opacity: 0.55; transition: transform 0.15s; }
+  details.slip-panel-coll:not([open]) > summary::before { transform: rotate(-90deg); }
+  details.slip-panel-coll > .ps-body { padding: 0 16px 12px; font-size: 11.5px; line-height: 1.55; }
+  details.slip-panel-coll > .ps-body ul { list-style: none; padding: 0; }
+  details.slip-panel-coll > .ps-body ul li { padding: 5px 0 5px 18px; position: relative; border-bottom: 1px dashed rgba(146,64,14,0.2); }
+  details.slip-panel-coll > .ps-body ul li:last-child { border-bottom: none; }
+  details.slip-panel-coll > .ps-body ul li::before { content: '\\26A0'; position: absolute; left: 0; color: #92400E; }
+  details.slip-panel-coll > .ps-body ul li b { color: #92400E; }
+
   /* PRACTICE SCOPE MODAL */
   .scope-modal { background: white; border-radius: 12px; max-width: 1080px; width: 100%; max-height: 92vh; overflow-y: auto; position: relative; box-shadow: 0 24px 70px rgba(0,0,0,0.5); }
   .scope-head { color: white; padding: 22px 28px 16px; border-radius: 12px 12px 0 0; }
@@ -702,16 +743,16 @@ HOW TO USE IT
       <!-- Active milestone rendered by JS -->
     </div>
 
-    <div class="slip-panel">
-      <h4>Slip-detection patterns</h4>
-      <ul>
+    <details class="slip-panel-coll">
+      <summary>Slip-detection patterns<span style="flex:1;"></span><span style="font-family:'DM Sans',sans-serif; font-size:10.5px; font-weight:600; text-transform:none; letter-spacing:0; opacity:0.7;">5 patterns to watch</span></summary>
+      <div class="ps-body"><ul>
         <li><b>Anchor Telco contract stalls at finance review</b> — shows up M1-M2 when Wave-1 Home Channel envelope can't justify Olympics opex. <b>Response:</b> reframe as multi-year amortization with LA28 as the W2 proof point, not the W1 anchor.</li>
         <li><b>NBCUniversal rights overlap conflict</b> — shows up M4 when Media Channel scope touches their broadcast monopoly. <b>Response:</b> scope Media Channel to ride-along (notification, watch-party orchestration), not replacement-distribution. Run by NBC legal at M4 explicitly.</li>
         <li><b>Toyota LA28 sponsorship rights vs Channel commercial terms</b> — shows up M5 when Toyota's IOC TOP sponsorship constrains co-branding language. <b>Response:</b> Channel branding stays Telco-led; Toyota's TOP status referenced in narrative, not in surface chrome.</li>
         <li><b>Sazerac age-gating in CA differs from KY baseline</b> — shows up M6 when California ABC rules force re-architecture. <b>Response:</b> CA state-rules engine integration must complete by M6 or Sazerac Channel ships in 25-state mode for LA28 with CA on roadmap.</li>
         <li><b>Cross-Channel orchestration fails at scale</b> — shows up M6-M7 when load testing reveals HOM-99 orchestrator latency degradation. <b>Response:</b> CAF Dynamic Orchestrator capacity reservation must be locked at M6; trigger CAF platform-team escalation if SLO drift detected.</li>
-      </ul>
-    </div>
+      </ul></div>
+    </details>
   </div>
 
 </div>
@@ -2588,6 +2629,12 @@ function renderActivePhase() {
     </div>`;
   }).join('');
 
+  // Section open/closed state (in-session persistence per-milestone, per-section)
+  const oOpen = isSectionOpen(m.id, 'objectives');
+  const fOpen = isSectionOpen(m.id, 'filter');
+  const aOpen = isSectionOpen(m.id, 'actions');
+  const gOpen = isSectionOpen(m.id, 'gate');
+
   const html = `
     <h3>Milestone M${m.num} &middot; ${m.name}
       <button class="how-to-btn" onclick="openMilestone(${state.activeMilestone})">How to achieve &rarr;</button>
@@ -2598,32 +2645,43 @@ function renderActivePhase() {
       <span class="meta-pill">Gate: <b>${prog.checked} / ${prog.total}</b> validated</span>
     </div>
 
-    <div class="phase-objectives">
-      <h4>Milestone outcomes</h4>
-      <ul>${objectivesHtml}</ul>
-    </div>
+    <details class="phase-section objectives" ${oOpen ? 'open' : ''} ontoggle="setSectionOpen('${m.id}','objectives',this.open)">
+      <summary>Milestone outcomes<span class="ps-spacer"></span><span class="ps-meta">${m.objectives.length} items</span></summary>
+      <div class="ps-body"><ul style="list-style:none; padding:0; font-size:12.5px; line-height:1.55;">${m.objectives.map(o => `<li style="padding:3px 0 3px 16px; position:relative;"><span style="position:absolute; left:0; color:var(--accent-blue); font-weight:bold;">&#9656;</span>${o}</li>`).join('')}</ul></div>
+    </details>
 
-    <div class="practice-filter">
-      <h5>Filter by Practice &middot; <span style="font-weight:500;color:var(--text-secondary);text-transform:none;letter-spacing:0;">click to add/remove · multiple Practices supported for parallel-seller views</span></h5>
-      <div class="pf-chips">${filterChipsHtml}</div>
-      <h5 style="margin-top:10px;">Presets &middot; <span style="font-weight:500;color:var(--text-secondary);text-transform:none;letter-spacing:0;">common Practice combos for sector-aligned seller teams</span></h5>
-      <div class="pf-chips">${presetChipsHtml}</div>
-    </div>
-
-    <div style="background:var(--white); border-left:4px solid var(--accent-navy); border-radius:4px; padding:12px 16px; margin-bottom:14px;">
-      <h4 style="font-size:10px; text-transform:uppercase; letter-spacing:1px; color:var(--accent-navy); font-weight:800; margin-bottom:8px;">Action items <span style="color:var(--text-secondary); font-weight:600; letter-spacing:0; text-transform:none;">&middot; ${filterLabel} &middot; ${visibleCount} of ${practiceCounts.ALL} visible</span></h4>
-      ${filterActive ? '<div class="filter-legend">Solid = your tasks · faded blue = coordination tasks owned by other Practices but touching yours · gray = unrelated to your filter</div>' : ''}
-      ${tasksHtml}
-    </div>
-
-    <div class="gate ${complete ? 'passed' : ''}">
-      <h4>Validation gate <span class="gate-status">${complete ? 'PASSED &#10003;' : 'IN PROGRESS'}</span></h4>
-      ${gateHtml}
-      <div class="gate-action">
-        <div class="gate-progress-mini">All <b>${prog.total}</b> items must be checked to unlock the next milestone.</div>
-        ${nextUnlocked ? `<button class="advance-btn ${complete ? 'ready' : ''}" onclick="advancePhase()" ${complete ? '' : 'disabled'}>${complete ? 'Advance to M' + (parseInt(m.num) + 1) + ' &rarr;' : 'Gate not yet passed'}</button>` : (complete ? `<span style="color:var(--green-ok);font-weight:700;font-size:11px;">&#10003; DELIVERY COMPLETE &mdash; Games operations + scaling plan running</span>` : '')}
+    <details class="phase-section filter" ${fOpen ? 'open' : ''} ontoggle="setSectionOpen('${m.id}','filter',this.open)">
+      <summary>Filter by Practice<span class="ps-spacer"></span><span class="ps-meta">${filterActive ? filter.length + ' selected' : 'all Practices'}</span></summary>
+      <div class="ps-body">
+        <div class="pf-section">
+          <p class="pf-help">click to add/remove &middot; multiple Practices supported for parallel-seller views</p>
+          <div class="pf-chips">${filterChipsHtml}</div>
+        </div>
+        <div class="pf-section">
+          <p class="pf-help">presets &middot; common Practice combos for sector-aligned seller teams</p>
+          <div class="pf-chips">${presetChipsHtml}</div>
+        </div>
       </div>
-    </div>
+    </details>
+
+    <details class="phase-section actions" ${aOpen ? 'open' : ''} ontoggle="setSectionOpen('${m.id}','actions',this.open)">
+      <summary>Action items<span class="ps-spacer"></span><span class="ps-meta">${filterLabel} &middot; ${visibleCount} of ${practiceCounts.ALL} visible</span></summary>
+      <div class="ps-body">
+        ${filterActive ? '<div class="filter-legend">Solid = your tasks &middot; faded blue = coordination tasks owned by other Practices but touching yours &middot; gray = unrelated to your filter</div>' : ''}
+        ${tasksHtml}
+      </div>
+    </details>
+
+    <details class="phase-section gate ${complete ? 'passed' : ''}" ${gOpen ? 'open' : ''} ontoggle="setSectionOpen('${m.id}','gate',this.open)">
+      <summary>Validation gate<span class="ps-spacer"></span><span class="gate-status">${complete ? 'PASSED &#10003;' : 'IN PROGRESS'}</span></summary>
+      <div class="ps-body">
+        ${gateHtml}
+        <div class="gate-action">
+          <div class="gate-progress-mini">All <b>${prog.total}</b> items must be checked to unlock the next milestone.</div>
+          ${nextUnlocked ? `<button class="advance-btn ${complete ? 'ready' : ''}" onclick="advancePhase()" ${complete ? '' : 'disabled'}>${complete ? 'Advance to M' + (parseInt(m.num) + 1) + ' &rarr;' : 'Gate not yet passed'}</button>` : (complete ? `<span style="color:var(--green-ok);font-weight:700;font-size:11px;">&#10003; DELIVERY COMPLETE &mdash; Games operations + scaling plan running</span>` : '')}
+        </div>
+      </div>
+    </details>
 
     <style>
       .seller-task { display: grid; grid-template-columns: 24px 1fr; gap: 8px; padding: 8px 0; border-bottom: 1px dashed var(--border); align-items: start; transition: opacity 0.2s; }
@@ -2645,6 +2703,17 @@ function renderActivePhase() {
     </style>
   `;
   document.getElementById('phase-body').innerHTML = html;
+}
+
+/* Session-only section-state (per-milestone, per-section).
+   Defaults: all sections open. Survives re-renders within the page; resets on reload. */
+const _sectionState = {};
+function isSectionOpen(milestoneId, sectionName) {
+  const key = milestoneId + '_' + sectionName;
+  return key in _sectionState ? _sectionState[key] : true;
+}
+function setSectionOpen(milestoneId, sectionName, isOpen) {
+  _sectionState[milestoneId + '_' + sectionName] = !!isOpen;
 }
 
 function renderStats() {
