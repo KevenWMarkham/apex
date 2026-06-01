@@ -265,6 +265,20 @@ HOW TO USE IT
   .pf-chip .pf-count { background: rgba(0,0,0,0.06); padding: 1px 6px; border-radius: 8px; font-size: 9px; font-weight: 800; }
   .pf-chip.active .pf-count { background: rgba(255,255,255,0.2); color: white; }
 
+  /* INTERNAL ALIGNMENT */
+  .internal-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 12px; }
+  @media (max-width: 900px) { .internal-grid { grid-template-columns: 1fr; } }
+  .internal-col { background: #FBFCFD; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .internal-col-head { padding: 10px 14px; }
+  .internal-col-head .ic-label { font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 800; letter-spacing: 0.4px; display: block; }
+  .internal-col-head .ic-sub { font-size: 10px; opacity: 0.8; }
+  .internal-cards { padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+  .int-card { background: white; border: 1.5px solid var(--border); border-radius: 6px; padding: 10px 12px; cursor: pointer; transition: all 0.12s; }
+  .int-card:hover { border-color: var(--deloitte-green); transform: translateY(-1px); box-shadow: 0 4px 10px rgba(13,40,24,0.08); }
+  .int-card .ic-role { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.8px; text-transform: uppercase; color: var(--deloitte-green); font-weight: 700; margin-bottom: 2px; }
+  .int-card .ic-name { font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 700; color: var(--accent-navy); }
+  .int-card .ic-sub2 { font-size: 11px; color: var(--text-secondary); margin-top: 2px; line-height: 1.35; }
+
   /* Practice badge on tasks */
   .task-practice { display: inline-block; font-size: 8.5px; font-weight: 800; letter-spacing: 0.6px; padding: 1px 6px; border-radius: 3px; margin-right: 6px; vertical-align: middle; color: white; }
   .seller-task.dim { opacity: 0.25; }
@@ -641,6 +655,124 @@ HOW TO USE IT
 
 </div>
 
+<!-- ============================================== INTERNAL DELOITTE ALIGNMENT ============================================== -->
+<div style="max-width:1440px; margin:0 auto; padding:0 28px 28px;">
+  <div class="pt-section" style="border-top:4px solid var(--deloitte-green);">
+    <h2 style="border-bottom-color:var(--deloitte-green);">Internal Deloitte alignment &middot; <span style="font-size:11px;color:var(--text-secondary);font-weight:600;text-transform:none;letter-spacing:0;">sell-in stakeholders &middot; click any node for the briefing playbook</span></h2>
+
+    <div class="internal-grid">
+
+      <div class="internal-col">
+        <div class="internal-col-head" style="background:#0D2818; color:#86BC25;">
+          <span class="ic-label">Leadership</span>
+          <span class="ic-sub">DMTSP + Practice Principals + Microsoft alliance</span>
+        </div>
+        <div class="internal-cards">
+          <div class="int-card" onclick="openInternal('dmtsp')">
+            <div class="ic-role">DMTSP</div>
+            <div class="ic-name">DMTSP M&amp;P Leader</div>
+            <div class="ic-sub2">Top-down endorsement · capacity · funding</div>
+          </div>
+          <div class="int-card" onclick="openInternal('msalliance')">
+            <div class="ic-role">Microsoft</div>
+            <div class="ic-name">Microsoft Alliance Lead</div>
+            <div class="ic-sub2">ECIF + MACC · joint motion · Microsoft GSI flag</div>
+          </div>
+          <div class="int-card" onclick="openInternal('industryld')">
+            <div class="ic-role">US Industry</div>
+            <div class="ic-name">US Industry Leader (TMT)</div>
+            <div class="ic-sub2">Cross-Practice resource ask · Wave-2 syndication sponsor</div>
+          </div>
+          <div class="int-card" onclick="openInternal('practprinc')">
+            <div class="ic-role">Per-Practice</div>
+            <div class="ic-name">Practice Principals</div>
+            <div class="ic-sub2">TMT · TH · RC · AXLE · ER · HLS · ICE · FSI · GPS — own staffing of their team</div>
+          </div>
+          <div class="int-card" onclick="openInternal('riskpart')">
+            <div class="ic-role">Risk Advisory</div>
+            <div class="ic-name">National Office / Risk Advisory Partner</div>
+            <div class="ic-sub2">Independence pre-clear · audit-committee defensibility</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="internal-col">
+        <div class="internal-col-head" style="background:#012169; color:white;">
+          <span class="ic-label">Account teams</span>
+          <span class="ic-sub">LCSPs &middot; one per anchor partner brand</span>
+        </div>
+        <div class="internal-cards">
+          <div class="int-card" onclick="openInternal('att-lcsp')">
+            <div class="ic-role">TMT</div>
+            <div class="ic-name">AT&amp;T LCSP</div>
+            <div class="ic-sub2">Wave-1 anchor LCSP — controls the door</div>
+          </div>
+          <div class="int-card" onclick="openInternal('walmart-lcsp')">
+            <div class="ic-role">RC</div>
+            <div class="ic-name">Walmart LCSP</div>
+            <div class="ic-sub2">Bentonville workshop owner</div>
+          </div>
+          <div class="int-card" onclick="openInternal('aa-lcsp')">
+            <div class="ic-role">TH</div>
+            <div class="ic-name">AA LCSP &middot; Marriott LCSP</div>
+            <div class="ic-sub2">DFW + Bethesda workshop owners</div>
+          </div>
+          <div class="int-card" onclick="openInternal('toyota-lcsp')">
+            <div class="ic-role">AXLE</div>
+            <div class="ic-name">Toyota LCSP &middot; AutoNation LCSP</div>
+            <div class="ic-sub2">Plano + dealer-network workshop owners</div>
+          </div>
+          <div class="int-card" onclick="openInternal('nbc-lcsp')">
+            <div class="ic-role">TMT-MED</div>
+            <div class="ic-name">NBCUniversal LCSP &middot; Comcast LCSP</div>
+            <div class="ic-sub2">Highest-risk scope conversation; LCSP-protected door</div>
+          </div>
+          <div class="int-card" onclick="openInternal('w2-lcsps')">
+            <div class="ic-role">TMT W2</div>
+            <div class="ic-name">T-Mobile / Verizon / Charter LCSPs</div>
+            <div class="ic-sub2">Wave-2 syndication — engage post-Games proof point</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="internal-col">
+        <div class="internal-col-head" style="background:#6B3FA0; color:white;">
+          <span class="ic-label">AI &amp; Data</span>
+          <span class="ic-sub">AI Institute · D&amp;A Practice · AI Risk · ML Eng</span>
+        </div>
+        <div class="internal-cards">
+          <div class="int-card" onclick="openInternal('ai-institute')">
+            <div class="ic-role">AI Institute</div>
+            <div class="ic-name">AI Institute Lead</div>
+            <div class="ic-sub2">Capacity planning · inference-cost model · agent-design review</div>
+          </div>
+          <div class="int-card" onclick="openInternal('ai-practice')">
+            <div class="ic-role">AI Practice</div>
+            <div class="ic-name">AI Practice Lead</div>
+            <div class="ic-sub2">Responsible-AI posture · agent-pattern reuse · delivery assets</div>
+          </div>
+          <div class="int-card" onclick="openInternal('da-practice')">
+            <div class="ic-role">Data &amp; Analytics</div>
+            <div class="ic-name">D&amp;A Practice Lead</div>
+            <div class="ic-sub2">TMTML schema reuse · medallion delivery assets · Channel data engineering</div>
+          </div>
+          <div class="int-card" onclick="openInternal('ai-risk')">
+            <div class="ic-role">AI Risk</div>
+            <div class="ic-name">AI Risk Lead</div>
+            <div class="ic-sub2">Prompt-injection · hallucination · cross-Channel orchestrator boundaries</div>
+          </div>
+          <div class="int-card" onclick="openInternal('ml-eng')">
+            <div class="ic-role">ML Eng</div>
+            <div class="ic-name">ML Engineering Lead</div>
+            <div class="ic-sub2">A2A Swarm · LangFuse · Registry · agent-runtime ops</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <!-- ============================================== STAKEHOLDER MODAL ============================================== -->
 <div id="stk-modal-overlay" class="stk-modal-overlay" onclick="if(event.target===this) closeStakeholder()">
   <div class="stk-modal">
@@ -694,6 +826,7 @@ const PRACTICES = [
   { code: 'GPS',   name: 'GPS',           color: '#2C3E78' },
   { code: 'RISK',  name: 'Risk',          color: '#6B3FA0' },
   { code: 'CROSS', name: 'Cross',         color: '#012169' },
+  { code: 'INT',   name: 'Internal',      color: '#86BC25' },
 ];
 
 /* Practice-combo presets for parallel-Practice seller teams */
@@ -701,6 +834,7 @@ const PRACTICE_PRESETS = [
   { code: 'CONSUMER',  name: 'Consumer (TH + RC + AXLE)',     codes: ['TH','RC','AXLE'] },
   { code: 'OPS',       name: 'Operations (ER + ICE + GPS)',   codes: ['ER','ICE','GPS'] },
   { code: 'REGULATED', name: 'Regulated (HLS + FSI + Risk)',  codes: ['HLS','FSI','RISK'] },
+  { code: 'INTERNAL',  name: 'Internal sell-in only',          codes: ['INT'] },
 ];
 function practiceColor(code) { const p = PRACTICES.find(p => p.code === code); return p ? p.color : '#94A3B8'; }
 function practiceName(code) { const p = PRACTICES.find(p => p.code === code); return p ? p.name : code; }
@@ -729,6 +863,9 @@ const MILESTONES = [
       { practice: 'CROSS', who: 'DMTSP Account Lead', text: '<b>Form pursuit team</b> with named leads from TMT + RC + AXLE + ER + HLS + ICE + FSI + GPS + Risk Advisory. Weekly Practice-leads sync established.' },
       { practice: 'GPS', who: 'GPS Account Lead', text: '<b>Open LA City Mayor\'s office</b> on Games-period public-sector coordination. Early flag — long lead times for federal/state coord.' },
       { practice: 'RISK', who: 'Risk Advisory Partner', text: '<b>Initiate national-office Independence pre-clear</b> for all named anchor partners (TMT + future RC/AXLE/ER/HLS/ICE/FSI/GPS).' },
+      { practice: 'INT', who: 'TMT VP', coordinatesWith: ['CROSS'], text: '<b>Brief DMTSP M&P Leader</b> on LA28 Wave-1 charter, GP envelope, and Practice-leader-sync cadence. Secure top-down endorsement before any anchor BD opens.' },
+      { practice: 'INT', who: 'DMTSP Account Lead', coordinatesWith: ['CROSS'], text: '<b>Brief Microsoft Alliance Lead + MS US Industry Lead</b> on joint LA28 motion. Co-investment posture (ECIF + MACC) confirmed.' },
+      { practice: 'INT', who: 'TMT VP', coordinatesWith: ['TMT'], text: '<b>Brief AT&T LCSP</b> (Lead Client Service Partner) on Wave-1 pursuit. The LCSP controls the door — no anchor BD without their explicit endorsement.' },
     ],
     gate: [
       'AT&T Wave-1 charter signed for Default Home Channel build',
@@ -775,6 +912,9 @@ const MILESTONES = [
       { practice: 'GPS', who: 'GPS Account Lead', text: '<b>LA City Mayor\'s office data-exchange MOU framework drafted</b> — Games-period venue + transit + permits coordination spine.' },
       { practice: 'RISK', who: 'Risk Advisory Partner', text: '<b>National-office Independence pre-clear delivered</b> for AT&T Wave-1 SOW. Verbal + memo.' },
       { practice: 'CROSS', who: 'Microsoft CSA + DMTSP', text: '<b>Joint architectural readout</b> at AT&T — CAF substrate validation, A2A Swarm pattern, LangFuse trace volumes.' },
+      { practice: 'INT', who: 'TMT Delivery Architect', coordinatesWith: ['CROSS'], text: '<b>Brief Deloitte AI Institute</b> on marketplace meta-pack architecture. Capacity planning for inference cost + LLM-tier mix across Channels.' },
+      { practice: 'INT', who: 'TMT Delivery Architect', coordinatesWith: ['CROSS'], text: '<b>Brief Data & Analytics Practice Lead</b> on TMTML schema + medallion build. Reuse of D&A delivery assets where applicable.' },
+      { practice: 'INT', who: 'TMT VP', coordinatesWith: ['CROSS'], text: '<b>Quarterly Practice Principals review</b> — Wave-1 status, Wave-2 anchor pipeline, capacity asks per Practice. Cadence established.' },
     ],
     gate: [
       'HOM-01..08 + HOM-99 deployed in AT&T shadow environment',
@@ -821,6 +961,10 @@ const MILESTONES = [
       { practice: 'FSI', who: 'FSI Account Lead', coordinatesWith: ['TMT'], text: '<b>Visa + Mastercard ride-along scoping</b> · TOP-sponsor coordination · payment-rail commercial terms.' },
       { practice: 'GPS', who: 'GPS Account Lead', coordinatesWith: ['TH','ICE'], text: '<b>LA City venue + transit data-exchange MOU drafted</b> · Metro K Line + shuttle + parking integration framework.' },
       { practice: 'RISK', who: 'Risk Advisory Partner', coordinatesWith: ['CROSS'], text: '<b>Risk pre-clear memo updated</b> with each anchor MOU as signed · Independence posture maintained per-partner.' },
+      { practice: 'INT', who: 'TH VP', coordinatesWith: ['TH'], text: '<b>Brief AA LCSP + Marriott LCSP + Expedia LCSP + Airbnb LCSP</b> separately before each workshop. LCSP-owned door; no anchor workshop without LCSP attendance or explicit hand-off.' },
+      { practice: 'INT', who: 'RC Account Lead', coordinatesWith: ['RC'], text: '<b>Brief Walmart LCSP</b> at Bentonville before workshop. RC Practice Principal sign-off on Wave-1 scope ladder.' },
+      { practice: 'INT', who: 'TMT-Media VP', coordinatesWith: ['TMT'], text: '<b>Brief NBCUniversal LCSP + Comcast LCSP</b> · separate Risk Advisory pre-clear · audit-committee review.' },
+      { practice: 'INT', who: 'Delivery Architect', coordinatesWith: ['CROSS'], text: '<b>AI Practice review of agent designs</b> · HOM-01..08 + Travel sub-agents reviewed by AI Institute for responsible-AI posture before any partner-MCP integration.' },
     ],
     gate: [
       'American Airlines MOU signed (AAdvantage MCP integration)',
@@ -873,6 +1017,11 @@ const MILESTONES = [
       { practice: 'FSI', who: 'FSI VP', coordinatesWith: ['TH','TMT'], text: '<b>Visa + Mastercard MOU close</b> · TOP-coordination explicit · sponsorship + ticketing payment-rail commercial terms.' },
       { practice: 'GPS', who: 'GPS VP', coordinatesWith: ['RC','AXLE','RISK'], text: '<b>California state engagement (ABC + DMV + Insurance)</b> · CPG compliance · Toyota TIMS state rules · age-gating CA-specific edge cases.' },
       { practice: 'RISK', who: 'Risk Advisory Partner', coordinatesWith: ['CROSS'], text: '<b>Risk-pre-clear memo for each new Channel MOU</b> · per-partner posture · audit-committee defensible.' },
+      { practice: 'INT', who: 'AXLE VP', coordinatesWith: ['AXLE'], text: '<b>Brief Toyota LCSP + AutoNation LCSP + Cox LCSP + Progressive LCSP</b> separately. AXLE Practice Principal sign-off on multi-anchor commercial structure.' },
+      { practice: 'INT', who: 'RC Account Lead', coordinatesWith: ['RC'], text: '<b>Brief Sazerac LCSP</b> at New Orleans · RC Practice Principal sign-off on host-city commit commercial terms.' },
+      { practice: 'INT', who: 'ER VP', coordinatesWith: ['ER'], text: '<b>Brief PG&E + SCE + LADWP LCSPs</b> · ER Practice Principal sign-off · utility-industry-specific Independence posture confirmed.' },
+      { practice: 'INT', who: 'Delivery Architect', coordinatesWith: ['CROSS'], text: '<b>AI Risk review of cross-Channel orchestrator</b> · HOM-99 + cross-Practice routing logic reviewed for prompt-injection, data-exfiltration, hallucination boundaries.' },
+      { practice: 'INT', who: 'DMTSP Account Lead', coordinatesWith: ['CROSS'], text: '<b>Mid-pursuit Leadership readout</b> · DMTSP M&P Leader + Microsoft Alliance Lead · half-cycle status · funding for M5-M6 confirmed.' },
     ],
     gate: [
       'Toyota Connected MOU signed (TOP coordination resolved)',
@@ -925,6 +1074,8 @@ const MILESTONES = [
       { practice: 'CROSS', who: 'Microsoft CAF + Delivery', text: '<b>Load test cross-Channel orchestration at 1.5x projected LA28 peak</b> · CAF Dynamic Orchestrator capacity validated · A2A Swarm latency SLO confirmed.' },
       { practice: 'CROSS', who: 'DMTSP Account Lead', text: '<b>After-action review with ALL Practices + anchor partners</b> · capture every wedge event · refine playbooks for LA28 · cross-Practice escalation matrix updated.' },
       { practice: 'RISK', who: 'Risk Advisory Partner', text: '<b>Independence + privacy after-action audit</b> · zero compliance events during pilot · LA28 readiness signed off.' },
+      { practice: 'INT', who: 'DMTSP Account Lead', coordinatesWith: ['CROSS'], text: '<b>Super Bowl pilot readout to all Practice Principals + LCSPs</b> · evidence pack for LA28 go-decision · capacity reservations renewed.' },
+      { practice: 'INT', who: 'Delivery Architect', coordinatesWith: ['CROSS'], text: '<b>AI Institute capacity ratification for LA28</b> · inference-cost forecast validated against Super Bowl load · CAF reservation confirmed.' },
     ],
     gate: [
       'Super Bowl pilot cohort launched (all 6 Channels)',
@@ -973,6 +1124,8 @@ const MILESTONES = [
       { practice: 'GPS', who: 'GPS VP', text: '<b>Federal-state-city coordination MOU operational</b> · street-closure feeds + emergency-services routing tested · DHS/TSA international-visitor flows confirmed.' },
       { practice: 'CROSS', who: 'Delivery Architect', text: '<b>Final cross-Channel orchestration drill</b> · full-load production sim · all Channels concurrent · 8,000+ scenarios/hour throughput target.' },
       { practice: 'RISK', who: 'Risk Advisory Partner', text: '<b>Final Independence + privacy review across all Channels</b> · zero open issues · audit-committee defensible · Games-period operations authorized.' },
+      { practice: 'INT', who: 'DMTSP Account Lead', coordinatesWith: ['CROSS'], text: '<b>Pre-Games leadership readout</b> · DMTSP M&P + US Industry Leader + Microsoft US Leadership · go/no-go authorization · Games-window staffing approved.' },
+      { practice: 'INT', who: 'TMT VP', coordinatesWith: ['TMT'], text: '<b>All anchor LCSPs aligned on Games-window operating posture</b> · per-LCSP escalation contacts · per-anchor incident-command paths.' },
     ],
     gate: [
       'California ABC age-gating rules engine live (Sazerac CA-ready)',
@@ -1028,6 +1181,8 @@ const MILESTONES = [
       { practice: 'CROSS', who: 'Delivery Architect', text: '<b>SLO monitoring</b> · all Channels green · automated escalation if any Channel breaches SLO for >5 min · LangFuse trace volumes within forecast.' },
       { practice: 'CROSS', who: 'DMTSP Account Lead', text: '<b>Capture every wedge event</b> · IROPS recoveries, hotel walks, allocation pickups, eldercare alerts, payment-fraud avoids · narrative + metrics for case study.' },
       { practice: 'RISK', who: 'Risk Advisory Partner', text: '<b>Live incident-audit + Independence-event monitoring</b> · zero brand-event incidents required · daily review with all Practice leads.' },
+      { practice: 'INT', who: 'DMTSP Account Lead', coordinatesWith: ['CROSS'], text: '<b>Daily internal exec briefing</b> · 7 PM PT roll-up to DMTSP M&P Leader + Microsoft Alliance Lead · prior-day wedge events + day-ahead risks.' },
+      { practice: 'INT', who: 'Delivery Architect', coordinatesWith: ['CROSS'], text: '<b>AI Institute on-call</b> for SLO-breach escalation · capacity headroom monitored · prompt-injection / hallucination event monitoring.' },
     ],
     gate: [
       'Opening Ceremony Jul 14 operations green',
@@ -1078,6 +1233,9 @@ const MILESTONES = [
       { practice: 'CROSS', who: 'Delivery Architect', text: '<b>Marketplace meta-pack v1.1</b> · capture LA28 enhancements · agent-pack updates · published to internal repo.' },
       { practice: 'CROSS', who: 'DMTSP Account Lead', text: '<b>Per-Practice post-mortem + lessons-learned</b> · distributed to all DMTSP Practice leads · what to repeat at Brisbane, what to change.' },
       { practice: 'RISK', who: 'Risk Advisory Partner', text: '<b>Final Independence audit + memo</b> · zero events during Games window · post-engagement attestation.' },
+      { practice: 'INT', who: 'DMTSP Account Lead', coordinatesWith: ['CROSS'], text: '<b>Post-Games leadership readout</b> · DMTSP M&P + US Industry Leader + Practice Principals · KPI rollup · Wave-2 syndication funding approved.' },
+      { practice: 'INT', who: 'Delivery Architect', coordinatesWith: ['CROSS'], text: '<b>AI Institute lessons-learned</b> · inference-cost vs forecast · prompt + agent telemetry · capacity model updated for Brisbane 2032 scaling.' },
+      { practice: 'INT', who: 'TMT VP', coordinatesWith: ['CROSS'], text: '<b>LCSP-by-LCSP debrief</b> · what worked, what to repeat, anchor satisfaction · feeds Wave-2 Telco syndication pitch.' },
     ],
     gate: [
       'After-Games joint readout completed',
@@ -1317,6 +1475,227 @@ const STAKEHOLDERS = {
     phase: 'Open conversation M3-M4; sign at Wave-2 (post-LA28).',
   },
 };
+
+/* ----- Internal Deloitte sell-in stakeholders ----- */
+const INTERNAL_STAKEHOLDERS = {
+  dmtsp: {
+    name: 'DMTSP M&P Leader',
+    role: 'INTERNAL · LEADERSHIP · TOP-DOWN ENDORSEMENT',
+    title: 'Deloitte Microsoft Technology Solutions &amp; Practices · Marketplace &amp; Platforms Leader',
+    org: 'DMTSP highest-level sponsor for the LA28 program. Owns top-down endorsement, capacity allocation across Practices, and funding for the multi-year build.',
+    mandate: 'Authorize the multi-year Wave-1 → Wave-2 program. Allocate cross-Practice capacity. Sponsor Microsoft alliance co-investment posture. Convene Practice Principals on quarterly cadence.',
+    needs: '<ul><li><b>Single-page LA28 program brief</b> · investment envelope, GP envelope, Wave-1 → W2 sequencing.</li><li><b>Cross-Practice capacity ask</b> · named DMTSP Principals from TMT / TH / RC / AXLE / ER / HLS / ICE / FSI / GPS.</li><li><b>Microsoft co-investment math</b> · ECIF + MACC alignment.</li><li><b>Independence + Risk Advisory readiness</b> at engagement level.</li></ul>',
+    pushback: '<i>"What\'s the W1 P&amp;L vs the LA28 storyline?"</i> Answer: Wave-1 is AT&amp;T Default Home Channel — independent P&amp;L. LA28 is the Wave-2 proof point that justifies the syndication play to T-Mobile / Verizon / Charter. Two motions, sequenced; W1 stands alone.',
+    ask: '<b>Closing ask:</b> "Can we secure top-down endorsement of the LA28 program charter and your sponsorship of the quarterly Practice Principals review?"',
+    recruiter: 'TMT Practice Principal + Microsoft alliance lead brief jointly. M1 task.',
+    phase: 'M1 initial brief; quarterly cadence M2 onward; final go-decision M6.',
+  },
+  msalliance: {
+    name: 'Microsoft Alliance Lead',
+    role: 'INTERNAL · LEADERSHIP · MICROSOFT ALLIANCE',
+    title: 'Deloitte Microsoft Alliance Lead · joint go-to-market sponsor',
+    org: 'Owns Microsoft-side joint motion · ECIF + MACC commercial structure · Microsoft GSI flagship status',
+    mandate: 'Microsoft platform engagement framing (NOT "alliance" externally — internal coordination only). Joint motion shape with Microsoft US Industry Lead. ECIF + MACC sizing per Channel. Microsoft AE/CSA alignment per anchor.',
+    needs: '<ul><li><b>Joint-motion shape</b> per anchor (Deloitte-led vs Microsoft-led vs co-led).</li><li><b>ECIF sizing</b> for Wave-1 build (per Channel) + LA28 Games-period capacity reservation.</li><li><b>Microsoft AE/CSA staffing</b> for AT&amp;T + each anchor partner.</li><li><b>Microsoft GSI flagship narrative</b> for LA28 launch.</li></ul>',
+    pushback: '<i>"What capacity does Microsoft need to reserve for 2028 Q3?"</i> Answer: detailed Bronze/Silver/Gold storage + inference token estimates per Channel · 24-month outlook · MACC alignment.',
+    ask: '<b>Closing ask:</b> "Can we confirm joint motion shape per anchor + ECIF sizing per Channel + Microsoft GSI flagship positioning for LA28?"',
+    recruiter: 'DMTSP Account Lead briefs at M1; ongoing cadence at every Channel sign-in.',
+    phase: 'Continuous engagement M1-M8.',
+  },
+  industryld: {
+    name: 'US Industry Leader (TMT)',
+    role: 'INTERNAL · LEADERSHIP · INDUSTRY SPONSOR',
+    title: 'Deloitte US Industry Leader covering TMT · also informally syndicates with Consumer + Health + ER + FSI + GPS Industry Leaders',
+    org: 'Cross-Industry sponsor for the LA28 program. Coordinates Industry-level resource asks (Practice Principals report into them). Wave-2 syndication sponsor.',
+    mandate: 'Resource ask across Industries. Align with peer Industry Leaders (Consumer/HLS/ER/FSI/GPS) since the marketplace crosses every Industry. Sponsor the post-Games syndication to T-Mobile + Verizon + Charter.',
+    needs: '<ul><li><b>Per-Industry resource ask</b> · named contributions from Consumer / HLS / ER / FSI / GPS Industry Leaders.</li><li><b>Wave-2 syndication play</b> mapped against US Industry account portfolio.</li><li><b>Cross-Industry case study</b> proof point.</li></ul>',
+    pushback: '<i>"How does LA28 fit my Industry\'s 2026-28 plan?"</i> Answer: it is the cross-Industry program of record · every Industry Leader gets a flagship account engagement; LA28 produces shared revenue.',
+    ask: '<b>Closing ask:</b> "Can we secure your sponsorship + your peer Industry Leaders\' resource asks for Wave-1 build and Wave-2 syndication?"',
+    recruiter: 'DMTSP M&amp;P Leader + TMT Practice Principal brief jointly. M1 task.',
+    phase: 'M1 initial · M5 readout · M8 syndication open.',
+  },
+  practprinc: {
+    name: 'Practice Principals (per Practice)',
+    role: 'INTERNAL · LEADERSHIP · PRACTICE OWNER',
+    title: 'TMT · TH · RC · AXLE · ER · HLS · ICE · FSI · GPS Practice Principals',
+    org: 'Per-Practice Principal · own staffing of their Practice\'s sub-team · per-Practice Independence posture · per-Practice anchor LCSPs report up to them',
+    mandate: 'Each Practice Principal owns: staffing of their Practice\'s VP / Account Lead / Account SE roles on the pursuit; per-Practice Independence posture; relationship with their per-anchor LCSPs. Signs off on per-Practice Channel scope.',
+    needs: '<ul><li><b>Single-page per-Practice brief</b> · which anchor(s), Channel scope, GP envelope, named seller team.</li><li><b>Independence posture per anchor</b> · pre-clear status.</li><li><b>Staffing requirement</b> · named roles + utilization commitment.</li><li><b>LCSP relationship map</b> · who briefs whom, when.</li></ul>',
+    pushback: '<i>"My Practice already has Q3 commitments — where\'s the carve-out?"</i> Answer: pre-pursuit phase is low-utilization; M3-M4 workshops are 2-3 day commitments per anchor; M7 Games window is the only 24/7 burst. Total per-Practice utilization sized at M1.',
+    ask: '<b>Closing ask:</b> "Can we get your sign-off on the Wave-1 scope ladder + named seller team + LCSP brief cadence for your Practice?"',
+    recruiter: 'DMTSP M&amp;P Leader briefs them collectively in quarterly Practice Principals review (per M2 task).',
+    phase: 'M1 initial brief; quarterly cadence M2 onward; per-anchor sign-off at M3-M4.',
+  },
+  riskpart: {
+    name: 'National Office / Risk Advisory Partner',
+    role: 'INTERNAL · LEADERSHIP · RISK ADVISORY',
+    title: 'Deloitte National Office + Risk Advisory Partner aligned to DMTSP',
+    org: 'Independence pre-clear · audit-committee defensibility · per-anchor SOW Risk pre-clear',
+    mandate: 'Independence posture for every anchor partner (anchor brand may be a Deloitte audit client). Risk pre-clear memo per anchor. Audit-committee defensibility of every SOW. EU AI Act + ISO 42001 readiness for relevant Channels.',
+    needs: '<ul><li><b>Per-anchor Independence pre-clear</b> initiated at M1 (long lead time).</li><li><b>EU AI Act + NIST AI RMF posture</b> for cross-Channel orchestrator.</li><li><b>ISO 42001 alignment</b> for the marketplace platform.</li><li><b>Audit-committee-ready memo</b> per signed SOW.</li></ul>',
+    pushback: '<i>"How many anchor partners are audit clients?"</i> Answer: per-anchor Independence pre-clear cycle started M1 · audit posture mapped before any anchor SOW drafting.',
+    ask: '<b>Closing ask:</b> "Can we confirm the per-anchor Independence pre-clear cadence + audit-committee memo template for each Channel SOW?"',
+    recruiter: 'DMTSP Account Lead opens at M1 · continuous engagement.',
+    phase: 'M1 initial · per-anchor pre-clear at M3-M4 · post-Games attestation at M8.',
+  },
+  'att-lcsp': {
+    name: 'AT&T LCSP',
+    role: 'INTERNAL · ACCOUNT TEAM · W1 ANCHOR',
+    title: 'Lead Client Service Partner for AT&amp;T · Wave-1 anchor account · controls the door',
+    org: 'Owns the AT&amp;T account relationship · controls access to CCO + CTO + Head of Bundle Programs · sign-off on every anchor BD touch',
+    mandate: 'No anchor BD opens at AT&amp;T without LCSP brief and explicit endorsement. LCSP owns the Wave-1 charter conversation, the SOW negotiation, and the AT&amp;T-internal champion identification.',
+    needs: '<ul><li><b>Marketplace pitch tailored to AT&amp;T strategic plan</b> · streaming-bundle muscle extension narrative.</li><li><b>Wave-1 GP envelope</b> with AT&amp;T-specific risk allocation.</li><li><b>Microsoft co-investment posture</b> + ECIF documented before SOW opens.</li><li><b>Risk Advisory pre-clear</b> for AT&amp;T-specific Independence posture.</li></ul>',
+    pushback: '<i>"AT&amp;T already has 17 active engagements — where does this fit?"</i> Answer: not displacing — composing the agentic marketplace layer above existing engagements; positioned as flagship strategic program with multi-year envelope.',
+    ask: '<b>Closing ask:</b> "Can we get your endorsement to open Wave-1 charter conversation with AT&amp;T CCO + CTO, with you in the room?"',
+    recruiter: 'TMT VP + DMTSP Account Lead brief at M1.',
+    phase: 'M1 brief; M2-M4 ongoing; M6 final go-decision; M7 Games window co-staffed; M8 syndication briefing.',
+  },
+  'walmart-lcsp': {
+    name: 'Walmart LCSP',
+    role: 'INTERNAL · ACCOUNT TEAM · RC CHANNEL',
+    title: 'Lead Client Service Partner for Walmart · RC Channel anchor account',
+    org: 'Owns Walmart Bentonville relationship · controls Bentonville workshop scheduling · sign-off on RTL-01..04 scope',
+    mandate: 'Brief and run the Bentonville workshop. RC Practice Principal sign-off on Wave-1 scope ladder before workshop. LCSP-protected door — no RC anchor BD without LCSP attendance or hand-off.',
+    needs: '<ul><li><b>Walmart-tailored marketplace pitch</b> · Walmart+ co-bundle economics specifically.</li><li><b>Pharmacy PHI scope</b> · HLS Practice coordination for RTL-02.</li><li><b>Walmart Connect sponsorship disclosure</b> mechanics.</li></ul>',
+    pushback: '<i>"Walmart is highly transactional — how is this strategic vs RFP-driven?"</i> Answer: Wave-1 fixed-fee productized · LA28 host-city retail wedge is the strategic story · post-Games W2 expansion to Target/Costco bench.',
+    ask: '<b>Closing ask:</b> "Can we schedule the Bentonville workshop with your team + the RC Practice Principal in the room?"',
+    recruiter: 'RC Account Lead + RC VP brief at M2-M3.',
+    phase: 'M3 workshop; M5 Super Bowl test; M7 Games window.',
+  },
+  'aa-lcsp': {
+    name: 'AA LCSP · Marriott LCSP',
+    role: 'INTERNAL · ACCOUNT TEAM · TH CHANNEL',
+    title: 'Lead Client Service Partners for American Airlines + Marriott · TH Channel anchor accounts',
+    org: 'Own DFW (AA) + Bethesda (Marriott) workshop scheduling · sign-off on Travel Channel anchor scope',
+    mandate: 'LCSP-controlled door for AA AAdvantage + Marriott Bonvoy MOU conversations. Separate LCSPs per anchor — each requires its own brief and workshop sequencing.',
+    needs: '<ul><li><b>AA-tailored IROPS-wedge pitch</b> · cross-carrier rebook economics + AAdvantage co-branding.</li><li><b>Marriott-tailored mobile-key pitch</b> · Bonvoy enrolment funnel economics.</li><li><b>FSI coordination on Chase Sapphire</b> · payment integration.</li></ul>',
+    pushback: '<i>"Why now and not at the next AAdvantage / Bonvoy strategic review?"</i> Answer: LA28 is the once-per-4-year customer-acquisition wedge · workshop now positions for Q3 2026 commercial-terms cycle.',
+    ask: '<b>Closing ask:</b> "Can we schedule DFW (AA) and Bethesda (Marriott) workshops separately with your teams + TH Practice Principal?"',
+    recruiter: 'TH VP briefs each LCSP separately at M2.',
+    phase: 'M3 workshops; M5 Super Bowl test; M7 Games window.',
+  },
+  'toyota-lcsp': {
+    name: 'Toyota LCSP · AutoNation LCSP',
+    role: 'INTERNAL · ACCOUNT TEAM · AXLE CHANNEL',
+    title: 'Lead Client Service Partners for Toyota North America + AutoNation · AXLE Channel anchor accounts',
+    org: 'Plano (Toyota) + AutoNation HQ workshop scheduling · sign-off on Mobility + Automobile Channel scope',
+    mandate: 'Toyota LCSP must navigate TOP-program coordination (Toyota is LA28 mobility TOP sponsor). AutoNation LCSP owns multi-anchor Automobile commercial structure (with Cox + Progressive LCSPs).',
+    needs: '<ul><li><b>TOP-program coordination language</b> for Toyota brief.</li><li><b>Multi-anchor brand-neutrality clauses</b> for AutoNation brief.</li><li><b>Per-OEM bench-onboarding plan</b> (Ford / GM / Tesla / Honda / Hyundai post-W2).</li></ul>',
+    pushback: '<i>"Toyota TOP-sponsor conflict?"</i> Answer: Channel branding is Telco-led; Toyota TOP-status referenced in narrative only with explicit copy approval.',
+    ask: '<b>Closing ask:</b> "Can we schedule Plano + AutoNation workshops separately with your teams + AXLE Practice Principal?"',
+    recruiter: 'AXLE VP briefs each LCSP at M3.',
+    phase: 'M4 workshops; M7 Games window.',
+  },
+  'nbc-lcsp': {
+    name: 'NBCUniversal LCSP · Comcast LCSP',
+    role: 'INTERNAL · ACCOUNT TEAM · TMT-MED',
+    title: 'Lead Client Service Partners for NBCUniversal + Comcast · highest-risk scope conversation',
+    org: 'Owns NBC + Comcast access · scope-boundary conversation owner · independent Risk pre-clear required',
+    mandate: 'Most sensitive door of the program. Olympic broadcast rights mean NBC counsel involvement is constant. Comcast at parent-org level. LCSP-protected throughout.',
+    needs: '<ul><li><b>Ride-along scope memo</b> — Channel doesn\'t distribute Olympic broadcast content.</li><li><b>Peacock cross-promo economics</b> · Peacock attribution mechanics in Channel UI.</li><li><b>Audit-committee-ready Independence posture</b> · Comcast may be a Deloitte audit client.</li></ul>',
+    pushback: '<i>"NBC broadcast rights are non-negotiable. What\'s the scope risk?"</i> Answer: scope memo authored upfront · NBC counsel attendance at every conversation · scope boundary explicit before any commercial commitment.',
+    ask: '<b>Closing ask:</b> "Can we walk the ride-along scope memo with you + NBC counsel before any external BD touch?"',
+    recruiter: 'TMT-Media VP + Risk Advisory Partner brief jointly at M1.',
+    phase: 'M1 brief; M3 sign; M7 Games-window live ops.',
+  },
+  'w2-lcsps': {
+    name: 'T-Mobile / Verizon / Charter / Lumen / DIRECTV LCSPs',
+    role: 'INTERNAL · ACCOUNT TEAM · W2 SYNDICATION',
+    title: 'LCSPs for Wave-2 Telco syndication targets',
+    org: 'Open after Wave-1 AT&T proof point lands · LA28 case study is the load-bearing artifact for these conversations',
+    mandate: 'Don\'t engage during Wave-1 build (don\'t spook the AT&T LCSP). Engage post-Games (M8) with the LA28 case study and explicit syndication offer. Wave-2 contracts target 2029.',
+    needs: '<ul><li><b>LA28 case study</b> with explicit partner approvals.</li><li><b>AT&T-LCSP-approved syndication language</b> (no competitive disadvantage to AT&T).</li><li><b>Per-Telco-tailored W2 SOW</b> with their specific subscriber base.</li></ul>',
+    pushback: '<i>"How does the W2 motion not undercut AT&T?"</i> Answer: AT&T captured first-mover advantage + 18 months of operational lead; W2 Telcos buy a proven platform at a different scope.',
+    ask: '<b>Closing ask (W2 phase):</b> "Can we open the W2 syndication conversation with the LA28 case study and a per-Telco scope proposal?"',
+    recruiter: 'DMTSP M&amp;P Leader + TMT Practice Principal open at M8.',
+    phase: 'M8 onward.',
+  },
+  'ai-institute': {
+    name: 'AI Institute Lead',
+    role: 'INTERNAL · AI &amp; DATA · CAPACITY + DESIGN',
+    title: 'Deloitte AI Institute Lead · owns capacity planning + LLM-tier mix + cross-engagement reuse',
+    org: 'Cross-Practice AI Institute · capacity planning · inference-cost modelling · agent-design reusability across engagements',
+    mandate: 'Capacity planning for inference cost across all Channels. LLM-tier mix optimization (Opus vs Sonnet vs Haiku vs open-source per Channel sub-agent). Cross-engagement agent-pattern reuse (marketplace meta-pack as flagship asset).',
+    needs: '<ul><li><b>Inference-cost forecast</b> per Channel per HH per month.</li><li><b>LLM-tier mix recommendation</b> per agent role.</li><li><b>Cross-engagement reusability</b> of marketplace meta-pack.</li><li><b>CAF capacity reservation</b> validated against forecast.</li></ul>',
+    pushback: '<i>"Inference cost at LA28 scale is the unknown."</i> Answer: Super Bowl warm-up at M5 validates 1.5x projected peak · forecast model updated quarterly · headroom monitored continuously.',
+    ask: '<b>Closing ask:</b> "Can we get your sign-off on the inference-cost forecast + LLM-tier mix per Channel by M2 (vault production)?"',
+    recruiter: 'Delivery Architect briefs at M2.',
+    phase: 'M2 initial · validated at M5 (Super Bowl) · live-monitored M7 (Games window).',
+  },
+  'ai-practice': {
+    name: 'AI Practice Lead',
+    role: 'INTERNAL · AI &amp; DATA · RESPONSIBLE AI + DESIGN REVIEW',
+    title: 'Deloitte AI Practice Lead · responsible-AI posture + agent-design review',
+    org: 'Cross-Practice AI delivery · responsible-AI framework · agent-pattern reuse · HITL discipline',
+    mandate: 'Review every agent design for responsible-AI posture before partner-MCP integration. HITL gate discipline. Joint MS+SAP responsible-AI framework alignment. Reusable agent patterns published to internal repo.',
+    needs: '<ul><li><b>Agent-by-agent responsible-AI review</b> (HOM-01..08, Travel, Retail, Mobility, Auto, CPG, Health, Industrial, Finance, Public Sector channels).</li><li><b>HITL gate review</b> per agent.</li><li><b>EU AI Act + NIST AI RMF compliance verification</b>.</li></ul>',
+    pushback: '<i>"100+ agents · how long does responsible-AI review take?"</i> Answer: review by archetype (F1 / F2 / F3 / F4 patterns) — once per archetype, applied across agents within that pattern. Pre-built by M2 prior to Channel rollouts.',
+    ask: '<b>Closing ask:</b> "Can we get your sign-off on the agent-archetype responsible-AI review template by M2?"',
+    recruiter: 'Delivery Architect briefs at M2.',
+    phase: 'M2 template · M3-M6 per-agent review at each Channel onboarding · M7 live monitoring.',
+  },
+  'da-practice': {
+    name: 'Data &amp; Analytics Practice Lead',
+    role: 'INTERNAL · AI &amp; DATA · SCHEMA + MEDALLION',
+    title: 'Deloitte Data &amp; Analytics Practice Lead · TMTML schema + medallion delivery assets',
+    org: 'Owns D&amp;A delivery patterns · medallion architecture (Bronze/Silver/Gold) · schema canonicalization · agent-data engineering',
+    mandate: 'TMTML schema reuse across engagements. Medallion delivery assets (Bronze ingestion, Silver canonicalization, Gold virtual views). Channel-specific data engineering staffing.',
+    needs: '<ul><li><b>TMTML schema reuse map</b> · which entities from existing engagements apply.</li><li><b>Medallion delivery asset reuse</b> · Bronze landing templates + Silver canonicalization patterns.</li><li><b>D&amp;A team staffing</b> per Channel.</li></ul>',
+    pushback: '<i>"D&amp;A has limited Wave-1 capacity."</i> Answer: Wave-1 reuses ~70% of existing D&amp;A assets · novel work concentrated on partner-MCP ingestion patterns.',
+    ask: '<b>Closing ask:</b> "Can we confirm D&amp;A staffing per Channel + schema-reuse map by M2 (vault production)?"',
+    recruiter: 'Delivery Architect briefs at M2.',
+    phase: 'M2 initial · per-Channel ramp M3-M6.',
+  },
+  'ai-risk': {
+    name: 'AI Risk Lead',
+    role: 'INTERNAL · AI &amp; DATA · AI RISK',
+    title: 'Deloitte AI Risk Lead · prompt-injection + hallucination + cross-Channel orchestrator boundaries',
+    org: 'AI Risk specialist team · prompt-injection defense · hallucination monitoring · cross-Channel orchestrator-boundary review',
+    mandate: 'Review of cross-Channel orchestrator (HOM-99). Prompt-injection defense per Channel. Hallucination boundary review per agent class. Live monitoring during Games window.',
+    needs: '<ul><li><b>HOM-99 orchestrator boundary review</b> · cross-Channel routing logic audited for prompt-injection + data-exfiltration.</li><li><b>Per-Channel hallucination boundaries</b> defined.</li><li><b>Live monitoring posture</b> for Games window.</li></ul>',
+    pushback: '<i>"Cross-Channel orchestrator is the hardest AI Risk surface."</i> Answer: confirmed · reviewed at M4 prior to Mobility / Automobile / CPG additions · Super Bowl warm-up tests it at scale at M5.',
+    ask: '<b>Closing ask:</b> "Can we get your sign-off on the HOM-99 orchestrator + cross-Channel routing review by M4?"',
+    recruiter: 'Delivery Architect briefs at M4.',
+    phase: 'M4 review · M5 Super Bowl validation · M7 live monitoring.',
+  },
+  'ml-eng': {
+    name: 'ML Engineering Lead',
+    role: 'INTERNAL · AI &amp; DATA · RUNTIME OPS',
+    title: 'Deloitte ML Engineering Lead · A2A Swarm + LangFuse + Registry + agent-runtime ops',
+    org: 'ML Engineering team · CAF runtime ops · A2A Swarm capacity · LangFuse trace volume · Registry agent-tier resolution',
+    mandate: 'CAF runtime operational readiness. A2A Swarm capacity at Games-window scale. LangFuse trace-volume forecasting. Registry agent-tier resolution working as designed.',
+    needs: '<ul><li><b>A2A Swarm capacity</b> at 1.5x projected LA28 peak validated.</li><li><b>LangFuse trace-volume forecast</b> with storage commitment.</li><li><b>Registry agent-tier resolution latency SLO</b>.</li><li><b>Games-window on-call rotation</b>.</li></ul>',
+    pushback: '<i>"A2A Swarm at Games-window scale is unproven."</i> Answer: Super Bowl warm-up validates at smaller scale · M6 final drill at 1.5x projected · M7 live with continuous capacity monitoring.',
+    ask: '<b>Closing ask:</b> "Can we confirm A2A + LangFuse + Registry capacity reservations + Games-window on-call rotation by M5?"',
+    recruiter: 'Delivery Architect briefs at M2 · continuous engagement.',
+    phase: 'M2 initial · M5 Super Bowl validation · M6 final drill · M7 live ops.',
+  },
+};
+
+function openInternal(key) {
+  const s = INTERNAL_STAKEHOLDERS[key];
+  if (!s) return;
+  document.getElementById('stk-role-tag').innerHTML = s.role;
+  document.getElementById('stk-name').innerHTML = s.name;
+  document.getElementById('stk-title').innerHTML = s.title;
+  document.getElementById('stk-org').innerHTML = s.org;
+  document.getElementById('stk-body').innerHTML = `
+    <h3>Mandate</h3>
+    <p>${s.mandate}</p>
+    <h3>What they need to hear</h3>
+    ${s.needs}
+    <h3>Pushback &amp; clean answer</h3>
+    <p>${s.pushback}</p>
+    <h3>Closing ask</h3>
+    <div class="stk-ask">${s.ask}</div>
+    <h3>Who briefs them</h3>
+    <p>${s.recruiter}</p>
+    <h3>Engagement timeline</h3>
+    <p>${s.phase}</p>
+  `;
+  document.getElementById('stk-modal-overlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
 
 const LA28_DATE = new Date('2028-07-14T19:00:00-07:00');
 const POST_GAMES_BUFFER_DAYS = 60;
