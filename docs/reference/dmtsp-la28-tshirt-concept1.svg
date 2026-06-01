@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 1200 1400" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <!-- ====================================================================
+       DMTSP × LA 2028 · T-SHIRT MOCKUP
+       Concept 1: The Orchestrator Node
+
+       Front-print design centered on a black tee.
+       9 satellite nodes (one per DMTSP Practice) orbit a gold orchestrator
+       hub. Evokes a constellation-of-channels without touching protected
+       Olympic IP. Independence-safe wordmarks (DMTSP, never alliance).
+
+       Print-ready notes for vendor:
+       - 3-color screen print: gold (Pantone 871 metallic or PMS 7507),
+         channel-mix on solid colors, white wordmarks
+       - For 1-color print: collapse all to gold-on-black or white-on-black
+       - Recommended print width: 11" centered on chest, 4" below collar
+       ==================================================================== -->
+
+  <defs>
+    <!-- Google Fonts for in-browser preview; print vendor needs vector outlines -->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&amp;family=Outfit:wght@500;700;800&amp;family=JetBrains+Mono:wght@600&amp;display=swap');
+      .agentic    { font-family: 'Fraunces', serif; font-weight: 700; }
+      .summer     { font-family: 'Outfit', sans-serif; font-weight: 800; }
+      .dmtsp      { font-family: 'JetBrains Mono', monospace; font-weight: 600; }
+      .tag        { font-family: 'Outfit', sans-serif; font-weight: 500; }
+    </style>
+
+    <radialGradient id="goldHub" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFE08A"/>
+      <stop offset="60%" stop-color="#C8A02F"/>
+      <stop offset="100%" stop-color="#8C6D1F"/>
+    </radialGradient>
+
+    <radialGradient id="hubGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFD700" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#FFD700" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Tee fabric subtle texture -->
+    <radialGradient id="teeFabric" cx="50%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#1A2A22"/>
+      <stop offset="100%" stop-color="#0D2818"/>
+    </radialGradient>
+
+    <!-- Tee shadow -->
+    <filter id="teeShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="14"/>
+      <feOffset dx="0" dy="8"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.35"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Cream background -->
+  <rect width="1200" height="1400" fill="#F4EFE5"/>
+
+  <!-- Subtle background dotgrid (Olympic spirit, no rings) -->
+  <g opacity="0.06" fill="#0D2818">
+    <circle cx="80"   cy="80"   r="2"/>
+    <circle cx="200"  cy="80"   r="2"/>
+    <circle cx="320"  cy="80"   r="2"/>
+    <circle cx="80"   cy="200"  r="2"/>
+    <circle cx="1120" cy="80"   r="2"/>
+    <circle cx="1000" cy="80"   r="2"/>
+    <circle cx="1120" cy="200"  r="2"/>
+    <circle cx="80"   cy="1320" r="2"/>
+    <circle cx="200"  cy="1320" r="2"/>
+    <circle cx="1120" cy="1320" r="2"/>
+    <circle cx="1000" cy="1320" r="2"/>
+    <circle cx="1120" cy="1200" r="2"/>
+  </g>
+
+  <!-- ============================== T-SHIRT SILHOUETTE ============================== -->
+  <g filter="url(#teeShadow)">
+    <!-- Body + sleeves (single path, hand-traced approximation of a fitted crew tee) -->
+    <path d="
+      M 350 220
+      L 470 160
+      Q 540 145 600 168
+      Q 660 145 730 160
+      L 850 220
+      L 970 280
+      L 925 420
+      L 815 365
+      L 810 1200
+      Q 810 1245 765 1245
+      L 435 1245
+      Q 390 1245 390 1200
+      L 385 365
+      L 275 420
+      L 230 280
+      Z" fill="url(#teeFabric)"/>
+    <!-- Collar -->
+    <path d="M 470 160 Q 600 230 730 160
+             Q 685 200 600 205
+             Q 515 200 470 160 Z"
+          fill="#0A1F12" stroke="#1F3A2B" stroke-width="1.5"/>
+    <!-- Subtle seam line down body -->
+    <line x1="600" y1="220" x2="600" y2="1200" stroke="#0A1F12" stroke-width="0.8" opacity="0.4"/>
+    <!-- Sleeve seam shadows -->
+    <path d="M 385 365 Q 410 380 430 380" stroke="#0A1F12" stroke-width="1.2" fill="none" opacity="0.5"/>
+    <path d="M 815 365 Q 790 380 770 380" stroke="#0A1F12" stroke-width="1.2" fill="none" opacity="0.5"/>
+  </g>
+
+  <!-- ============================== LOGO ART (centered on chest) ============================== -->
+  <g transform="translate(600, 700)">
+
+    <!-- ===== Top wordmark: AGENTIC ===== -->
+    <text x="0" y="-220" text-anchor="middle" class="agentic"
+          font-size="86" fill="#C8A02F" letter-spacing="12">AGENTIC</text>
+
+    <!-- Thin gold rule under wordmark -->
+    <line x1="-180" y1="-188" x2="180" y2="-188" stroke="#C8A02F" stroke-width="1.5" opacity="0.55"/>
+
+    <!-- ===== Orchestrator constellation ===== -->
+    <g>
+      <!-- Hub glow background -->
+      <circle cx="0" cy="0" r="180" fill="url(#hubGlow)"/>
+
+      <!-- 9 connector lines from hub to each satellite -->
+      <g stroke="#C8A02F" stroke-width="1.6" opacity="0.55" fill="none">
+        <line x1="0" y1="0" x2="0"    y2="-138"/>   <!-- TMT  -->
+        <line x1="0" y1="0" x2="89"   y2="-106"/>   <!-- TH   -->
+        <line x1="0" y1="0" x2="136"  y2="-24"/>    <!-- RC   -->
+        <line x1="0" y1="0" x2="120"  y2="69"/>     <!-- AXLE -->
+        <line x1="0" y1="0" x2="47"   y2="130"/>    <!-- ER   -->
+        <line x1="0" y1="0" x2="-47"  y2="130"/>    <!-- HLS  -->
+        <line x1="0" y1="0" x2="-120" y2="69"/>     <!-- ICE  -->
+        <line x1="0" y1="0" x2="-136" y2="-24"/>    <!-- FSI  -->
+        <line x1="0" y1="0" x2="-89"  y2="-106"/>   <!-- GPS  -->
+      </g>
+
+      <!-- 9 satellite nodes — one per DMTSP Practice -->
+      <g>
+        <!-- TMT · amber -->
+        <circle cx="0"    cy="-138" r="13" fill="#E8A33D" stroke="#0D2818" stroke-width="1.5"/>
+        <!-- TH · sky -->
+        <circle cx="89"   cy="-106" r="13" fill="#6FB6E5" stroke="#0D2818" stroke-width="1.5"/>
+        <!-- RC · teal -->
+        <circle cx="136"  cy="-24"  r="13" fill="#3DD9C4" stroke="#0D2818" stroke-width="1.5"/>
+        <!-- AXLE · violet -->
+        <circle cx="120"  cy="69"   r="13" fill="#9B7BE0" stroke="#0D2818" stroke-width="1.5"/>
+        <!-- ER · green -->
+        <circle cx="47"   cy="130"  r="13" fill="#5B8C3E" stroke="#0D2818" stroke-width="1.5"/>
+        <!-- HLS · medical blue -->
+        <circle cx="-47"  cy="130"  r="13" fill="#4A90D9" stroke="#0D2818" stroke-width="1.5"/>
+        <!-- ICE · brown-orange -->
+        <circle cx="-120" cy="69"   r="13" fill="#8C6D32" stroke="#0D2818" stroke-width="1.5"/>
+        <!-- FSI · navy -->
+        <circle cx="-136" cy="-24"  r="13" fill="#1E5AA8" stroke="#0D2818" stroke-width="1.5"/>
+        <!-- GPS · dark navy -->
+        <circle cx="-89"  cy="-106" r="13" fill="#2C3E78" stroke="#0D2818" stroke-width="1.5"/>
+      </g>
+
+      <!-- Practice labels — tiny mono text just outside each node -->
+      <g class="dmtsp" font-size="11" fill="#F4EFE5" text-anchor="middle">
+        <text x="0"    y="-168">TMT</text>
+        <text x="113"  y="-128">TH</text>
+        <text x="164"  y="-21">RC</text>
+        <text x="146"  y="80">AXLE</text>
+        <text x="58"   y="160">ER</text>
+        <text x="-58"  y="160">HLS</text>
+        <text x="-146" y="80">ICE</text>
+        <text x="-163" y="-21">FSI</text>
+        <text x="-113" y="-128">GPS</text>
+      </g>
+
+      <!-- Central orchestrator hub -->
+      <circle cx="0" cy="0" r="40" fill="url(#goldHub)" stroke="#FFE08A" stroke-width="2"/>
+      <circle cx="0" cy="0" r="32" fill="none" stroke="#0D2818" stroke-width="1" opacity="0.3"/>
+      <!-- Inner glyph: stylized orchestrator dot-cluster -->
+      <g fill="#0D2818">
+        <circle cx="0"   cy="0"  r="4.5"/>
+        <circle cx="-10" cy="-7" r="2.5"/>
+        <circle cx="10"  cy="-7" r="2.5"/>
+        <circle cx="-10" cy="7"  r="2.5"/>
+        <circle cx="10"  cy="7"  r="2.5"/>
+      </g>
+    </g>
+
+    <!-- Thin gold rule above bottom text -->
+    <line x1="-180" y1="208" x2="180" y2="208" stroke="#C8A02F" stroke-width="1.5" opacity="0.55"/>
+
+    <!-- ===== Bottom wordmark stack ===== -->
+    <text x="0" y="252" text-anchor="middle" class="summer"
+          font-size="38" fill="#C8A02F" letter-spacing="9">SUMMER · 28</text>
+
+    <text x="0" y="290" text-anchor="middle" class="dmtsp"
+          font-size="17" fill="#F4EFE5" letter-spacing="4">DMTSP &#183; LOS ANGELES</text>
+
+    <text x="0" y="328" text-anchor="middle" class="tag"
+          font-size="11.5" fill="#9A9383" letter-spacing="3.5">AGENTIC AI &#183; 9 PRACTICES &#183; 1 BILL</text>
+  </g>
+
+  <!-- ============================== HANGTAG (top-left) ============================== -->
+  <g transform="translate(80, 90)">
+    <rect x="0" y="0" width="280" height="76" rx="6" fill="#FFFFFF" stroke="#0D2818" stroke-width="1.5"/>
+    <text x="14" y="22" class="dmtsp" font-size="9" fill="#9A9383" letter-spacing="2">DMTSP · CAMPAIGN APPAREL</text>
+    <text x="14" y="44" class="summer" font-size="14" fill="#0D2818" letter-spacing="0.5">Agentic AI for the Games</text>
+    <text x="14" y="64" class="dmtsp" font-size="10" fill="#C8A02F" letter-spacing="1.5">DENVER · JUN 10, 2026 &#8594; LA · SUMMER 2028</text>
+  </g>
+
+  <!-- ============================== PRINT-VENDOR NOTES (bottom) ============================== -->
+  <g transform="translate(80, 1300)">
+    <text x="0" y="0" class="dmtsp" font-size="11" fill="#6B6757" letter-spacing="1.5">
+      DESIGN NOTES &#183; 3-color screen print on black tee (gold + channel-color mix + white) &#183; print width 11" centered on chest, 4" below collar
+    </text>
+    <text x="0" y="22" class="dmtsp" font-size="10" fill="#9A9383" letter-spacing="1.2">
+      No Olympic rings &#183; no IOC marks &#183; no "alliance" wordmark &#183; Independence-safe
+    </text>
+  </g>
+
+</svg>
