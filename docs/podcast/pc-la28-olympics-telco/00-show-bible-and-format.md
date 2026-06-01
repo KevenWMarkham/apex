@@ -86,13 +86,16 @@ Builds-on: <prior milestone hand-offs>
 
 ### A reading I want to do
 ### One disagreement
+### The quote-and-react
 ### What to carry forward
 1. <seller-actionable>
 2. <seller-actionable>
-3. <seller-actionable>
+3. <seller-actionable, optional — minimum 2, maximum 3>
 
 ## Further reading
 ```
+
+The four post-conversation `###` headings (*A reading I want to do*, *One disagreement*, *The quote-and-react*, *What to carry forward*) sit as peers inside the `## The conversation` H2 block — they are not a separate H2 section. The conversation closes when *What to carry forward* closes; `## Further reading` is the only H2 that follows.
 
 ---
 
@@ -145,15 +148,15 @@ The tracker's `practice-strip` and per-Channel accent palette inform episode fra
 
 ## 9. Recurring elements
 
-Three recurring beats land in every episode, none announced.
+Four recurring beats land in every episode, none announced. The first three live as peer `###` headings inside `## The conversation` after the numbered sub-sections close; the fourth — *The quote-and-react* — is its own `###` heading in the same peer position.
 
 **A reading I want to do.** One to two paragraphs. Marcus or Keven recommends a primary-source reading: an AT&T earnings transcript, an NBCUniversal Olympics commitments statement, an LA28 organising-committee public release, a Microsoft Azure architecture-center reference pattern, a Walmart investor-day deck, a Toyota Connected developer post.
 
 **One disagreement.** A real tension between Marcus and Keven, named. Sometimes it converges by the end of the episode and sometimes it doesn't. When it doesn't, the show ends with the tension still open — that is the honest record of how pursuit teams actually work.
 
-**What to carry forward.** Two to three numbered items, every one of them something a seller can do this week. Not aspirations — actions.
+**The quote-and-react.** One per episode, drawn from a primary source. Hosts read the quote, then react. The source is named; the host says where the quote came from before reading it. Lives as its own `### The quote-and-react` heading, ordered between *One disagreement* and *What to carry forward*.
 
-**The quote-and-react.** One per episode, drawn from a primary source. Hosts read the quote, then react. The source is named; the host says where the quote came from before reading it.
+**What to carry forward.** Two or three numbered items, every one of them something a seller can do this week. Not aspirations — actions. Two is the minimum; three is the cap.
 
 ---
 
