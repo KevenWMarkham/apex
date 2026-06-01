@@ -90,6 +90,14 @@ HOW TO USE IT
 
   /* ============================================== COUNTDOWN ============================================== */
   .countdown-band { background: #000000; padding: 16px 28px; border-bottom: 1px solid rgba(200,160,47,0.4); }
+  .indep-band { background: linear-gradient(90deg, #4C1D24 0%, #0D2818 100%); color: #FBBF24; padding: 10px 28px; border-bottom: 2px solid var(--olympic-gold); }
+  .indep-grid { max-width: 1440px; margin: 0 auto; display: grid; grid-template-columns: auto 1fr auto; gap: 20px; align-items: center; }
+  .indep-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 1.4px; text-transform: uppercase; color: var(--olympic-gold); border: 1px solid rgba(251,191,36,0.5); padding: 4px 10px; border-radius: 3px; font-weight: 700; }
+  .indep-text { font-size: 12.5px; color: #FEF3C7; line-height: 1.5; }
+  .indep-text b { color: var(--olympic-gold); }
+  .indep-text code { font-family: 'JetBrains Mono', monospace; background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 3px; font-size: 11px; color: var(--olympic-gold); }
+  .indep-link { font-size: 10.5px; color: rgba(251,191,36,0.85); text-decoration: none; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.4px; border: 1px solid rgba(251,191,36,0.35); padding: 4px 10px; border-radius: 3px; transition: all 0.15s; }
+  .indep-link:hover { color: #000; background: var(--olympic-gold); border-color: var(--olympic-gold); }
   .countdown-grid { max-width: 1440px; margin: 0 auto; display: grid; grid-template-columns: auto 1fr auto; gap: 28px; align-items: center; }
   .cd-label { color: var(--olympic-gold); font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
   .cd-label .cd-event { display: block; color: white; font-size: 14px; letter-spacing: 0.5px; text-transform: none; font-weight: 500; margin-top: 2px; opacity: 0.9; }
@@ -364,6 +372,17 @@ HOW TO USE IT
       <div class="cd-ring"></div>
       <div class="cd-ring"></div>
     </div>
+  </div>
+</div>
+
+<!-- ============================================== INDEPENDENCE BAND ============================================== -->
+<div class="indep-band">
+  <div class="indep-grid">
+    <span class="indep-tag">Independence</span>
+    <div class="indep-text">
+      <b>Deloitte audits Microsoft.</b> Per SEC + AICPA + DMTSP Independence rules, no "alliance" or "partner" language with Microsoft anywhere in this campaign. Approved framing: <code>Deloitte's Microsoft practice</code> · <code>DMTSP</code> · <code>Microsoft platform engagement</code> · <code>Microsoft-platform-committed delivery</code> · <code>Microsoft-native deployment</code>. Every external communication where Microsoft is named gets Risk Advisory pre-review.
+    </div>
+    <a class="indep-link" href="https://www2.deloitte.com/us/en/legal/about-deloitte/independence.html" target="_blank" rel="noopener noreferrer">Independence resources &rarr;</a>
   </div>
 </div>
 
@@ -672,7 +691,7 @@ HOW TO USE IT
       <div class="internal-col">
         <div class="internal-col-head" style="background:#0D2818; color:#86BC25;">
           <span class="ic-label">Leadership</span>
-          <span class="ic-sub">DMTSP + Practice Principals + Microsoft alliance</span>
+          <span class="ic-sub">DMTSP + Practice Principals + Microsoft platform engagement</span>
         </div>
         <div class="internal-cards">
           <div class="int-card" onclick="openInternal('dmtsp')">
@@ -681,9 +700,9 @@ HOW TO USE IT
             <div class="ic-sub2">Top-down endorsement · capacity · funding</div>
           </div>
           <div class="int-card" onclick="openInternal('msalliance')">
-            <div class="ic-role">Microsoft</div>
-            <div class="ic-name">Microsoft Alliance Lead</div>
-            <div class="ic-sub2">ECIF + MACC · joint motion · Microsoft GSI flag</div>
+            <div class="ic-role">Microsoft platform</div>
+            <div class="ic-name">DMTSP Microsoft Platform Lead</div>
+            <div class="ic-sub2">ECIF + MACC · joint motion · Microsoft-platform-reference deployment</div>
           </div>
           <div class="int-card" onclick="openInternal('industryld')">
             <div class="ic-role">US Industry</div>
@@ -872,7 +891,7 @@ const MILESTONES = [
     objectives: [
       'DMTSP Denver kickoff (10 Jun 2026) — LA28 campaign presented to all DMTSP sellers',
       'DMTSP M&P Leader top-down endorsement secured',
-      'Microsoft Alliance commitment framework (ECIF + MACC) agreed',
+      'Microsoft platform engagement commitment framework (ECIF + MACC) agreed',
       'Per-Practice seller teams named across all 9 Practices (TMT · TH · RC · AXLE · ER · HLS · ICE · FSI · GPS)',
       'Per-anchor LCSP brief cadence agreed before any external BD touch',
       'AI Institute + D&A Practice + ML Engineering capacity commitment framework',
@@ -882,7 +901,7 @@ const MILESTONES = [
       { practice: 'INT', who: 'DMTSP M&P Leader + TMT Practice Principal', coordinatesWith: ['CROSS'], text: '<b>DMTSP Denver kickoff meeting — 10 Jun 2026</b> · all-hands DMTSP practice · present LA28 campaign · per-Practice asks · year activity plan · secure top-down endorsement.' },
       { practice: 'INT', who: 'TMT VP + Account SE', coordinatesWith: ['CROSS'], text: '<b>Pre-Denver brief to DMTSP M&P Leader</b> · single-page charter · GP envelope · cross-Practice resource ask · sequencing rationale. Week of 1 Jun 2026.' },
       { practice: 'INT', who: 'TMT VP + Account SE', coordinatesWith: ['CROSS'], text: '<b>Denver deck preparation</b> · campaign overview · per-Practice asks · year activity plan · 8-milestone roadmap · this tracker as the artifact.' },
-      { practice: 'INT', who: 'DMTSP Account Lead', coordinatesWith: ['CROSS'], text: '<b>Microsoft Alliance Lead joint motion shape</b> · ECIF + MACC framework · GSI flagship language · Microsoft AE/CSA assignments framework.' },
+      { practice: 'INT', who: 'DMTSP Account Lead', coordinatesWith: ['CROSS'], text: '<b>DMTSP Microsoft Platform Lead joint-motion shape</b> · ECIF + MACC framework · Microsoft-platform-reference deployment language · Microsoft AE/CSA assignments framework. <em>Independence: Deloitte audits Microsoft — language is "Microsoft platform engagement", never "alliance" or "partner".</em>' },
       { practice: 'INT', who: 'TMT VP', coordinatesWith: ['CROSS'], text: '<b>Per-Practice Principal 1:1 briefs</b> · separately with TMT · TH · RC · AXLE · ER · HLS · ICE · FSI · GPS Principals · charter + seller-team naming ask + anchor LCSP brief plan.' },
       { practice: 'INT', who: 'TMT VP', coordinatesWith: ['CROSS'], text: '<b>US Industry Leader brief</b> · cross-Industry resource ask · Wave-2 syndication sponsor commit.' },
       { practice: 'INT', who: 'Delivery Architect', coordinatesWith: ['CROSS'], text: '<b>AI Institute + D&A Practice + ML Engineering joint capacity brief</b> · capacity-planning framework · inference-cost model · LLM-tier mix recommendation · A2A Swarm + LangFuse + Registry runtime planning.' },
@@ -893,7 +912,7 @@ const MILESTONES = [
     gate: [
       'DMTSP Denver kickoff completed (10 Jun 2026)',
       'DMTSP M&P Leader endorsement on record',
-      'Microsoft Alliance Lead joint motion framework confirmed',
+      'DMTSP Microsoft Platform Lead joint-motion framework confirmed',
       'Per-Practice seller teams named across all 9 Practices',
       'Per-anchor LCSP brief cadence agreed (no external BD without LCSP brief)',
       'Independence per-anchor pre-clear list submitted to National Office',
@@ -905,7 +924,7 @@ const MILESTONES = [
       meetings: [
         { with: 'DMTSP all-hands (Denver, 10 Jun 2026)', topic: 'LA28 campaign launch · per-Practice asks · year activity plan · top-down endorsement.', when: '10 Jun 2026' },
         { with: 'DMTSP M&P Leader 1:1 (pre-Denver)', topic: 'Brief charter + GP envelope + cross-Practice ask. Get endorsement before all-hands.', when: 'Week of 1 Jun 2026' },
-        { with: 'Microsoft Alliance Lead', topic: 'Joint motion shape · ECIF + MACC framework · Microsoft GSI flagship language.', when: 'Week of 8 Jun 2026' },
+        { with: 'DMTSP Microsoft Platform Lead', topic: 'Joint-motion shape · ECIF + MACC framework · Microsoft-platform-reference deployment language.', when: 'Week of 8 Jun 2026' },
         { with: 'Per-Practice Principals (separate 1:1s)', topic: 'Per-Practice charter · seller team naming · per-anchor LCSP brief plan. 9 conversations over 2-3 weeks.', when: '15-30 Jun 2026' },
         { with: 'AI Institute + D&A Lead + ML Eng Lead (joint)', topic: 'Capacity planning · LLM-tier mix · A2A Swarm + LangFuse + Registry runtime planning.', when: 'Jul 2026' },
         { with: 'Risk Advisory Partner + National Office', topic: 'Per-anchor brand Independence pre-clear initiation · audit-committee posture for each anchor.', when: 'Jul 2026' },
@@ -915,7 +934,7 @@ const MILESTONES = [
         { type: 'Denver kickoff deck (10 Jun 2026)', text: 'Single deck · campaign overview · per-Practice asks · year activity plan · 8-milestone roadmap · this tracker as the artifact.' },
         { type: 'DMTSP M&P Leader endorsement memo', text: 'Single page · charter + envelope + sequencing · circulated to all DMTSP Practice Principals before Denver.' },
         { type: 'Per-Practice brief (9 copies)', text: 'One per Practice · sub-team naming ask · anchor list · LCSP brief plan · Wave-1 vs Wave-2 sequencing per Practice.' },
-        { type: 'Microsoft Alliance joint motion doc', text: 'Deloitte + Microsoft motion shape · ECIF + MACC framework · GSI flagship language · ready by 8 Jun 2026.' },
+        { type: 'Microsoft platform engagement joint-motion doc', text: 'Joint Deloitte + Microsoft motion shape · ECIF + MACC framework · Microsoft-platform-reference deployment language · ready by 8 Jun 2026. <b>Independence-safe framing throughout</b> (no "alliance" or "partner" language).' },
         { type: 'Independence per-anchor pre-clear list', text: 'Submitted to National Office · 25+ named brands across all Channels.' },
         { type: 'NBC scope-boundary memo', text: 'Drafted before any NBC counsel conversation · Channel does NOT distribute Olympic broadcast content; ride-along only.' },
       ],
@@ -1098,7 +1117,7 @@ const MILESTONES = [
       { practice: 'INT', who: 'RC Account Lead', coordinatesWith: ['RC'], text: '<b>Brief Sazerac LCSP</b> at New Orleans · RC Practice Principal sign-off on host-city commit commercial terms.' },
       { practice: 'INT', who: 'ER VP', coordinatesWith: ['ER'], text: '<b>Brief PG&E + SCE + LADWP LCSPs</b> · ER Practice Principal sign-off · utility-industry-specific Independence posture confirmed.' },
       { practice: 'INT', who: 'Delivery Architect', coordinatesWith: ['CROSS'], text: '<b>AI Risk review of cross-Channel orchestrator</b> · HOM-99 + cross-Practice routing logic reviewed for prompt-injection, data-exfiltration, hallucination boundaries.' },
-      { practice: 'INT', who: 'DMTSP Account Lead', coordinatesWith: ['CROSS'], text: '<b>Mid-pursuit Leadership readout</b> · DMTSP M&P Leader + Microsoft Alliance Lead · half-cycle status · funding for M5-M6 confirmed.' },
+      { practice: 'INT', who: 'DMTSP Account Lead', coordinatesWith: ['CROSS'], text: '<b>Mid-pursuit Leadership readout</b> · DMTSP M&P Leader + DMTSP Microsoft Platform Lead · half-cycle status · funding for M5-M6 confirmed.' },
     ],
     gate: [
       'Toyota Connected MOU signed (TOP coordination resolved)',
@@ -1258,7 +1277,7 @@ const MILESTONES = [
       { practice: 'CROSS', who: 'Delivery Architect', text: '<b>SLO monitoring</b> · all Channels green · automated escalation if any Channel breaches SLO for >5 min · LangFuse trace volumes within forecast.' },
       { practice: 'CROSS', who: 'DMTSP Account Lead', text: '<b>Capture every wedge event</b> · IROPS recoveries, hotel walks, allocation pickups, eldercare alerts, payment-fraud avoids · narrative + metrics for case study.' },
       { practice: 'RISK', who: 'Risk Advisory Partner', text: '<b>Live incident-audit + Independence-event monitoring</b> · zero brand-event incidents required · daily review with all Practice leads.' },
-      { practice: 'INT', who: 'DMTSP Account Lead', coordinatesWith: ['CROSS'], text: '<b>Daily internal exec briefing</b> · 7 PM PT roll-up to DMTSP M&P Leader + Microsoft Alliance Lead · prior-day wedge events + day-ahead risks.' },
+      { practice: 'INT', who: 'DMTSP Account Lead', coordinatesWith: ['CROSS'], text: '<b>Daily internal exec briefing</b> · 7 PM PT roll-up to DMTSP M&P Leader + DMTSP Microsoft Platform Lead · prior-day wedge events + day-ahead risks.' },
       { practice: 'INT', who: 'Delivery Architect', coordinatesWith: ['CROSS'], text: '<b>AI Institute on-call</b> for SLO-breach escalation · capacity headroom monitored · prompt-injection / hallucination event monitoring.' },
     ],
     gate: [
@@ -1560,24 +1579,24 @@ const INTERNAL_STAKEHOLDERS = {
     role: 'INTERNAL · LEADERSHIP · TOP-DOWN ENDORSEMENT',
     title: 'Deloitte Microsoft Technology Solutions &amp; Practices · Marketplace &amp; Platforms Leader',
     org: 'DMTSP highest-level sponsor for the LA28 program. Owns top-down endorsement, capacity allocation across Practices, and funding for the multi-year build.',
-    mandate: 'Authorize the multi-year Wave-1 → Wave-2 program. Allocate cross-Practice capacity. Sponsor Microsoft alliance co-investment posture. Convene Practice Principals on quarterly cadence.',
+    mandate: 'Authorize the multi-year Wave-1 → Wave-2 program. Allocate cross-Practice capacity. Sponsor Microsoft platform engagement + co-investment posture (ECIF + MACC). Convene Practice Principals on quarterly cadence.',
     needs: '<ul><li><b>Single-page LA28 program brief</b> · investment envelope, GP envelope, Wave-1 → W2 sequencing.</li><li><b>Cross-Practice capacity ask</b> · named DMTSP Principals from TMT / TH / RC / AXLE / ER / HLS / ICE / FSI / GPS.</li><li><b>Microsoft co-investment math</b> · ECIF + MACC alignment.</li><li><b>Independence + Risk Advisory readiness</b> at engagement level.</li></ul>',
     pushback: '<i>"What\'s the W1 P&amp;L vs the LA28 storyline?"</i> Answer: Wave-1 is AT&amp;T Default Home Channel — independent P&amp;L. LA28 is the Wave-2 proof point that justifies the syndication play to T-Mobile / Verizon / Charter. Two motions, sequenced; W1 stands alone.',
     ask: '<b>Closing ask:</b> "Can we secure top-down endorsement of the LA28 program charter and your sponsorship of the quarterly Practice Principals review?"',
-    recruiter: 'TMT Practice Principal + Microsoft alliance lead brief jointly. M1 task.',
+    recruiter: 'TMT Practice Principal + DMTSP Microsoft Platform Lead brief jointly. M0 task.',
     phase: 'M1 initial brief; quarterly cadence M2 onward; final go-decision M6.',
   },
   msalliance: {
-    name: 'Microsoft Alliance Lead',
-    role: 'INTERNAL · LEADERSHIP · MICROSOFT ALLIANCE',
-    title: 'Deloitte Microsoft Alliance Lead · joint go-to-market sponsor',
-    org: 'Owns Microsoft-side joint motion · ECIF + MACC commercial structure · Microsoft GSI flagship status',
-    mandate: 'Microsoft platform engagement framing (NOT "alliance" externally — internal coordination only). Joint motion shape with Microsoft US Industry Lead. ECIF + MACC sizing per Channel. Microsoft AE/CSA alignment per anchor.',
-    needs: '<ul><li><b>Joint-motion shape</b> per anchor (Deloitte-led vs Microsoft-led vs co-led).</li><li><b>ECIF sizing</b> for Wave-1 build (per Channel) + LA28 Games-period capacity reservation.</li><li><b>Microsoft AE/CSA staffing</b> for AT&amp;T + each anchor partner.</li><li><b>Microsoft GSI flagship narrative</b> for LA28 launch.</li></ul>',
-    pushback: '<i>"What capacity does Microsoft need to reserve for 2028 Q3?"</i> Answer: detailed Bronze/Silver/Gold storage + inference token estimates per Channel · 24-month outlook · MACC alignment.',
-    ask: '<b>Closing ask:</b> "Can we confirm joint motion shape per anchor + ECIF sizing per Channel + Microsoft GSI flagship positioning for LA28?"',
-    recruiter: 'DMTSP Account Lead briefs at M1; ongoing cadence at every Channel sign-in.',
-    phase: 'Continuous engagement M1-M8.',
+    name: 'DMTSP Microsoft Platform Lead',
+    role: 'INTERNAL · LEADERSHIP · MICROSOFT PLATFORM ENGAGEMENT',
+    title: 'Deloitte\'s Microsoft Platform Engagement Lead within DMTSP · joint-motion sponsor for Microsoft-platform deployments',
+    org: '<b style="color:var(--red-flag);">Independence-critical role.</b> Deloitte audits Microsoft. There is no "alliance" and no "partnership." This role owns the framing — internal coordination on joint-motion deployment shape, ECIF + MACC commercial structure for Microsoft-platform-committed engagements, and Microsoft AE/CSA alignment per anchor. <b>All language is "Microsoft platform engagement", "DMTSP", "Microsoft-platform-committed", or "Microsoft-native deployment". Never "alliance" or "partner".</b>',
+    mandate: '<b>Maintain Independence-safe framing throughout the program.</b> All external communications use "Deloitte\'s Microsoft practice / DMTSP" or "Microsoft platform engagement" — never "alliance" or "partner". Joint-motion shape with Microsoft US Industry Lead. ECIF + MACC sizing per Channel. Microsoft AE/CSA alignment per anchor. Microsoft-platform-reference deployment positioning for LA28.',
+    needs: '<ul><li><b>Joint-motion shape</b> per anchor (Deloitte-led vs Microsoft-led vs co-led delivery posture).</li><li><b>ECIF sizing</b> for Wave-1 build (per Channel) + LA28 Games-period capacity reservation.</li><li><b>Microsoft AE/CSA staffing</b> for AT&amp;T + each anchor account.</li><li><b>Microsoft-platform-reference deployment narrative</b> for LA28 launch (no "flagship partner" language).</li></ul>',
+    pushback: '<i>"Isn\'t this just an alliance under a different name?"</i> Answer: <b>no.</b> Per SEC + AICPA + DMTSP Independence rules, Deloitte audits Microsoft and cannot have an alliance or strategic partnership. What exists is a productized practice (DMTSP) that helps clients deploy Microsoft technology, with engagement-by-engagement ECIF/MACC mechanics. Every external document language gets a Risk Advisory pre-review.<br><br><i>"What capacity does Microsoft need to reserve for 2028 Q3?"</i> Answer: detailed Bronze/Silver/Gold storage + inference token estimates per Channel · 24-month outlook · MACC alignment.',
+    ask: '<b>Closing ask:</b> "Can we confirm joint-motion shape per anchor + ECIF sizing per Channel + Microsoft-platform-reference deployment positioning for LA28 — with Risk Advisory pre-review of all external language?"',
+    recruiter: 'DMTSP Account Lead briefs at M0; ongoing cadence at every Channel sign-in. Risk Advisory pre-reviews every external comm where Microsoft is named.',
+    phase: 'Continuous engagement M0-M8. Risk Advisory pre-review at every external touch.',
   },
   industryld: {
     name: 'US Industry Leader (TMT)',
@@ -1755,8 +1774,9 @@ const INTERNAL_STAKEHOLDERS = {
    ============================================================================ */
 const REFERENCE_LIBRARY = {
   // Internal Deloitte
-  'DMTSP':       [ { label: 'Deloitte Microsoft alliance practice', url: 'https://www.deloitte.com/us/en/services/consulting/services/microsoft-services-practice.html' } ],
-  'Microsoft Alliance': [ { label: 'Microsoft Cloud Adoption Framework', url: 'https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/' }, { label: 'Microsoft ECIF program (Azure Consumption Funding)', url: 'https://partner.microsoft.com/en-us/membership/cloud-solution-provider' } ],
+  'DMTSP':       [ { label: 'Deloitte\'s Microsoft Services Practice (DMTSP)', url: 'https://www.deloitte.com/us/en/services/consulting/services/microsoft-services-practice.html' }, { label: 'Deloitte Independence resources', url: 'https://www2.deloitte.com/us/en/legal/about-deloitte/independence.html' } ],
+  'Microsoft platform': [ { label: 'Microsoft Cloud Adoption Framework', url: 'https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/' }, { label: 'Microsoft ECIF program (Azure Consumption Funding)', url: 'https://learn.microsoft.com/en-us/training/azure/microsoft-cloud-adoption-framework-azure' } ],
+  'Independence': [ { label: 'Deloitte Independence', url: 'https://www2.deloitte.com/us/en/legal/about-deloitte/independence.html' }, { label: 'SEC Auditor Independence rules', url: 'https://www.sec.gov/about/divisions-offices/division-corporation-finance/audit-committee-information' }, { label: 'AICPA Code of Professional Conduct', url: 'https://www.aicpa-cima.com/topic/ethics' } ],
   'Risk Advisory': [ { label: 'Deloitte Independence resources', url: 'https://www2.deloitte.com/us/en/legal/about-deloitte/independence.html' }, { label: 'ISO 42001 AI management', url: 'https://www.iso.org/standard/81230.html' } ],
   'AI Institute':  [ { label: 'Deloitte AI Institute', url: 'https://www2.deloitte.com/us/en/pages/consulting/topics/deloitte-ai-institute.html' } ],
   'D&A Practice':  [ { label: 'Microsoft Fabric medallion architecture', url: 'https://learn.microsoft.com/en-us/fabric/onelake/onelake-medallion-lakehouse-architecture' } ],
