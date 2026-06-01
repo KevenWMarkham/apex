@@ -27,7 +27,9 @@ This is *not* a customer-facing podcast. The seller is the listener.
 
 **Cadence.** 9 episodes, 35-45 minutes each, scripted two-host conversation.
 
-**Hosts.** **Marcus + Keven** — continuity with the DTNA Account Podcast (`pc-dtna-account/`). Marcus is the Deloitte hand who knows the framework, the practice mechanics, and the cross-Practice coordination motion. Keven is the Microsoft platform practitioner (22 years on the platform, VP of Deloitte's Microsoft Technology & Services Practice) who lands the platform-engagement story.
+**Hosts.** **Rashmi + Keven**. Rashmi is the senior Deloitte hand who knows the framework, the practice mechanics, and the cross-Practice coordination motion — an Indian English senior-partner register (voice: `en-IN-NeerjaNeural`). Keven is the Microsoft platform practitioner (22 years on the platform, VP of Deloitte's Microsoft Technology & Services Practice) who lands the platform-engagement story (voice: `en-US-AndrewNeural`, DTNA continuity).
+
+**Independence — Microsoft commercial instruments off-tape.** Deloitte audits Microsoft. Hosts do NOT name, describe, or reference Microsoft funding programs (ECIF) or consumption-commitment vehicles (MACC) anywhere on tape; "joint-motion," "co-investment," and "pull-through" framings are likewise off-tape. Microsoft handles its commercial conversation directly with the anchor; Deloitte's posture stays on-the-merits — *"Microsoft platform engagement"* and nothing that implies a coordinated commercial play.
 
 **Voice cast (deferred audio).** Andrew + Brian Multilingual — matches the DTNA pair.
 
