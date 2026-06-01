@@ -90,14 +90,6 @@ HOW TO USE IT
 
   /* ============================================== COUNTDOWN ============================================== */
   .countdown-band { background: #000000; padding: 16px 28px; border-bottom: 1px solid rgba(200,160,47,0.4); }
-  .indep-band { background: linear-gradient(90deg, #4C1D24 0%, #0D2818 100%); color: #FBBF24; padding: 10px 28px; border-bottom: 2px solid var(--olympic-gold); }
-  .indep-grid { max-width: 1440px; margin: 0 auto; display: grid; grid-template-columns: auto 1fr auto; gap: 20px; align-items: center; }
-  .indep-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 1.4px; text-transform: uppercase; color: var(--olympic-gold); border: 1px solid rgba(251,191,36,0.5); padding: 4px 10px; border-radius: 3px; font-weight: 700; }
-  .indep-text { font-size: 12.5px; color: #FEF3C7; line-height: 1.5; }
-  .indep-text b { color: var(--olympic-gold); }
-  .indep-text code { font-family: 'JetBrains Mono', monospace; background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 3px; font-size: 11px; color: var(--olympic-gold); }
-  .indep-link { font-size: 10.5px; color: rgba(251,191,36,0.85); text-decoration: none; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.4px; border: 1px solid rgba(251,191,36,0.35); padding: 4px 10px; border-radius: 3px; transition: all 0.15s; }
-  .indep-link:hover { color: #000; background: var(--olympic-gold); border-color: var(--olympic-gold); }
   .countdown-grid { max-width: 1440px; margin: 0 auto; display: grid; grid-template-columns: auto 1fr auto; gap: 28px; align-items: center; }
   .cd-label { color: var(--olympic-gold); font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
   .cd-label .cd-event { display: block; color: white; font-size: 14px; letter-spacing: 0.5px; text-transform: none; font-weight: 500; margin-top: 2px; opacity: 0.9; }
@@ -155,8 +147,10 @@ HOW TO USE IT
   .h-tree { width: 100%; height: 760px; }
   .practice-strip { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin: 12px 0 4px; padding: 10px; background: linear-gradient(135deg, #F7F9FA, #FFFFFF); border: 1px solid var(--border); border-radius: 8px; }
   @media (max-width: 900px) { .practice-strip { grid-template-columns: repeat(3, 1fr); } }
-  .practice-chip { text-align: center; font-size: 9px; font-weight: 700; padding: 5px 4px; border-radius: 4px; color: white; letter-spacing: 0.4px; cursor: default; transition: transform 0.1s; }
-  .practice-chip:hover { transform: translateY(-1px); }
+  .practice-chip { text-align: center; font-size: 9px; font-weight: 700; padding: 5px 4px; border-radius: 4px; color: white; letter-spacing: 0.4px; cursor: pointer; transition: all 0.12s; position: relative; }
+  .practice-chip:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0,0,0,0.18); }
+  .practice-chip::after { content: '\\003E'; position: absolute; top: 4px; right: 6px; font-size: 9px; opacity: 0.55; font-family: 'Outfit', sans-serif; font-weight: 800; }
+  .practice-chip:hover::after { opacity: 1; }
   .practice-chip .pc-name { display: block; font-size: 10px; font-weight: 800; letter-spacing: 0.6px; }
   .practice-chip .pc-channels { display: block; font-size: 8.5px; opacity: 0.85; font-weight: 500; margin-top: 1px; }
   .h-node { position: relative; cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease; user-select: none; }
@@ -310,6 +304,58 @@ HOW TO USE IT
   .stk-ask { background: linear-gradient(135deg, #ECFDF5, #FFFFFF); border-left: 4px solid var(--green-ok); padding: 12px 16px; border-radius: 4px; margin: 10px 0; font-size: 12.5px; font-style: italic; line-height: 1.55; }
   .stk-ask b { color: var(--green-ok); font-style: normal; }
 
+  /* PRACTICE SCOPE MODAL */
+  .scope-modal { background: white; border-radius: 12px; max-width: 1080px; width: 100%; max-height: 92vh; overflow-y: auto; position: relative; box-shadow: 0 24px 70px rgba(0,0,0,0.5); }
+  .scope-head { color: white; padding: 22px 28px 16px; border-radius: 12px 12px 0 0; }
+  .scope-head h2 { font-family: 'Outfit', sans-serif; font-size: 22px; margin: 0; color: white; }
+  .scope-head .scope-sub { color: rgba(255,255,255,0.85); font-size: 12.5px; margin-top: 4px; }
+  .scope-head .scope-summary { color: rgba(255,255,255,0.9); font-size: 13px; margin-top: 8px; max-width: 800px; line-height: 1.5; }
+  .scope-close { position: absolute; top: 16px; right: 18px; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.32); color: white; font-size: 22px; cursor: pointer; line-height: 1; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Outfit', sans-serif; }
+  .scope-tabs { display: flex; gap: 0; padding: 0 28px; background: rgba(0,0,0,0.15); }
+  .scope-tab { background: transparent; border: none; padding: 12px 18px; color: rgba(255,255,255,0.7); font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.15s; }
+  .scope-tab.active { color: white; border-bottom-color: var(--olympic-gold); }
+  .scope-tab:hover { color: white; }
+  .scope-body { padding: 22px 28px 26px; }
+
+  /* Treeview */
+  .tree-svc { background: #FBFCFD; border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 6px; margin-bottom: 10px; }
+  .tree-svc[open] { background: white; }
+  .tree-svc > summary { padding: 12px 16px; cursor: pointer; list-style: none; font-family: 'Outfit', sans-serif; }
+  .tree-svc > summary::-webkit-details-marker { display: none; }
+  .tree-svc > summary::before { content: '\\25B6'; display: inline-block; color: var(--accent); font-size: 10px; margin-right: 8px; transition: transform 0.15s; }
+  .tree-svc[open] > summary::before { transform: rotate(90deg); }
+  .tree-svc .svc-code { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 700; color: var(--accent); margin-right: 8px; padding: 2px 6px; background: rgba(0,0,0,0.05); border-radius: 3px; }
+  .tree-svc .svc-name { font-weight: 700; color: var(--accent-navy); font-size: 14px; }
+  .tree-svc .svc-content { padding: 0 16px 14px 30px; font-family: 'DM Sans', sans-serif; }
+  .tree-scn { margin-top: 10px; padding: 10px 14px; background: rgba(0,118,168,0.04); border-left: 3px solid var(--accent-blue); border-radius: 4px; }
+  .tree-scn h5 { font-family: 'Outfit', sans-serif; font-size: 13px; color: var(--accent-blue); margin: 0 0 8px; font-weight: 700; }
+  .tree-row { display: grid; grid-template-columns: 86px 1fr; gap: 12px; margin: 8px 0; font-size: 12px; align-items: start; }
+  .tree-row .tr-label { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.6px; text-transform: uppercase; font-weight: 700; padding-top: 1px; }
+  .tree-row.uc .tr-label { color: var(--joule-purple); }
+  .tree-row.persona .tr-label { color: var(--crimson); }
+  .tree-row.kpi .tr-label { color: var(--gold); }
+  .tree-row ul { margin: 0; padding-left: 16px; }
+  .tree-row li { margin-bottom: 3px; line-height: 1.5; color: var(--text-primary); }
+  .tree-kpi { display: inline-flex; align-items: center; gap: 6px; background: rgba(200,157,58,0.10); border-left: 3px solid var(--gold); padding: 4px 10px; border-radius: 3px; margin: 3px 6px 3px 0; font-size: 11.5px; }
+  .tree-kpi .arrow { color: var(--gold); font-weight: 800; font-size: 13px; }
+  .tree-kpi .metric { font-weight: 600; color: var(--accent-navy); }
+  .tree-kpi .target { color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+
+  /* Build pipeline diagram */
+  .build-pipeline { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin: 14px 0 18px; }
+  .build-col { background: white; border: 1px solid var(--border); border-top: 4px solid var(--col); padding: 12px 12px 14px; position: relative; min-height: 140px; }
+  .build-col:not(:last-child)::after { content: '\\2192'; position: absolute; top: 50%; right: -10px; transform: translateY(-50%); background: white; color: var(--col); font-size: 18px; font-weight: 800; z-index: 5; padding: 2px 4px; border-radius: 50%; border: 1px solid var(--border); width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; }
+  .build-col .bc-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--col); font-weight: 800; margin-bottom: 8px; }
+  .build-col .bc-name { font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 700; color: var(--accent-navy); margin-bottom: 8px; }
+  .build-col ul { list-style: none; padding: 0; margin: 0; }
+  .build-col li { font-size: 10.5px; padding: 3px 6px; background: rgba(0,0,0,0.03); border-radius: 3px; margin-bottom: 3px; color: var(--text-primary); font-family: 'JetBrains Mono', monospace; line-height: 1.35; }
+  @media (max-width: 900px) {
+    .build-pipeline { grid-template-columns: 1fr; }
+    .build-col:not(:last-child)::after { display: none; }
+  }
+  .build-arch-note { background: #F0F7FF; border-left: 3px solid var(--accent-blue); padding: 10px 14px; border-radius: 4px; font-size: 11.5px; color: var(--text-primary); margin-top: 10px; line-height: 1.55; }
+  .build-arch-note b { color: var(--accent-navy); }
+
   /* reference list (action-item modal) */
   .ref-list { list-style: none; padding: 0; margin: 8px 0; }
   .ref-list li { padding: 8px 12px; background: #F0F7FF; border-left: 3px solid var(--accent-blue); border-radius: 4px; margin-bottom: 5px; font-size: 12.5px; }
@@ -372,17 +418,6 @@ HOW TO USE IT
       <div class="cd-ring"></div>
       <div class="cd-ring"></div>
     </div>
-  </div>
-</div>
-
-<!-- ============================================== INDEPENDENCE BAND ============================================== -->
-<div class="indep-band">
-  <div class="indep-grid">
-    <span class="indep-tag">Independence</span>
-    <div class="indep-text">
-      <b>Deloitte audits Microsoft.</b> Per SEC + AICPA + DMTSP Independence rules, no "alliance" or "partner" language with Microsoft anywhere in this campaign. Approved framing: <code>Deloitte's Microsoft practice</code> · <code>DMTSP</code> · <code>Microsoft platform engagement</code> · <code>Microsoft-platform-committed delivery</code> · <code>Microsoft-native deployment</code>. Every external communication where Microsoft is named gets Risk Advisory pre-review.
-    </div>
-    <a class="indep-link" href="https://www2.deloitte.com/us/en/legal/about-deloitte/independence.html" target="_blank" rel="noopener noreferrer">Independence resources &rarr;</a>
   </div>
 </div>
 
@@ -624,16 +659,16 @@ HOW TO USE IT
       </foreignObject>
     </svg>
 
-    <div class="practice-strip" title="DMTSP Practice coverage across the marketplace at LA28">
-      <div class="practice-chip" style="background:var(--c-home);color:var(--deloitte-dark);"><span class="pc-name">TMT</span><span class="pc-channels">Telco · Home · Media</span></div>
-      <div class="practice-chip" style="background:var(--c-travel);color:var(--deloitte-dark);"><span class="pc-name">TH</span><span class="pc-channels">Travel · hospitality</span></div>
-      <div class="practice-chip" style="background:var(--c-retail);color:var(--deloitte-dark);"><span class="pc-name">RC</span><span class="pc-channels">Retail · CPG</span></div>
-      <div class="practice-chip" style="background:var(--c-mobility);"><span class="pc-name">AXLE</span><span class="pc-channels">Mobility · Auto</span></div>
-      <div class="practice-chip" style="background:var(--c-energy);"><span class="pc-name">ER</span><span class="pc-channels">Energy · utilities</span></div>
-      <div class="practice-chip" style="background:var(--c-health);"><span class="pc-name">HLS</span><span class="pc-channels">Health · pharma · payer</span></div>
-      <div class="practice-chip" style="background:var(--c-industrial);"><span class="pc-name">ICE</span><span class="pc-channels">Industrial · venue · transit</span></div>
-      <div class="practice-chip" style="background:var(--c-finance);"><span class="pc-name">FSI</span><span class="pc-channels">Finance · payments</span></div>
-      <div class="practice-chip" style="background:var(--c-public);"><span class="pc-name">GPS</span><span class="pc-channels">Public Sector · Risk</span></div>
+    <div class="practice-strip" title="Click any Practice for its LA28 scope — services · scenarios · use cases · personas · KPIs · build pipeline">
+      <div class="practice-chip" onclick="openPracticeScope('TMT')" style="background:var(--c-home);color:var(--deloitte-dark);"><span class="pc-name">TMT</span><span class="pc-channels">Telco · Home · Media</span></div>
+      <div class="practice-chip" onclick="openPracticeScope('TH')" style="background:var(--c-travel);color:var(--deloitte-dark);"><span class="pc-name">TH</span><span class="pc-channels">Travel · hospitality</span></div>
+      <div class="practice-chip" onclick="openPracticeScope('RC')" style="background:var(--c-retail);color:var(--deloitte-dark);"><span class="pc-name">RC</span><span class="pc-channels">Retail · CPG</span></div>
+      <div class="practice-chip" onclick="openPracticeScope('AXLE')" style="background:var(--c-mobility);"><span class="pc-name">AXLE</span><span class="pc-channels">Mobility · Auto</span></div>
+      <div class="practice-chip" onclick="openPracticeScope('ER')" style="background:var(--c-energy);"><span class="pc-name">ER</span><span class="pc-channels">Energy · utilities</span></div>
+      <div class="practice-chip" onclick="openPracticeScope('HLS')" style="background:var(--c-health);"><span class="pc-name">HLS</span><span class="pc-channels">Health · pharma · payer</span></div>
+      <div class="practice-chip" onclick="openPracticeScope('ICE')" style="background:var(--c-industrial);"><span class="pc-name">ICE</span><span class="pc-channels">Industrial · venue · transit</span></div>
+      <div class="practice-chip" onclick="openPracticeScope('FSI')" style="background:var(--c-finance);"><span class="pc-name">FSI</span><span class="pc-channels">Finance · payments</span></div>
+      <div class="practice-chip" onclick="openPracticeScope('GPS')" style="background:var(--c-public);"><span class="pc-name">GPS</span><span class="pc-channels">Public Sector · Risk</span></div>
     </div>
 
     <div class="h-legend">
@@ -796,6 +831,23 @@ HOW TO USE IT
       </div>
 
     </div>
+  </div>
+</div>
+
+<!-- ============================================== PRACTICE SCOPE MODAL ============================================== -->
+<div id="scope-modal-overlay" class="stk-modal-overlay" onclick="if(event.target===this) closeScope()">
+  <div class="scope-modal">
+    <div class="scope-head" id="scope-head" style="background:linear-gradient(135deg,#0D2818,#0a3620);">
+      <button class="scope-close" onclick="closeScope()" aria-label="Close">&times;</button>
+      <h2 id="scope-name">&nbsp;</h2>
+      <div class="scope-sub" id="scope-sub">&nbsp;</div>
+      <div class="scope-summary" id="scope-summary">&nbsp;</div>
+    </div>
+    <div class="scope-tabs">
+      <button class="scope-tab active" id="scope-tab-tree" onclick="scopeTab('tree')">Treeview &middot; Service &rarr; Scenario &rarr; Use Case &rarr; Persona &rarr; KPI</button>
+      <button class="scope-tab" id="scope-tab-build" onclick="scopeTab('build')">Build pipeline diagram</button>
+    </div>
+    <div class="scope-body" id="scope-body"></div>
   </div>
 </div>
 
@@ -1850,6 +1902,307 @@ function findReferences(text) {
   return refs;
 }
 
+/* ============================================================================
+   PRACTICE SCOPE — full APEX chain per Practice for LA28 effort scope
+   ============================================================================ */
+const PRACTICE_SCOPE = {
+  TMT: {
+    name: 'TMT · Technology, Media, Telecom',
+    sub: 'Default Telco Home Channel · TMT-MED ride-along · Anchor of the marketplace',
+    summary: 'TMT owns the Default Home Channel (HOM-01..08, HOM-99) — the substrate that ships with every Telco subscriber. TMT-MED handles the NBCUniversal media ride-along during the 16-day Games window.',
+    color: '#E8A33D', ink: '#0D2818',
+    services: [
+      { code:'HOM-01', name:'Grocery Replenishment',
+        scenarios:[{name:'Pantry-driven replenishment through the Games trip', useCases:['In-trip pause of recurring orders at departure', 'Return-day fresh-restock pre-arrival', 'Cellar inventory cross-Channel sync with BEV-03'], persona:'Household Primary Account Holder · HITL gate at cart-total > $150', kpis:[{m:'Grocery time saved per HH',d:'↑',t:'+30–60 min/wk'},{m:'Order accuracy',d:'↑',t:'>95%'},{m:'Food waste avoided',d:'↑',t:'$5–12/wk'}]}] },
+      { code:'HOM-02', name:'Energy Optimizer',
+        scenarios:[{name:'Tariff-aware HVAC + vacation setback', useCases:['Vacation setback day-of-departure','Pre-cool day-of-return','ER demand-response participation during venue peak'], persona:'Household Primary Account Holder · HOTL', kpis:[{m:'$ saved per HH',d:'↑',t:'+$8–18/mo'},{m:'Peak-window load reduction',d:'↑',t:'measured'}]}] },
+      { code:'HOM-03', name:'Eldercare Monitor',
+        scenarios:[{name:'Vacation continuity for back-home grandparent', useCases:['ADL deviation escalation to in-state family contact (not travelers)','Quiet "back-home status" channel during trip','HLS D-SNP outcome attribution'], persona:'HH Primary + designated family contact · HITL gated', kpis:[{m:'False-positive rate',d:'↓',t:'minimized'},{m:'Time-to-caregiver-notification',d:'↓',t:'minutes'}]}] },
+      { code:'HOM-99', name:'Home Orchestrator (meta)',
+        scenarios:[{name:'Cross-Channel intent routing', useCases:['Route household intents to right Channel','Brand-neutral routing','Sponsored-disclosure transparency'], persona:'Household Primary Account Holder · HOTL', kpis:[{m:'Successful intent rate',d:'↑',t:'+10–20 pp'},{m:'Customer NPS for marketplace',d:'↑',t:'measured'}]}] },
+      { code:'TMT-MED', name:'NBC Media Ride-Along',
+        scenarios:[{name:'Watch-party suggestions during Games window', useCases:['Time-zone-aware push for competition windows','Peacock cross-promo (with disclosure)','Scope-bounded: no broadcast distribution'], persona:'HH Primary · HOTL', kpis:[{m:'Engagement minutes',d:'↑',t:'measured'},{m:'Peacock attach rate during Games',d:'↑',t:'measured'}]}] }
+    ],
+    build: {
+      bronze:['bronze.tmt_hom.appliance_events','bronze.tmt_hom.gateway_telemetry','bronze.tmt_hom.purchase_history','bronze.tmt_hom.media_session'],
+      silver:['Household · Person · Vault','Device · DeviceCapability','InventoryReading · PresenceEvent','MediaSessionEvent · ConsentGrant'],
+      gold:['v_tmt_hom_household_360','v_tmt_hom_pantry_state','v_tmt_hom_subscriber_engagement'],
+      agents:['HOM-01..08 sub-agents','HOM-99 meta-orchestrator','TMT-MED ride-along'],
+      mcp:['Samsung/LG/Whirlpool/Nest MCP','Kroger/Walmart grocery MCP','NBCUniversal/Peacock MCP'],
+      bill:['AT&T monthly invoice line items','Per-Channel rev-share settlement','Bundle pricing presets']
+    },
+    note:'Foundation Channel — every other Channel plugs into the substrate built here. Architecturally on the APEX 5-plane model: Plane 1 Experience (Adaptive Card + bill insert), Plane 2 Decision (HOM agents), Plane 3 Runtime (CAF Dynamic Orchestrator), Plane 4 Integration (open MCP), Plane 5 Ledger (14-field audit row + vault).'
+  },
+  TH: {
+    name: 'TH · Travel & Hospitality',
+    sub: 'Travel Channel (HOM-10..17) · Multi-anchor (AA · Marriott · Expedia · Airbnb)',
+    summary: 'TH owns the Travel Channel — trip-mode posture across flight, hotel, OTA, vacation rental, ground mobility, local experience, return reunification. IROPS recovery is the wedge.',
+    color: '#6FB6E5', ink: '#012169',
+    services: [
+      { code:'HOM-11', name:'Flight Concierge',
+        scenarios:[{name:'IROPS recovery cross-carrier during Games', useCases:['AA cancellation rebooked via Delta when AA has no alt','AAdvantage status attached on all rebooks','HITL gate at fare-delta > $300'], persona:'Household Traveler · HITL 5-min mobile push', kpis:[{m:'IROPS recovery time',d:'↓',t:'<15 min median'},{m:'Rebook acceptance rate',d:'↑',t:'>85%'}]}] },
+      { code:'HOM-12', name:'Hotel Concierge',
+        scenarios:[{name:'Mobile key + hotel-walk recovery (LA properties)', useCases:['Marriott Bonvoy mobile-key delivered to vault','Pre-arranged Hyatt walk if Marriott overbooked','On-property room-pref orchestration'], persona:'Household Traveler · HITL on rate-change > 15%', kpis:[{m:'On-property NPS',d:'↑',t:'measured'},{m:'Hotel-walk recovery rate',d:'↑',t:'>90%'}]}] },
+      { code:'HOM-15', name:'Ground Mobility',
+        scenarios:[{name:'Airport transfer + rental + EV charging in LA28 corridor', useCases:['Uber to/from LAX','Hertz EV rental for venue-to-venue','ChargePoint roaming with AXLE coord'], persona:'Household Traveler · HOTL auto-book, HITL > $100', kpis:[{m:'Door-to-door time',d:'↓',t:'measured'},{m:'Ground-mobility cost per trip',d:'↓',t:'measured'}]}] },
+      { code:'HOM-17', name:'Return Reunification',
+        scenarios:[{name:'Wake home agents pre-arrival', useCases:['Trigger HOM-01 fresh-restock','Pre-cool HOM-02 HVAC','Re-arm HOM-05 standard mode','Welcome-home HOM-06 wellness check'], persona:'HH Primary · HOTL', kpis:[{m:'Time-to-home-baseline post-trip',d:'↓',t:'<1 hr'}]}] }
+    ],
+    build: {
+      bronze:['bronze.tmt_hom.airline_pnr','bronze.tmt_hom.hotel_reservation','bronze.tmt_hom.ota_itinerary','bronze.tmt_hom.rideshare'],
+      silver:['Trip · ItinerarySegment · Booking','LoyaltyAccount · TravelDocument (tokenised)','DisruptionEvent','TripStateEvent'],
+      gold:['v_tmt_hom_traveler_360_household','v_tmt_hom_trip_current_state','v_tmt_hom_disruption_inflight'],
+      agents:['HOM-10..17 trip sub-agents','HOM-99 orchestrator (cross-Channel)'],
+      mcp:['AA AAdvantage MCP','Marriott Bonvoy MCP','Expedia partner API','Airbnb partner API','Uber/Hertz MCP'],
+      bill:['Travel Premium bundle pricing','Per-booking commerce share','IROPS outcome share']
+    },
+    note:'TH inherits the substrate from TMT; adds trip-mode posture as a household state transition. apex.tmt.mcp.travel.v1 protocol extends the base partner spec. Independence-safe across all anchor brands.'
+  },
+  RC: {
+    name: 'RC · Retail & Consumer',
+    sub: 'Retail Channel (Walmart anchor) + CPG Channel (Sazerac anchor)',
+    summary: 'RC owns two Channels — Retail (RTL-01..04, Walmart-anchored with Target/Costco/Best Buy/Home Depot bench) and CPG/Beverage (BEV-01..04, Sazerac-anchored with Diageo/Pernod Ricard/Brown-Forman bench). Errand chaining + BTAC allocation are the wedges.',
+    color: '#3DD9C4', ink: '#0D2818',
+    services: [
+      { code:'RTL-01', name:'Walmart Multi-Retailer Merchandise',
+        scenarios:[{name:'Saturday-morning errand-chain in LA host city', useCases:['Cross-store optimal route (Walmart + Target + Costco + Home Depot)','Pickup/delivery routing','Walmart Connect sponsored-placement (disclosed)'], persona:'HH Primary · HOTL up to $200', kpis:[{m:'Errand-chain time saved',d:'↑',t:'+60–90 min/wk'},{m:'Chain-completion rate',d:'↑',t:'>80%'}]}] },
+      { code:'RTL-02', name:'Walmart Pharmacy',
+        scenarios:[{name:'Cross-state Rx transfer mid-trip (PHI-scoped)', useCases:['Walmart Pharmacy → CVS LA pickup transfer','Refill due during travel','Walmart Health MinuteClinic walk-in'], persona:'HH Member (PHI consent) · HITL every action', kpis:[{m:'Refill on-time rate',d:'↑',t:'>95%'},{m:'Adherence rate',d:'↑',t:'measured'}]}] },
+      { code:'BEV-02', name:'Sazerac Allocation Alerts',
+        scenarios:[{name:'Host-city BTAC commemorative single-cask pickup', useCases:['Watch-list match against LA licensed retailer','Reserved-hold via Sazerac-mediated partner','Vault age-verification at pickup'], persona:'Household Collector · HITL on every hold', kpis:[{m:'Allocation hit-rate',d:'↑',t:'>80% on active watchlists'},{m:'Conversion on drop',d:'↑',t:'>70%'}]}] },
+      { code:'BEV-03', name:'Cocktail Concierge',
+        scenarios:[{name:'Recipes + ingredient orchestration cross-Channel', useCases:['Recipe match against household cellar','Mixer/citrus routed to RTL-01','Spirits routed to BEV-01'], persona:'HH Primary · HOTL', kpis:[{m:'Recipes completed per HH',d:'↑',t:'measured'},{m:'Cross-Channel basket attach',d:'↑',t:'measured'}]}] }
+    ],
+    build: {
+      bronze:['bronze.tmt_rtl.walmart_orders','bronze.tmt_rtl.walmart_rx','bronze.tmt_bev.sazerac_allocation','bronze.tmt_bev.age_verification'],
+      silver:['RetailOrder · RetailOrderLine','Prescription (PHI)','BeverageOrder · AllocationAlert','AgeVerification · CellarItem'],
+      gold:['v_tmt_rtl_household_retail_360','v_tmt_rtl_errand_chain_proposal','v_tmt_bev_household_cellar','v_tmt_bev_active_alerts'],
+      agents:['RTL-01..04','BEV-01..04'],
+      mcp:['Walmart MCP (orders + Walmart+ + Health + TLE)','Target/Costco/Best Buy/Home Depot MCP','Sazerac allocation MCP','Avalara Beverage Alcohol state-rules engine'],
+      bill:['Walmart Channel $7.99/mo','Beverage Channel $4.99/mo','Per-order rev-share + BTAC commission']
+    },
+    note:'RC requires Avalara state-rules engine for 50-state CPG compliance — California is the LA28-critical state. RTL-02 pharmacy + BEV age-verification are the highest-compliance-footprint services in RC scope.'
+  },
+  AXLE: {
+    name: 'AXLE · Automotive & Manufacturing',
+    sub: 'Mobility Channel (Toyota anchor) + Automobile Channel (AutoNation + Cox + Progressive)',
+    summary: 'AXLE owns two Channels — Mobility (MOB-01..04, Toyota Connected anchor) and Automobile (AUT-01..08, multi-anchor ownership lifecycle from discovery to resale). Recall reconciliation + Saturday-to-Tuesday purchase are the wedges.',
+    color: '#9B7BE0', ink: '#FFFFFF',
+    services: [
+      { code:'MOB-02', name:'Toyota Dealer Network + Recall',
+        scenarios:[{name:'Multi-OEM household-fleet recall reconciliation', useCases:['NHTSA + OEM recall cross-reference against fleet','Single notification, multi-OEM scheduling','HOM-15 loaner-mobility coord'], persona:'HH Vehicle Owner · HITL > $300', kpis:[{m:'Recall completion rate',d:'↑',t:'+30 pp'},{m:'On-time scheduled service',d:'↑',t:'+25 pp'}]}] },
+      { code:'MOB-04', name:'TFS + TIMS Trip-Mode',
+        scenarios:[{name:'TIMS UBI trip-mode rider during Games', useCases:['Trip-mode insurance pro-rated','TFS at-home vehicle hold','UBI continuous during trip'], persona:'HH Primary · HITL on every financial action', kpis:[{m:'TIMS UBI premium-savings',d:'↑',t:'measured'},{m:'TFS refi attach',d:'↑',t:'measured'}]}] },
+      { code:'AUT-04', name:'Auto Insurance (Progressive anchor)',
+        scenarios:[{name:'UBI-aware cross-carrier quote shopping', useCases:['Progressive Snapshot pre-computed from HOM-07 telematics','Cross-carrier (State Farm/Geico/Allstate) shopping','Trip-mode rider for Games-traveling members'], persona:'HH Primary · HITL on every bind', kpis:[{m:'Annual premium savings',d:'↑',t:'$200–800/yr'},{m:'UBI participation rate',d:'↑',t:'measured'}]}] },
+      { code:'AUT-06', name:'Charging + Fueling',
+        scenarios:[{name:'LA28-corridor EV charging optimization', useCases:['ChargePoint + EVgo + EA + Tesla Supercharger roaming','Lowest-cost station within range','Coordinated with ER demand-response'], persona:'HH Vehicle Owner · HOTL', kpis:[{m:'Annual fuel/charging cost reduction',d:'↑',t:'measured'},{m:'Time-in-station',d:'↓',t:'measured'}]}] }
+    ],
+    build: {
+      bronze:['bronze.tmt_mob.oem_telematics','bronze.tmt_mob.nhtsa_recall','bronze.tmt_aut.kbb_listings','bronze.tmt_aut.insurance_quotes','bronze.tmt_aut.charging_sessions'],
+      silver:['Vehicle · VehicleRecall · DealerAppointment','AutoLoanLease · AutoPolicy (UBI)','VehicleListing · PurchaseOffer','FinancingApplication · InsuranceQuote'],
+      gold:['v_tmt_mob_household_fleet_360','v_tmt_mob_open_recalls','v_tmt_aut_insurance_quote_table','v_tmt_aut_fueling_cost_optimization'],
+      agents:['MOB-01..04 (Toyota Connected)','AUT-01..08 (multi-anchor lifecycle)'],
+      mcp:['Toyota Connected + TFS + TIMS MCP','Multi-OEM bench (Ford/GM/Tesla/Honda/Hyundai/Stellantis)','AutoNation + Cox/KBB + Progressive Snapshot MCP','ChargePoint/EVgo/EA/Tesla SC roaming'],
+      bill:['Mobility Channel $9.99/mo','Automobile Channel $11.99/mo','Per-event commerce + UBI outcome share']
+    },
+    note:'AXLE\'s Toyota Connected anchor carries the TOP-program coordination complexity (Toyota is LA28 mobility TOP sponsor). FCRA + FTC CARS Rule discipline mandatory for AUT-03 financing. Per-state insurance rules engine for AUT-04.'
+  },
+  ER: {
+    name: 'ER · Energy & Resources',
+    sub: 'Energy Channel · LA28 venue power · EV-charge surge · demand response',
+    summary: 'ER owns the Energy Channel — PG&E/SCE/Tesla Energy/LADWP anchored. Demand-response aggregation during venue peak; EV-charge roaming; venue power profile integration with ICE.',
+    color: '#5B8C3E', ink: '#FFFFFF',
+    services: [
+      { code:'ER-DR', name:'Demand Response Aggregation',
+        scenarios:[{name:'Channel-enrolled households as virtual capacity during Games peak', useCases:['Opt-in HVAC setback during venue peak','Bill-credit + utility rebate compensation','Coordinated with HOM-02 energy agent'], persona:'HH Primary (opt-in) · HITL on shed-event start', kpis:[{m:'kWh capacity provided to LA grid',d:'↑',t:'measured aggregate'},{m:'Shed-event acceptance rate',d:'↑',t:'>80%'}]}] },
+      { code:'ER-VP', name:'Venue Power Profile',
+        scenarios:[{name:'Per-venue real-time demand forecast', useCases:['LA28 venue power data into utility coord','Grid-stability decisioning','ICE BMS data exchange'], persona:'Utility ops + LA28 venue ops', kpis:[{m:'Venue power-optimization $',d:'↑',t:'measured'}]}] },
+      { code:'ER-EVC', name:'EV-Charge Surge Routing',
+        scenarios:[{name:'Multi-network roaming to lowest-grid-stress', useCases:['ChargePoint + EVgo + EA + Tesla SC routing','Cost + grid-stress optimization','Coordinated with AXLE AUT-06'], persona:'HH EV Owner · HOTL', kpis:[{m:'Annual charging cost saved',d:'↑',t:'measured'},{m:'Grid-stress events avoided',d:'↑',t:'measured'}]}] }
+    ],
+    build: {
+      bronze:['bronze.tmt_er.utility_meter','bronze.tmt_er.venue_power_profile','bronze.tmt_er.charging_network'],
+      silver:['EnergyReading','DemandResponseEvent','ChargingSession (extends HOM-07)'],
+      gold:['v_tmt_er_household_dr_capacity','v_tmt_er_venue_demand','v_tmt_er_charging_optimization'],
+      agents:['ER-DR · ER-VP · ER-EVC'],
+      mcp:['PG&E + SCE + LADWP utility MCP','Tesla Energy Powerwall MCP','ChargePoint + EVgo + EA + Tesla SC roaming'],
+      bill:['Demand-response credits on AT&T bill','Utility rebate pass-through','Per-shed-event share to Telco']
+    },
+    note:'ER is the highest-impact-per-Practice-spend Channel due to utility demand-response economics. 100K HH × 2 kW × $200–600/kW-year = $40–120M/yr in virtual-capacity payments.'
+  },
+  HLS: {
+    name: 'HLS · Health, Life Sciences',
+    sub: 'Health Channel + MA Payer outcome · Kaiser · CVS · UnitedHealth · LA28 spectator care',
+    summary: 'HLS owns the Health Channel — cross-state Rx transfer, MinuteClinic walk-in routing, D-SNP outcome share with MA payers, wellness coach for travelers. PHI-scoped throughout.',
+    color: '#4A90D9', ink: '#FFFFFF',
+    services: [
+      { code:'HLT-RX', name:'Cross-State Rx Transfer',
+        scenarios:[{name:'Walmart Pharmacy → CVS LA pickup mid-trip', useCases:['Pharmacist-to-pharmacist DEA-compliant transfer','Tokenised rx-number reference in vault','HIPAA BAA all-partner'], persona:'HH Member (PHI consent) · HITL every action', kpis:[{m:'Refill on-time during travel',d:'↑',t:'>95%'},{m:'Adherence rate',d:'↑',t:'measured'}]}] },
+      { code:'HLT-MC', name:'MinuteClinic Walk-In Routing',
+        scenarios:[{name:'Sick traveling family member routing', useCases:['Kid sick at hotel → 15-min appointment auto-booked','Insurance verified pre-arrival','Kaiser SoCal in-network match'], persona:'HH Member · HITL', kpis:[{m:'Time-to-appointment',d:'↓',t:'<30 min'},{m:'In-network match rate',d:'↑',t:'>90%'}]}] },
+      { code:'HLT-DSP', name:'D-SNP Outcome Share',
+        scenarios:[{name:'Eldercare back-home outcome attribution', useCases:['HOM-03 ADL deviation data','UnitedHealth/Humana PMPM attribution','Pre-agreed control cohort'], persona:'D-SNP member · payer-sponsored', kpis:[{m:'Fall-risk reduction',d:'↑',t:'measured'},{m:'PMPM revenue per outcome',d:'↑',t:'$50–80'}]}] },
+      { code:'HLT-WL', name:'Wellness Coach',
+        scenarios:[{name:'Wearable + sleep + glucose for travelers', useCases:['Jet-lag recovery coaching','CGM trend during travel','Telehealth escalation if needed'], persona:'HH Member (opt-in) · HOTL', kpis:[{m:'Chronic-condition adherence',d:'↑',t:'measured'},{m:'Telehealth conversion',d:'↑',t:'measured'}]}] }
+    ],
+    build: {
+      bronze:['bronze.tmt_hom.wearable_health (PHI)','bronze.tmt_rtl.walmart_rx (PHI)','bronze.tmt_hlt.cvs_caremark','bronze.tmt_hlt.minuteclinic_appts'],
+      silver:['HealthMetric (PHI)','Prescription (PHI · tokenised)','TelehealthEncounter','OutcomeAttribution'],
+      gold:['v_tmt_hom_wellness_person_daily','v_tmt_rtl_prescription_state','v_tmt_hlt_outcome_share_attribution'],
+      agents:['HOM-03 eldercare · HOM-06 wellness','RTL-02 pharmacy','HLT-RX · HLT-MC · HLT-DSP · HLT-WL'],
+      mcp:['Kaiser Permanente SoCal MCP','CVS Health + Caremark + MinuteClinic MCP','UnitedHealth Optum MCP','Humana MA MCP'],
+      bill:['Eldercare PMPM payer-sponsored ($0 to consumer)','Wellness Channel $5–8/mo','Per-event escalation fees']
+    },
+    note:'HIPAA BAA required with every retail-pharmacy partner. D-SNP outcome attribution requires pre-agreed control cohort + 12-month attribution window. Highest LTV per engaged subscriber in the marketplace (5–10× consumer-only).'
+  },
+  ICE: {
+    name: 'ICE · Industrial, Construction, Equipment',
+    sub: 'Industrial Channel · venue BMS · Metro K Line transit data · equipment uptime',
+    summary: 'ICE owns the Industrial Channel — venue building-management systems (HVAC, lighting, water across 30+ LA28 venues), transit-system data integration (Metro K Line + shuttle + parking), equipment uptime telemetry. Feeds TH ground mobility + ER venue power.',
+    color: '#8C6D32', ink: '#FFFFFF',
+    services: [
+      { code:'ICE-BMS', name:'Venue BMS Integration',
+        scenarios:[{name:'HVAC + lighting + water across 30+ LA28 venues', useCases:['Honeywell + Siemens BMS data','Per-venue ops dashboard','Spectator-throughput informing capacity decisions'], persona:'LA28 venue ops + Channel ops', kpis:[{m:'Venue ops uptime',d:'↑',t:'>99.5%'},{m:'Per-venue energy cost',d:'↓',t:'measured'}]}] },
+      { code:'ICE-TR', name:'Transit Data Integration',
+        scenarios:[{name:'Metro K Line + Olympic shuttle data into mobility routing', useCases:['Real-time Metro into HOM-15 routing','Shuttle availability into Travel Channel','Parking-lot utilization'], persona:'HH (mobility decision)', kpis:[{m:'Mobility routing accuracy',d:'↑',t:'measured'},{m:'Avg arrival-time prediction error',d:'↓',t:'measured'}]}] },
+      { code:'ICE-EU', name:'Equipment Uptime',
+        scenarios:[{name:'Ops-critical machinery (lifts/generators/water pumps) telemetry', useCases:['Caterpillar + Siemens equipment monitoring','Preventive ops actions','Failure prediction'], persona:'LA28 ops', kpis:[{m:'Ops-critical equipment availability',d:'↑',t:'>99%'},{m:'Avoided failures during Games',d:'↑',t:'measured'}]}] }
+    ],
+    build: {
+      bronze:['bronze.tmt_ice.venue_bms','bronze.tmt_ice.metro_transit','bronze.tmt_ice.equipment_telemetry'],
+      silver:['VenueBMSReading','TransitEvent','EquipmentEvent'],
+      gold:['v_tmt_ice_venue_ops_360','v_tmt_ice_transit_realtime','v_tmt_ice_equipment_health'],
+      agents:['ICE-BMS · ICE-TR · ICE-EU'],
+      mcp:['AECOM venue construction lifecycle','Honeywell Building Technologies','Siemens Mobility (Metro/transit)','Caterpillar equipment telemetry'],
+      bill:['B2B-side LA28 contract','Per-venue ops-share','Consumer-side: indirect via HOM-15/TH mobility routing']
+    },
+    note:'ICE is B2B-leaning. Consumer benefit is indirect: better mobility-routing accuracy, venue-arrival-time predictions, parking-availability surfaced to traveling families.'
+  },
+  FSI: {
+    name: 'FSI · Financial Services',
+    sub: 'Finance Channel · travel-mode card · sponsorship rails · ticketing · household budget',
+    summary: 'FSI owns the Finance Channel — Chase Sapphire travel-mode fraud routing, cross-currency wallet for international visitors, Visa+Mastercard TOP-coordinated sponsorship + ticketing rails, household budget tracking.',
+    color: '#1E5AA8', ink: '#FFFFFF',
+    services: [
+      { code:'FSI-TM', name:'Travel-Mode Card Routing',
+        scenarios:[{name:'Fraud-suppression during legitimate Games-period spending', useCases:['Chase Sapphire travel-mode posture','False-positive fraud reduction','Cross-card households (Chase + Amex + Cap One)'], persona:'HH Traveler · HITL on bind', kpis:[{m:'False-positive reduction',d:'↑',t:'measured'},{m:'Card-decline rate during travel',d:'↓',t:'measured'}]}] },
+      { code:'FSI-SP', name:'Sponsorship + Ticketing Rails',
+        scenarios:[{name:'Visa TOP-coordinated payment for LA28 ticketing', useCases:['Ticketing payment via TOP-sponsor rails','Mastercard cross-rail','Plaid integration for verified-account'], persona:'LA28 ticketing + Channel ops', kpis:[{m:'Ticketing payment success rate',d:'↑',t:'>99%'},{m:'Sponsorship rev-share',d:'↑',t:'measured'}]}] },
+      { code:'FSI-HB', name:'Household Budget Tracking',
+        scenarios:[{name:'Pre/in/post-trip spend tracking', useCases:['Pre-trip Games budget','In-trip spending dashboards','Post-trip reconciliation on Telco bill'], persona:'HH Primary · HOTL', kpis:[{m:'Budget adherence',d:'↑',t:'measured'},{m:'Surprise-bill incidents',d:'↓',t:'minimized'}]}] }
+    ],
+    build: {
+      bronze:['bronze.tmt_fsi.card_transactions (PCI-tokenised)','bronze.tmt_fsi.la28_ticketing','bronze.tmt_fsi.plaid_accounts'],
+      silver:['CardTransaction (PCI · tokenised)','BudgetCategory','TicketingEvent'],
+      gold:['v_tmt_fsi_household_budget_360','v_tmt_fsi_travel_mode_fraud','v_tmt_fsi_la28_ticketing_status'],
+      agents:['FSI-TM · FSI-SP · FSI-HB'],
+      mcp:['JPMorgan Chase Sapphire MCP','Visa + Mastercard payment rails','Plaid + Stripe Identity','Stripe (Channel commerce settlement)'],
+      bill:['Finance Channel $8–12/mo','Sponsorship rev-share','Per-ticketing-transaction fee']
+    },
+    note:'PCI DSS 4.0 + GLBA compliance footprint. Visa is LA28 TOP payment sponsor — Channel uses Visa rails respectfully, no scope conflict.'
+  },
+  GPS: {
+    name: 'GPS · Government & Public Services',
+    sub: 'Public Sector Channel · LA City + State + Federal · Risk Advisory cross-cutting',
+    summary: 'GPS owns the Public Sector Channel — federal-state-city coordination spine for Games-period ops, street/transit data exchange, emergency-services routing, federal coordination (TSA/DHS/State Dept).',
+    color: '#2C3E78', ink: '#FFFFFF',
+    services: [
+      { code:'GPS-CT', name:'City + Transit Data Exchange',
+        scenarios:[{name:'Street closure + Metro + permits into Channel mobility routing', useCases:['LA City venue-lockdown feed','Metro K Line + shuttle data','Parking permit and access'], persona:'HH (mobility decision)', kpis:[{m:'Mobility routing accuracy during Games',d:'↑',t:'measured'},{m:'Avoidance of restricted zones',d:'↑',t:'>99%'}]}] },
+      { code:'GPS-ER', name:'Emergency Services Routing',
+        scenarios:[{name:'Eldercare + wellness escalations during Games', useCases:['HOM-03 → in-state family (not travelers)','HOM-06 → LA-area provider routing','EMS coordination tested'], persona:'HH at home + traveler · HITL on every dispatch', kpis:[{m:'Escalation acceptance rate',d:'↑',t:'>95%'},{m:'Time-to-dispatch',d:'↓',t:'<5 min'}]}] },
+      { code:'GPS-FC', name:'Federal Coordination (TSA/DHS/State)',
+        scenarios:[{name:'International-visitor pre-arrival prep', useCases:['TSA Pre/Global Entry status into Travel Channel','DHS entry coordination','State Dept advisory feeds'], persona:'International HH Traveler · HITL on cross-border action', kpis:[{m:'Pre-arrival prep success rate',d:'↑',t:'measured'},{m:'Border-clearance time',d:'↓',t:'measured'}]}] }
+    ],
+    build: {
+      bronze:['bronze.tmt_gps.la_city_data','bronze.tmt_gps.metro_transit','bronze.tmt_gps.tsa_dhs_feeds','bronze.tmt_gps.la_psap_dispatch'],
+      silver:['StreetClosureEvent','EmergencyDispatch','FederalEntryStatus','PublicSectorMOU'],
+      gold:['v_tmt_gps_la_mobility_constraints','v_tmt_gps_emergency_routing','v_tmt_gps_intl_visitor_prep'],
+      agents:['GPS-CT · GPS-ER · GPS-FC'],
+      mcp:['LA City venue + transit MCP','CA State (ABC + DMV + Insurance)','Federal feeds (TSA + DHS + State Dept)','RapidSOS PSAP integration'],
+      bill:['No consumer-side billing','Public-sector data-exchange MOU','Indirect: improved Travel/Mobility/Eldercare Channel performance']
+    },
+    note:'GPS Channel is data-exchange MOU based (not commerce). Risk Advisory pre-clear required for every federal/state touch. FOIA + public-records discipline mandatory.'
+  }
+};
+
+function openPracticeScope(code) {
+  const ps = PRACTICE_SCOPE[code];
+  if (!ps) return;
+  document.getElementById('scope-head').style.background = `linear-gradient(135deg, ${ps.color} 0%, ${ps.ink === '#FFFFFF' ? '#0D2818' : '#012169'} 100%)`;
+  document.getElementById('scope-name').innerHTML = ps.name;
+  document.getElementById('scope-sub').innerHTML = ps.sub;
+  document.getElementById('scope-summary').innerHTML = ps.summary;
+  scopeTab('tree', code);
+  document.getElementById('scope-modal-overlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function scopeTab(tab, code) {
+  if (code) document.getElementById('scope-modal-overlay').dataset.scope = code;
+  const sc = document.getElementById('scope-modal-overlay').dataset.scope;
+  const ps = PRACTICE_SCOPE[sc];
+  if (!ps) return;
+  document.getElementById('scope-tab-tree').classList.toggle('active', tab === 'tree');
+  document.getElementById('scope-tab-build').classList.toggle('active', tab === 'build');
+  const body = document.getElementById('scope-body');
+  if (tab === 'tree') {
+    body.innerHTML = ps.services.map(s => `
+      <details class="tree-svc" style="--accent:${ps.color};">
+        <summary><span class="svc-code">${s.code}</span><span class="svc-name">${s.name}</span></summary>
+        <div class="svc-content">
+          ${s.scenarios.map(sc => `
+            <div class="tree-scn">
+              <h5>SCENARIO &middot; ${sc.name}</h5>
+              <div class="tree-row uc">
+                <div class="tr-label">Use cases</div>
+                <ul>${sc.useCases.map(u => `<li>${u}</li>`).join('')}</ul>
+              </div>
+              <div class="tree-row persona">
+                <div class="tr-label">Persona</div>
+                <div>${sc.persona}</div>
+              </div>
+              <div class="tree-row kpi">
+                <div class="tr-label">KPIs</div>
+                <div>${sc.kpis.map(k => `<span class="tree-kpi"><span class="arrow">${k.d}</span><span class="metric">${k.m}</span><span class="target">${k.t}</span></span>`).join('')}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </details>
+    `).join('');
+  } else {
+    const b = ps.build;
+    const cols = [
+      { label: 'Bronze', name: 'Source-of-record landings', items: b.bronze, col: '#d97706' },
+      { label: 'Silver', name: 'Canonical TMTML entities', items: b.silver, col: '#16a34a' },
+      { label: 'Gold', name: 'Virtual views + measures', items: b.gold, col: '#4f46e5' },
+      { label: 'Agents', name: 'Decision plane', items: b.agents, col: '#8b5cf6' },
+      { label: 'MCP', name: 'Partner integration', items: b.mcp, col: '#0078D4' },
+      { label: 'Bill', name: 'Telco invoice + settlement', items: b.bill, col: '#dc2626' },
+    ];
+    body.innerHTML = `
+      <p style="font-size:12px; color:var(--text-secondary); margin-bottom:10px;">Build pipeline for the <b style="color:var(--accent-navy);">${ps.name}</b> LA28 scope &middot; left-to-right APEX 5-plane progression &middot; Channel partners plug in at the MCP layer; settlement flows to the Telco bill.</p>
+      <div class="build-pipeline">
+        ${cols.map(c => `
+          <div class="build-col" style="--col:${c.col};">
+            <div class="bc-label">${c.label}</div>
+            <div class="bc-name">${c.name}</div>
+            <ul>${c.items.map(i => `<li>${i}</li>`).join('')}</ul>
+          </div>
+        `).join('')}
+      </div>
+      <div class="build-arch-note"><b>Architectural note.</b> ${ps.note}</div>
+    `;
+  }
+}
+
+function closeScope() {
+  document.getElementById('scope-modal-overlay').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
 function openTask(milestoneIdx, taskIdx) {
   const m = MILESTONES[milestoneIdx];
   if (!m) return;
@@ -2507,7 +2860,7 @@ function closeMilestone() {
 }
 
 document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') { closeStakeholder(); closeMilestone(); closeTask(); }
+  if (e.key === 'Escape') { closeStakeholder(); closeMilestone(); closeTask(); closeScope(); }
 });
 
 /* ============================================================================
