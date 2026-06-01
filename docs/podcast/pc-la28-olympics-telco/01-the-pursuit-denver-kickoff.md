@@ -12,7 +12,7 @@ The campaign she's bringing to Denver — *the build to LA28, twenty-five months
 
 She rereads the charter one more time. Single page. GP envelope sized for a Wave-1 anchor pursuit. Cross-Practice resource ask sized for nine Practices, not three. Sequencing rationale that explains why AT&T is the Wave-1 commit and the rest of the Telco field is Wave-2 soft pre-warming. She knows the M&P Leader will read the sequencing paragraph first. She knows because that is what she would do.
 
-The morning meeting is at 9am Mountain. The Denver deck is queued on the second monitor. The eight-milestone tracker is open in the next tab. She closes the laptop. Tomorrow the campaign either becomes a thing the practice is doing, or it stays a thing she is doing alone.
+The morning meeting is at 9am Mountain. The Denver deck is queued on the second monitor. The nine-milestone tracker is open in the next tab. She closes the laptop. Tomorrow the campaign either becomes a thing the practice is doing, or it stays a thing she is doing alone.
 
 [beat. then studio]
 
@@ -24,9 +24,9 @@ The morning meeting is at 9am Mountain. The Denver deck is queued on the second 
 
 ### The Denver kickoff
 
-**MARCUS:** Let's walk what the M0 meeting actually has to land. Three things. First, the LA28 campaign gets presented — out loud, to all DMTSP sellers, in the room, on June 10. Not a memo. Not a deck circulated after. Presented. Second, the M&P Leader endorses it top-down — not over coffee in the hallway, in the meeting, with everyone watching. Third, the year activity plan gets agreed — not the twenty-five-month plan, that comes later, the *year* plan. What happens in the next twelve months. Because if the next twelve months don't have a plan that everyone in that Denver room can repeat back, then the twenty-five-month plan is a slide.
+**MARCUS:** Picture the M&P Leader at 9:02am Mountain, pen in hand, hovering over the sequencing paragraph in that single-page charter. The TMT VP is on her feet at the front of the room. The Practice Principals are watching the pen, not the deck. That hover is the meeting. Whatever happens in the next ninety seconds — whether the pen comes down on the page or goes back in the jacket pocket — is what the next twenty-five months ride on. Now back up. Three things the M0 meeting has to land. First, the LA28 campaign gets presented — out loud, to all DMTSP sellers, in the room, on June 10. Not a memo. Not a deck circulated after. Presented. Second, the M&P Leader endorses it top-down — not over coffee in the hallway, in the meeting, with everyone watching. Third, the year activity plan gets agreed — not the twenty-five-month plan, that comes later, the *year* plan. What happens in the next twelve months. Because if the next twelve months don't have a plan that everyone in that Denver room can repeat back, then the twenty-five-month plan is a slide.
 
-**KEVEN:** And the artifact carrying all of that is the eight-milestone tracker. Which I want to be careful about. The tracker is the artifact. It is not the campaign. The campaign is the conversation in that room. The tracker is what people look at when they leave the room and have to explain to their seller team what they just agreed to.
+**KEVEN:** And the artifact carrying all of that is the nine-milestone tracker — M0 through M8, the kickoff plus the eight delivery milestones. Which I want to be careful about. The tracker is the artifact. It is not the campaign. The campaign is the conversation in that room. The tracker is what people look at when they leave the room and have to explain to their seller team what they just agreed to.
 
 **MARCUS:** Right. And the trap I have watched pursuit teams fall into — and I have watched this one specifically — is they treat the kickoff deck as a status report. *Here is where we are, here is what's next.* That is not what the Denver deck is. The Denver deck is a load-bearing instrument. It is the thing that, when the M&P Leader looks at slide three and says *I'm in,* commits the practice. So the build of that deck — and the TMT VP has been on this for two weeks now, the week of June first she had it in front of the M&P Leader in single-page-charter form — every page has to do work. There is no slide on that deck that is there to fill space.
 
@@ -82,7 +82,7 @@ The morning meeting is at 9am Mountain. The Denver deck is queued on the second 
 
 ### The Microsoft platform engagement framework
 
-**KEVEN:** So this is the sub-section where Independence language gets set for the whole twenty-four months. I want to be slow here, because if we get it wrong at M0, we are paying for it at M7.
+**KEVEN:** Picture the DMTSP Microsoft Platform Lead at her desk the Monday morning after Denver, second coffee, a yellow legal pad open next to her laptop. She is drafting the joint-motion shape — the rough sketch of how Deloitte and Microsoft's account team will sit alongside each other on the AT&T pursuit without either of them blurring a line. The phrase she keeps writing and crossing out at the top of the page is the one that has to travel the next twenty-four months. That sketch, on that pad, is where the Independence language for the whole twenty-four months gets set. I want to be slow here, because if we get it wrong at M0 — if she lands on a phrase that drifts even one degree — we are paying for it at M7.
 
 **MARCUS:** Walk it.
 
@@ -112,13 +112,17 @@ The morning meeting is at 9am Mountain. The Denver deck is queued on the second 
 
 ### The capacity commitments
 
-**MARCUS:** This is the sub-section that I think gets undersized in most pursuit motions and it is going to get undersized in this one if we are not careful. Keven, walk the capacity commitments. AI Institute, D&A Practice, ML Engineering. Why is this the make-or-break sub-section of M0?
+**MARCUS:** Picture the ML Engineering lead on a Thursday-night call with the AI Institute lead and the D&A Practice lead, the three of them on Teams, screen-share up, and what is on the screen is a napkin sketch — literally a phone photo of a napkin — with A2A Swarm on the left, LangFuse in the middle, the Registry on the right, and a question mark drawn over the top in red ink. The question mark is the inference-cost forecast. None of the three of them have it. None of the three of them can size a bench commitment until they do. That napkin, that question mark, that Thursday-night call — that is the sub-section. And it is the one that gets undersized in most pursuit motions. Keven, walk the capacity commitments. AI Institute, D&A Practice, ML Engineering. Why is this the make-or-break sub-section of M0?
 
 **KEVEN:** Because the pursuit doesn't ship without those three. The Microsoft platform engagement gives us the platform headroom. The capacity commitments give us the people who build on top of the platform. And the people problem is harder than the platform problem at M0, because the people problem requires three separate Practice leaders to commit bench capacity for a twenty-five-month window against an anchor that does not yet exist on paper.
 
 **MARCUS:** So the framework. What does the M0 brief to the AI Institute, D&A, and ML Engineering joint conversation actually contain?
 
-**KEVEN:** Four pieces. First, a capacity-planning framework — how many ML engineers, how many D&A architects, how many AI Institute research seats over the twenty-five-month runway, sized by milestone. Second, an inference-cost model — how the runtime costs scale as we move from shadow mode through the first plug-in Channels through Games-day live operations. Third, an LLM-tier mix recommendation — which tiers of model handle which runtime workloads, because the cost curve flips depending on the tier mix. Fourth, a runtime stack commitment — A2A Swarm for the agent-to-agent coordination layer, LangFuse for the observability and trace surface, the Registry for the agent and capability catalog. All three of those are platform-native to the Microsoft platform engagement frame, all three of them carry inference costs that have to be modeled, and all three of them carry capacity requirements on the people side.
+**KEVEN:** Four pieces. First, a capacity-planning framework — how many ML engineers, how many D&A architects, how many AI Institute research seats over the twenty-five-month runway, sized by milestone. Second, an inference-cost model — how the runtime costs scale as we move from shadow mode through the first plug-in Channels through Games-day live operations.
+
+**MARCUS:** What's the inference-cost forecast at peak?
+
+**KEVEN:** That's the model's whole job to answer, and the answer drives the next two. Third, an LLM-tier mix recommendation — which tiers of model handle which runtime workloads, because the cost curve flips depending on the tier mix. Fourth, a runtime stack commitment — A2A Swarm for the agent-to-agent coordination layer, LangFuse for the observability and trace surface, the Registry for the agent and capability catalog. All three of those are platform-native to the Microsoft platform engagement frame, all three of them carry inference costs that have to be modeled, and all three of them carry capacity requirements on the people side.
 
 **MARCUS:** Let me name the consequence. If those three commitments don't land at M0 — if AI Institute, D&A, and ML Engineering don't agree to the capacity framework in the next thirty days — what happens in M3?
 
@@ -134,7 +138,11 @@ The morning meeting is at 9am Mountain. The Denver deck is queued on the second 
 
 **MARCUS:** And A2A Swarm plus LangFuse plus the Registry. That is the runtime stack we are committing to for the production runtime?
 
-**KEVEN:** That is the runtime stack we are committing to architect against for the production runtime. A2A Swarm handles the agent-to-agent coordination — the way the Home Channel agent talks to the Travel Channel agent talks to the Retail Channel agent. LangFuse handles the observability — every trace, every span, every prompt, every completion, surfaced so the Risk Advisory overlay can audit what the runtime actually did. The Registry is the catalog — every agent, every capability, every tool, every Adaptive Card surface, listed and versioned. Those three together are how the runtime is built and how it stays auditable. And all three sit on the Microsoft platform engagement frame.
+**KEVEN:** That is the runtime stack we are committing to architect against for the production runtime. A2A Swarm handles the agent-to-agent coordination — the way the Home Channel agent talks to the Travel Channel agent talks to the Retail Channel agent. LangFuse handles the observability — every trace, every span, every prompt, every completion, surfaced so the Risk Advisory overlay can audit what the runtime actually did.
+
+**MARCUS:** And what does an audited trace actually cost AT&T per Adaptive Card?
+
+**KEVEN:** That is the question the inference-cost model has to answer before MACC gets sized — and we'll come back to it. The Registry is the catalog — every agent, every capability, every tool, every Adaptive Card surface, listed and versioned. Those three together are how the runtime is built and how it stays auditable. And all three sit on the Microsoft platform engagement frame.
 
 **MARCUS:** Monday morning. What does the seller do.
 
@@ -174,7 +182,7 @@ The morning meeting is at 9am Mountain. The Denver deck is queued on the second 
 
 ### The validation gate
 
-**KEVEN:** So before we get to the reading and the disagreement, I want to walk the validation gate. What M0 has to deliver before M1 unlocks. Because each of these gate items, if it slips, is a specific kind of pain in week-two of M1.
+**KEVEN:** Picture the Risk Advisory Partner on the Friday afternoon two weeks after Denver, four-thirty Pacific, the office mostly empty. She has the M0 gate checklist open in one window and her email open in the other. She is about to send the gate-status note to the TMT VP and the M&P Leader — eight items, each one a green check or a red flag, no maybes. The cursor is sitting after the third item because she is waiting on one confirmation before the note goes. That email, that Friday afternoon, those eight checks — that is the validation gate. So before we get to the reading and the disagreement, I want to walk it. What M0 has to deliver before M1 unlocks. Because each of these gate items, if it slips, is a specific kind of pain in week-two of M1.
 
 **MARCUS:** Walk them, and we'll each pick one to name a failure mode for.
 
@@ -224,7 +232,7 @@ The morning meeting is at 9am Mountain. The Denver deck is queued on the second 
 
 ## Further reading
 
-- The `APEX-Agentic-Telco-Olympics-Tracker` HTML — the eight-milestone tracker that is the artifact of M0 and the spine of the whole twenty-five-month campaign.
+- The `APEX-Agentic-Telco-Olympics-Tracker` HTML — the nine-milestone tracker (M0 through M8) that is the artifact of M0 and the spine of the whole twenty-five-month campaign.
 - The show bible at `docs/podcast/pc-la28-olympics-telco/00-show-bible-and-format.md` — the design rules this episode builds on.
 - The DTNA Account Podcast show bible at `docs/podcast/pc-dtna-account/` — the sibling pursuit-motion pattern this series extends, particularly the cross-Practice coordination beats.
 - The Trilogy podcasts library — for listeners who want the framework-wide context behind the cross-Practice coordination grid Marcus walks at M0.
