@@ -22,10 +22,10 @@ This extends the DTNA comparison grid with a fourth column for LA28.
 |---|---|---|---|---|
 | **Audience** | Framework-wide | Disney Account Team | DTNA Account Team | DMTSP / pursuit teams (TMT-led, cross-Practice) |
 | **Industry** | All seven Practices | TMT-MED | AXLE (with TH and ICE adjacencies) | TMT-led, all nine Practices in scope through the eleven Channels |
-| **Voice cast** | Various | Andrew + Emma Multilingual | Andrew + Brian Multilingual | Andrew + Brian Multilingual (DTNA continuity) |
+| **Voice cast** | Various | Andrew + Emma Multilingual | Andrew + Brian Multilingual | Andrew + Neerja (cross-region pairing — distinct from DTNA's Andrew + Brian; Indian English female lead) |
 | **Distinctive content** | Framework | Disney's three segments + scenarios | DTNA's four brands + AXLE plays | The 9-milestone pursuit motion · 11 Channels × 9 Practices coordination · LA28 brand discipline · AT&T as the Wave-1 anchor on the Microsoft Azure platform |
 
-The continuity choice (Andrew + Brian Multilingual) is deliberate: a DTNA listener picking up the LA28 series should recognise the cadence within ten seconds.
+The cast choice is deliberate. Keven (Andrew Neural) carries the Trilogy / DTNA continuity — a returning listener recognises him in ten seconds. Rashmi (Neerja Neural) is a new register: an Indian English senior-partner voice, distinct from the DTNA sibling's host pairing, reflecting the global composition of Deloitte's TMT-led pursuit teams. The contrast in register between the two hosts is part of the show's identity, not incidental.
 
 ---
 
@@ -45,15 +45,15 @@ Each episode is one milestone from the `APEX-Agentic-Telco-Olympics-Tracker` HTM
 
 ---
 
-## 4. Hosts — Marcus and Keven character sheets
+## 4. Hosts — Rashmi and Keven character sheets
 
-### Marcus
+### Rashmi
 
-Senior Deloitte hand. He has run pursuit motions before and he knows the framework cold — the practice mechanics, the cross-Practice coordination motion, the pursuit-team-charter discipline, the 24-month roadmap-as-instrument. He has walked Denver before, walked LA before, and walked the inside of a TMT-led pursuit before.
+Senior Deloitte hand. She has run pursuit motions before and she knows the framework cold — the practice mechanics, the cross-Practice coordination motion, the pursuit-team-charter discipline, the 24-month roadmap-as-instrument. She has walked Denver before, walked LA before, and walked the inside of a TMT-led pursuit before.
 
-**Voice.** Marcus talks in pursuit-team grammar: "the charter," "the endorsement chain," "the coordination grid," "the per-anchor Independence pre-clear," "the runway." He uses the names of titles and roles rather than the names of people. He is patient with the nine-Practice coordination problem because he has watched it fail when it was rushed.
+**Voice.** Rashmi talks in pursuit-team grammar: "the charter," "the endorsement chain," "the coordination grid," "the per-anchor Independence pre-clear," "the runway." She uses the names of titles and roles rather than the names of people. She is patient with the nine-Practice coordination problem because she has watched it fail when it was rushed. Her voice carries an Indian English register — clear, precise, unhurried, with the cadence of a senior partner used to chairing rooms.
 
-**What he pushes on.** Cross-Practice coordination. The endorsement chain — who signs, in what order, with whom in the room. The per-anchor Independence pre-clear — every anchor, every Channel, run through the Risk Advisory overlay before any Microsoft platform engagement language goes on paper.
+**What she pushes on.** Cross-Practice coordination. The endorsement chain — who signs, in what order, with whom in the room. The per-anchor Independence pre-clear — every anchor, every Channel, run through the Risk Advisory overlay before any Microsoft platform engagement language goes on paper.
 
 ### Keven
 
@@ -61,7 +61,7 @@ Microsoft platform practitioner. Twenty-two years on the Microsoft platform. VP 
 
 **Voice.** Keven talks in platform grammar: CAF, Foundry, the A2A Swarm, the vault runtime, the Adaptive Card surface, the Azure architecture-center reference patterns. He uses the phrase *Microsoft platform engagement* every time the Microsoft relationship comes up, and he says it the same way each time because the consistency is the point.
 
-**What he pushes on.** Platform engagement-language discipline (the phrase *Microsoft platform engagement* is non-negotiable). Foundry and CAF capacity — does the runway actually have the platform headroom this milestone needs? ECIF and MACC framework integrity — are the funding instruments still clean by the time the per-anchor Independence pre-clear comes back?
+**What he pushes on.** Platform engagement-language discipline (the phrase *Microsoft platform engagement* is non-negotiable). Foundry and CAF capacity — does the runway actually have the platform headroom this milestone needs? Reference-architecture fidelity — does the Wave-1 build map cleanly to Microsoft Azure's public architecture-center patterns, with no detour into Microsoft commercial-instrument language anywhere on the Deloitte side of the page?
 
 ---
 
@@ -120,7 +120,9 @@ The cold open never opens with a framework term, never with a section number, an
 
 These are non-negotiable. They are the carry-forward from the CFMP re-tone work and the DTNA Rule 1.
 
-**Independence language.** The canonical phrase for the Microsoft relationship is *Microsoft platform engagement*. Hosts use it every time. The four legacy phrases that imply commercial bundling between Deloitte and Microsoft — the ones that suggest joint selling, a formal vendor relationship, a named programme tie, or a designated reseller posture — are off the table. Hosts do not use them, do not paraphrase around them, do not flirt with them. The underlying reason is simple and Marcus names it once in episode one: **Deloitte audits Microsoft.** The auditor-independent posture is the reason the language has to be clean.
+**Independence language.** The canonical phrase for the Microsoft relationship is *Microsoft platform engagement*. Hosts use it every time. The four legacy phrases that imply commercial bundling between Deloitte and Microsoft — the ones that suggest joint selling, a formal vendor relationship, a named programme tie, or a designated reseller posture — are off the table. Hosts do not use them, do not paraphrase around them, do not flirt with them. The underlying reason is simple and Rashmi names it once in episode one: **Deloitte audits Microsoft.** The auditor-independent posture is the reason the language has to be clean.
+
+**Microsoft commercial instruments — off-tape.** Hosts do not name, describe, or reference Microsoft's funding programs or consumption-commitment vehicles anywhere on tape. Not the funded-engagement program. Not the consumption-commitment vehicle. Not the partner-investment vehicle. No framing that implies Deloitte and Microsoft are running a coordinated commercial play. Those instruments are Microsoft's to handle directly with the client; they are not Deloitte's to describe. The instruments exist in the world; they do not exist in this podcast. *Microsoft platform engagement* is the only language Deloitte uses for the platform relationship, and the platform is recommended on the merits — full stop. The auditor-independent posture requires that the Deloitte page stays clean of Microsoft commercial-instrument language.
 
 **LA28 and IOC brand discipline.** The TOP-program scope is a separate conversation from platform-vendor positioning — hosts respect that line and do not blur it. NBCUniversal has exclusive U.S. broadcast rights for the Games; the Media Channel is ride-along orchestration (watch-party suggestions, Peacock cross-promo with disclosure, second-screen Adaptive Cards) and never competitive distribution. Olympic trademarks — *LA28*, *the Games*, *Opening Ceremony*, *Closing Ceremony*, *the Olympic Rings* — are named with care and never used decoratively.
 
@@ -150,9 +152,9 @@ The tracker's `practice-strip` and per-Channel accent palette inform episode fra
 
 Four recurring beats land in every episode, none announced. The first three live as peer `###` headings inside `## The conversation` after the numbered sub-sections close; the fourth — *The quote-and-react* — is its own `###` heading in the same peer position.
 
-**A reading I want to do.** One to two paragraphs. Marcus or Keven recommends a primary-source reading: an AT&T earnings transcript, an NBCUniversal Olympics commitments statement, an LA28 organising-committee public release, a Microsoft Azure architecture-center reference pattern, a Walmart investor-day deck, a Toyota Connected developer post.
+**A reading I want to do.** One to two paragraphs. Rashmi or Keven recommends a primary-source reading: an AT&T earnings transcript, an NBCUniversal Olympics commitments statement, an LA28 organising-committee public release, a Microsoft Azure architecture-center reference pattern, a Walmart investor-day deck, a Toyota Connected developer post.
 
-**One disagreement.** A real tension between Marcus and Keven, named. Sometimes it converges by the end of the episode and sometimes it doesn't. When it doesn't, the show ends with the tension still open — that is the honest record of how pursuit teams actually work.
+**One disagreement.** A real tension between Rashmi and Keven, named. Sometimes it converges by the end of the episode and sometimes it doesn't. When it doesn't, the show ends with the tension still open — that is the honest record of how pursuit teams actually work.
 
 **The quote-and-react.** One per episode, drawn from a primary source. Hosts read the quote, then react. The source is named; the host says where the quote came from before reading it. Lives as its own `### The quote-and-react` heading, ordered between *One disagreement* and *What to carry forward*.
 
@@ -164,7 +166,7 @@ Four recurring beats land in every episode, none announced. The first three live
 
 | Host | Voice (edge-tts) | Persona |
 |---|---|---|
-| **Marcus** | `en-US-BrianMultilingualNeural` | Senior Deloitte pursuit hand; cross-Practice coordinator; framework-mechanics fluent |
+| **Rashmi** | `en-IN-NeerjaNeural` | Senior Deloitte pursuit hand; cross-Practice coordinator; framework-mechanics fluent; Indian English register |
 | **Keven** | `en-US-AndrewNeural` | Trilogy and DTNA continuity host; Microsoft platform practitioner; Independence-language steward |
 
 Audio production is deferred per the established Trilogy and DTNA pattern. The decision to render audio happens after all nine scripts land, are reviewed, and pass content-discipline verification. Scripts ship first.
