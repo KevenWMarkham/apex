@@ -302,6 +302,13 @@ HOW TO USE IT
   .stk-ask { background: linear-gradient(135deg, #ECFDF5, #FFFFFF); border-left: 4px solid var(--green-ok); padding: 12px 16px; border-radius: 4px; margin: 10px 0; font-size: 12.5px; font-style: italic; line-height: 1.55; }
   .stk-ask b { color: var(--green-ok); font-style: normal; }
 
+  /* reference list (action-item modal) */
+  .ref-list { list-style: none; padding: 0; margin: 8px 0; }
+  .ref-list li { padding: 8px 12px; background: #F0F7FF; border-left: 3px solid var(--accent-blue); border-radius: 4px; margin-bottom: 5px; font-size: 12.5px; }
+  .ref-list a { color: var(--accent-navy); font-weight: 600; text-decoration: none; }
+  .ref-list a:hover { color: var(--accent-blue); text-decoration: underline; }
+  .ref-list .ref-host { color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 500; }
+
   /* milestone modal (how-to-achieve) */
   .ms-meet { background: #F0F7FF; border-left: 4px solid var(--accent-blue); padding: 10px 14px; border-radius: 4px; margin: 6px 0; font-size: 12px; }
   .ms-meet b { color: var(--accent-navy); display: block; margin-bottom: 4px; }
@@ -320,8 +327,8 @@ HOW TO USE IT
   <div class="pt-header-grid">
     <div class="pt-title">
       <div class="eyebrow">APEX × Agentic Telco × LA28 Olympics · Delivery Tracker</div>
-      <h1>24-Month Build-to-Games Plan · Milestone-Validated</h1>
-      <div class="sub">Default Telco + plug-in Channels live for the LA28 opening ceremony. Drag the timeline to scrub through milestones; click any partner-org for the stakeholder modal; click "How to achieve" on any milestone for the meetings &amp; comms playbook. State persists in your browser.</div>
+      <h1>26-Month Campaign Plan · DMTSP Denver Kickoff 10 Jun 2026 → LA28 Opening 14 Jul 2028</h1>
+      <div class="sub">Internal alignment (M0) front-loads the DMTSP all-hands Denver kickoff. M1-M8 sequence external anchor BD and delivery. Drag the timeline to scrub; click any partner-org or internal-stakeholder for the briefing playbook; click any milestone marker for details + meetings + comms. State persists in your browser.</div>
     </div>
     <div class="pt-controls">
       <div class="pt-stat"><span class="label">Today</span><span class="value" id="stat-today">—</span></div>
@@ -773,6 +780,20 @@ HOW TO USE IT
   </div>
 </div>
 
+<!-- ============================================== ACTION-ITEM MODAL ============================================== -->
+<div id="task-modal-overlay" class="stk-modal-overlay" onclick="if(event.target===this) closeTask()">
+  <div class="stk-modal">
+    <div class="stk-head" style="background:linear-gradient(135deg,#0D2818,#0a3620);">
+      <button class="stk-close" onclick="closeTask()" aria-label="Close">&times;</button>
+      <span class="stk-role-tag" id="task-practice-tag" style="background:var(--olympic-gold);color:var(--deloitte-dark);">ACTION ITEM</span>
+      <h2 id="task-headline">&nbsp;</h2>
+      <div class="stk-title" id="task-owner">&nbsp;</div>
+      <div class="stk-org" id="task-milestone">&nbsp;</div>
+    </div>
+    <div class="stk-body" id="task-body"></div>
+  </div>
+</div>
+
 <!-- ============================================== STAKEHOLDER MODAL ============================================== -->
 <div id="stk-modal-overlay" class="stk-modal-overlay" onclick="if(event.target===this) closeStakeholder()">
   <div class="stk-modal">
@@ -810,7 +831,8 @@ HOW TO USE IT
    APEX × AGENTIC-TELCO × LA28 OLYMPICS — Delivery Tracker
    ============================================================================ */
 
-const STORAGE_KEY = 'apex-olympics-tracker-v2';
+const STORAGE_KEY = 'apex-olympics-tracker-v3';
+const DENVER_KICKOFF = new Date('2026-06-10T09:00:00-06:00');
 
 /* ----- DATA: DMTSP Practices ----- */
 const PRACTICES = [
@@ -839,8 +861,66 @@ const PRACTICE_PRESETS = [
 function practiceColor(code) { const p = PRACTICES.find(p => p.code === code); return p ? p.color : '#94A3B8'; }
 function practiceName(code) { const p = PRACTICES.find(p => p.code === code); return p ? p.name : code; }
 
-/* ----- DATA: 8 milestones from M-24 → Games end ----- */
+/* ----- DATA: 9 milestones from M0 (Denver kickoff) → Games end ----- */
 const MILESTONES = [
+  {
+    id: 'm0', num: '0', name: 'Internal alignment + DMTSP Denver kickoff',
+    monthsBefore: 25,
+    days: 'M-25 → M-22 · Denver kickoff 10 Jun 2026',
+    primary: 'DMTSP all-hands · top-down endorsement',
+    isInternalKickoff: true,
+    objectives: [
+      'DMTSP Denver kickoff (10 Jun 2026) — LA28 campaign presented to all DMTSP sellers',
+      'DMTSP M&P Leader top-down endorsement secured',
+      'Microsoft Alliance commitment framework (ECIF + MACC) agreed',
+      'Per-Practice seller teams named across all 9 Practices (TMT · TH · RC · AXLE · ER · HLS · ICE · FSI · GPS)',
+      'Per-anchor LCSP brief cadence agreed before any external BD touch',
+      'AI Institute + D&A Practice + ML Engineering capacity commitment framework',
+      'Risk Advisory per-anchor Independence pre-clear list submitted to National Office',
+    ],
+    sellerTasks: [
+      { practice: 'INT', who: 'DMTSP M&P Leader + TMT Practice Principal', coordinatesWith: ['CROSS'], text: '<b>DMTSP Denver kickoff meeting — 10 Jun 2026</b> · all-hands DMTSP practice · present LA28 campaign · per-Practice asks · year activity plan · secure top-down endorsement.' },
+      { practice: 'INT', who: 'TMT VP + Account SE', coordinatesWith: ['CROSS'], text: '<b>Pre-Denver brief to DMTSP M&P Leader</b> · single-page charter · GP envelope · cross-Practice resource ask · sequencing rationale. Week of 1 Jun 2026.' },
+      { practice: 'INT', who: 'TMT VP + Account SE', coordinatesWith: ['CROSS'], text: '<b>Denver deck preparation</b> · campaign overview · per-Practice asks · year activity plan · 8-milestone roadmap · this tracker as the artifact.' },
+      { practice: 'INT', who: 'DMTSP Account Lead', coordinatesWith: ['CROSS'], text: '<b>Microsoft Alliance Lead joint motion shape</b> · ECIF + MACC framework · GSI flagship language · Microsoft AE/CSA assignments framework.' },
+      { practice: 'INT', who: 'TMT VP', coordinatesWith: ['CROSS'], text: '<b>Per-Practice Principal 1:1 briefs</b> · separately with TMT · TH · RC · AXLE · ER · HLS · ICE · FSI · GPS Principals · charter + seller-team naming ask + anchor LCSP brief plan.' },
+      { practice: 'INT', who: 'TMT VP', coordinatesWith: ['CROSS'], text: '<b>US Industry Leader brief</b> · cross-Industry resource ask · Wave-2 syndication sponsor commit.' },
+      { practice: 'INT', who: 'Delivery Architect', coordinatesWith: ['CROSS'], text: '<b>AI Institute + D&A Practice + ML Engineering joint capacity brief</b> · capacity-planning framework · inference-cost model · LLM-tier mix recommendation · A2A Swarm + LangFuse + Registry runtime planning.' },
+      { practice: 'INT', who: 'Risk Advisory Partner', coordinatesWith: ['CROSS'], text: '<b>National Office Independence pre-clear list submitted</b> · all named anchor brands (AT&T · T-Mobile · Verizon · Charter · Walmart · Target · Costco · AA · Marriott · Expedia · Airbnb · Toyota · AutoNation · Cox · Progressive · Sazerac · PG&E · SCE · Kaiser · CVS · UnitedHealth · JPMC · Visa · Mastercard · NBC · Comcast · etc.).' },
+      { practice: 'INT', who: 'Per-Practice VPs', coordinatesWith: ['CROSS'], text: '<b>Per-Practice anchor-brand identification</b> · each Practice confirms named anchor(s) + bench partners + LCSP relationships · feeds the M1+ external BD cadence.' },
+      { practice: 'INT', who: 'TMT-Media VP + Risk Advisory', coordinatesWith: ['TMT','RISK'], text: '<b>NBCUniversal LCSP pre-brief</b> · Olympic broadcast scope-boundary memo authored before any external touch · highest-risk door requires earliest internal sign-off.' },
+    ],
+    gate: [
+      'DMTSP Denver kickoff completed (10 Jun 2026)',
+      'DMTSP M&P Leader endorsement on record',
+      'Microsoft Alliance Lead joint motion framework confirmed',
+      'Per-Practice seller teams named across all 9 Practices',
+      'Per-anchor LCSP brief cadence agreed (no external BD without LCSP brief)',
+      'Independence per-anchor pre-clear list submitted to National Office',
+      'AI Institute + D&A + ML Eng capacity framework agreed',
+      'NBC ride-along scope memo authored (highest-risk door)',
+    ],
+    howTo: {
+      summary: 'The internal launch. The June 10 Denver kickoff is the load-bearing event. NO client touches happen before this milestone completes — internal alignment is the prerequisite for every external BD motion that follows.',
+      meetings: [
+        { with: 'DMTSP all-hands (Denver, 10 Jun 2026)', topic: 'LA28 campaign launch · per-Practice asks · year activity plan · top-down endorsement.', when: '10 Jun 2026' },
+        { with: 'DMTSP M&P Leader 1:1 (pre-Denver)', topic: 'Brief charter + GP envelope + cross-Practice ask. Get endorsement before all-hands.', when: 'Week of 1 Jun 2026' },
+        { with: 'Microsoft Alliance Lead', topic: 'Joint motion shape · ECIF + MACC framework · Microsoft GSI flagship language.', when: 'Week of 8 Jun 2026' },
+        { with: 'Per-Practice Principals (separate 1:1s)', topic: 'Per-Practice charter · seller team naming · per-anchor LCSP brief plan. 9 conversations over 2-3 weeks.', when: '15-30 Jun 2026' },
+        { with: 'AI Institute + D&A Lead + ML Eng Lead (joint)', topic: 'Capacity planning · LLM-tier mix · A2A Swarm + LangFuse + Registry runtime planning.', when: 'Jul 2026' },
+        { with: 'Risk Advisory Partner + National Office', topic: 'Per-anchor brand Independence pre-clear initiation · audit-committee posture for each anchor.', when: 'Jul 2026' },
+        { with: 'NBCUniversal LCSP + Comcast LCSP (pre-brief)', topic: 'Olympic broadcast scope-boundary memo · highest-risk door requires earliest internal pre-clear.', when: 'Aug 2026' },
+      ],
+      communications: [
+        { type: 'Denver kickoff deck (10 Jun 2026)', text: 'Single deck · campaign overview · per-Practice asks · year activity plan · 8-milestone roadmap · this tracker as the artifact.' },
+        { type: 'DMTSP M&P Leader endorsement memo', text: 'Single page · charter + envelope + sequencing · circulated to all DMTSP Practice Principals before Denver.' },
+        { type: 'Per-Practice brief (9 copies)', text: 'One per Practice · sub-team naming ask · anchor list · LCSP brief plan · Wave-1 vs Wave-2 sequencing per Practice.' },
+        { type: 'Microsoft Alliance joint motion doc', text: 'Deloitte + Microsoft motion shape · ECIF + MACC framework · GSI flagship language · ready by 8 Jun 2026.' },
+        { type: 'Independence per-anchor pre-clear list', text: 'Submitted to National Office · 25+ named brands across all Channels.' },
+        { type: 'NBC scope-boundary memo', text: 'Drafted before any NBC counsel conversation · Channel does NOT distribute Olympic broadcast content; ride-along only.' },
+      ],
+    },
+  },
   {
     id: 'm1', num: '1', name: 'Anchor Telco + Games sponsor commit',
     monthsBefore: 24,
@@ -862,10 +942,7 @@ const MILESTONES = [
       { practice: 'CROSS', who: 'Account SE', text: '<b>Microsoft AE alignment</b>: confirm CAF capacity for projected Games load. ECIF funding for Wave-1 scoped.' },
       { practice: 'CROSS', who: 'DMTSP Account Lead', text: '<b>Form pursuit team</b> with named leads from TMT + RC + AXLE + ER + HLS + ICE + FSI + GPS + Risk Advisory. Weekly Practice-leads sync established.' },
       { practice: 'GPS', who: 'GPS Account Lead', text: '<b>Open LA City Mayor\'s office</b> on Games-period public-sector coordination. Early flag — long lead times for federal/state coord.' },
-      { practice: 'RISK', who: 'Risk Advisory Partner', text: '<b>Initiate national-office Independence pre-clear</b> for all named anchor partners (TMT + future RC/AXLE/ER/HLS/ICE/FSI/GPS).' },
-      { practice: 'INT', who: 'TMT VP', coordinatesWith: ['CROSS'], text: '<b>Brief DMTSP M&P Leader</b> on LA28 Wave-1 charter, GP envelope, and Practice-leader-sync cadence. Secure top-down endorsement before any anchor BD opens.' },
-      { practice: 'INT', who: 'DMTSP Account Lead', coordinatesWith: ['CROSS'], text: '<b>Brief Microsoft Alliance Lead + MS US Industry Lead</b> on joint LA28 motion. Co-investment posture (ECIF + MACC) confirmed.' },
-      { practice: 'INT', who: 'TMT VP', coordinatesWith: ['TMT'], text: '<b>Brief AT&T LCSP</b> (Lead Client Service Partner) on Wave-1 pursuit. The LCSP controls the door — no anchor BD without their explicit endorsement.' },
+      { practice: 'RISK', who: 'Risk Advisory Partner', text: '<b>National-office Independence pre-clear matures</b> · per-anchor memos drafted as anchor MOUs queue up.' },
     ],
     gate: [
       'AT&T Wave-1 charter signed for Default Home Channel build',
@@ -1672,6 +1749,135 @@ const INTERNAL_STAKEHOLDERS = {
   },
 };
 
+/* ============================================================================
+   ACTION-ITEM REFERENCE WEBSITES — common references per partner/topic
+   that any task can pull from. Keyed by tag found in task text.
+   ============================================================================ */
+const REFERENCE_LIBRARY = {
+  // Internal Deloitte
+  'DMTSP':       [ { label: 'Deloitte Microsoft alliance practice', url: 'https://www.deloitte.com/us/en/services/consulting/services/microsoft-services-practice.html' } ],
+  'Microsoft Alliance': [ { label: 'Microsoft Cloud Adoption Framework', url: 'https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/' }, { label: 'Microsoft ECIF program (Azure Consumption Funding)', url: 'https://partner.microsoft.com/en-us/membership/cloud-solution-provider' } ],
+  'Risk Advisory': [ { label: 'Deloitte Independence resources', url: 'https://www2.deloitte.com/us/en/legal/about-deloitte/independence.html' }, { label: 'ISO 42001 AI management', url: 'https://www.iso.org/standard/81230.html' } ],
+  'AI Institute':  [ { label: 'Deloitte AI Institute', url: 'https://www2.deloitte.com/us/en/pages/consulting/topics/deloitte-ai-institute.html' } ],
+  'D&A Practice':  [ { label: 'Microsoft Fabric medallion architecture', url: 'https://learn.microsoft.com/en-us/fabric/onelake/onelake-medallion-lakehouse-architecture' } ],
+  'AI Risk':       [ { label: 'NIST AI Risk Management Framework', url: 'https://www.nist.gov/itl/ai-risk-management-framework' }, { label: 'EU AI Act overview', url: 'https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai' } ],
+  // External Telco anchors
+  'AT&T':       [ { label: 'AT&T Business', url: 'https://www.business.att.com/' }, { label: 'AT&T Investor Relations', url: 'https://investors.att.com/' } ],
+  'T-Mobile':   [ { label: 'T-Mobile Business', url: 'https://www.t-mobile.com/business' } ],
+  'Verizon':    [ { label: 'Verizon Business', url: 'https://www.verizon.com/business/' } ],
+  'Charter':    [ { label: 'Spectrum Business', url: 'https://enterprise.spectrum.com/' } ],
+  // Travel
+  'AA AAdvantage': [ { label: 'AA AAdvantage', url: 'https://www.aa.com/i18n/aadvantage-program/aadvantage-program.jsp' }, { label: 'AA Newsroom', url: 'https://news.aa.com/' } ],
+  'Marriott':      [ { label: 'Marriott Bonvoy', url: 'https://www.marriott.com/loyalty.mi' }, { label: 'Marriott Investors', url: 'https://marriott.gcs-web.com/' } ],
+  'Expedia':       [ { label: 'Expedia Group Media Solutions', url: 'https://www.expediagroup.com/' }, { label: 'Expedia Partner API', url: 'https://developers.expediagroup.com/' } ],
+  'Airbnb':        [ { label: 'Airbnb Newsroom', url: 'https://news.airbnb.com/' }, { label: 'Airbnb API', url: 'https://www.airbnb.com/help/article/2855' } ],
+  // Retail
+  'Walmart':       [ { label: 'Walmart+', url: 'https://www.walmart.com/plus' }, { label: 'Walmart Connect', url: 'https://www.walmartconnect.com/' }, { label: 'Walmart Health', url: 'https://www.walmarthealth.com/' } ],
+  'Sazerac':       [ { label: 'Sazerac', url: 'https://www.sazerac.com/' }, { label: 'Buffalo Trace Antique Collection', url: 'https://www.buffalotracedistillery.com/our-brands/antique-collection.html' } ],
+  'Avalara':       [ { label: 'Avalara for Beverage Alcohol', url: 'https://www.avalara.com/us/en/products/beverage-alcohol.html' } ],
+  // Mobility / Auto
+  'Toyota':        [ { label: 'Toyota Connected', url: 'https://www.toyotaconnected.com/' }, { label: 'Toyota Financial Services', url: 'https://www.toyotafinancial.com/' } ],
+  'AutoNation':    [ { label: 'AutoNation', url: 'https://www.autonation.com/' }, { label: 'AutoNation Finance', url: 'https://finance.autonation.com/' } ],
+  'Cox':           [ { label: 'Cox Automotive', url: 'https://www.coxautoinc.com/' }, { label: 'Kelley Blue Book', url: 'https://www.kbb.com/' }, { label: 'Manheim', url: 'https://www.manheim.com/' } ],
+  'Progressive':   [ { label: 'Progressive Snapshot', url: 'https://www.progressive.com/auto/discounts/snapshot/' } ],
+  'Capital One':   [ { label: 'Capital One Auto Navigator', url: 'https://www.capitalone.com/cars/' } ],
+  // Energy
+  'PG&E':          [ { label: 'PG&E Demand Response', url: 'https://www.pge.com/en/save-energy-and-money/savings-programs.html' } ],
+  'SCE':           [ { label: 'SCE Demand Response', url: 'https://www.sce.com/business/savings-incentives/demand-response' } ],
+  'Tesla Energy':  [ { label: 'Tesla Energy', url: 'https://www.tesla.com/energy' } ],
+  'ChargePoint':   [ { label: 'ChargePoint Roaming', url: 'https://www.chargepoint.com/' } ],
+  // Health
+  'Kaiser':        [ { label: 'Kaiser Permanente Southern California', url: 'https://about.kaiserpermanente.org/who-we-are/our-regions/southern-california' } ],
+  'CVS':           [ { label: 'CVS Health', url: 'https://www.cvshealth.com/' }, { label: 'CVS Caremark', url: 'https://www.caremark.com/' } ],
+  'UnitedHealth':  [ { label: 'UnitedHealth Optum', url: 'https://www.optum.com/' } ],
+  'Humana':        [ { label: 'Humana MA', url: 'https://www.humana.com/' } ],
+  // Industrial
+  'AECOM':         [ { label: 'AECOM LA28', url: 'https://aecom.com/' } ],
+  'Honeywell':     [ { label: 'Honeywell Building Technologies', url: 'https://buildings.honeywell.com/' } ],
+  'Siemens':       [ { label: 'Siemens Mobility', url: 'https://www.mobility.siemens.com/' } ],
+  // Finance
+  'JPMC':          [ { label: 'Chase Sapphire', url: 'https://www.chase.com/personal/credit-cards/sapphire' } ],
+  'Visa':          [ { label: 'Visa Olympic & Paralympic partnership', url: 'https://corporate.visa.com/en/sites/visa-foundation/sports-partnerships.html' } ],
+  'Mastercard':    [ { label: 'Mastercard for business', url: 'https://www.mastercard.us/en-us/business.html' } ],
+  'Plaid':         [ { label: 'Plaid', url: 'https://plaid.com/' } ],
+  // Public sector
+  'LA City':       [ { label: 'LA28 Organizing Committee', url: 'https://www.la28.org/' }, { label: 'City of Los Angeles', url: 'https://www.lacity.gov/' } ],
+  'California':    [ { label: 'CA Dept of Alcoholic Beverage Control', url: 'https://www.abc.ca.gov/' }, { label: 'CA Dept of Insurance', url: 'https://www.insurance.ca.gov/' } ],
+  'NBC':           [ { label: 'NBCUniversal Sports & Olympics', url: 'https://www.nbcuniversal.com/' }, { label: 'Peacock', url: 'https://www.peacocktv.com/' } ],
+  // Standards
+  'CSA Matter':    [ { label: 'CSA Matter', url: 'https://csa-iot.org/all-solutions/matter/' } ],
+  'Trinsic':       [ { label: 'Trinsic', url: 'https://trinsic.id/' } ],
+  'Skyflow':       [ { label: 'Skyflow', url: 'https://www.skyflow.com/' } ],
+  'OneTrust':      [ { label: 'OneTrust', url: 'https://www.onetrust.com/' } ],
+  // Games
+  'LA28':          [ { label: 'LA28', url: 'https://www.la28.org/' }, { label: 'IOC Marketing programmes', url: 'https://olympics.com/ioc/partners' } ],
+  'Brisbane 2032': [ { label: 'Brisbane 2032', url: 'https://www.olympics.com/en/olympic-games/brisbane-2032' } ],
+};
+
+/* Tag scanning — pulls references from text body */
+function findReferences(text) {
+  const refs = [];
+  const seen = new Set();
+  Object.keys(REFERENCE_LIBRARY).forEach(tag => {
+    const lt = tag.toLowerCase();
+    const lower = text.toLowerCase();
+    if (lower.includes(lt) || lower.includes(lt.replace(/&/g, '&amp;'))) {
+      REFERENCE_LIBRARY[tag].forEach(r => {
+        if (!seen.has(r.url)) { refs.push(r); seen.add(r.url); }
+      });
+    }
+  });
+  return refs;
+}
+
+function openTask(milestoneIdx, taskIdx) {
+  const m = MILESTONES[milestoneIdx];
+  if (!m) return;
+  const t = m.sellerTasks[taskIdx];
+  if (!t) return;
+
+  // Strip HTML tags for the modal headline
+  const plain = (s) => s.replace(/<[^>]+>/g, '').replace(/&amp;/g, '&');
+  const headline = plain(t.text).split('.')[0].slice(0, 140);
+  const pcolor = practiceColor(t.practice);
+
+  document.getElementById('task-practice-tag').innerHTML = practiceName(t.practice) + ' &middot; ACTION ITEM';
+  document.getElementById('task-practice-tag').style.background = pcolor;
+  document.getElementById('task-practice-tag').style.color = 'white';
+  document.getElementById('task-headline').innerHTML = headline;
+  document.getElementById('task-owner').innerHTML = 'Owner: <b>' + t.who + '</b>';
+  document.getElementById('task-milestone').innerHTML = 'Milestone M' + m.num + ' &middot; ' + m.name + ' &middot; ' + m.days;
+
+  const coordsHtml = Array.isArray(t.coordinatesWith) && t.coordinatesWith.length
+    ? `<h3>Coordinate with</h3><p>${t.coordinatesWith.map(c => `<span class="coord-badge" style="background:${practiceColor(c)};">${practiceName(c)}</span>`).join(' ')}<br><span style="font-size:11px;color:var(--text-secondary);">These Practice teams need to be synced with the task owner; the action can\'t complete without their input.</span></p>`
+    : '';
+
+  // References — auto-detected from text + explicit refs if present on the task
+  const autoRefs = findReferences(t.text);
+  const explicitRefs = Array.isArray(t.refs) ? t.refs : [];
+  const allRefs = [...explicitRefs, ...autoRefs.filter(r => !explicitRefs.some(e => e.url === r.url))];
+  const refsHtml = allRefs.length
+    ? `<h3>Reference websites &amp; resources</h3><ul class="ref-list">${allRefs.map(r => `<li><a href="${r.url}" target="_blank" rel="noopener noreferrer">${r.label}</a> <span class="ref-host">&middot; ${new URL(r.url).hostname}</span></li>`).join('')}</ul>`
+    : '<h3>Reference websites &amp; resources</h3><p style="color:var(--text-secondary);font-size:12px;">No auto-detected references for this action item. Add explicit refs via the task <code>refs</code> field.</p>';
+
+  document.getElementById('task-body').innerHTML = `
+    <h3>Full description</h3>
+    <p>${t.text}</p>
+    ${coordsHtml}
+    <h3>Milestone context</h3>
+    <p><b>${m.name}</b> &middot; ${m.days} &middot; primary: ${m.primary}<br>
+       <em style="color:var(--text-secondary);">${m.howTo ? m.howTo.summary : ''}</em></p>
+    ${refsHtml}
+  `;
+  document.getElementById('task-modal-overlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeTask() {
+  document.getElementById('task-modal-overlay').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
 function openInternal(key) {
   const s = INTERNAL_STAKEHOLDERS[key];
   if (!s) return;
@@ -1775,7 +1981,7 @@ function updateCountdown() {
 
 function timelineBounds() {
   const games = getGamesDate();
-  const startMs = games.getTime() - 24 * 30.4375 * 24 * 3600 * 1000; // M-24
+  const startMs = games.getTime() - 26 * 30.4375 * 24 * 3600 * 1000; // M-26 (includes M0 + pre-Denver)
   const endMs = games.getTime() + POST_GAMES_BUFFER_DAYS * 24 * 3600 * 1000;
   return { startMs, endMs };
 }
@@ -1987,7 +2193,7 @@ function renderActivePhase() {
       ? `<div class="task-coords"><span class="coord-label">Coordinate with:</span> ${t.coordinatesWith.map(c => `<span class="coord-badge" style="background:${practiceColor(c)};">${practiceName(c)}</span>`).join(' ')}</div>`
       : '';
     return `
-      <div class="seller-task ${cls}">
+      <div class="seller-task ${cls} clickable" onclick="openTask(${state.activeMilestone}, ${i})" title="Click for full action-item detail + reference websites">
         <div class="task-num" style="background:${pcolor};">${i + 1}</div>
         <div>
           <div class="task-text"><span class="task-practice" style="background:${pcolor};">${practiceName(t.practice)}</span>${t.text}</div>
@@ -2049,6 +2255,9 @@ function renderActivePhase() {
     <style>
       .seller-task { display: grid; grid-template-columns: 24px 1fr; gap: 8px; padding: 8px 0; border-bottom: 1px dashed var(--border); align-items: start; transition: opacity 0.2s; }
       .seller-task:last-child { border-bottom: none; }
+      .seller-task.clickable { cursor: pointer; border-radius: 4px; transition: background 0.12s, transform 0.1s; }
+      .seller-task.clickable:hover { background: rgba(232,163,61,0.07); transform: translateX(2px); }
+      .seller-task.clickable:hover .task-text::after { content: ' \\2192'; color: var(--olympic-gold); font-weight: 800; }
       .seller-task.coord-only { background: rgba(111,182,229,0.07); border-radius: 4px; padding: 8px 10px; }
       .seller-task.coord-only .task-text::after { content: ' · coordination dependency'; font-size: 9.5px; color: var(--ms-blue); font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; }
       .seller-task .task-num { color: white; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; font-family: 'Outfit', sans-serif; flex-shrink: 0; }
@@ -2278,7 +2487,7 @@ function closeMilestone() {
 }
 
 document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') { closeStakeholder(); closeMilestone(); }
+  if (e.key === 'Escape') { closeStakeholder(); closeMilestone(); closeTask(); }
 });
 
 /* ============================================================================
