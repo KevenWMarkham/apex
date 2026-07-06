@@ -1,0 +1,55 @@
+kind: agent
+name: apex.rc.agents.price-elasticity-modeler
+version: 0.1.0
+practice: rc
+persona: Pricing Data Scientist
+service_codes: [RC-E2E-03]
+model_tier: reasoning
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Estimates and refreshes price-elasticity coefficients per product x zone from
+  sales, price-history, promotion, and competitor signals, then publishes the
+  modeled signal that the pricing specialists consume (base-price, competitive,
+  regional, clearance). Upstream analytics agent — it produces the elasticity
+  gold signal (MERML.Elasticity) rather than customer-facing price actions, so it
+  runs under Human-on-the-Loop: model refreshes are routine and reversible, with
+  exception-based drift monitoring rather than a per-decision gate.
+archetype_id: F7-magentic-reasoning-multi-source
+primary_contact: rc-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.rc.mcp.merml.get_price_record
+    purpose: Read price history (MERML.Price)
+  - tool_id: apex.rc.mcp.merml.get_promotion_history
+    purpose: Read promotion lift history (MERML.Promotion)
+  - tool_id: apex.rc.mcp.merml.get_category_exposure
+    purpose: Read category-level sales / margin aggregates
+  - tool_id: apex.rc.mcp.merml.publish_elasticity_estimates
+    purpose: Publish refreshed elasticity coefficients to the gold signal (MERML.Elasticity)
+    write: true
+
+hitl_gates: []
+
+oversight_modes: [HOTL]
+
+forbidden_classifications: [phi, pci]
+
+kpis:
+  - name: elasticity forecast error (MAPE)
+    direction: down
+    target_band: "-10 to -20% vs prior model"
+  - name: modeled coverage of managed assortment
+    direction: up
+    target_band: ">= 90% of managed SKUs"
+  - name: signal freshness
+    direction: up
+    target_band: "weekly refresh, drift-flagged"
+
+notes: >
+  Synthetic / illustrative KPI target bands — reference figures only, never a
+  client claim. Multi-tenant generic merchandiser agent. Pure Human-on-the-Loop
+  (HOTL): the write publishes a modeled signal (routine, reversible, drift-
+  monitored), not a customer-facing price change, so no per-decision HITL gate —
+  the four downstream pricing specialists carry the HITL gates on price actions.
+  Independence-clean — Deloitte's own accelerator on Microsoft technology.

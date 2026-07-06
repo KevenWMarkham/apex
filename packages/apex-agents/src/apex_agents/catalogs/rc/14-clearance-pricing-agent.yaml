@@ -1,0 +1,55 @@
+kind: agent
+name: apex.rc.agents.clearance-pricing
+version: 0.1.0
+practice: rc
+persona: Inventory & Clearance Manager
+service_codes: [RC-E2E-03]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Drives terminal / clearance pricing for end-of-life and aged inventory.
+  Reads on-hand position, age, and residual elasticity to propose a clearance
+  ladder that maximizes recovery while clearing within the exit window.
+  Deeper than routine markdown; complements apex.rc.agents.markdown-cadence.
+  A specialist decomposition of The Pricer focused on the clearance lever.
+archetype_id: F3-predictive-trigger-workflow-aware
+primary_contact: rc-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.rc.mcp.scml.get_inventory_position
+    purpose: Read store x product on-hand and age (SCML)
+  - tool_id: apex.rc.mcp.merml.get_elasticity_signal
+    purpose: Read residual price-elasticity outputs
+  - tool_id: apex.rc.mcp.merml.get_markdown_ladder
+    purpose: Read the authored markdown / clearance ladder (MERML.Markdown)
+  - tool_id: apex.rc.mcp.merml.recommend_clearance_markdown
+    purpose: Propose a clearance markdown step for HITL review
+    write: true
+
+hitl_gates:
+  - name: clearance_depth_above_threshold
+    description: A clearance step at >= 40% off original requires Inventory & Clearance Manager approval
+    fires_when: Recommended clearance depth >= 40% off original list price
+    surface: teams_card
+    sla_minutes: 60
+
+oversight_modes: [HITL, HOTL]
+
+forbidden_classifications: [phi, pci]
+
+kpis:
+  - name: aged-stock days on hand
+    direction: down
+    target_band: "-20 to -35%"
+  - name: clearance sell-through
+    direction: up
+    target_band: "+15 to +30%"
+  - name: recovery rate
+    direction: up
+    target_band: "+3 to +8pp vs blanket markdown"
+
+notes: >
+  Synthetic / illustrative KPI target bands — reference figures only, never a
+  client claim. Multi-tenant generic merchandiser agent. Independence-clean —
+  Deloitte's own accelerator on Microsoft technology; no partner/alliance framing.

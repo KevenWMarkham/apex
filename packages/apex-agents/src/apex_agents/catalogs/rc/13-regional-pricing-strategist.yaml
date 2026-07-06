@@ -1,0 +1,55 @@
+kind: agent
+name: apex.rc.agents.regional-pricing-strategist
+version: 0.1.0
+practice: rc
+persona: Regional Pricing Director
+service_codes: [RC-E2E-03]
+model_tier: reasoning
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Optimizes price by geographic zone / store cluster. Balances local elasticity,
+  cost-to-serve, and competitive intensity against the enterprise price-zone
+  policy band, proposing per-zone deltas that keep divergence within governance
+  limits. A specialist decomposition of The Pricer focused on regional / zone
+  pricing.
+archetype_id: F7-magentic-reasoning-multi-source
+primary_contact: rc-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.rc.mcp.merml.get_price_record
+    purpose: Read current effective price per zone (MERML.Price)
+  - tool_id: apex.rc.mcp.merml.get_elasticity_signal
+    purpose: Read zone-level price-elasticity outputs
+  - tool_id: apex.rc.mcp.merml.get_category_exposure
+    purpose: Read category-level margin exposure by zone
+  - tool_id: apex.rc.mcp.merml.propose_zone_price
+    purpose: Propose a per-zone price for HITL review
+    write: true
+
+hitl_gates:
+  - name: zone_price_divergence_above_band
+    description: A zone price that diverges beyond the enterprise policy band requires Regional Pricing Director approval
+    fires_when: Proposed zone delta pushes intra-category zone divergence beyond the policy band
+    surface: teams_card
+    sla_minutes: 45
+
+oversight_modes: [HITL, HOTL]
+
+forbidden_classifications: [phi, pci]
+
+kpis:
+  - name: GM
+    direction: up
+    target_band: "+30 to +90 bps in high-elasticity zones"
+  - name: regional price-index dispersion
+    direction: neutral
+    target_band: "within policy band"
+  - name: zone revenue
+    direction: money
+    target_band: "+0.5 to +1.2%"
+
+notes: >
+  Synthetic / illustrative KPI target bands — reference figures only, never a
+  client claim. Multi-tenant generic merchandiser agent. Independence-clean —
+  Deloitte's own accelerator on Microsoft technology; no partner/alliance framing.

@@ -1,0 +1,55 @@
+kind: agent
+name: apex.rc.agents.competitive-price-responder
+version: 0.1.0
+practice: rc
+persona: Pricing Manager
+service_codes: [RC-E2E-03]
+model_tier: standard
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Monitors the competitive-pricing feed and proposes rule-bounded responses on
+  key-value items when a competitor move breaches the match/beat policy. Reads
+  competitor index, current price, and category exposure; never drops below the
+  category margin floor without escalation. A specialist decomposition of The
+  Pricer focused on competitive response.
+archetype_id: F3-predictive-trigger-workflow-aware
+primary_contact: rc-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.rc.mcp.scml.get_competitor_pricing
+    purpose: Read the raw competitor-pricing feed (SCML silver)
+  - tool_id: apex.rc.mcp.merml.get_competitor_index
+    purpose: Read the modeled competitor price index (MERML.Competitor)
+  - tool_id: apex.rc.mcp.merml.get_price_record
+    purpose: Read current effective price (MERML.Price)
+  - tool_id: apex.rc.mcp.merml.propose_competitive_reprice
+    purpose: Propose a competitive reprice for HITL review
+    write: true
+
+hitl_gates:
+  - name: competitive_reprice_below_floor
+    description: A response that moves >= 5% or lands below the category margin floor requires Pricing Manager approval
+    fires_when: Proposed reprice delta >= 5% OR resulting margin < category floor
+    surface: teams_card
+    sla_minutes: 20
+
+oversight_modes: [HITL, HOTL]
+
+forbidden_classifications: [phi, pci]
+
+kpis:
+  - name: KVI price index vs market
+    direction: down
+    target_band: "match to <= 100 on tracked KVIs"
+  - name: GM
+    direction: neutral
+    target_band: "hold at or above category floor"
+  - name: unit sales on responded items
+    direction: up
+    target_band: "+1 to +3%"
+
+notes: >
+  Synthetic / illustrative KPI target bands — reference figures only, never a
+  client claim. Multi-tenant generic merchandiser agent. Independence-clean —
+  Deloitte's own accelerator on Microsoft technology; no partner/alliance framing.

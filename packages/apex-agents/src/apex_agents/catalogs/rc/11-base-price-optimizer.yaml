@@ -1,0 +1,57 @@
+kind: agent
+name: apex.rc.agents.base-price-optimizer
+version: 0.1.0
+practice: rc
+persona: VP Pricing
+service_codes: [RC-E2E-03]
+model_tier: reasoning
+model_pin: gpt-4o-2024-11-20
+prompt_sha: ""
+description: >
+  Everyday (base / list) price optimization across the managed assortment.
+  Reads category margin exposure, price-elasticity signals, landed cost, and
+  strategic price-zone rules to propose base-price moves that hold the market
+  price index while recovering margin. Respects KVI (key-value-item) protection
+  lists and category margin floors. A specialist decomposition of The Pricer
+  (apex.rc.agents.assortment-pricing) focused on the base-price lever.
+archetype_id: F7-magentic-reasoning-multi-source
+primary_contact: rc-practice-lead@deloitte.com
+
+tools:
+  - tool_id: apex.rc.mcp.merml.get_category_exposure
+    purpose: Read category-level margin-exposure aggregates
+  - tool_id: apex.rc.mcp.merml.get_elasticity_signal
+    purpose: Read price-elasticity model outputs
+  - tool_id: apex.rc.mcp.merml.get_price_record
+    purpose: Read current effective base/list price (MERML.Price)
+  - tool_id: apex.rc.mcp.merml.propose_base_price
+    purpose: Propose a base-price change for HITL review
+    write: true
+
+hitl_gates:
+  - name: base_price_change_above_threshold
+    description: Base-price move >= 5% off current, or any move on a KVI, requires VP Pricing approval
+    fires_when: Recommended base-price delta >= 5% OR product on the KVI protection list
+    surface: teams_card
+    sla_minutes: 30
+
+oversight_modes: [HITL, HOTL]
+
+forbidden_classifications: [phi, pci]
+
+kpis:
+  - name: GM
+    direction: up
+    target_band: "+40 to +120 bps in managed categories"
+  - name: price index vs market
+    direction: neutral
+    target_band: "hold KVI index <= 100"
+  - name: base-price revenue
+    direction: money
+    target_band: "+0.5 to +1.5% category revenue"
+
+notes: >
+  Synthetic / illustrative KPI target bands — reference figures only, never a
+  client claim. Multi-tenant: generic merchandiser agent (any RC operator is a
+  deployment instance). Independence-clean — Deloitte's own accelerator on
+  Microsoft technology; no partner/alliance framing.
