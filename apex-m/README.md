@@ -56,7 +56,7 @@ already invested in:
 | DLP | Microsoft Purview Data Loss Prevention |
 | Threat protection | Microsoft Defender for Cloud + Defender for AI services |
 | Content safety | Azure AI Content Safety Prompt Shields |
-| AI Services — realtime voice | Azure AI Foundry Voice Live API (gpt-realtime / -mini) + Azure AI Speech (ASR + neural TTS) |
+| AI Services — realtime voice | Azure AI Foundry Voice Live API (gpt-realtime / -mini) + Azure AI Speech (ASR + neural TTS + real-time text-to-speech talking avatar over WebRTC) |
 | AI Services — language | Azure AI Language (sentiment · key phrases · NER · PII · entity linking · summarization) |
 | AI Services — vision | Azure AI Vision — Image Analysis 4.0 (Florence): caption · tags · objects · OCR |
 | AI Services — documents | Azure AI Document Intelligence (invoice · receipt · ID · contract · layout · custom) |

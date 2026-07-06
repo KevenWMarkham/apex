@@ -55,6 +55,29 @@ def test_pii_detector_is_cleared_to_t4() -> None:
     assert pii.max_sensitivity is SensitivityTier.T4_HIGHLY_CONFIDENTIAL
 
 
+def test_talking_avatar_tool_is_a_voice_realtime_tool() -> None:
+    avatar = next(
+        t for t in CANONICAL_AIS_CATALOG if t.tool_name == "voice.avatar_session"
+    )
+    assert avatar.kind is AIServiceKind.VOICE_REALTIME
+    assert avatar.max_sensitivity is SensitivityTier.T3_CONFIDENTIAL
+    assert avatar.requires_hitl is False  # renders output; no write-back
+    assert avatar.azure_operation == "speech.tts.avatar.realtime"
+
+
+def test_mock_can_open_a_talking_avatar_session() -> None:
+    provider = MockAIServiceProviderFoundry(
+        canned={"voice.avatar_session": {"webrtc_sdp": "mock-offer", "ice": []}},
+    )
+    result = provider.invoke(
+        "voice.avatar_session",
+        {"character": "lisa", "style": "graceful", "voice": "en-US-AvaNeural"},
+        trace_id="t-avatar", sensitivity=SensitivityTier.T3_CONFIDENTIAL,
+    )
+    assert result.kind is AIServiceKind.VOICE_REALTIME
+    assert result.output["webrtc_sdp"] == "mock-offer"
+
+
 # ---------------------------------------------------------------------------
 # Mock provider — laptop / unit-test path
 # ---------------------------------------------------------------------------

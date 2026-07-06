@@ -11,7 +11,8 @@ Vault by the relay, not handed to the agent).
 The five workbenches → Azure services:
 
     Realtime voice  — Azure AI Foundry Voice Live API (gpt-realtime / -mini)
-                      + Azure AI Speech (ASR + neural TTS)
+                      + Azure AI Speech (ASR + neural TTS + real-time
+                      text-to-speech talking avatar over WebRTC)
     Language        — Azure AI Language (sentiment · key phrases · NER ·
                       PII · entity linking · summarization)
     Vision          — Azure AI Vision, Image Analysis 4.0 (Florence)
@@ -49,6 +50,7 @@ behind ``apex-m[runtime]``. :class:`MockAIServiceProviderFoundry` satisfies
 the same contract for laptop substrate + unit tests.
 
 Reference: https://learn.microsoft.com/azure/ai-services/speech-service/voice-live
+Reference: https://learn.microsoft.com/azure/ai-services/speech-service/text-to-speech-avatar/what-is-text-to-speech-avatar
 Reference: https://learn.microsoft.com/azure/ai-services/language-service/overview
 Reference: https://learn.microsoft.com/azure/ai-services/computer-vision/overview-image-analysis
 Reference: https://learn.microsoft.com/azure/ai-services/document-intelligence/overview
@@ -178,6 +180,14 @@ CANONICAL_AIS_CATALOG: tuple[AIServiceTool, ...] = (
     AIServiceTool(
         AIServiceKind.VOICE_REALTIME, "voice.synthesize", "speech.tts.synthesize",
         "Neural text-to-speech.",
+        SensitivityTier.T3_CONFIDENTIAL,
+    ),
+    AIServiceTool(
+        AIServiceKind.VOICE_REALTIME, "voice.avatar_session",
+        "speech.tts.avatar.realtime",
+        "Open a real-time text-to-speech talking-avatar session — an animated "
+        "video face lip-synced to neural TTS, streamed over WebRTC. The relay "
+        "fetches the ICE/relay token so the Speech key stays server-side.",
         SensitivityTier.T3_CONFIDENTIAL,
     ),
     # Language — Azure AI Language
