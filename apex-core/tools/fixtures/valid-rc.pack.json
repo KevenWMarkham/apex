@@ -1,0 +1,49 @@
+{
+  "pack_code": "RC",
+  "core_version_required": "1.3",
+  "manifest_version": "1.0.0",
+  "domain": "Merchandising",
+  "priority": "Differentiate",
+  "last_updated": "2026-07-05",
+  "agents": [
+    {
+      "name": "Dynamic Markdown",
+      "group": "Markdown",
+      "scenario_ids": ["RC-E2E-03"],
+      "tools": ["post_to_price_engine"],
+      "prompt_ref": "prompts/dynamic_markdown.md",
+      "priority": "Optimize"
+    },
+    {
+      "name": "Margin Guardrail",
+      "group": "Pricing",
+      "scenario_ids": ["RC-E2E-05"],
+      "tools": [],
+      "prompt_ref": "prompts/margin_guardrail.md",
+      "priority": "Differentiate"
+    },
+    {
+      "name": "Out-of-Stock Predictor",
+      "group": "Availability",
+      "scenario_ids": ["RC-E2E-07"],
+      "tools": ["expedite_replenishment"],
+      "prompt_ref": "prompts/oos_predictor.md"
+    }
+  ],
+  "gold_views": [
+    { "view": "gold_pricing_v4", "schema_code": "MERML", "version": "1.2.0" },
+    { "view": "gold_inventory_v3", "schema_code": "MERML", "version": "1.2.0" },
+    { "view": "gold_sales_velocity_v2", "schema_code": "MERML", "version": "1.2.0" }
+  ],
+  "kpis": [
+    { "label": "Gross margin %", "source_view": "gold_pricing_v4", "target": ">= 32", "band": { "good": ">= 32", "warn": ">= 28", "critical": "< 28" } },
+    { "label": "Out-of-stock %", "source_view": "gold_inventory_v3", "target": "<= 2", "band": { "good": "<= 2", "warn": "<= 4", "critical": "> 4" } }
+  ],
+  "policies": [
+    { "name": "Margin floor", "metric": "gross_margin_pct", "threshold": ">= 22", "escalate_to_role": "Category Manager" }
+  ],
+  "tools": [
+    { "name": "post_to_price_engine", "gold_writes": ["gold_pricing_v4"], "hitl_required": true },
+    { "name": "expedite_replenishment", "gold_writes": ["gold_inventory_v3"], "hitl_required": true }
+  ]
+}

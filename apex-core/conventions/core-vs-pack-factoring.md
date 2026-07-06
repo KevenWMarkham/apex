@@ -84,7 +84,7 @@ Core provides everything else: `build_workspace(pack)`, the recommendation envel
 ## Out of Scope / Follow-on
 
 - This convention + the L1 contract define the **seam**. Building the `build_workspace(pack)` shell and the recommendation/escalation runtime is a follow-on implementation (per the design doc).
-- A `validate-pack.js` validator (sibling to `tools/validate-manifest.js`) that enforces this L1 contract is a follow-on; until it lands, the contract is the normative reference.
+- The `validate-pack.js` validator (sibling to `tools/validate-manifest.js`) enforces this L1 contract as of v1.3; `fixtures/valid-rc.pack.json` is the reference-valid Pack manifest.
 
 ---
 
