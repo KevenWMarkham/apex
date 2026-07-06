@@ -25,6 +25,7 @@ apex-m/
     classifier_purview_labels.py  # SensitivityClassifier → Purview Information Protection
     observability_appinsights.py  # Observability → Azure Monitor + App Insights
     threat_defender.py            # ThreatProtection → Defender for Cloud + Defender for AI
+    ai_services_foundry.py        # AIServiceProvider → Azure AI Services (voice · language · vision · documents · maps)
   infra/bicep/                    # APEX-M infrastructure as code
     platform/                     # Layer 1: Foundry hub + project + Container Apps env + KV + ACR
     modules/                      # reusable: agent-fleet, mcp-server, hitl-gate, service
@@ -55,11 +56,40 @@ already invested in:
 | DLP | Microsoft Purview Data Loss Prevention |
 | Threat protection | Microsoft Defender for Cloud + Defender for AI services |
 | Content safety | Azure AI Content Safety Prompt Shields |
+| AI Services — realtime voice | Azure AI Foundry Voice Live API (gpt-realtime / -mini) + Azure AI Speech (ASR + neural TTS) |
+| AI Services — language | Azure AI Language (sentiment · key phrases · NER · PII · entity linking · summarization) |
+| AI Services — vision | Azure AI Vision — Image Analysis 4.0 (Florence): caption · tags · objects · OCR |
+| AI Services — documents | Azure AI Document Intelligence (invoice · receipt · ID · contract · layout · custom) |
+| AI Services — place | Azure Maps (geocode · route · isochrone · traffic · weather · time zone) |
 | Productivity surface | Microsoft 365 Copilot (custom engine agents via M365 Agents Toolkit) |
 | Low-code | Microsoft Copilot Studio |
 | Workflow | Power Automate |
 | Custom apps | Power Apps · Power Pages · Dataverse |
 | Security posture | Microsoft Cloud Security Benchmark v2 (AI Security baseline) |
+
+## AI Services (AIS) tool layer
+
+The five Azure AI Services above join the agent's toolbelt **alongside** the
+Gold virtual-view data tools — the chain becomes
+`Medallion → Gold views ↔ MCP (data + AI-service tools) → MAF → Foundry
+(+ Voice Live realtime) → surface (Web · Adaptive Cards · Voice)`.
+
+`ai_services_foundry.py` exposes each service as **one-purpose MCP tools
+behind key-holding relays**:
+
+- The agent calls a relay authenticated with its **Entra Agent ID / managed
+  identity**; the relay resolves the service key from **Key Vault** and
+  injects it. The key never leaves the relay.
+- `AIServiceProvider.invoke` is **fail-closed**: it refuses any payload above
+  the tool's `max_sensitivity` and emits an audit row for the hash-chained
+  ledger. `language.detect_pii` is the pre/post-processing guardrail.
+- AIS tools **perceive/analyse only** — they never write back. Any write-back
+  an agent performs after reasoning over an AIS result still passes the single
+  **HITL gate at step 16** in the runtime.
+
+The `AIServiceProvider` protocol is variant-neutral (like `persona_resolver`):
+APEX-G binds Google Cloud AI and APEX-A binds AWS AI to the same contract.
+`MockAIServiceProviderFoundry` covers the laptop + unit-test path.
 
 ## Books
 

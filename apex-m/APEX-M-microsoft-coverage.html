@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>APEX-M — Microsoft platform coverage</title>
+<style>
+  :root{
+    --bg:#06090f; --band:#0e1626; --box:#0f1b30; --line:#22314c; --line2:#1a2740;
+    --gr:#86bc25; --gr2:#b6e04f; --az:#4aa3ff; --az2:#7dc0ff; --teal:#46e0c8; --amber:#ffcf5c; --viol:#b98cff; --viol2:#d3b6ff;
+    --ink:#eaf0fb; --ink2:#9fb0cf; --ink3:#6b7ca0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:#04060b;}
+  .slide{width:1480px;min-height:840px;margin:0 auto;background:linear-gradient(150deg,#0b1322 0%,#0a0e18 60%,#07090f 100%);
+    font-family:"Segoe UI",-apple-system,Helvetica,Arial,sans-serif;color:var(--ink);padding:28px 32px 20px;position:relative;}
+  .hd h1{font-size:28px;font-weight:800;letter-spacing:-.01em;}
+  .hd h1 .m{color:var(--gr);}
+  .hd p{font-size:13px;color:var(--ink2);line-height:1.5;margin-top:6px;max-width:1180px;}
+  .hd p b{color:var(--ink);font-weight:700;} .hd p .gr{color:var(--gr2);font-weight:700;}
+
+  .apexband{margin:16px 0 14px;background:linear-gradient(90deg,#16240b,#1d3310);border:1px solid #3a5a1c;border-radius:10px;
+    padding:12px 16px;display:flex;align-items:center;gap:16px;}
+  .apexband .lbl{font-size:17px;font-weight:800;color:var(--gr2);white-space:nowrap;}
+  .apexband .chain{font-size:12px;color:#cfe3b0;}
+  .apexband .chain b{color:#eaf6d6;font-weight:700;}
+  .apexband .tag{margin-left:auto;font-size:10.5px;font-weight:700;color:#0a0e18;background:var(--gr);border-radius:20px;padding:3px 11px;white-space:nowrap;}
+
+  .cols{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;}
+  .pillar{background:var(--band);border:1px solid var(--line);border-radius:10px;padding:12px 12px 13px;}
+  .ph{font-size:12.5px;font-weight:800;letter-spacing:.01em;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--line);
+    display:flex;align-items:center;gap:8px;}
+  .ph .dot{width:9px;height:9px;border-radius:2px;flex:0 0 9px;}
+  .p1 .dot{background:var(--az);} .p2 .dot{background:var(--teal);} .p3 .dot{background:var(--amber);} .p4 .dot{background:var(--gr2);} .p5 .dot{background:var(--viol);}
+  .ph .pt{color:var(--ink);} .ph .pc{color:var(--ink3);font-size:10px;font-weight:600;margin-left:auto;}
+
+  .svc{background:var(--box);border:1px solid var(--line2);border-left:2px solid var(--az);border-radius:0 7px 7px 0;
+    padding:7px 10px;margin-bottom:8px;}
+  .svc:last-child{margin-bottom:0;}
+  .p2 .svc{border-left-color:var(--teal);} .p3 .svc{border-left-color:var(--amber);} .p4 .svc{border-left-color:var(--gr2);} .p5 .svc{border-left-color:var(--viol);}
+  .p5 .svc .nm .sub{color:var(--viol2);}
+  .svc .lyr{font-size:9.5px;letter-spacing:.05em;color:var(--ink3);font-weight:700;text-transform:uppercase;}
+  .svc .nm{font-size:12px;font-weight:700;color:var(--ink);line-height:1.3;margin-top:2px;}
+  .svc .nm .sub{font-weight:400;color:var(--az2);font-size:10.5px;}
+  .svc .ga{font-size:9px;font-weight:700;color:#0a0e18;background:var(--gr2);border-radius:4px;padding:1px 5px;margin-left:5px;vertical-align:1px;}
+
+  .foot{position:absolute;left:32px;right:32px;bottom:14px;display:flex;justify-content:space-between;font-size:10.5px;color:var(--ink3);}
+  .foot .gr{color:var(--gr);font-weight:700;}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="hd">
+    <h1><span class="m">APEX-M</span> — Microsoft platform coverage</h1>
+    <p>APEX-M targets the <b>entire Microsoft stack a Deloitte client has typically already invested in</b> — no net-new platform to buy;
+    APEX activates what they already own. <span class="gr">Deloitte's own accelerator running on the client's Microsoft estate</span> — Independence-clean, no partner/alliance framing.</p>
+  </div>
+
+  <div class="apexband">
+    <div class="lbl">APEX-M</div>
+    <div class="chain">Microsoft-native agentic accelerator — <b>Medallion → Gold virtual views ↔ MCP (data + AI-service tools) → Microsoft Agent Framework → Foundry (+ Voice Live realtime) → surface (Web · Adaptive Cards · Voice)</b>, hash-chained audit ledger + one HITL gate, spanning every layer below.</div>
+    <div class="tag">runs on the client's own tenant</div>
+  </div>
+
+  <div class="cols">
+
+    <!-- Pillar 1 -->
+    <div class="pillar p1">
+      <div class="ph"><span class="dot"></span><span class="pt">Agent runtime &amp; identity</span><span class="pc">5</span></div>
+      <div class="svc"><div class="lyr">Agent runtime</div><div class="nm">Microsoft Foundry Agent Service <span class="sub">· Hosted Agents</span></div></div>
+      <div class="svc"><div class="lyr">Agent identity</div><div class="nm">Microsoft Entra Agent ID <span class="ga">GA Apr 2026</span></div></div>
+      <div class="svc"><div class="lyr">Identity governance</div><div class="nm">Microsoft Entra ID Governance</div></div>
+      <div class="svc"><div class="lyr">Conditional access</div><div class="nm">Microsoft Entra Conditional Access</div></div>
+      <div class="svc"><div class="lyr">Secrets</div><div class="nm">Azure Key Vault <span class="sub">· Premium HSM</span></div></div>
+    </div>
+
+    <!-- Pillar 2 -->
+    <div class="pillar p2">
+      <div class="ph"><span class="dot"></span><span class="pt">Data &amp; intelligence</span><span class="pc">4</span></div>
+      <div class="svc"><div class="lyr">Data tier</div><div class="nm">Microsoft Fabric <span class="sub">· OneLake · Lakehouse · Eventhouse · Mirroring · Direct Lake</span></div></div>
+      <div class="svc"><div class="lyr">Real-time</div><div class="nm">Fabric Real-Time Intelligence <span class="sub">· Eventstream · Activator</span></div></div>
+      <div class="svc"><div class="lyr">Embeddings</div><div class="nm">Eventhouse SLM <span class="sub">· ai_embeddings plugin</span></div></div>
+      <div class="svc"><div class="lyr">BI</div><div class="nm">Power BI <span class="sub">· Direct Lake</span></div></div>
+    </div>
+
+    <!-- Pillar 3 -->
+    <div class="pillar p3">
+      <div class="ph"><span class="dot"></span><span class="pt">Governance, security &amp; trust</span><span class="pc">6</span></div>
+      <div class="svc"><div class="lyr">Sensitivity labels</div><div class="nm">Microsoft Purview Information Protection</div></div>
+      <div class="svc"><div class="lyr">Audit</div><div class="nm">Microsoft Purview Audit <span class="sub">+ DSPM for AI</span></div></div>
+      <div class="svc"><div class="lyr">DLP</div><div class="nm">Microsoft Purview Data Loss Prevention</div></div>
+      <div class="svc"><div class="lyr">Threat protection</div><div class="nm">Microsoft Defender for Cloud <span class="sub">+ Defender for AI</span></div></div>
+      <div class="svc"><div class="lyr">Content safety</div><div class="nm">Azure AI Content Safety <span class="sub">· Prompt Shields</span></div></div>
+      <div class="svc"><div class="lyr">Security posture</div><div class="nm">MS Cloud Security Benchmark v2 <span class="sub">· AI baseline</span></div></div>
+    </div>
+
+    <!-- Pillar 4 -->
+    <div class="pillar p4">
+      <div class="ph"><span class="dot"></span><span class="pt">Surfaces, low-code &amp; apps</span><span class="pc">4</span></div>
+      <div class="svc"><div class="lyr">Productivity surface</div><div class="nm">Microsoft 365 Copilot <span class="sub">· custom engine agents via M365 Agents Toolkit</span></div></div>
+      <div class="svc"><div class="lyr">Low-code</div><div class="nm">Microsoft Copilot Studio</div></div>
+      <div class="svc"><div class="lyr">Workflow</div><div class="nm">Power Automate</div></div>
+      <div class="svc"><div class="lyr">Custom apps</div><div class="nm">Power Apps <span class="sub">· Power Pages · Dataverse</span></div></div>
+      <div class="svc"><div class="lyr">Voice surface</div><div class="nm">Speech-to-speech voice agent <span class="sub">· Voice Live toolBridge calls sibling AI services mid-conversation</span></div></div>
+    </div>
+
+    <!-- Pillar 5 -->
+    <div class="pillar p5">
+      <div class="ph"><span class="dot"></span><span class="pt">AI Services · perception, language &amp; interaction</span><span class="pc">5</span></div>
+      <div class="svc"><div class="lyr">Realtime voice</div><div class="nm">Azure AI Foundry Voice Live API <span class="sub">· gpt-realtime / -mini · Azure AI Speech ASR + neural TTS</span></div></div>
+      <div class="svc"><div class="lyr">Language</div><div class="nm">Azure AI Language <span class="sub">· sentiment · key phrases · NER · PII · entity linking · summarization</span></div></div>
+      <div class="svc"><div class="lyr">Vision</div><div class="nm">Azure AI Vision <span class="sub">· Image Analysis 4.0 (Florence) · caption · tags · objects · OCR</span></div></div>
+      <div class="svc"><div class="lyr">Documents</div><div class="nm">Azure AI Document Intelligence <span class="sub">· invoice · receipt · ID · contract · layout · custom</span></div></div>
+      <div class="svc"><div class="lyr">Place</div><div class="nm">Azure Maps <span class="sub">· geocode · route · isochrone · traffic · weather · time zone</span></div></div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <span><span class="gr">APEX-M</span> · the Microsoft edition of APEX (M · A · G) · now spanning the AI Services layer — voice, language, vision, documents &amp; place · DMTP — Microsoft Technology Practice · Independence-clean: Deloitte's own accelerator using Microsoft technology</span>
+    <span>Synthetic / illustrative reference · service availability per Microsoft roadmap</span>
+  </div>
+</div>
+</body>
+</html>
