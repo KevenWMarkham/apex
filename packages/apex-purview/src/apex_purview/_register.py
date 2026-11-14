@@ -20,7 +20,7 @@ import json
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Iterable
+from typing import Any, Iterable
 
 import yaml
 
@@ -73,12 +73,24 @@ class RegistrationReport:
         )
 
 
+def _is_registry_descriptor(doc: dict[str, Any]) -> bool:
+    """Return True for an ``apex-registries`` schema-family catalog entry.
+
+    Those entries (``apex_registries/schemas/*.yaml``) share ``kind: schema``
+    with canonical schemas but describe a family by ``schema_code`` and list
+    no ``entities``, so there is nothing for Purview to classify.
+    """
+    return "schema_code" in doc and "entities" not in doc
+
+
 def discover_schemas(root: Path) -> list[Path]:
     """Return all schema YAMLs (``kind: schema``) under ``root``.
 
     Skips common noise directories (`.venv`, `node_modules`, `.git`,
     `__pycache__`). Files are included only if they parse as a mapping with
-    ``kind: schema``.
+    ``kind: schema``. Schema-family registry descriptors (see
+    :func:`_is_registry_descriptor`) are skipped: they also use
+    ``kind: schema`` but carry no entities to classify.
     """
     skip_dirs = {
         ".venv",
@@ -99,7 +111,7 @@ def discover_schemas(root: Path) -> list[Path]:
                 doc = yaml.safe_load(fh)
         except Exception:
             continue
-        if isinstance(doc, dict) and doc.get("kind") == "schema":
+        if isinstance(doc, dict) and doc.get("kind") == "schema" and not _is_registry_descriptor(doc):
             candidates.append(path)
 
     for path in root.rglob("*.yml"):
@@ -110,7 +122,7 @@ def discover_schemas(root: Path) -> list[Path]:
                 doc = yaml.safe_load(fh)
         except Exception:
             continue
-        if isinstance(doc, dict) and doc.get("kind") == "schema":
+        if isinstance(doc, dict) and doc.get("kind") == "schema" and not _is_registry_descriptor(doc):
             candidates.append(path)
 
     return sorted(candidates)
