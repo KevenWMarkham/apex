@@ -254,6 +254,49 @@ aside{display:flex;flex-direction:column;gap:16px;min-width:0}
 footer{color:var(--muted);font-size:12px}
 footer .wrap{padding-block:0 32px;max-width:1280px}
 footer p{margin:0 0 4px;max-width:110ch}
+
+/* Front door (Cairn) */
+.stats{display:flex;flex-wrap:wrap;gap:8px}
+.door{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:16px;align-items:start}
+@media (max-width:1040px){.door{grid-template-columns:minmax(0,1fr)}}
+.chat{display:flex;flex-direction:column;min-width:0;overflow:hidden}
+.chathead{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid var(--line)}
+.cairn-id{display:flex;gap:10px;align-items:center}
+.cairn-av{width:34px;height:34px;border-radius:50%;background:var(--gate-soft);color:var(--gate);display:grid;place-items:center;font-family:var(--f-display);font-weight:700}
+.msgs{display:flex;flex-direction:column;gap:10px;padding:16px;max-height:600px;overflow:auto}
+.msg{max-width:90%;padding:10px 12px;border-radius:12px;font-size:13.5px;min-width:0}
+.msg.me{align-self:flex-end;background:var(--ink);color:var(--surface);border-bottom-right-radius:4px}
+.msg.cairn{align-self:flex-start;background:var(--surface-2);border-bottom-left-radius:4px}
+.msg .who{font-size:11px;font-weight:600;color:var(--gate);margin-bottom:3px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.msg.me .who{color:inherit;opacity:.75}
+.tcard{margin-top:8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:10px 12px;font-size:12.5px}
+.tcard .tt{font-family:var(--f-mono);font-size:11px;color:var(--muted);margin-bottom:6px}
+.tcard ul{margin:0;padding-left:16px}
+.draft{white-space:pre-wrap;font-size:12.5px;line-height:1.5;border-left:3px solid var(--line);padding-left:10px;margin:0}
+.confirm{align-self:stretch;border:1px dashed var(--gate);border-radius:10px;background:color-mix(in srgb,var(--gate-soft) 50%,var(--surface));padding:12px 14px;font-size:13px;display:flex;flex-direction:column;gap:8px}
+.confirm .ch{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;color:var(--gate);font-weight:600}
+.confirm .acts{display:flex;gap:8px;flex-wrap:wrap}
+.prompts{display:flex;flex-wrap:wrap;gap:8px;padding:12px 16px;border-top:1px solid var(--line);background:var(--surface-2)}
+.prompt{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;font-size:12.5px;cursor:pointer;text-align:left}
+.prompt:hover{border-color:var(--accent)}
+.prompt.gov{border-color:color-mix(in srgb,var(--gate) 60%,var(--line));color:var(--gate)}
+.prompt.draftp{border-style:dashed}
+.prompt[disabled]{opacity:.45;cursor:not-allowed}
+.trace{font-family:var(--f-mono);font-size:10.5px;padding:1px 6px;border-radius:4px;background:var(--accent-soft);color:var(--accent);border:0;cursor:pointer;white-space:nowrap}
+.msg.me .trace{background:color-mix(in srgb,var(--surface) 20%,transparent);color:inherit}
+.runlog{min-width:0}
+.runlog .tbl-scroll{max-height:600px;overflow:auto}
+table.ledger tr.hl td{background:var(--accent-soft)}
+.st-ok{color:var(--ok);font-weight:600}
+.st-waiting{color:var(--gate);font-weight:600}
+.st-refused{color:var(--bad);font-weight:600}
+.principles{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:0;padding:0;list-style:none}
+.principles li{padding:12px 14px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);font-size:13px}
+.principles b{display:block;font-family:var(--f-display);font-size:14px;margin-bottom:2px}
+.kind{font-size:11px;font-weight:600;padding:1px 7px;border-radius:999px}
+.k-read{background:var(--info-soft);color:var(--info)}
+.k-draft{background:var(--surface-2);color:var(--muted)}
+.k-gov{background:var(--gate-soft);color:var(--gate)}
 </style>
 
 <header class="top">
@@ -268,7 +311,8 @@ footer p{margin:0 0 4px;max-width:110ch}
       <p><span class="mono">TAL-OPS-01</span> · Operations &amp; Workforce · Corp · Valley Ridge USD · inherits APEX Core v1.2 · HITL gate at step 16</p>
     </div>
     <div class="tabs" role="group" aria-label="View">
-      <button type="button" id="tab-run" data-view="run" aria-pressed="true">Pilot run</button>
+      <button type="button" id="tab-door" data-view="door" aria-pressed="true">Front door · Cairn</button>
+      <button type="button" id="tab-run" data-view="run" aria-pressed="false">Pilot run</button>
       <button type="button" id="tab-lanes" data-view="lanes" aria-pressed="false">24-step swim lanes</button>
     </div>
   </div>
@@ -294,6 +338,7 @@ footer p{margin:0 0 4px;max-width:110ch}
 <footer><div class="wrap">
   <p>Demo data. People, district, school and university names are fictional. Dates, roles, outcome metrics, posting requirements and the screening rubric come from the supplied application packet; the rubric weights and thresholds are the district's proposed guidelines, not adopted policy.</p>
   <p>Effort and time figures marked “synthetic” are reference figures, not client claims. Agents draft; people decide and send.</p>
+  <p>The front door follows AI-Services Cairn's front-door design. Front-door conversations and run-log times are illustrative. Product names are as at October 2026, and several are in preview; verify them before client use.</p>
 </div></footer>
 
 <script>
@@ -322,10 +367,10 @@ const CHAIN24 = [
   [4,"W1","transform","Tokenizer · applicant PII redaction"],
   [5,"W1","canonical","Silver canonical · TALML candidate profile"],
   [6,"W1","semantic","Gold · screening semantic model"],
-  [7,"W1","runtime","MCP · posting library, rubric, credential lookup"],
+  [7,"W1","runtime","MCP · one tool layer: Cairn's Talent tools, posting library, rubric, credential lookup"],
   [8,"W1","identity","Entra · HR analyst, committee, principal"],
   [9,"W1","evidence","LEDGER · hash-chained screening audit"],
-  [10,"W1","hitl","HITL surface · committee card in Teams"],
+  [10,"W1","hitl","HITL surface · Cairn front door: voice, Teams, office console"],
   [11,"W2","trigger","Event · application submitted"],
   [12,"W2","orchestrate","Orchestrator · dispatch screening agents"],
   [13,"W2","agent","Assess · qualifications, evidence, conflicts"],
@@ -420,7 +465,8 @@ const RUBRIC = [
 
 /* ================= State ================= */
 const S = {
-  view:"run", sel:"s16", running:false, run:{},
+  view:"door", sel:"s16", running:false, run:{},
+  surface:"voice", chat:[], runs:[], pending:null, draft:null, traceSel:null, budget:0,
   ratings:Object.fromEntries(RUBRIC.map(c => [c.id, c.r])),
   quals:Object.fromEntries(QUALS.map(q => [q.id, q.st])),
   resolved:Object.fromEntries(FINDINGS.map(f => [f.id, false])),
@@ -472,12 +518,12 @@ async function sha(str){
   let h1 = 0x811c9dc5, h2 = 0x01000193; for (let i=0;i<str.length;i++){ h1 = Math.imul(h1 ^ str.charCodeAt(i), 16777619); h2 = Math.imul(h2 ^ str.charCodeAt(i), 2246822519); }
   return ((h1>>>0).toString(16).padStart(8,"0") + (h2>>>0).toString(16).padStart(8,"0")).repeat(4);
 }
-const rowBody = r => JSON.stringify([r.seq, r.ts, r.step, r.actor, r.action, r.ref]);
+const rowBody = (r, action = r.action) => JSON.stringify([r.seq, r.ts, r.step, r.entry, r.trace, r.actor, action, r.ref]);
 let q = Promise.resolve();
 let clock = new Date(2026, 10, 14, 9, 12, 4);
 function stamp(live){ const d = live ? new Date() : (clock = new Date(clock.getTime() + 2000 + Math.floor(Math.random()*4000))); return d.toLocaleDateString("en-GB",{day:"2-digit",month:"short"}) + " " + d.toLocaleTimeString("en-GB"); }
-function log(step, actor, action, ref, live){
-  const r = {seq:S.ledger.length + 1, ts:stamp(live), step, actor, action, ref, prev:"", hash:""};
+function log(step, actor, action, ref, live, entry = "Recorded", trace = "—"){
+  const r = {seq:S.ledger.length + 1, ts:stamp(live), step, entry, trace, actor, action, ref, prev:"", hash:""};
   S.ledger.push(r);
   q = q.then(async () => { const prev = r.seq > 1 ? S.ledger[r.seq - 2].hash : "0".repeat(64); r.prev = prev; r.hash = await sha(prev + rowBody(r)); if (S.view === "run" && S.sel === "s17") renderDetail(); });
 }
@@ -485,7 +531,7 @@ async function verifyChain(){
   await q;
   let prev = "0".repeat(64);
   for (const r of S.ledger){
-    const body = S.tamper && r.seq === 4 ? JSON.stringify([r.seq, r.ts, r.step, r.actor, r.action.replace("Score 80", "Score 92"), r.ref]) : rowBody(r);
+    const body = S.tamper && r.seq === 4 ? rowBody(r, r.action.replace("Score 80", "Score 92")) : rowBody(r);
     const h = await sha(prev + body);
     if (h !== r.hash || r.prev !== prev) return {ok:false, at:r.seq};
     prev = r.hash;
@@ -626,7 +672,7 @@ const VIEWS = {
       </div>${canAdvance()?"":`<div class="why">Advance is locked by the gate until required qualifications are confirmed, material findings are resolved and the score meets the guidelines.</div>`}`}
     </div>`;
     const rec = S.hitl ? `<div class="recorded ${S.hitl.cls}"><span class="dot ${S.hitl.cls==="ok"?"done":S.hitl.cls==="bad"?"fail":"flag"}" style="margin-top:4px"></span><div><b>Committee decision recorded: ${esc(S.hitl.label)}</b>${esc(S.hitl.ts)} · written to the ledger as row ${S.hitl.row}. <button class="linkbtn" type="button" data-undo="1">Withdraw decision</button></div></div>` : "";
-    return head(sc, "The single enforceable human approval in the chain. Nothing past this step runs until the screening committee decides, and every option is logged with the evidence the committee saw.")
+    return head(sc, "The single enforceable human approval in the chain. Nothing past this step runs until the screening committee decides, and every option is logged with the evidence the committee saw. The same gate is reachable through Cairn: the chair can decide by voice or in Teams, under the same lock.")
     + anatomy(["Adaptive Card from step 15","Live gate checks"],["Advance locked while blockers are open","Hold and Do not advance always available","Decision and approver identity logged (Entra)"],["Committee decision","Unlocks steps 17–18"])
     + `<div class="panel section" style="display:flex;flex-direction:column;gap:14px"><h3>Committee card <span class="pill p-gate">Teams · Adaptive Card</span></h3>${card}${rec}</div>`
     + (S.hitl ? handoff("Decision passes to Act + evidence-write.", "s17") : `<div class="handoff"><span class="arrow">GATE HOLDS →</span><span>Steps 17 and 18 wait for the committee. Try clearing items in step 13 or changing ratings in step 14, then come back.</span></div>`);
@@ -640,8 +686,8 @@ const VIEWS = {
     + `<div class="panel section"><h3>Audit ledger <span class="pill p-mute">${S.ledger.length} rows</span>
         <span style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap"><button class="btn mini" type="button" id="verifybtn">Verify chain</button><button class="btn mini" type="button" id="tamperbtn" aria-pressed="${S.tamper}">${S.tamper?"Undo tampering":"Simulate tampering"}</button></span></h3>
         ${v?`<div class="recorded ${v.ok?"ok":"bad"}" style="margin-bottom:12px"><span class="dot ${v.ok?"done":"fail"}" style="margin-top:4px"></span><div><b>${v.ok?`Chain intact · ${v.n} rows verified`:`Chain broken at row ${v.at}`}</b>${v.ok?"Every row's hash matches its content and the row before it.":"Row 4's score was edited after it was written, so its hash no longer matches."}</div></div>`:""}
-        <div class="tbl-scroll"><table class="ledger"><thead><tr><th>#</th><th>Time</th><th>Step</th><th>Actor</th><th>Action</th><th>Evidence</th><th>Hash</th></tr></thead><tbody>
-        ${S.ledger.map(r => `<tr class="${S.tamper&&r.seq===4?"tampered":""} ${v&&!v.ok&&r.seq===v.at?"broken":""}"><td class="mono">${r.seq}</td><td class="h">${esc(r.ts)}</td><td class="mono">${r.step}</td><td>${esc(r.actor)}</td><td class="act">${esc(S.tamper&&r.seq===4?r.action.replace("Score 80","Score 92"):r.action)}</td><td style="color:var(--muted)">${esc(r.ref)}</td><td class="h" title="prev ${esc(r.prev)}">${r.hash?esc(r.hash.slice(0,10))+"…":"hashing…"}</td></tr>`).join("")}
+        <div class="tbl-scroll"><table class="ledger"><thead><tr><th>#</th><th>Time</th><th>Step</th><th>Entry</th><th>Trace</th><th>Actor</th><th>Action</th><th>Evidence</th><th>Hash</th></tr></thead><tbody>
+        ${S.ledger.map(r => `<tr class="${S.tamper&&r.seq===4?"tampered":""} ${v&&!v.ok&&r.seq===v.at?"broken":""} ${S.traceSel&&r.trace===S.traceSel?"hl":""}"><td class="mono">${r.seq}</td><td class="h">${esc(r.ts)}</td><td class="mono">${r.step}</td><td>${entryPill(r.entry)}</td><td>${r.trace!=="—"?`<button type="button" class="trace" data-trace="${esc(r.trace)}">${esc(r.trace)}</button>`:`<span style="color:var(--muted)">—</span>`}</td><td>${esc(r.actor)}</td><td class="act">${esc(S.tamper&&r.seq===4?r.action.replace("Score 80","Score 92"):r.action)}</td><td style="color:var(--muted)">${esc(r.ref)}</td><td class="h" title="prev ${esc(r.prev)}">${r.hash?esc(r.hash.slice(0,10))+"…":"hashing…"}</td></tr>`).join("")}
         </tbody></table></div></div>`
     + (S.hitl ? handoff("Decision and ledger counts roll up to the screening model.", "s18") : "");
   },
@@ -675,7 +721,7 @@ function lanesView(){
     const inner = `<span class="no">${s[0]}</span><span>${esc(s[3])}${r?`<small>Open in pilot run</small>`:""}</span>`;
     return r ? `<button type="button" class="chip run ${g?"g":""}" data-go="${r.id}">${inner}</button>` : `<div class="chip ${g?"g":""}">${inner}</div>`;
   }).join("");
-  return `<div class="dhead"><div><div class="eyebrow">Swim-lane showcase · generated from the chain</div><h2>Certificated leadership screening</h2><p>The canonical 24-step chain, specialized for K-12 talent. Steps sit in six lanes by kind and three waves. One enforceable HITL gate at step 16. Steps 11–18 open in the pilot run.</p></div><span class="pill p-gate"><span class="dot wait"></span>HITL gate · step 16</span></div>
+  return `<div class="dhead"><div><div class="eyebrow">Swim-lane showcase · generated from the chain</div><h2>Certificated leadership screening</h2><p>The canonical 24-step chain, specialized for K-12 talent. Steps sit in six lanes by kind and three waves. One enforceable HITL gate at step 16. Steps 11–18 open in the pilot run. Cairn, the front door, sits on the Experience Plane at steps 10 and 16 and reaches the step 13–15 agents through the one tool layer at step 7.</p></div><span class="pill p-gate"><span class="dot wait"></span>HITL gate · step 16</span></div>
   <div class="lanes-scroll"><div class="lanes">
     <div class="wh"><span class="eyebrow">Lane</span></div>
     ${WAVES.map(w => `<div class="wh"><b>${w[0]} · ${w[1]}</b>${w[2]}</div>`).join("")}
@@ -700,6 +746,216 @@ const TALML = [
   ["RUBRIC_SCORE","Gold","application × criterion × rater",["application_id","criterion_code","rater_id"],true,[]],
   ["SCREENING_DECISION","Gold","application × HITL decision",["application_id","decided_at"],false,[]]
 ];
+
+/* ================= Front door: Cairn ================= */
+const CHAIR = "Asst. Supt., Personnel Services";
+const SURF = {
+  voice:{label:"Voice", name:"Voice on the phone", asker:CHAIR, gate:"A card on the phone screen; nothing goes until you say yes."},
+  teams:{label:"Teams", name:"Cairn in Teams", asker:CHAIR, gate:"An Adaptive Card in Teams; nothing goes until you select Yes."},
+  console:{label:"Office console", name:"Personnel Services console", asker:"HR analyst", gate:"A queue item in the office console for the person delegated to confirm it."}
+};
+const TOOLS = [
+  ["screening_status","Where does this screening stand","read","Score agent","SELML.RUBRIC_SCORE · EVDML.QUALIFICATION_CHECK","—","13–14"],
+  ["open_items","What blocks an interview","read","Assess agent","EVDML.QUALIFICATION_CHECK · EVDML.CONSISTENCY_FINDING","—","13"],
+  ["explain_score","Explain this score","read","Score agent","SELML.RUBRIC_SCORE · EVDML.EVIDENCE_CLAIM","—","14"],
+  ["compare_to_posting","How does this applicant meet the posting","read","Assess agent","TALML.POSTING_REQUIREMENT · TALML.CREDENTIAL","—","12–13"],
+  ["credential_lookup","Check this credential","read","Assess agent","State credential lookup (read-only MCP)","—","13"],
+  ["interview_plan","What should we ask","read","Compose agent","SELML.RUBRIC_SCORE · EVDML.CONSISTENCY_FINDING","—","15"],
+  ["screening_kpis","How is screening running","read","KPI rollup","SELML.SCREENING_KPI","—","18"],
+  ["draft_clarification","Draft the clarification request","draft","Compose agent","EVDML.CONSISTENCY_FINDING · Cairn's enclave (style notes)","—","15"],
+  ["send_candidate_message","Send a message to the applicant","gov","Writer agent","Applicant tracking (contact behind the tokenizer)","The chair, or the HR analyst under delegation","17"],
+  ["record_verification","Record an item as verified","gov","Assess agent","EVDML.QUALIFICATION_CHECK · EVDML.CONSISTENCY_FINDING","The HR analyst, or the chair","13"],
+  ["request_reference_consent","Ask to contact current employer","gov","Writer agent","TALML.EMPLOYMENT_RECORD","The HR analyst","15"],
+  ["record_committee_decision","Record the committee's decision","gov","Compose agent → gate","SELML.SCREENING_DECISION","The committee chair only","16"]
+];
+const KIND_LABEL = {read:["Read","k-read"], draft:["Draft","k-draft"], gov:["Governed","k-gov"]};
+let traceN = 0;
+const newTrace = () => "t-" + (0x7f3a + (traceN++) * 0x2d1).toString(16);
+function digest(s){ let h = 0x811c9dc5; for (let i=0;i<s.length;i++) h = Math.imul(h ^ s.charCodeAt(i), 16777619); const x = (h>>>0).toString(16).padStart(8,"0"); return `digest ${x.slice(0,4)}…${x.slice(4)}`; }
+function runAt(live, ms){ const d = live ? new Date() : (clock = new Date(clock.getTime() + ms)); return d.toLocaleTimeString("en-GB") + "." + String(d.getMilliseconds()).padStart(3,"0"); }
+function run(tr, actor, tool, read, result, ms, status, live){
+  S.runs.push({at:runAt(live, ms + 20), tr, surface:SURF[S.surface].label, actor, onb:SURF[S.surface].asker, tool, read, result, ms, status});
+}
+const call = (tr, tool, input, agent, live) => run(tr, "Cairn", `${tool} ${input}`, "—", agent ? `Handed to the ${agent}` : "Answered by Cairn", 28 + (traceN * 7) % 20, "ok", live);
+const checkNums = (tr, live) => run(tr, "Cairn", "numbers-from-tools check", "—", "Every figure matches the tool output", 5, "ok", live);
+const say = (tr, text, card) => S.chat.push({who:"cairn", text, card, tr});
+const metCount = () => QUALS.length - openVerify().length - failedQual().length;
+const plural = (n, w) => `${n} ${w}${n === 1 ? "" : "s"}`;
+
+function blockerDetail(){
+  return [...openVerify().map(q => ({kind:"qual", id:q.id, t:q.t, ev:q.fix})),
+          ...openMaterial().map(f => ({kind:"finding", id:f.id, t:f.t, ev:f.done}))];
+}
+
+const PROMPTS = {
+  status:{q:"Where does the assistant principal screening stand?", kind:"read", run(tr, live){
+    call(tr, "screening_status", '{"posting":"HS-AP-2026"}', "Score agent", live);
+    const t = total(), [bl] = band(t), b = blockers().length;
+    run(tr, "Score agent", "read score and gate", "SELML.RUBRIC_SCORE · EVDML.QUALIFICATION_CHECK", `Score ${f1(t)}; IL ${ilText()}; ${metCount()} of 4 met; ${plural(b,"blocker")}`, 241, "ok", live);
+    checkNums(tr, live);
+    say(tr, `One applicant is in review. ${CAND.name} scores ${f1(t)} of 100, in the ${bl} band. ${S.hitl ? `The committee has recorded: ${S.hitl.label.toLowerCase()}.` : b ? `${plural(b,"item")} must clear before the committee can advance her.` : "Nothing blocks an interview; the decision is with the committee."}`,
+      {tool:"screening_status", rows:[["Score",`${f1(t)} / 100 · ${bl}`],["Instructional leadership",ilText()],["Required qualifications",`${metCount()} of 4 met`],["Blockers",String(b)],["Committee",S.hitl?S.hitl.label:"Awaiting decision (step 16)"]]});
+  }},
+  blockers:{q:"What's blocking an interview?", kind:"read", run(tr, live){
+    call(tr, "open_items", '{"application":"A-0417"}', "Assess agent", live);
+    const bd = blockerDetail();
+    run(tr, "Assess agent", "read open items", "EVDML.QUALIFICATION_CHECK · EVDML.CONSISTENCY_FINDING", bd.length ? plural(bd.length,"blocker") + " open" : "No blockers open", 198, "ok", live);
+    checkNums(tr, live);
+    say(tr, bd.length ? `${plural(bd.length,"thing")} stand${bd.length===1?"s":""} in the way. Each needs a document or a lookup, not a judgment call.` : "Nothing is blocking an interview. Required qualifications are confirmed and no material findings are open.",
+      bd.length ? {tool:"open_items", list:bd.map(x => `${x.t}${x.kind==="qual"?" (verify)":" (material finding)"}`)} : null);
+  }},
+  explain:{q:"Explain her score.", kind:"read", run(tr, live){
+    call(tr, "explain_score", '{"application":"A-0417"}', "Score agent", live);
+    const rated = RUBRIC.filter(c => S.ratings[c.id] !== "NE");
+    const hi = rated.reduce((a, c) => S.ratings[c.id] > S.ratings[a.id] || (S.ratings[c.id] === S.ratings[a.id] && c.max > a.max) ? c : a, rated[0]);
+    const lo = rated.reduce((a, c) => S.ratings[c.id] < S.ratings[a.id] ? c : a, rated[0]);
+    run(tr, "Score agent", "read ratings with evidence", "SELML.RUBRIC_SCORE · EVDML.EVIDENCE_CLAIM", `8 criteria; ${overrides().length} reviewer overrides`, 312, "ok", live);
+    checkNums(tr, live);
+    say(tr, `Her strongest area is ${hi.t.toLowerCase()}, rated ${S.ratings[hi.id]} of 4. Instructional leadership is ${ilText()}, ${S.ratings.il>=3?"which meets":"below"} the rubric's minimum of 3. The weakest is ${lo.t.toLowerCase()}, at ${S.ratings[lo.id]}. Every rating cites its evidence.`,
+      {tool:"explain_score", rows:RUBRIC.map(c => [c.t, S.ratings[c.id]==="NE" ? "N/E" : `${S.ratings[c.id]}/4 · ${f1(pts(c))} of ${c.max}`])});
+  }},
+  draft:{q:"Draft the clarification request.", kind:"draft", ok:() => blockers().length > 0 && !(S.draft && !S.draft.sent), why:"Nothing to ask for, or a draft is already waiting", run(tr, live){
+    call(tr, "draft_clarification", '{"application":"A-0417"}', "Compose agent", live);
+    const bd = blockerDetail();
+    const asks = bd.map(x => x.id === "q3" ? "A copy of your Administrative Services Credential showing its K-12 authorization."
+      : x.id === "f2" ? "A dated copy of your superintendent's letter of recommendation."
+      : x.id === "f1" ? "An official transcript for your Canyon State University program, showing whether it awarded a master's degree."
+      : x.t + ".");
+    const text = `Thank you for applying for the High School Assistant Principal position. To complete our screening, please send:\n\n${asks.map(a => "• " + a).join("\n")}\n\nYou can upload these through your application. We'll continue as soon as they arrive.\n\nPersonnel Services`;
+    S.draft = {text, tr, sent:false, words:text.split(/\s+/).length};
+    run(tr, "Compose agent", "draft from open items", "EVDML.CONSISTENCY_FINDING · enclave style notes", `Draft of ${S.draft.words} words; no scores or internal notes`, 884, "ok", live);
+    say(tr, "Here's a draft. Nothing has been sent; it leaves only after a yes.", {tool:"draft_clarification", draft:text});
+  }},
+  send:{q:"Send it to the applicant.", kind:"gov", ok:() => S.draft && !S.draft.sent, why:"Draft the request first", run(tr, live){
+    propose(tr, {tool:"send_candidate_message", agent:"Writer agent", step:17, title:"Send the clarification request to applicant A-0417",
+      rows:[["To","Applicant A-0417 (address held behind the tokenizer)"],["Through","Applicant tracking system"],["Length",`${S.draft.words} words`],["Contains","Requests only; no scores, ratings or internal notes"]],
+      payload:S.draft.text,
+      recheck:()=>`Payload unchanged; recipient is the applicant on file; no scores or internal notes; budget ${S.budget+1} of 5`,
+      exec(tr2){ S.draft.sent = true; run(tr2, "Writer agent", "send via applicant tracking", "—", "Accepted; sent as Personnel Services", 497, "ok", true);
+        log(17, "Writer agent", "Clarification request sent to applicant A-0417", digest(S.draft.text), true, "Executed", tr2); },
+      saidYes:"Sent. The request went to the applicant through the applicant tracking system."}, live);
+  }},
+  verify:{q:null, label:() => { const b = blockerDetail()[0]; return b ? `Record as verified: ${b.t}` : "Record an item as verified"; }, kind:"gov", ok:() => blockers().length > 0, why:"Nothing left to verify", run(tr, live){
+    const b = blockerDetail()[0];
+    S.chat[S.chat.length-1].text = `Record as verified: ${b.t}.`;
+    propose(tr, {tool:"record_verification", agent:"Assess agent", step:13, title:`Record as verified: ${b.t}`,
+      rows:[["Item",b.t],["Evidence",b.ev],["Changes","EVDML record; the screening re-scores the gate"]],
+      payload:b.id + b.ev,
+      recheck:()=>`Evidence attached; item still open; asker may record verification; budget ${S.budget+1} of 5`,
+      exec(tr2){ if (b.kind === "qual") S.quals[b.id] = "met"; else S.resolved[b.id] = true;
+        run(tr2, "Assess agent", "write verification", b.kind === "qual" ? "EVDML.QUALIFICATION_CHECK" : "EVDML.CONSISTENCY_FINDING", `Recorded: ${b.ev}`, 143, "ok", true);
+        log(13, "Assess agent", `Verified: ${b.t}`, b.ev, true, "Executed", tr2); },
+      saidYes:() => { const n = blockers().length; return `Recorded. ${n ? `${plural(n,"item")} still block${n===1?"s":""} an interview.` : "Nothing blocks an interview now; the decision is with the committee."}`; }}, live);
+  }},
+  advance:{q:"Record the committee's decision: advance her to interview.", kind:"gov", ok:() => !S.hitl, why:"The committee has already decided", run(tr, live){
+    if (!canAdvance()){
+      const n = blockers().length;
+      call(tr, "record_committee_decision", '{"decision":"advance"}', null, live);
+      run(tr, "Cairn", "gate check", "SELML.SCREENING_DECISION", `Refused: Advance locked; ${plural(n,"blocker")} open`, 11, "refused", live);
+      say(tr, `I can't record an advance yet. The gate stays locked until ${n ? plural(n,"item") + " clear" : "the score meets the guidelines"}. Ask me what's blocking it, or record what has arrived.`, {tool:"record_committee_decision", rows:[["Outcome","Refused by the gate"],["Open blockers",String(n)]]});
+      return;
+    }
+    propose(tr, {tool:"record_committee_decision", agent:"Compose agent", step:16, title:"Advance applicant A-0417 to interview", chairOnly:true,
+      rows:[["Decision","Advance to interview"],["Score",`${f1(total())} / 100 · ${band(total())[0]}`],["Instructional leadership",ilText()],["Blockers","None open"]],
+      payload:"advance A-0417 " + total(),
+      recheck:()=>`Gate still open; score ${f1(total())}; no blockers; confirmer is the committee chair`,
+      exec(tr2){ if (S.hitl) { run(tr2, "Cairn", "gate check", "SELML.SCREENING_DECISION", "Refused: the committee already decided on the card", 9, "refused", true); return; } applyDecision("advance", CHAIR, tr2, true); },
+      saidYes:"Recorded. The committee's decision is on the ledger, and an interview invitation is drafted for Personnel Services to send."}, live);
+  }}
+};
+const PROMPT_ORDER = ["status","blockers","explain","draft","send","verify","advance"];
+
+function propose(tr, spec, live){
+  call(tr, spec.tool, "{…}", spec.agent, live);
+  const confirmer = spec.chairOnly || S.surface !== "console" ? CHAIR : "HR analyst (delegated)";
+  const dg = digest(spec.payload);
+  run(tr, spec.agent, "propose", "—", "Proposal ready; waiting for a person", 302, "waiting for a person", live);
+  log(spec.step, spec.agent, `Proposed: ${spec.title}`, dg, live, "Proposed", tr);
+  const m = {who:"confirm", tr, ...spec, confirmer, dg, state:"pending"};
+  S.chat.push(m); S.pending = m;
+  say(tr, S.surface === "console" && !spec.chairOnly ? "It's in the office console queue for the HR analyst to confirm." : spec.chairOnly && S.surface === "console" ? "This one needs the committee chair. It's waiting in the chair's queue." : "Here it is. It goes ahead only after a yes.");
+}
+function settle(yes){
+  const m = S.pending; if (!m) return; S.pending = null; m.state = yes ? "yes" : "no";
+  run(m.tr, `${m.confirmer} (person)`, yes ? "confirm “Yes”" : "decline “No”", "—", yes ? `Confirmed in ${SURF[S.surface].label}` : "Declined; nothing changed", 0, "ok", true);
+  log(m.step, `${m.confirmer} (person)`, `${yes ? "Yes" : "No"} to: ${m.title}`, m.dg, true, yes ? "Confirmed" : "Declined", m.tr);
+  if (yes){
+    run(m.tr, "Cairn", "server re-check", "—", m.recheck(), 164, "ok", true);
+    S.budget++;
+    m.exec(m.tr);
+  }
+  const seal = S.ledger.filter(r => r.trace === m.tr);
+  log(m.step, "Cairn", `Entries ${seal[0].seq}–${seal[seal.length-1].seq} sealed${yes ? "" : "; nothing executed"}`, "—", true, "Notarized", m.tr);
+  say(m.tr, yes ? (typeof m.saidYes === "function" ? m.saidYes() : m.saidYes) : "Understood. Nothing was sent or changed.");
+}
+function ask(id, live = true){
+  const P = PROMPTS[id]; const tr = newTrace();
+  S.chat.push({who:"me", text:P.q || P.label(), tr});
+  P.run(tr, live);
+}
+function applyDecision(ch, actor, tr, viaCairn){
+  const map = {advance:["Advance to interview","ok","Advance"], hold:["Hold for clarification","warn","Hold"], decline:["Do not advance","bad","Declined"]};
+  tr = tr || newTrace();
+  if (!viaCairn){
+    log(16, actor, `Proposed: ${map[ch][0]}`, `Card score ${f1(total())}; ${blockers().length} blockers open`, true, "Proposed", tr);
+    log(16, actor, `Decision: ${map[ch][0]}`, "Committee card in Teams", true, "Confirmed", tr);
+  }
+  const row = S.ledger.length;
+  const items = blockers().map(b => b.t.toLowerCase()).join("; ") || "no open items";
+  ACTS.hold.d = `Asks the candidate for: ${items}. The run resumes at step 13 when documents arrive.`;
+  log(17, "Act agent", ACTS[ch].t, "Draft held for Personnel Services", true, "Executed", tr);
+  log(18, "KPI rollup", "Run metrics published to screening model", "Gold · step 6", true, "Recorded", tr);
+  if (!viaCairn) log(16, "Cairn", "Decision entries sealed", "—", true, "Notarized", tr);
+  S.hitl = {choice:ch, label:map[ch][0], cls:map[ch][1], short:map[ch][2], row, tr, ts:new Date().toLocaleString("en-GB",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})};
+}
+const entryPill = e => { const c = {Proposed:"p-gate", Confirmed:"p-ok", Declined:"p-bad", Executed:"p-info", Notarized:"p-acc", Recorded:"p-mute", Refused:"p-bad"}[e] || "p-mute"; return `<span class="pill ${c}">${esc(e)}</span>`; };
+
+function doorView(){
+  const nRead = TOOLS.filter(t => t[2]==="read").length, nDraft = TOOLS.filter(t => t[2]==="draft").length, nGov = TOOLS.filter(t => t[2]==="gov").length;
+  const trBtn = tr => `<button type="button" class="trace" data-trace="${esc(tr)}" title="Follow this request in the run log and the ledger">${esc(tr)}</button>`;
+  const card = c => !c ? "" : `<div class="tcard"><div class="tt">${esc(c.tool)} → card</div>${c.rows?`<dl class="kv">${c.rows.map(r => `<dt>${esc(r[0])}</dt><dd>${esc(r[1])}</dd>`).join("")}</dl>`:""}${c.list?`<ul>${c.list.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`:""}${c.draft?`<p class="draft">${esc(c.draft)}</p>`:""}</div>`;
+  const msgs = S.chat.map(m => {
+    if (m.who === "me") return `<div class="msg me"><div class="who">${esc(SURF[S.surface].asker)} ${trBtn(m.tr)}</div>${esc(m.text)}</div>`;
+    if (m.who === "cairn") return `<div class="msg cairn"><div class="who">Cairn ${trBtn(m.tr)}</div>${esc(m.text)}${card(m.card)}</div>`;
+    return `<div class="confirm"><div class="ch"><span>${esc(m.tool)} · governed</span>${trBtn(m.tr)}</div><b>${esc(m.title)}</b>
+      <dl class="kv">${m.rows.map(r => `<dt>${esc(r[0])}</dt><dd>${esc(r[1])}</dd>`).join("")}<dt>Payload</dt><dd class="mono" style="font-size:11.5px">${esc(m.dg)}</dd><dt>Who confirms</dt><dd>${esc(m.confirmer)}</dd></dl>
+      ${m.state === "pending" ? `<div class="acts"><button class="btn primary mini" type="button" data-settle="yes">Yes, go ahead</button><button class="btn mini" type="button" data-settle="no">No</button></div><div style="font-size:12px;color:var(--muted)">${esc(SURF[S.surface].gate)}</div>`
+        : `<span class="pill ${m.state==="yes"?"p-ok":"p-bad"}" style="align-self:flex-start">${m.state==="yes"?"Confirmed, re-checked, executed":"Declined; nothing changed"}</span>`}</div>`;
+  }).join("");
+  const prompts = PROMPT_ORDER.map(id => {
+    const P = PROMPTS[id]; const ok = (!P.ok || P.ok()) && !(S.pending && P.kind !== "read");
+    const label = P.q || P.label();
+    return `<button type="button" class="prompt ${P.kind==="gov"?"gov":P.kind==="draft"?"draftp":""}" data-ask="${id}" ${ok?"":"disabled"} title="${esc(ok ? KIND_LABEL[P.kind][0] + " tool" : S.pending && P.kind !== "read" ? "Answer the pending confirmation first" : P.why)}">${P.kind==="gov"?"⏵ ":""}${esc(label)}</button>`;
+  }).join("");
+  const runs = S.runs.map(r => `<tr class="${S.traceSel===r.tr?"hl":""}"><td class="h">${esc(r.at)}</td><td>${trBtn(r.tr)}</td><td>${esc(r.surface)}</td><td>${esc(r.actor)}<div style="color:var(--muted);font-size:11px">for ${esc(r.onb)}</div></td><td class="mono" style="font-size:11.5px">${esc(r.tool)}</td><td style="color:var(--muted)">${esc(r.read)}</td><td>${esc(r.result)}</td><td class="mono">${r.ms}</td><td class="st-${r.status.split(" ")[0]}">${esc(r.status)}</td></tr>`).join("");
+  return `<div class="dhead"><div><div class="eyebrow">Front door · AI-Services Cairn</div><h2>Ask Cairn about the screening</h2>
+      <p>Cairn is the one voice in front of Personnel Services: on the phone, in Teams and in the office console. One tool layer sits behind her, and the Talent edition's Assess, Score and Compose agents answer through it. Anything that reaches the applicant or changes a record passes her confirm gate, then the server re-checks it, and the ledger records it.</p></div>
+      <div class="stats"><span class="pill p-gate">${TOOLS.length} tools</span><span class="pill k-read">${nRead} read</span><span class="pill k-draft">${nDraft} draft</span><span class="pill k-gov">${nGov} governed</span><span class="pill p-mute">3 surfaces</span></div></div>
+    <div class="door">
+      <div class="panel chat">
+        <div class="chathead"><div class="cairn-id"><div class="cairn-av">C</div><div><b>Cairn</b><div style="font-size:12px;color:var(--muted)">for ${esc(SURF[S.surface].asker)} · ${esc(SURF[S.surface].name)}</div></div></div>
+          <div class="tabs" role="group" aria-label="Surface">${Object.entries(SURF).map(([k,v]) => `<button type="button" data-surface="${k}" aria-pressed="${S.surface===k}">${esc(v.label)}</button>`).join("")}</div></div>
+        <div class="msgs" id="msgs" aria-live="polite">${msgs}</div>
+        <div class="prompts">${prompts}</div>
+      </div>
+      <div class="panel runlog"><div class="section" style="padding-bottom:8px"><h3>Behind the scenes · agent runs <span class="pill p-mute">${S.runs.length}</span>${S.traceSel?`<button type="button" class="linkbtn" data-trace="">Clear ${esc(S.traceSel)}</button><button type="button" class="linkbtn" data-go="s17">Open ${esc(S.traceSel)} in the ledger</button>`:""}</h3>
+        <p class="empty">Every run Cairn and her agents made, joined by trace id to the action ledger at step 17. Select a trace id to follow one request.</p></div>
+        <div class="tbl-scroll" id="runscroll"><table class="ledger"><thead><tr><th>At</th><th>Trace</th><th>Surface</th><th>Actor</th><th>Tool and input</th><th>Read</th><th>Result</th><th>ms</th><th>Status</th></tr></thead><tbody>${runs}</tbody></table></div>
+      </div>
+    </div>
+    <div class="panel section"><h3>Five principles, from Cairn's front door</h3><ul class="principles">
+      <li><b>One tool layer, many surfaces</b>Each Talent tool is written once and offered to Cairn's voice, Teams, the office console and other agents over MCP, with the same checks everywhere.</li>
+      <li><b>Read freely, act through one gate</b>Reads run with the asker's own permissions. Anything that reaches the applicant or changes a record completes only after a yes and a server re-check.</li>
+      <li><b>The surface decides the gate</b>A card on the phone, an Adaptive Card in Teams, a queue item in the office console. Try switching surfaces before a governed request.</li>
+      <li><b>Numbers come from tools</b>Cairn says a score only if a tool returned it. Every answer passes a numbers-from-tools check.</li>
+      <li><b>Outcomes, not assumptions</b>Tools return pending, sent, refused or declined, and Cairn says what actually happened. Ask her to advance the applicant while blockers are open.</li>
+    </ul></div>
+    <div class="panel section"><h3>Talent tool catalog <span class="pill p-mute">extends Cairn's leadership and talent agent</span></h3>
+      <div class="tbl-scroll"><table class="ledger"><thead><tr><th>Tool</th><th>Kind</th><th>Specialist</th><th>Reads</th><th>Who confirms</th><th>Step</th></tr></thead><tbody>
+      ${TOOLS.map(t => `<tr><td><span class="mono" style="font-size:12px">${t[0]}</span><div style="color:var(--muted);font-size:11.5px">“${esc(t[1])}”</div></td><td><span class="kind ${KIND_LABEL[t[2]][1]}">${KIND_LABEL[t[2]][0]}</span></td><td>${esc(t[3])}</td><td style="color:var(--muted)">${esc(t[4])}</td><td>${esc(t[5])}</td><td class="mono">${t[6]}</td></tr>`).join("")}
+      </tbody></table></div>
+      <p class="empty" style="margin-top:10px">Built today in Cairn's apps: the relay, keyless voice, the one tool layer, the confirm gate, the governed action path and the hash-chained ledger. The Talent tools and agents on this page are a design.</p></div>`;
+}
 
 /* ================= Render ================= */
 const $ = id => document.getElementById(id);
@@ -729,19 +985,22 @@ function renderAside(){
       ${items.length?`<ul>${items.map(it => `<li><button type="button" data-go="${it.go}"><span class="dot ${it.c}"></span><span>${esc(it.t)}</span></button></li>`).join("")}</ul>`:`<p class="empty">Nothing open.</p>`}</div>`;
 }
 function renderDetail(){
-  $("detail").innerHTML = S.view === "lanes" ? lanesView() : VIEWS[S.sel](RUN.find(s => s.id === S.sel));
+  $("detail").innerHTML = S.view === "lanes" ? lanesView() : S.view === "door" ? doorView() : VIEWS[S.sel](RUN.find(s => s.id === S.sel));
+  if (S.view === "door") for (const el of document.querySelectorAll("#msgs,#runscroll")) el.scrollTop = el.scrollHeight;
 }
 function render(){
+  $("tab-door").setAttribute("aria-pressed", S.view === "door");
   $("tab-run").setAttribute("aria-pressed", S.view === "run");
   $("tab-lanes").setAttribute("aria-pressed", S.view === "lanes");
-  $("main").classList.toggle("full", S.view === "lanes");
-  $("aside").hidden = S.view === "lanes";
+  $("main").classList.toggle("full", S.view !== "run");
+  $("aside").hidden = S.view !== "run";
   renderChain(); renderAside(); renderDetail();
 }
-function setHash(){ try{ history.replaceState(null, "", "#" + (S.view === "lanes" ? "lanes" : "step" + S.sel.slice(1))); }catch(e){} }
+function setHash(){ try{ history.replaceState(null, "", "#" + (S.view === "lanes" ? "lanes" : S.view === "door" ? "front-door" : "step" + S.sel.slice(1))); }catch(e){} }
 function fromHash(){
   const h = (location.hash || "").slice(1);
   if (h === "lanes"){ S.view = "lanes"; return true; }
+  if (h === "front-door"){ S.view = "door"; return true; }
   const m = h.match(/^step(1[1-8])$/); if (m){ S.view = "run"; S.sel = "s" + m[1]; return true; }
   return false;
 }
@@ -766,16 +1025,17 @@ document.addEventListener("click", async e => {
     log(13, OPS, `${S.resolved[f.id] ? "Resolved" : "Reopened"}: ${f.t}`, S.resolved[f.id] ? f.done : "—", true); render(); return; }
   const dc = t.closest("[data-decide]");
   if (dc){ const ch = dc.dataset.decide; if (ch === "advance" && !canAdvance()) return;
-    const map = {advance:["Advance to interview","ok","Advance"], hold:["Hold for clarification","warn","Hold"], decline:["Do not advance","bad","Declined"]};
-    log(16, "Screening committee (Entra)", `Decision: ${map[ch][0]}`, `Card score ${f1(total())}; ${blockers().length} blockers open`, true);
-    const row = S.ledger.length;
-    const items = blockers().map(b => b.t.toLowerCase()).join("; ") || "no open items";
-    ACTS.hold.d = `Asks the candidate for: ${items}. The run resumes at step 13 when documents arrive.`;
-    log(17, "Act agent", ACTS[ch].t, "Draft held for Personnel Services", true);
-    log(18, "KPI rollup", "Run metrics published to screening model", "Gold · step 6", true);
-    S.hitl = {choice:ch, label:map[ch][0], cls:map[ch][1], short:map[ch][2], row, ts:new Date().toLocaleString("en-GB",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})};
+    applyDecision(ch, "Screening committee (Entra)", null, false);
     S.verify = null; render(); return; }
-  if (t.closest("[data-undo]")){ log(16, "Screening committee (Entra)", `Decision withdrawn: ${S.hitl.label}`, "Gate reopened", true); S.hitl = null; S.verify = null; render(); return; }
+  if (t.closest("[data-undo]")){ log(16, "Screening committee (Entra)", `Decision withdrawn: ${S.hitl.label}`, "Gate reopened", true, "Recorded", S.hitl.tr || "—"); S.hitl = null; S.verify = null; render(); return; }
+  const ak = t.closest("[data-ask]");
+  if (ak && !ak.disabled){ ask(ak.dataset.ask); S.verify = null; render(); return; }
+  const st = t.closest("[data-settle]");
+  if (st){ settle(st.dataset.settle === "yes"); S.verify = null; render(); return; }
+  const sf = t.closest("[data-surface]");
+  if (sf){ S.surface = sf.dataset.surface; renderDetail(); return; }
+  const tc = t.closest("[data-trace]");
+  if (tc){ S.traceSel = tc.dataset.trace && tc.dataset.trace !== S.traceSel ? tc.dataset.trace : null; renderDetail(); return; }
   if (t.closest("#verifybtn")){ S.verify = await verifyChain(); renderDetail(); return; }
   if (t.closest("#tamperbtn")){ S.tamper = !S.tamper; S.verify = null; renderDetail(); return; }
 });
@@ -802,6 +1062,8 @@ function seedRunLive(){ const keep = clock; seedRun(); clock = keep; }
 
 /* ================= Boot ================= */
 seedRun();
+clock = new Date(2026, 10, 16, 7, 41, 58, 204);
+ask("status", false);
 fromHash();
 render();
 })();
