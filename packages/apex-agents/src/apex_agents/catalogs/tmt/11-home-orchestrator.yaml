@@ -4,7 +4,7 @@ version: 0.1.0
 practice: tmt
 persona: Household Primary Account Holder
 service_codes: [TMT-TEL-HOM-99]
-model_tier: premium
+model_tier: reasoning
 model_pin: claude-opus-4-7
 prompt_sha: ""
 description: >

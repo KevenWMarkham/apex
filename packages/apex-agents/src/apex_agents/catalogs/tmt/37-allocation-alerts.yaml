@@ -4,7 +4,7 @@ version: 0.1.0
 practice: tmt
 persona: Household Primary Account Holder (collector)
 service_codes: [TMT-TEL-BEV-02]
-model_tier: premium
+model_tier: reasoning
 model_pin: claude-opus-4-7
 prompt_sha: ""
 description: >
@@ -29,7 +29,7 @@ hitl_gates:
   - name: reserved_hold_confirmation
     description: All reserved holds require customer confirmation before commit
     fires_when: any_reserved_hold_proposed
-    surface: mobile_push
+    surface: mobile
     sla_minutes: 30
 
 oversight_modes: [HITL]

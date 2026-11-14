@@ -36,7 +36,7 @@ hitl_gates:
   - name: booking_total_threshold
     description: Bookings over $500 require user approval
     fires_when: booking_total_usd > 500
-    surface: mobile_push
+    surface: mobile
     sla_minutes: 60
 
 oversight_modes: [HITL]

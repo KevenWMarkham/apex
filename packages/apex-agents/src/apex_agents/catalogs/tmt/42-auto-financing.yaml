@@ -4,7 +4,7 @@ version: 0.1.0
 practice: tmt
 persona: Household Primary Account Holder
 service_codes: [TMT-TEL-AUT-03]
-model_tier: premium
+model_tier: reasoning
 model_pin: claude-opus-4-7
 prompt_sha: ""
 description: >
@@ -39,17 +39,17 @@ hitl_gates:
   - name: soft_pull_session
     description: Authorize soft-pull session (required at start of shopping window)
     fires_when: any_pre_approval_action and no_active_soft_pull_session
-    surface: mobile_push
+    surface: mobile
     sla_minutes: 5
   - name: hard_pull_authorization
     description: Every hard credit pull requires explicit per-application HITL
     fires_when: any_hard_pull
-    surface: mobile_push
+    surface: mobile
     sla_minutes: 5
   - name: final_finance_commitment
     description: Final financing decision requires HITL
     fires_when: action_type == "*.auto_finalize"
-    surface: mobile_push
+    surface: mobile
     sla_minutes: 30
 
 oversight_modes: [HITL]

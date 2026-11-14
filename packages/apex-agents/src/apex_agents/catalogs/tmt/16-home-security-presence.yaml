@@ -33,7 +33,7 @@ hitl_gates:
   - name: third_party_access_grant
     description: Granting third-party physical access requires explicit approval
     fires_when: action_type == "locks.grant_access"
-    surface: mobile_push
+    surface: mobile
     sla_minutes: 5
 
 oversight_modes: [HITL]
