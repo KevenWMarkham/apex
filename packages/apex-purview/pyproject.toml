@@ -32,3 +32,6 @@ python_files = "test_*.py"
 markers = [
     "conformance: Purview payload conformance tests",
 ]
+
+[tool.uv.sources]
+apex-core = { workspace = true }

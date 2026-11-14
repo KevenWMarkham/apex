@@ -31,3 +31,8 @@ python_files = "test_*.py"
 markers = [
     "conformance: Reference deployment conformance tests",
 ]
+
+[tool.uv.sources]
+apex-agents = { workspace = true }
+apex-core = { workspace = true }
+apex-services = { workspace = true }
