@@ -1,0 +1,211 @@
+{
+  "edition_code": "TAL",
+  "core_version_required": "1.2",
+  "manifest_version": "0.1.0",
+  "last_updated": "2026-11-14",
+  "schemas": [
+    {
+      "code": "TALML",
+      "version": "0.1.0",
+      "domain": "Talent Acquisition",
+      "entity_count": 6,
+      "envelope_required": true,
+      "changelog": [
+        {
+          "version": "0.1.0",
+          "bump": "MINOR",
+          "gate": "ACK_ONLY",
+          "date": "2026-11-14",
+          "author": "tal-maintainers",
+          "rationale": "Initial draft of the Talent Acquisition schema: board-approved postings and their requirements, tokenized applicants, applications, credentials and employment history. Pre-GA; promote to 1.0.0 through the HITL gate.",
+          "changes": [
+            { "op": "add_entity", "target": "POSTING", "detail": "board-approved job description, one row per approval version" },
+            { "op": "add_entity", "target": "POSTING_REQUIREMENT", "detail": "required and preferred qualifications split from the posting" },
+            { "op": "add_entity", "target": "APPLICANT", "detail": "tokenized person; direct identifiers held behind the step-4 tokenizer" },
+            { "op": "add_entity", "target": "APPLICATION", "detail": "one applicant applying to one posting" },
+            { "op": "add_entity", "target": "CREDENTIAL", "detail": "licenses and credentials with authorization and expiration" },
+            { "op": "add_entity", "target": "EMPLOYMENT_RECORD", "detail": "employer and role intervals with stated reason for leaving" }
+          ]
+        }
+      ],
+      "entities": [
+        {
+          "name": "POSTING",
+          "layer": "Silver",
+          "grain": "posting x board-approval version",
+          "primary_key": ["posting_id", "approved_on"],
+          "scd2": true,
+          "pii_classes": [],
+          "added_in": "0.1.0"
+        },
+        {
+          "name": "POSTING_REQUIREMENT",
+          "layer": "Silver",
+          "grain": "posting x requirement (required or preferred)",
+          "primary_key": ["posting_id", "req_code"],
+          "scd2": true,
+          "pii_classes": [],
+          "added_in": "0.1.0"
+        },
+        {
+          "name": "APPLICANT",
+          "layer": "Silver",
+          "grain": "person, tokenized",
+          "primary_key": ["applicant_token"],
+          "scd2": true,
+          "pii_classes": ["PII-DIRECT", "CONTACT", "DOB"],
+          "added_in": "0.1.0"
+        },
+        {
+          "name": "APPLICATION",
+          "layer": "Silver",
+          "grain": "applicant x posting submission",
+          "primary_key": ["application_id"],
+          "scd2": false,
+          "pii_classes": [],
+          "added_in": "0.1.0"
+        },
+        {
+          "name": "CREDENTIAL",
+          "layer": "Silver",
+          "grain": "applicant x credential type",
+          "primary_key": ["applicant_token", "credential_type"],
+          "scd2": true,
+          "pii_classes": ["GOV_ID"],
+          "added_in": "0.1.0"
+        },
+        {
+          "name": "EMPLOYMENT_RECORD",
+          "layer": "Silver",
+          "grain": "applicant x employer x role interval",
+          "primary_key": ["applicant_token", "employer_id", "start_date"],
+          "scd2": false,
+          "pii_classes": ["CONTACT"],
+          "added_in": "0.1.0"
+        }
+      ]
+    },
+    {
+      "code": "EVDML",
+      "version": "0.1.0",
+      "domain": "Screening Evidence",
+      "entity_count": 4,
+      "envelope_required": true,
+      "changelog": [
+        {
+          "version": "0.1.0",
+          "bump": "MINOR",
+          "gate": "ACK_ONLY",
+          "date": "2026-11-14",
+          "author": "tal-maintainers",
+          "rationale": "Initial draft of the Screening Evidence schema: source documents, claims with their sources, cross-document findings and required-qualification checks. Lets every score cite evidence and keeps missing proof as verify rather than not met.",
+          "changes": [
+            { "op": "add_entity", "target": "SOURCE_DOCUMENT", "detail": "application export, resume, letters, transcripts; dated and signed flags" },
+            { "op": "add_entity", "target": "EVIDENCE_CLAIM", "detail": "one claim per source document, so corroboration is countable" },
+            { "op": "add_entity", "target": "CONSISTENCY_FINDING", "detail": "same fact, different value across documents; severity and resolution" },
+            { "op": "add_entity", "target": "QUALIFICATION_CHECK", "detail": "met / verify / not_met per required qualification" }
+          ]
+        }
+      ],
+      "entities": [
+        {
+          "name": "SOURCE_DOCUMENT",
+          "layer": "Bronze",
+          "grain": "application x submitted document",
+          "primary_key": ["application_id", "doc_id"],
+          "scd2": false,
+          "pii_classes": ["PII-DIRECT", "CONTACT"],
+          "added_in": "0.1.0"
+        },
+        {
+          "name": "EVIDENCE_CLAIM",
+          "layer": "Silver",
+          "grain": "claim x source document",
+          "primary_key": ["claim_id", "doc_id"],
+          "scd2": false,
+          "pii_classes": [],
+          "added_in": "0.1.0"
+        },
+        {
+          "name": "CONSISTENCY_FINDING",
+          "layer": "Silver",
+          "grain": "application x finding",
+          "primary_key": ["application_id", "finding_id"],
+          "scd2": true,
+          "pii_classes": [],
+          "added_in": "0.1.0"
+        },
+        {
+          "name": "QUALIFICATION_CHECK",
+          "layer": "Silver",
+          "grain": "application x posting requirement",
+          "primary_key": ["application_id", "req_code"],
+          "scd2": true,
+          "pii_classes": [],
+          "added_in": "0.1.0"
+        }
+      ]
+    },
+    {
+      "code": "SELML",
+      "version": "0.1.0",
+      "domain": "Selection Decisions",
+      "entity_count": 4,
+      "envelope_required": true,
+      "changelog": [
+        {
+          "version": "0.1.0",
+          "bump": "MINOR",
+          "gate": "ACK_ONLY",
+          "date": "2026-11-14",
+          "author": "tal-maintainers",
+          "rationale": "Initial draft of the Selection Decisions schema: weighted rubric criteria, agent-proposed and reviewer-overridden scores, the step-16 committee decision and screening KPIs.",
+          "changes": [
+            { "op": "add_entity", "target": "RUBRIC_CRITERION", "detail": "criterion, weight and 1-4 rating anchors per rubric version" },
+            { "op": "add_entity", "target": "RUBRIC_SCORE", "detail": "proposed rating, final rating, rater and cited evidence" },
+            { "op": "add_entity", "target": "SCREENING_DECISION", "detail": "HITL committee decision with approver identity and ledger row reference" },
+            { "op": "add_entity", "target": "SCREENING_KPI", "detail": "per-posting rollup feeding the step-18 semantic model" }
+          ]
+        }
+      ],
+      "entities": [
+        {
+          "name": "RUBRIC_CRITERION",
+          "layer": "Silver",
+          "grain": "rubric version x criterion",
+          "primary_key": ["rubric_id", "criterion_code"],
+          "scd2": true,
+          "pii_classes": [],
+          "added_in": "0.1.0"
+        },
+        {
+          "name": "RUBRIC_SCORE",
+          "layer": "Gold",
+          "grain": "application x criterion x rater",
+          "primary_key": ["application_id", "criterion_code", "rater_id"],
+          "scd2": true,
+          "pii_classes": [],
+          "added_in": "0.1.0"
+        },
+        {
+          "name": "SCREENING_DECISION",
+          "layer": "Gold",
+          "grain": "application x HITL decision",
+          "primary_key": ["application_id", "decided_at"],
+          "scd2": false,
+          "pii_classes": [],
+          "added_in": "0.1.0"
+        },
+        {
+          "name": "SCREENING_KPI",
+          "layer": "Gold",
+          "grain": "posting x reporting day",
+          "primary_key": ["posting_id", "kpi_date"],
+          "scd2": false,
+          "pii_classes": [],
+          "added_in": "0.1.0"
+        }
+      ]
+    }
+  ]
+}
