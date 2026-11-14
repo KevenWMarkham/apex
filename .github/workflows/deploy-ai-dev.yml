@@ -1,0 +1,92 @@
+# Deploy APEX-M dev platform into the Esparza landing zone
+# (AI-DEV-Subscription / rg-ai-dev). Runbook: apex-m/infra/bicep/dev/README.md
+name: Deploy · AI-DEV (rg-ai-dev)
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'what-if = preview only; deploy = preview then apply'
+        type: choice
+        options: [what-if, deploy]
+        default: what-if
+      deploy_models:
+        description: 'Create model deployments (needs approved quota)'
+        type: boolean
+        default: false
+  pull_request:
+    paths:
+      - 'apex-m/infra/bicep/dev/**'
+      - 'apex-m/infra/bicep/platform/monitoring.bicep'
+      - '.github/workflows/deploy-ai-dev.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-ai-dev
+  cancel-in-progress: false
+
+env:
+  RESOURCE_GROUP: rg-ai-dev
+  TEMPLATE: apex-m/infra/bicep/dev/main.bicep
+  PARAMS: apex-m/infra/bicep/dev/ai-dev.bicepparam
+
+jobs:
+  validate:
+    name: Validate Bicep (no Azure access)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: az bicep install
+      - run: az bicep build --file "$TEMPLATE" --stdout > /dev/null
+      - run: az bicep build-params --file "$PARAMS" --stdout > /dev/null
+
+  deploy:
+    name: ${{ inputs.mode }} → rg-ai-dev
+    needs: validate
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    # Holds AZURE_CLIENT_ID / AZURE_TENANT_ID / AZURE_SUBSCRIPTION_ID and any
+    # required-reviewer protection for this subscription.
+    environment: ai-dev
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      MODE: ${{ inputs.mode }}
+      DEPLOY_MODELS: ${{ inputs.deploy_models }}
+      DEPLOYMENT_NAME: apex-ai-dev-${{ github.run_number }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: What-if
+        run: |
+          az deployment group what-if \
+            --name "$DEPLOYMENT_NAME" \
+            --resource-group "$RESOURCE_GROUP" \
+            --parameters "$PARAMS" \
+            --parameters deployModels="$DEPLOY_MODELS"
+
+      - name: Deploy
+        if: env.MODE == 'deploy'
+        run: |
+          az deployment group create \
+            --name "$DEPLOYMENT_NAME" \
+            --resource-group "$RESOURCE_GROUP" \
+            --parameters "$PARAMS" \
+            --parameters deployModels="$DEPLOY_MODELS" \
+            --query properties.outputs -o json > outputs.json
+          {
+            echo "### rg-ai-dev deployment outputs"
+            echo '```json'
+            jq 'del(.appInsightsConnectionString)' outputs.json
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
