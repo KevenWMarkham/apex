@@ -1,5 +1,15 @@
 # APEX Changelog
 
+## 2026-11-14 — Talent edition (TAL) draft
+
+### Added
+- `apex-tal/` — draft Talent edition inheriting Core v1.2. Manifest 0.1.0 with three schemas: `TALML` (Talent Acquisition, 6 entities), `EVDML` (Screening Evidence, 4), `SELML` (Selection Decisions, 4).
+- `docs/scenarios/TAL/` — first scenario, `TAL-OPS-01` Certificated leadership screening, with an interactive demo of the W2 pilot run and step-16 HITL gate (fictional names).
+
+### Open
+- New PII classes `DOB` and `GOV_ID` need Core maintainer sign-off.
+- Promote manifest to 1.0.0 through the HITL gate before any fleet account pins `TAL`.
+
 ## 2026-04-17 — Core v1.2: Schema Versioning Manifest
 
 ### Added

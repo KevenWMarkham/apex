@@ -33,6 +33,7 @@ Every scenario folder is prefixed with `{PRACTICE}-{DOMCODE}-{NN}`. The triplet 
 - **[TMT](./TMT/)** — Technology, Media, Telecom · 109 scenarios across 12 domains
 - **[TH](./TH/)** — Travel & Hospitality · 104 scenarios across 12 domains
 - **[ICE](./ICE/)** — Industrial, Construction, Equipment · 100 scenarios across 12 domains
+- **[TAL](./TAL/)** — Talent (draft edition) · 1 scenario across 1 domain
 
 ## Layout
 
