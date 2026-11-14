@@ -15,7 +15,7 @@ The agent drafts hard + soft + Independence rules in `packs/<industry>/constitut
 ## Conventions
 - Hard rules block + escalate (cannot be bypassed)
 - Soft rules warn-only (annotate the Card)
-- Independence rules cite Deloitte-as-auditor constraints (no ECIF · no forecasts for SEC clients · etc.)
+- Independence rules cite firm-as-auditor constraints (no ECIF · no forecasts for SEC clients · etc.)
 - Always reference the pre-cleared funding paths in `.rapids/governance/independence-allowlist.yaml`
 - Always include OGC review checkpoint before constitution merges to main
 

@@ -38,4 +38,4 @@ linked_archetypes:
   - F3-predictive-trigger-workflow-aware
 
 schemas_touched: [ConnectedICEML, AMML-ICE]
-primary_contact: ice-practice-lead@deloitte.com
+primary_contact: ice-practice-lead@example.com

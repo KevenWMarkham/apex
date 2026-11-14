@@ -110,7 +110,7 @@ These don't sit under any one service — they make the whole platform possible.
 | Device interoperability | CSA Matter, Thread Group, Home Assistant (OSS), SmartThings (Samsung), Apple HomeKit, Google Home | Without Matter membership the device coverage stays narrow |
 | Financial data | Plaid, MX, Finicity (Mastercard) | Budget-aware agents need bank feeds |
 | Loyalty / rewards rails | Fetch, Drop, Bilt | Stitch every transaction into a reward |
-| System integrators | Deloitte (Microsoft-aligned per APEX compliance lint), Accenture, Capgemini | Channel into Telco enterprise procurement |
+| System integrators | The firm (Microsoft-aligned per APEX compliance lint), Accenture, Capgemini | Channel into Telco enterprise procurement |
 | MCP server marketplace | Anthropic MCP ecosystem, Smithery, Composio | Agent ↔ partner tool plumbing |
 | Privacy / data trust | Skyflow, Privacera, OneTrust | Defensible "your data, our network" positioning |
 

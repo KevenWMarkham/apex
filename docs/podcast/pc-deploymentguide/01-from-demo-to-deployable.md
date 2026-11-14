@@ -70,7 +70,7 @@
 
 One — the *Bicep modules* are written to be parameterised across tenants. Not hard-coded to the first client's subscription ID.
 
-Two — the *agent images* are built in a registry that's intended to be mirrored. The Deloitte authoring registry is where they're built and signed. They get *mirrored* to the client tenant's registry. Same image, two registries, two trust boundaries. That structure has to exist on day one of the MVP, even when there's only one client.
+Two — the *agent images* are built in a registry that's intended to be mirrored. The authoring registry is where they're built and signed. They get *mirrored* to the client tenant's registry. Same image, two registries, two trust boundaries. That structure has to exist on day one of the MVP, even when there's only one client.
 
 Three — the *audit ledger* is engineered as a hash chain from the first row, not retrofitted in sprint twelve.
 
@@ -160,15 +160,15 @@ Three — the *audit ledger* is engineered as a hash chain from the first row, n
 
 **SAM:** Explain that to somebody who hasn't read the Sellers Guide.
 
-**KEVEN:** OK. Two-contract model — the client signs one contract with Microsoft, for the Azure consumption. The client signs a separate contract with Deloitte, for services. Deloitte does not sit between the client and Microsoft commercially. Deloitte recommends the Microsoft platform on the technical and commercial merits, builds the deployment, runs the engagement. But the licensing flows directly. And that two-contract structure is *enforceable in the deployment.* The Microsoft resources are in the client's subscription. The Deloitte-authored artefacts — the agent images, the Bicep — are licensed to the client, not resold. The boundaries are concrete.
+**KEVEN:** OK. Two-contract model — the client signs one contract with Microsoft, for the Azure consumption. The client signs a separate contract with the firm, for services. The firm does not sit between the client and Microsoft commercially. The firm recommends the Microsoft platform on the technical and commercial merits, builds the deployment, runs the engagement. But the licensing flows directly. And that two-contract structure is *enforceable in the deployment.* The Microsoft resources are in the client's subscription. The firm-authored artefacts — the agent images, the Bicep — are licensed to the client, not resold. The boundaries are concrete.
 
 **SAM:** And the place this becomes architectural, not just legal —
 
-**KEVEN:** The place it becomes architectural is in *identity.* The workload identities that run inside the client's tenant are *the client's identities.* Deloitte doesn't hold them. Deloitte doesn't have a back-door identity into the client's tenant. When a Deloitte engineer needs to operate on the tenant, they do it through a customer-granted access path, time-bounded, audited, with the client's CCO seeing every action.
+**KEVEN:** The place it becomes architectural is in *identity.* The workload identities that run inside the client's tenant are *the client's identities.* The firm doesn't hold them. The firm doesn't have a back-door identity into the client's tenant. When an engineer needs to operate on the tenant, they do it through a customer-granted access path, time-bounded, audited, with the client's CCO seeing every action.
 
 **SAM:** And the language that signals you've got this right —
 
-**KEVEN:** *"Microsoft-native deployment."* *"Deloitte's Microsoft Technology and Services Practice."* Never *"co-sell."* Never *"partner-channel."* Never anything that implies a commercial flow between Deloitte and Microsoft tied to a specific client engagement. That's not stylistic. It reflects how the deployment is *actually wired.*
+**KEVEN:** *"Microsoft-native deployment."* *"Microsoft Technology and Services Practice."* Never *"co-sell."* Never *"partner-channel."* Never anything that implies a commercial flow between the firm and Microsoft tied to a specific client engagement. That's not stylistic. It reflects how the deployment is *actually wired.*
 
 **SAM:** OK. Three truths. Three lifecycles, same image two substrates, structural Independence.
 

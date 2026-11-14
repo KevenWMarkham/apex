@@ -1,5 +1,5 @@
 // Build: Autonomous GSE — APEX Services Positioning
-// For: Nagataka Asa (Deloitte Japan) proposal
+// For: Nagataka Asa (the firm's Japan) proposal
 // Author: Keven Markham, DMTSP
 
 const fs = require('fs');
@@ -94,7 +94,7 @@ function dataCell(text, width, opts = {}) {
 const cover = [
   new Paragraph({
     spacing: { before: 0, after: 200 },
-    children: [new TextRun({ text: "DELOITTE  ·  DMTSP  ·  CONSUMER INDUSTRY", bold: true, size: 18, color: AZURE })],
+    children: [new TextRun({ text: "THE FIRM  ·  DMTSP  ·  CONSUMER INDUSTRY", bold: true, size: 18, color: AZURE })],
   }),
   new Paragraph({
     spacing: { before: 0, after: 120 },
@@ -106,18 +106,18 @@ const cover = [
   }),
   new Paragraph({
     spacing: { before: 0, after: 360 },
-    children: [new TextRun({ text: "Prepared for the Deloitte Japan Autonomous GSE Market Research engagement", italics: true, size: 22, color: "475569" })],
+    children: [new TextRun({ text: "Prepared for the Japan Autonomous GSE Market Research engagement", italics: true, size: 22, color: "475569" })],
   }),
-  p("Author: Keven Markham, Specialist Master, Deloitte Microsoft Technology & Services Practice (DMTSP)", { size: 20 }),
-  p("Recipient: Nagataka Asa, Deloitte Japan", { size: 20 }),
+  p("Author: Keven Markham, Specialist Master, Microsoft Technology & Services Practice (DMTSP)", { size: 20 }),
+  p("Recipient: Nagataka Asa, the firm's Japan", { size: 20 }),
   p("Date: 1 May 2026", { size: 20 }),
-  p("Classification: Internal — Deloitte Global", { size: 20, italics: true }),
+  p("Classification: Internal — the firm's Global", { size: 20, italics: true }),
   new Paragraph({ children: [new PageBreak()] }),
 ];
 
 const execSummary = [
   h1("1. Executive Summary"),
-  p("Autonomous Ground Support Equipment (GSE) — autonomous tugs, baggage tractors, belt loaders, pushback tractors, GPUs, lavatory and water service vehicles — sits at the convergence of three forces that Deloitte's APEX framework was purpose-built to address: industrial fleet telemetry at scale, time-pressured airline turn operations, and a regulatory environment that is hardening around safety cases for autonomous airside operations."),
+  p("Autonomous Ground Support Equipment (GSE) — autonomous tugs, baggage tractors, belt loaders, pushback tractors, GPUs, lavatory and water service vehicles — sits at the convergence of three forces that the firm's APEX framework was purpose-built to address: industrial fleet telemetry at scale, time-pressured airline turn operations, and a regulatory environment that is hardening around safety cases for autonomous airside operations."),
   p("APEX (Agentic Platform for Enterprise eXecution) is DMTSP's domain-canonical reference framework for deploying agentic AI on Microsoft-native infrastructure. It is not a product; it is a framework-of-frameworks that gives every industry a shared grammar (Core) and an industry dialect (Edition). For autonomous GSE, three APEX Practices apply directly:"),
   bulletRich([
     new TextRun({ text: "ICE — Industrial & Commercial Equipment", bold: true, size: 22 }),
@@ -227,7 +227,7 @@ const serviceMapping = [
   h3("Cross-Practice Capabilities Always Included"),
   bullet("Manifest model — every schema (vehicle telemetry, work orders, inspection events) version-pinned with bump classification and migration discipline."),
   bullet("HITL gate taxonomy — every decision declares HITL, ACK_ONLY, ZERO_TOUCH, or ESCALATION. Critical for autonomous-airside safety cases."),
-  bullet("Independence posture — client-tenant data planes; Deloitte retains zero client-identifiable telemetry. Important for airport operator data-sovereignty conversations."),
+  bullet("Independence posture — client-tenant data planes; the firm retains zero client-identifiable telemetry. Important for airport operator data-sovereignty conversations."),
   bullet("Observability — Application Insights, Fabric monitoring, custom agent telemetry; supports regulator-readable audit trails."),
 ];
 
@@ -282,9 +282,9 @@ const successFactors = [
   bullet("Standards engagement — active participation in IATA AHM working groups, ISO TC 20/SC 9, and SAE G-31 (autonomy in aviation) signals long-term seriousness to airport authorities."),
 ];
 
-const deloitteFit = [
-  h1("6. Deloitte Capability Hooks (DMTSP × APEX)"),
-  p("Deloitte's Microsoft practice (DMTSP) brings APEX as the framework, plus the engagement engineering to land it. The autonomous-GSE engagement model has four predictable workstreams:"),
+const firmFit = [
+  h1("6. The firm's Capability Hooks (DMTSP × APEX)"),
+  p("the firm's Microsoft practice (DMTSP) brings APEX as the framework, plus the engagement engineering to land it. The autonomous-GSE engagement model has four predictable workstreams:"),
   h3("Workstream A — Operator-Side Implementation"),
   bullet("Foundation wave: Fabric workspace topology, ICE schema deployment, first 2–3 ICE services live (typical FAF-01 + AaS-05 + CIR-06)."),
   bullet("Intelligence wave: TH-airline disruption-recovery integration with ramp dispatch; cross-Practice observability."),
@@ -304,14 +304,14 @@ const deloitteFit = [
 
 const closingCV = [
   h1("7. Author Background — Keven Markham"),
-  p("Specialist Master, Deloitte Microsoft Technology & Services Practice (DMTSP). 22+ years across Microsoft platforms (Azure, Fabric, Power Platform, Copilot, Foundry, Security). Lead architect on APEX framework. Transportation- and airport-adjacent work spans cross-airport asset health programmes, ramp-operations data architectures, and autonomous-mobility pattern adaptation from automotive (AXLE) to industrial fleets (ICE)."),
+  p("Specialist Master, Microsoft Technology & Services Practice (DMTSP). 22+ years across Microsoft platforms (Azure, Fabric, Power Platform, Copilot, Foundry, Security). Lead architect on APEX framework. Transportation- and airport-adjacent work spans cross-airport asset health programmes, ramp-operations data architectures, and autonomous-mobility pattern adaptation from automotive (AXLE) to industrial fleets (ICE)."),
   h3("Relevant APEX Authorship for this Engagement"),
   bullet("APEX Core (manifest model, HITL taxonomy, seven-layer reference architecture)."),
   bullet("APEX-ICE Practice (Field Asset Failure Response, As-a-Service Utilization Optimization, Compliance Inspection Response)."),
   bullet("APEX-TH airline sub-variant (Disruption Recovery Orchestration, ramp exception routing patterns)."),
   bullet("APEX-AXLE complementary programme (autonomous-vehicle depth scaffolding)."),
   h3("CV Inclusion in Proposal"),
-  p("Latest CV will be shared separately by 4 May 2026 EOD EST per request. Please confirm preferred format (Deloitte Global standard CV vs. proposal-specific one-pager) on receipt."),
+  p("Latest CV will be shared separately by 4 May 2026 EOD EST per request. Please confirm preferred format (the firm's Global standard CV vs. proposal-specific one-pager) on receipt."),
   new Paragraph({ children: [new PageBreak()] }),
   h1("Appendix A — Reference Documents"),
   bullet("APEX Solution Overview (DMTSP, current as of APEX Core v1.2, 2026-04-17)."),
@@ -329,7 +329,7 @@ const closingCV = [
 const doc = new Document({
   creator: "Keven Markham, DMTSP",
   title: "Autonomous GSE — APEX Services Positioning",
-  description: "APEX-aligned services positioning for Deloitte Japan autonomous GSE proposal",
+  description: "APEX-aligned services positioning for the firm's Japan autonomous GSE proposal",
   styles: {
     default: { document: { run: { font: "Arial", size: 22 } } },
     paragraphStyles: [
@@ -367,7 +367,7 @@ const doc = new Document({
         new Paragraph({
           tabStops: [{ type: TabStopType.RIGHT, position: 9360 }],
           children: [
-            new TextRun({ text: "Deloitte  ·  DMTSP", color: AZURE, bold: true, size: 18 }),
+            new TextRun({ text: "The firm  ·  DMTSP", color: AZURE, bold: true, size: 18 }),
             new TextRun({ text: "\tAutonomous GSE — APEX Services Positioning", color: "475569", size: 18 }),
           ],
           border: { bottom: { style: BorderStyle.SINGLE, size: 6, color: AZURE, space: 4 } },
@@ -379,7 +379,7 @@ const doc = new Document({
         new Paragraph({
           tabStops: [{ type: TabStopType.RIGHT, position: 9360 }],
           children: [
-            new TextRun({ text: "Internal — Deloitte Global  ·  1 May 2026", color: "94A3B8", size: 16 }),
+            new TextRun({ text: "Internal — the firm's Global  ·  1 May 2026", color: "94A3B8", size: 16 }),
             new TextRun({ text: "\tPage ", color: "94A3B8", size: 16 }),
             new TextRun({ children: [PageNumber.CURRENT], color: "94A3B8", size: 16 }),
             new TextRun({ text: " of ", color: "94A3B8", size: 16 }),
@@ -395,7 +395,7 @@ const doc = new Document({
       ...serviceMapping,
       ...airportNeeds,
       ...successFactors,
-      ...deloitteFit,
+      ...firmFit,
       ...closingCV,
     ],
   }],

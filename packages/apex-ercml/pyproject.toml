@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "APEX ERCML — Energy & Resources canonical entities (Meter, MeterReading, GridEvent, Asset, WorkOrder, ReliabilityRecord). Pattern C over CIM + ISO 14224."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "Proprietary — Deloitte Internal" }
+license = { text = "Proprietary — Internal" }
 dependencies = [
     "apex-core",
     "apex-schemas-common",

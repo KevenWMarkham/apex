@@ -1,6 +1,6 @@
 # APEX — Agentic Platform for Enterprise eXecution
 
-Deloitte's delivery accelerator for agentic AI on Microsoft. APEX-M is the
+The firm's delivery accelerator for agentic AI on Microsoft. APEX-M is the
 Microsoft variant shipping today; APEX-G (Google Cloud) and APEX-A (AWS)
 are Independence-compliant stubs until commissioned.
 

@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "APEX AXLECML — Automotive / Industrial Manufacturing canonical entities over ISA-95 + SAE J1939 + ISO 14224."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "Proprietary — Deloitte Internal" }
+license = { text = "Proprietary — Internal" }
 dependencies = [
     "apex-core",
     "apex-schemas-common",

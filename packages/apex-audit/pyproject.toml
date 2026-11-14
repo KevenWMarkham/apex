@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "APEX Decision Audit Row — 14-field immutable record, trace-ID discipline, three-version rule, reasoning-trace capture, content-addressed I/O, HMAC-signed rows."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "Proprietary - Deloitte Internal" }
+license = { text = "Proprietary - Internal" }
 dependencies = [
     "apex-core",
     "pydantic>=2.9.0",

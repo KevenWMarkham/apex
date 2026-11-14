@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "APEX ledger-mcp — audit-row persistence + trace-id lookup + signature verification."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "Proprietary — Deloitte Internal" }
+license = { text = "Proprietary — Internal" }
 dependencies = ["apex-core", "apex-audit", "mcp-common", "pydantic>=2.9.0"]
 
 [project.scripts]

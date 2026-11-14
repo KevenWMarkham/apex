@@ -1,7 +1,7 @@
 # SEC Independence — cloud.gcp.pubsub adapter
 
 > This adapter integrates with the client's existing investment in
-> **Google Cloud**. Deloitte does not resell, sublicense, or have
+> **Google Cloud**. The firm does not resell, sublicense, or have
 > an alliance posture with **Google Cloud**; the adapter exists to
 > honor the client's approved cloud architecture per their Cloud
 > Architecture Board (CAB).
@@ -11,7 +11,7 @@
 Before this adapter is used in a client deployment:
 
 - [ ] Client CAB has formally approved Google Cloud as part of the client's approved architecture
-- [ ] The client holds the Google Cloud subscription / tenant / license — Deloitte does not procure it
+- [ ] The client holds the Google Cloud subscription / tenant / license — the firm does not procure it
 - [ ] The use case's `client_approved_architecture` block references this adapter explicitly
 - [ ] Pre-deployment Security Gate verifies integration with Google Cloud satisfies the client's data-residency, classification, and audit requirements
 - [ ] Per-engagement Independence consultation has cleared use of this adapter for the engagement's audit posture
@@ -22,5 +22,5 @@ Per [APEX Independence Posture](../../../../../../docs/apex-core/Independence-Po
 
 - ✅ "honors the client's existing investment in Google Cloud"
 - ✅ "integrates with Google Cloud per the client's CAB"
-- ❌ "Deloitte–Google Cloud alliance"
+- ❌ "the firm–Google Cloud alliance"
 - ❌ "Google Cloud is the preferred / primary [anything]"

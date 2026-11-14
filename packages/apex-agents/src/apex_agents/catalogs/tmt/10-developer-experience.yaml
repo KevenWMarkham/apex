@@ -10,7 +10,7 @@ prompt_sha: ""
 description: >
   Developer-experience signal aggregation across PR cycle time + CI failure rate + incident MTTR. Surfaces emerging team-level risks.
 archetype_id: F2-event-cluster-pattern-match
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.devopsml.get_pr_metrics

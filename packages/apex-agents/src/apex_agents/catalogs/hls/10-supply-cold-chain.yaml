@@ -12,7 +12,7 @@ description: >
   Detects temperature excursions and recommends quarantine + replacement
   with DSCSA-aligned audit row.
 archetype_id: F4-regulatory-trigger-audit-preserve
-primary_contact: hls-practice-lead@deloitte.com
+primary_contact: hls-practice-lead@example.com
 
 tools:
   - tool_id: apex.hls.mcp.patientml.get_pharmacy_inventory

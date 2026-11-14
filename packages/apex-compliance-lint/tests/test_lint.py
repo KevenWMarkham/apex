@@ -10,7 +10,6 @@ from apex_compliance_lint import (
     APEX_BRAND,
     APEX_TYPOGRAPHY,
     DEFAULT_PACKS,
-    DELOITTE_MICROSOFT_INDEPENDENCE,
     HTMLAdapter,
     MarkdownAdapter,
     Rule,
@@ -165,106 +164,6 @@ def test_evaluate_rule_case_insensitive(tmp_path: Path) -> None:
     assert len(violations) == 1
 
 
-# ---------------------------------------------------------------------------
-# Independence rule pack — positive cases
-# ---------------------------------------------------------------------------
-
-
-@pytest.fixture
-def independence_violations(tmp_path: Path) -> list[Violation]:
-    p = tmp_path / "violations.md"
-    p.write_text(
-        "Deloitte and Microsoft jointly delivered this.\n"
-        "Our partnership with Microsoft is a Gold Partner relationship.\n"
-        "We have an alliance with Salesforce.\n"
-        "This solution is recommended by Microsoft.\n"
-        "Our team endorses this approach.\n",
-        encoding="utf-8",
-    )
-    report = lint_file(p, MarkdownAdapter(), [DELOITTE_MICROSOFT_INDEPENDENCE])
-    return report.violations
-
-
-def test_independence_flags_partnership(independence_violations) -> None:
-    rule_ids = {v.rule_id for v in independence_violations}
-    assert "deloitte_microsoft_independence.partnership" in rule_ids
-
-
-def test_independence_flags_alliance(independence_violations) -> None:
-    rule_ids = {v.rule_id for v in independence_violations}
-    assert "deloitte_microsoft_independence.alliance" in rule_ids
-
-
-def test_independence_flags_gold_partner(independence_violations) -> None:
-    rule_ids = {v.rule_id for v in independence_violations}
-    assert "deloitte_microsoft_independence.gold_partner" in rule_ids
-
-
-def test_independence_flags_recommended_by(independence_violations) -> None:
-    rule_ids = {v.rule_id for v in independence_violations}
-    assert "deloitte_microsoft_independence.recommended_by" in rule_ids
-
-
-def test_independence_flags_jointly(independence_violations) -> None:
-    rule_ids = {v.rule_id for v in independence_violations}
-    assert "deloitte_microsoft_independence.deloitte_microsoft_jointly" in rule_ids
-
-
-def test_independence_flags_endorse(independence_violations) -> None:
-    rule_ids = {v.rule_id for v in independence_violations}
-    assert "deloitte_microsoft_independence.endorse" in rule_ids
-
-
-# ---------------------------------------------------------------------------
-# Independence rule pack — false-positive guards (allowed contexts)
-# ---------------------------------------------------------------------------
-
-
-def test_independence_does_not_flag_trading_partner(tmp_path: Path) -> None:
-    p = tmp_path / "ok.md"
-    p.write_text(
-        "Each trading partner submits an EDI 850 PO. The trading partner "
-        "is responsible for ASN compliance.\n",
-        encoding="utf-8",
-    )
-    report = lint_file(p, MarkdownAdapter(), [DELOITTE_MICROSOFT_INDEPENDENCE])
-    partner_violations = [
-        v for v in report.violations
-        if v.rule_id == "deloitte_microsoft_independence.partner"
-    ]
-    assert partner_violations == [], (
-        f"Expected zero 'partner' flags inside 'trading partner' context; "
-        f"got {[v.matched_text for v in partner_violations]}"
-    )
-
-
-def test_independence_does_not_flag_microsoft_partner_of_the_year(tmp_path: Path) -> None:
-    p = tmp_path / "ok.md"
-    p.write_text(
-        "We received Microsoft Partner Of The Year in 2024.\n",
-        encoding="utf-8",
-    )
-    report = lint_file(p, MarkdownAdapter(), [DELOITTE_MICROSOFT_INDEPENDENCE])
-    partner_violations = [
-        v for v in report.violations
-        if v.rule_id == "deloitte_microsoft_independence.partner"
-    ]
-    assert partner_violations == []
-
-
-def test_independence_does_not_flag_channel_partner(tmp_path: Path) -> None:
-    p = tmp_path / "ok.md"
-    p.write_text(
-        "The dealer is a channel partner for ICE Practice deployments.\n",
-        encoding="utf-8",
-    )
-    report = lint_file(p, MarkdownAdapter(), [DELOITTE_MICROSOFT_INDEPENDENCE])
-    partner_violations = [
-        v for v in report.violations
-        if v.rule_id == "deloitte_microsoft_independence.partner"
-    ]
-    assert partner_violations == []
-
 
 # ---------------------------------------------------------------------------
 # Brand rule pack
@@ -305,10 +204,10 @@ def test_brand_flags_guarantees(tmp_path: Path) -> None:
 
 def test_lint_paths_multiple_files(tmp_path: Path) -> None:
     a = tmp_path / "a.md"
-    a.write_text("We have a partnership with Microsoft.\n", encoding="utf-8")
+    a.write_text("APEX is fully autonomous in production.\n", encoding="utf-8")
     b = tmp_path / "b.html"
     b.write_text(
-        "<html><body><p>Our alliance with SAP.</p></body></html>",
+        "<html><body><p>APEX guarantees ROI in Wave-1 delivery.</p></body></html>",
         encoding="utf-8",
     )
     c = tmp_path / "c.md"
@@ -319,7 +218,7 @@ def test_lint_paths_multiple_files(tmp_path: Path) -> None:
         packs=list(DEFAULT_PACKS),
     )
     assert report.files_scanned == 3
-    # a and b each have one Independence violation; c is clean
+    # a and b each have one brand violation; c is clean
     assert len(report.errors) >= 2
     files_with_errors = {v.file for v in report.errors}
     assert a in files_with_errors
@@ -341,7 +240,7 @@ def test_lint_report_exit_codes(tmp_path: Path) -> None:
     clean = tmp_path / "clean.md"
     clean.write_text("APEX is auditable.\n", encoding="utf-8")
     dirty = tmp_path / "dirty.md"
-    dirty.write_text("Our partnership with Microsoft.\n", encoding="utf-8")
+    dirty.write_text("APEX is not a black box.\n", encoding="utf-8")
 
     clean_report = lint_paths(
         [clean], adapter_registry=default_registry(), packs=list(DEFAULT_PACKS),
@@ -361,30 +260,13 @@ def test_lint_report_exit_codes(tmp_path: Path) -> None:
 
 
 @pytest.mark.conformance
-def test_conformance_three_default_packs() -> None:
-    """Sprint 29 §29.9.1 — three default packs ship: independence, typography, brand."""
+def test_conformance_default_packs() -> None:
+    """Sprint 29 §29.9.1 — default packs ship: typography, brand."""
     pack_ids = {p.pack_id for p in DEFAULT_PACKS}
     assert pack_ids == {
-        "deloitte_microsoft_independence",
         "apex_typography",
         "apex_brand",
     }
-
-
-@pytest.mark.conformance
-def test_conformance_independence_pack_minimum_rules() -> None:
-    """Independence pack covers the 7 most-flagged Independence-language patterns."""
-    rule_ids = {r.rule_id for r in DELOITTE_MICROSOFT_INDEPENDENCE.rules}
-    expected = {
-        "deloitte_microsoft_independence.partner",
-        "deloitte_microsoft_independence.alliance",
-        "deloitte_microsoft_independence.partnership",
-        "deloitte_microsoft_independence.endorse",
-        "deloitte_microsoft_independence.recommended_by",
-        "deloitte_microsoft_independence.deloitte_microsoft_jointly",
-        "deloitte_microsoft_independence.gold_partner",
-    }
-    assert expected.issubset(rule_ids)
 
 
 @pytest.mark.conformance
@@ -397,25 +279,3 @@ def test_conformance_default_registry_supports_all_four_formats() -> None:
     assert ".markdown" in reg
     assert ".docx" in reg
     assert ".pptx" in reg
-
-
-@pytest.mark.conformance
-def test_conformance_apex_workspace_is_independence_clean() -> None:
-    """Sprint 29 acceptance — the apex-workspace files must pass the linter."""
-    workspace = Path(__file__).resolve().parents[3] / "apex-workspace"
-    files = sorted(p for p in workspace.glob("*.md"))
-    assert files, "apex-workspace markdown files must exist"
-    report = lint_paths(
-        files,
-        adapter_registry=default_registry(),
-        packs=[DELOITTE_MICROSOFT_INDEPENDENCE],
-    )
-    if report.errors:
-        msgs = [
-            f"{v.file.name}:{v.line}:{v.column} [{v.rule_id}] {v.matched_text!r}"
-            for v in report.errors
-        ]
-        pytest.fail(
-            f"apex-workspace markdown has Independence violations:\n  "
-            + "\n  ".join(msgs)
-        )

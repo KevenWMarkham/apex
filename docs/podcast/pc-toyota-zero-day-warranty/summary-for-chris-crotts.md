@@ -20,7 +20,7 @@
 
 [pause]
 
-**KEVEN:** I'm Keven Markham, Vice President with Deloitte's Microsoft Technology and Services Practice.
+**KEVEN:** I'm Keven Markham, Vice President with Microsoft Technology and Services Practice.
 
 **MIA:** I'm Mia. Eighteen years on automotive accounts. Manufacturing IT and quality leadership. *The Zero Day Warranty Podcast. Summary Edition.* Fifteen minutes.
 
@@ -72,7 +72,7 @@ Of that exposure, about *two point eight million is recoverable as supplier char
 
 **KEVEN:** And the Independence posture —
 
-**MIA:** *Toyota contracts directly with Microsoft on Microsoft's paper.* Deloitte services are on a separate Deloitte contract Toyota signs with Deloitte. Two contracts. Clean separation. The reason we recommend Microsoft Fabric and Agent Framework and Purview is because they're the right platforms for this scenario on the technical and economic merits — not because of any compensation flow from Microsoft to Deloitte for that recommendation.
+**MIA:** *Toyota contracts directly with Microsoft on Microsoft's paper.* firm services are on a separate the firm contract Toyota signs with the firm. Two contracts. Clean separation. The reason we recommend Microsoft Fabric and Agent Framework and Purview is because they're the right platforms for this scenario on the technical and economic merits — not because of any compensation flow from Microsoft to the firm for that recommendation.
 
 ### NVIDIA — the extension
 

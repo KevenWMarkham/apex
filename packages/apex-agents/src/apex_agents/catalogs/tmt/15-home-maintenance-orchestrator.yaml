@@ -12,7 +12,7 @@ description: >
   appliance fleet. Auto-orders consumables under a household-set
   threshold; HITL for service-call dispatch and warranty co-sell.
 archetype_id: F2-event-cluster-pattern-match
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.home.read_appliance_health

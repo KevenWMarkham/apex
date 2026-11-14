@@ -11,7 +11,7 @@ description: >
   Warranty-cost agent. Detects warranty-claim spikes, isolates likely
   root cause (part lot, plant, vendor), and surfaces recall risk.
 archetype_id: F2-event-cluster-pattern-match
-primary_contact: axle-practice-lead@deloitte.com
+primary_contact: axle-practice-lead@example.com
 
 tools:
   - tool_id: apex.axle.mcp.qmsml.get_warranty_claims

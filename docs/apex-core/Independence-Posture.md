@@ -1,6 +1,6 @@
 # APEX Independence Posture
 
-**Audience:** Deloitte engagement teams, client architecture review boards, SEC Independence reviewers
+**Audience:** firm engagement teams, client architecture review boards, SEC Independence reviewers
 **Status:** Authoritative — referenced by every APEX deliverable
 
 ## TL;DR
@@ -11,16 +11,16 @@ APEX is a multi-cloud framework with three sibling product variants on a shared 
 - **APEX-G** — Google Cloud variant. Stub today; ships when commissioned.
 - **APEX-A** — AWS variant. Stub today; ships when commissioned.
 
-Microsoft is the **first shipped** variant — not the **preferred** cloud. Deloitte does not have an alliance posture with any cloud provider. APEX exists to honor a client's **existing cloud investment** as approved by their Cloud Architecture Board (CAB).
+Microsoft is the **first shipped** variant — not the **preferred** cloud. The firm does not have an alliance posture with any cloud provider. APEX exists to honor a client's **existing cloud investment** as approved by their Cloud Architecture Board (CAB).
 
 ## Two Contracts (per Deployment Guide §3)
 
 Every APEX engagement honors the two-contract model:
 
-1. **Client–Microsoft (or Client–Google, or Client–AWS)** — the client holds and pays for cloud subscriptions, model deployments, storage, networking. Deloitte does not co-mingle ECIF.
-2. **Client–Deloitte** — Deloitte provides the APEX framework + deployment + agent design + change management. Subscription costs flow through the client's contract with the cloud provider, not Deloitte.
+1. **Client–Microsoft (or Client–Google, or Client–AWS)** — the client holds and pays for cloud subscriptions, model deployments, storage, networking. The firm does not co-mingle ECIF.
+2. **Client–the firm** — the firm provides the APEX framework + deployment + agent design + change management. Subscription costs flow through the client's contract with the cloud provider, not the firm.
 
-For multi-cloud clients (e.g., Microsoft 365 + AWS data lake), each contract chain stands on its own. APEX-M handles the M365/Azure side; client-approved AWS adapters integrate the AWS side without Deloitte resale.
+For multi-cloud clients (e.g., Microsoft 365 + AWS data lake), each contract chain stands on its own. APEX-M handles the M365/Azure side; client-approved AWS adapters integrate the AWS side without the firm resale.
 
 ## Variant equality
 
@@ -31,7 +31,7 @@ The three APEX variants are **structurally equivalent**:
 - All three are listed in `apps/deploy-wizard/` as Cloud Variant choices
 - All three have a port plan ([Multi-Cloud Port Plan](Multi-Cloud-Port-Plan.md))
 
-The fact that APEX-M ships first is **commercial reality** (Deloitte's Microsoft Technology & Services Practice has the deepest staffing on Microsoft) — not a structural preference.
+The fact that APEX-M ships first is **commercial reality** (Microsoft Technology & Services Practice has the deepest staffing on Microsoft) — not a structural preference.
 
 ## Client-Approved Architecture Variance
 
@@ -54,7 +54,7 @@ Adapters in scope today (stub — implementations build per-engagement):
 - **identity**: Okta, Auth0, Ping Identity
 - **collaboration**: Slack, Zoom, Google Workspace
 
-Each adapter has a `sec_independence.md` recording that Deloitte does not resell, license, or have an alliance posture with the integrated provider.
+Each adapter has a `sec_independence.md` recording that the firm does not resell, license, or have an alliance posture with the integrated provider.
 
 ## Language standards (enforced)
 
@@ -63,8 +63,8 @@ The `apex-compliance-lint` package (BL.P.194 in [Roadmap.md](../APEX%20-%20Desig
 - ❌ "preferred cloud" / "primary cloud" (when used commercially)
 - ❌ "alliance" / "partner" / "partnership" (with cloud providers)
 - ❌ "Microsoft alliance" / "AWS alliance" / "Google alliance"
-- ❌ "Deloitte–Microsoft alliance" or any equivalent
-- ✅ "Deloitte's Microsoft Technology & Services Practice"
+- ❌ "the firm–Microsoft alliance" or any equivalent
+- ✅ "Microsoft Technology & Services Practice"
 - ✅ "APEX-M is the first shipped variant"
 - ✅ "Honors the client's existing investment in [provider]"
 - ✅ "Per the client's Cloud Architecture Board approval"
@@ -84,7 +84,7 @@ This satisfies the structural-Independence test articulated in Deployment Guide 
 
 ## When a client asks "is APEX Microsoft-only?"
 
-The answer is: **No. APEX is multi-cloud.** APEX-M is the first shipped variant because Microsoft was where Deloitte's Microsoft Technology & Services Practice had the deepest staffing. APEX-G and APEX-A are sibling products on equal footing — same APEX-Core protocols, same wizard, same scenario catalog. Deloitte ships the variant matching your existing cloud investment. If your CAB has approved a mixed architecture, APEX composes adapters per your approved services.
+The answer is: **No. APEX is multi-cloud.** APEX-M is the first shipped variant because Microsoft was where Microsoft Technology & Services Practice had the deepest staffing. APEX-G and APEX-A are sibling products on equal footing — same APEX-Core protocols, same wizard, same scenario catalog. The firm ships the variant matching your existing cloud investment. If your CAB has approved a mixed architecture, APEX composes adapters per your approved services.
 
 ## References
 

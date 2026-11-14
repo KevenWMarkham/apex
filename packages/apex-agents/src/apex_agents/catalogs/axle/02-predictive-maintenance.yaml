@@ -11,7 +11,7 @@ description: >
   Predictive-maintenance recommendation across press, CNC, and conveyor
   equipment using vibration + temperature + acoustic signatures.
 archetype_id: F3-predictive-trigger-workflow-aware
-primary_contact: axle-practice-lead@deloitte.com
+primary_contact: axle-practice-lead@example.com
 
 tools:
   - tool_id: apex.axle.mcp.aaml.get_equipment_telemetry

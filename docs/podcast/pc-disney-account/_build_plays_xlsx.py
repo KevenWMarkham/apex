@@ -549,7 +549,7 @@ def build_workbook() -> Workbook:
     ws2["A1"].font = Font(name="Arial", bold=True, size=14, color="1A2339")
     ws2.merge_cells("A1:D1")
 
-    ws2["A3"] = "Generated for the Deloitte Account Team for Disney"
+    ws2["A3"] = "Generated for the Account Team for Disney"
     ws2["A3"].font = Font(name="Arial", italic=True, color="6B7280", size=10)
     ws2.merge_cells("A3:D3")
 
@@ -660,10 +660,10 @@ def build_workbook() -> Workbook:
         ("Disney Agentic Plays — How To Use This File", "title"),
         ("", ""),
         ("Purpose", "h2"),
-        ("This file curates 24 high-confidence agentic plays for the Disney account across enterprise back-office (13), streaming (10), and Experiences (1). Each play is structured for the Deloitte Account Team to use as a working artefact during account planning, executive prep, and pursuit discussions.", "p"),
+        ("This file curates 24 high-confidence agentic plays for the Disney account across enterprise back-office (13), streaming (10), and Experiences (1). Each play is structured for the Account Team to use as a working artefact during account planning, executive prep, and pursuit discussions.", "p"),
         ("", ""),
         ("Sheet 1 — Plays", "h2"),
-        ("The full play list. 14 columns. Filter or sort by Domain, Wave, or Priority to scope your view. The Wave 1 Range column gives an indicative Deloitte services range; precise envelope is set during the BVA.", "p"),
+        ("The full play list. 14 columns. Filter or sort by Domain, Wave, or Priority to scope your view. The Wave 1 Range column gives an indicative firm services range; precise envelope is set during the BVA.", "p"),
         ("", ""),
         ("Sheet 2 — Summary", "h2"),
         ("Aggregated counts and recommended Wave 1 picks. Three sections — by domain, by priority, and recommended Wave 1 entry plays. Use this sheet when briefing leadership on the curated portfolio.", "p"),
@@ -675,7 +675,7 @@ def build_workbook() -> Workbook:
         ("• Microsoft attach modelling — Microsoft Attach column drives SKU mix for Microsoft consumption forecasting.", "p"),
         ("", ""),
         ("Independence-clean usage", "h2"),
-        ("This file lists Deloitte services plays. The dollar ranges are Deloitte services revenue ranges. Microsoft platforms are licensed directly by Disney from Microsoft; this file does not include Microsoft software margin. Refer to Sellers Podcast Episode 2 and the Independence Cheat Sheet for the full Independence posture.", "p"),
+        ("This file lists firm services plays. The dollar ranges are firm services revenue ranges. Microsoft platforms are licensed directly by Disney from Microsoft; this file does not include Microsoft software margin. Refer to Sellers Podcast Episode 2 and the Independence Cheat Sheet for the full Independence posture.", "p"),
         ("", ""),
         ("Notes on KPI signals", "h2"),
         ("KPI signals are reference-scenario estimates from the APEX framework — not Disney-specific commitments. Disney-specific numbers are produced during the BVA, with Disney's own baseline measurement.", "p"),

@@ -10,7 +10,7 @@ prompt_sha: ""
 description: >
   Triage inbound warranty claims into auto-pay / dealer-review / engineering-review lanes with severity assessment.
 archetype_id: F2-event-cluster-pattern-match
-primary_contact: ice-practice-lead@deloitte.com
+primary_contact: ice-practice-lead@example.com
 
 tools:
   - tool_id: apex.ice.mcp.qmsml.get_warranty_claim

@@ -13,7 +13,7 @@ description: >
   Manages soft-vs-hard credit-pull discipline; surfaces best-APR offer;
   executes final financing only with explicit HITL consent.
 archetype_id: F3-predictive-trigger-workflow-aware
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.capital_one.auto_pre_approval

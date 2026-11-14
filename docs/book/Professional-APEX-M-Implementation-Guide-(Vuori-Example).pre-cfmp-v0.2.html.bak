@@ -388,14 +388,14 @@
 
 <!-- ============================== COVER ============================== -->
 <section class="cover" id="cover">
-  <div class="brand">PROFESSIONAL · DELOITTE MTSP</div>
+  <div class="brand">PROFESSIONAL · THE FIRM MTSP</div>
   <h1 class="title"><span class="accent">APEX</span>-M</h1>
   <div class="edition-line">IMPLEMENTATION GUIDE · VUORI-EXAMPLE</div>
   <div class="subtitle">Building the Agentic WBR on APEX-M</div>
   <p class="tagline">A code-first engineering manual using Vuori as the running example. Walks the build from APEX integration through Snowflake medallion, MCP servers, the Microsoft Agent Framework, the MVP test harness, and the 12-sprint delivery plan — using the actual reference implementation in <code style="background:rgba(255,255,255,0.1);color:#fff">C:\Stage\Clients\Industries\Consumer\Merch\MVP</code> as the running example.</p>
   <div class="wrox-label">IMPLEMENTATION GUIDE</div>
   <div class="byline">
-    APEX Core team · Deloitte Microsoft Technology &amp; Services Practice<br>
+    APEX Core team · Microsoft Technology &amp; Services Practice<br>
     May 2026 · Version 1.0 · Reference implementation: MVP v0.1.0
   </div>
 </section>
@@ -463,7 +463,7 @@
 
   <p>The entry point is the <strong>Weekly Business Review</strong>. Today it is manual, Excel-based, and assembles slowly. The room argues about whose numbers are right (finance Gregorian vs. merchandising NRF calendar) instead of deciding. The merchants spend Tuesday through Thursday catching up to context the agents will deliver Monday at 8 AM.</p>
 
-  <p>The Deloitte answer is two agents in a Sense → Execute &amp; Learn loop, layered on Vuori's existing platform stack:</p>
+  <p>The answer is two agents in a Sense → Execute &amp; Learn loop, layered on Vuori's existing platform stack:</p>
 
   <figure class="diagram">
     <div class="fig-label">Figure 1.1 · Vuori platform stack with agent overlay</div>
@@ -561,7 +561,7 @@
 
   <h2 id="1-2">1.2 The 8 Confirmed Gaps, Mapped to the 21-UC Catalog</h2>
 
-  <p>The eight gaps below were stated by Vuori stakeholders in the January 2026 workshops — they are not Deloitte assumptions. Each maps onto one or more UCs in <code>MVP/TestHarness/catalog_seed/uc_catalog.json</code>.</p>
+  <p>The eight gaps below were stated by Vuori stakeholders in the January 2026 workshops — they are not the firm assumptions. Each maps onto one or more UCs in <code>MVP/TestHarness/catalog_seed/uc_catalog.json</code>.</p>
 
   <div class="table-wrap"><table class="md-table">
   <tr><th>#</th><th>Gap (Vuori words)</th><th>Maps to UC(s)</th><th>Executor kind</th></tr>
@@ -683,7 +683,7 @@ sequenceDiagram
     <p>All builds run <strong>inside Vuori's environment</strong> — Snowflake on Azure + Azure AI Foundry. This is a CIO requirement reaffirmed in the Dallas offsite, not a preference. APEX agents read from Vuori's CURATED Snowflake layer, write to Vuori's Purview audit ledger, and never leave the tenant. The synthetic data shown in this book is for laptop and dev substrates only; stage and prod target the client tenant.</p>
   </div>
 
-  <p>This constraint shapes every architecture decision in Parts II and III: Snowflake (not Cosmos) for state; Azure Data Factory + Fivetran (not custom) for ingestion; Azure AI Foundry (not a third-party hosted LLM) for model serving; LEDGER on Purview (not on a Deloitte-side store).</p>
+  <p>This constraint shapes every architecture decision in Parts II and III: Snowflake (not Cosmos) for state; Azure Data Factory + Fivetran (not custom) for ingestion; Azure AI Foundry (not a third-party hosted LLM) for model serving; LEDGER on Purview (not on a firm-side store).</p>
 
   <h2 id="1-7">1.7 Reading <code>uc_catalog.json</code></h2>
 
@@ -1441,7 +1441,7 @@ flowchart LR
   <tr><td>Anaplan (top-down + bottoms-up plans)</td><td>Azure Data Factory · REST → Blob → Snowflake COPY</td><td>daily 02:00</td><td><code>RAW.ANAPLAN.*</code></td></tr>
   <tr><td>Centric (PLM, MAC cost)</td><td>ADF · ODBC → Snowflake COPY</td><td>daily 03:00</td><td><code>RAW.CENTRIC.*</code></td></tr>
   <tr><td>iSEYON (FP/EC/RO forecasts)</td><td>SFTP-watch → Blob → Snowpipe</td><td>weekly Sun 18:00</td><td><code>RAW.ISEYON.*</code></td></tr>
-  <tr><td>ConvergeCONSUMER (Deloitte external)</td><td>Azure Blob (CMK-encrypted) → Snowpipe</td><td>weekly Sun 22:00</td><td><code>RAW.CONCON.*</code></td></tr>
+  <tr><td>ConvergeCONSUMER (the firm external)</td><td>Azure Blob (CMK-encrypted) → Snowpipe</td><td>weekly Sun 22:00</td><td><code>RAW.CONCON.*</code></td></tr>
   <tr><td>Microsoft Dynamics 365 (ERP)</td><td>ADF · Dynamics connector → Snowflake</td><td>daily 04:00</td><td><code>RAW.D365.*</code></td></tr>
   </table></div>
 
@@ -1571,7 +1571,7 @@ flowchart LR
 
   <div class="callout warning">
     <span class="callout-label">Open · ConCON delivery mechanism</span>
-    <p>The ConvergeCONSUMER delivery mechanism into Vuori's tenant is still TBD as of May 2026 (card <code>cvuori_concon01</code>). The synthetic data in §4.7 stands in. When the real delivery lands, expect either: (a) Azure Blob with CMK encryption + Snowpipe auto-ingest, or (b) Snowflake Secure Data Share from the Deloitte ConCON account. The CLEANSED transform shape stays identical either way; only the COPY source URL changes.</p>
+    <p>The ConvergeCONSUMER delivery mechanism into Vuori's tenant is still TBD as of May 2026 (card <code>cvuori_concon01</code>). The synthetic data in §4.7 stands in. When the real delivery lands, expect either: (a) Azure Blob with CMK encryption + Snowpipe auto-ingest, or (b) Snowflake Secure Data Share from the ConCON account. The CLEANSED transform shape stays identical either way; only the COPY source URL changes.</p>
   </div>
 
   <h2 id="4-6">4.6 The Eight Synthetic Tables</h2>

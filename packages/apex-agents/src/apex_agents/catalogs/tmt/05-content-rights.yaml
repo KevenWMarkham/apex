@@ -10,7 +10,7 @@ prompt_sha: ""
 description: >
   Content-rights compliance check. Validates distribution windows + territories + device classes before publishing release.
 archetype_id: F4-regulatory-trigger-audit-preserve
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.contentml.get_asset_metadata

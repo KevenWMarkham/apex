@@ -75,4 +75,4 @@ After writing:
 
 - **Persona names are invented.** No real Arium executive contacts confirmed. Replace before any external use.
 - **KPI magnitudes are illustrative.** Sized to be credible for a vendor of Arium's likely scale, but not validated against real Arium financials.
-- **Service code re-use.** `TMT-TEL-NET-02` covers carrier-side and now vendor-side ops; if Deloitte service-line distinctions need separation later, a follow-up can introduce `TMT-TEL-NET-05`.
+- **Service code re-use.** `TMT-TEL-NET-02` covers carrier-side and now vendor-side ops; if the firm service-line distinctions need separation later, a follow-up can introduce `TMT-TEL-NET-05`.

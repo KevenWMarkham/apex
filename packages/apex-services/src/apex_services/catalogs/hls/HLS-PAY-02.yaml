@@ -41,4 +41,4 @@ linked_archetypes:
 
 schemas_touched: [PatientML, PopHealthML]
 standards: ['HIPAA']
-primary_contact: hls-practice-lead@deloitte.com
+primary_contact: hls-practice-lead@example.com

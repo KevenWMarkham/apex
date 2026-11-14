@@ -54,7 +54,7 @@ def build_risk_register():
         ("Inherent risk score","Likelihood × Impact (1-25); Residual is post-mitigation"),
         ("",""),
         ("Status legend","OPEN=identified, no action yet · IN_PROGRESS=mitigation underway · MITIGATED=residual within tolerance · CLOSED=no longer applicable"),
-        ("Independence posture","All RC-E2E-03 commercial materials use Deloitte's Microsoft practice/DMTSP/Microsoft platform capabilities/Microsoft-native deployment language."),
+        ("Independence posture","All RC-E2E-03 commercial materials use the firm's Microsoft practice/DMTSP/Microsoft platform capabilities/Microsoft-native deployment language."),
     ]
     for i,(l,r) in enumerate(rows, start=1):
         c1 = ws.cell(row=i, column=1, value=l); c2 = ws.cell(row=i, column=2, value=r)
@@ -122,7 +122,7 @@ def build_risk_register():
        "Architecture review with IT-Sec at W1 entry · privileged-access management for W2 write operations · approved access scope documented in SOW · Independence-office aware",
        4,"W1-S01","IN_PROGRESS"),
       ("R-11","Organizational","Independence-office requirements impact engagement structure",
-       "Deloitte's audit relationship with Kroger may require specific engagement structure (manifests/policies as Kroger artifacts; Deloitte advisory only).",
+       "The firm's audit relationship with Kroger may require specific engagement structure (manifests/policies as Kroger artifacts; the firm advisory only).",
        "DMTSP_lead + Independence office",2,5,10,
        "Independence-office routing in Approach stage · SOW structured to ensure manifests/policies/LEDGER are Kroger artifacts · Audit Committee notification documented",
        2,"A-S02","IN_PROGRESS"),
@@ -663,7 +663,7 @@ body.light .cta-item { background: rgba(255,255,255,0.5); }
       A pitch for The Kroger Co. — APEX RC-E2E-03 Assortment &amp; Pricing as the Wave-1 anchor for
       Grocery Merchandising. Co-anchored with RC-E2E-09 Product Tracking for FSMA 204 compliance.
     </p>
-    <div class="signoff">— Deloitte Microsoft Technology Solutions &amp; Practices</div>
+    <div class="signoff">— Microsoft Technology Solutions &amp; Practices</div>
     <div class="signoff-mono">v1.0 · 27 Apr 2026 · 16 slides · ~25 min walk + Q&amp;A</div>
   </div>
 </div>
@@ -965,9 +965,9 @@ body.light .cta-item { background: rgba(255,255,255,0.5); }
   <h2>Designed to preserve independence at every audit-firm relationship.</h2>
   <div style="background: var(--bg-1); border-left: 4px solid var(--gold); padding: 28px 32px; border-radius: 8px; max-width: 980px;">
     <h3 style="font-size: 22px; margin: 0 0 14px;">The pattern is independence-safe by design</h3>
-    <p style="font-size: 15px; color: var(--ink-1); margin-bottom: 16px;">RC-E2E-03 manifests, policy manifests, and LEDGER are <strong style="color: var(--ink-0);">Kroger artifacts</strong>. Deloitte's role is advisory and implementation enablement. Before any engagement at an audit-client, the SOW is routed through Deloitte's Independence office.</p>
+    <p style="font-size: 15px; color: var(--ink-1); margin-bottom: 16px;">RC-E2E-03 manifests, policy manifests, and LEDGER are <strong style="color: var(--ink-0);">Kroger artifacts</strong>. The firm's role is advisory and implementation enablement. Before any engagement at an audit-client, the SOW is routed through the firm's Independence office.</p>
     <p style="font-size: 14px; color: var(--ink-2); font-family: 'JetBrains Mono', monospace; line-height: 1.55;">All RC-E2E-03 commercial materials use:<br>
-      "Deloitte's Microsoft practice" · "DMTSP" · "Microsoft platform capabilities" · "Microsoft-native deployment"<br><br>
+      "The firm's Microsoft practice" · "DMTSP" · "Microsoft platform capabilities" · "Microsoft-native deployment"<br><br>
       The terms "partner," "alliance," and "strategic alliance" do not appear.</p>
   </div>
 </div>
@@ -1098,7 +1098,7 @@ body.light .cta-item { background: rgba(255,255,255,0.5); }
     <div class="col" style="--accent: var(--crimson);">
       <div class="col-eye">Commitment 5</div>
       <h3>Privacy &amp; Independence routing</h3>
-      <p>Privacy Office walkthrough on consent governance + personalization-evidence shape. SOW routed through Deloitte's Independence office in concert with Kroger's external-audit relationship.</p>
+      <p>Privacy Office walkthrough on consent governance + personalization-evidence shape. SOW routed through the firm's Independence office in concert with Kroger's external-audit relationship.</p>
     </div>
   </div>
 </div>
@@ -1133,7 +1133,7 @@ body.light .cta-item { background: rgba(255,255,255,0.5); }
       </div>
     </div>
   </div>
-  <div class="signoff" style="margin-top: 36px;">— Deloitte Microsoft Technology Solutions &amp; Practices</div>
+  <div class="signoff" style="margin-top: 36px;">— Microsoft Technology Solutions &amp; Practices</div>
   <div class="signoff-mono">v1.0 · 27 Apr 2026 · APEX RC-E2E-03 + RC-E2E-09 · Kroger reference engagement</div>
 </div>
 

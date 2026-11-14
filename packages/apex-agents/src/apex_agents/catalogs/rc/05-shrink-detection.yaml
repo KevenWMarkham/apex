@@ -11,7 +11,7 @@ description: >
   Pattern-matching across POS, inventory, employee, and CCTV signals to
   detect organized retail crime and internal-theft signatures.
 archetype_id: F2-event-cluster-pattern-match
-primary_contact: rc-practice-lead@deloitte.com
+primary_contact: rc-practice-lead@example.com
 
 tools:
   - tool_id: apex.rc.mcp.scml.get_inventory_variance

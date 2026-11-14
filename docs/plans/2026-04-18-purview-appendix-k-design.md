@@ -11,7 +11,7 @@ Comprehensive — all Purview capabilities + APEX integration + Store 100 exampl
 ## Structure
 
 - K.1 How to read
-- K.2 Purview's role in Deloitte's agent delivery
+- K.2 Purview's role in the firm's agent delivery
 - K.3 Purview capability map (10 capability areas)
 - K.4 How Purview drives agents with correct data to correct identities
 - K.5 Tier-level security (4-tier model)
@@ -26,6 +26,6 @@ Target ~7,000 words.
 ## Positioning
 
 Consistent with repositioning correction: Purview is a Microsoft platform capability
-the client licenses directly from Microsoft. Deloitte's agent-delivery services
+the client licenses directly from Microsoft. The firm's agent-delivery services
 leverage Purview — with APEX as internal accelerator providing Practice-specific
 classification taxonomies, DLP policy templates, and agent-scope patterns.

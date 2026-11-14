@@ -10,7 +10,7 @@ prompt_sha: ""
 description: >
   Crew-roster optimization respecting union rules + duty-time legality + qualification requirements.
 archetype_id: F3-predictive-trigger-workflow-aware
-primary_contact: th-practice-lead@deloitte.com
+primary_contact: th-practice-lead@example.com
 
 tools:
   - tool_id: apex.th.mcp.opsml.get_crew_roster

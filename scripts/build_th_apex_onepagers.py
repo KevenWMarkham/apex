@@ -5,7 +5,7 @@ emit `<Client>_APEX_OnePager.html` into `01_account/one_pager/`.
 
 Each one-pager:
   - Models on Nike_OnePager.html visual structure (1440px landscape, 3-col grid,
-    Chart.js, modals, Deloitte branding)
+    Chart.js, modals, firm branding)
   - Replaces the Microsoft Platform pipeline with APEX Agentic AI Services pipeline:
     scenarios from the APEX scenario catalog mapped to the client's functional area
     (back-office · operations · frontline)
@@ -547,22 +547,22 @@ CLIENTS.append({
 # ---------------------------------------------------------------------------
 
 CSS = """
-:root{--deloitte-green:#86BC25;--deloitte-dark:#0D2818;--accent-teal:#00A3A1;--accent-blue:#0076A8;--accent-navy:#012169;--bg-light:#F7F9FA;--text-primary:#1A1A2E;--text-secondary:#4A5568;--border:#E2E8F0;--white:#FFFFFF;--red-flag:#C53030;--amber:#D69E2E;--green-ok:#38A169;--apex-violet:#6648B0;--apex-gold:#E3B657;--apex-teal:#3DD9C4}
+:root{--brand-green:#86BC25;--brand-dark:#0D2818;--accent-teal:#00A3A1;--accent-blue:#0076A8;--accent-navy:#012169;--bg-light:#F7F9FA;--text-primary:#1A1A2E;--text-secondary:#4A5568;--border:#E2E8F0;--white:#FFFFFF;--red-flag:#C53030;--amber:#D69E2E;--green-ok:#38A169;--apex-violet:#6648B0;--apex-gold:#E3B657;--apex-teal:#3DD9C4}
 *{margin:0;padding:0;box-sizing:border-box}
 @page{size:A4 landscape;margin:0}
 body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text-primary);width:1440px;margin:0 auto;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-.header{display:flex;justify-content:space-between;align-items:center;padding:20px 36px 16px;border-bottom:3px solid var(--deloitte-green);background:linear-gradient(135deg,var(--deloitte-dark) 0%,#0a3620 50%,#0d4428 100%);color:var(--white)}
+.header{display:flex;justify-content:space-between;align-items:center;padding:20px 36px 16px;border-bottom:3px solid var(--brand-green);background:linear-gradient(135deg,var(--brand-dark) 0%,#0a3620 50%,#0d4428 100%);color:var(--white)}
 .header-left{display:flex;align-items:center;gap:20px}
-.header-logo{font-family:'Outfit',sans-serif;font-weight:800;font-size:15px;letter-spacing:3px;text-transform:uppercase;color:var(--deloitte-green);border-right:2px solid rgba(134,188,37,.4);padding-right:20px}
+.header-logo{font-family:'Outfit',sans-serif;font-weight:800;font-size:15px;letter-spacing:3px;text-transform:uppercase;color:var(--brand-green);border-right:2px solid rgba(134,188,37,.4);padding-right:20px}
 .header-title h1{font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;letter-spacing:-0.3px}
 .header-title p{font-size:11px;opacity:0.7;margin-top:2px;letter-spacing:0.5px}
 .header-right{text-align:right;display:flex;gap:16px;align-items:center}
-.revenue-badge{background:linear-gradient(135deg,var(--deloitte-green),#6fa31e);color:var(--deloitte-dark);padding:10px 18px;border-radius:8px;text-align:center;line-height:1.2}
+.revenue-badge{background:linear-gradient(135deg,var(--brand-green),#6fa31e);color:var(--brand-dark);padding:10px 18px;border-radius:8px;text-align:center;line-height:1.2}
 .revenue-badge .amount{font-family:'Outfit',sans-serif;font-size:22px;font-weight:800}
 .revenue-badge .label{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px}
 .phase-badge{background:rgba(255,255,255,.08);border:1px solid rgba(134,188,37,.3);padding:8px 14px;border-radius:8px;text-align:center}
 .phase-badge .label{font-size:8px;text-transform:uppercase;letter-spacing:1.5px;opacity:0.6;display:block}
-.phase-badge .value{font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--deloitte-green)}
+.phase-badge .value{font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--brand-green)}
 .apex-chip{background:linear-gradient(135deg,var(--apex-violet),#8466CC);color:#fff;padding:6px 12px;border-radius:6px;font-family:'Outfit',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}
 .main{display:grid;grid-template-columns:310px 1fr 310px;gap:0;min-height:calc(100% - 130px)}
 .col-left{padding:18px 20px;border-right:1px solid var(--border);background:var(--bg-light)}
@@ -580,7 +580,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text-p
 .metric-card.apex{background:linear-gradient(135deg,var(--apex-violet),#8466CC);color:white;border:none}
 .metric-card.apex .num{color:white;font-size:13px}
 .metric-card.apex .lbl{color:rgba(255,255,255,.85)}
-.section-label{font-family:'Outfit',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--deloitte-green);margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid var(--border)}
+.section-label{font-family:'Outfit',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--brand-green);margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid var(--border)}
 .priorities-block{margin-bottom:16px}
 .priority-item{display:flex;align-items:flex-start;gap:8px;margin-bottom:7px;font-size:10.5px;line-height:1.4}
 .priority-num{width:18px;height:18px;min-width:18px;border-radius:50%;background:var(--accent-navy);color:white;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px}
@@ -623,8 +623,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text-p
 .ns-item{display:flex;align-items:flex-start;gap:6px;margin-bottom:6px;line-height:1.35}
 .ns-arrow{color:var(--apex-violet);font-weight:800;min-width:10px;margin-top:1px}
 .ns-item .timeline{font-size:8px;font-weight:600;color:var(--accent-teal);text-transform:uppercase}
-.footer{display:flex;justify-content:space-between;align-items:center;padding:8px 36px;background:var(--deloitte-dark);color:rgba(255,255,255,.5);font-size:8px;letter-spacing:0.5px}
-.footer strong{color:var(--deloitte-green)}
+.footer{display:flex;justify-content:space-between;align-items:center;padding:8px 36px;background:var(--brand-dark);color:rgba(255,255,255,.5);font-size:8px;letter-spacing:0.5px}
+.footer strong{color:var(--brand-green)}
 @media print{body{width:100%}.main{min-height:auto}}
 .modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.65);z-index:9999;justify-content:center;align-items:center;backdrop-filter:blur(4px);animation:mfadeIn .2s ease}
 .modal-overlay.open{display:flex}
@@ -765,7 +765,7 @@ def build_risks_html(client):
     else:
         risks.append(("low", "Azure-aligned", "Primary cloud is Azure &mdash; APEX runs natively on Microsoft platform"))
     risks.append(("medium", "Operational integrity in flight", f"{client['erp']} &mdash; sequence APEX behind operational/ERP cutovers; never on the IROPS critical path"))
-    risks.append(("medium", "Independence posture", "Manifests, policies, LEDGER are client artifacts; Deloitte authors and operates &mdash; no Microsoft ECIF flows direct to Deloitte"))
+    risks.append(("medium", "Independence posture", "Manifests, policies, LEDGER are client artifacts; the firm authors and operates &mdash; no Microsoft ECIF flows direct to the firm"))
     risks.append(("medium", "Competitive SI presence", "Accenture / Big-4 likely active; differentiate on APEX 6-agent fleet + LEDGER provability vs generic Foundry"))
     out = ['<div><div class="section-label">Key Risks</div><div>']
     for sev, title, body in risks:
@@ -884,7 +884,7 @@ def build_html(client):
 
 <div class="header">
   <div class="header-left">
-    <div class="header-logo">Deloitte</div>
+    <div class="header-logo">The firm</div>
     <div class="header-title">
       <h1>{_esc(client['name_long'])} &mdash; APEX Agentic AI Services Strategy</h1>
       <p>FY27 Revenue Influence Pipeline &nbsp;|&nbsp; APEX Scenario Catalog Mapping &nbsp;|&nbsp; Prepared by Keven Markham, VP DMTSP</p>
@@ -948,7 +948,7 @@ def build_html(client):
 </div>
 
 <div class="footer">
-  <div><strong>CONFIDENTIAL</strong> &mdash; Deloitte Internal Use Only &nbsp;|&nbsp; {_esc(client['sub_path'])} / {_esc(client['name_short'])} / APEX Agentic AI Services</div>
+  <div><strong>CONFIDENTIAL</strong> &mdash; Internal Use Only &nbsp;|&nbsp; {_esc(client['sub_path'])} / {_esc(client['name_short'])} / APEX Agentic AI Services</div>
   <div>Keven Markham &nbsp;|&nbsp; VP, DMTSP &nbsp;|&nbsp; APEX Reference: <strong>APEX-Scenario-Chains.xlsx</strong> &nbsp;|&nbsp; v1.0 &middot; FY27</div>
 </div>
 

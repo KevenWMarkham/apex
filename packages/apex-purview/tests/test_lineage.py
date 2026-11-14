@@ -148,7 +148,7 @@ def test_emit_silver_to_gold_custom_gold_type() -> None:
         gold_qualified_name="apex.rc.gold.kql_price_watch",
         sql_sha="deadbeef",
         gold_type="kql_function",
-        view_definition_url="github://deloitte/apex/kql/price-watch.kql",
+        view_definition_url="github://firm/apex/kql/price-watch.kql",
     )
     assert p.attributes["gold_type"] == "kql_function"
     assert p.attributes["view_definition_url"].endswith(".kql")

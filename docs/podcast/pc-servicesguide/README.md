@@ -114,4 +114,4 @@ pc-servicesguide/
 
 ---
 
-*The implied listener: a Deloitte practitioner — solution architect, engagement lead, senior consultant — who's about to walk into a client conversation about agentic AI and wants the* business *framing first, the* architecture *second. The audio is their preparation.*
+*The implied listener: a practitioner — solution architect, engagement lead, senior consultant — who's about to walk into a client conversation about agentic AI and wants the* business *framing first, the* architecture *second. The audio is their preparation.*

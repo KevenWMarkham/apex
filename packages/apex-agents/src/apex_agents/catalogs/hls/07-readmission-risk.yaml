@@ -12,7 +12,7 @@ description: >
   (home-health, follow-up, medication-reconciliation depth). Targets
   Medicare HRRP penalties.
 archetype_id: F3-predictive-trigger-workflow-aware
-primary_contact: hls-practice-lead@deloitte.com
+primary_contact: hls-practice-lead@example.com
 
 tools:
   - tool_id: apex.hls.mcp.patientml.get_admission_history

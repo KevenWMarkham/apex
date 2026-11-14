@@ -10,7 +10,7 @@ prompt_sha: ""
 description: >
   Irregular-operations recovery agent. Composes re-accommodation, crew-legality, and disruption-comms plans during disruption events.
 archetype_id: F7-magentic-reasoning-multi-source
-primary_contact: th-practice-lead@deloitte.com
+primary_contact: th-practice-lead@example.com
 
 tools:
   - tool_id: apex.th.mcp.iropsml.get_disruption_state

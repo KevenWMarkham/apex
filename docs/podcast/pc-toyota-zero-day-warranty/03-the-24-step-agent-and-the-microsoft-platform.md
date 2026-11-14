@@ -60,7 +60,7 @@ Each row took seconds. The chain of twenty-four took about twelve minutes wall-c
 
 **MIA:** Three components. *Fabric for the data. Agent Framework on Foundry for the agent. Purview for the audit.* And the framing matters.
 
-**KEVEN:** *The framing matters.* These are the right components on the technical merits — Fabric is the right data fabric for a per-VIN four-domain join, Agent Framework is the right runtime for a long-chain audit-ready agent, Purview is the right governance plane because the audit chain has to live somewhere that Quality and Legal and Finance already trust. *Deloitte recommends these specifically because they fit the problem.* Toyota licenses Microsoft directly. We'll come back to that posture explicitly in a few minutes.
+**KEVEN:** *The framing matters.* These are the right components on the technical merits — Fabric is the right data fabric for a per-VIN four-domain join, Agent Framework is the right runtime for a long-chain audit-ready agent, Purview is the right governance plane because the audit chain has to live somewhere that Quality and Legal and Finance already trust. *The firm recommends these specifically because they fit the problem.* Toyota licenses Microsoft directly. We'll come back to that posture explicitly in a few minutes.
 
 **MIA:** And one more thing about the platform piece — *nothing in this stack is bespoke to Toyota.* The data foundation aligns to the Common Data Model for Manufacturing inside Microsoft Industry Cloud for Manufacturing. The agent runtime is the same Agent Framework Microsoft ships to every Foundry tenant. The audit chain rides on Purview the same way it does for every Purview-governed estate. *Toyota benefits from being inside the platform pattern, not from a custom build.* That matters for adoption — and it matters for lifecycle.
 
@@ -210,21 +210,21 @@ But that's not the full $4.2M number. *That's the base impact.* On top of it, yo
 
 **MIA:** Said cleanly.
 
-**KEVEN:** *Deloitte recommends.* When we say Microsoft Fabric is the right data foundation, that recommendation is on the technical merits — Fabric is the right fabric for the per-VIN four-domain join, and Toyota Connected already runs on Azure so the architectural fit is natural. *That recommendation is not influenced by any commercial relationship between Deloitte and Microsoft.* No compensation flows from Microsoft to Deloitte for influencing Toyota's platform choice.
+**KEVEN:** *The firm recommends.* When we say Microsoft Fabric is the right data foundation, that recommendation is on the technical merits — Fabric is the right fabric for the per-VIN four-domain join, and Toyota Connected already runs on Azure so the architectural fit is natural. *That recommendation is not influenced by any commercial relationship between the firm and Microsoft.* No compensation flows from Microsoft to the firm for influencing Toyota's platform choice.
 
 **MIA:** And the contracts.
 
-**KEVEN:** *Two contracts. Always.* When Toyota licenses Microsoft Fabric, Microsoft Agent Framework, Microsoft Purview — *Toyota contracts with Microsoft directly.* Microsoft licensing flows on Microsoft paper between Microsoft and Toyota. *Deloitte does not resell Microsoft licenses. Deloitte does not mark up Microsoft licenses. Deloitte does not take margin on Microsoft licensing flowing to Toyota.*
+**KEVEN:** *Two contracts. Always.* When Toyota licenses Microsoft Fabric, Microsoft Agent Framework, Microsoft Purview — *Toyota contracts with Microsoft directly.* Microsoft licensing flows on Microsoft paper between Microsoft and Toyota. *The firm does not resell Microsoft licenses. The firm does not mark up Microsoft licenses. The firm does not take margin on Microsoft licensing flowing to Toyota.*
 
-When Toyota engages Deloitte for the services — the architecture work, the implementation, the change management, the Account Team continuity — *Toyota contracts with Deloitte directly.* Deloitte paper, Deloitte and Toyota. *Two separate agreements.*
+When Toyota engages the firm for the services — the architecture work, the implementation, the change management, the Account Team continuity — *Toyota contracts with the firm directly.* firm paper, the firm and Toyota. *Two separate agreements.*
 
 **MIA:** And the words we don't use.
 
-**KEVEN:** *We don't use the language of commercial coupling between Deloitte and Microsoft for this work* — because there isn't any. The recommendation, the licensing relationship, and the services relationship are three separate things. *The recommendation is Deloitte's, on the merits.* The licensing relationship is between Microsoft and Toyota, on Microsoft paper. The services relationship is between Deloitte and Toyota, on Deloitte paper. *Three things. Three actors. Two contracts. Clean separation.*
+**KEVEN:** *We don't use the language of commercial coupling between the firm and Microsoft for this work* — because there isn't any. The recommendation, the licensing relationship, and the services relationship are three separate things. *The recommendation is the firm's, on the merits.* The licensing relationship is between Microsoft and Toyota, on Microsoft paper. The services relationship is between the firm and Toyota, on firm paper. *Three things. Three actors. Two contracts. Clean separation.*
 
 **MIA:** And the reason to state it this cleanly on tape.
 
-**KEVEN:** *Because a Toyota listener should hear the model stated, not infer it.* The Sellers Podcast Episode Two — *The Commercial Arc* — walked the broader framework for this posture across all of Deloitte's Microsoft Practice work. *This podcast adopts that frame and names it specifically for Toyota.* If a Quality VP at Toyota listens to this episode, she should be able to repeat the model back accurately to her own colleagues. *Deloitte recommends. Toyota contracts with Microsoft directly. Toyota contracts with Deloitte directly. Two contracts. No compensation flows from Microsoft to Deloitte for the platform recommendation.* The Account Team should be fluent in stating it. So should the Toyota listener.
+**KEVEN:** *Because a Toyota listener should hear the model stated, not infer it.* The Sellers Podcast Episode Two — *The Commercial Arc* — walked the broader framework for this posture across all of the firm's Microsoft Practice work. *This podcast adopts that frame and names it specifically for Toyota.* If a Quality VP at Toyota listens to this episode, she should be able to repeat the model back accurately to her own colleagues. *The firm recommends. Toyota contracts with Microsoft directly. Toyota contracts with the firm directly. Two contracts. No compensation flows from Microsoft to the firm for the platform recommendation.* The Account Team should be fluent in stating it. So should the Toyota listener.
 
 **MIA:** Said. *And said the same way in Episode 1, again here, and once more in Episode 5.* The repetition is intentional.
 
@@ -290,7 +290,7 @@ Take phase three — the compose phase. Steps nine through twelve do four distin
 
 *Three — the human-in-the-loop is the quality engineer.* The agent surfaces the cohort by station by tool interaction; the human approves, modifies, or rejects. *The agent never autonomously initiates a chargeback.* TPS dignity is preserved. The senior quality leader from Episode 1 is still the protagonist; the agent has just given her her hours back.
 
-**MIA:** And the Independence frame. *Said exactly the way it is meant to be said.* Deloitte recommends. Toyota contracts with Microsoft directly for the platform. Toyota contracts with Deloitte directly for the services. *Two contracts. No compensation flows from Microsoft to Deloitte for influencing Toyota's platform choice.* The Account Team should be fluent in this. A Toyota listener should be able to repeat it back.
+**MIA:** And the Independence frame. *Said exactly the way it is meant to be said.* The firm recommends. Toyota contracts with Microsoft directly for the platform. Toyota contracts with the firm directly for the services. *Two contracts. No compensation flows from Microsoft to the firm for influencing Toyota's platform choice.* The Account Team should be fluent in this. A Toyota listener should be able to repeat it back.
 
 **KEVEN:** Said exactly that way.
 

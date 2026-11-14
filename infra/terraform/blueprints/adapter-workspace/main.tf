@@ -11,7 +11,7 @@
 #     practice            = "rc"
 #     environment         = "prod"
 #     location            = "eastus2"
-#     capacity_admins     = ["apex-rc-admins@deloitte.com"]
+#     capacity_admins     = ["apex-rc-admins@example.com"]
 #     adapter_name        = "sap-s4hana"
 #     cost_center         = "RC-ENG-001"
 #   }

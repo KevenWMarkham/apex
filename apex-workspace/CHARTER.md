@@ -8,7 +8,7 @@ immutable_during_run: true
 inherits_from:
   - APEX-CORE.md
 authors:
-  - Deloitte DMTSP — Consumer Industry
+  - DMTSP — Consumer Industry
   - Keven Markham (VP, APEX)
 purpose: >
   Practice-specific rules. Names every MCP tool the agent may call,

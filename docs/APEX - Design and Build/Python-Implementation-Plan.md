@@ -30,8 +30,8 @@ These are my proposed defaults. Push back on any you'd change and I'll revise th
 **Open questions to confirm:**
 
 1. Is `uv` acceptable, or do you want `poetry` / `pip-tools` / `hatch`?
-2. Any Deloitte-house Python conventions I should inherit (internal package index, vendored wheels, proxy config)?
-3. Does Deloitte's Azure AI / Fabric environment impose a specific Python runtime (e.g., Fabric Data Science notebooks pin Python 3.11)? If so, we align to that.
+2. Any firm-house Python conventions I should inherit (internal package index, vendored wheels, proxy config)?
+3. Does the firm's Azure AI / Fabric environment impose a specific Python runtime (e.g., Fabric Data Science notebooks pin Python 3.11)? If so, we align to that.
 4. CI target: GitHub Actions, Azure Pipelines, or both?
 
 ---

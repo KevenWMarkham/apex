@@ -814,7 +814,7 @@ def build():
     add_callout(doc, "Independence note",
                 "Before selling deeper at any engagement, confirm the audit-firm relationship. If the R2R "
                 "work is being proposed at an audit client, the engagement must be structured so that the "
-                "agent manifests, policy manifests, and LEDGER are client artifacts — Deloitte's role is "
+                "agent manifests, policy manifests, and LEDGER are client artifacts — the firm's role is "
                 "advisory and implementation enablement. The SOW must be routed through the Independence "
                 "office before contracting. The underlying APEX pattern is independence-safe by design, "
                 "but the specific engagement structure is not assumed — it is designed.")
@@ -1532,7 +1532,7 @@ def build():
     add_heading(doc, "10.1  What the envelope buys", level=3)
     add_body(doc,
              "The commercial envelope is not a project-labor-hours calculation. It reflects the total "
-             "value-delivery bundle: Deloitte-delivered solutioning and Practice expertise; Microsoft "
+             "value-delivery bundle: Firm-delivered solutioning and Practice expertise; Microsoft "
              "platform licensing and consumption (Fabric F-SKU, Foundry, Azure OpenAI, Teams, Entra, "
              "Power BI); ISV co-sell where applicable; client-side enablement and change "
              "management; and SOX-walkthrough coordination with the external audit firm.")
@@ -1548,13 +1548,13 @@ def build():
 
     add_heading(doc, "10.3  Independence posture in commercial conversations", level=3)
     add_callout(doc, "Independence",
-                "The seller and delivery team use Deloitte-appropriate language throughout: "
-                "'Deloitte's Microsoft practice,' 'DMTSP,' 'Microsoft platform capabilities,' "
+                "The seller and delivery team use firm-appropriate language throughout: "
+                "'The firm's Microsoft practice,' 'DMTSP,' 'Microsoft platform capabilities,' "
                 "'Microsoft-native deployment.' The terms 'partner,' 'alliance,' and 'strategic "
                 "alliance' do not appear in R2R commercial materials. Before any engagement at an "
                 "audit client, the SOW is routed through the Independence office; the engagement is "
                 "structured so that manifests, policies, and LEDGER are client artifacts, and "
-                "Deloitte's role is advisory and implementation enablement.")
+                "The firm's role is advisory and implementation enablement.")
 
     add_page_break(doc)
 
@@ -1565,7 +1565,7 @@ def build():
     add_data_table(doc,
                    ["Term", "Definition"],
                    [
-                       ["APEX",            "Agentic Platform for Enterprise eXecution — the Deloitte-authored reference architecture for agentic scenarios on Microsoft-native deployment."],
+                       ["APEX",            "Agentic Platform for Enterprise eXecution — the firm-authored reference architecture for agentic scenarios on Microsoft-native deployment."],
                        ["Adaptive Card",   "Microsoft Teams rich-card format used by APEX for HITL approval surfaces."],
                        ["Agent",           "A bounded unit of intent + tool-use that emits typed output and writes an audit row per decision."],
                        ["Audit row",       "14-field structured record emitted by every agent decision; primary substrate of SOX operation evidence."],
@@ -1638,7 +1638,7 @@ def build():
                    col_widths=[2.5, 2.0, 2.0])
 
     add_body(doc,
-             "Independence posture preserved across every artifact: 'Deloitte's Microsoft practice,' "
+             "Independence posture preserved across every artifact: 'The firm's Microsoft practice,' "
              "'DMTSP,' 'Microsoft platform capabilities,' 'Microsoft-native deployment.' The terms "
              "'partner,' 'alliance,' and 'strategic alliance' do not appear in any artifact.",
              italic=True, color="#8a8a90")
@@ -1646,7 +1646,7 @@ def build():
     doc.add_paragraph()
     p_end = doc.add_paragraph()
     p_end.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    r_end = p_end.add_run("APEX · Deloitte Microsoft Technology Solutions & Practices")
+    r_end = p_end.add_run("APEX · Microsoft Technology Solutions & Practices")
     set_run(r_end, size=9, color_hex="#8a8a90", font="Calibri")
     p_end2 = doc.add_paragraph()
     p_end2.alignment = WD_ALIGN_PARAGRAPH.CENTER

@@ -12,7 +12,7 @@ description: >
   service-level, and incident signals into a single shift-level
   decision view for store leadership.
 archetype_id: F2-event-cluster-pattern-match
-primary_contact: rc-practice-lead@deloitte.com
+primary_contact: rc-practice-lead@example.com
 
 tools:
   - tool_id: apex.rc.mcp.scml.get_labor_schedule

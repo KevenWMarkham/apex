@@ -1,7 +1,7 @@
 # The CFMP Podcast — Show Bible & Format
 
 **Series:** The CFMP Podcast — *Customer Focused Merchandise Pack on the Acceleration Framework*
-**Owner:** kmarkham@deloitte.com · Deloitte MS Technology & Services Practice
+**Owner:** kmarkham@example.com · the firm's MS Technology & Services Practice
 **Date:** 2026-05-25
 **Status:** Canonical format guide · every episode follows the rules below.
 
@@ -9,7 +9,7 @@
 
 ## What this series is
 
-A nine-episode scripted, two-host conversational podcast on the **Customer Focused Merchandise Pack (CFMP)** — the agent-powered, multi-surface grocery and loyalty system Deloitte has designed for clients on the Microsoft platform. The series teaches the design from first principles: who it's for, what it is, how it's built, why it's safe, and how a Microsoft seller positions it.
+A nine-episode scripted, two-host conversational podcast on the **Customer Focused Merchandise Pack (CFMP)** — the agent-powered, multi-surface grocery and loyalty system the firm has designed for clients on the Microsoft platform. The series teaches the design from first principles: who it's for, what it is, how it's built, why it's safe, and how a Microsoft seller positions it.
 
 **One-line pitch.** *Grocery is the universal jobs-to-be-done. CFMP turns it from a chore into a managed system, on a vendor-neutral architecture (the Acceleration Framework) productized on Microsoft (APEX-M).*
 
@@ -26,7 +26,7 @@ A nine-episode scripted, two-host conversational podcast on the **Customer Focus
 Two audiences served by one arc:
 
 1. **The CFMP project team and new hires.** The series doubles as onboarding. A new engineer or designer who listens to all nine episodes understands why every concept exists, who shaped each decision, and what tradeoffs were considered.
-2. **Deloitte Account Teams positioning CFMP.** The series is pivotable to a client conversation — discovery openers, honest claims, pushback handling, the architectural pitch. Episode 9 is built directly for the field.
+2. **firm Account Teams positioning CFMP.** The series is pivotable to a client conversation — discovery openers, honest claims, pushback handling, the architectural pitch. Episode 9 is built directly for the field.
 
 Every episode includes both framings — architecture-honest enough for the team, seller-pivotable for the field.
 
@@ -35,7 +35,7 @@ Every episode includes both framings — architecture-honest enough for the team
 Two recurring hosts, carried forward from the Cross-Cloud Agentic series for brand continuity.
 
 ### Keven — Microsoft platform practitioner
-- 22 years on the Microsoft platform; VP of Deloitte's Microsoft Technology & Services Practice.
+- 22 years on the Microsoft platform; VP of Microsoft Technology & Services Practice.
 - Knows the productization story end to end — Fabric, Foundry, Purview, Entra, Cost Management.
 - Positions CFMP on **APEX-M** (Microsoft's productized realization of the Acceleration Framework).
 - Voice: warm, confident, specific. Names products. Cites real numbers. Earns the recommendation; never claims more than the design delivers.
@@ -148,7 +148,7 @@ These rules are non-negotiable:
 - **APEX-M** is acceptable as the Microsoft-specific realization of APEX for the CFMP delivery.
 - **Forbidden vocabulary:** *co-sell · alliance · strategic partnership · channel partner · alliance partner*. None of these on tape.
 - **Independence-minded posture.** Recommendations are made on technical and economic merits. Honest where AWS or GCP would lead.
-- **Two-contract model** when the commercial arc is mentioned — the customer contracts directly with the platform vendor and directly with Deloitte; no margin stacking.
+- **Two-contract model** when the commercial arc is mentioned — the customer contracts directly with the platform vendor and directly with the firm; no margin stacking.
 
 ## Azure deployment thread
 

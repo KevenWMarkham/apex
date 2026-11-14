@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "APEX edi-mcp — EDI X12 message parsing + emission (850 / 856 / 810 stubs)."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "Proprietary — Deloitte Internal" }
+license = { text = "Proprietary — Internal" }
 dependencies = ["apex-core", "mcp-common", "pydantic>=2.9.0"]
 
 [project.scripts]

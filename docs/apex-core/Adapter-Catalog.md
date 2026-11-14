@@ -25,7 +25,7 @@ The wizard validates each adapter reference resolves; render emits IaC for the c
 
 ## Catalog (priority adapters — Phase 0 stubs)
 
-The 8 adapters below ship as protocol stubs in Phase 0. Concrete implementations build per-engagement when a client's CAB has approved the integration. Each adapter has a `sec_independence.md` recording Deloitte's Independence posture for that provider.
+The 8 adapters below ship as protocol stubs in Phase 0. Concrete implementations build per-engagement when a client's CAB has approved the integration. Each adapter has a `sec_independence.md` recording the firm's Independence posture for that provider.
 
 ### Cloud · cross-cloud data + messaging
 
@@ -73,7 +73,7 @@ Built per-engagement as client architectures demand them:
 4. Write `client.py` wrapping the provider SDK
 5. Write `iac/` with provider-native IaC snippets for adapter-side resources
 6. Write `README.md` with capability summary
-7. Write `sec_independence.md` with the Deloitte Independence statement for the provider
+7. Write `sec_independence.md` with the Independence statement for the provider
 8. Smoke test: import the adapter; verify it satisfies the declared protocols
 9. Add to `client_approved_architecture` schema validator's known-adapter list
 10. Update this catalog
@@ -82,7 +82,7 @@ Built per-engagement as client architectures demand them:
 
 Every adapter's `sec_independence.md` reads:
 
-> *"This adapter integrates with the client's existing investment in **[Provider X]**. Deloitte does not resell, sublicense, or have an alliance posture with **[Provider X]**; the adapter exists to honor the client's approved cloud architecture per their Cloud Architecture Board (CAB)."*
+> *"This adapter integrates with the client's existing investment in **[Provider X]**. The firm does not resell, sublicense, or have an alliance posture with **[Provider X]**; the adapter exists to honor the client's approved cloud architecture per their Cloud Architecture Board (CAB)."*
 
 The `apex-compliance-lint` package validates this statement appears verbatim in every `sec_independence.md` in the catalog.
 

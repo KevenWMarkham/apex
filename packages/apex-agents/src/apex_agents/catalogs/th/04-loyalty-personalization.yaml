@@ -10,7 +10,7 @@ prompt_sha: ""
 description: >
   Loyalty next-best-action recommendation. Reads tier, history, and current-trip context to recommend offers + upgrades.
 archetype_id: F3-predictive-trigger-workflow-aware
-primary_contact: th-practice-lead@deloitte.com
+primary_contact: th-practice-lead@example.com
 
 tools:
   - tool_id: apex.th.mcp.travelerml.get_unified_profile

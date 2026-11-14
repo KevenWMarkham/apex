@@ -8,7 +8,7 @@
 
 Add an honest, positioning-focused comparison of the two DMTSP frameworks to the
 sellers guide so APEX sellers can navigate pursuit conversations where a client or
-Microsoft field counterpart references the AXLE framework. Both are Deloitte
+Microsoft field counterpart references the AXLE framework. Both are the firm
 DMTSP IP; the comparison is about scope and usage, not competitive displacement.
 
 ## Source of Truth

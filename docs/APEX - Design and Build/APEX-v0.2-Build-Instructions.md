@@ -2,7 +2,7 @@
 
 **File:** `APEX-v0.2-Build-Instructions.md`
 **Purpose:** Single build instruction file for Claude Code to execute three coordinated changes in the APEX repo
-**Owner:** Keven Markham — VP, Deloitte DMTSP Consumer Industry
+**Owner:** Keven Markham — VP, DMTSP Consumer Industry
 **Version target:** APEX v0.2
 **Estimated scope:** 3 workstreams · ~15–25 files modified or created
 **Execution mode:** Claude Code agentic session with filesystem + shell access against the APEX repo
@@ -49,9 +49,9 @@ If the actual repo structure differs from the paths above:
 
 Before writing any content into any file, verify:
 
-- **Independence language.** Never use "partner," "partnership," "alliance," "strategic alliance," or "joint offering" to describe the Deloitte–Microsoft relationship. Approved substitutes: "Deloitte's Microsoft practice," "DMTSP," "Microsoft platform capabilities," "Microsoft-native deployment." This rule applies to Sellers Guide content, backlog entries, code comments, commit messages, and PR descriptions.
+- **Independence language.** Never use "partner," "partnership," "alliance," "strategic alliance," or "joint offering" to describe the firm–Microsoft relationship. Approved substitutes: "The firm's Microsoft practice," "DMTSP," "Microsoft platform capabilities," "Microsoft-native deployment." This rule applies to Sellers Guide content, backlog entries, code comments, commit messages, and PR descriptions.
 - **Client naming.** Any reference to Nike, Samsonite, Sonepar, or other named clients in Sellers Guide examples must be generic ("a Consumer Industry retail client," "a global travel-goods client") unless an approved reference case is already documented.
-- **APEX positioning.** APEX is an internal Deloitte accelerator. Never imply clients license, purchase, or buy APEX.
+- **APEX positioning.** APEX is an internal the firm accelerator. Never imply clients license, purchase, or buy APEX.
 
 Independence violations are blocker-grade. If uncertain, flag for human review rather than ship.
 
@@ -210,7 +210,7 @@ Scope is strictly limited to control-plane use cases. Data-plane caching (canoni
 
 ## Dependencies
 
-- Azure Cache for Redis capacity provisioning (coordinate with Microsoft relationship lead on Deloitte side — Shalini Chandrashekar — for any ECIF or capacity planning)
+- Azure Cache for Redis capacity provisioning (coordinate with Microsoft relationship lead on the firm side — Shalini Chandrashekar — for any ECIF or capacity planning)
 - Entra security group creation for Redis read and write scopes
 - Purview classification tags applied to the Redis instance (Internal class declaration; higher classes never cached)
 - Update to the Azure landing zone bicep templates to include the Redis resource
@@ -495,7 +495,7 @@ In Workstream 1's file-first chapter (§1.1 of this build file), the workspace h
 - Unit tests for HEARTBEAT parsing and trigger behavior pass.
 - Sellers Guide updated with OpenClaw lineage subsection and periodic-autonomy paragraph.
 - Independence language scan: clean across all new and modified content.
-- No Independence-forbidden language in the OpenClaw references (OpenClaw is not "partnered" with Deloitte — it's a community pattern being adopted).
+- No Independence-forbidden language in the OpenClaw references (OpenClaw is not "partnered" with the firm — it's a community pattern being adopted).
 
 ---
 
@@ -709,7 +709,7 @@ Add to `CHANGELOG.md`:
 
 ### Governance
 - All changes pass Independence language compliance scan.
-- OpenClaw references credited as community pattern; no language implying a partnership, alliance, or joint offering between Deloitte and OpenClaw, the OpenClaw community, or Microsoft.
+- OpenClaw references credited as community pattern; no language implying a partnership, alliance, or joint offering between the firm and OpenClaw, the OpenClaw community, or Microsoft.
 ```
 
 ---

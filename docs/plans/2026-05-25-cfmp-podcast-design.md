@@ -2,13 +2,13 @@
 
 **Date:** 2026-05-25
 **Status:** Design approved · ready for writing-plans handoff
-**Owner:** kmarkham@deloitte.com · Deloitte MS Technology & Services Practice
+**Owner:** kmarkham@example.com · the firm's MS Technology & Services Practice
 **Output location:** `C:\Stage\Clients\Industries\APEX\docs\podcast\pc-cfmp\`
 **Source material:** `C:\code\iot_device\docs\packs\` — CFMP-Mobile-Design-Document.md, CFMP-Sonos-Design-Document.md, CFMP-Mobile-Use-Cases.md, CFMP-Mobile-Shopper-Experts.md, CFMP-Mobile-All-Experts-Panel.md, CFMP-Mobile-Roadmap.md, CFMP-Sonos-UC-Catalog.md, CFMP-Sonos-Roadmap.md, plus the Mobile and Sonos sprint orchestrators and expert focus docs.
 
 ## Goal
 
-An 8-episode audio-first podcast series on the Customer Focused Merchandise Pack (CFMP) — the agent-powered, multi-surface grocery & loyalty system Deloitte's MS Technology & Services Practice has designed on APEX-M. The series serves two audiences in one arc: the CFMP project team and new hires (architecture-honest onboarding) and Deloitte Account Teams positioning CFMP with Microsoft platform clients (seller-pivotable framing).
+An 8-episode audio-first podcast series on the Customer Focused Merchandise Pack (CFMP) — the agent-powered, multi-surface grocery & loyalty system the firm's MS Technology & Services Practice has designed on APEX-M. The series serves two audiences in one arc: the CFMP project team and new hires (architecture-honest onboarding) and firm Account Teams positioning CFMP with Microsoft platform clients (seller-pivotable framing).
 
 ## Series identity
 
@@ -39,7 +39,7 @@ Each episode includes: a cold open, the conversation in five-to-eight sections, 
 
 Two audiences served by one arc:
 - **CFMP project team & new hires.** The series doubles as onboarding — the personas, the architecture, the design decisions, the expert cast. A new engineer or designer who listens to all 8 episodes knows why every concept exists.
-- **Deloitte Account Teams positioning CFMP.** The series is pivotable to a client conversation — the openers, the value framing, the architecture-first move that earns the platform recommendation. Episode 8 is built for them.
+- **firm Account Teams positioning CFMP.** The series is pivotable to a client conversation — the openers, the value framing, the architecture-first move that earns the platform recommendation. Episode 8 is built for them.
 
 ## Azure deployment architecture — a thread through the series
 

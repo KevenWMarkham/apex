@@ -28,5 +28,5 @@ schema_mappings:
       - { source_field: SupplierId,  bronze_column: supplier_id,  bronze_type: string }
       - { source_field: TotalAmount, bronze_column: total_amount, bronze_type: decimal, classification: trade_secret }
 runbook:
-  primary_contact: rc-data-platform@deloitte.com
+  primary_contact: rc-data-platform@example.com
   sla_recovery_minutes: 240

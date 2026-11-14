@@ -177,25 +177,25 @@ Sprint 27 collapse rule: at `<= 900px`, ribbons collapse to compact
 
 ## §7 Independence linguistic rules + approved substitutes
 
-The `apex-compliance-lint` package enforces these at CI. The full
-machine-readable rule set lives in
-`packages/apex-compliance-lint/src/apex_compliance_lint/rules/deloitte_microsoft_independence.py`.
+These are writing guidelines for vendor-neutral language. They are not
+enforced by `apex-compliance-lint`, which ships typography and brand
+packs only.
 
-### Forbidden language and approved substitutes
+### Language to avoid and approved substitutes
 
-| Forbidden | Approved substitute(s) | Rule id |
-|-----------|------------------------|---------|
-| "partner" / "partner with" | "the platform" / "the underlying technology" / "the vendor" | `deloitte_microsoft_independence.partner` |
-| "alliance" / "alliance partner" | "platform" / "technology stack" | `deloitte_microsoft_independence.alliance` |
-| "partnership" | "integration" / "deployment" / "community pattern" / "adoption" | `deloitte_microsoft_independence.partnership` |
-| "endorses" / "endorsement" | "aligned with" / "consistent with" / "built on" | `deloitte_microsoft_independence.endorse` |
-| "recommended by Microsoft / SAP / etc." | "aligned with the vendor's reference architecture" | `deloitte_microsoft_independence.recommended_by` |
-| "Deloitte and Microsoft jointly" / "co-developed" | "APEX is built on Microsoft Fabric and Foundry" | `deloitte_microsoft_independence.deloitte_microsoft_jointly` |
-| "Gold Partner" / "Platinum Partner" / "Premier Partner" | "certified on the platform" / "deployed on the platform" | `deloitte_microsoft_independence.gold_partner` |
+| Avoid | Approved substitute(s) |
+|-------|------------------------|
+| "partner" / "partner with" | "the platform" / "the underlying technology" / "the vendor" |
+| "alliance" / "alliance partner" | "platform" / "technology stack" |
+| "partnership" | "integration" / "deployment" / "community pattern" / "adoption" |
+| "endorses" / "endorsement" | "aligned with" / "consistent with" / "built on" |
+| "recommended by Microsoft / SAP / etc." | "aligned with the vendor's reference architecture" |
+| "jointly delivered with Microsoft" / "co-developed" | "APEX is built on Microsoft Fabric and Foundry" |
+| "Gold Partner" / "Platinum Partner" / "Premier Partner" | "certified on the platform" / "deployed on the platform" |
 
 ### Domain-of-art exceptions (auto-suppressed)
 
-The linter automatically allows these legitimate uses without flagging:
+These legitimate uses are fine:
 
 - **"trading partner"** (EDI / supply-chain term of art)
 - **"channel partner"** (dealer / distribution context)

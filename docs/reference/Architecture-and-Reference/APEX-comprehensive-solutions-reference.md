@@ -7,7 +7,7 @@
 **A Comprehensive Solutions Reference for the Intelligent Enterprise**
 
 **April 2026 · Version 1.0 · CONFIDENTIAL**
-**Deloitte Microsoft Technology & Services Practice**
+**Microsoft Technology & Services Practice**
 
 ---
 
@@ -27,7 +27,7 @@ APEX is a **multi-industry platform**. It defines seven Practices that span the 
 
 Current catalog: **25 GA services + 20 in build = 45 catalogued services**. AXLE is one of these seven Practices; for clients who commit to deep automotive transformation, the full AXLE Comprehensive Reference programme is available alongside. The two are complementary: APEX is the cross-industry platform; AXLE is an automotive-depth programme that a client can adopt alongside (or inside) their APEX footprint.
 
-This document sets out **what APEX is, why it matters now, what it ships with, and how clients land it**. The structure mirrors the reference document pattern Deloitte uses for flagship platform offerings: forces of change, AI journey, maturity model, human element, platform architecture, industry-practice chapters, implementation roadmap, appendices.
+This document sets out **what APEX is, why it matters now, what it ships with, and how clients land it**. The structure mirrors the reference document pattern the firm uses for flagship platform offerings: forces of change, AI journey, maturity model, human element, platform architecture, industry-practice chapters, implementation roadmap, appendices.
 
 ---
 
@@ -162,7 +162,7 @@ APEX has **45 catalogued services** across seven Practices. 25 are GA today; 20 
 
 Each service is one subscribable SKU: scenario + personas + KPIs + SLOs + artifact bundle + prerequisites + commercial terms. Clients subscribe to services, not to "APEX". A client may start with two services and grow to a portfolio of twelve or more across two or three Practices.
 
-The catalogue's multi-industry span is a deliberate commercial choice. A Deloitte account team working a diversified conglomerate — a retailer with a pharmacy subsidiary and a trucking fleet, a media company with a cloud-product line, a healthcare system with a real-estate & hospitality arm — can subscribe that client to services across four or five Practices without buying four or five separate platforms. The canonical schemas, the shared MCPs, the unified audit, and the single identity plane are the reason this works.
+The catalogue's multi-industry span is a deliberate commercial choice. An account team working a diversified conglomerate — a retailer with a pharmacy subsidiary and a trucking fleet, a media company with a cloud-product line, a healthcare system with a real-estate & hospitality arm — can subscribe that client to services across four or five Practices without buying four or five separate platforms. The canonical schemas, the shared MCPs, the unified audit, and the single identity plane are the reason this works.
 
 ---
 
@@ -322,7 +322,7 @@ Most APEX clients, on day one, sit at **Level 1 or Level 2** for the function th
 
 Before APEX, a typical Fortune 500 enterprise has **twelve to twenty point tools** for decision-support in each function: dashboards, alerting systems, recommendation engines, ticketing, audit archives, communications apps, approval workflows, and so on. Each tool has its own data model, its own identity layer, its own operations discipline, and its own vendor contract.
 
-After APEX, the enterprise has **one platform** with many services. The data model is canonical. The identity layer is Entra ID. The operations discipline is one App Insights workbook per tenant. The vendor contract is Microsoft plus Deloitte-delivered Practice content.
+After APEX, the enterprise has **one platform** with many services. The data model is canonical. The identity layer is Entra ID. The operations discipline is one App Insights workbook per tenant. The vendor contract is Microsoft plus firm-delivered Practice content.
 
 ## Before APEX vs. After APEX
 
@@ -334,7 +334,7 @@ After APEX, the enterprise has **one platform** with many services. The data mod
 | Compliance evidence | Manually reconstructed | Query a single audit table |
 | Tool sprawl | 12–20 point tools per function | 1 platform, multiple services |
 | Onboarding new function | 12–18 months; custom build | 4–6 weeks; subscribe to catalog |
-| Vendor relationships | Dozens | Microsoft + Deloitte |
+| Vendor relationships | Dozens | Microsoft + the firm |
 | Cost transparency | Per-tool, hard to aggregate | Per-tenant, per-service, fully tagged |
 
 ## APEX as the Intelligence Layer
@@ -572,7 +572,7 @@ This document has five parts plus appendices.
 - **Delivery leads** focus on Part IV (Implementation) and the Practice chapters in scope. One to two hours.
 - **Client account teams** use the Executive Summary plus Part II as the service catalogue for commercial conversations.
 
-Every chapter follows the same eight-section pattern, inherited from Deloitte's reference-document discipline: **the Story · Forces Driving Change · the Human Reality · AI Integration Maturity · Decision-Automation Positioning · KPI Dashboard · the Solution · Implementation & Transformation**. The repetition is the point — once a reader has the pattern, they can navigate any chapter quickly.
+Every chapter follows the same eight-section pattern, inherited from the firm's reference-document discipline: **the Story · Forces Driving Change · the Human Reality · AI Integration Maturity · Decision-Automation Positioning · KPI Dashboard · the Solution · Implementation & Transformation**. The repetition is the point — once a reader has the pattern, they can navigate any chapter quickly.
 
 ---
 
@@ -3263,7 +3263,7 @@ The APEX delivery pattern is three waves of roughly six months each. Each wave h
 **Months 17–18: Steady-State Transition.**
 - Enterprise KPI trends on or above target across the first Practice
 - Autonomous pilots either graduated to production or deferred with documented lessons
-- Steady-state operations handover: Deloitte team transitions from daily delivery to advisory cadence; client-side run teams own day-to-day
+- Steady-state operations handover: firm team transitions from daily delivery to advisory cadence; client-side run teams own day-to-day
 - Wave 3 exit review; multi-year roadmap (Year 2 and beyond) drafted
 
 #### Wave 3 Exit Criteria
@@ -3360,7 +3360,7 @@ The APEX delivery model balances three skill types: data engineering, agent/orch
 | Client-side programme sponsor | 1 | 25% — authority, escalation |
 | Client-side technical lead | 1 | 75% — IT continuity, identity, infra |
 
-Total Deloitte-side headcount for a first-Practice Wave 1: roughly **5.5 FTE**. This scales sub-linearly with Wave 2 because the patterns are repeatable; Wave 2 typically runs with 4–5 FTE while shipping more services.
+Total firm-side headcount for a first-Practice Wave 1: roughly **5.5 FTE**. This scales sub-linearly with Wave 2 because the patterns are repeatable; Wave 2 typically runs with 4–5 FTE while shipping more services.
 
 ### 12.1 Why Agent Engineering Is a Named Role
 
@@ -3370,7 +3370,7 @@ Total Deloitte-side headcount for a first-Practice Wave 1: roughly **5.5 FTE**. 
 
 Every APEX programme stands up a three-layer governance structure on day one.
 
-**Steering committee** — meets monthly. Quorum: programme sponsor, CIO or delegate, practice lead, Deloitte delivery principal. Agenda: KPI review, service roadmap, investment checkpoints, risk & escalation.
+**Steering committee** — meets monthly. Quorum: programme sponsor, CIO or delegate, practice lead, firm delivery principal. Agenda: KPI review, service roadmap, investment checkpoints, risk & escalation.
 
 **Architecture review board (ARB)** — meets weekly in Wave 1, biweekly thereafter. Quorum: platform architect, data engineering lead, agent engineering lead, SRE, security representative. Agenda: manifest changes above MINOR, new service proposals, cross-practice integration decisions, Core edition pins.
 
@@ -3492,7 +3492,7 @@ Credits are automatic based on the observability workbook, not claim-based. This
 
 ### 17A.6 Partnership Economics
 
-APEX is delivered as a Deloitte-Microsoft joint offering. Revenue attribution, Microsoft consumption credits, and Deloitte services-attach are structured to drive both partners' GTM teams toward the same sell. Microsoft's Industry Solutions teams have named executive co-selling authority on APEX engagements.
+APEX is delivered as a Microsoft joint offering. Revenue attribution, Microsoft consumption credits, and firm services-attach are structured to drive both partners' GTM teams toward the same sell. Microsoft's Industry Solutions teams have named executive co-selling authority on APEX engagements.
 
 ### 17A.7 Value-Based Upside
 
@@ -5632,7 +5632,7 @@ Teams is the HITL card delivery mechanism. Power Automate flows handle more comp
 
 # Appendix G: Partner Ecosystem
 
-APEX is delivered as a Deloitte-Microsoft joint offering. Third-party partners extend specific Practices:
+APEX is delivered as a Microsoft joint offering. Third-party partners extend specific Practices:
 
 - **RC**: Manhattan Associates (WMS), Coca-Cola Beverages (DSD reference integration), Monnit (IoT), Honeywell-Vocollect (voice-pick integration optional)
 - **HLS**: Epic, Oracle Health (Cerner), Infor Lawson (rev-cycle), IQVIA (trials registry)
@@ -5696,7 +5696,7 @@ Partner integrations land at the Bronze ingest layer via the matching Mirrored D
 
 ### F.5 Microsoft as a Partner
 
-Microsoft is the platform vendor, not just a product vendor. Deloitte-Microsoft joint GTM for APEX includes co-selling, co-delivery patterns, and shared case studies. Microsoft's Industry Solutions team has cross-referenceability on APEX engagements for Industry Solution Accelerators (ISAs) — existing Microsoft industry content that APEX subsumes or complements.
+Microsoft is the platform vendor, not just a product vendor. Microsoft joint GTM for APEX includes co-selling, co-delivery patterns, and shared case studies. Microsoft's Industry Solutions team has cross-referenceability on APEX engagements for Industry Solution Accelerators (ISAs) — existing Microsoft industry content that APEX subsumes or complements.
 
 ---
 

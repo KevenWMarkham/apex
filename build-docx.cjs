@@ -185,17 +185,17 @@ children.push(
 // Part 0
 children.push(
   h1("Part 0 — Compliance & Language Constraints (Inherited)"),
-  p("This document inherits Part 0 of APEX Core. All Deloitte–Microsoft terminology rules apply (see Core Part 0). All examples use synthetic, clearly fictional client names. No client-identifiable data appears anywhere in this document.")
+  p("This document inherits Part 0 of APEX Core. All the firm–Microsoft terminology rules apply (see Core Part 0). All examples use synthetic, clearly fictional client names. No client-identifiable data appears anywhere in this document.")
 );
 
 // Part 1
 children.push(
   h1("Part 1 — What APEX Is"),
-  p("APEX (Agentic Platform for Enterprise eXecution) is a domain-canonical reference framework for deploying agentic AI systems on Microsoft-native infrastructure. It is produced by Deloitte's Microsoft practice (DMTSP) as the opinionated answer to a recurring question from enterprise clients entering the Agentic Era: how do we deploy a disciplined, compliant, and economically-sound agent fleet on Azure and Microsoft Fabric, and how do we avoid reinventing the wheel every time we onboard a new industry?"),
+  p("APEX (Agentic Platform for Enterprise eXecution) is a domain-canonical reference framework for deploying agentic AI systems on Microsoft-native infrastructure. It is produced by the firm's Microsoft practice (DMTSP) as the opinionated answer to a recurring question from enterprise clients entering the Agentic Era: how do we deploy a disciplined, compliant, and economically-sound agent fleet on Azure and Microsoft Fabric, and how do we avoid reinventing the wheel every time we onboard a new industry?"),
   p("APEX answers this by giving every industry a shared grammar (the Core framework) and an industry-specific dialect (the edition). The grammar defines how things are named, shaped, and composed — Forces of Change, AI Journey Eras, a Commercial Maturity Model, a seven-layer reference architecture, canonical schemas, agent fleets, twelve numbered orchestrations, a gate taxonomy, a design system, and a set of reusable widgets. The dialect — an edition — populates that grammar with the nouns, verbs, and cadences of a specific industry: Retail & Consumer (RC), Travel & Hospitality (TH), Health Care & Life Sciences (HLS), Technology Media & Telecom (TMT), Energy & Resources (ER), Industrial & Commercial Equipment (ICE), and the two reserved editions Financial Services (FS) and Public Sector (PS)."),
   h2("1.1 What APEX is not"),
-  p("APEX is not a product. It is not a SaaS offering. It is not middleware that Deloitte hosts. It is not a platform with a dashboard that clients log into. APEX is a framework of frameworks — a set of specs, conventions, shared data, and reusable tools — that clients instantiate on their own Microsoft-native infrastructure. DMTSP engagements use APEX to produce client-specific solutions; clients do not \u201Cbuy APEX.\u201D"),
-  p("This posture is deliberate. It preserves Independence, it matches how Microsoft Fabric, Azure AI Agent Service, and Logic Apps are actually procured and deployed, and it lets Deloitte ship improvements to the framework at the pace of software rather than the pace of commercial contracts."),
+  p("APEX is not a product. It is not a SaaS offering. It is not middleware that the firm hosts. It is not a platform with a dashboard that clients log into. APEX is a framework of frameworks — a set of specs, conventions, shared data, and reusable tools — that clients instantiate on their own Microsoft-native infrastructure. DMTSP engagements use APEX to produce client-specific solutions; clients do not \u201Cbuy APEX.\u201D"),
+  p("This posture is deliberate. It preserves Independence, it matches how Microsoft Fabric, Azure AI Agent Service, and Logic Apps are actually procured and deployed, and it lets the firm ship improvements to the framework at the pace of software rather than the pace of commercial contracts."),
   h2("1.2 Core vs. Editions"),
   p("Everything APEX defines lives in one of two places:"),
   bullet([bold("Core (apex-core/)"), plain(" — industry-agnostic conventions, shared content (AI Journey Eras, CMM stages, event envelope, HITL gate taxonomy, design tokens, reusable widgets). Core changes rarely. Every edition inherits it.")]),
@@ -212,7 +212,7 @@ children.push(
   numbered([bold("Schema drift and silent breakage."), plain(" Data schemas evolve. Downstream agents and ORCH contracts break quietly because there is no version pin, no diff, and no migration discipline.")]),
   numbered([bold("Weak HITL discipline."), plain(" \u201CHuman in the loop\u201D gets handwaved. Nobody writes down which decisions require human approval, which are acknowledge-only, and which are fully autonomous. Audit trails suffer.")]),
   numbered([bold("ROI invisibility per wave."), plain(" The enterprise invests in a 12-month agentic program and cannot answer \u201Cwhat did Wave 1 actually return?\u201D in concrete dollars-and-cents. Waves 2+ starve.")]),
-  numbered([bold("Compliance and Independence uncertainty."), plain(" Who owns what data plane? Where does client PII live? What happens when Deloitte's Independence posture changes? Most programs hand-wave this and deal with it after the fact.")]),
+  numbered([bold("Compliance and Independence uncertainty."), plain(" Who owns what data plane? Where does client PII live? What happens when the firm's Independence posture changes? Most programs hand-wave this and deal with it after the fact.")]),
   p("APEX addresses each of these directly:"),
   makeTable(
     [2800, 7280],
@@ -222,11 +222,11 @@ children.push(
       ["Schema drift", "Four-layer manifest model with SemVer + bump-classification + auto-apply rules (Core v1.2)."],
       ["Weak HITL", "Core Part 8.3 taxonomy: HITL / ACK_ONLY / ZERO_TOUCH / ESCALATION. Every agent and ORCH declares its gate explicitly."],
       ["ROI invisibility", "Wave model: four waves, each self-funding, with expected economics and exit criteria baked into Part 12 of every edition."],
-      ["Compliance & Independence", "Part 0 terminology rules (inherited by every edition, enforced by lint-compliance.js). Independence posture explicit: client-tenant data planes; no Deloitte-side retention."]
+      ["Compliance & Independence", "Part 0 terminology rules (inherited by every edition, enforced by lint-compliance.js). Independence posture explicit: client-tenant data planes; no firm-side retention."]
     ]
   ),
   h2("2.2 Why framework-of-frameworks (and not a product)"),
-  p("A product would require Deloitte to host, update, and operate something the client's IT team depends on — and to share responsibility for outages. A framework-of-frameworks lets Deloitte ship opinions without taking on operational liability. Clients deploy APEX-shaped solutions on their own Microsoft infrastructure. Deloitte's value is the framework, the implementation expertise, and the ongoing engagement — not a runtime."),
+  p("A product would require the firm to host, update, and operate something the client's IT team depends on — and to share responsibility for outages. A framework-of-frameworks lets the firm ship opinions without taking on operational liability. Clients deploy APEX-shaped solutions on their own Microsoft infrastructure. The firm's value is the framework, the implementation expertise, and the ongoing engagement — not a runtime."),
   p("This also matches Microsoft's own go-to-market. Fabric, Azure AI Agent Service, and Logic Apps are sold and consumed by the client, with Microsoft's billing, SLAs, and telemetry. APEX sits on top, not in front of.")
 );
 
@@ -276,7 +276,7 @@ children.push(
   bullet([bold("Identity & access"), plain(" — Entra ID, Purview for data governance, customer-managed keys.")]),
   bullet([bold("Observability"), plain(" — Application Insights, Fabric monitoring, custom agent telemetry.")]),
   bullet([bold("Evals & safety"), plain(" — Azure AI Foundry evals, red-team harness, PII detection.")]),
-  bullet([bold("Independence posture"), plain(" — client-tenant data planes; no Deloitte-side retention of client-identifiable data. This is not negotiable; editions may not soften it.")]),
+  bullet([bold("Independence posture"), plain(" — client-tenant data planes; no firm-side retention of client-identifiable data. This is not negotiable; editions may not soften it.")]),
   h2("4.2 Medallion architecture (Bronze / Silver / Gold)"),
   p("Every schema entity is assigned to Bronze, Silver, or Gold with explicit exit criteria for promotion between layers:"),
   makeTable(
@@ -370,8 +370,8 @@ children.push(
   h2("6.4 Independence posture"),
   p([
     plain("This entire distribution model is designed to preserve Core's Independence posture: "),
-    bold("client-tenant data planes; no Deloitte-side retention of client-identifiable data."),
-    plain(" Deloitte does not push to tenants. Deloitte does not hold tenant credentials. The only things that ever cross the boundary are opaque account IDs, pinned version numbers, manifest hashes, and heartbeat timestamps. Each of those four categories is explicitly scoped; everything else stays in the client's tenant.")
+    bold("client-tenant data planes; no firm-side retention of client-identifiable data."),
+    plain(" the firm does not push to tenants. The firm does not hold tenant credentials. The only things that ever cross the boundary are opaque account IDs, pinned version numbers, manifest hashes, and heartbeat timestamps. Each of those four categories is explicitly scoped; everything else stays in the client's tenant.")
   ])
 );
 
@@ -589,7 +589,7 @@ children.push(
 children.push(
   h1("Part 15 — What APEX Is Not Doing (Yet)"),
   p("Explicit non-goals, flagged so Account Teams do not over-promise:"),
-  bullet([bold("No runtime that Deloitte hosts."), plain(" Clients deploy on their own Azure tenant. DMTSP has engagement visibility, not operational control.")]),
+  bullet([bold("No runtime that the firm hosts."), plain(" Clients deploy on their own Azure tenant. DMTSP has engagement visibility, not operational control.")]),
   bullet([bold("No agent versioning."), plain(" The v1.2 manifest system versions schemas only. Agents, ORCHs, and Solution Stack rows follow the same pattern when they adopt it — but they have not adopted it yet. This is deliberate: schemas are the hardest-to-reverse dependency, so versioning them first gives the most leverage.")]),
   bullet([bold("No cross-client benchmark dashboard."), plain(" The fleet registry records intent and heartbeats only. Building a \u201Cwhich client is performing best at ORCH-04\u201D dashboard would require client-identifiable telemetry, which violates Core Part 6 Independence posture.")]),
   bullet([bold("No automated ROI attribution."), plain(" The wave model declares expected economics per wave, but capturing realized economics requires client financial integration on a case-by-case basis.")]),
@@ -649,11 +649,11 @@ children.push(
       ["CMM-1..5", "Commercial Maturity Model stages. APEX's operating zone is CMM-4."],
       ["ERA-01..05", "AI Journey Eras. APEX's operating zone is ERA-04 (Agentic)."],
       ["W1..W4", "The four deployment waves. Each self-funding."],
-      ["DMTSP", "Deloitte's Microsoft practice. Builds APEX, delivers engagements, maintains editions."],
-      ["Independence posture", "The non-negotiable rule that client-tenant data stays on the client's tenant; no Deloitte-side retention of client-identifiable data."],
+      ["DMTSP", "the firm's Microsoft practice. Builds APEX, delivers engagements, maintains editions."],
+      ["Independence posture", "The non-negotiable rule that client-tenant data stays on the client's tenant; no firm-side retention of client-identifiable data."],
       ["Event envelope", "The immutable Silver-layer event shape shared across all editions (Core Part 7.4)."],
       ["Gold view", "Business-ready denormalized view that agents and ORCHs contract against."],
-      ["GitOps pull", "Distribution pattern used by the v1.2 manifest system. Client tenants pull signed bundles from a release feed; Deloitte never pushes to tenants."]
+      ["GitOps pull", "Distribution pattern used by the v1.2 manifest system. Client tenants pull signed bundles from a release feed; the firm never pushes to tenants."]
     ]
   )
 );
@@ -682,7 +682,7 @@ children.push(
 // --- Document assembly ----------------------------------------------------
 
 const doc = new Document({
-  creator: "Deloitte Microsoft Practice",
+  creator: "The firm's Microsoft Practice",
   title: "APEX Solution Overview",
   description: "Comprehensive solution overview for APEX (Agentic Platform for Enterprise eXecution)",
   styles: {

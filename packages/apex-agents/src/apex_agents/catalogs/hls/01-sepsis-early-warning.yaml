@@ -12,7 +12,7 @@ description: >
   cues) with bedside-confirmation HITL gate. Designed for ~6-hour-ahead
   early warning per Sellers Guide §10.9 hospital reference deployment.
 archetype_id: F1-continuous-monitor-hitl-alert
-primary_contact: hls-practice-lead@deloitte.com
+primary_contact: hls-practice-lead@example.com
 
 tools:
   - tool_id: apex.hls.mcp.patientml.get_vitals_stream

@@ -41,4 +41,4 @@ linked_archetypes:
 
 schemas_touched: [QMSML-ICE, ConnectedICEML]
 standards: ['EPA Tier 4', 'EU Stage V', 'CARB']
-primary_contact: ice-practice-lead@deloitte.com
+primary_contact: ice-practice-lead@example.com

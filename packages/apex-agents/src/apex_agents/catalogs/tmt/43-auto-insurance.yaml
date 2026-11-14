@@ -13,7 +13,7 @@ description: >
   Lemonade Car, USAA. Reads household telematics to pre-compute UBI
   discount; surfaces savings; binds policy with HITL.
 archetype_id: F3-predictive-trigger-workflow-aware
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.progressive.quote_with_ubi

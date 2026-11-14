@@ -10,7 +10,7 @@ prompt_sha: ""
 description: >
   Billing-dispute classification across high-volume CSR queues. Routes disputes to auto-resolve / examiner / escalate lanes.
 archetype_id: F2-event-cluster-pattern-match
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.bssml.get_dispute_request

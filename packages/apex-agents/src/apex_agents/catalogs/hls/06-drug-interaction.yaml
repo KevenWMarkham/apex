@@ -12,7 +12,7 @@ description: >
   screening at order entry. Outputs severity-classified interactions
   with citation chain.
 archetype_id: F1-continuous-monitor-hitl-alert
-primary_contact: hls-practice-lead@deloitte.com
+primary_contact: hls-practice-lead@example.com
 
 tools:
   - tool_id: apex.hls.mcp.patientml.get_active_medications

@@ -501,7 +501,7 @@ def build_mcp_deep_dive():
     addh(doc, "9.1 · Why MCP server is a Kroger artifact", level=2)
     addcallout(doc, "Independence by construction",
                "The MCP server runs in Kroger's tenant. Tool implementations are Kroger artifacts. "
-               "Backing data sources are Kroger data. Deloitte's role is to advise on tool "
+               "Backing data sources are Kroger data. The firm's role is to advise on tool "
                "specifications and capability tagging — the integrations themselves are "
                "Kroger-owned. This preserves audit independence even if Kroger's external auditor "
                "relationship raises constraints.",
@@ -552,7 +552,7 @@ def build_mcp_deep_dive():
              col_widths=[3.4, 3.0])
 
     addbody(doc,
-            "Independence posture preserved across this document: 'Deloitte's Microsoft practice,' "
+            "Independence posture preserved across this document: 'The firm's Microsoft practice,' "
             "'DMTSP,' 'Microsoft platform capabilities,' 'Microsoft-native deployment.' The terms "
             "'partner,' 'alliance,' and 'strategic alliance' do not appear.",
             italic=True, color=MUTE, size=9)
@@ -1436,7 +1436,7 @@ footer{
 <footer>
   <div>APEX · RC-E2E-03 · Service Sequence Diagram · v1.0 · 27 Apr 2026</div>
   <div>Companion: APEX-RC-E2E-03-MCP-Server-Deep-Dive.docx · APEX-RC-E2E-03-09-SOR-ERD.html · APEX-RC-E2E-03-Six-Agents-Deep-Dive-and-Maturation.docx</div>
-  <div>Deloitte · Microsoft Technology Solutions &amp; Practices</div>
+  <div>The firm · Microsoft Technology Solutions &amp; Practices</div>
 </footer>
 
 <script>

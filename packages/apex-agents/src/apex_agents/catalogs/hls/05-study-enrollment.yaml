@@ -12,7 +12,7 @@ description: >
   exclusion criteria, EHR-derived signals, and consent context. Surfaces
   candidate matches for CRC review.
 archetype_id: F5-identity-resolution-confidence-merge
-primary_contact: hls-ls-practice-lead@deloitte.com
+primary_contact: hls-ls-practice-lead@example.com
 
 tools:
   - tool_id: apex.hls.mcp.studyml.get_protocol_criteria

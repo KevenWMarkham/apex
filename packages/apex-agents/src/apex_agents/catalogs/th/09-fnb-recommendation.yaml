@@ -10,7 +10,7 @@ prompt_sha: ""
 description: >
   Spa / F&B recommendation agent for in-stay guests. Uses preference + tier + occasion context.
 archetype_id: F3-predictive-trigger-workflow-aware
-primary_contact: th-practice-lead@deloitte.com
+primary_contact: th-practice-lead@example.com
 
 tools:
   - tool_id: apex.th.mcp.travelerml.get_guest_preferences

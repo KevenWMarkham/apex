@@ -14,7 +14,7 @@ description: >
   scheduled-maintenance booking. UBI insurance partners share
   telematics-driven premium discounts.
 archetype_id: F3-predictive-trigger-workflow-aware
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.home.read_vehicle_state

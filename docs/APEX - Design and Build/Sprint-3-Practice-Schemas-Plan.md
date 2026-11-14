@@ -514,7 +514,7 @@ Sprint 3 closes when:
 
 1. **Which HLS agents consume which FHIR resources?** — needed to finalise FHIR mirror scope. Default: the 8 resources listed in §3.1 cover the anchor 10 HLS agents from Implementation Plan §15.
 2. **SID scope for TMT** — TMT has 45+ SID domains. Confirm which Practice leads consider essential Sprint-3 scope. Default: 7 domains listed in §3.4.
-3. **Bring-your-own terminology service** — does Deloitte pilot have access to a SNOMED CT / LOINC terminology server, or do we ship a dev-only mock? Default: dev-only mock in `apex-standards-fhir/terminology/mock.py`, tenant swaps for real service.
+3. **Bring-your-own terminology service** — does the firm pilot have access to a SNOMED CT / LOINC terminology server, or do we ship a dev-only mock? Default: dev-only mock in `apex-standards-fhir/terminology/mock.py`, tenant swaps for real service.
 4. **Package naming — `apex-thml` vs `apex-iropsml`** — design says IROPsML but TH covers more than IROPs. Proposing `apex-thml` with IROP as a sub-module. Confirm.
 5. **Package naming — `apex-iceml` vs `apex-connectediceml`** — design says ConnectedICEML. Proposing `apex-iceml` as the Python module (shorter) with ConnectedICE used in docs. Confirm.
 

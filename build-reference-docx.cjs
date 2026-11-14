@@ -293,7 +293,7 @@ function parseMarkdown(md) {
       new Paragraph({ spacing: { after: 80 }, alignment: AlignmentType.CENTER,
         children: [new TextRun({ text: 'April 2026 · Version 1.0 · CONFIDENTIAL', font: FONT_BODY, size: 22, color: '1F2937' })] }),
       new Paragraph({ spacing: { after: 80 }, alignment: AlignmentType.CENTER,
-        children: [new TextRun({ text: 'Deloitte Microsoft Technology & Services Practice',
+        children: [new TextRun({ text: 'Microsoft Technology & Services Practice',
           font: FONT_BODY, size: 22, color: '1F2937' })] }),
       pageBreak(),
     ];

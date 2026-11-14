@@ -51,4 +51,4 @@ linked_archetypes:
 
 schemas_touched: [AAML, EngML]
 standards: ['ISA-95', 'OPC UA', 'AutomationML']
-primary_contact: axle-practice-lead@deloitte.com
+primary_contact: axle-practice-lead@example.com

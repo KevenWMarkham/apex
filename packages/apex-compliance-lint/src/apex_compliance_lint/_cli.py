@@ -28,19 +28,17 @@ from apex_compliance_lint import (
 from apex_compliance_lint.rules import (
     APEX_BRAND,
     APEX_TYPOGRAPHY,
-    DELOITTE_MICROSOFT_INDEPENDENCE,
 )
 
 
 app = typer.Typer(
     name="apex-compliance-lint",
-    help="APEX compliance linter — Independence-language + typography + brand rules.",
+    help="APEX compliance linter — typography + brand rules.",
     no_args_is_help=True,
 )
 
 
 PACK_REGISTRY = {
-    "deloitte_microsoft_independence": DELOITTE_MICROSOFT_INDEPENDENCE,
     "apex_typography": APEX_TYPOGRAPHY,
     "apex_brand": APEX_BRAND,
 }
@@ -54,8 +52,8 @@ def main(
     pack: list[str] = typer.Option(
         None, "--pack", "-p",
         help=(
-            "Rule pack id(s) to apply. Default: all three "
-            "(deloitte_microsoft_independence, apex_typography, apex_brand). "
+            "Rule pack id(s) to apply. Default: both "
+            "(apex_typography, apex_brand). "
             "Pass --pack multiple times to compose."
         ),
     ),

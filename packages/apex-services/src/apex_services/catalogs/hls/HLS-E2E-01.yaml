@@ -40,4 +40,4 @@ linked_archetypes:
 
 schemas_touched: [ClaimML]
 standards: ['HIPAA', 'EDI X12 HIPAA']
-primary_contact: hls-practice-lead@deloitte.com
+primary_contact: hls-practice-lead@example.com

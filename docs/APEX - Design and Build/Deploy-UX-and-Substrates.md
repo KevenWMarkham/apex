@@ -391,7 +391,7 @@ The current commit lands the architectural shape (this doc + minimal wizard surf
 
 ## 7. Independence + substrate
 
-A note for engagement leads: the **laptop** substrate is genuinely Independence-clean — no client cloud touched, no Microsoft / Google / AWS subscription billed. Engineers can iterate on agent code, prompts, and orchestrations on their Deloitte-issued laptop without any cross-organization API call.
+A note for engagement leads: the **laptop** substrate is genuinely Independence-clean — no client cloud touched, no Microsoft / Google / AWS subscription billed. Engineers can iterate on agent code, prompts, and orchestrations on their firm-issued laptop without any cross-organization API call.
 
 The **dev / stage / prod** substrates are client-tenant work; per-engagement Independence consultation applies (per Pre-deployment Security Gate item #14).
 

@@ -14,7 +14,7 @@ description: >
   security to standard mode, resumes maintenance triage, runs welcome-home
   wellness check.
 archetype_id: F4-orchestrator-with-subagents
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.home.read_trip_current_state

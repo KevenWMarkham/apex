@@ -50,4 +50,4 @@ linked_archetypes:
 
 schemas_touched: [SCML]
 standards: ['FSMA 204', 'EPCIS', 'GS1', 'GDSN']
-primary_contact: rc-practice-lead@deloitte.com
+primary_contact: rc-practice-lead@example.com

@@ -309,7 +309,7 @@ Target: **18–22 pages**. The spine is what execs and architects read end-to-en
 7. Compliance posture
    — HIPAA for HLS Practice; SOX for ER Practice; PCI for RC Practice
    — Audit log retention, immutability, customer-managed keys
-   — Independence (Deloitte) compliance notes
+   — Independence (the firm) compliance notes
 ```
 
 ### 6.6 Companion 06 — Testing & Environment Topology (`dev-guide/06-testing-topology.md`)
@@ -460,7 +460,7 @@ COMMERCIAL
 
 ## 8. L3 terminology rename: Fleet → Practice
 
-The L3 layer is renamed from **"Fleet"** to **"Practice"** because L3 bundles more than agents (schemas, MCP tools, orchestrations, gates, services, personas, KPIs). "Practice" is Deloitte-native language, captures the full scope, and reads commercially as a subscribable capability.
+The L3 layer is renamed from **"Fleet"** to **"Practice"** because L3 bundles more than agents (schemas, MCP tools, orchestrations, gates, services, personas, KPIs). "Practice" is firm-native language, captures the full scope, and reads commercially as a subscribable capability.
 
 ### 8.1 Rename cascade
 

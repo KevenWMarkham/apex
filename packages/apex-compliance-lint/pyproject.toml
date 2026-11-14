@@ -1,11 +1,11 @@
 [project]
 name = "apex-compliance-lint"
 version = "0.1.0"
-description = "APEX compliance linter — Sprint 29 Task 29.9. Independence-language rules + configurable rule packs + multi-format file adapters (HTML, DOCX, MD, PPTX). Standalone reusable beyond the Deloitte-Microsoft baseline."
+description = "APEX compliance linter — Sprint 29 Task 29.9. Independence-language rules + configurable rule packs + multi-format file adapters (HTML, DOCX, MD, PPTX). Standalone reusable beyond the Microsoft baseline."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "Proprietary — Deloitte Internal" }
-authors = [{ name = "Deloitte DMTSP — Consumer Industry" }]
+license = { text = "Proprietary — Internal" }
+authors = [{ name = "DMTSP — Consumer Industry" }]
 dependencies = [
     "pydantic>=2.9.0",
     "typer>=0.13.0",

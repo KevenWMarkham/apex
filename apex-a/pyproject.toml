@@ -3,7 +3,7 @@ name = "apex-a"
 version = "0.1.0-stub"
 description = "APEX-A — AWS variant of APEX. Stub package; concrete implementations build out when commissioned. Sibling product to APEX-M (Microsoft) and APEX-G (GCP)."
 requires-python = ">=3.12"
-authors = [{ name = "Deloitte's Microsoft Technology & Services Practice" }]
+authors = [{ name = "Microsoft Technology & Services Practice" }]
 license = "Proprietary"
 dependencies = [
     "apex-core",

@@ -15,8 +15,8 @@
     --sf-blue-dark: #11567F;
     --apex-gold: #C89D3A;
     --apex-gold-dark: #A07F2E;
-    --deloitte-green: #86BC25;
-    --deloitte-green-dark: #5C9300;
+    --brand-green: #86BC25;
+    --brand-green-dark: #5C9300;
     --slate: #64748B;
     --slate-light: #94A3B8;
     --amber: #D97706;
@@ -165,7 +165,7 @@
   }
   .src.ms { background: var(--ms-blue); }
   .src.snowflake { background: var(--sf-blue); color: var(--navy); }
-  .src.deloitte { background: var(--deloitte-green); }
+  .src.firm { background: var(--brand-green); }
   .src.apex { background: var(--apex-gold); color: var(--navy); }
   .src.client { background: var(--navy); }
 
@@ -322,7 +322,7 @@
   <div class="subtitle">Five integration patterns for deploying APEX agents on Microsoft against client Snowflake data</div>
   <div class="meta">
     <span><strong>Audience:</strong> DMTSP sellers · practice tech leaders · Microsoft account team</span>
-    <span><strong>From:</strong> Keven Markham · Deloitte's Microsoft Technology &amp; Services Practice</span>
+    <span><strong>From:</strong> Keven Markham · the firm's Microsoft Technology &amp; Services Practice</span>
     <span><strong>Status:</strong> Discovery · pre-engagement reference</span>
     <span><strong>Companion to:</strong> Sellers Handbook · APEX-M Trilogy</span>
   </div>
@@ -342,12 +342,12 @@
 
 <section class="summary">
   <div style="font-family:Aptos,sans-serif;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ms-blue-dark);font-weight:700;margin-bottom:8px;">Executive summary · the one paragraph</div>
-  <p style="font-size:16.5px;margin:0;">Many enterprise clients run <strong>Snowflake</strong> as their analytics data cloud and want to deploy <strong>agentic AI on Microsoft</strong> (Fabric · Foundry · Agent 365 · Copilot) without rebuilding the data estate. APEX — Deloitte's internal delivery accelerator — supports <strong>five integration patterns</strong> that let APEX-on-Microsoft agents read, reason over, and write back to client Snowflake data, while preserving Independence (three contracts: Microsoft · Snowflake · Deloitte). This document is the architecture reference: <strong>Figure 1</strong> shows the end-to-end stack; <strong>Figure 2</strong> shows the pattern-selection decision tree; §03 details each pattern; §04 shows sellers when to lead with which; §05 covers Independence guardrails.</p>
+  <p style="font-size:16.5px;margin:0;">Many enterprise clients run <strong>Snowflake</strong> as their analytics data cloud and want to deploy <strong>agentic AI on Microsoft</strong> (Fabric · Foundry · Agent 365 · Copilot) without rebuilding the data estate. APEX — the firm's internal delivery accelerator — supports <strong>five integration patterns</strong> that let APEX-on-Microsoft agents read, reason over, and write back to client Snowflake data, while preserving Independence (three contracts: Microsoft · Snowflake · the firm). This document is the architecture reference: <strong>Figure 1</strong> shows the end-to-end stack; <strong>Figure 2</strong> shows the pattern-selection decision tree; §03 details each pattern; §04 shows sellers when to lead with which; §05 covers Independence guardrails.</p>
 </section>
 
 <section>
   <h2><span class="num">01</span>What this document does</h2>
-  <p class="lead">The APEX Sellers Handbook teaches the seller motion. This document is the <em>architecture reference</em> for one of the most common client realities — Snowflake as the data cloud, Microsoft as the agent platform, Deloitte as the services provider. Reference-only; discovery-stage; not a proposal.</p>
+  <p class="lead">The APEX Sellers Handbook teaches the seller motion. This document is the <em>architecture reference</em> for one of the most common client realities — Snowflake as the data cloud, Microsoft as the agent platform, the firm as the services provider. Reference-only; discovery-stage; not a proposal.</p>
 
   <div class="callout method">
     <span class="label">Reading order</span>
@@ -356,13 +356,13 @@
 
   <div class="callout sf">
     <span class="label">A note on Snowflake positioning</span>
-    <p>Snowflake is the <strong>client's existing data investment</strong>. APEX-on-Microsoft <em>integrates with</em> Snowflake; Deloitte does not displace it, does not resell it, and does not commingle Snowflake licensing into the Deloitte SOW. The client holds three contracts: <span class="src client">Client</span> ↔ <span class="src ms">Microsoft</span> for Fabric / Foundry / Agent 365; <span class="src client">Client</span> ↔ <span class="src snowflake">Snowflake</span> for the data cloud; <span class="src client">Client</span> ↔ <span class="src deloitte">Deloitte</span> for delivery services. See §05.</p>
+    <p>Snowflake is the <strong>client's existing data investment</strong>. APEX-on-Microsoft <em>integrates with</em> Snowflake; the firm does not displace it, does not resell it, and does not commingle Snowflake licensing into the SOW. The client holds three contracts: <span class="src client">Client</span> ↔ <span class="src ms">Microsoft</span> for Fabric / Foundry / Agent 365; <span class="src client">Client</span> ↔ <span class="src snowflake">Snowflake</span> for the data cloud; <span class="src client">Client</span> ↔ <span class="src firm">The firm</span> for delivery services. See §05.</p>
   </div>
 </section>
 
 <section>
   <h2><span class="num">02</span>End-to-end architecture</h2>
-  <p class="lead">Eight layers, deployed inside the client's combined Microsoft and Snowflake tenants. APEX (Deloitte's internal accelerator) orchestrates from the agent reasoning plane down through whichever of the five integration patterns the use case calls for.</p>
+  <p class="lead">Eight layers, deployed inside the client's combined Microsoft and Snowflake tenants. APEX (the firm's internal accelerator) orchestrates from the agent reasoning plane down through whichever of the five integration patterns the use case calls for.</p>
 
   <figure>
     <div class="fig-label">Figure 1 · APEX on Microsoft × Snowflake — end-to-end stack</div>
@@ -554,7 +554,7 @@
       <text x="950" y="724" class="lyr-sub">Cross-cloud SIEM</text>
       <text x="950" y="740" class="lyr-sub">OT + cloud + SaaS</text>
     </svg>
-    <figcaption>Eight layers. Microsoft components (blue) own the agent reasoning plane (L2) and the Fabric data plane (L4). Snowflake components (light blue) hold the curated analytics estate at L6. The integration layer (L5, gold) is where APEX expresses one of five patterns to bridge them. All sources at L7 feed both Microsoft and Snowflake depending on client architecture. Foundation (L8) is jointly governed — Entra + Purview from Microsoft, Horizon from Snowflake, audit chain from APEX. Three contracts always: client ↔ Microsoft, client ↔ Snowflake, client ↔ Deloitte.</figcaption>
+    <figcaption>Eight layers. Microsoft components (blue) own the agent reasoning plane (L2) and the Fabric data plane (L4). Snowflake components (light blue) hold the curated analytics estate at L6. The integration layer (L5, gold) is where APEX expresses one of five patterns to bridge them. All sources at L7 feed both Microsoft and Snowflake depending on client architecture. Foundation (L8) is jointly governed — Entra + Purview from Microsoft, Horizon from Snowflake, audit chain from APEX. Three contracts always: client ↔ Microsoft, client ↔ Snowflake, client ↔ the firm.</figcaption>
   </figure>
 
   <p style="margin-top:14px;">
@@ -562,8 +562,8 @@
     <span class="src snowflake">Snowflake</span>
     <span class="src apex">APEX</span>
     <span class="src client">Client</span>
-    <span class="src deloitte">Deloitte</span>
-    Five component classes appear in the stack. Microsoft is the agent platform · Snowflake is the data cloud · APEX is Deloitte's internal accelerator overlay · Client owns both platform contracts and source systems · Deloitte delivers the services that bridge them.
+    <span class="src firm">The firm</span>
+    Five component classes appear in the stack. Microsoft is the agent platform · Snowflake is the data cloud · APEX is the firm's internal accelerator overlay · Client owns both platform contracts and source systems · the firm delivers the services that bridge them.
   </p>
 </section>
 
@@ -957,7 +957,7 @@
 <div class="tab-panel" data-panel="references" role="tabpanel">
 <section>
   <h2><span class="num">05</span>Independence &amp; Data Sovereignty guardrails</h2>
-  <p class="lead">Deloitte audits Microsoft. The commercial structure of any APEX × Snowflake engagement must keep the three contracts clean and prevent any commingling.</p>
+  <p class="lead">The firm audits Microsoft. The commercial structure of any APEX × Snowflake engagement must keep the three contracts clean and prevent any commingling.</p>
 
   <div class="callout independence">
     <span class="label">The three-contract test</span>
@@ -965,19 +965,19 @@
     <ol style="margin: 8px 0 0; padding-left: 20px;">
       <li><span class="src client">Client</span> ↔ <span class="src ms">Microsoft</span> — Fabric capacity, Foundry, Agent 365, Copilot, Entra, Purview. Direct.</li>
       <li><span class="src client">Client</span> ↔ <span class="src snowflake">Snowflake</span> — Warehouses, Snowpark, Cortex, Container Services, Horizon. Direct.</li>
-      <li><span class="src client">Client</span> ↔ <span class="src deloitte">Deloitte</span> — Services SOW (Wave 1 design · build · deploy · sustain). Independent of both platforms.</li>
+      <li><span class="src client">Client</span> ↔ <span class="src firm">The firm</span> — Services SOW (Wave 1 design · build · deploy · sustain). Independent of both platforms.</li>
     </ol>
-    <p style="margin-top: 8px;">No platform licensing flows through Deloitte. No Microsoft credits appear inside the Deloitte SOW. No Snowflake credits appear inside the Deloitte SOW. Co-fund motions (Microsoft MCI, Snowflake co-fund) travel <em>alongside</em> the SOW, never <em>inside</em> it.</p>
+    <p style="margin-top: 8px;">No platform licensing flows through the firm. No Microsoft credits appear inside the SOW. No Snowflake credits appear inside the SOW. Co-fund motions (Microsoft MCI, Snowflake co-fund) travel <em>alongside</em> the SOW, never <em>inside</em> it.</p>
   </div>
 
   <div class="callout independence">
     <span class="label">Data sovereignty posture</span>
-    <p>Client data lives in client tenants — Microsoft tenant for Fabric/Foundry, Snowflake tenant for the data cloud. Deloitte's GSSC Lab is for synthetic-data demos only; production data never enters Deloitte tenants. APEX is Deloitte's internal IP and never appears on a client SOW. At engagement exit, the client owns: their Microsoft platform, their Snowflake data cloud, their deployed agents, their audit rows. Deloitte retains the APEX framework methodology for the next engagement.</p>
+    <p>Client data lives in client tenants — Microsoft tenant for Fabric/Foundry, Snowflake tenant for the data cloud. The firm's GSSC Lab is for synthetic-data demos only; production data never enters the firm tenants. APEX is the firm's internal IP and never appears on a client SOW. At engagement exit, the client owns: their Microsoft platform, their Snowflake data cloud, their deployed agents, their audit rows. The firm retains the APEX framework methodology for the next engagement.</p>
   </div>
 
   <div class="callout method">
     <span class="label">Pattern ⑤ requires extra scrutiny</span>
-    <p>Pattern ⑤ (Snowpark Container Services) is the only pattern where Deloitte-built code (the APEX agent container image) runs inside Snowflake compute. Independence review must confirm: (a) the container image is delivered as part of the Deloitte services SOW, not as licensed IP; (b) the client owns the deployed image post-engagement; (c) no operational liability for the container runtime sits with Deloitte. This pattern is the most powerful for regulated clients but carries the heaviest Independence load.</p>
+    <p>Pattern ⑤ (Snowpark Container Services) is the only pattern where firm-built code (the APEX agent container image) runs inside Snowflake compute. Independence review must confirm: (a) the container image is delivered as part of the services SOW, not as licensed IP; (b) the client owns the deployed image post-engagement; (c) no operational liability for the container runtime sits with the firm. This pattern is the most powerful for regulated clients but carries the heaviest Independence load.</p>
   </div>
 </section>
 
@@ -994,9 +994,9 @@
       <li><span class="ref-source">Snowflake</span>Cortex LLM functions · Cortex Analyst · Cortex Search · reference architecture</li>
       <li><span class="ref-source">Snowflake</span>Snowflake MCP server · public preview · GitHub reference implementation</li>
       <li><span class="ref-source">Snowflake</span>Horizon governance · object-level access · row/column policies</li>
-      <li><span class="ref-source">Deloitte</span>APEX Sellers Handbook · Ch 12 Discovery Framework · Ch 13–17 Functional Areas · Ch 20 L2 Agentic Services</li>
-      <li><span class="ref-source">Deloitte</span>APEX Solution Overview · Part 6 Seven-Layer Reference Architecture</li>
-      <li><span class="ref-source">Deloitte</span>Independence guidelines · DMTSP language standards · three-contract discipline</li>
+      <li><span class="ref-source">The firm</span>APEX Sellers Handbook · Ch 12 Discovery Framework · Ch 13–17 Functional Areas · Ch 20 L2 Agentic Services</li>
+      <li><span class="ref-source">The firm</span>APEX Solution Overview · Part 6 Seven-Layer Reference Architecture</li>
+      <li><span class="ref-source">The firm</span>Independence guidelines · DMTSP language standards · three-contract discipline</li>
     </ol>
   </div>
 </section>
@@ -1006,7 +1006,7 @@
 
 <footer>
   <strong>APEX × Snowflake Integration Architecture</strong> · Discovery-stage reference pack · v1.0 · 2026-05-13<br>
-  Companion to the <em>APEX Sellers Handbook to Agentic AI on Microsoft</em> · Authored by Keven Markham, DMTSP · For internal Deloitte use
+  Companion to the <em>APEX Sellers Handbook to Agentic AI on Microsoft</em> · Authored by Keven Markham, DMTSP · For internal the firm use
 </footer>
 
 <script>

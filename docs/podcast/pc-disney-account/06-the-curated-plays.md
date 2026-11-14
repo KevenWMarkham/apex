@@ -183,7 +183,7 @@ That's the conversation.
 
 **KEVEN:** And one specific Independence note —
 
-**RILEY:** *Deloitte recommends what the client should build. The client decides what to do with the workforce.* The Account Team's posture is unambiguous on this. *Deloitte does not recommend specific headcount actions to clients we audit.* The platform creates the option; the client's leadership decides; the client's leadership is accountable. Be explicit about that in any conversation where the headcount-reduction option is on the table.
+**RILEY:** *The firm recommends what the client should build. The client decides what to do with the workforce.* The Account Team's posture is unambiguous on this. *The firm does not recommend specific headcount actions to clients we audit.* The platform creates the option; the client's leadership decides; the client's leadership is accountable. Be explicit about that in any conversation where the headcount-reduction option is on the table.
 
 ### Where the back-office twelve land in priority
 
@@ -317,7 +317,7 @@ Four — *the Guest Day Orchestration Agent is the flagship Experiences play* �
 
 **RILEY:** Five episodes of Disney comprehensive coverage. One episode on this curated twenty-one-play list. *The Account Team now has an internal podcast library plus an Excel working artefact plus the Trilogy podcasts plus the Sellers Handbook plus the Trilogy guides.* That's a *materially complete* preparation set for any Disney conversation any member of the Account Team needs to have — *and the CTO play in particular gives the Account Team the strategic Wave 2 conversation that takes the engagement from operational delivery to portfolio governance.*
 
-The work is — *use it.* Quarterly. Continuously. Update it as the Disney leadership and pressures evolve. The framework is the asset. *Disney's value to Deloitte compounds with the Account Team's discipline in maintaining and applying the asset.*
+The work is — *use it.* Quarterly. Continuously. Update it as the Disney leadership and pressures evolve. The framework is the asset. *Disney's value to the firm compounds with the Account Team's discipline in maintaining and applying the asset.*
 
 That's the closing thought.
 

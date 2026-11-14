@@ -22,14 +22,14 @@ Microsoft products under the licenses the client already holds:
 
 ## Independence posture
 
-Per Deloitte's Microsoft Technology & Services Practice, this attribution
+Per Microsoft Technology & Services Practice, this attribution
 records integration with the client's existing Microsoft investment.
-Deloitte does **not**:
+The firm does **not**:
 
 - Resell or sublicense any Microsoft product
 - Position Microsoft as a "preferred" cloud (Microsoft is the **first
   shipped** APEX variant; APEX-G and APEX-A are sibling products)
-- Co-mingle Deloitte ECIF with client subscriptions
+- Co-mingle the firm's ECIF with client subscriptions
 - Use "alliance" or "partner" language in any APEX-M deliverable
 
 See also:

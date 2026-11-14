@@ -8,7 +8,7 @@ Format, voice, Independence, and house-style rules for the eight-episode Cross-C
 
 | Dimension | Trilogy | Account podcasts (Disney / DTNA / Toyota) | **Cross-Cloud Agentic** |
 |---|---|---|---|
-| **Audience** | Framework-wide | A single named client + the Account Team | **Microsoft Target Platform Sellers (DMTSP), Deloitte AI team safe** |
+| **Audience** | Framework-wide | A single named client + the Account Team | **Microsoft Target Platform Sellers (DMTSP), the firm's AI team safe** |
 | **Client specificity** | None | One named client per series | **Generic — no client named on tape** |
 | **Substance** | Framework, plays, pillars | The single account's play, deep | The cross-cloud architecture — Microsoft compared to AWS and GCP honestly |
 | **Cloud scope** | Microsoft-centric | Microsoft-centric (NVIDIA composable where relevant) | **All three clouds, on equal architectural footing** |
@@ -55,10 +55,10 @@ The architectural approach the series teaches is referred to on tape as:
 
 The rule that protects everything. Spoken on tape:
 
-- **Deloitte recommends.** Microsoft is the platform Deloitte recommends — on the technical and economic merits. The client contracts with Microsoft directly.
-- **Two contracts.** Microsoft licensing on Microsoft paper. Deloitte services on Deloitte paper. Said exactly that way in Episode 1 and again in Episode 8.
-- **Three contracts when NVIDIA is in scope.** Client-NVIDIA, client-Microsoft, client-Deloitte — three separate paper paths.
-- **No compensation flows from Microsoft to Deloitte** for influencing the client's cloud choice. Said at least once per series, plainly.
+- **The firm recommends.** Microsoft is the platform the firm recommends — on the technical and economic merits. The client contracts with Microsoft directly.
+- **Two contracts.** Microsoft licensing on Microsoft paper. firm services on firm paper. Said exactly that way in Episode 1 and again in Episode 8.
+- **Three contracts when NVIDIA is in scope.** Client-NVIDIA, client-Microsoft, client-the firm — three separate paper paths.
+- **No compensation flows from Microsoft to the firm** for influencing the client's cloud choice. Said at least once per series, plainly.
 
 ### Forbidden vocabulary — absent from this podcast on purpose
 
@@ -102,7 +102,7 @@ All rules from prior show bibles apply, with these emphases:
 - **Do not use forbidden vocabulary.** *co-sell · alliance · strategic partnership · channel partner · our partnership with Microsoft* — re-record.
 - **Do not overclaim Microsoft.** When Microsoft is genuinely differentiated, say so plainly. When it is a tie, say it is a tie. When AWS or GCP is the better answer for a given constraint, say that — and explain how Microsoft composes with the other answer.
 - **Do not dismiss AWS or GCP capabilities.** Bedrock, Vertex AI, Athena Federated Query, BigQuery Omni, Dataplex, Lake Formation — these are mature, well-engineered services. The seller who dismisses them loses the room.
-- **Do not dismiss Deloitte AI team pushback.** The series is safe for AI team listeners; when an AI team architect would push back on a claim, the script preempts the pushback honestly.
+- **Do not dismiss the firm's AI team pushback.** The series is safe for AI team listeners; when an AI team architect would push back on a claim, the script preempts the pushback honestly.
 - **Do not fabricate metrics.** Reference Gartner / Forrester / McKinsey / IDC patterns in spirit — *"industry analysts cite 20-40% QoQ growth in AI consumption"* — without inventing specific dollar figures, percentages, or named-account results.
 - **Do not use emojis** in the markdown files.
 

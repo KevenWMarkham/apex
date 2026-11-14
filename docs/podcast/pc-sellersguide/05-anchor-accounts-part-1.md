@@ -18,7 +18,7 @@
 
 **JORDAN:** And the playbook is what we're going to walk today.
 
-**KEVEN:** The playbook is what we're going to walk today. Part Four of the Sellers Guide has thirteen anchor accounts — thirteen named pursuits — that Deloitte and Microsoft have agreed are the targets where APEX should win in the next four quarters. Today's episode covers the first seven. Episode Six is the second six. And the structure is identical for every account, which is the discipline we're trying to teach.
+**KEVEN:** The playbook is what we're going to walk today. Part Four of the Sellers Guide has thirteen anchor accounts — thirteen named pursuits — that the firm and Microsoft have agreed are the targets where APEX should win in the next four quarters. Today's episode covers the first seven. Episode Six is the second six. And the structure is identical for every account, which is the discipline we're trying to teach.
 
 **JORDAN:** Same twelve sections per chapter.
 
@@ -50,7 +50,7 @@
 
 **The opening demo** — section sixteen point eight — is the *Store 100 reference deployment.* A day in the shift, narrated. The seller walks the buyer through what a store associate sees, what the agent sees, and what the regional ops dashboard sees, all in real time.
 
-**Commercial envelope** — section sixteen point nine — Wave One around 2.8 million dollars Deloitte services, 600K dollars Microsoft consumption.
+**Commercial envelope** — section sixteen point nine — Wave One around 2.8 million dollars firm services, 600K dollars Microsoft consumption.
 
 **JORDAN:** Two-minute observation — *this account is the template.* The big-box retailer chapter is the most worked-through anchor account playbook in the guide. If you've never read an anchor account chapter, read this one first. Every other anchor account chapter borrows its structure.
 
@@ -66,7 +66,7 @@
 
 **Commercial envelope** — section seventeen point nine — Wave One typically 3 to 4 million dollars services. Microsoft consumption is moderate because the brand already has significant Azure footprint.
 
-**JORDAN:** Observation — *this is a deal where the client's Microsoft relationship is already deep.* They have an active Azure footprint, an active Microsoft account team, and their own platform conversations underway. Your job is to enter on Deloitte's merits — the framework, the Practices, the Independence posture — not to insert yourself into their existing Microsoft conversation.
+**JORDAN:** Observation — *this is a deal where the client's Microsoft relationship is already deep.* They have an active Azure footprint, an active Microsoft account team, and their own platform conversations underway. Your job is to enter on the firm's merits — the framework, the Practices, the Independence posture — not to insert yourself into their existing Microsoft conversation.
 
 ### Chapter 18 — the heritage spirits and beverages manufacturer (RC)
 
@@ -84,7 +84,7 @@
 
 ### Chapter 19 — the global health-products conglomerate (HLS / RC)
 
-**KEVEN:** Chapter Nineteen. *A global health-products conglomerate.* And this one is structurally complex — the business spans pharma, medical devices, and consumer health, which means three different Deloitte teams, three different Microsoft AEs, and two potential APEX Practices applying — HLS for pharma and devices, RC for consumer health.
+**KEVEN:** Chapter Nineteen. *A global health-products conglomerate.* And this one is structurally complex — the business spans pharma, medical devices, and consumer health, which means three different firm teams, three different Microsoft AEs, and two potential APEX Practices applying — HLS for pharma and devices, RC for consumer health.
 
 **APEX thesis** — section nineteen point three — *do not lead with a horizontal pitch. Pick one segment. Win Wave One there. Expand laterally in Wave Two.* The recommended entry is *consumer health supply-and-channel*, because it's the lowest-regulator-friction starting point.
 
@@ -106,7 +106,7 @@
 
 **The opening demo** — section twenty point eight — *a single VIN walk-back.* The agent takes a warranty claim, walks back to the build station, identifies the operator cohort and supplier lot, and produces the chargeback evidence package — three minutes end-to-end on stage.
 
-**Commercial envelope** — section twenty point nine — Wave One typically 4 to 6 million dollars Deloitte services. With NVIDIA-co-architecture this can land higher. Three-year value is in the eight-figure dollars range with disciplined value-share construction.
+**Commercial envelope** — section twenty point nine — Wave One typically 4 to 6 million dollars firm services. With NVIDIA-co-architecture this can land higher. Three-year value is in the eight-figure dollars range with disciplined value-share construction.
 
 **JORDAN:** Observation — *this is the deal where the four-pillar plus NVIDIA composition is the architecture conversation.* You will be asked about NVIDIA. You should know the NVIDIA stack — Metropolis, DeepStream, RAPIDS, Triton, NIM, Omniverse — at the level of *which one fits which problem,* not just the names.
 

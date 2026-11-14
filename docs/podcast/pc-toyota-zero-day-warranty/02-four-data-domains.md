@@ -230,7 +230,7 @@ Bronze is *append-only.* You never edit Bronze. You preserve the raw evidence. *
 
 **KEVEN:** And the Microsoft Industry Cloud for Manufacturing alignment.
 
-**MIA:** *This pattern is not invented for Toyota.* The Common Data Model that ships inside Microsoft Industry Cloud for Manufacturing already organizes manufacturing data along very similar lines. *Toyota is not signing up to a bespoke schema family* — Toyota is signing up to the pattern Microsoft has built the manufacturing industry cloud around. Which means the Silver canonical schemas at Toyota inherit decades of manufacturing-data-model thinking, not a Deloitte-bespoke shape. *That matters for adoption.* The platform speaks the domain language; the domain doesn't bend to the platform.
+**MIA:** *This pattern is not invented for Toyota.* The Common Data Model that ships inside Microsoft Industry Cloud for Manufacturing already organizes manufacturing data along very similar lines. *Toyota is not signing up to a bespoke schema family* — Toyota is signing up to the pattern Microsoft has built the manufacturing industry cloud around. Which means the Silver canonical schemas at Toyota inherit decades of manufacturing-data-model thinking, not a firm-bespoke shape. *That matters for adoption.* The platform speaks the domain language; the domain doesn't bend to the platform.
 
 **KEVEN:** And the governance posture.
 
@@ -268,7 +268,7 @@ The point for the Account Team is this. *Toyota benefits from being inside that 
 
 **KEVEN:** And the Account Team posture on it.
 
-**MIA:** *Deloitte recommends Microsoft Industry Cloud for Manufacturing as the platform for the Zero Day Warranty agentic scenario at Toyota.* That recommendation rides on the technical merits — the Common Data Model fit, the Fabric data foundation, the Purview governance, the Foundry agent runtime. *Toyota contracts with Microsoft directly for the licensing.* Microsoft paper, Microsoft and Toyota. *Toyota contracts with Deloitte directly for the services.* Deloitte paper, Deloitte and Toyota. Two contracts. *No compensation flows from Microsoft to Deloitte for the platform recommendation.* Said the same way every time. The Account Team should be fluent in stating it.
+**MIA:** *The firm recommends Microsoft Industry Cloud for Manufacturing as the platform for the Zero Day Warranty agentic scenario at Toyota.* That recommendation rides on the technical merits — the Common Data Model fit, the Fabric data foundation, the Purview governance, the Foundry agent runtime. *Toyota contracts with Microsoft directly for the licensing.* Microsoft paper, Microsoft and Toyota. *Toyota contracts with the firm directly for the services.* firm paper, the firm and Toyota. Two contracts. *No compensation flows from Microsoft to the firm for the platform recommendation.* Said the same way every time. The Account Team should be fluent in stating it.
 
 ### A reading I want to do
 
@@ -330,7 +330,7 @@ If we get that wrong, we lose the room. *If we get it right*, we give Toyota a n
 
 *Three — per-VIN joinability at Gold is the unlock that makes Zero Day Warranty possible.* The agent asks "what does the world look like for this VIN?" and gets a composite answer across all four domains in one query. *The eight-to-twelve-weeks of manual reconciliation collapses because the join is no longer manual.* That is the architectural commitment Episode 3 stands on.
 
-**MIA:** And the Independence frame, said the same way. *Deloitte recommends Microsoft Fabric, Microsoft Industry Cloud for Manufacturing, and Microsoft Purview for the Zero Day Warranty data foundation. Toyota contracts with Microsoft directly for the platform. Toyota contracts with Deloitte directly for the services. Two contracts. No compensation flows from Microsoft to Deloitte for the platform recommendation.* Said exactly that way.
+**MIA:** And the Independence frame, said the same way. *The firm recommends Microsoft Fabric, Microsoft Industry Cloud for Manufacturing, and Microsoft Purview for the Zero Day Warranty data foundation. Toyota contracts with Microsoft directly for the platform. Toyota contracts with the firm directly for the services. Two contracts. No compensation flows from Microsoft to the firm for the platform recommendation.* Said exactly that way.
 
 **KEVEN:** Said exactly that way.
 

@@ -14,7 +14,7 @@ description: >
   is overbooked, pre-arranges a sister-property walk before the customer
   arrives.
 archetype_id: F3-predictive-trigger-workflow-aware
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.home.read_trip_current_state

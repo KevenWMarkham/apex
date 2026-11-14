@@ -12,7 +12,7 @@ description: >
   utility ToU windows and the customer's posted tariff. Optional
   demand-response enrolment shares capacity-payment back to the household.
 archetype_id: F1-continuous-monitor-hitl-alert
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.home.read_energy_household_hourly

@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "APEX ercml-mcp — Energy & Resources canonical reads (Meter / Reading / GridEvent)."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "Proprietary — Deloitte Internal" }
+license = { text = "Proprietary — Internal" }
 dependencies = [
     "apex-core", "apex-ercml", "fabric-mcp", "mcp-common", "pydantic>=2.9.0",
 ]

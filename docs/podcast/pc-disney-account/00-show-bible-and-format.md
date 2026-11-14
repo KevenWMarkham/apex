@@ -1,6 +1,6 @@
 # Show Bible · The Disney Account Podcast
 
-This podcast is **internal Deloitte Account Team content** specifically about The Walt Disney Company. The design rules below add to (don't replace) the Trilogy show bibles.
+This podcast is **internal firm Account Team content** specifically about The Walt Disney Company. The design rules below add to (don't replace) the Trilogy show bibles.
 
 ---
 
@@ -8,7 +8,7 @@ This podcast is **internal Deloitte Account Team content** specifically about Th
 
 | Dimension | Trilogy podcasts | Disney Account podcast |
 |---|---|---|
-| **Audience** | Sellers / Architects / Operators — framework-wide | Deloitte Account Team for Disney — account-specific |
+| **Audience** | Sellers / Architects / Operators — framework-wide | firm Account Team for Disney — account-specific |
 | **Client naming** | Anonymised by archetype | Names Disney directly (internal use) |
 | **Scope** | The full APEX framework | The 16 Disney-fit APEX scenarios + Disney as an account |
 | **Independence posture** | Discusses generically | Names *specific* Independence considerations for this account |
@@ -66,8 +66,8 @@ Hosts reference these naturally as part of conversation, not as a list.
 
 The Independence posture for Disney specifically:
 
-- Deloitte serves Disney across multiple service lines. The Account Team understands the audit-vs-advisory boundary at this account specifically.
-- Recommendations of Microsoft platforms are on the merits — APEX is delivered as services, no Microsoft compensation flows back to Deloitte.
+- The firm serves Disney across multiple service lines. The Account Team understands the audit-vs-advisory boundary at this account specifically.
+- Recommendations of Microsoft platforms are on the merits — APEX is delivered as services, no Microsoft compensation flows back to the firm.
 - Disney's procurement is sophisticated and will probe Independence. Sellers must be precise.
 - Episode 5 names specific Independence considerations for this account.
 

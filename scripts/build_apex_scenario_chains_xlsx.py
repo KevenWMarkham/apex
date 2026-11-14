@@ -364,7 +364,7 @@ def build():
         ("Document version", "v1.0 · 2026-05-01", None, None),
         ("Modeled on", "AXLE-Scenario-Chains.xlsx (parallel structure)", None, None),
         ("Independence posture",
-         "All APEX commercial materials use 'Deloitte's Microsoft practice,' 'DMTSP,' 'Microsoft platform capabilities,' 'Microsoft-native deployment.' Terms 'partner,' 'alliance,' 'strategic alliance' do not appear.",
+         "All APEX commercial materials use 'the firm's Microsoft practice,' 'DMTSP,' 'Microsoft platform capabilities,' 'Microsoft-native deployment.' Terms 'partner,' 'alliance,' 'strategic alliance' do not appear.",
          None, None),
     ]
     for i, row in enumerate(rows, start=1):
@@ -453,7 +453,7 @@ def build():
 
     # ===== Sheet 4: Scenario → KPI Chain =====
     ws = wb.create_sheet("Scenario→KPI Chain")
-    headers = ["Scenario ID", "Scenario (the moment)", "Solution / Agent (ORCH archetype)", "Use Cases (decomposed)", "Service (Deloitte unit)", "Personas (operator · HITL approver)", "KPI (measurable outcome)", "Featured?"]
+    headers = ["Scenario ID", "Scenario (the moment)", "Solution / Agent (ORCH archetype)", "Use Cases (decomposed)", "Service (the firm unit)", "Personas (operator · HITL approver)", "KPI (measurable outcome)", "Featured?"]
     widths = [28, 50, 40, 40, 36, 30, 36, 12]
     write_hdrs(ws, headers, widths)
     ws.freeze_panes = "B2"

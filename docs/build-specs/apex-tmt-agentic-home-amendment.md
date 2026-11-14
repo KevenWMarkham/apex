@@ -3,7 +3,7 @@
 **Amendment number:** TMT-AMD-001
 **Amended document:** `docs/build-specs/apex-tmt-build-spec.md`
 **Status:** Draft
-**Author:** tmt-practice-lead@deloitte.com
+**Author:** tmt-practice-lead@example.com
 **Date:** Draft
 
 ---

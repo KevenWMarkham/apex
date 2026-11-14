@@ -78,8 +78,8 @@ schema_mappings:
         bronze_type: string
 
 runbook:
-  primary_contact: rc-data-platform@deloitte.com
-  secondary_contact: rc-on-call@deloitte.com
+  primary_contact: rc-data-platform@example.com
+  secondary_contact: rc-on-call@example.com
   sla_recovery_minutes: 60
   failure_modes:
     - code: MIRROR_LAG_HIGH

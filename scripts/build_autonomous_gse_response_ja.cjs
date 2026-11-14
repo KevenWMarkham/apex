@@ -122,7 +122,7 @@ const cover = [
     spacing: { after: 360 },
     children: [jpRun("デロイト トーマツ ジャパン 自律型GSE市場調査プロジェクト 提案書 添付資料", { italics: true, size: 22, color: "475569" })],
   }),
-  p("作成者：Keven Markham（ケビン・マーカム）／Specialist Master, Deloitte Microsoft Technology & Services Practice (DMTSP)", { size: 20 }),
+  p("作成者：Keven Markham（ケビン・マーカム）／Specialist Master, Microsoft Technology & Services Practice (DMTSP)", { size: 20 }),
   p("送付先：朝 永隆（あさ ながたか）様 ／ デロイト トーマツ ジャパン", { size: 20 }),
   p("作成日：2026年5月1日", { size: 20 }),
   p("機密区分：社内限り（デロイト グローバル）", { size: 20, italics: true }),
@@ -296,7 +296,7 @@ const successFactors = [
   bullet("標準化への関与：IATA AHM ワーキンググループ、ISO TC 20/SC 9、SAE G-31（航空自律化）への積極参画は、空港当局に対する長期姿勢を示す。"),
 ];
 
-const deloitteFit = [
+const firmFit = [
   h1("6. デロイトのケイパビリティ・フック（DMTSP × APEX）"),
   p("デロイト Microsoft プラクティス（DMTSP）は APEX フレームワークと、それを実装するエンジニアリング能力を提供する。自律型GSE案件のエンゲージメント・モデルには、定型の4ワークストリームがある。"),
   h3("ワークストリーム A — 運営者側 実装"),
@@ -318,7 +318,7 @@ const deloitteFit = [
 
 const closingCV = [
   h1("7. 著者プロフィール — Keven Markham"),
-  p("Specialist Master、Deloitte Microsoft Technology & Services Practice（DMTSP）所属。Microsoft プラットフォーム（Azure、Fabric、Power Platform、Copilot、Foundry、Security）で 22 年超の経験を有する。APEX フレームワーク主任アーキテクト。輸送・空港隣接領域では、複数空港にまたがる資産健全性プログラム、ランプ運用データ・アーキテクチャ、自動車（AXLE）から産業用フリート（ICE）への自律モビリティ・パターンの転用を手掛けている。"),
+  p("Specialist Master、Microsoft Technology & Services Practice（DMTSP）所属。Microsoft プラットフォーム（Azure、Fabric、Power Platform、Copilot、Foundry、Security）で 22 年超の経験を有する。APEX フレームワーク主任アーキテクト。輸送・空港隣接領域では、複数空港にまたがる資産健全性プログラム、ランプ運用データ・アーキテクチャ、自動車（AXLE）から産業用フリート（ICE）への自律モビリティ・パターンの転用を手掛けている。"),
   h3("本件に関連する APEX 著作"),
   bullet("APEX Core（マニフェストモデル、HITL 分類、7層リファレンス・アーキテクチャ）。"),
   bullet("APEX-ICE プラクティス（フィールド資産障害対応、As-a-Service 稼働率最適化、コンプライアンス検査対応）。"),
@@ -409,7 +409,7 @@ const doc = new Document({
       ...serviceMapping,
       ...airportNeeds,
       ...successFactors,
-      ...deloitteFit,
+      ...firmFit,
       ...closingCV,
     ],
   }],

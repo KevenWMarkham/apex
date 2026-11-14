@@ -22,7 +22,7 @@ work item.
 - **Naming** — per *Appendix A — Naming Convention & SKU Reference*: pattern
   `<type-prefix>-apex-m-gssc-<purpose>-<region-short>`. Subscription is
   `sub-apex-m-gssc-lab`; management group is `mg-apex-m-lab` under
-  `mg-deloitte-dmtsp`; Log Analytics is `log-apex-m-gssc-eus2`.
+  `mg-dmtsp`; Log Analytics is `log-apex-m-gssc-eus2`.
 - **Tag policy** — six required tags per §3.3:
   `apex-m`, `env`, `owner`, `pack-tenant`, `auto-stop`, `cost-center`.
   Pack-tenant allowed values per §22.2: `shared`, `merch`, `finance`, `risk`,

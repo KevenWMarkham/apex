@@ -132,7 +132,7 @@ Three pipelines. Three layers. Three lifecycles. They don't cross.
 
 **KEVEN:** OK. FinOps. Cost discipline.
 
-**SAM:** Right. The framework's position on FinOps is — *Microsoft consumption is a real cost line on the client's books, and APEX deployments are responsible for it.* Not in the sense that Deloitte pays it — Deloitte doesn't pay Azure bills. In the sense that the deployment makes choices that determine the bill. And those choices should be conscious.
+**SAM:** Right. The framework's position on FinOps is — *Microsoft consumption is a real cost line on the client's books, and APEX deployments are responsible for it.* Not in the sense that the firm pays it — the firm doesn't pay Azure bills. In the sense that the deployment makes choices that determine the bill. And those choices should be conscious.
 
 **KEVEN:** And the framework's tools for that —
 

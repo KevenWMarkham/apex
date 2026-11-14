@@ -137,7 +137,7 @@ def page_footer(slide, slide_no: int, total: int):
     add_rect(slide, Inches(0.5), Inches(7.0), Inches(12.33), Inches(0.02),
              fill=PLACEHOLDER_BG)
     add_textbox(slide, Inches(0.5), Inches(7.10), Inches(9), Inches(0.30),
-                "APEX  ·  Deloitte Microsoft Technology & Services Practice",
+                "APEX  ·  Microsoft Technology & Services Practice",
                 size=9, color=PLACEHOLDER_FG)
     add_textbox(slide, Inches(11.00), Inches(7.10), Inches(2.0), Inches(0.30),
                 f"{slide_no} / {total}", size=9, bold=True, color=GREEN,
@@ -173,7 +173,7 @@ def main() -> None:
     add_textbox(s, Inches(0.5), Inches(4.75), Inches(8), Inches(0.7),
                 "APEX", size=72, bold=True, color=WHITE)
     add_textbox(s, Inches(0.5), Inches(5.65), Inches(8), Inches(0.5),
-                "Deloitte's agentic-AI delivery framework",
+                "The firm's agentic-AI delivery framework",
                 size=22, color=WHITE)
     add_textbox(s, Inches(0.5), Inches(6.20), Inches(8), Inches(0.40),
                 "Walkthrough for DMTSP  ·  what it is · how to demo · how to sell",
@@ -473,7 +473,7 @@ def main() -> None:
     s = prs.slides.add_slide(blank)
     add_rect(s, Inches(0), Inches(0), SLIDE_W, SLIDE_H, fill=BG)
     header_minimal(s, "Independence  —  non-negotiable",
-                   "Deloitte audits Microsoft. SEC rules shape funding.")
+                   "The firm audits Microsoft. SEC rules shape funding.")
     # Left: photo
     photo_placeholder(s, Inches(0.5), Inches(1.9), Inches(5.0), Inches(4.6),
                       prompt="scales of justice statue on legal desk, soft natural light",
@@ -524,13 +524,13 @@ def main() -> None:
     add_textbox(s, Inches(6.85), Inches(2.15), Inches(6.0), Inches(0.8),
                 "✓", size=80, bold=True, color=GREEN, align=PP_ALIGN.CENTER)
     add_textbox(s, Inches(6.85), Inches(3.3), Inches(6.0), Inches(0.7),
-                "Deloitte delivery framework",
+                "firm delivery framework",
                 size=24, bold=True, color=GREEN, align=PP_ALIGN.CENTER)
     add_textbox(s, Inches(7.05), Inches(4.1), Inches(5.6), Inches(2.4),
                 ["We sell  agentic-AI delivery services.",
                  "Scoped per Pack. Per tier.",
                  "Per SOW under a Service Envelope.",
-                 "Framework is Deloitte IP. Always."],
+                 "Framework is firm IP. Always."],
                 size=14, color=STRONG_INK, align=PP_ALIGN.CENTER)
     page_footer(s, 12, TOTAL)
 

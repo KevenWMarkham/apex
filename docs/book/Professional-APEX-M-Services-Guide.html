@@ -568,7 +568,7 @@
   <div class="edition">A Deep Dive Into the 38 Cataloged Services Across Seven Practices</div>
   <p class="tagline">The middle volume of the <a href="Professional-APEX-M-Library.html" style="color:var(--gold);">APEX Trilogy</a> — paired with the <a href="Professional-APEX-M-Sellers-Guide.html" style="color:var(--gold);">Sellers Guide</a> (Volume I · positioning APEX-accelerated Services) and the <a href="Professional-APEX-M-Deployment-Guide.html" style="color:var(--gold);">Deployment Guide</a> (Volume III · deploying Services on the Microsoft Platform). This book is about the <em>data and orchestration</em> that make every Service real, and how the APEX framework accelerates the building of those Services: client SOR systems landed into Bronze, conformed to Silver, served from Gold, called by Agents through MCP, and orchestrated by n8n on the laptop or Azure Logic Apps Hybrid in production.</p>
   <div class="wrox-label">WROX-STYLE EDITION · SERVICES VOLUME</div>
-  <div class="byline">Keven Markham · VP Enterprise Transformation · Deloitte's Microsoft Technology &amp; Services Practice · May 2026</div>
+  <div class="byline">Keven Markham · VP Enterprise Transformation · the firm's Microsoft Technology &amp; Services Practice · May 2026</div>
 </section>
 
 <!-- ============================================================
@@ -579,8 +579,8 @@
 
   <aside class="callout note" style="margin-bottom: 28px;">
     <div class="callout-label">What APEX Is — read this first</div>
-    <p><strong>APEX is a framework that accelerates the building of services and agents on the Microsoft Platform.</strong> It is the architectural substrate Deloitte's Microsoft practice uses internally to deliver Services faster, more consistently, and with more rigorous governance. <strong>APEX is not a product and is not sold.</strong> What clients buy are <em>Services</em> — the 38-Service catalog enumerated in Part VI, each a productized envelope with a KPI commitment, scope, persona model, and two-contract Independence-compliant commercial structure. The Service is the contractable unit; the framework is the means.</p>
-    <p style="margin-top: 6px;">When this book says "APEX," read "the APEX framework." When it says "Service," read "the productized envelope clients actually buy." When it says "Service architect uses APEX to build RC-E2E-03," read "the architect uses framework primitives — medallion · MCP · LEDGER · agent runtime · orchestration parity · trust envelope — to build the Service the client contracted for." The distinction is structural, not stylistic; the two-contract Independence model (client ↔ Microsoft for platform · client ↔ Deloitte for Services) makes the Service the contractable unit, not the framework.</p>
+    <p><strong>APEX is a framework that accelerates the building of services and agents on the Microsoft Platform.</strong> It is the architectural substrate the firm's Microsoft practice uses internally to deliver Services faster, more consistently, and with more rigorous governance. <strong>APEX is not a product and is not sold.</strong> What clients buy are <em>Services</em> — the 38-Service catalog enumerated in Part VI, each a productized envelope with a KPI commitment, scope, persona model, and two-contract Independence-compliant commercial structure. The Service is the contractable unit; the framework is the means.</p>
+    <p style="margin-top: 6px;">When this book says "APEX," read "the APEX framework." When it says "Service," read "the productized envelope clients actually buy." When it says "Service architect uses APEX to build RC-E2E-03," read "the architect uses framework primitives — medallion · MCP · LEDGER · agent runtime · orchestration parity · trust envelope — to build the Service the client contracted for." The distinction is structural, not stylistic; the two-contract Independence model (client ↔ Microsoft for platform · client ↔ the firm for Services) makes the Service the contractable unit, not the framework.</p>
   </aside>
 
   <p>The APEX library is now three volumes. The <em>Sellers Guide</em> answers <em>how to position APEX-accelerated Services</em>; the <em>Deployment Guide</em> answers <em>how to deploy those Services on the Microsoft Platform</em>; this volume — the <em>Services Guide</em> — answers the question between them: <strong>what data drives each Service, how the APEX framework shapes it, and how Agents compose over it through orchestration</strong>.</p>
@@ -611,7 +611,7 @@
 
   <p>Schema names follow the APEX framework convention — uppercase prefix (SCML, MERML, PROML) followed by an entity name in PascalCase: <code class="inline-code">SCML.Lot</code>, <code class="inline-code">MERML.Markdown</code>, <code class="inline-code">PROML.Pricing</code>. Bronze tables are prefixed <code class="inline-code">br_</code>, Silver with the schema name itself, Gold with <code class="inline-code">g_</code>: <code class="inline-code">br_pos_transactions</code> → <code class="inline-code">SCML.Inventory</code> → <code class="inline-code">g_inventory_position_daily</code>. The pattern is uniform across all 38 Services.</p>
 
-  <aside class="callout independence"><div class="callout-label">Independence — Same boundaries apply</div><p>The two-contract structure from the Deployment Guide carries through this volume. Client SOR data flows under the client's Microsoft platform contract; schemas, MCP tool definitions, and orchestration JSON are Deloitte-authored artifacts shipped to the client tenant via the same mirror boundary that ships agent images. Throughout this book, the relationship is described as <strong>"Deloitte's Microsoft practice," "DMTSP,"</strong> or <strong>"Microsoft-native deployment."</strong> Never <em>partner</em>, <em>alliance</em>, or <em>strategic alliance</em>.</p></aside>
+  <aside class="callout independence"><div class="callout-label">Independence — Same boundaries apply</div><p>The two-contract structure from the Deployment Guide carries through this volume. Client SOR data flows under the client's Microsoft platform contract; schemas, MCP tool definitions, and orchestration JSON are firm-authored artifacts shipped to the client tenant via the same mirror boundary that ships agent images. Throughout this book, the relationship is described as <strong>"The firm's Microsoft practice," "DMTSP,"</strong> or <strong>"Microsoft-native deployment."</strong> Never <em>partner</em>, <em>alliance</em>, or <em>strategic alliance</em>.</p></aside>
 
   <h2>Source Material</h2>
   <p>This book is downstream of:</p>
@@ -2178,7 +2178,7 @@ toolbox.publish(project=FOUNDRY_PROJECT_ENDPOINT)</code></pre></div>
     <tr><td><strong>Mirroring</strong></td><td>Microsoft Fabric Mirrored Database</td><td>Database SOR with CDC support (Azure SQL, Cosmos DB, Snowflake, Databricks)</td><td>Mirror SAP S/4HANA tables · payer claims engines · PMS</td></tr>
     <tr><td><strong>Eventstream</strong></td><td>Microsoft Fabric Real-Time Intelligence Eventstream</td><td>Streaming events (Kafka, Event Hubs, IoT Hub)</td><td>POS terminal events · refrigeration telemetry · network probes</td></tr>
     <tr><td><strong>Pipeline</strong></td><td>Microsoft Fabric Data Pipeline (Microsoft.DataFactory under the hood)</td><td>Files, REST APIs, scheduled extracts</td><td>Competitor pricing CSVs · daily ERP exports · regulatory rate sheets</td></tr>
-    <tr><td><strong>Shortcut</strong></td><td>OneLake Shortcut (Microsoft Fabric)</td><td>Existing data in another Fabric workspace, ADLS Gen2, S3, GCS</td><td>Cross-tenant Deloitte reference data · shared synthetic fixtures (Lab only)</td></tr>
+    <tr><td><strong>Shortcut</strong></td><td>OneLake Shortcut (Microsoft Fabric)</td><td>Existing data in another Fabric workspace, ADLS Gen2, S3, GCS</td><td>Cross-tenant the firm reference data · shared synthetic fixtures (Lab only)</td></tr>
   </tbody></table></div>
 
   <p>Most Services use a mix. RC-E2E-03's Bronze layer combines an Eventstream (refrigeration), a Mirrored Database (SAP S/4HANA inventory), and a Pipeline (competitor pricing daily CSV). The medallion contract is uniform regardless of path; the path is just an ingestion choice.</p>
@@ -2646,7 +2646,7 @@ thresholds:
 
   <p>The Bicep deploy reads <code class="inline-code">thresholds.yaml</code>, generates the matching Activator triggers (or KQL update-policy rules), and wires each action to its Logic Apps SOAR playbook or Microsoft Teams adaptive-card flow. Threshold authoring is engagement-team work; threshold realisation is APEX-M framework work.</p>
 
-  <aside class="callout independence"><div class="callout-label">Independence — thresholds live in the client tenant</div><p>Thresholds encode the client's risk appetite. APEX framework code provides the schema, the Bicep generator, and the realisation primitives (Activator triggers · Logic Apps playbooks · Teams adaptive cards) — but the <em>values</em> (15 minutes · 8°C · merch-director) are client decisions, authored by the client's data-product owner or by Deloitte on the client's behalf as part of the engagement scope. The client owns the threshold, the action, and the owner.</p></aside>
+  <aside class="callout independence"><div class="callout-label">Independence — thresholds live in the client tenant</div><p>Thresholds encode the client's risk appetite. APEX framework code provides the schema, the Bicep generator, and the realisation primitives (Activator triggers · Logic Apps playbooks · Teams adaptive cards) — but the <em>values</em> (15 minutes · 8°C · merch-director) are client decisions, authored by the client's data-product owner or by the firm on the client's behalf as part of the engagement scope. The client owns the threshold, the action, and the owner.</p></aside>
 
   <h2 id="ch-5a-7">5A.7 Threshold → Action Mapping</h2>
   <p>Every threshold maps to exactly one action. APEX-M's seven canonical action types — pick exactly one per threshold:</p>
@@ -5027,7 +5027,7 @@ WHERE sh.expiry_date_d - CURRENT_DATE() &lt; INTERVAL 7 DAY</code></pre></div>
   <p>The audit chain in the Deployment Guide (§6.3.1, Ch 5) records every agent decision with a row hash and a backing MCP tool reference. The MCP tool reference points at a Gold mart. The Gold mart's lineage in Purview points at Silver entities. The Silver entities' lineage points at Bronze tables. The Bronze tables' lineage points at the SOR connection.</p>
   <p>For any LEDGER row, a six-hop reconstruction reaches back to the source-of-record system and the timestamp at which it produced the supporting fact. That is the audit-grade chain a regulator can walk: <em>"on date X, this Service decided Y; the agent that decided it called this MCP tool; the MCP tool returned this row hash from this Gold mart; the Gold mart was materialized from these Silver entities; the Silver entities were built from these Bronze rows; the Bronze rows came from these SOR systems via this connection at this timestamp."</em></p>
 
-  <aside class="callout independence"><div class="callout-label">Independence — Microsoft Purview is the audit-narrative substrate</div><p>Microsoft Purview running in the client tenant is what makes the two-contract model defensible to a client's audit committee. The Deloitte authoring artifacts that crossed the Independence boundary (agent images, Bicep, schema definitions) are visible as registered assets; the client SOR systems and client data lineage are visible as the things they connect into. The single picture is what an auditor walks. Without Purview, the picture has to be reconstructed from a half-dozen sources.</p></aside>
+  <aside class="callout independence"><div class="callout-label">Independence — Microsoft Purview is the audit-narrative substrate</div><p>Microsoft Purview running in the client tenant is what makes the two-contract model defensible to a client's audit committee. The authoring artifacts that crossed the Independence boundary (agent images, Bicep, schema definitions) are visible as registered assets; the client SOR systems and client data lineage are visible as the things they connect into. The single picture is what an auditor walks. Without Purview, the picture has to be reconstructed from a half-dozen sources.</p></aside>
 
   </div>
   <aside class="chapter-summary">
@@ -5082,7 +5082,7 @@ WHERE sh.expiry_date_d - CURRENT_DATE() &lt; INTERVAL 7 DAY</code></pre></div>
     <li><strong>A SOC (Security Operations Center)</strong> in the back room watching all of the above on monitors. That's <strong>Microsoft Sentinel</strong> + the <strong>Defender</strong> suite.</li>
   </ul>
   <p>The new piece — and the reason this chapter exists — is that <strong>AI agents now get their own ID badges</strong>. Until 2025, only humans and apps had identities. Now Foundry-hosted agents are first-class citizens in Entra ID: each agent has its own badge (called a "Microsoft Entra Agent ID"), its own access rules, its own audit trail. Agents can be flagged risky, revoked, reviewed quarterly — just like employees.</p>
-  <p style="margin-bottom: 0;">The rest of this chapter explains how each piece of the building works in detail, how APEX-M wires them together, and how the "two-contract Independence model" keeps everything in the client's tenant (not Deloitte's). Read the primer once · skim the technical sections as you need them.</p></aside>
+  <p style="margin-bottom: 0;">The rest of this chapter explains how each piece of the building works in detail, how APEX-M wires them together, and how the "two-contract Independence model" keeps everything in the client's tenant (not the firm's). Read the primer once · skim the technical sections as you need them.</p></aside>
 
   <div class="chapter-body">
 
@@ -5394,7 +5394,7 @@ WHERE sh.expiry_date_d - CURRENT_DATE() &lt; INTERVAL 7 DAY</code></pre></div>
 
   <p>Per Services Guide §30.1.5: <em>"the Trust envelope is realised, not declared."</em> The realisation is the Entra + Purview surface laid out above. None of these primitives are APEX framework code — they are Microsoft platform services configured by APEX-M Bicep (per Deployment Guide §5A) and consumed via standard SDKs.</p>
 
-  <aside class="callout independence"><div class="callout-label">Independence — Entra and Purview live in the client tenant</div><p>Per the two-contract Independence model, Microsoft Entra ID and Microsoft Purview are <em>client</em> services — the client provisions and operates them; Deloitte's Microsoft practice configures them via APEX-M Bicep + deployment scripts as part of the Service-delivery engagement. No Deloitte tenant is in the trust path. ECIF or other Microsoft funding flows directly client ↔ Microsoft. The APEX framework documents the configuration; the configuration runs in the client's Entra and Purview.</p></aside>
+  <aside class="callout independence"><div class="callout-label">Independence — Entra and Purview live in the client tenant</div><p>Per the two-contract Independence model, Microsoft Entra ID and Microsoft Purview are <em>client</em> services — the client provisions and operates them; the firm's Microsoft practice configures them via APEX-M Bicep + deployment scripts as part of the Service-delivery engagement. No tenant is in the trust path. ECIF or other Microsoft funding flows directly client ↔ Microsoft. The APEX framework documents the configuration; the configuration runs in the client's Entra and Purview.</p></aside>
 
   <figure class="diagram" style="margin: 24px 0; text-align: center;">
     <svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg" style="max-width: 100%; height: auto; font-family: Aptos, sans-serif;">
@@ -6482,7 +6482,7 @@ def has_agent_framework() -&gt; bool:
     <li><strong>ADR-025-01 binding — within-tenant only.</strong> Cross-tenant A2A is forbidden (§31.4). Within-tenant A2A is the only path the Loader binds. The protocol is capable of more; the policy is the binding.</li>
   </ul>
 
-  <aside class="callout independence"><div class="callout-label">Independence — what's running in whose tenant</div><p>The Loader is APEX framework code. It runs in the <strong>client tenant</strong> per the two-contract Independence model — client ↔ Microsoft for the platform, client ↔ Deloitte for the Service-delivery engagement. Microsoft Agent Framework is open-source Microsoft software; the client (or, on the client's behalf, the engagement team) installs it as a runtime dep of apex-m on Foundry hosted agents. A2A traffic crosses agent boundaries within the client's Microsoft Entra tenant only — never between Deloitte and the client, never between two client tenants. This volume documents how the Loader builds the bridge; the Sellers Guide describes the commercial envelope; the Deployment Guide describes the platform on which it runs.</p></aside>
+  <aside class="callout independence"><div class="callout-label">Independence — what's running in whose tenant</div><p>The Loader is APEX framework code. It runs in the <strong>client tenant</strong> per the two-contract Independence model — client ↔ Microsoft for the platform, client ↔ the firm for the Service-delivery engagement. Microsoft Agent Framework is open-source Microsoft software; the client (or, on the client's behalf, the engagement team) installs it as a runtime dep of apex-m on Foundry hosted agents. A2A traffic crosses agent boundaries within the client's Microsoft Entra tenant only — never between the firm and the client, never between two client tenants. This volume documents how the Loader builds the bridge; the Sellers Guide describes the commercial envelope; the Deployment Guide describes the platform on which it runs.</p></aside>
 
   <h3 id="ch-14a-8-4">14A.8.4 The Five-Pattern Dispatcher</h3>
   <p>The dispatcher is the heart of the Loader. It is a verbatim mapping — APEX pattern name → Agent Framework builder method — with no transformation:</p>
@@ -8824,9 +8824,9 @@ def get_similar_prior_decisions(
   <h2 id="ch-25-6">25.6 Cross-Service Learning Within the Independence Boundary</h2>
   <p>Within a single client tenant, cross-Service learning is unconstrained — the data, the LEDGER, the Redis instance, and the Microsoft Fabric capacity all belong to the same client and are governed by the same Microsoft contract. RC-E2E-03's pricing decisions teach RC-E2E-04's loyalty winback offers what kinds of price levels operators tend to approve. HLS-E2E-04's prior-auth speed-of-resolution patterns inform HLS-E2E-02's denial-prevention pre-emptive actions. Within-tenant cross-Service learning is the leverage that makes "more Services per tenant" commercially compelling beyond the cost amortization in the Deployment Guide.</p>
 
-  <p>Across tenants, learning never crosses. Each client tenant is a closed superagent training universe. The Deloitte authoring tenant accumulates synthetic LEDGER for product-level superagent prototyping, but no client decision row, no client persona preference, no client KPI outcome ever enters another client's training corpus. Federated learning patterns are out of scope for v1; they may revisit when ≥ 5 client tenants are live and a careful cross-tenant aggregation proposal can be reviewed under the two-contract structure.</p>
+  <p>Across tenants, learning never crosses. Each client tenant is a closed superagent training universe. The authoring tenant accumulates synthetic LEDGER for product-level superagent prototyping, but no client decision row, no client persona preference, no client KPI outcome ever enters another client's training corpus. Federated learning patterns are out of scope for v1; they may revisit when ≥ 5 client tenants are live and a careful cross-tenant aggregation proposal can be reviewed under the two-contract structure.</p>
 
-  <aside class="callout independence"><div class="callout-label">Independence — Each tenant is a closed universe</div><p>The temptation to "use lessons from Client A's RC-E2E-03 to bootstrap Client B's onboarding" is structural Independence violation. The bootstrap is the Deloitte-authored agent image, the Deloitte-authored prompts, the Deloitte-authored MCP tool definitions, the Deloitte-authored synthetic-fixture training corpus. Client A's actual decisions, actual personas, actual outcomes never propagate. The mirror boundary at Layer 3 (Deployment Guide §1.4) is also a learning-corpus boundary.</p></aside>
+  <aside class="callout independence"><div class="callout-label">Independence — Each tenant is a closed universe</div><p>The temptation to "use lessons from Client A's RC-E2E-03 to bootstrap Client B's onboarding" is structural Independence violation. The bootstrap is the firm-authored agent image, the firm-authored prompts, the firm-authored MCP tool definitions, the firm-authored synthetic-fixture training corpus. Client A's actual decisions, actual personas, actual outcomes never propagate. The mirror boundary at Layer 3 (Deployment Guide §1.4) is also a learning-corpus boundary.</p></aside>
 
   <aside class="callout adr">
     <div class="callout-label">ADR · architecture decision</div>
@@ -8841,7 +8841,7 @@ def get_similar_prior_decisions(
   <p>A "superagent" is not a separate Container App. It is an evolved version of an existing agent — for example, <em>The Analyst v3.2</em> — whose prompt structure, MCP tool selection logic, and few-shot exemplar set have matured through the LEDGER + Redis feedback loop. The promotion is mechanically identical to any other Layer 3 minor SemVer bump (Deployment Guide §12.1) except that the cosign attestation predicate (Deployment Guide §12.3 / Appendix D) records the LEDGER training corpus the new version was tuned against.</p>
 
   <div class="code-block"><div class="code-lang">JSON — superagent attestation predicate (extending the standard form)</div><pre><code>{
-  "predicateType": "apex.deloitte/agent-attestation/v1",
+  "predicateType": "apex.example/agent-attestation/v1",
   "predicate": {
     "image_digest":    "sha256:...",
     "agent_id":        "the-analyst",
@@ -8890,7 +8890,7 @@ def get_similar_prior_decisions(
     <li>The KPI envelope shifts: GM lift moves from +3.2pp toward +4.5pp, days-on-hand toward −34%, markdown-to-clear toward +52%. The Sellers Guide commitments are met with margin.</li>
   </ul>
 
-  <aside class="callout bestpractice"><div class="callout-label">Best Practice — Don't skip Year 1</div><p>The temptation to "ship a Year-2 prompt at Year-1 launch" is strong, especially after a few clients onboard and the Deloitte authoring corpus suggests good defaults. Resist. Year-1 LEDGER from <em>this</em> client tenant is what the Year-2 refinement is supposed to learn from; pre-loading prompts trained on synthetic or other-client data violates the Independence boundary in §25.6. Year 1 is where the Service learns the client. Skip it and you have a clever shipping product, not a maturing Service.</p></aside>
+  <aside class="callout bestpractice"><div class="callout-label">Best Practice — Don't skip Year 1</div><p>The temptation to "ship a Year-2 prompt at Year-1 launch" is strong, especially after a few clients onboard and the authoring corpus suggests good defaults. Resist. Year-1 LEDGER from <em>this</em> client tenant is what the Year-2 refinement is supposed to learn from; pre-loading prompts trained on synthetic or other-client data violates the Independence boundary in §25.6. Year 1 is where the Service learns the client. Skip it and you have a clever shipping product, not a maturing Service.</p></aside>
 
   </div>
   <aside class="chapter-summary">
@@ -9966,7 +9966,7 @@ def promote_agent_version():
   <div class="part-label">Part IX</div>
   <h1 class="part-title">Agent Stack &amp; Services Era</h1>
   <p class="part-intro">By now you've followed one decision — Marisol's cold-chain markdown — through every layer that made it possible. Data flowed through Bronze · Silver · Gold (Parts I–IV). Agents reasoned over it through MCP (Part I). Orchestrations stitched the agents together (Part V). Service-specific implementations and worked examples landed it in operators' hands (Parts VI–VIII). Part IX steps back and asks a different question: <em>given that all this works, what kind of operating system are we actually building?</em></p>
-  <p class="part-intro">Three perspectives in this part. The first is governance — the <strong>Service envelopes</strong> (Commercial · Scope · Data · Schema · Trust · Cost) that bound what each Service can do, plus the <strong>Experience plane</strong> where humans meet the system through Microsoft 365 Copilot, Microsoft Teams cards, Power BI dashboards. These are the rails. The second is the Microsoft agent stack as a coordinated whole — Semantic Kernel, Microsoft Agent Framework, Foundry Agent Service, Copilot Studio, A2A — five components Microsoft positions for different concerns, and how APEX composes them rather than picks one. The third is the bigger arc: the application era ended; the services era began. The deliverable a Deloitte engagement ships is no longer "an app the client deploys" but "an agent-driven decision capability that lives in the client's tenant alongside the rest of their Microsoft estate."</p>
+  <p class="part-intro">Three perspectives in this part. The first is governance — the <strong>Service envelopes</strong> (Commercial · Scope · Data · Schema · Trust · Cost) that bound what each Service can do, plus the <strong>Experience plane</strong> where humans meet the system through Microsoft 365 Copilot, Microsoft Teams cards, Power BI dashboards. These are the rails. The second is the Microsoft agent stack as a coordinated whole — Semantic Kernel, Microsoft Agent Framework, Foundry Agent Service, Copilot Studio, A2A — five components Microsoft positions for different concerns, and how APEX composes them rather than picks one. The third is the bigger arc: the application era ended; the services era began. The deliverable an engagement ships is no longer "an app the client deploys" but "an agent-driven decision capability that lives in the client's tenant alongside the rest of their Microsoft estate."</p>
   <p class="part-intro">The seven chapters below settle this picture. <strong>Chapter 30</strong> is envelopes + experience plane. <strong>Chapter 31</strong> is the Microsoft agent stack panorama. <strong>Chapter 31A</strong> goes deep on Azure AI Foundry as the inference plane. <strong>Chapter 32</strong> contrasts APEX's audited agent context with raw LLM SDKs. <strong>Chapter 32A</strong> walks Sentinel + Defender as the security-operations companion. <strong>Chapter 33A</strong> covers the M365 · Power Platform · Dynamics 365 · Graph integration surfaces. <strong>Chapter 33</strong> closes with the change-management story — the human side of moving from app-thinking to service-thinking.</p>
   <div class="part-chapters">
     <h2>Chapters in this Part</h2>
@@ -10769,7 +10769,7 @@ ApexA2A_CL
   <div class="table-wrap"><table class="md-table"><thead><tr><th>Component</th><th>APEX-M role</th><th>When</th></tr></thead><tbody>
     <tr><td><strong>Power Automate</strong></td><td>Workflow runtime alternative to Azure Logic Apps Hybrid · M365-native triggers</td><td>When the workflow primarily lives in Microsoft 365 (Teams approval flow → SharePoint update → Outlook notify); not for cross-cloud orchestration</td></tr>
     <tr><td><strong>Power Apps</strong></td><td>Low-code custom UIs for engagement-team admin tools; rare for end operators (Power BI dashboards are the default analyst surface)</td><td>Apex-internal admin tools · per-Service config UI · use-case-author dashboards</td></tr>
-    <tr><td><strong>Microsoft Dataverse</strong></td><td>M365-native SOR for engagement-internal records (delivery-team activity log · meeting notes · sustain runbook)</td><td>Inside-Deloitte data; not a SOR for client engagements (client SOR uses D365 / SQL / Cosmos)</td></tr>
+    <tr><td><strong>Microsoft Dataverse</strong></td><td>M365-native SOR for engagement-internal records (delivery-team activity log · meeting notes · sustain runbook)</td><td>Inside-the firm data; not a SOR for client engagements (client SOR uses D365 / SQL / Cosmos)</td></tr>
     <tr><td><strong>Power Pages</strong></td><td>External (B2B / B2C) surfaces — supplier portals · customer self-service</td><td>Client engagements where the Service exposes an external operator surface (e.g., RC-E2E-09 supplier portal for FSMA-204 lot attestation)</td></tr>
     <tr><td><strong>Microsoft Copilot Studio</strong></td><td>Low-code custom-copilot builder · embeds custom copilots in non-Microsoft LOB apps</td><td>When operators live in Salesforce / Workday / ServiceNow and need a copilot embedded in their app, not in Microsoft 365</td></tr>
   </tbody></table></div>
@@ -10947,7 +10947,7 @@ ApexA2A_CL
 
   <p>What also stays the same: the commercial envelope is still a contract; SLA-and-margin economics still apply; the client still has a budget cycle. APEX engagements are not exotic; they fit standard enterprise commercial structures (W2 fixed-price → W3 outcome-based) that procurement teams already understand. The novelty is the architecture; the economics are familiar.</p>
 
-  <p>And what most stays the same: the Independence model. The two-contract structure (client ↔ Microsoft for platform, client ↔ Deloitte for services, ECIF flowing direct) is the same in the application era and the services era. The architecture realizes Independence more strictly (ADRs 003-01, 007-01, 025-01 · §30.1.5 Trust envelope), but the commercial doctrine is unchanged.</p>
+  <p>And what most stays the same: the Independence model. The two-contract structure (client ↔ Microsoft for platform, client ↔ the firm for services, ECIF flowing direct) is the same in the application era and the services era. The architecture realizes Independence more strictly (ADRs 003-01, 007-01, 025-01 · §30.1.5 Trust envelope), but the commercial doctrine is unchanged.</p>
 
   <aside class="callout independence"><div class="callout-label">Independence — services era doesn't relax the boundaries</div><p>Some adopting clients hope that "moving to a learning system" might soften the two-contract model — surely a system that learns continuously must benefit from cross-tenant data sharing? It does not. ADR-025-01 codifies the answer: each client tenant is a closed superagent training universe, the architecture enforces the boundary at Microsoft Fabric tenancy and at the Layer 3 image-mirror. The change-management lift is the operator-as-partner shift inside one tenant; it is not a re-negotiation of the commercial contract across tenants.</p></aside>
 
@@ -11399,7 +11399,7 @@ TBLPROPERTIES (
   <p><strong>Workflow parity</strong> — The contract that every orchestration is maintained as a single intent (<code class="inline-code">workflow.intent.md</code>) with substrate-specific JSON for both n8n (laptop) and Azure Logic Apps Hybrid (Microsoft platform).</p>
   <p><strong>WOSFML</strong> — Workforce Operations · Shift / Schedule Model Layer. <code class="inline-code">Shift</code>, <code class="inline-code">Schedule</code>, <code class="inline-code">TaskAssignment</code>, <code class="inline-code">LaborCost</code>.</p>
 
-  <aside class="callout independence"><div class="callout-label">Closing Independence Reminder</div><p>Throughout this guide and any deployment artifact derived from it, the Deloitte–Microsoft relationship is described as <strong>"Deloitte's Microsoft practice," "DMTSP," "Microsoft platform capabilities,"</strong> or <strong>"Microsoft-native deployment."</strong> Never <em>partner</em>, <em>alliance</em>, or <em>strategic alliance</em>. The two-contract structure (client ↔ Microsoft for platform, client ↔ Deloitte for services, ECIF direct) is enforced architecturally — by Microsoft Fabric tenancy, the two Container Registries, the Microsoft.KeyVault HSM boundary, and the Microsoft Purview audit graph. <strong>End of book.</strong></p></aside>
+  <aside class="callout independence"><div class="callout-label">Closing Independence Reminder</div><p>Throughout this guide and any deployment artifact derived from it, the firm–Microsoft relationship is described as <strong>"The firm's Microsoft practice," "DMTSP," "Microsoft platform capabilities,"</strong> or <strong>"Microsoft-native deployment."</strong> Never <em>partner</em>, <em>alliance</em>, or <em>strategic alliance</em>. The two-contract structure (client ↔ Microsoft for platform, client ↔ the firm for services, ECIF direct) is enforced architecturally — by Microsoft Fabric tenancy, the two Container Registries, the Microsoft.KeyVault HSM boundary, and the Microsoft Purview audit graph. <strong>End of book.</strong></p></aside>
 
   </div>
 </article>
@@ -11606,7 +11606,7 @@ TBLPROPERTIES (
     <li><strong>Open-source projects</strong> — GitHub search by the project name; the README links to current docs sites.</li>
   </ol>
 
-  <aside class="callout independence"><div class="callout-label">Independence — Cite, don't bind</div><p>Linking to external Microsoft content (Microsoft Learn, Microsoft Tech Community, Azure Architecture Center) reinforces the Microsoft-platform posture this book takes throughout. Linking to non-Microsoft open-source projects (MCP, Notation, cosign, Delta Lake, n8n, Redis) is part of the architecture and intentional. Linking to industry standards bodies cites the regulatory or commercial context — those orgs are not Deloitte or Microsoft alliances and the book's references to them carry no co-marketing implication. The two-contract Independence posture extends to citation hygiene: name the standard, link to the org, never imply a partnership where there is only a citation.</p></aside>
+  <aside class="callout independence"><div class="callout-label">Independence — Cite, don't bind</div><p>Linking to external Microsoft content (Microsoft Learn, Microsoft Tech Community, Azure Architecture Center) reinforces the Microsoft-platform posture this book takes throughout. Linking to non-Microsoft open-source projects (MCP, Notation, cosign, Delta Lake, n8n, Redis) is part of the architecture and intentional. Linking to industry standards bodies cites the regulatory or commercial context — those orgs are not the firm or Microsoft alliances and the book's references to them carry no co-marketing implication. The two-contract Independence posture extends to citation hygiene: name the standard, link to the org, never imply a partnership where there is only a citation.</p></aside>
 
   </div>
 </article>
@@ -11642,7 +11642,7 @@ TBLPROPERTIES (
     <li>Attestation predicate (cosign) · §25.7</li>
     <li>Attribution mart · §11.2.4, §25.4, J.1</li>
     <li>Audit chain · see LEDGER</li>
-    <li>Authoring registry (Deloitte) · cross-ref Deployment Guide §1.4</li>
+    <li>Authoring registry (the firm) · cross-ref Deployment Guide §1.4</li>
     <li>Azure Cache for Redis · Ch 25.3, App G.5</li>
     <li>Azure Container Apps · Ch 13, §29.4, App G.1</li>
     <li>Azure Container Registry · cross-ref Deployment Guide Ch 10</li>
@@ -12434,7 +12434,7 @@ _The telemetry, policy, or architectural change that keeps this from recurring._
     <tr><td>§164.310 Physical safeguards</td><td>Inherited from Microsoft datacenter compliance (Azure HIPAA BAA)</td></tr>
     <tr><td>§164.312 Technical safeguards (access control · audit · integrity · transmission)</td><td>Tier-3 PHI tokenization (Ch 7) · pii-unlock dual-control (KV HSM · §5A.5) · LEDGER hash-chain · TLS 1.2+ everywhere · Purview classification (§10A.10)</td></tr>
     <tr><td>§164.402 Breach notification</td><td>Sentinel detection 5 (§32A.2) auto-pages CISO + opens regulatory-disclosure assessment ≤ 1h</td></tr>
-    <tr><td>BAA (Business Associate Agreement)</td><td>Client ↔ Microsoft direct (per Independence model); Deloitte separately enters BAA with client where Service-delivery touches PHI</td></tr>
+    <tr><td>BAA (Business Associate Agreement)</td><td>Client ↔ Microsoft direct (per Independence model); the firm separately enters BAA with client where Service-delivery touches PHI</td></tr>
   </tbody></table></div>
 
   <h2 id="L-3">L.3 SOX · Control Mapping</h2>
@@ -12501,7 +12501,7 @@ _The telemetry, policy, or architectural change that keeps this from recurring._
     <li>Engagement-specific gaps and the SSP/SOA addenda that close them</li>
     <li>Continuous monitoring approach (Sentinel detections · evaluation gates · access reviews) per framework</li>
     <li>Audit cadence and assessor identity (where relevant)</li>
-    <li>Named compliance owner (Deloitte engagement) and named compliance lead (client)</li>
+    <li>Named compliance owner (firm engagement) and named compliance lead (client)</li>
   </ol>
 
   <p>The CPD is a living document — revised at every Wave promotion (Wave 1 → 2 → 3 per Sellers Guide §31). Approval gates are pinned to the CPD; STAGE → PROD promotion blocked unless current-version CPD is signed by both compliance owners.</p>
@@ -12565,7 +12565,7 @@ _The telemetry, policy, or architectural change that keeps this from recurring._
     <tr><td><strong>Agent identity</strong> · <strong>Microsoft Entra Agent ID</strong></td><td>Per-published-agent service principal in Entra ID issued by Foundry Agent Service. See §10A.3.</td></tr>
     <tr><td><strong>Agent identity blueprint</strong></td><td>Reusable Entra template governing a class of agent identities. See §10A.3.</td></tr>
     <tr><td><strong>Agent Framework</strong></td><td>Microsoft Agent Framework — open-source SDK (.NET / Python) successor to Semantic Kernel + AutoGen. See Ch 14B.</td></tr>
-    <tr><td><strong>APEX framework</strong></td><td>The architectural substrate (medallion · MCP · LEDGER · Bicep · agent runtime · orchestration parity · trust envelope) used internally by Deloitte's Microsoft practice to deliver Services. <em>APEX is not sold to clients; Services built on APEX are sold.</em></td></tr>
+    <tr><td><strong>APEX framework</strong></td><td>The architectural substrate (medallion · MCP · LEDGER · Bicep · agent runtime · orchestration parity · trust envelope) used internally by the firm's Microsoft practice to deliver Services. <em>APEX is not sold to clients; Services built on APEX are sold.</em></td></tr>
     <tr><td><strong>apex-m</strong></td><td>The Microsoft-runtime package of APEX framework code. Distinguishes from apex-core (language-neutral) and other apex-* packages.</td></tr>
     <tr><td><strong>Bronze · Silver · Gold</strong></td><td>The medallion architecture in Microsoft Fabric. Bronze = raw SOR · Silver = canonicalised · Gold = decision-ready. See Ch 1.</td></tr>
     <tr><td><strong>Capacity Unit (CU)</strong></td><td>The compute-billing unit for Microsoft Fabric. F SKUs deliver CU/sec. See §1A.3.</td></tr>
@@ -12595,7 +12595,7 @@ _The telemetry, policy, or architectural change that keeps this from recurring._
     <tr><td><strong>SOR</strong></td><td>Source of Record · the client's authoritative system for some data domain. APEX consumes SOR data into Bronze.</td></tr>
     <tr><td><strong>Three-gate evaluation</strong></td><td>Golden-set regression · LLM-as-judge sampling · canary metrics. See §28.5 · §14C.5.</td></tr>
     <tr><td><strong>Trust envelope</strong></td><td>The fifth Service envelope · realised by Entra + Purview + LEDGER + Sentinel. See §30.1.5 · §10A.15.</td></tr>
-    <tr><td><strong>Two-contract Independence model</strong></td><td>Client ↔ Microsoft for the platform · client ↔ Deloitte for Service delivery · ECIF flows direct. The structural rule that prevents Deloitte from reselling Microsoft.</td></tr>
+    <tr><td><strong>Two-contract Independence model</strong></td><td>Client ↔ Microsoft for the platform · client ↔ the firm for Service delivery · ECIF flows direct. The structural rule that prevents the firm from reselling Microsoft.</td></tr>
     <tr><td><strong>UAMI</strong></td><td>User-Assigned Managed Identity · Azure Bicep resource (<code class="inline-code">Microsoft.ManagedIdentity/userAssignedIdentities</code>). See §5A.2.</td></tr>
     <tr><td><strong>Workload Identity</strong></td><td>Single-tenant service principal · scoped by Conditional Access when Workload ID Premium is licensed. See §10A.1 · §10A.5.</td></tr>
   </tbody></table></div>

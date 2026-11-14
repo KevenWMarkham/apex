@@ -37,7 +37,7 @@ Both land in the same place: APEX-M agent code running against **in-process mock
 
 ```bash
 # 1) Clone the APEX repo (skip if you already have it)
-git clone https://github.com/Deloitte-US-Consulting/APEX.git
+git clone https://github.com/KevenWMarkham/apex.git
 cd APEX
 
 # 2) Sync the whole workspace, including apex-m runtime + dev extras

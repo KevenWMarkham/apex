@@ -84,7 +84,7 @@ Three — *the L2 pilot's success criteria are agreed upfront with Disney's CCO 
 
 The dollar value — *five to twenty million dollars* of services revenue annually. *Expansion revenue.* Same client, growing footprint, predictable cadence.
 
-What's in the CoE — by L3, Disney is operating typically *six to ten Services* across the segments. Several CX scenarios from the original six. Several Operations scenarios from the eight. Plus the platform and governance services that surround them. *Disney has its own internal team operating these, with Deloitte serving as advisor, deployer, and operate-partner for new Services.*
+What's in the CoE — by L3, Disney is operating typically *six to ten Services* across the segments. Several CX scenarios from the original six. Several Operations scenarios from the eight. Plus the platform and governance services that surround them. *Disney has its own internal team operating these, with the firm serving as advisor, deployer, and operate-partner for new Services.*
 
 The buyer at L3 — *the steering committee.* CIO. CTO. CCO. President or COO of one or more segments. Sometimes the General Counsel. *The decision-making body for L3 is multi-person, multi-quarter.*
 
@@ -142,7 +142,7 @@ The Account Team should position them as — *"as we deliver Wave 1 against [wha
 
 **KEVEN:** Last big topic for this episode. The GSSC Lab for Disney conversations. Because the Lab is *the* demo-substrate that makes the ladder land at Disney.
 
-**RILEY:** The GSSC Lab — covered architecturally in the Sellers Podcast — is Deloitte's pre-built Microsoft-native environment with Agent 365 and APEX fleets running. *For Disney specifically*, the Account Team has access to TMT-MED scenarios pre-loaded in the Lab. The 16 Disney-fit scenarios can be demonstrated *in the Lab* with synthetic data shaped to look like Disney's portfolio.
+**RILEY:** The GSSC Lab — covered architecturally in the Sellers Podcast — is the firm's pre-built Microsoft-native environment with Agent 365 and APEX fleets running. *For Disney specifically*, the Account Team has access to TMT-MED scenarios pre-loaded in the Lab. The 16 Disney-fit scenarios can be demonstrated *in the Lab* with synthetic data shaped to look like Disney's portfolio.
 
 The Lab use cases for Disney conversations —
 
@@ -152,7 +152,7 @@ The Lab use cases for Disney conversations —
 
 *L3 use case.* The Lab serves as *the platform for testing new Services* before they go into Disney's production tenant. Disney's CoE can use the Lab for the test-and-rehearse motion across the multi-Service fleet.
 
-*Independence boundary.* The Lab is *Deloitte tenant, synthetic data.* No Disney data ever enters the Lab. Promotion to Disney's tenant is an L2 motion under Disney's separate Microsoft licensing. *This separation is the Independence-clean demo path.*
+*Independence boundary.* The Lab is *the firm tenant, synthetic data.* No Disney data ever enters the Lab. Promotion to Disney's tenant is an L2 motion under Disney's separate Microsoft licensing. *This separation is the Independence-clean demo path.*
 
 ### A reading I want to do
 
@@ -213,7 +213,7 @@ Three — *the GSSC Lab is the demo substrate that supports L1 through L4. Use i
 ### Microsoft Tech Community blogs
 
 - **"L1-to-L4 customer journey patterns at media clients"** · Microsoft Industry Blog
-- **"GSSC Lab demo patterns for media companies"** · internal Deloitte references
+- **"GSSC Lab demo patterns for media companies"** · internal the firm references
 
 ### Industry context
 

@@ -1,10 +1,10 @@
 # The Disney Studios Account Podcast · `pc-disney-studios`
 
-A **five-episode** internal Account Team podcast for the Deloitte team working **The Walt Disney Studios** business and its component studios — **Walt Disney Pictures · Pixar · Marvel Studios · Lucasfilm · 20th Century Studios · Searchlight Pictures.**
+A **five-episode** internal Account Team podcast for the team working **The Walt Disney Studios** business and its component studios — **Walt Disney Pictures · Pixar · Marvel Studios · Lucasfilm · 20th Century Studios · Searchlight Pictures.**
 
 Built on top of the APEX Trilogy podcasts and parallels the Disney Account Podcast (`pc-disney-account/`) and DTNA Account Podcast (`pc-dtna-account/`) structure. **Account-specific to the Studios business** — distinct from the Disney Account Podcast's company-wide framing.
 
-> **Internal use only.** This podcast names the studios directly because it's internal Deloitte Account Team preparation.
+> **Internal use only.** This podcast names the studios directly because it's internal firm Account Team preparation.
 
 ---
 
@@ -120,4 +120,4 @@ pc-disney-studios/
 
 ---
 
-*The implied listener: a member of the Deloitte Account Team working the Disney Studios sub-business — partner, senior manager, manager, senior consultant — who is preparing for a Studios-leadership conversation and wants the* studio-specific *application of APEX without re-listening to the company-wide podcast.*
+*The implied listener: a member of the Account Team working the Disney Studios sub-business — partner, senior manager, manager, senior consultant — who is preparing for a Studios-leadership conversation and wants the* studio-specific *application of APEX without re-listening to the company-wide podcast.*

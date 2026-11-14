@@ -1,7 +1,7 @@
 # CFMP Multi-Agent Orchestration on Microsoft Agent Framework v0.1
 
 **Status**: Design + implementation reference for the CFMP demo
-**Owner**: Keven Markham, VP — Deloitte's Microsoft Practice
+**Owner**: Keven Markham, VP — the firm's Microsoft Practice
 **Date**: 2026-05-23
 **Maps to**: APEX-Architecture-v5 §6 (Cloud Profile Contract) · §11 (6-Agent Fleet) · §17 (Agent Intelligence Layer)
 
@@ -445,5 +445,5 @@ The following Phase 1 capabilities are now **deployed and reachable in the demo*
 
 ---
 
-*Internal · Deloitte's Microsoft Technology & Services Practice · Prepared by Keven Markham, VP · 2026-05-23*
+*Internal · Microsoft Technology & Services Practice · Prepared by Keven Markham, VP · 2026-05-23*
 

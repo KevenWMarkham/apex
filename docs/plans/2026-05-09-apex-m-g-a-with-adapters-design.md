@@ -45,7 +45,7 @@ Three sibling products on a shared APEX-Core, plus a composed adapter pattern th
 
 - **SEC Independence**: APEX-M / G / A are sibling products on equal footing. Microsoft is **first shipped**, not preferred.
 - **Audit defensibility**: real packages, real protocol contracts, real Independence statements per package. AWS and GCP variants exist as products even before they're built out.
-- **Client-approved architecture variance**: clients have mixed cloud + SaaS investments. APEX-M deployed for a client running AWS RDS for POS + Splunk for SIEM + Okta for federation is a perfectly valid deployment via composed adapters — Deloitte isn't reselling AWS / Splunk / Okta, just integrating with the client's existing investments.
+- **Client-approved architecture variance**: clients have mixed cloud + SaaS investments. APEX-M deployed for a client running AWS RDS for POS + Splunk for SIEM + Okta for federation is a perfectly valid deployment via composed adapters — the firm isn't reselling AWS / Splunk / Okta, just integrating with the client's existing investments.
 - **Books stay APEX-M**: the existing 6 books describe APEX-M and get renamed with `-M-` infix. APEX-G and APEX-A get their own book sets when those variants ship.
 
 ## 3. Repository structure
@@ -170,11 +170,11 @@ apex-adapters/src/apex_adapters/<category>/<provider>/
   client.py              # provider SDK calls (boto3 / google-cloud-* / etc.)
   iac/                   # CloudFormation / Terraform / Bicep snippets
   README.md              # what it does, what protocols it satisfies
-  sec_independence.md    # Deloitte Independence posture for this provider
+  sec_independence.md    # Independence posture for this provider
 ```
 
 Independence text per adapter:
-> *"This adapter integrates with the client's existing investment in [Provider X]. Deloitte does not resell, license, or have an alliance posture with [Provider X]; the adapter exists to honor the client's approved cloud architecture per their Cloud Architecture Board."*
+> *"This adapter integrates with the client's existing investment in [Provider X]. The firm does not resell, license, or have an alliance posture with [Provider X]; the adapter exists to honor the client's approved cloud architecture per their Cloud Architecture Board."*
 
 ## 7. Phase 0 execution sequence
 

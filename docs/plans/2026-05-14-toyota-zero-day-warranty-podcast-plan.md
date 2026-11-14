@@ -30,7 +30,7 @@ mkdir -p "C:/Stage/Clients/Industries/APEX/docs/podcast/pc-toyota-zero-day-warra
 
 Match the pc-dtna-account README structure. Sections:
 1. Series title & one-line description
-2. Audience disclosure ("both internal Deloitte Account Team prep and client-shareable; spoken content avoids internal codenames")
+2. Audience disclosure ("both internal firm Account Team prep and client-shareable; spoken content avoids internal codenames")
 3. Voice cast table (KEVEN=Andrew, MIA=Aria — note this is the seventh distinct pairing in the APEX family)
 4. Episode list (5 episodes with one-line summaries)
 5. Internal mapping table (client-safe term → internal nomenclature): "Zero Day Warranty agentic scenario" = ORCH-01 Warranty Root-Cause (AXLE) · SB06 (BRML), build record = BRML, connected vehicle = CVML, quality event = QEML, assembly asset = AAML, audit-ready agent = LEDGER hash chain + Purview audit echo
@@ -46,7 +46,7 @@ Match pc-dtna-account/00-show-bible. Sections:
    - Use TPS terms (Jidoka, Andon, Kaizen) accurately and respectfully; never as buzzwords
    - Honor operator/cast-member dignity (Toyota's TPS culture treats operators as the heart of quality)
    - Audit-ready framing is non-negotiable — every plays through Purview hash chain
-   - Independence-from-Microsoft posture explicit (Deloitte recommends; Microsoft is platform; two contracts; never "co-sell")
+   - Independence-from-Microsoft posture explicit (the firm recommends; Microsoft is platform; two contracts; never "co-sell")
    - NVIDIA framing is composable-with-Microsoft, not replacement-of
 3. **Production rules** — stair-step pedagogy, cold-open scenes, real disagreement moments, quote-and-react from primary sources, what-to-carry-forward closers, Further Reading per episode
 4. **Numbers** — anchor on the $4.2M warranty cost / $2.8M chargeback / 340% improvement / 8-12 weeks → minutes reference scenario; consistent across all 5 episodes
@@ -257,7 +257,7 @@ git commit -m "feat: write Toyota podcast Ep 2 — Four Data Domains"
 - Walk the 24-step agent chain end-to-end (don't enumerate all 24 — group into the 6 phases: Detect → Trace → Compose → Validate → Recommend → Attest)
 - HITL gates — the quality engineer reviews the cohort × station × tool interaction before the chargeback evidence package is finalised
 - The $4.2M / $2.8M / 340% calculation walked step-by-step (calculation transparency)
-- Independence framing crisp: "Deloitte recommends what Toyota should build; Microsoft is the platform Toyota licenses directly; two contracts; no co-sell motion"
+- Independence framing crisp: "The firm recommends what Toyota should build; Microsoft is the platform Toyota licenses directly; two contracts; no co-sell motion"
 - One disagreement: MIA pushes that the 24-step chain feels long; KEVEN explains it's the audit posture that earns the long chain — each step is one audit row
 
 **Step 2: Verify**

@@ -12,7 +12,7 @@ description: >
   MCG criteria + patient context, produces structured determinations with
   rationale chain.
 archetype_id: F4-regulatory-trigger-audit-preserve
-primary_contact: hls-practice-lead@deloitte.com
+primary_contact: hls-practice-lead@example.com
 
 tools:
   - tool_id: apex.hls.mcp.claimml.get_authorization_request

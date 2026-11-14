@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "APEX OpenTravel Alliance (OTA) Pattern-B mirror — Air / Hotel / Car subsets consumed by TH."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "Proprietary — Deloitte Internal. OTA schemas are openly published." }
+license = { text = "Proprietary — Internal. OTA schemas are openly published." }
 dependencies = [
     "apex-core",
     "apex-schemas-common",

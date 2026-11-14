@@ -4,8 +4,8 @@ version = "0.1.0"
 description = "APEX message-format translators — Sprint 23. EDI X12, HL7 v2, HL7 CDA, EPCIS 2.0, OAGIS BOD, IATA PADIS bidirectional parsers/emitters."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "Proprietary — Deloitte Internal" }
-authors = [{ name = "Deloitte DMTSP — Consumer Industry" }]
+license = { text = "Proprietary — Internal" }
+authors = [{ name = "DMTSP — Consumer Industry" }]
 dependencies = [
     "apex-core>=0.1.0",
     "pydantic>=2.9.0",

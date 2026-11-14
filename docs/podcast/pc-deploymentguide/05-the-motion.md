@@ -70,7 +70,7 @@ Two — *teachability.* New engineers can be brought up to speed on the motions 
 
 One — *Manifest review.* The Service's manifest is read. Consumed canonical families. MCP tools. KPI commitments. Persona declarations. RAI overlay. Everything declared is verified.
 
-Two — *Image signature verification.* The agent images this Service composes are verified cosign-signed by the Deloitte authoring registry. No unsigned images. No images from unknown registries. Mirrored to the client tenant registry, verified there too.
+Two — *Image signature verification.* The agent images this Service composes are verified cosign-signed by the authoring registry. No unsigned images. No images from unknown registries. Mirrored to the client tenant registry, verified there too.
 
 Three — *Identity verification.* The workload identities the Service will use are confirmed to exist at the platform layer, with the correct role assignments, with no over-broad permissions.
 

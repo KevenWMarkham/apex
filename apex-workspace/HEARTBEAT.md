@@ -10,7 +10,7 @@ inherits_from:
   - CHARTER.md
   - ENGAGEMENT.md
 authors:
-  - Deloitte DMTSP — Consumer Industry
+  - DMTSP — Consumer Industry
   - Keven Markham (VP, APEX)
 purpose: >
   Declare periodic autonomous routines — the "cron for your agent, expressed

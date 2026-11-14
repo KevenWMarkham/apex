@@ -23,6 +23,6 @@ When a client's CAB has approved this integration:
 
 ## See also
 
-- [sec_independence.md](sec_independence.md) — Deloitte Independence posture for this provider
+- [sec_independence.md](sec_independence.md) — Independence posture for this provider
 - [APEX-Core Independence Posture](../../../../../../docs/apex-core/Independence-Posture.md)
 - [APEX-Core Adapter Catalog](../../../../../../docs/apex-core/Adapter-Catalog.md)

@@ -48,7 +48,7 @@
 
 **Where APEX differentiates.** Section nine point six. Three places. One — canonical schema for orders, returns, inventory is pre-built on GS1 standards. Two — the Store 100 Reference Deployment shows a working store in production. Three — Purview classification for PCI and customer-PII is template-ready.
 
-**Commercial envelope.** Wave One for a 400-store retailer — about 2.8 million dollars Deloitte services, 600K dollars annualised Microsoft consumption. ROI math we covered in Episode Two — 109 percent Year One.
+**Commercial envelope.** Wave One for a 400-store retailer — about 2.8 million dollars firm services, 600K dollars annualised Microsoft consumption. ROI math we covered in Episode Two — 109 percent Year One.
 
 **JORDAN:** Quick observation — RC is the *easiest* APEX sell in 2026. Because every RC CIO has tried something already and it didn't go to production.
 
@@ -66,7 +66,7 @@
 
 **Where APEX differentiates.** Section ten point four — *Purview's outsized role.* HLS is the Practice where governance and audit is *literally* the deal — without Purview, you don't get the conversation. APEX wraps HIPAA, HITECH, GxP audit requirements into the policy templates. We've also got the FHIR-aligned canonical schema anchored at Fabric Silver day one, feeding the per-Service Gold marts the agents consume.
 
-**Commercial envelope.** HLS tends to land at the higher end — Wave One typically 3.5 to 5 million dollars Deloitte services. Microsoft consumption is also higher because of dedicated capacity for PHI workloads.
+**Commercial envelope.** HLS tends to land at the higher end — Wave One typically 3.5 to 5 million dollars firm services. Microsoft consumption is also higher because of dedicated capacity for PHI workloads.
 
 **JORDAN:** Honest observation — HLS is the *highest-trust* deal. Buyer cycles are longer. Once you win, you keep the relationship.
 
@@ -84,7 +84,7 @@
 
 **Where APEX differentiates.** Section eleven point four — *OT data and the Fabric edge.* ER lives on operational technology data — SCADA, historians, MES. Fabric has native ingestion patterns for this — Eventstream for the streaming, Mirrored DB for the historian replicas. We've also built the CIM canonical schema for utilities and OSDU for oil and gas. Standards are everything in this Practice.
 
-**Commercial envelope.** Wave One typically 3 to 4.5 million dollars Deloitte services. Microsoft consumption is moderate — most ER workloads are batch-tolerant.
+**Commercial envelope.** Wave One typically 3 to 4.5 million dollars firm services. Microsoft consumption is moderate — most ER workloads are batch-tolerant.
 
 **JORDAN:** Section eleven point five — *safety as non-negotiable.* Every agentic decision in ER has to pass a safety gate. HITL by default. HOTL only after safety classification.
 
@@ -102,11 +102,11 @@
 
 **Where APEX differentiates.** Section twelve point four — *generative engineering as the wedge.* AXLE has the unique pattern where canonical schemas span four families — build record (the BRML family), connected vehicle (CVML), quality events (QEML), assembly telemetry (AAML). All four join on VIN. That four-domain join is the differentiator. No other framework has it pre-built.
 
-**Commercial envelope.** AXLE deals are typically 3 to 6 million dollars Deloitte services for Wave One, often with a co-funding conversation involving NVIDIA — Omniverse, RAPIDS — for inline vision and high-throughput analytics.
+**Commercial envelope.** AXLE deals are typically 3 to 6 million dollars firm services for Wave One, often with a co-funding conversation involving NVIDIA — Omniverse, RAPIDS — for inline vision and high-throughput analytics.
 
 **JORDAN:** And section twelve point nine — the AXLE framework versus the APEX AXLE Practice — *sibling frameworks*. Quickly?
 
-**KEVEN:** AXLE is also a Deloitte-internal capability framework with its own depth — the Practice in APEX is the productised, Microsoft-platform-native subset. They are complementary. Sellers should know both names exist.
+**KEVEN:** AXLE is also an internal capability framework with its own depth — the Practice in APEX is the productised, Microsoft-platform-native subset. They are complementary. Sellers should know both names exist.
 
 ### Practice Five — TMT · Technology, Media, Telecom (Chapter 13)
 
@@ -156,7 +156,7 @@
 
 **Where APEX differentiates.** Section fifteen point four — *dealer network complexity.* APEX has a canonical dealer-relationship schema that handles multi-tier dealer structures — the math is nasty in this segment and the schema is the wedge.
 
-**Commercial envelope.** Wave One ICE typically 2.5 to 4.5 million dollars Deloitte services. Microsoft consumption moderate.
+**Commercial envelope.** Wave One ICE typically 2.5 to 4.5 million dollars firm services. Microsoft consumption moderate.
 
 **JORDAN:** And ICE shares a lot of DNA with AXLE — both are manufacturing-plus-aftermarket Practices. Sellers cross-trained in AXLE can do ICE with a week of prep.
 
@@ -232,7 +232,7 @@ Three — **the seven Practices are not equal-weight.** RC and HLS are the highe
 
 Case one — *if you have a deep industry background in one of the harder Practices.* If you're a former plant manager — go AXLE or ER. If you're a former telco network engineer — go TMT-TEL. The industry credibility outweighs the deal-count advantage.
 
-Case two — *if your firm or your team has a competitive advantage in one of the niche Practices.* If Deloitte has just won three TH airline deals in your region — ride that wave.
+Case two — *if your firm or your team has a competitive advantage in one of the niche Practices.* If the firm has just won three TH airline deals in your region — ride that wave.
 
 Case three — *if you're chasing a specific named account.* Some named accounts are anchor accounts in specific Practices — Part Four of the guide. Match the Practice to the account, not the other way around.
 

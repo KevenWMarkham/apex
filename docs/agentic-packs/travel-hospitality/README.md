@@ -7,7 +7,7 @@
 **New service-code family:** `TMT-TEL-HOM-10..17` (Trip-mode sub-agents)
 **Companion build-spec amendment:** [`docs/build-specs/apex-tmt-agentic-travel-amendment.md`](../../build-specs/apex-tmt-agentic-travel-amendment.md)
 **Status:** Draft
-**Primary author:** tmt-practice-lead@deloitte.com / th-practice-lead@deloitte.com
+**Primary author:** tmt-practice-lead@example.com / th-practice-lead@example.com
 
 ## The thesis in one paragraph
 

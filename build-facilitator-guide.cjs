@@ -152,7 +152,7 @@ const EVENTS = [
       ["Q: What if the CV/telemetry gets it wrong and we destroy product we could have saved?",
        "A: The disposition classifier reports a confidence band. Below threshold, the case flips from ACK_ONLY to HITL — the manager sees the split and can override. Above threshold, the manager sees the recommendation but still has the final approval tap. False-save errors are the regulated risk; false-destroy errors are the financial risk. We calibrate the threshold to the sub-category."],
       ["Q: Who owns the write-off policy decisions — us or you?",
-       "A: The client. The agent stages the write-off; the approval routing lives in the client's finance system. Deloitte never holds the approval handle. This is explicit in Core Part 6 Independence posture."]
+       "A: The client. The agent stages the write-off; the approval routing lives in the client's finance system. The firm never holds the approval handle. This is explicit in Core Part 6 Independence posture."]
     ],
     roi: "Walmart's industry average write-off rate on cold-chain excursions hovers around 60–70% destroy (most operators can't distinguish risk by sub-category fast enough). Store 100's targeted write-off: 71% saved — $1,313 avoided on a $1,847 exposure. Multiply by the number of cold-chain excursions per store per year, multiply by store count — this single scenario often justifies W1 on its own.",
     nextStep: "This is the flagship W2 scenario. Use it to pin the client's W1 → W2 transition to cold-chain MVP. Frame: \"By the time you exit W1 you have the receiving and price-integrity foundation. W2 lights up cold chain.\""
@@ -516,7 +516,7 @@ children.push(
 // Part 0
 children.push(
   h1("Part 0 — Compliance & Language Constraints (Inherited)"),
-  p("This guide inherits Part 0 of APEX Core unchanged. All Deloitte–Microsoft terminology rules apply. The HTML walkthrough and this guide use synthetic reference-implementation identifiers — Store 100, Marisol Reyes, DFW Metroplex, Apr 14 2026, the eight event timestamps. These are scenario data, not client data."),
+  p("This guide inherits Part 0 of APEX Core unchanged. All the firm–Microsoft terminology rules apply. The HTML walkthrough and this guide use synthetic reference-implementation identifiers — Store 100, Marisol Reyes, DFW Metroplex, Apr 14 2026, the eight event timestamps. These are scenario data, not client data."),
   h2("Scenario-vs-engagement boundary"),
   p("This guide is reusable across engagements. Real client-engagement specifics — actual store numbers, real manager names, client-identifiable ROI figures, named vendors, named regulators — belong in engagement-specific deliverables, not in this document. When an Account Team uses this guide with a live client, the facilitator maps Store 100's synthetic scenarios to the client's actual operational equivalents verbally; the document itself stays synthetic."),
   p("HITL gate types follow Core Part 8.3 unchanged: HITL (decision required), ACK_ONLY (visibility only), ZERO_TOUCH (fully autonomous), ESCALATION (deferred to higher authority). Wave references (W1–W4) follow Core Part 12.")
@@ -635,12 +635,12 @@ children.push(
 const objections = [
   ["13.1  \"This feels like a lot of AI. What if the models drift?\"",
    "Every agent is backtested in isolation before orchestrator wiring (Core decomposition philosophy). Every ORCH declares its HITL gates explicitly (Core Part 8.3). Drift is monitored via Azure AI Foundry evals and the edition's eval harness. When confidence falls below threshold, the gate escalates — ACK_ONLY becomes HITL. The system degrades gracefully, it doesn't fail silently."],
-  ["13.2  \"What's the Deloitte Independence story here?\"",
-   "Core Part 6 is unambiguous. Client-tenant data planes. No Deloitte-side retention of client-identifiable data. Every schema and every agent runs on the client's Azure tenant. Deloitte's visibility ends at the engagement boundary; operational data stays in the client's OneLake. We formalized this further in Core v1.2 — only opaque account IDs, version numbers, and manifest hashes ever cross the boundary."],
+  ["13.2  \"What's the Independence story here?\"",
+   "Core Part 6 is unambiguous. Client-tenant data planes. No firm-side retention of client-identifiable data. Every schema and every agent runs on the client's Azure tenant. The firm's visibility ends at the engagement boundary; operational data stays in the client's OneLake. We formalized this further in Core v1.2 — only opaque account IDs, version numbers, and manifest hashes ever cross the boundary."],
   ["13.3  \"How long until we see value?\"",
    "W1 is designed to be self-funding in the 60–90 day horizon. The two W1 foundation plays (receiving reconciliation and price integrity) are the fastest to deploy because they bind to data streams the client already has. W2 (cold chain, phantom OOS extension, BOPIS) typically follows 90–120 days later. The wave model is explicit about exit criteria — we don't advance waves on schedule, we advance on measured outcomes."],
   ["13.4  \"What if our IT team doesn't have the Fabric / Foundry skills?\"",
-   "That's scoping, not scope. The engagement includes Deloitte engineers who know Fabric, Foundry, and Agent Service. Knowledge transfer is part of the wave-exit criteria for W1 — by the time W1 closes, client-side engineers are operating the fleet, Deloitte is advisory. This is intentional; it's how we avoid creating a long-term dependency."],
+   "That's scoping, not scope. The engagement includes firm engineers who know Fabric, Foundry, and Agent Service. Knowledge transfer is part of the wave-exit criteria for W1 — by the time W1 closes, client-side engineers are operating the fleet, the firm is advisory. This is intentional; it's how we avoid creating a long-term dependency."],
   ["13.5  \"Our data isn't clean enough for this.\"",
    "Candid answer: every client says this and every client is right. APEX's Bronze–Silver–Gold medallion architecture (Core Part 6) is explicitly designed for this. Bronze is ungoverned, Silver is where cleansing happens, Gold is where agents read. W1 includes data-conformance work scoped to the 2–3 ORCHs you're standing up; you don't have to clean the whole lake to start. Clean what you need, when you need it."],
   ["13.6  \"What happens when an agent gets something wrong in front of a customer?\"",
@@ -697,7 +697,7 @@ children.push(
 // --- Document ------------------------------------------------------------
 
 const doc = new Document({
-  creator: "Deloitte Microsoft Practice",
+  creator: "The firm's Microsoft Practice",
   title: "APEX Store 100 Facilitator Guide",
   description: "Account Team facilitator guide for the Store 100 reference implementation",
   styles: {

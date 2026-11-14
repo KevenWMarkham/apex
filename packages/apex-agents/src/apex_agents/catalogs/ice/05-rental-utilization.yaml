@@ -10,7 +10,7 @@ prompt_sha: ""
 description: >
   Rental-fleet utilization optimization. Identifies under-utilized units and recommends repositioning.
 archetype_id: F3-predictive-trigger-workflow-aware
-primary_contact: ice-practice-lead@deloitte.com
+primary_contact: ice-practice-lead@example.com
 
 tools:
   - tool_id: apex.ice.mcp.connectedml.get_rental_fleet_state

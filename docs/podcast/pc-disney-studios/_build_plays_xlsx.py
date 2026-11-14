@@ -357,7 +357,7 @@ def build_workbook() -> Workbook:
     ws2["A1"].font = Font(name="Arial", bold=True, size=14, color="1A2339")
     ws2.merge_cells("A1:D1")
 
-    ws2["A3"] = "Generated for the Deloitte Account Team for Disney Studios (six-studio sub-business)"
+    ws2["A3"] = "Generated for the Account Team for Disney Studios (six-studio sub-business)"
     ws2["A3"].font = Font(name="Arial", italic=True, color="6B7280", size=10)
     ws2.merge_cells("A3:D3")
 
@@ -449,7 +449,7 @@ def build_workbook() -> Workbook:
     callouts = [
         "1. Creative-authorship boundary - operational and analytical augmentation, never creative replacement. WGA / SAG-AFTRA / DGA AI provisions are binding. Plays that touch creative-authorship workflows require explicit positioning.",
         "2. Financial-reporting-adjacent scope avoidance - plays touching box office reporting, residual calculations, talent compensation, or financial-reporting metrics require Independence review before scope finalisation.",
-        "3. Rights and licensing scope discipline - Deloitte recommends what client should build; client makes rights-and-licensing decisions. Deloitte does not advise on substantive licensing decisions.",
+        "3. Rights and licensing scope discipline - the firm recommends what client should build; client makes rights-and-licensing decisions. The firm does not advise on substantive licensing decisions.",
         "Plus standard global Disney Independence framing - two-contract model, no co-sell, careful coordination with global Independence office.",
     ]
     for j, text in enumerate(callouts, start=1):
@@ -472,13 +472,13 @@ def build_workbook() -> Workbook:
         ("Disney Studios Agentic Plays - How To Use This File", "title"),
         ("", ""),
         ("Purpose", "h2"),
-        ("This file curates 15 agentic plays for the Disney Studios sub-business: Walt Disney Pictures, Pixar, Marvel Studios, Lucasfilm (including ILM), 20th Century Studios, and Searchlight Pictures. Each play is structured for the Deloitte Account Team to use as a working artefact during studio-level account planning, executive prep, and pursuit discussions.", "p"),
+        ("This file curates 15 agentic plays for the Disney Studios sub-business: Walt Disney Pictures, Pixar, Marvel Studios, Lucasfilm (including ILM), 20th Century Studios, and Searchlight Pictures. Each play is structured for the Account Team to use as a working artefact during studio-level account planning, executive prep, and pursuit discussions.", "p"),
         ("", ""),
         ("The six-studio framing", "h2"),
         ("Each Disney studio operates with creative autonomy under its own president. Operational integration happens at the corporate level (distribution, marketing, finance, business affairs, talent management). The buyer for any play is studio-specific. The Account Team picks the studio with the strongest current relationship and lands Wave 1 there; other studios follow once reference value is built.", "p"),
         ("", ""),
         ("Sheet 1 - Plays", "h2"),
-        ("The full play list. 14 columns. Filter or sort by Domain, Wave, or Priority. The Wave 1 Range column gives indicative Deloitte services range; precise envelope is set during BVA.", "p"),
+        ("The full play list. 14 columns. Filter or sort by Domain, Wave, or Priority. The Wave 1 Range column gives indicative firm services range; precise envelope is set during BVA.", "p"),
         ("", ""),
         ("Sheet 2 - Summary", "h2"),
         ("Aggregated counts, recommended Wave 1 picks by studio, and Studios-specific Independence considerations.", "p"),
@@ -494,7 +494,7 @@ def build_workbook() -> Workbook:
         ("- Microsoft attach modelling - Microsoft Attach column drives SKU mix for Microsoft consumption forecasting.", "p"),
         ("", ""),
         ("Independence-clean usage", "h2"),
-        ("This file lists Deloitte services plays. The dollar ranges are Deloitte services revenue ranges. Microsoft platforms are licensed directly by Disney from Microsoft; this file does not include Microsoft software margin. Refer to Sellers Podcast Ep 2 and Independence Cheat Sheet for full Independence posture. Studios-specific Independence considerations: see Sheet 2 callout.", "p"),
+        ("This file lists firm services plays. The dollar ranges are firm services revenue ranges. Microsoft platforms are licensed directly by Disney from Microsoft; this file does not include Microsoft software margin. Refer to Sellers Podcast Ep 2 and Independence Cheat Sheet for full Independence posture. Studios-specific Independence considerations: see Sheet 2 callout.", "p"),
         ("", ""),
         ("Notes on KPI signals", "h2"),
         ("KPI signals are reference-scenario estimates from the APEX framework - not Disney-Studios-specific commitments. Studio-specific numbers are produced during BVA, with Disney's own baseline measurement.", "p"),

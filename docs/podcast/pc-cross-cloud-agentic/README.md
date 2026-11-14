@@ -1,6 +1,6 @@
 # The Cross-Cloud Agentic Podcast — A Microsoft Seller's Honest Guide · `pc-cross-cloud-agentic`
 
-An **eight-episode** podcast for Microsoft Target Platform Sellers (DMTSP) on how to win agentic AI work — across Microsoft, AWS, and Google Cloud — without overclaiming, without dismissing the other two clouds, and without drifting into partner-channel language that Independence prohibits. Safe for Deloitte AI team listeners. **Generic — no specific client is named on tape.** Reference clients are always archetypes: *a global retailer · a large auto manufacturer · a regulated bank · a hyperscale media company.*
+An **eight-episode** podcast for Microsoft Target Platform Sellers (DMTSP) on how to win agentic AI work — across Microsoft, AWS, and Google Cloud — without overclaiming, without dismissing the other two clouds, and without drifting into partner-channel language that Independence prohibits. Safe for the firm's AI team listeners. **Generic — no specific client is named on tape.** Reference clients are always archetypes: *a global retailer · a large auto manufacturer · a regulated bank · a hyperscale media company.*
 
 > **First podcast in the family written specifically for Microsoft sellers.** The Trilogy speaks to the framework. The account podcasts speak to a single client. This series speaks to the seller carrying a Microsoft quota who is being asked the cross-cloud question by every CIO they meet.
 
@@ -61,13 +61,13 @@ Run time: approximately **246 minutes** across the series · 28-32 minutes per e
 
 ## Independence from Microsoft · the two-contract model
 
-This podcast is produced under Deloitte's Independence posture. The audio reflects it precisely:
+This podcast is produced under the firm's Independence posture. The audio reflects it precisely:
 
-- **Deloitte recommends.** When Keven and Reid recommend Microsoft Fabric, Agent Framework, Foundry, or Purview, that recommendation rests on the technical and economic merits — never on partner-channel compensation.
-- **The client contracts directly with Microsoft.** Microsoft licensing flows on Microsoft paper. Deloitte does not resell, mark up, or take margin on Microsoft licensing.
-- **The client contracts directly with Deloitte.** A separate Deloitte SOW governs the services scope.
-- **Two contracts.** Clean separation. No compensation flows from Microsoft to Deloitte for influencing the client's cloud choice.
-- **Three contracts when NVIDIA is in scope.** The client contracts directly with NVIDIA, with Microsoft, and with Deloitte — three separate paper paths, no margin stacking.
+- **The firm recommends.** When Keven and Reid recommend Microsoft Fabric, Agent Framework, Foundry, or Purview, that recommendation rests on the technical and economic merits — never on partner-channel compensation.
+- **The client contracts directly with Microsoft.** Microsoft licensing flows on Microsoft paper. The firm does not resell, mark up, or take margin on Microsoft licensing.
+- **The client contracts directly with the firm.** A separate firm SOW governs the services scope.
+- **Two contracts.** Clean separation. No compensation flows from Microsoft to the firm for influencing the client's cloud choice.
+- **Three contracts when NVIDIA is in scope.** The client contracts directly with NVIDIA, with Microsoft, and with the firm — three separate paper paths, no margin stacking.
 
 Episode 1 names this model explicitly. Episode 8 closes with it again as a discipline the seller carries into every meeting.
 

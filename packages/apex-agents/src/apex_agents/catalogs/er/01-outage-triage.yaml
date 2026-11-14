@@ -12,7 +12,7 @@ description: >
   last-gasp, and topology to identify affected feeders and prioritize
   restoration.
 archetype_id: F1-continuous-monitor-hitl-alert
-primary_contact: er-pu-practice-lead@deloitte.com
+primary_contact: er-pu-practice-lead@example.com
 
 tools:
   - tool_id: apex.er.mcp.gridml.get_scada_alarms

@@ -11,7 +11,7 @@ description: >
   Mine fleet optimization. Sequences haul-truck loading + routing across
   active pits using ore-grade samples and crusher availability.
 archetype_id: F3-predictive-trigger-workflow-aware
-primary_contact: er-mn-practice-lead@deloitte.com
+primary_contact: er-mn-practice-lead@example.com
 
 tools:
   - tool_id: apex.er.mcp.miningml.get_haul_fleet_state

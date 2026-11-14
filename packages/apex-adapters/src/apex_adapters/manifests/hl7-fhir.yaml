@@ -30,7 +30,7 @@ schema_mappings:
       - { source_field: Id,              bronze_column: fhir_id,             bronze_type: string, nullable: false, classification: phi }
       - { source_field: ResourceJson,    bronze_column: resource_json,       bronze_type: string, classification: phi }
 runbook:
-  primary_contact: hls-data-platform@deloitte.com
+  primary_contact: hls-data-platform@example.com
   sla_recovery_minutes: 5  # clinical workflows are SLA-critical
   failure_modes:
     - code: ENGINE_BACKLOG

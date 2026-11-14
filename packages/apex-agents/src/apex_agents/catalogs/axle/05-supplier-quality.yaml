@@ -11,7 +11,7 @@ description: >
   Supplier quality monitoring across PPM, on-time delivery, and quality
   incidents. Triggers supplier-development action plans.
 archetype_id: F1-continuous-monitor-hitl-alert
-primary_contact: axle-practice-lead@deloitte.com
+primary_contact: axle-practice-lead@example.com
 
 tools:
   - tool_id: apex.axle.mcp.qmsml.get_supplier_performance

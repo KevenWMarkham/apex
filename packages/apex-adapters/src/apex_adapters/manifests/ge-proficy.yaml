@@ -22,5 +22,5 @@ schema_mappings:
       - { source_field: Value,     bronze_column: value,      bronze_type: double }
       - { source_field: Quality,   bronze_column: quality,    bronze_type: int }
 runbook:
-  primary_contact: axle-data-platform@deloitte.com
+  primary_contact: axle-data-platform@example.com
   sla_recovery_minutes: 15

@@ -43,4 +43,4 @@ linked_archetypes:
 
 schemas_touched: [StudyML, PatientML]
 standards: ['HIPAA', '21 CFR Part 11']
-primary_contact: hls-practice-lead@deloitte.com
+primary_contact: hls-practice-lead@example.com

@@ -147,8 +147,8 @@ The series teaches a vendor-neutral architectural framework — referred to on t
 
 ## Notes
 
-- **Audience.** Microsoft Target Platform Sellers (DMTSP). Safe for Deloitte AI team listeners — the series honestly identifies where AWS and GCP have parity or advantage. **Generic — no specific client is named on tape.** Reference clients are archetypes only ("a global retailer," "a regulated bank," "a hyperscale media company").
-- **Independence from Microsoft.** The series operates under Independence: recommend on technical and economic merits; two-contract model (three contracts when NVIDIA is in scope); no co-sell; no compensation flows from platform vendors to Deloitte for influencing client cloud choices. The forbidden vocabulary of vendor-aligned selling never appears on tape.
+- **Audience.** Microsoft Target Platform Sellers (DMTSP). Safe for the firm's AI team listeners — the series honestly identifies where AWS and GCP have parity or advantage. **Generic — no specific client is named on tape.** Reference clients are archetypes only ("a global retailer," "a regulated bank," "a hyperscale media company").
+- **Independence from Microsoft.** The series operates under Independence: recommend on technical and economic merits; two-contract model (three contracts when NVIDIA is in scope); no co-sell; no compensation flows from platform vendors to the firm for influencing client cloud choices. The forbidden vocabulary of vendor-aligned selling never appears on tape.
 - **The Acceleration Framework is taught generically.** Internal codenames are never spoken — the framework name on tape is descriptive, not branded.
 - **Cross-cloud honesty.** Reid (the co-host) is the cross-cloud honesty enforcer. When Microsoft genuinely is not differentiated — agent runtime parity, model availability where AWS Bedrock leads, NVIDIA platform-neutrality — the series says so. This is the structural seller-discipline lesson.
 - **No fabricated metrics.** Cost-growth patterns, market percentages, and model pricing are referenced in industry-analyst spirit (Gartner / Forrester / IDC) or as approximate public pricing — never as fabricated client-specific figures.
