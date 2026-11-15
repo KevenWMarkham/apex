@@ -12,7 +12,7 @@ description: >
   wearable + presence + appliance signals. Escalates to designated
   contacts with HITL approval. PHI-scoped.
 archetype_id: F1-continuous-monitor-hitl-alert
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.home.read_wellness_person_daily

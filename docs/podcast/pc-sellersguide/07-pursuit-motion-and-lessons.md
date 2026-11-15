@@ -96,7 +96,7 @@ Three competitive postures.
 
 **JORDAN:** When does internal-build actually win?
 
-**KEVEN:** When the client has *world-class* internal data engineering and a multi-year platform investment already in motion. Then the right answer is sometimes — *let us do the Service work on top of your platform.* The Sellers Guide has the language for this — *"Deloitte as Service implementor, client as platform owner."*
+**KEVEN:** When the client has *world-class* internal data engineering and a multi-year platform investment already in motion. Then the right answer is sometimes — *let us do the Service work on top of your platform.* The Sellers Guide has the language for this — *"the firm as Service implementor, client as platform owner."*
 
 ### Chapter 33 — Objection Handling
 
@@ -198,7 +198,7 @@ If a listener reads only one chapter of Part Five — section thirty-eight is th
 
 **JORDAN:** OK, final Bull and Bear. I'll go Bull first this time.
 
-**Bull case.** APEX is positioned at exactly the right place in the market. Agentic AI is moving from experimental to operational. Buyers are no longer asking *if* — they're asking *how.* APEX is the only framework I've seen that gives a coherent answer across the four pillars, the seven industries, and the Independence constraint. If Deloitte and Microsoft execute the thirteen anchor account plan within four quarters, APEX is the *category-defining* framework for enterprise agentic AI. That's a strong bull case.
+**Bull case.** APEX is positioned at exactly the right place in the market. Agentic AI is moving from experimental to operational. Buyers are no longer asking *if* — they're asking *how.* APEX is the only framework I've seen that gives a coherent answer across the four pillars, the seven industries, and the Independence constraint. If the firm and Microsoft execute the thirteen anchor account plan within four quarters, APEX is the *category-defining* framework for enterprise agentic AI. That's a strong bull case.
 
 **Bear case.** Two real risks.
 
@@ -208,7 +208,7 @@ Risk two — *the underlying platform is moving fast.* Microsoft Agent Framework
 
 **KEVEN:** Synthesis?
 
-**JORDAN:** *APEX wins if Deloitte invests in two things — continuous seller enablement, and continuous content refresh.* The framework is the asset. The asset only compounds if you maintain it.
+**JORDAN:** *APEX wins if the firm invests in two things — continuous seller enablement, and continuous content refresh.* The framework is the asset. The asset only compounds if you maintain it.
 
 ### Lessons — series-wide
 

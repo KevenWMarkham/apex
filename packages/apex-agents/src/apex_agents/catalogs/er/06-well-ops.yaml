@@ -11,7 +11,7 @@ description: >
   Upstream well-operations agent. Detects production anomalies (drops,
   surges, GOR shifts) from PI tag streams and recommends interventions.
 archetype_id: F1-continuous-monitor-hitl-alert
-primary_contact: er-og-practice-lead@deloitte.com
+primary_contact: er-og-practice-lead@example.com
 
 tools:
   - tool_id: apex.er.mcp.uogml.get_well_telemetry

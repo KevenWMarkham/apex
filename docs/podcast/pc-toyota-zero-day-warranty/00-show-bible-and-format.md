@@ -64,10 +64,10 @@ Every decision the agent makes is an audit row. The hash chain is real, the repl
 
 The rule that protects everything. Spoken on tape:
 
-- **Deloitte recommends.** Microsoft is the platform. Toyota contracts with Microsoft directly.
-- **Two contracts. Microsoft licensing on Microsoft paper. Deloitte services on Deloitte paper.** Said exactly that way in Episode 1 and again in Episode 5.
+- **The firm recommends.** Microsoft is the platform. Toyota contracts with Microsoft directly.
+- **Two contracts. Microsoft licensing on Microsoft paper. firm services on firm paper.** Said exactly that way in Episode 1 and again in Episode 5.
 - **Words that never appear on tape: "co-sell" · "alliance" · "strategic partnership" · "partner channel" · "channel partner".**
-- **No compensation flows from Microsoft to Deloitte** for influencing Toyota's platform decisions. Said at least once.
+- **No compensation flows from Microsoft to the firm** for influencing Toyota's platform decisions. Said at least once.
 
 If a take drifts into partner-channel language, it's a re-record.
 
@@ -78,7 +78,7 @@ Episodes 4 and 5 introduce NVIDIA — Metropolis, DeepStream, Jetson, RAPIDS, Tr
 - NVIDIA is **composable with** the Microsoft platform, not a substitute.
 - The Microsoft data fabric remains the system of record for the warranty agent. NVIDIA inline at the station is **Day-0 prevention** — catching the defect before it becomes a warranty claim.
 - Toyota already runs an NVIDIA estate (Woven City on Omniverse; AV development on Drive). The conversation acknowledges what exists.
-- NVIDIA is named accurately as a capability in the same architecture, not pitched as Deloitte's recommendation the way Microsoft is.
+- NVIDIA is named accurately as a capability in the same architecture, not pitched as the firm's recommendation the way Microsoft is.
 
 ### Rule 6 · The numbers anchor — said the same way every time
 

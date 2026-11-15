@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "APEX identity + visibility-lattice runtime — scope resolver, lattice evaluator, agent-safe view generator, response signing, Entra provisioning stub."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "Proprietary — Deloitte Internal" }
+license = { text = "Proprietary — Internal" }
 dependencies = [
     "apex-core",
     "mcp-common",

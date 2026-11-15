@@ -10,7 +10,7 @@
 
 [Sound: a quiet office. The end of a Friday.]
 
-**EDEN:** I want to start at the end of a Friday. The Deloitte account-team senior partner has finished a week of Studios-side conversations. Three meetings — one at Walt Disney Studios, one at Marvel Studios, one at Pixar (a video call to Emeryville). Three different presidents. Three different operational rhythms. Three different views on what AI-driven decision support means in their studio. *Three different L1 readiness postures.*
+**EDEN:** I want to start at the end of a Friday. The account-team senior partner has finished a week of Studios-side conversations. Three meetings — one at Walt Disney Studios, one at Marvel Studios, one at Pixar (a video call to Emeryville). Three different presidents. Three different operational rhythms. Three different views on what AI-driven decision support means in their studio. *Three different L1 readiness postures.*
 
 [pause]
 
@@ -154,7 +154,7 @@ Four sentences. The Account Team should know all four.
 
 *Note two — financial-reporting-adjacent scope avoidance.* Plays that touch box office reporting, residual calculations, talent compensation, or financial-reporting metrics require Independence review before scope finalisation. *Avoid plays that touch external financial reporting* — that's audit-adjacent.
 
-*Note three — rights and licensing scope discipline.* Plays in the rights-and-licensing area (Plays 14-15 from Episode 4) require careful scope — Deloitte recommends what the client should build; the client makes rights-and-licensing decisions. *Deloitte does not advise on the substantive licensing decision, only on the operational composition of the licensing-status data.*
+*Note three — rights and licensing scope discipline.* Plays in the rights-and-licensing area (Plays 14-15 from Episode 4) require careful scope — the firm recommends what the client should build; the client makes rights-and-licensing decisions. *The firm does not advise on the substantive licensing decision, only on the operational composition of the licensing-status data.*
 
 The standard discipline from the Disney Account Podbook applies — two-contract model, no co-sell, careful coordination with global Independence office.
 
@@ -170,7 +170,7 @@ The standard discipline from the Disney Account Podbook applies — two-contract
 
 *Days 30-60.* Discovery and scenario-matching. Apply the 30-Min Framework with the L1 buyer at each engaged studio. *Parallel discovery across multiple studios* — each delivers its own index card. *Initiate the Independence-scope review for the leading Wave 1 candidate.*
 
-*Days 60-75.* BVA construction for the leading Wave 1 candidate (likely one specific studio's play). Internal Deloitte review including the Studios-specific Independence review.
+*Days 60-75.* BVA construction for the leading Wave 1 candidate (likely one specific studio's play). Internal the firm review including the Studios-specific Independence review.
 
 *Days 75-90.* Wave 1 SOW window at the chosen studio. SOW negotiation. Wave 1 kickoff scheduled.
 
@@ -251,9 +251,9 @@ The Trilogy gives you the framework. The Disney Account Podbook gives you the co
 - **Microsoft Cloud for Industry — Media & Entertainment**
 - **Microsoft Partner Center — Independence and ethics**
 
-### Deloitte internal references
+### internal references
 
-- **Deloitte Global Independence Office — Disney-related guidance**
+- **The firm's Global Independence Office — Disney-related guidance**
 - **Sellers Handbook — Independence Cheat Sheet**
 
 ### Industry context

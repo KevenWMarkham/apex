@@ -1,7 +1,7 @@
 # APEX — Third-Party Content Attribution
 
 This document is the workspace-level attribution manifest for the APEX
-monorepo. The APEX framework is **proprietary — Deloitte Internal**. APEX
+monorepo. The APEX framework is **proprietary — Internal**. APEX
 incorporates structural patterns and identifier formats from third-party
 industry standards. Per-package attribution files (`LICENSE-ATTRIBUTION.md`
 inside each `apex-standards-*` package) carry the binding-level detail.
@@ -57,7 +57,7 @@ content patterns and fails the build if any is present (see
 ## Open-source licensing of APEX framework code
 
 The framework Python packages (apex-core, apex-agents, apex-services, etc.)
-are **proprietary — Deloitte Internal**. They depend on permissively-licensed
+are **proprietary — Internal**. They depend on permissively-licensed
 open-source libraries (Pydantic, Typer, PyYAML, pytest, Hatchling). No AGPL
 or copyleft dependencies are present.
 

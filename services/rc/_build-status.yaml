@@ -730,7 +730,7 @@ sprints:
     depends_on: [sprint-33]
     items:
       - id: 47.1
-        title: Onboard client Azure subscription; assign Deloitte deployment principal roles
+        title: Onboard client Azure subscription; assign the firm deployment principal roles
         done: false
       - id: 47.2
         title: Operator runs Pre-deployment Security Gate; remediates per checklist

@@ -12,7 +12,7 @@ Microsoft Foundry Agent Service's Standard Setup with Private Networking has a d
 
 — [Microsoft Learn — Foundry Agent Service private networking limitations](https://learn.microsoft.com/azure/foundry/agents/how-to/virtual-networks#limitations)
 
-This conflicts with Deloitte client tenants where the CISO chain mandates **no public egress** at any layer of the platform — including container registries.
+This conflicts with firm client tenants where the CISO chain mandates **no public egress** at any layer of the platform — including container registries.
 
 ## Decision
 

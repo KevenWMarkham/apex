@@ -12,7 +12,7 @@ description: >
   combining fuel load, wind forecast, RH, ignition density, and
   affected-customer count. Assembles regulator-ready PSPS package.
 archetype_id: F4-regulatory-trigger-audit-preserve
-primary_contact: er-pu-practice-lead@deloitte.com
+primary_contact: er-pu-practice-lead@example.com
 
 tools:
   - tool_id: apex.er.mcp.gridml.get_feeder_topology

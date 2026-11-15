@@ -5,7 +5,7 @@
 **Parent Edition(s):** `<TMT | HLS | RC | ER | AXLE | TH | ICE>`
 **New service-code family:** `<EDITION>-<SUB>-<DOMAIN>-*`
 **Status:** Draft / Reviewed / Approved
-**Primary author:** `<owner>@deloitte.com`
+**Primary author:** `<owner>@example.com`
 
 ## Pack contents
 

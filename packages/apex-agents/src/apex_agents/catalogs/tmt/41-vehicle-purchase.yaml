@@ -13,7 +13,7 @@ description: >
   Carvana), pre-arrival pricing commitment, DMV automation. Orchestrates
   AUT-03 financing and AUT-04 insurance into the purchase flow.
 archetype_id: F4-orchestrator-with-subagents
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.autonation.inventory_search

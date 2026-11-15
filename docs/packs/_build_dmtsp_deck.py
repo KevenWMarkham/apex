@@ -10,7 +10,7 @@ Visual spec extracted from the parent deck:
   • Card body:     #FFFFFF
   • Card stripe:   #64748B (left/neutral col) or #86BC25 (right/APEX col)
   • Microsoft:     #0078D4 (used on APEX-M card)
-  • Accent green:  #86BC25 (Deloitte signature)
+  • Accent green:  #86BC25 (the firm signature)
   • Muted body:    #475569
   • Strong text:   #1A1F2E
   • Footer text:   #CBD5E1
@@ -35,7 +35,7 @@ OUT = Path(r"C:\Stage\Clients\Industries\APEX\docs\reference\APEX-Walkthrough-De
 BG          = RGBColor(0xFA, 0xFA, 0xFA)
 HEAD_NAVY   = RGBColor(0x1A, 0x1F, 0x2E)
 BOTTOM_NAVY = RGBColor(0x1E, 0x29, 0x3B)
-GREEN       = RGBColor(0x86, 0xBC, 0x25)   # Deloitte signature
+GREEN       = RGBColor(0x86, 0xBC, 0x25)   # the firm signature
 GRAY_STRIP  = RGBColor(0x64, 0x74, 0x8B)
 MS_BLUE     = RGBColor(0x00, 0x78, 0xD4)
 WHITE       = RGBColor(0xFF, 0xFF, 0xFF)
@@ -118,7 +118,7 @@ def page_footer(slide, slide_no: int, total: int):
     """Bottom 0.32" navy strip with attribution + page number."""
     add_rect(slide, Inches(0), Inches(7.18), SLIDE_W, Inches(0.32), fill=HEAD_NAVY)
     add_textbox(slide, Inches(0.45), Inches(7.22), Inches(8.0), Inches(0.26),
-                "Internal  •  Deloitte Microsoft Technology & Services Practice  •  DMTSP walkthrough",
+                "Internal  •  Microsoft Technology & Services Practice  •  DMTSP walkthrough",
                 size=8.5, color=LIGHT_TEXT)
     add_textbox(slide, Inches(11.00), Inches(7.22), Inches(2.00), Inches(0.26),
                 f"{slide_no} / {total}", size=8.5, bold=True, color=GREEN,
@@ -190,7 +190,7 @@ def main() -> None:
                 "APEX  —  Walkthrough for DMTSP",
                 size=22, bold=True, color=WHITE)
     add_textbox(s, Inches(0.45), Inches(0.62), Inches(12.50), Inches(0.40),
-                "Deloitte's agentic-AI delivery framework — what it is · how to demo it · how to make it real",
+                "The firm's agentic-AI delivery framework — what it is · how to demo it · how to make it real",
                 size=12, color=LIGHT_TEXT)
 
     # Hero
@@ -201,10 +201,10 @@ def main() -> None:
                 "“", size=72, bold=True, color=GREEN)
     add_textbox(s, Inches(1.45), Inches(2.85), Inches(10.50), Inches(2.30),
                 [
-                    "APEX is Deloitte's agentic-AI delivery framework — the engagement layer cloud vendors don't ship.",
+                    "APEX is the firm's agentic-AI delivery framework — the engagement layer cloud vendors don't ship.",
                     "",
                     "Foundry, Vertex, and Bedrock are agent runtimes. They are not engagement systems. APEX is what",
-                    "turns an agent runtime into a billable, audit-defensible, repeatable Deloitte delivery — sold as",
+                    "turns an agent runtime into a billable, audit-defensible, repeatable firm delivery — sold as",
                     "agentic services on top of the framework, scoped per Industry Pack.",
                 ],
                 size=18, color=STRONG_INK)
@@ -240,12 +240,12 @@ def main() -> None:
                     "They are not engagement systems.",
                     "",
                     "APEX is what turns an agent runtime into a billable,",
-                    "audit-defensible, repeatable Deloitte delivery.",
+                    "audit-defensible, repeatable firm delivery.",
                 ],
                 size=20, color=STRONG_INK)
 
     bottom_strip(s, "BOTTOM LINE",
-                 "Without APEX, an agent project competes with what a client can build alone from cloud-vendor docs. With APEX, Deloitte sells the engagement layer the cloud vendors do not.",
+                 "Without APEX, an agent project competes with what a client can build alone from cloud-vendor docs. With APEX, the firm sells the engagement layer the cloud vendors do not.",
                  [
                      ("01", "Billable",     "Defined methodology + SOW templates."),
                      ("02", "Auditable",    "WORM LEDGER + hash-chain replay."),
@@ -260,7 +260,7 @@ def main() -> None:
     header(s, "The Problem  —  An Agent Runtime Is Not An Engagement",
            "Cloud vendors ship the runtime. We sell what surrounds it.",
            "Why APEX:",
-           "Foundry, Vertex, and Bedrock are excellent agent runtimes. They are not engagement systems. APEX is the layer that turns an agent runtime into a billable, audit-defensible, repeatable Deloitte delivery.")
+           "Foundry, Vertex, and Bedrock are excellent agent runtimes. They are not engagement systems. APEX is the layer that turns an agent runtime into a billable, audit-defensible, repeatable firm delivery.")
 
     # Left card — WITHOUT (gray stripe)
     def left_body(x, y, w, h):
@@ -295,7 +295,7 @@ def main() -> None:
          body_fn=right_body)
 
     bottom_strip(s, "BOTTOM LINE",
-                 "Without APEX, an agent project looks like staff augmentation. With APEX, Deloitte sells the engagement layer cloud vendors do not — and the deal shape changes accordingly.",
+                 "Without APEX, an agent project looks like staff augmentation. With APEX, the firm sells the engagement layer cloud vendors do not — and the deal shape changes accordingly.",
                  [
                      ("01", "Billable",   "Defined methodology + SOW templates."),
                      ("02", "Auditable",  "WORM ledger + hash-chain replay."),
@@ -310,7 +310,7 @@ def main() -> None:
     header(s, "The Five Pieces of APEX",
            "Core  •  Profiles  •  Packs  •  Envelopes  •  LEDGER  —  every engagement assembles from these",
            "Position:",
-           "APEX is Deloitte's agentic-AI delivery framework: a Cloud-Neutral Core running on top of cloud-native agent runtimes (Foundry · Vertex · Bedrock) plus a Margin Spine — Virtual Views, Industry Solution Packs, Service Envelopes, and a WORM LEDGER — that makes agent work sellable, auditable, and repeatable.")
+           "APEX is the firm's agentic-AI delivery framework: a Cloud-Neutral Core running on top of cloud-native agent runtimes (Foundry · Vertex · Bedrock) plus a Margin Spine — Virtual Views, Industry Solution Packs, Service Envelopes, and a WORM LEDGER — that makes agent work sellable, auditable, and repeatable.")
 
     # Quote card (mid)
     add_rect(s, Inches(0.95), Inches(2.00), Inches(11.45), Inches(3.30),
@@ -320,7 +320,7 @@ def main() -> None:
                 "“", size=72, bold=True, color=GREEN)
     add_textbox(s, Inches(1.45), Inches(2.85), Inches(10.50), Inches(2.30),
                 [
-                    "APEX is Deloitte's agentic-AI delivery framework: a Cloud-Neutral Core that runs on top of",
+                    "APEX is the firm's agentic-AI delivery framework: a Cloud-Neutral Core that runs on top of",
                     "cloud-native agent runtimes (Foundry · Vertex · Bedrock) and adds a Margin Spine — Virtual",
                     "Views, Industry Solution Packs, Service Envelopes, and a WORM LEDGER — that makes agent",
                     "work sellable, auditable, and repeatable.",
@@ -333,7 +333,7 @@ def main() -> None:
                      ("01", "Cloud-Neutral Core", "VV runtime · LEDGER · 6-Agent Fleet · MCP contracts."),
                      ("02", "Cloud Profiles",     "APEX-M · APEX-G · APEX-A · 14-interface contract."),
                      ("03", "Industry Packs",     "10-asset bundle · Manufacturing v1 · 6 more in catalog."),
-                     ("04", "Service Envelopes",  "5 tiers Deloitte sells · 3 pack sub-tiers."),
+                     ("04", "Service Envelopes",  "5 tiers the firm sells · 3 pack sub-tiers."),
                  ])
     page_footer(s, 4, TOTAL)
 
@@ -641,7 +641,7 @@ def main() -> None:
     # ── Slide 10: Engagement ladder ────────────────────────────────────
     s = prs.slides.add_slide(blank)
     add_rect(s, Inches(0), Inches(0), SLIDE_W, SLIDE_H, fill=BG)
-    header(s, "The Service Envelope Stack  —  5 Tiers Deloitte Sells",
+    header(s, "The Service Envelope Stack  —  5 Tiers the firm Sells",
            "Stackable engagement tiers with independence-safe funding paths",
            "Position:",
            "Every APEX engagement assembles from five stackable tiers. Foundation is sold once per tenant. Industry Packs are sold per industry in three sub-tiers. Scenarios and Custom builds layer on top. Operate is the run-rate.")
@@ -716,14 +716,14 @@ def main() -> None:
     s = prs.slides.add_slide(blank)
     add_rect(s, Inches(0), Inches(0), SLIDE_W, SLIDE_H, fill=BG)
     header(s, "Funding & Independence",
-           "Independence-safe paths for every envelope  •  Deloitte never receives ECIF directly",
+           "Independence-safe paths for every envelope  •  the firm never receives ECIF directly",
            "Rule:",
-           "Deloitte is Microsoft's auditor. Per SEC rules, Deloitte cannot receive ECIF directly. Workarounds via ISV Marketplace + SI Teaming keep Microsoft money flowing without compromising independence. APEX-G / APEX-A have no such constraint.")
+           "The firm is Microsoft's auditor. Per SEC rules, the firm cannot receive ECIF directly. Workarounds via ISV Marketplace + SI Teaming keep Microsoft money flowing without compromising independence. APEX-G / APEX-A have no such constraint.")
 
     def left_do(x, y, w, h):
         items = [
             ("BVA",                "Client-funded discovery workshop"),
-            ("DCIF",               "Deloitte co-invest fund"),
+            ("DCIF",               "the firm co-invest fund"),
             ("ISV Marketplace",    "Microsoft money flows via the Marketplace burndown"),
             ("SI Teaming POC",     "Non-competing SI runs the POC"),
             ("T&M",                "Custom Build (T4) and Operate (T5)"),
@@ -738,11 +738,11 @@ def main() -> None:
 
     def right_dont(x, y, w, h):
         items = [
-            ("Route ECIF through Deloitte",  "Direct ECIF receipt breaks independence"),
+            ("Route ECIF through the firm",  "Direct ECIF receipt breaks independence"),
             ("Imply joint commercial entity",  "“Partnership” / “alliance” language is OUT"),
-            ("Describe APEX as a Microsoft product", "APEX is Deloitte IP, not Microsoft's"),
-            ("Take Microsoft co-sell credit",     "Engagement is Deloitte's, not joint"),
-            ("Skip the language discipline",   "Always: “Deloitte's Microsoft practice” / DMTSP"),
+            ("Describe APEX as a Microsoft product", "APEX is firm IP, not Microsoft's"),
+            ("Take Microsoft co-sell credit",     "Engagement is the firm's, not joint"),
+            ("Skip the language discipline",   "Always: “The firm's Microsoft practice” / DMTSP"),
             ("Sell APEX itself",                  "We sell agentic delivery services on the framework"),
         ]
         for i, (lbl, desc) in enumerate(items):
@@ -768,7 +768,7 @@ def main() -> None:
     header(s, "What We DO and DO NOT Sell",
            "The single most important framing — repeat it every meeting",
            "Rule:",
-           "APEX is Deloitte IP. Industry Packs (including CFMP) are scoped delivery engagements sold per industry as Deloitte agentic services. The framework itself is never licensed out.")
+           "APEX is firm IP. Industry Packs (including CFMP) are scoped delivery engagements sold per industry as the firm agentic services. The framework itself is never licensed out.")
 
     # NOT card
     def not_body(x, y, w, h):
@@ -787,20 +787,20 @@ def main() -> None:
     # IS card
     def is_body(x, y, w, h):
         items = [
-            ("Delivery framework",  "An engagement layer that turns cloud-vendor runtimes into Deloitte deliveries"),
-            ("Agentic services",    "What we sell is Deloitte agentic-AI delivery services on the APEX framework"),
+            ("Delivery framework",  "An engagement layer that turns cloud-vendor runtimes into the firm deliveries"),
+            ("Agentic services",    "What we sell is the firm agentic-AI delivery services on the APEX framework"),
             ("Scoped per Pack",     "Engagement signs an SOW for a specific Pack at a specific sub-tier (e.g. CFMP Lite)"),
-            ("Deloitte IP",         "Framework code (Core, Profiles, Packs) is Deloitte IP — never licensed out standalone"),
+            ("firm IP",         "Framework code (Core, Profiles, Packs) is firm IP — never licensed out standalone"),
         ]
         for i, (lbl, desc) in enumerate(items):
             kv_item(s, x + Inches(0.20), y + Inches(0.10 + i * 0.70), w - Inches(0.40),
                     label=lbl, desc=desc)
     card(s, Inches(6.85), Inches(2.05), Inches(6.20), Inches(3.85),
-         stripe_color=GREEN, stripe_text="✅  APEX IS Deloitte's delivery framework",
+         stripe_color=GREEN, stripe_text="✅  APEX IS the firm's delivery framework",
          body_fn=is_body)
 
     bottom_strip(s, "THE LINE",
-                 "When clients ask “Can I have APEX?” the answer is: “You can engage Deloitte to deliver an APEX-based solution. Here's what that looks like…”",
+                 "When clients ask “Can I have APEX?” the answer is: “You can engage the firm to deliver an APEX-based solution. Here's what that looks like…”",
                  [
                      ("01", "Buyer",    "CMO / CX-VP (CFMP) · Ops VP (Manufacturing) · CRO (Risk) · etc."),
                      ("02", "Vehicle",  "SOW under the right Service Envelope tier."),
@@ -893,11 +893,11 @@ def main() -> None:
 
     qa = [
         ("Is this Microsoft's product?",
-         "No — APEX is Deloitte's delivery framework. We use Foundry as the underlying runtime, but the engagement layer on top is Deloitte IP."),
+         "No — APEX is the firm's delivery framework. We use Foundry as the underlying runtime, but the engagement layer on top is firm IP."),
         ("Can we buy APEX?",
-         "You engage Deloitte for an APEX-based delivery. We scope an Industry Pack at the right sub-tier (Lite / Standard / Enterprise) and sign an SOW. The framework itself isn't licensed."),
+         "You engage the firm for an APEX-based delivery. We scope an Industry Pack at the right sub-tier (Lite / Standard / Enterprise) and sign an SOW. The framework itself isn't licensed."),
         ("How is this different from what I'd build on Foundry?",
-         "Foundry ships the agent runtime. We ship the engagement layer: 10-asset Industry Packs, WORM LEDGER, reasoning-trace + replay, persona/HITL plumbing, three cloud profiles. 12,649 lines of vetted Deloitte IP."),
+         "Foundry ships the agent runtime. We ship the engagement layer: 10-asset Industry Packs, WORM LEDGER, reasoning-trace + replay, persona/HITL plumbing, three cloud profiles. 12,649 lines of vetted firm IP."),
         ("What if we're on AWS / Google?",
          "Same Packs, same Core, different profile. APEX-G uses Vertex; APEX-A uses Bedrock. Replatforming a Pack is a config change — manifests, agent code, LEDGER schema all unchanged."),
         ("How fast can we see something working?",
@@ -947,7 +947,7 @@ def main() -> None:
          "60 minutes · low effort · one meeting"),
         ("02", "Stand up a BVA workshop",
          "Pick the Pack (CFMP for retail customer-side, Manufacturing for OEE, Risk for SOX, etc.) and book 4 hours. BVA is client-funded.",
-         "Week 1–2 · zero Deloitte cost"),
+         "Week 1–2 · zero the firm cost"),
         ("03", "Convert into a Pack Lite SOW",
          "BVA → scenario shortlist → 1 demo VV on client data → Pack Lite ($150K-$250K · 4–6 wks · BVA + DCIF). That's the wedge.",
          "Week 3–4 · DCIF approval · SOW signed"),

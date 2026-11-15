@@ -48,7 +48,7 @@
 
 **KEVEN:** *Extending, not initiating.* That framing matters. When Chris Crotts hears NVIDIA in the conversation, the response is not "we don't run NVIDIA" — it is "we run NVIDIA over there; where would it go over here." *The conversation gets to the operational question fast.*
 
-**MIA:** And the honest framing. *NVIDIA is named as a capability that fits this architecture, not as a Deloitte recommendation the way Microsoft is.* Toyota already chose NVIDIA. *Our job is to name accurately where the existing NVIDIA estate composes with the Microsoft data fabric to deliver the Zero Day Warranty posture.*
+**MIA:** And the honest framing. *NVIDIA is named as a capability that fits this architecture, not as a recommendation the way Microsoft is.* Toyota already chose NVIDIA. *Our job is to name accurately where the existing NVIDIA estate composes with the Microsoft data fabric to deliver the Zero Day Warranty posture.*
 
 ### Omniverse for plant simulation — the digital-twin extension
 
@@ -134,25 +134,25 @@
 
 **KEVEN:** And the commercial unit Toyota licenses.
 
-**MIA:** *Toyota licenses NVIDIA AI Enterprise from NVIDIA.* Direct license, NVIDIA paper. Just as Toyota licenses Microsoft Fabric from Microsoft on Microsoft paper. *Two separate platform contracts.* And — this is the Independence framing the Account Team needs to be fluent in — *Deloitte recommends the architecture; Toyota contracts with NVIDIA and Microsoft separately; Deloitte's services live on a third, separate Deloitte contract with Toyota.*
+**MIA:** *Toyota licenses NVIDIA AI Enterprise from NVIDIA.* Direct license, NVIDIA paper. Just as Toyota licenses Microsoft Fabric from Microsoft on Microsoft paper. *Two separate platform contracts.* And — this is the Independence framing the Account Team needs to be fluent in — *the firm recommends the architecture; Toyota contracts with NVIDIA and Microsoft separately; the firm's services live on a third, separate the firm contract with Toyota.*
 
 **KEVEN:** Spell out the three-contract model.
 
 **MIA:** *Three contracts. Three actors. Two platform suppliers.*
 
-Contract one — *Microsoft and Toyota.* Microsoft Fabric, Microsoft Agent Framework on Foundry, Microsoft Purview. Microsoft licenses Toyota directly on Microsoft paper. *Deloitte does not resell. Deloitte does not mark up. Deloitte does not take margin.*
+Contract one — *Microsoft and Toyota.* Microsoft Fabric, Microsoft Agent Framework on Foundry, Microsoft Purview. Microsoft licenses Toyota directly on Microsoft paper. *The firm does not resell. The firm does not mark up. The firm does not take margin.*
 
-Contract two — *NVIDIA and Toyota.* NVIDIA AI Enterprise covering Omniverse, NeMo, Triton, NIM, RAPIDS, the Metropolis stack. NVIDIA licenses Toyota directly on NVIDIA paper. *Same posture. Deloitte does not resell. Deloitte does not mark up. Deloitte does not take margin.*
+Contract two — *NVIDIA and Toyota.* NVIDIA AI Enterprise covering Omniverse, NeMo, Triton, NIM, RAPIDS, the Metropolis stack. NVIDIA licenses Toyota directly on NVIDIA paper. *Same posture. The firm does not resell. The firm does not mark up. The firm does not take margin.*
 
-Contract three — *Deloitte and Toyota.* The architecture work, the implementation, the change management, the Account Team continuity. Deloitte paper, Deloitte and Toyota. *Services only. No software.*
+Contract three — *the firm and Toyota.* The architecture work, the implementation, the change management, the Account Team continuity. firm paper, the firm and Toyota. *Services only. No software.*
 
 **KEVEN:** And the generalization from Episode 3.
 
-**MIA:** *Episode 3 stated the two-contract model when the conversation was Microsoft-only.* This episode generalizes that to three contracts when both Microsoft and NVIDIA are involved. Same posture. *The recommendation is Deloitte's, on the merits. The licensing relationships are between Toyota and each platform supplier separately. The services relationship is between Deloitte and Toyota. No compensation flows from any platform supplier to Deloitte for the recommendation.*
+**MIA:** *Episode 3 stated the two-contract model when the conversation was Microsoft-only.* This episode generalizes that to three contracts when both Microsoft and NVIDIA are involved. Same posture. *The recommendation is the firm's, on the merits. The licensing relationships are between Toyota and each platform supplier separately. The services relationship is between the firm and Toyota. No compensation flows from any platform supplier to the firm for the recommendation.*
 
 **KEVEN:** And the reason to state it explicitly.
 
-**MIA:** *Because a Toyota listener has to be able to repeat the model back accurately.* If a Toyota Procurement leader asks Chris Crotts about Deloitte's commercial relationship with NVIDIA, the answer is — *Deloitte does not have a commercial relationship with NVIDIA on this work. Toyota licenses NVIDIA AI Enterprise from NVIDIA directly. Deloitte recommends the architecture on the technical merits, and Deloitte provides the services on a separate Deloitte contract. That's the entire commercial picture.* That answer, said cleanly, is what makes the engagement clean.
+**MIA:** *Because a Toyota listener has to be able to repeat the model back accurately.* If a Toyota Procurement leader asks Chris Crotts about the firm's commercial relationship with NVIDIA, the answer is — *the firm does not have a commercial relationship with NVIDIA on this work. Toyota licenses NVIDIA AI Enterprise from NVIDIA directly. The firm recommends the architecture on the technical merits, and the firm provides the services on a separate the firm contract. That's the entire commercial picture.* That answer, said cleanly, is what makes the engagement clean.
 
 ### The 90-day pilot path — one Toyota plant, end to end
 
@@ -202,9 +202,9 @@ Contract three — *Deloitte and Toyota.* The architecture work, the implementat
 
 **MIA:** Three Microsoft mechanisms. *BVA, ECIF, Azure Credits.*
 
-*BVA — Business Value Assessment.* Seventy-five thousand to two hundred thousand dollars. *Microsoft funds the discovery work that validates the business case.* The Independence-clean pattern matters here. *Microsoft funds Toyota's discovery; Deloitte does the discovery work on a Deloitte contract with Microsoft, not with Toyota. Toyota receives the discovery without paying for it.*
+*BVA — Business Value Assessment.* Seventy-five thousand to two hundred thousand dollars. *Microsoft funds the discovery work that validates the business case.* The Independence-clean pattern matters here. *Microsoft funds Toyota's discovery; the firm does the discovery work on a contract with Microsoft, not with Toyota. Toyota receives the discovery without paying for it.*
 
-*ECIF — Enterprise Customer Investment Fund.* Two hundred thousand to five hundred thousand. *Microsoft funds POC implementation.* Same Independence-clean pattern — Deloitte's POC work is contracted between Deloitte and Microsoft, with Toyota as the beneficiary.
+*ECIF — Enterprise Customer Investment Fund.* Two hundred thousand to five hundred thousand. *Microsoft funds POC implementation.* Same Independence-clean pattern — the firm's POC work is contracted between the firm and Microsoft, with Toyota as the beneficiary.
 
 *Azure Credits.* One hundred thousand to five hundred thousand. *Microsoft funds Toyota's Azure consumption during the pilot.* Bronze, Silver, Gold workloads on OneLake; the Agent Framework runtime on Foundry; the Purview audit echo; NIM and Triton on AKS GPU node pools. *The credits cover that consumption.*
 
@@ -218,7 +218,7 @@ Contract three — *Deloitte and Toyota.* The architecture work, the implementat
 
 **KEVEN:** And the Independence framing inside the funding model.
 
-**MIA:** *Said cleanly.* When Microsoft funds discovery or POC work, Microsoft is paying Deloitte for a service that benefits Toyota. *Deloitte is not paid by Microsoft to influence Toyota's platform decision.* The platform decision is Deloitte's recommendation on the merits and Toyota's licensing choice on Toyota's terms. *The funding mechanism is for execution work, not for influence.*
+**MIA:** *Said cleanly.* When Microsoft funds discovery or POC work, Microsoft is paying the firm for a service that benefits Toyota. *The firm is not paid by Microsoft to influence Toyota's platform decision.* The platform decision is the firm's recommendation on the merits and Toyota's licensing choice on Toyota's terms. *The funding mechanism is for execution work, not for influence.*
 
 ### A reading I want to do
 
@@ -280,7 +280,7 @@ And on data access — Quality leadership can request data from Toyota Connected
 
 *Four — the 90-day pilot path leads to a single Toyota plant; Quality leadership is the primary sponsor, with Toyota Connected and Manufacturing IT as essential partners.* Discovery in the first fifteen days. Data access and canonical mapping through day thirty. Agent build and HITL design through day sixty. Validation cycle through day seventy-five. Pilot decision through day ninety. *Microsoft funding through BVA, ECIF, and Azure Credits — four hundred thousand to one point two million in total — makes the pilot accessible with effectively zero Toyota out-of-pocket cost.*
 
-*Five — Independence from Microsoft and from NVIDIA is non-negotiable.* Deloitte recommends on the technical merits. *Toyota contracts separately with Microsoft for the Microsoft platform.* Toyota contracts separately with NVIDIA for NVIDIA AI Enterprise. Toyota contracts separately with Deloitte for the services. *Three contracts. Three actors. Two platform suppliers. No compensation flows from any platform supplier to Deloitte for the recommendation.* The Account Team should be fluent. A Toyota listener should be able to repeat it back.
+*Five — Independence from Microsoft and from NVIDIA is non-negotiable.* The firm recommends on the technical merits. *Toyota contracts separately with Microsoft for the Microsoft platform.* Toyota contracts separately with NVIDIA for NVIDIA AI Enterprise. Toyota contracts separately with the firm for the services. *Three contracts. Three actors. Two platform suppliers. No compensation flows from any platform supplier to the firm for the recommendation.* The Account Team should be fluent. A Toyota listener should be able to repeat it back.
 
 **MIA:** Five things. *And the rule that sits above all five — operator dignity. TPS culture is preserved.* The agent augments the senior quality engineer. The vision-AI augments the operator at the station. *The architecture serves the people. Not the other way around.* That rule shows up in the data classification, in the cohort-not-individual policy, in the HITL design, in the cultural agreements that go in front of every plant deployment. *Said in Episode 1. Said again in Episode 4. Said one more time here, because this is the episode where the architecture climbs to its full height and the rule has to climb with it.*
 
@@ -310,7 +310,7 @@ And on data access — Quality leadership can request data from Toyota Connected
 
 **MIA:** Eighteen years on automotive accounts. *This is the cleanest agentic scenario I've worked on at this scale.* Cleanest because the operational story — the eleven-o'clock-on-a-Tuesday-night moment from Episode 1 — is real, lived, and shared across every plant Quality organization I've sat with. Cleanest because the four data domains are not a constructed schema; they are how Toyota already thinks. *And cleanest because the audit posture is what makes me say so.* I have watched agentic-AI demos that promised the moon and could not survive a single supplier contest. The audit chain that wraps this agent is what would survive. *The chain is the trust unit. That is why this scenario is the one I would put my name next to.*
 
-**KEVEN:** I'm Keven Markham. Vice President, Deloitte's Microsoft Technology and Services Practice. *See you in the field.*
+**KEVEN:** I'm Keven Markham. Vice President, Microsoft Technology and Services Practice. *See you in the field.*
 
 [outro music · long]
 

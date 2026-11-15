@@ -193,7 +193,7 @@ def main() -> None:
         ("", "", ""),
         ("Document version", "v0.2 · 2026-05-23 (Azure Maps Creator wayfinding · Architecture v5 aligned)", ""),
         ("Author",           "Keven Markham, VP · DMTSP", ""),
-        ("Independence posture", "All CFMP materials use 'Deloitte's Microsoft practice' / 'DMTSP'. Never 'partner' or 'alliance'.", ""),
+        ("Independence posture", "All CFMP materials use 'the firm's Microsoft practice' / 'DMTSP'. Never 'partner' or 'alliance'.", ""),
         ("Modeled on",       "APEX-Scenario-Chains.xlsx · same column structure as Featured Chains", ""),
     ]
     for r, vals in enumerate(rows, start=1):
@@ -287,7 +287,7 @@ def main() -> None:
     # ----- Scenario → KPI Chain (compact 8-col, all 18) -----------------------
     cols = ["Scenario ID","Phase","Sub-tier","Scenario (the moment)",
             "Solution / Agent (ORCH archetype)","Use Cases (decomposed)",
-            "Service (Deloitte unit)","Personas (operator · HITL approver)",
+            "Service (the firm unit)","Personas (operator · HITL approver)",
             "KPI (measurable outcome)","Featured?","Device(s)"]
     ws = wb.create_sheet("Scenario→KPI Chain")
     ws.append(cols)
@@ -305,7 +305,7 @@ def main() -> None:
                    src.get("Scenario (the moment)",""),
                    src.get("Solution / Agent (ORCH archetype)",""),
                    src.get("Use Cases (decomposed)",""),
-                   src.get("Service (Deloitte unit)",""),
+                   src.get("Service (the firm unit)",""),
                    src.get("Personas (operator · HITL approver)",""),
                    src.get("KPI (measurable outcome)",""),
                    src.get("Featured?",""), src.get("Device(s)","")]

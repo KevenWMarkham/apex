@@ -6,12 +6,12 @@
 
 ## 1. Purpose
 
-Produce a single Wrox-style HTML book — *Professional APEX: The Sellers Guide* — for Deloitte Microsoft-practice sellers, Global Practice Leaders, and account teams who need to position APEX to drive Microsoft platform revenue (Fabric, Copilot, Foundry, Purview) at named industry accounts.
+Produce a single Wrox-style HTML book — *Professional APEX: The Sellers Guide* — for the firm's Microsoft-practice sellers, Global Practice Leaders, and account teams who need to position APEX to drive Microsoft platform revenue (Fabric, Copilot, Foundry, Purview) at named industry accounts.
 
 ## 2. Audience
 
-- **Primary:** Deloitte Microsoft-practice sellers and Global Practice Leaders pursuing Industry accounts
-- **Secondary:** Microsoft field sellers co-selling with Deloitte
+- **Primary:** The firm's Microsoft-practice sellers and Global Practice Leaders pursuing Industry accounts
+- **Secondary:** Microsoft field sellers co-selling with the firm
 - **Tertiary:** Delivery leads transitioning into pre-sales / account-planning roles
 
 Independence-compliance tone; sells outcomes, not implementation depth.
@@ -70,7 +70,7 @@ Appendices
   B  The Discovery Question Bank (200+ questions)
   C  Objection Handbook
   D  ROI Calculators & Commercial Templates
-  E  Deloitte Independence Notes
+  E  Independence Notes
   F  Glossary
 ```
 
@@ -118,8 +118,8 @@ Every anchor account chapter follows the same 10-section structure:
 ## 9. Independence compliance
 
 - Per-account content frames accounts from the outside (public signals, published strategy)
-- No representation of Deloitte as serving these accounts today unless that is a publicly-disclosed relationship
-- Appendix E reprints the Deloitte Independence reminder
+- No representation of the firm as serving these accounts today unless that is a publicly-disclosed relationship
+- Appendix E reprints the Independence reminder
 - No client-confidential pricing, contract terms, or internal organisational details
 
 ## 10. Deliverables

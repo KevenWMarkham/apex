@@ -69,7 +69,7 @@ def test_schema_mapping_classified_fields() -> None:
 
 def test_runbook_with_failure_modes() -> None:
     r = Runbook(
-        primary_contact="ops@deloitte.com",
+        primary_contact="ops@example.com",
         failure_modes=[
             FailureMode(code="A", description="A failure"),
             FailureMode(code="B", description="B failure", severity="critical", retry=True),
@@ -113,7 +113,7 @@ def test_adapter_spec_minimal_loads() -> None:
         name="t", sor_name="T", sor_vendor="V", practice="rc",
         connection_method=ConnectionMethod.ODBC,
         schedule="daily", bronze_workspace="apex-rc-prod-bronze",
-        runbook=Runbook(primary_contact="x@deloitte.com"),
+        runbook=Runbook(primary_contact="x@example.com"),
         schema_mappings=[],
     )
     assert spec.kind == "adapter"

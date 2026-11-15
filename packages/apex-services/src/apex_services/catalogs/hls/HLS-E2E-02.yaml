@@ -45,4 +45,4 @@ linked_archetypes:
 
 schemas_touched: [PatientML, ProvML]
 standards: ['HIPAA', 'HL7 FHIR R4', 'SNOMED CT', 'ICD-10']
-primary_contact: hls-practice-lead@deloitte.com
+primary_contact: hls-practice-lead@example.com

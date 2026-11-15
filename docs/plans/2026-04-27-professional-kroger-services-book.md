@@ -41,9 +41,9 @@
 // into the 5-part engagement-arc book described in
 // docs/plans/2026-04-27-professional-kroger-services-book-design.md.
 //
-// Independence note: The book is internal Deloitte sellers' material. APEX is
+// Independence note: The book is internal firm sellers' material. APEX is
 // the internal accelerator name; client-facing narrative blocks (Ch 19) frame
-// the work as "Deloitte-delivered agents on Kroger's Microsoft platform" and
+// the work as "firm-delivered agents on Kroger's Microsoft platform" and
 // do not name APEX.
 
 const chapters = [];
@@ -92,7 +92,7 @@ Replace:
 // build-sellers-guide.cjs
 //
 // Builds Professional APEX: The Sellers Guide as a single-file Wrox-style
-// HTML book. Targets Deloitte Microsoft-practice sellers and GPLs pursuing
+// HTML book. Targets the firm's Microsoft-practice sellers and GPLs pursuing
 // APEX revenue in named industry accounts.
 //
 // Output: docs/book/Professional-APEX-M-Sellers-Guide.html
@@ -185,7 +185,7 @@ Find the `const parts = { ... }` block (around line 542). Replace the entire obj
 const parts = {
   1: { title: 'Why Kroger, Why APEX', intro: 'The strategic context for the Kroger pursuit, where margin moves in modern grocery, and how APEX wedges into the Kroger estate alongside 84.51°, Ocado, and Boost.' },
   2: { title: 'The Service Portfolio', intro: 'The two anchor services (RC-E2E-03 Assortment & Pricing and RC-E2E-09 Product Tracking), the high-attach catalog, and how Kroger differentiates from Albertsons, Publix, HEB, and Ahold.' },
-  3: { title: 'The Architecture', intro: 'System of record, the Fabric plane, the Foundry agent plane, the MCP layer, and Purview governance — the five technology planes Deloitte assembles for Kroger.' },
+  3: { title: 'The Architecture', intro: 'System of record, the Fabric plane, the Foundry agent plane, the MCP layer, and Purview governance — the five technology planes the firm assembles for Kroger.' },
   4: { title: 'The Pursuit', intro: 'Executive engagement, the pitch, risk and stakeholder management, the demo, and the client-presentable Kroger Store 412 day-in-the-shift narrative.' },
   5: { title: 'At Scale', intro: 'Operations and test strategy, the multi-wave service roadmap, cross-grocer expansion, and the closing seller compact.' },
 };
@@ -202,10 +202,10 @@ const FRONT_MATTER = `
   <h1 class="title"><span class="accent">Kroger</span> Services</h1>
   <div class="subtitle">The Anchor-Account Companion to APEX RC-E2E-03 + RC-E2E-09</div>
   <div class="edition">FY27 Pipeline · Assortment, Pricing & Product Tracking at The Kroger Co.</div>
-  <p class="tagline">A field guide for Deloitte sellers and delivery leads pursuing the Kroger agentic-AI program. Wraps the seventeen pursuit deliverables into one read — strategy, services, architecture, pursuit motion, and at-scale playbook.</p>
+  <p class="tagline">A field guide for firm sellers and delivery leads pursuing the Kroger agentic-AI program. Wraps the seventeen pursuit deliverables into one read — strategy, services, architecture, pursuit motion, and at-scale playbook.</p>
   <div class="wrox-label">WROX-STYLE EDITION · KROGER VOLUME</div>
   <div class="byline">
-    by the APEX RC team · Deloitte Microsoft Technology &amp; Services Practice<br>
+    by the APEX RC team · Microsoft Technology &amp; Services Practice<br>
     April 2026 · Version 1.0 · CONFIDENTIAL — internal use only
   </div>
 </section>
@@ -223,7 +223,7 @@ const FRONT_MATTER = `
   <p>Each chapter ends with a <strong>Companion Artifacts</strong> callout listing the underlying deliverable files. Click through whenever you need the full document.</p>
   <aside class="callout independence">
     <div class="callout-label">Independence Reminder</div>
-    <p>This book contains publicly-observable strategic signals on The Kroger Co. It does not represent that Deloitte is currently engaged with Kroger, nor does it disclose confidential client information. All account narratives are framed as hypotheses to validate in discovery. The Kroger Store 412 narrative in Chapter 19 is illustrative — it is not a description of any actual Kroger store deployment.</p>
+    <p>This book contains publicly-observable strategic signals on The Kroger Co. It does not represent that the firm is currently engaged with Kroger, nor does it disclose confidential client information. All account narratives are framed as hypotheses to validate in discovery. The Kroger Store 412 narrative in Chapter 19 is illustrative — it is not a description of any actual Kroger store deployment.</p>
   </aside>
 </section>
 `;
@@ -417,11 +417,11 @@ The book covers the FY27 Kroger pipeline scope as it stands at the design date: 
 
 ## How the chapters are organised
 
-The book has five parts. Part I is the *why* — Kroger's strategic posture, where margin moves in grocery, and how APEX wedges into an estate that already has 84.51° and Ocado in it. Part II is the *what* — the two anchor services in depth, the high-attach catalog, and the cross-grocer differentiation table. Part III is the *how* — five technology planes Deloitte assembles. Part IV is the *pursuit* — executive engagement, the pitch, risk and stakeholder management, the demo, and the Kroger Store 412 day-in-the-shift narrative. Part V is the *at-scale* — operations, roadmap, cross-grocer expansion, and the closing seller compact.
+The book has five parts. Part I is the *why* — Kroger's strategic posture, where margin moves in grocery, and how APEX wedges into an estate that already has 84.51° and Ocado in it. Part II is the *what* — the two anchor services in depth, the high-attach catalog, and the cross-grocer differentiation table. Part III is the *how* — five technology planes the firm assembles. Part IV is the *pursuit* — executive engagement, the pitch, risk and stakeholder management, the demo, and the Kroger Store 412 day-in-the-shift narrative. Part V is the *at-scale* — operations, roadmap, cross-grocer expansion, and the closing seller compact.
 
 ## The Kroger Store 412 narrative
 
-Chapter 19 is different from the rest of the book. It is written to be lifted unchanged into a client conversation. APEX is not named in it. The voice is that of a Kroger Marketplace store operations lead living through one shift with a fleet of agents quietly handling the operational friction of the day. Sellers can present Chapter 19 to a Kroger executive and say "this is what your store looks like with the program in production." The book frames Chapter 19 with internal Deloitte context before and after; the chapter body itself stays client-clean.
+Chapter 19 is different from the rest of the book. It is written to be lifted unchanged into a client conversation. APEX is not named in it. The voice is that of a Kroger Marketplace store operations lead living through one shift with a fleet of agents quietly handling the operational friction of the day. Sellers can present Chapter 19 to a Kroger executive and say "this is what your store looks like with the program in production." The book frames Chapter 19 with internal the firm context before and after; the chapter body itself stays client-clean.
 
 ## The seventeen deliverables this book wraps
 
@@ -438,7 +438,7 @@ Chapter 19 is different from the rest of the book. It is written to be lifted un
 
 ## Independence posture
 
-Every public claim about Kroger in this book is sourced from publicly-available signals and is to be treated as a hypothesis to validate in discovery. Deloitte's audit relationship with Kroger (if any) governs the pursuit; sellers must confirm pre-clearance before any outbound activity. The Independence Reminder callouts in this book mark passages where this discipline is most exposed.
+Every public claim about Kroger in this book is sourced from publicly-available signals and is to be treated as a hypothesis to validate in discovery. The firm's audit relationship with Kroger (if any) governs the pursuit; sellers must confirm pre-clearance before any outbound activity. The Independence Reminder callouts in this book mark passages where this discipline is most exposed.
 `,
   summary: [
     'Five parts: why → what → how → pursuit → at scale',
@@ -887,7 +887,7 @@ This is the **client-presentable** chapter. APEX is not named; the voice is oper
 - **Objectives:** experience what an agentic-AI program looks like in production at a Kroger Marketplace store; understand the eight events that anchor the narrative; recognize how HITL gates surface; see the audit-row discipline in operational language
 - **Body framing:**
   - Open with an Independence Reminder explicitly framing this as illustrative
-  - Open with an internal Deloitte note: "Lift this chapter unchanged into client-facing materials. APEX is not named below by design."
+  - Open with an internal the firm note: "Lift this chapter unchanged into client-facing materials. APEX is not named below by design."
   - Story format mirrors the Sellers Guide's "Big Box Store Store 100" narrative: Marisol-equivalent persona at a Cincinnati Marketplace store, 8 events across one shift, financial impact and time savings table at the end
   - Body sections: 18.1 The shift at a glance (timeline + table); 18.2-18.9 one section per event; 18.10 Shift summary (metrics table); 18.11 Why this narrative matters; 18.12 How to use this narrative in client conversations
 - **Eight events (use grocery-flavored events; differentiate from Big Box Store's events to avoid duplication):**

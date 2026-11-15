@@ -11,7 +11,7 @@ description: >
   Short-horizon (1-14 day) SKU-store-day forecasting that fuses POS,
   weather, promotion, and event signals to beat statistical baselines.
 archetype_id: F3-predictive-trigger-workflow-aware
-primary_contact: rc-practice-lead@deloitte.com
+primary_contact: rc-practice-lead@example.com
 
 tools:
   - tool_id: apex.rc.mcp.scml.get_pos_history

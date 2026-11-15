@@ -12,7 +12,7 @@ description: >
   Autotrader, Edmunds, CarGurus, TrueCar, and OEM-direct inventory.
   Read-only; never commits purchases or credit pulls.
 archetype_id: F2-event-cluster-pattern-match
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.kbb.search_listings

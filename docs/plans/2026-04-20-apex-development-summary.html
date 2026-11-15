@@ -6,9 +6,9 @@
 <title>APEX - Development Summary</title>
 <style>
   :root {
-    --deloitte-green: #86BC25;
-    --deloitte-green-dark: #43B02A;
-    --deloitte-black: #000000;
+    --brand-green: #86BC25;
+    --brand-green-dark: #43B02A;
+    --brand-black: #000000;
     --ink: #1a1a1a;
     --ink-muted: #4a4a4a;
     --panel: #ffffff;
@@ -37,13 +37,13 @@
     background: linear-gradient(90deg, #000 0%, #0f1a0a 40%, #1a2a0a 100%);
     color: #fff;
     padding: 28px 40px 20px;
-    border-bottom: 4px solid var(--deloitte-green);
+    border-bottom: 4px solid var(--brand-green);
   }
   header.doc h1 { margin: 0; font-size: 28px; letter-spacing: 0.3px; }
-  header.doc h1 span.accent { color: var(--deloitte-green); }
+  header.doc h1 span.accent { color: var(--brand-green); }
   header.doc .sub { margin-top: 6px; color: #cfd5c8; font-size: 14px; }
   header.doc .meta { margin-top: 10px; display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; color: #bfbfbf; }
-  header.doc .meta span b { color: var(--deloitte-green); }
+  header.doc .meta span b { color: var(--brand-green); }
 
   nav.tabs {
     position: sticky; top: 0; z-index: 20;
@@ -72,13 +72,13 @@
   nav.tabs button.active {
     background: #0b170a;
     color: #fff;
-    border-bottom-color: var(--deloitte-green);
+    border-bottom-color: var(--brand-green);
   }
   nav.tabs button .idx {
     display: inline-block;
     min-width: 14px;
     margin-right: 4px;
-    color: var(--deloitte-green);
+    color: var(--brand-green);
     font-weight: 700;
   }
   @media (max-width: 1100px) {
@@ -110,7 +110,7 @@
   }
   .controlbar button:hover { background: #2a3f1c; color: #fff; }
   .controlbar button:disabled { opacity: 0.4; cursor: not-allowed; }
-  .controlbar button.primary { background: var(--deloitte-green); color: #000; border-color: var(--deloitte-green); }
+  .controlbar button.primary { background: var(--brand-green); color: #000; border-color: var(--brand-green); }
   .controlbar button.primary:hover { background: #9dd52f; }
   .controlbar button.danger { background: #3a1919; border-color: #5a2727; color: #f3d6d6; }
   .controlbar button.danger:hover { background: #5a2727; color: #fff; }
@@ -125,14 +125,14 @@
     background: #555;
     box-shadow: 0 0 0 2px #0b170a;
   }
-  .controlbar .status.speaking .dot { background: var(--deloitte-green); animation: pulse 1.2s ease-in-out infinite; }
+  .controlbar .status.speaking .dot { background: var(--brand-green); animation: pulse 1.2s ease-in-out infinite; }
   .controlbar .status.paused .dot { background: #d7a21c; }
   @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
 
   .narrative {
     background: #fefdf7;
     border: 1px solid #e8e4c9;
-    border-left: 5px solid var(--deloitte-green);
+    border-left: 5px solid var(--brand-green);
     border-radius: 6px;
     margin: 22px 0 28px;
     position: relative;
@@ -141,7 +141,7 @@
   }
   .narrative .tag {
     position: absolute; top: -11px; left: 16px;
-    background: var(--deloitte-green);
+    background: var(--brand-green);
     color: #000;
     font-size: 10.5px;
     font-weight: 700;
@@ -162,7 +162,7 @@
     cursor: pointer;
     z-index: 2;
   }
-  .narrative .toggle:hover { background: var(--deloitte-green); color: #000; border-color: var(--deloitte-green); }
+  .narrative .toggle:hover { background: var(--brand-green); color: #000; border-color: var(--brand-green); }
   .narrative .body {
     max-height: 0;
     opacity: 0;
@@ -204,8 +204,8 @@
     font-family: "JetBrains Mono", Consolas, monospace;
   }
   .card ul li a.pkg-link:hover {
-    color: var(--deloitte-green-dark);
-    border-bottom-color: var(--deloitte-green-dark);
+    color: var(--brand-green-dark);
+    border-bottom-color: var(--brand-green-dark);
   }
   .card ul li a.pkg-link::after {
     content: " \2197";
@@ -234,7 +234,7 @@
     max-width: 860px;
     width: 100%;
     box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-    border-top: 4px solid var(--deloitte-green);
+    border-top: 4px solid var(--brand-green);
     overflow: hidden;
     animation: slideIn 0.2s ease;
   }
@@ -278,7 +278,7 @@
   .modal-body h4.ent-name {
     font-size: 14px;
     margin: 16px 0 6px;
-    color: var(--deloitte-black);
+    color: var(--brand-black);
     text-transform: none;
     letter-spacing: 0;
     font-family: "JetBrains Mono", monospace;
@@ -358,8 +358,8 @@
   h2.section {
     font-size: 22px;
     margin: 0 0 24px;
-    color: var(--deloitte-black);
-    border-left: 5px solid var(--deloitte-green);
+    color: var(--brand-black);
+    border-left: 5px solid var(--brand-green);
     padding-left: 12px;
     line-height: 1.3;
   }
@@ -386,11 +386,11 @@
   .stat-card {
     background: var(--panel);
     border: 1px solid var(--border);
-    border-left: 4px solid var(--deloitte-green);
+    border-left: 4px solid var(--brand-green);
     border-radius: 4px;
     padding: 14px 16px;
   }
-  .stat-card .val { display: block; font-size: 26px; font-weight: 700; color: var(--deloitte-black); }
+  .stat-card .val { display: block; font-size: 26px; font-weight: 700; color: var(--brand-black); }
   .stat-card .lbl { display: block; font-size: 11.5px; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 3px; }
 
   .pill {
@@ -425,7 +425,7 @@
     content: "[+]";
     display: inline-block;
     width: 22px;
-    color: var(--deloitte-green-dark);
+    color: var(--brand-green-dark);
     font-weight: 700;
   }
   details.tree[open] > summary::before { content: "[−]"; }
@@ -444,11 +444,11 @@
     font-weight: 400;
     margin-left: 10px;
   }
-  details.tree.pkg > summary { font-weight: 700; color: var(--deloitte-black); font-size: 14px; }
+  details.tree.pkg > summary { font-weight: 700; color: var(--brand-black); font-size: 14px; }
   details.tree.dir > summary { color: #2a4b15; font-weight: 600; }
 
   .what-why {
-    border-left: 3px solid var(--deloitte-green);
+    border-left: 3px solid var(--brand-green);
     background: #fbfcf8;
     padding: 10px 14px;
     margin: 10px 0 18px;
@@ -459,7 +459,7 @@
     font-size: 12.5px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    color: var(--deloitte-green-dark);
+    color: var(--brand-green-dark);
   }
   .what-why p { margin: 4px 0; font-size: 13.5px; color: #2a2a2a; }
   .what-why code { background: #edf0e8; padding: 1px 5px; border-radius: 3px; font-size: 12.5px; }
@@ -473,7 +473,7 @@
     margin: 14px 0;
   }
   .impl-strategy h5 {
-    color: var(--deloitte-green);
+    color: var(--brand-green);
     margin: 0 0 8px;
     font-size: 12.5px;
     letter-spacing: 0.6px;
@@ -494,7 +494,7 @@
     font-size: 12.5px;
     letter-spacing: 0.5px;
     text-transform: uppercase;
-    color: var(--deloitte-green-dark);
+    color: var(--brand-green-dark);
   }
   .design-map table {
     width: 100%;
@@ -526,7 +526,7 @@
   .design-map td.pkg {
     font-family: "JetBrains Mono", monospace;
     font-size: 12px;
-    color: var(--deloitte-green-dark);
+    color: var(--brand-green-dark);
     font-weight: 600;
     white-space: nowrap;
   }
@@ -559,7 +559,7 @@
     margin: 10px 0;
     line-height: 1.7;
   }
-  .math .op { color: var(--deloitte-green); }
+  .math .op { color: var(--brand-green); }
   .math .kw { color: #ffa657; }
 
   /* --- Sellers Guide linkage block --- */
@@ -669,9 +669,9 @@
     padding: 14px 16px;
     margin-bottom: 12px;
   }
-  .roadmap-sprint.done { border-left: 5px solid var(--deloitte-green); }
+  .roadmap-sprint.done { border-left: 5px solid var(--brand-green); }
   .roadmap-sprint.todo { border-left: 5px solid #bdbdbd; }
-  .roadmap-sprint h4 { margin: 0; color: var(--deloitte-black); text-transform: none; letter-spacing: 0; font-size: 15px; }
+  .roadmap-sprint h4 { margin: 0; color: var(--brand-black); text-transform: none; letter-spacing: 0; font-size: 15px; }
   .roadmap-sprint .bl-list { margin-top: 8px; font-size: 13px; color: var(--ink-muted); }
   .roadmap-sprint ul { margin: 6px 0 0; padding-left: 18px; }
   .roadmap-sprint li { font-size: 13.5px; }
@@ -735,13 +735,13 @@
     <button class="toggle" type="button">Show</button>
     <div class="collapsed-hint">Narrative hidden. Press <b>Start</b> in the bar above to expand and hear the summary, or <b>Show</b> to expand without narration.</div>
     <div class="body">
-    <p>Right. APEX. Let me set the stage. We've spent twelve sprints turning Deloitte's design document into working Python. Forty-one packages, six hundred and forty-two tests all green, twelve of nineteen sprints done. The core idea is simple: Microsoft ships the stack &mdash; Fabric, Foundry, Copilot, Purview, Entra &mdash; but the stack on its own doesn't give you agents that survive an audit. APEX does.</p>
+    <p>Right. APEX. Let me set the stage. We've spent twelve sprints turning the firm's design document into working Python. Forty-one packages, six hundred and forty-two tests all green, twelve of nineteen sprints done. The core idea is simple: Microsoft ships the stack &mdash; Fabric, Foundry, Copilot, Purview, Entra &mdash; but the stack on its own doesn't give you agents that survive an audit. APEX does.</p>
     <p>Every decision an agent makes produces a signed, immutable row with four Git commit hashes stamped on it. Any auditor, months later, can rebuild exactly what ran. That's the pitch. That's the whole thing. Four invariants sit underneath. Five planes &mdash; data, reasoning, experience, trust, identity &mdash; nothing crosses except through MCP tools. Four layers &mdash; contract, edition, practice, tenant &mdash; the deepest override wins. Five envelope fields on every raw row. Three version stamps plus a model ID on every decision row.</p>
     <p>What's left is connective tissue: Purview registration, Fabric provisioning, fifteen ingestion patterns, the full per-practice agent catalogs, and five reference deployments that prove the platform under real workload. We're well past the hard part.</p>
     </div>
   </div>
   <p class="lede">
-    APEX is Deloitte's delivery accelerator for agentic AI on Microsoft Fabric. It turns the Fabric + Foundry + Copilot + Purview + Entra stack
+    APEX is the firm's delivery accelerator for agentic AI on Microsoft Fabric. It turns the Fabric + Foundry + Copilot + Purview + Entra stack
     into a reproducible, auditable, multi-industry platform &mdash; shipping the 4-layer manifest model (Contract &rarr; Edition &rarr; Practice &rarr; Tenant),
     the 5-field canonical envelope, the 14-field Decision Audit Row, and the 4&times;4 gate runtime that makes every agent decision reconstructible from Git SHAs.
     This page captures everything implemented across Sprints 0&ndash;12 and the plan for Sprints 13&ndash;19.
@@ -920,7 +920,7 @@
       <a class="book-ref" href="../book/Professional-APEX-M-Sellers-Guide.html#22a-understanding-envelope-commercial-data-and-schema-dimens" target="_blank"><span class="ch">2.2A</span><span class="title">The five envelopes in APEX</span></a>
       <a class="book-ref" href="../book/Professional-APEX-M-Sellers-Guide.html#22b-the-apex-value-delivery-chain-scenario-solution-use-case" target="_blank"><span class="ch">2.2B</span><span class="title">Value-delivery chain &mdash; Scenario &rarr; KPI</span></a>
       <a class="book-ref" href="../book/Professional-APEX-M-Sellers-Guide.html#22c-the-human-oversight-spectrum-hitl-hotl-and-hic" target="_blank"><span class="ch">2.2C</span><span class="title">Human oversight spectrum &mdash; HITL, HOTL, HIC</span></a>
-      <a class="book-ref" href="../book/Professional-APEX-M-Sellers-Guide.html#31-deloitte-delivers-agentic-ai-on-the-microsoft-platform-st" target="_blank"><span class="ch">3.1</span><span class="title">Deloitte delivers agentic AI on the Microsoft platform</span></a>
+      <a class="book-ref" href="../book/Professional-APEX-M-Sellers-Guide.html#31-the-firm-delivers-agentic-ai-on-the-microsoft-platform-st" target="_blank"><span class="ch">3.1</span><span class="title">The firm delivers agentic AI on the Microsoft platform</span></a>
       <a class="book-ref" href="../book/Professional-APEX-M-Sellers-Guide.html#34-why-this-stack-the-architectural-argument" target="_blank"><span class="ch">3.4</span><span class="title">Why this stack &mdash; the architectural argument</span></a>
     </div>
   </div>
@@ -2518,7 +2518,7 @@ Fabric tenant
     <h5>Whole-stack architecture &mdash; book anchors</h5>
     <p class="book-lede">Architecture-level positioning lives mostly in Chapter 3 (the stack chapter). Chapter 5.5 has the sharpest acceleration argument for architects; 4.2 and 4.8 are competitor teardowns if the architecture conversation turns into a bake-off.</p>
     <div class="book-refs">
-      <a class="book-ref" href="../book/Professional-APEX-M-Sellers-Guide.html#31-deloitte-delivers-agentic-ai-on-the-microsoft-platform-st" target="_blank"><span class="ch">3.1</span><span class="title">Deloitte delivers agentic AI on the Microsoft platform</span></a>
+      <a class="book-ref" href="../book/Professional-APEX-M-Sellers-Guide.html#31-the-firm-delivers-agentic-ai-on-the-microsoft-platform-st" target="_blank"><span class="ch">3.1</span><span class="title">The firm delivers agentic AI on the Microsoft platform</span></a>
       <a class="book-ref" href="../book/Professional-APEX-M-Sellers-Guide.html#34-why-this-stack-the-architectural-argument" target="_blank"><span class="ch">3.4</span><span class="title">Why this stack &mdash; architectural argument</span></a>
       <a class="book-ref" href="../book/Professional-APEX-M-Sellers-Guide.html#37-co-selling-with-microsoft-field" target="_blank"><span class="ch">3.7</span><span class="title">Co-selling with Microsoft field</span></a>
       <a class="book-ref" href="../book/Professional-APEX-M-Sellers-Guide.html#42-the-core-architectural-argument" target="_blank"><span class="ch">4.2</span><span class="title">The core architectural argument (vs alternatives)</span></a>
@@ -3213,7 +3213,7 @@ psql "$(pytest packages/apex-test-harness --print-conn-url)" -c \
 </div>
 
 <footer class="doc">
-  APEX Development Summary &middot; Deloitte Internal &middot; Generated 2026-04-20 &middot;
+  APEX Development Summary &middot; Internal &middot; Generated 2026-04-20 &middot;
   Source of truth: <code>docs/APEX - Design and Build/Roadmap.md</code> + <code>Orchestrator.md</code> + <code>APEX_Design.md</code>
 </footer>
 

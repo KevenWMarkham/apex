@@ -11,7 +11,7 @@ description: >
   Store-by-store, SKU-by-SKU markdown cadence with sell-through prediction
   and price-elasticity modeling.
 archetype_id: F3-predictive-trigger-workflow-aware
-primary_contact: rc-practice-lead@deloitte.com
+primary_contact: rc-practice-lead@example.com
 
 tools:
   - tool_id: apex.rc.mcp.scml.get_inventory_position

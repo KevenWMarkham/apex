@@ -172,7 +172,7 @@ def build_sad():
         "HITL is first-class — human-in-the-loop is an architectural primitive declared in manifest, not bolted on. Material decisions route to named-persona Adaptive Cards.",
         "Capability indirection — agents reference tools via cap:* tags. Backend implementations swap without manifest changes.",
         "Microsoft-native, CAF-rideable — Fabric · Foundry · Teams · Entra · Purview as substrate. CAF Dynamic Orchestrator + A2A Swarm + AEF LLM Gateway as agent runtime.",
-        "Independence-safe by construction — agent manifests, policy manifests, and LEDGER are Kroger artifacts. Deloitte's role is advisory and implementation enablement.",
+        "Independence-safe by construction — agent manifests, policy manifests, and LEDGER are Kroger artifacts. The firm's role is advisory and implementation enablement.",
     ])
 
     addh(doc, "2 · Logical architecture · the 5 planes", level=1)
@@ -334,7 +334,7 @@ def build_sad():
                                         "Privacy & Data Governance Spec"],
               ["SOX-adjacent",          "14-field audit row · manifest version stamps · evidence packet",
                                         "AI/ML Model Spec · LEDGER architecture"],
-              ["Independence (audit)",  "Manifests/policies/LEDGER are Kroger artifacts · Deloitte advisory",
+              ["Independence (audit)",  "Manifests/policies/LEDGER are Kroger artifacts · the firm advisory",
                                         "All artifacts (consistent posture)"]],
              col_widths=[1.8, 3.2, 2.0])
 
@@ -354,7 +354,7 @@ def build_sad():
                             "Capability indirection · backend swappability · CAF substrate alignment"],
               ["ADR-003",  "6 agents (split Evidence-Write from Act)",
                             "Different blast-radius · different SLO · different evolution arc"],
-              ["ADR-004",  "Manifests as Kroger artifacts (not Deloitte)",
+              ["ADR-004",  "Manifests as Kroger artifacts (not the firm)",
                             "Independence preservation · audit-firm-agnostic engagement structure"],
               ["ADR-005",  "Eventstream over Logic Apps for streaming feeds",
                             "Low-latency requirement (≤ 30s for telemetry) · native Fabric integration"],
@@ -400,7 +400,7 @@ def build_sad():
         "Service Roadmap (forward-looking): APEX-RC-E2E-03-Service-Roadmap.html (Tier A · this batch)",
     ])
 
-    addbody(doc, "Independence posture preserved: 'Deloitte's Microsoft practice,' 'DMTSP,' 'Microsoft platform "
+    addbody(doc, "Independence posture preserved: 'The firm's Microsoft practice,' 'DMTSP,' 'Microsoft platform "
                  "capabilities,' 'Microsoft-native deployment.' The terms 'partner,' 'alliance,' and 'strategic "
                  "alliance' do not appear.",
             italic=True, color=MUTE, size=9)
@@ -780,7 +780,7 @@ def build_test_plan():
               ["Food Safety Lead signoff (FSMA UCs)",      "W1 exit + W2 entry",     "Food Safety Compliance Lead"],
               ["Internal Audit + External Audit signoff",   "W2 quarterly packet",    "VP Internal Audit + audit firm PIC"],
               ["Steering Committee signoff",                "W1 → W2 + W2 → W3",      "Steering Committee chair (COO)"],
-              ["Independence-office review",               "Initial SOW + each MAJOR scope change", "Deloitte Independence office"]],
+              ["Independence-office review",               "Initial SOW + each MAJOR scope change", "Independence office"]],
              col_widths=[3.0, 2.0, 1.6])
 
     addh(doc, "7 · Test environment topology", level=1)
@@ -1068,7 +1068,7 @@ footer{position:relative;z-index:1;max-width:1500px;margin:0 auto;padding:32px 4
 <footer>
   <div>APEX · RC-E2E-03 + RC-E2E-09 · Service Roadmap · v1.0 · 27 Apr 2026</div>
   <div>Companion: Six-Agents Maturation · Walkthrough · SAD · Operations Playbook · Test Plan</div>
-  <div>Deloitte · Microsoft Technology Solutions &amp; Practices</div>
+  <div>The firm · Microsoft Technology Solutions &amp; Practices</div>
 </footer>
 
 <script>
@@ -1238,10 +1238,10 @@ def build_demo_script():
          "No. RC-E2E-03 reads from 84.51° loyalty data via cap:loyalty-hh consent-aware feed. The pricing engine remains 84.51° + "
          "Revionics. RC-E2E-03 adds the cold-chain disposition layer that 84.51° doesn't currently address. Complementary, not "
          "competitive."),
-        ("Q · How do you handle the Independence question if Deloitte is our auditor?",
+        ("Q · How do you handle the Independence question if the firm is our auditor?",
          "Two architectural commitments make this independence-safe: (1) manifests, policy, and LEDGER are Kroger artifacts, "
-         "with Deloitte's role limited to advisory and implementation; (2) before any contract, the SOW is routed through "
-         "Deloitte's Independence office. We've confirmed Kroger's external auditor is PwC, which simplifies but doesn't "
+         "with the firm's role limited to advisory and implementation; (2) before any contract, the SOW is routed through "
+         "The firm's Independence office. We've confirmed Kroger's external auditor is PwC, which simplifies but doesn't "
          "obviate the routing."),
         ("Q · What's the disaster-recovery posture for the LEDGER?",
          "Active geo-replication on the Postgres index between East US 2 and West US 2 with a failover group. Delta Lake "
@@ -1258,7 +1258,7 @@ def build_demo_script():
          "agents fuse into three superagents that handle multi-scenario decisioning. Same audit-row contract preserved across both."),
         ("Q · Who owns the model when it goes wrong?",
          "Kroger ML Engineering owns the model. Audience Lead owns cohort drift triage. Food Safety Lead owns FSMA-related "
-         "exceptions. Privacy Office owns consent-related exceptions. Deloitte advises and supports — but the model artifact "
+         "exceptions. Privacy Office owns consent-related exceptions. The firm advises and supports — but the model artifact "
          "and lifecycle decisions are Kroger's. Independence-safe by construction."),
         ("Q · What's the Wave-1 commitment if we say go today?",
          "5–8 months · $1.2M–$3.5M · 50 story points · Cincinnati Kroger banner cluster · 3 of 5 agents live in shadow-run. "

@@ -1,7 +1,7 @@
 # apex-compliance-lint
 
-**Sprint 29 Task 29.9.** Standalone APEX compliance linter — Independence-language
-+ typography + brand rules across HTML / Markdown / DOCX / PPTX artifacts.
+**Sprint 29 Task 29.9.** Standalone APEX compliance linter — typography + brand
+rules across HTML / Markdown / DOCX / PPTX artifacts.
 
 ## Install
 
@@ -17,7 +17,7 @@ pip install -e packages/apex-compliance-lint[docx,pptx]   # all formats
 ```bash
 apex-compliance-lint path/to/artifact.html
 apex-compliance-lint docs/  --severity warning
-apex-compliance-lint a.md b.html  --pack deloitte_microsoft_independence
+apex-compliance-lint a.md b.html  --pack apex_brand
 ```
 
 Exit codes:
@@ -30,11 +30,10 @@ Exit codes:
 
 | Pack id | Description | Severity |
 |---------|-------------|----------|
-| `deloitte_microsoft_independence` | Forbidden Independence-language: partner / alliance / partnership / endorsed / "Microsoft jointly" / Gold-Partner / etc. | ERROR |
 | `apex_typography` | Prose mentions of fonts outside the design-token registry | WARNING |
 | `apex_brand` | "black box" / "fully autonomous" / "guarantees" outcome language / etc. | mixed |
 
-Rule packs are configurable. Tenants extending beyond Deloitte-Microsoft
+Rule packs are configurable. Tenants extending the linter
 import the `Rule` / `RulePack` types and ship their own packs without
 touching the core engine.
 
@@ -70,4 +69,4 @@ for v in report.errors:
 - `apex-workspace/APEX-CORE.md` §7 (hard limit #8 — Independence language)
 - `apex-workspace/CHARTER.md` §6 (Independence language operationalized)
 - Sprint 29 Task 29.10 — pre-publish CI lane wires this linter into the GitHub Actions workflow
-- Appendix N (Sprint 29 Task 29.2) — design-system reference + Independence linguistic rules + approved-substitute table
+- Appendix N (Sprint 29 Task 29.2) — design-system reference + vendor-neutral writing guidelines

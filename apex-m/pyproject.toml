@@ -3,7 +3,7 @@ name = "apex-m"
 version = "0.1.0"
 description = "APEX-M — Microsoft variant. Implements APEX-Core protocols against Azure / M365 / Power Platform / Microsoft Foundry / Microsoft Fabric / Microsoft Purview / Microsoft Defender / Microsoft Entra."
 requires-python = ">=3.12"
-authors = [{ name = "Deloitte's Microsoft Technology & Services Practice" }]
+authors = [{ name = "Microsoft Technology & Services Practice" }]
 license = "Proprietary"
 dependencies = [
     "apex-core",

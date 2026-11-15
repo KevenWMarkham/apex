@@ -1,6 +1,6 @@
 // sellers-guide-content.js — Independence-compliant framing.
 // APEX sellers LEVERAGE the Microsoft technology stack; they do not sell
-// Microsoft. Deloitte is Microsoft's external auditor, which imposes
+// Microsoft. The firm is Microsoft's external auditor, which imposes
 // specific language, funding, and service boundaries on every DMTSP
 // engagement. See Appendix E for the full Independence reference.
 
@@ -18,17 +18,17 @@ chapters.push({
     'Know the specific language to use and to avoid in the first 10 minutes',
   ],
   body: `
-## 1.0 What Deloitte Sells, What APEX Accelerates
+## 1.0 What the firm Sells, What APEX Accelerates
 
 Before any seller reads further, the positioning of this guide must be unambiguous.
 
-**Deloitte does not sell APEX.** APEX is not a product. Clients do not buy APEX. APEX does not appear on SOWs, in proposals, or in executive conversations. When sellers are tempted to say "we sell APEX to clients," they are stating the positioning incorrectly.
+**The firm does not sell APEX.** APEX is not a product. Clients do not buy APEX. APEX does not appear on SOWs, in proposals, or in executive conversations. When sellers are tempted to say "we sell APEX to clients," they are stating the positioning incorrectly.
 
-**Deloitte sells Deloitte Agentic AI Delivery Services.** Advisory, implementation, sustain, and managed services for the deployment of agentic agents on the Microsoft technology platform. That is the service catalog clients procure from Deloitte.
+**The firm sells APEX Agentic AI Delivery Services.** Advisory, implementation, sustain, and managed services for the deployment of agentic agents on the Microsoft technology platform. That is the service catalog clients procure from the firm.
 
-**Clients license the Microsoft platform directly from Microsoft.** Microsoft Fabric, Azure AI Foundry, Microsoft 365 Copilot, MCP servers, Microsoft Purview, Microsoft Entra — all contracted between the client and Microsoft, never through Deloitte.
+**Clients license the Microsoft platform directly from Microsoft.** Microsoft Fabric, Azure AI Foundry, Microsoft 365 Copilot, MCP servers, Microsoft Purview, Microsoft Entra — all contracted between the client and Microsoft, never through the firm.
 
-**APEX is Deloitte's internal delivery accelerator.** It is the proprietary methodology, semantic-model library, agent catalog, MCP tool library, HITL gate framework, audit-row discipline, and Wave 1/2/3 delivery playbook that Deloitte teams use internally to accelerate client deployments from 18–24 months to 9–12 months. Sellers learn APEX internally so they can confidently describe what Deloitte will deliver and why Deloitte delivers faster than the client could build it themselves.
+**APEX is the firm's internal delivery accelerator.** It is the proprietary methodology, semantic-model library, agent catalog, MCP tool library, HITL gate framework, audit-row discipline, and Wave 1/2/3 delivery playbook that firm teams use internally to accelerate client deployments from 18–24 months to 9–12 months. Sellers learn APEX internally so they can confidently describe what the firm will deliver and why the firm delivers faster than the client could build it themselves.
 
 ### The three-way relationship in one diagram
 
@@ -36,7 +36,7 @@ Before any seller reads further, the positioning of this guide must be unambiguo
 graph TD
     Client["CLIENT<br/>(enterprise)"]
     MSFT["MICROSOFT<br/>(platform provider)"]
-    DEL["DELOITTE<br/>(services provider)"]
+    DEL["THE FIRM<br/>(services provider)"]
     APEX["APEX<br/>(internal delivery<br/>accelerator)"]
     PLAT["Fabric · Foundry · Copilot<br/>MCP · Purview · Entra"]
     SVC["Agentic AI Delivery Services<br/>(advisory · implement · operate)"]
@@ -50,7 +50,7 @@ graph TD
     SVC -.->|"deploys onto client platform"| PLAT
 
     APEX -->|"accelerates"| DEL
-    APEX -.->|"Deloitte internal IP<br/>(never sold)"| DEL
+    APEX -.->|"internal IP<br/>(never sold)"| DEL
 
     DEL -.->|"audits"| MSFT
 
@@ -62,24 +62,24 @@ graph TD
     style SVC fill:#f0fae1,color:#000
 \`\`\`
 
-- **Client** procures Microsoft platform licenses from **Microsoft** and Agentic AI Delivery Services from **Deloitte**.
+- **Client** procures Microsoft platform licenses from **Microsoft** and Agentic AI Delivery Services from **the firm**.
 - **Microsoft** provides the platform (Fabric, Foundry, Copilot, MCP, Purview, Entra) directly to the client.
-- **Deloitte** delivers advisory, implementation, and operate services to the client — using APEX internally as the accelerator that makes delivery faster, cleaner, and more defensible.
-- **Deloitte** audits Microsoft — the relationship that makes the two-contract discipline non-negotiable.
+- **The firm** delivers advisory, implementation, and operate services to the client — using APEX internally as the accelerator that makes delivery faster, cleaner, and more defensible.
+- **The firm** audits Microsoft — the relationship that makes the two-contract discipline non-negotiable.
 
-The client sees agents on their Microsoft platform, delivered by Deloitte consultants. The client does not see a named "APEX product."
+The client sees agents on their Microsoft platform, delivered by firm consultants. The client does not see a named "APEX product."
 
 ### What sellers tell clients
 
-- "Deloitte will deliver your agentic-AI program on your Microsoft platform."
-- "Deloitte has invested in proprietary accelerators that let us deploy in months, not years."
+- "The firm will deliver your agentic-AI program on your Microsoft platform."
+- "The firm has invested in proprietary accelerators that let us deploy in months, not years."
 - "Your agents run on Fabric, Foundry, Copilot, MCP, and Purview — everything you've already licensed from Microsoft or will license directly."
-- "Deloitte's services contract covers the delivery; Microsoft's licensing covers the platform. Two separate agreements, one coherent program."
+- "The firm's services contract covers the delivery; Microsoft's licensing covers the platform. Two separate agreements, one coherent program."
 
 ### What sellers DO NOT tell clients
 
 - "Buy APEX."
-- "APEX is Deloitte's product for you."
+- "APEX is the firm's product for you."
 - "We'll give you an APEX license."
 - "APEX costs $X per user/month."
 - "APEX comes with Microsoft."
@@ -90,24 +90,24 @@ Any of these statements is a positioning error. Correct sellers to the accurate 
 
 Three reasons this discipline is non-negotiable:
 
-1. **Commercial clarity.** Clients who believe they are buying "an APEX product" have mismatched expectations. Deloitte sells services; APEX is how we deliver them.
-2. **Independence protection.** Deloitte is Microsoft's auditor. The commercial structure must be clean: platform from Microsoft, services from Deloitte. APEX as an internal accelerator preserves that boundary; APEX as a sold product blurs it.
-3. **Client ownership.** What the client licenses from Microsoft is the client's — forever. What Deloitte delivers onto the client's platform is the client's — forever. APEX IP is Deloitte's and stays with Deloitte. At engagement exit the client owns their agents, their data, their Microsoft platform; Deloitte retains the framework methodology for the next engagement.
+1. **Commercial clarity.** Clients who believe they are buying "an APEX product" have mismatched expectations. The firm sells services; APEX is how we deliver them.
+2. **Independence protection.** The firm is Microsoft's auditor. The commercial structure must be clean: platform from Microsoft, services from the firm. APEX as an internal accelerator preserves that boundary; APEX as a sold product blurs it.
+3. **Client ownership.** What the client licenses from Microsoft is the client's — forever. What the firm delivers onto the client's platform is the client's — forever. APEX IP is the firm's and stays with the firm. At engagement exit the client owns their agents, their data, their Microsoft platform; the firm retains the framework methodology for the next engagement.
 
-> **Independence Reminder.** Every statement made to a client — verbal, written, or slide — should pass the test: "If the SEC or PCAOB read this, would they conclude Deloitte and Microsoft have a commingled commercial offering?" The answer must always be no. "Deloitte delivers services; Microsoft provides the platform; the client contracts both separately" is the sentence that keeps the answer no.
+> **Independence Reminder.** Every statement made to a client — verbal, written, or slide — should pass the test: "If the SEC or PCAOB read this, would they conclude the firm and Microsoft have a commingled commercial offering?" The answer must always be no. "The firm delivers services; Microsoft provides the platform; the client contracts both separately" is the sentence that keeps the answer no.
 
-With positioning established, the rest of this chapter covers the forces that make today the right moment for clients to engage Deloitte for agentic-AI delivery.
+With positioning established, the rest of this chapter covers the forces that make today the right moment for clients to engage the firm for agentic-AI delivery.
 
 ### Internal-shorthand convention
 
-This sellers guide is a Deloitte-internal document. Throughout the rest of the guide, phrases like "APEX service," "APEX services," and "APEX engagement" are used as **Deloitte-internal shorthand** for "Deloitte Agentic AI Delivery Services delivered using APEX as the internal accelerator." When sellers take those ideas into client conversations, the language converts:
+This sellers guide is an internal document. Throughout the rest of the guide, phrases like "APEX service," "APEX services," and "APEX engagement" are used as **internal shorthand** for "APEX Agentic AI Delivery Services delivered using APEX as the internal accelerator." When sellers take those ideas into client conversations, the language converts:
 
 | Internal shorthand (this guide) | Client-facing language |
 |---|---|
-| "APEX service" | "Deloitte agentic-AI service" / "Deloitte-delivered agent capability" |
-| "APEX engagement" | "Deloitte delivery engagement" |
-| "APEX services catalog" | "Deloitte's agentic-AI delivery catalog" |
-| "Priority APEX services for RC" | "Priority Deloitte services to lead with in a retail engagement" |
+| "APEX service" | "The firm agentic-AI service" / "firm-delivered agent capability" |
+| "APEX engagement" | "firm delivery engagement" |
+| "APEX services catalog" | "The firm's agentic-AI delivery catalog" |
+| "Priority APEX services for RC" | "Priority firm services to lead with in a retail engagement" |
 | "Client's APEX deployment" | "Client's agent fleet on Microsoft" |
 | "APEX Wave 1 / 2 / 3" | "Wave 1 / 2 / 3 (accelerated by APEX internally)" |
 
@@ -115,9 +115,9 @@ Sellers should internalise both vocabularies: the internal shorthand for reading
 
 ## 1.1 What APEX actually is (for sellers' internal understanding)
 
-APEX is a manifest-driven agentic delivery accelerator that turns enterprise events into decisions — auditable, reversible, and governed. It was built by Deloitte's Microsoft Technology Services Practice (DMTSP) to address a specific gap every large enterprise has but few have named: the distance between "we have the data" and "we made the right decision in time." APEX closes that gap with a programmatic, contract-enforced system of agents, orchestrations, human-in-the-loop gates, and auditable decision rows — all used by Deloitte internally to accelerate client deployments of agentic AI on the Microsoft platform.
+APEX is a manifest-driven agentic delivery accelerator that turns enterprise events into decisions — auditable, reversible, and governed. It was built by Microsoft Technology Services Practice (DMTSP) to address a specific gap every large enterprise has but few have named: the distance between "we have the data" and "we made the right decision in time." APEX closes that gap with a programmatic, contract-enforced system of agents, orchestrations, human-in-the-loop gates, and auditable decision rows — all used by internally to accelerate client deployments of agentic AI on the Microsoft platform.
 
-APEX leverages the Microsoft technology platform (Fabric, Azure AI Foundry, Purview, Copilot, Entra) as its runtime substrate. The client licenses the platform directly from Microsoft; Deloitte sells APEX — the services, IP, semantic models, agent library, and delivery methodology — on a separate contract. This two-contract model is not a convenience. It is an Independence requirement that reflects Deloitte's role as Microsoft's external auditor, codified in SEC Rule 2-01 and PCAOB Rule 3520.
+APEX leverages the Microsoft technology platform (Fabric, Azure AI Foundry, Purview, Copilot, Entra) as its runtime substrate. The client licenses the platform directly from Microsoft; the firm sells APEX — the services, IP, semantic models, agent library, and delivery methodology — on a separate contract. This two-contract model is not a convenience. It is an Independence requirement that reflects the firm's role as Microsoft's external auditor, codified in SEC Rule 2-01 and PCAOB Rule 3520.
 
 ### What makes APEX different from "another AI platform"
 
@@ -128,15 +128,15 @@ Every hyperscaler, every SI, and every system vendor has an "AI platform" pitch 
 3. **HITL is first-class, not bolted on.** APEX's human-in-the-loop gates are contracted in the manifest, not coded ad-hoc. Sellers should never describe APEX as "autonomous AI." It is adaptive human-supervised decisioning.
 4. **Fabric + Foundry + Purview + Entra composition.** APEX is architecturally native to the Microsoft four-plane pattern. This is an architectural observation, not a commercial assertion. See Chapter 4 for the competitive framing.
 
-> **Independence Reminder.** The sentence "APEX is a Deloitte product that leverages the Microsoft technology platform" should be memorised verbatim. It accurately describes the relationship, passes Independence review, and sets up the two-contract framing without implying a joint commercial bundle.
+> **Independence Reminder.** The sentence "APEX is a product that leverages the Microsoft technology platform" should be memorised verbatim. It accurately describes the relationship, passes Independence review, and sets up the two-contract framing without implying a joint commercial bundle.
 
 ## 1.1A What is an APEX Practice
 
-This section introduces a term the reader will see repeatedly starting in Chapter 5: **Practice**. Every subsequent chapter — Fabric, Foundry, Copilot, Purview, and especially the seven industry chapters in Part III — assumes the reader understands what an APEX Practice is and why it is the unit Deloitte sells against. Read this section before proceeding to Chapter 5.
+This section introduces a term the reader will see repeatedly starting in Chapter 5: **Practice**. Every subsequent chapter — Fabric, Foundry, Copilot, Purview, and especially the seven industry chapters in Part III — assumes the reader understands what an APEX Practice is and why it is the unit the firm sells against. Read this section before proceeding to Chapter 5.
 
 ### 1.1A.1 Definition
 
-An **APEX Practice** is one of the seven industry verticals into which Deloitte organizes agentic-AI delivery on the Microsoft platform:
+An **APEX Practice** is one of the seven industry verticals into which the firm organizes agentic-AI delivery on the Microsoft platform:
 
 | # | Practice | Covers |
 |---|---|---|
@@ -152,7 +152,7 @@ Each Practice is covered in its own chapter in Part III (Ch 9–15). A specific 
 
 ### 1.1A.2 A Practice is a bundle of five reusable assets
 
-A Practice is not a product the client buys. It is an internal Deloitte asset that accelerates delivery. Each Practice is composed of five things Deloitte maintains across engagements and reuses on every new pursuit:
+A Practice is not a product the client buys. It is an internal firm asset that accelerates delivery. Each Practice is composed of five things the firm maintains across engagements and reuses on every new pursuit:
 
 1. **Canonical schemas.** Semantic models that normalize the Practice's domain regardless of the client's source systems. Examples: **SCML** (Supply Chain), **MERML** (Merchandising), **CXML** (Customer) for RC; **PatientML**, **ClaimML**, **StudyML** for HLS; **AXLEML** sub-models for AXLE; **UOGML**, **P&UML**, **MiningML** for ER. See Appendix G for the full schema inventory.
 2. **Agent catalog.** Pre-built, tested, governance-wrapped agents addressing the Practice's top decisions. RC ships ~40 agents; HLS ~35; AXLE ~30; ER, TMT, TH, and ICE each ship 20–30.
@@ -170,7 +170,7 @@ Without a Practice, every client engagement begins from a blank Fabric workspace
 - A service definition that the client's business leaders can buy
 - A delivery method with governance, Independence, and commercial envelope
 
-A Practice collapses this work. The client inherits Deloitte's engineering-year investment on day one. Deloitte delivers the first outcome in Wave 1 (4–12 weeks) rather than Wave 2 or 3. This is the reason a Practice exists: **time-to-value compression**.
+A Practice collapses this work. The client inherits the firm's engineering-year investment on day one. The firm delivers the first outcome in Wave 1 (4–12 weeks) rather than Wave 2 or 3. This is the reason a Practice exists: **time-to-value compression**.
 
 ### 1.1A.4 How a Practice materializes on the Microsoft platform
 
@@ -210,7 +210,7 @@ These four nouns are used throughout the guide and are easy to conflate:
 | Term | What it is | Example |
 |---|---|---|
 | **Practice** | Industry vertical (one of 7) containing schemas, agents, services, orchestrations, playbook | RC |
-| **Service** | Productized, named, priced unit Deloitte sells within a Practice | RC-E2E-03 Assortment & Pricing |
+| **Service** | Productized, named, priced unit the firm sells within a Practice | RC-E2E-03 Assortment & Pricing |
 | **Orchestration** | A sequence/parallel/hierarchical/feedback composition of agents that produces a service outcome | Markdown-cadence orchestration that assembles inventory, elasticity, and sell-through agents |
 | **Agent** | A single reasoning component (LLM + tools + prompts) invoked inside an orchestration | price-elasticity agent |
 
@@ -240,7 +240,7 @@ This table is a navigation aid, not a constraint. Every real engagement uses all
 - If you want the cross-Practice schema and entity inventory, see Appendix G.
 - If you want the Wave 1 / 2 / 3 envelope definition that every Practice uses, see §2.2 and §2.2A.
 
-> **Independence note.** The word "Practice" in this sellers guide always refers to an internal Deloitte organizing unit. It is not a Microsoft designation and does not imply a Microsoft partnership structure. Sellers should avoid phrases like "Microsoft's RC Practice" or "joint HLS Practice" — Practices belong to Deloitte; the Microsoft platform is the runtime they leverage.
+> **Independence note.** The word "Practice" in this sellers guide always refers to an internal the firm organizing unit. It is not a Microsoft designation and does not imply a Microsoft partnership structure. Sellers should avoid phrases like "Microsoft's RC Practice" or "joint HLS Practice" — Practices belong to the firm; the Microsoft platform is the runtime they leverage.
 
 ## 1.2 The five forces that make APEX sellable today
 
@@ -308,15 +308,15 @@ graph LR
 
 **CFO pain: Untracked decision-ROI.** CFOs can tell you the cost of their analytics estate to the dollar. They cannot tell you the aggregate dollar value of decisions taken against that estate. This is the audit-row gap. APEX's audit row ties every decision to its measurable downstream effect — write-offs avoided, disputes recovered, stale tags remediated, denials prevented, stockouts averted. When a CFO asks "what am I getting for the AI spend?", APEX answers in dollars per decision row, not in hours saved.
 
-**COO pain: Capacity-for-judgement.** Operators — store managers, plant supervisors, hospital charge nurses, grid dispatchers — spend 55–70 % of their shift gathering data. They decide with partial information because gathering complete information is infeasible. Deloitte's agent delivery inverts the ratio. Agents handle the gathering, the operator handles the deciding. The ratio flips from 65 / 35 gathering / deciding to 25 / 75 deciding / gathering. The COO gets judgment capacity back without hiring.
+**COO pain: Capacity-for-judgement.** Operators — store managers, plant supervisors, hospital charge nurses, grid dispatchers — spend 55–70 % of their shift gathering data. They decide with partial information because gathering complete information is infeasible. The firm's agent delivery inverts the ratio. Agents handle the gathering, the operator handles the deciding. The ratio flips from 65 / 35 gathering / deciding to 25 / 75 deciding / gathering. The COO gets judgment capacity back without hiring.
 
-> **Example in the field — Big Box Store Store 100.** Marisol Reyes, Operations Lead at Big Box Store Store 100, handled 8 operational events in a single shift — cold-chain excursion, receiving discrepancy, ESL failure, phantom OOS, FDA recall, BOPIS substitution, shrink pattern, foreign-object incident. Total manager touch across all 8 events: approximately 1 hour. Manager time returned vs pre-agent baseline: 5.2 hours per shift. See §16.13 for the full narrative. Agents delivered by Deloitte on Big Box Store's Microsoft platform; APEX was the internal accelerator that made the delivery feasible.
+> **Example in the field — Big Box Store Store 100.** Marisol Reyes, Operations Lead at Big Box Store Store 100, handled 8 operational events in a single shift — cold-chain excursion, receiving discrepancy, ESL failure, phantom OOS, FDA recall, BOPIS substitution, shrink pattern, foreign-object incident. Total manager touch across all 8 events: approximately 1 hour. Manager time returned vs pre-agent baseline: 5.2 hours per shift. See §16.13 for the full narrative. Agents delivered by the firm on Big Box Store's Microsoft platform; APEX was the internal accelerator that made the delivery feasible.
 
 > **Key Play.** Lead with the pain that matches the exec you're sitting with. Do NOT recite all three. If you cover all three, you sound scripted. If you lead with the wrong one — CFO math to a COO, sprawl to a CFO — you sound like you did not prepare.
 
 ### The 60-second pitch, three variants
 
-**To a CIO:** "APEX is Deloitte's agentic platform. It runs on Microsoft Fabric, Foundry, Purview, and Entra. It collapses twelve to twenty point tools into one governed platform. Every decision is audited, reversible, and traceable to policy. Wave 1 is four to eight weeks and produces a concrete architecture and business case. Your Microsoft licensing is separate — that stays between you and Microsoft."
+**To a CIO:** "APEX is the firm's agentic platform. It runs on Microsoft Fabric, Foundry, Purview, and Entra. It collapses twelve to twenty point tools into one governed platform. Every decision is audited, reversible, and traceable to policy. Wave 1 is four to eight weeks and produces a concrete architecture and business case. Your Microsoft licensing is separate — that stays between you and Microsoft."
 
 **To a CFO:** "APEX ties every AI decision to a dollar of measurable downstream effect. We write an audit row per decision with the input, the reasoning, the outcome, and the attributable value. For a Wave 2 deployment in your industry, we typically see 12–18 month payback on the first service alone. The platform license for Microsoft Fabric is your contract with Microsoft; our fees are fixed on Wave 1 and gated on Wave 2."
 
@@ -332,7 +332,7 @@ APEX is NOT the right pitch when:
 - **The prospect has strategic AWS/GCP commitments that block Azure platform deployment.** Architecturally honest disqualification. Chapter 4 covers the language.
 - **The prospect's last three AI projects were canceled for governance reasons.** This is a change-management problem, not a platform problem. APEX will not survive the same organization that killed the prior three.
 - **The prospect wants a POC.** APEX is a program, not a POC. If the only commercial envelope on offer is $150K for a six-week proof, qualify out or reframe to Wave 1 envisioning.
-- **The prospect is a Deloitte audit client without pre-clearance.** Hard gate. Do not engage commercially until Independence confirms pre-clearance.
+- **The prospect is an audit client without pre-clearance.** Hard gate. Do not engage commercially until Independence confirms pre-clearance.
 - **The prospect's timeline is "let's see something next month".** APEX Wave 1 delivery is four weeks minimum, and that is discovery. If the timeline cannot accommodate, qualify out.
 
 ### The qualify-out script
@@ -349,7 +349,7 @@ Every first meeting should leave you able to answer seven questions. Rehearse th
 2. Who is the single-threaded executive sponsor?
 3. What is the state of the Microsoft footprint — EA in place, Fabric capacity, Copilot licenses?
 4. What is the incumbent SI on adjacent scope?
-5. Is Deloitte the auditor? If so, is pre-clearance in place?
+5. Is the firm the auditor? If so, is pre-clearance in place?
 6. What is the budget posture — funded in current fiscal, pending approval, pipeline only?
 7. What is the realistic decision window — this quarter, next quarter, next fiscal?
 
@@ -366,7 +366,7 @@ Signals collected across §1.4, §1.5, §4.7, and pursuit post-mortems. Consolid
 | 1 | Client wants a 4-week POC with go-no-go at end | APEX is a program, not a POC — POC-framed pursuits collapse into unfundable pilots |
 | 2 | Platform decision explicitly AWS / GCP / Oracle / IBM for new AI | Honest disqualification — APEX is Microsoft-native |
 | 3 | "We want APEX on our existing [non-Microsoft] stack" | APEX is not ported — architectural non-fit |
-| 4 | Procurement requires bundled Microsoft + Deloitte commercials | Independence prohibits bundling — decline cleanly |
+| 4 | Procurement requires bundled Microsoft + the firm commercials | Independence prohibits bundling — decline cleanly |
 | 5 | Audit client without Audit Committee pre-clearance | Hard gate — no work begins without pre-clearance |
 | 6 | Sponsor is 2+ levels below the signing authority | Deal will stall in organizational translation — escalate or qualify out |
 | 7 | Budget "pipeline only" with no named fiscal-year line item | Pursuit extends beyond the pipeline we can support |
@@ -387,7 +387,7 @@ Hitting **any two** of these is grounds to stop and escalate to the pursuit QR b
 | 5 | In-fiscal-year budget with named program code | Signals real funding |
 | 6 | In-flight "Agentic AI strategy" project needing operating framework | APEX is the framework they're looking for |
 | 7 | Mandate from regulatory or risk event (recall, breach, audit finding) | Trust envelope sells itself |
-| 8 | Existing Deloitte delivery relationship adjacent to the scope | Warm reference built in |
+| 8 | Existing firm delivery relationship adjacent to the scope | Warm reference built in |
 | 9 | Microsoft GPL / ATU actively engaged and aligned | Co-sell motion accelerates |
 | 10 | Named internal champion below C-level who has run similar programs | Execution continuity for Wave 2 |
 
@@ -399,13 +399,13 @@ At the end of the first meeting, the seller should be able to state aloud — to
 
 - **GO.** ≥ 6 green flags, 0 red flags. Move to discovery scheduling in the same week.
 - **MAYBE.** 3–5 green flags, ≤ 1 red flag. Second meeting before commitment; bring in SME or partner to validate.
-- **NO-GO.** < 3 green flags OR ≥ 2 red flags. Qualify out gracefully; redirect to Deloitte advisory or exit.
+- **NO-GO.** < 3 green flags OR ≥ 2 red flags. Qualify out gracefully; redirect to the firm advisory or exit.
 
 Saying "MAYBE" is acceptable — saying "GO" when the signals say "MAYBE" is how pursuits fail in Month 4.
 
 ## 1.6 Why Canonical Schema Is the Acceleration Kernel
 
-This is the core architectural concept that explains why Deloitte accelerates agentic-AI delivery from 18-24 months to 9-12 months. Sellers who cannot explain this lose architect-credibility conversations even when the rest of the pitch is clean. The concept is not abstract — it determines every downstream economic and technical outcome.
+This is the core architectural concept that explains why the firm accelerates agentic-AI delivery from 18-24 months to 9-12 months. Sellers who cannot explain this lose architect-credibility conversations even when the rest of the pitch is clean. The concept is not abstract — it determines every downstream economic and technical outcome.
 
 ### 1.6.1 What a canonical schema is
 
@@ -464,7 +464,7 @@ Schemas that are not canonical break this chain. The client ends up with nominal
 
 ### 1.6.5 Concrete acceleration example — RC Practice
 
-A retailer engages Deloitte for Wave 2. The SCML canonical schema already exists (delivered in Wave 1). Five services are scoped: Assortment & Pricing, Unified Customer, Product Tracking, Demand Sensing, Markdown.
+A retailer engages the firm for Wave 2. The SCML canonical schema already exists (delivered in Wave 1). Five services are scoped: Assortment & Pricing, Unified Customer, Product Tracking, Demand Sensing, Markdown.
 
 **Without canonical schema**, the retailer would need:
 - 5 service teams each authoring their own semantic model
@@ -484,7 +484,7 @@ The resulting Wave 2 timeline is 9-12 months instead of the 24-36 months the fir
 
 ### 1.6.6 The anti-pattern — what happens without canonical schema
 
-Deloitte teams have occasionally landed at clients who attempted agentic-AI deployment without canonical-schema discipline. The pattern is consistent:
+firm teams have occasionally landed at clients who attempted agentic-AI deployment without canonical-schema discipline. The pattern is consistent:
 
 - First use case ships in 9-12 months (same as APEX)
 - Second use case takes 9-12 more months (no acceleration)
@@ -493,7 +493,7 @@ Deloitte teams have occasionally landed at clients who attempted agentic-AI depl
 - Leadership concludes "enterprise agentic AI is hard" or "AI maturity takes time"
 - The real problem was skipping the canonical-schema discipline at the start
 
-APEX's internal delivery accelerator exists precisely because Deloitte has seen this pattern enough times to know the discipline matters. The 18-24 month ground-up timeline that APEX compresses includes the implicit cost of first-principles canonical-schema authoring. APEX ships the canonical schemas in the box.
+APEX's internal delivery accelerator exists precisely because the firm has seen this pattern enough times to know the discipline matters. The 18-24 month ground-up timeline that APEX compresses includes the implicit cost of first-principles canonical-schema authoring. APEX ships the canonical schemas in the box.
 
 ### 1.6.7 Why Fabric specifically matters for canonical schema
 
@@ -512,7 +512,7 @@ Canonical schema authored on Fabric is operationally tractable; canonical schema
 
 Three-sentence version:
 
-> "The core reason Deloitte delivers in 9-12 months vs the 18-24 month industry baseline is that APEX ships canonical Practice schemas in the box. Without canonical schema, every new agentic use case requires new semantic engineering; with canonical schema, use cases compose at marginal cost. That compounding — the first use case takes months, the tenth takes weeks — is the acceleration kernel."
+> "The core reason the firm delivers in 9-12 months vs the 18-24 month industry baseline is that APEX ships canonical Practice schemas in the box. Without canonical schema, every new agentic use case requires new semantic engineering; with canonical schema, use cases compose at marginal cost. That compounding — the first use case takes months, the tenth takes weeks — is the acceleration kernel."
 
 Ten-sentence version (when the architect wants more):
 
@@ -590,9 +590,9 @@ For regulated industries the standards carry legal weight beyond convenience:
 
 ### 1.6A.6 The one-paragraph summary for standards
 
-> *"APEX and AXLE canonical schemas are designed on top of the industry standards that already govern each vertical — GS1 and ARTS for RC, HL7 FHIR and CDISC for HLS, CIM and WITSML for ER, ISA-95 and STEP for AXLE, TM Forum SID for TMT, IATA and OpenTravel for TH, AEMP and SAE J1939 for ICE. The canonical schemas consume, extend, and translate these standards so clients keep their standards investment and regulators recognize APEX outputs as evidentiary-grade by design. Deloitte's engineering value is in the extension and translation layer, not in redesigning the standards."*
+> *"APEX and AXLE canonical schemas are designed on top of the industry standards that already govern each vertical — GS1 and ARTS for RC, HL7 FHIR and CDISC for HLS, CIM and WITSML for ER, ISA-95 and STEP for AXLE, TM Forum SID for TMT, IATA and OpenTravel for TH, AEMP and SAE J1939 for ICE. The canonical schemas consume, extend, and translate these standards so clients keep their standards investment and regulators recognize APEX outputs as evidentiary-grade by design. The firm's engineering value is in the extension and translation layer, not in redesigning the standards."*
 
-> **Independence Reminder.** When describing APEX, refer to Deloitte's relationship with Microsoft as a "technology platform relationship" or "collaboration." Never use "partner," "alliance," or "joint venture." APEX is Deloitte IP; it runs on the Microsoft platform the client licenses directly. These word choices matter legally and regulatorily — they are not stylistic preferences.
+> **Independence Reminder.** When describing APEX, refer to the firm's relationship with Microsoft as a "technology platform relationship" or "collaboration." Never use "partner," "alliance," or "joint venture." APEX is firm IP; it runs on the Microsoft platform the client licenses directly. These word choices matter legally and regulatorily — they are not stylistic preferences.
   `,
   summary: [
     'APEX is a contract between data and decisions, not a bolted-on AI feature',
@@ -603,7 +603,7 @@ For regulated industries the standards carry legal weight beyond convenience:
     'The seven-question first-meeting checklist tells you whether to proceed',
   ],
   actions: [
-    'Memorise the sentence "APEX is a Deloitte product that leverages the Microsoft technology platform"',
+    'Memorise the sentence "APEX is a product that leverages the Microsoft technology platform"',
     'Rehearse your 60-second APEX pitch in all three variants (CIO, CFO, COO)',
     'Identify two forces that apply most to each of your top three accounts',
     'Build the seven-question first-meeting qualifier into your call-prep template',
@@ -624,18 +624,18 @@ chapters.push({
   body: `
 ## 2.1 The commercial posture
 
-**Deloitte sells Agentic AI Delivery Services.** These are productised services delivered using APEX as the internal accelerator. When the client engages Deloitte on an agentic-AI program — say, "Assortment & Pricing Intelligence for a large retail merchant" — what the client procures is a complete delivery outcome: the designed agents, the configured Fabric semantic model, the trained workforce, the HITL governance, and the audit-row attribution that proves the business outcome. APEX is what Deloitte uses internally to deliver that outcome in 9–12 months rather than the 18–24 months a ground-up build would take.
+**The firm sells Agentic AI Delivery Services.** These are productised services delivered using APEX as the internal accelerator. When the client engages the firm on an agentic-AI program — say, "Assortment & Pricing Intelligence for a large retail merchant" — what the client procures is a complete delivery outcome: the designed agents, the configured Fabric semantic model, the trained workforce, the HITL governance, and the audit-row attribution that proves the business outcome. APEX is what the firm uses internally to deliver that outcome in 9–12 months rather than the 18–24 months a ground-up build would take.
 
-This matters commercially because it changes the conversation. A ground-up build is priced on hours and risk-padded by both sides; a Deloitte delivery using APEX acceleration is priced on outcome envelope and paid back by measurable business result. The client is not buying the consultants' hours; they are buying an operational agent fleet on their Microsoft platform, delivered faster by Deloitte than they could build it themselves.
+This matters commercially because it changes the conversation. A ground-up build is priced on hours and risk-padded by both sides; a delivery using APEX acceleration is priced on outcome envelope and paid back by measurable business result. The client is not buying the consultants' hours; they are buying an operational agent fleet on their Microsoft platform, delivered faster by the firm than they could build it themselves.
 
 ### The two-contract model — memorise this
 
 Every agentic-AI delivery engagement involves TWO separate contracts:
 
-1. **Client ↔ Microsoft**: platform licenses (Fabric capacity, Copilot seats, Foundry consumption, MCP hosting infrastructure, Purview entitlements, Entra licenses). The client procures these directly from Microsoft through their EA, MCA, or CSP arrangement. Deloitte does not quote, invoice, or commit to these terms on Microsoft's behalf.
-2. **Client ↔ Deloitte**: Deloitte Agentic AI Delivery Services (Wave 1 envisioning, Wave 2 implementation, Wave 3 sustain, managed services). Deloitte contracts for advisory, implementation, and managed services. Deloitte uses APEX internally to accelerate delivery; APEX is not a line item on the SOW, it is Deloitte's proprietary methodology.
+1. **Client ↔ Microsoft**: platform licenses (Fabric capacity, Copilot seats, Foundry consumption, MCP hosting infrastructure, Purview entitlements, Entra licenses). The client procures these directly from Microsoft through their EA, MCA, or CSP arrangement. The firm does not quote, invoice, or commit to these terms on Microsoft's behalf.
+2. **Client ↔ the firm**: APEX Agentic AI Delivery Services (Wave 1 envisioning, Wave 2 implementation, Wave 3 sustain, managed services). The firm contracts for advisory, implementation, and managed services. The firm uses APEX internally to accelerate delivery; APEX is not a line item on the SOW, it is the firm's proprietary methodology.
 
-This is not a stylistic preference. It is an Independence requirement. Deloitte audits Microsoft. No commercial flow may bundle the two in a way that implies a joint revenue arrangement. When procurement asks "can you quote us a single number that includes the Microsoft licensing?", the answer is always "no, those contracts are separate; here is our services fee, and here is the Microsoft contact for platform licensing."
+This is not a stylistic preference. It is an Independence requirement. The firm audits Microsoft. No commercial flow may bundle the two in a way that implies a joint revenue arrangement. When procurement asks "can you quote us a single number that includes the Microsoft licensing?", the answer is always "no, those contracts are separate; here is our services fee, and here is the Microsoft contact for platform licensing."
 
 ## 2.2 The three-wave envelope
 
@@ -655,9 +655,9 @@ gantt
     Second Practice + managed services :w3b, after w3a, 52w
 \`\`\`
 
-The envelopes below represent Deloitte advisory and implementation fees only. The Microsoft platform consumption runs on the client's direct contract with Microsoft. Envelopes vary by Practice — the numbers here are median RC-class; see industry chapters for Practice-specific ranges.
+The envelopes below represent the firm advisory and implementation fees only. The Microsoft platform consumption runs on the client's direct contract with Microsoft. Envelopes vary by Practice — the numbers here are median RC-class; see industry chapters for Practice-specific ranges.
 
-| Wave | Name | Duration | Deloitte envelope per Practice | What ships |
+| Wave | Name | Duration | The firm envelope per Practice | What ships |
 |---|---|---|---|---|
 | 1 | Envision & Land (Foundation) | 4–8 weeks (envisioning) + 3–4 months (first services) | $500K–$2M (envisioning + first 2 services) | Target-state architecture, 2–3 services live at pilot tenant, business case, Wave 2 roadmap |
 | 2 | Enable & Scale (Intelligence) | 6–15 months | $5–15M | Full Practice catalog at pilot scale, HITL tuning, expansion to adjacent sites |
@@ -695,7 +695,7 @@ Wave 3 is the sustain phase, often bundled with a managed-service run. Wave 3 de
 1. **Full enterprise rollout** — the selected Practice is in production across the full site footprint.
 2. **Second Practice initiation** — a parallel track in a new Practice, typically starting with its own Wave 1.
 3. **Autonomy pilots** — selective experiments at raising autonomy rate on the most trusted services.
-4. **Managed service run** — Deloitte runs the platform on the client's behalf under an SLA, or co-runs with a client team we have trained.
+4. **Managed service run** — the firm runs the platform on the client's behalf under an SLA, or co-runs with a client team we have trained.
 
 ## 2.2A Understanding "Envelope" — Commercial, Data, and Schema Dimensions
 
@@ -794,7 +794,7 @@ An envelope is a bounded scope; the five APEX envelopes nest commercial-inside-s
 
 The envelope chain explained in §2.2A describes how scope nests structurally. This section explains how **value flows** through the engagement — the chain that connects a real-world business scenario all the way to a measurable KPI in the client's P&L.
 
-Every successful Deloitte Agentic AI Delivery engagement is a specific instance of this chain. Sellers who can walk it top-to-bottom and bottom-to-top in a pursuit conversation carry architectural credibility that generalized "we do AI" positioning cannot match.
+Every successful APEX Agentic AI Delivery engagement is a specific instance of this chain. Sellers who can walk it top-to-bottom and bottom-to-top in a pursuit conversation carry architectural credibility that generalized "we do AI" positioning cannot match.
 
 ### 2.2B.1 The chain, defined
 
@@ -828,7 +828,7 @@ flowchart LR
 
 **Use Case** — a specific, reusable workflow pattern within the solution. Use cases are what engineers and architects implement; they are concrete enough to code and test. "Temperature excursion triage + save/destroy disposition + customer notification for loyalty-identified purchasers" is a use case. The solution contains multiple use cases; the use case is the implementation unit.
 
-**Service** — the productized APEX offering that delivers the use case. Services are what Deloitte commercializes. Each service has a catalog code (e.g., RC-E2E-03, HLS-Payer-UM-01), a defined set of use cases it implements, a commercial envelope, measurable KPIs, and specific persona ownership. Services are the units that sell and the units that get delivered in Wave 2.
+**Service** — the productized APEX offering that delivers the use case. Services are what the firm commercializes. Each service has a catalog code (e.g., RC-E2E-03, HLS-Payer-UM-01), a defined set of use cases it implements, a commercial envelope, measurable KPIs, and specific persona ownership. Services are the units that sell and the units that get delivered in Wave 2.
 
 **Persona** — the human role(s) the service serves. Personas are named, specific, and carry authority. Marisol Reyes (Store Operations Lead) is a persona; "retail manager" is not specific enough to be a persona. Each service has a primary persona (who uses it) and secondary personas (who oversee, benefit, or approve). Persona depth is what makes the service land operationally rather than just technically.
 
@@ -839,7 +839,7 @@ flowchart LR
 Every element in the chain has a specific commercial and architectural function:
 
 - **Scenario grounds the conversation** in what the client actually faces. Sellers who start at "AI platform capabilities" lose the room; sellers who start at "what does your operations lead face at 7 AM Monday" own the room.
-- **Solution frames what Deloitte delivers** in response — the approach, not the product. Solutions let clients understand the shape of help before diving into SKUs and pricing.
+- **Solution frames what the firm delivers** in response — the approach, not the product. Solutions let clients understand the shape of help before diving into SKUs and pricing.
 - **Use case translates to engineering** — it's the bridge from business language to implementation plan. Wave 1 envisioning workshops produce use-case-level agreement.
 - **Service commercializes the use case** — the SOW references services by code. Commercial envelope, delivery timeline, KPI commitments attach to services, not use cases.
 - **Persona drives adoption** — a service delivered without persona-specific design won't be adopted. Change management, training, and HITL design follow from persona.
@@ -967,11 +967,11 @@ Every element in the chain has a specific commercial and architectural function:
 | Element | Owned by | Defined in | Delivered in |
 |---|---|---|---|
 | Scenario | Client business reality | Discovery + reference deployments (Ch 16 §16.13, §10.9, §11.9, etc.) | Observed; not "delivered" |
-| Solution | Deloitte Practice lead | Industry playbooks (Part III) | Architectural design (Wave 1) |
+| Solution | The firm's Practice lead | Industry playbooks (Part III) | Architectural design (Wave 1) |
 | Use Case | Wave 2 delivery lead | Envisioning output | Wave 2 implementation |
-| Service | Deloitte commercial (Practice) | Service catalog + SOW | Wave 2 contracted scope |
-| Persona | Client change leader + Deloitte HITL designer | Reference-deployment narratives | Wave 2 persona-specific surfaces + training |
-| KPI | Client business-outcome owner + Deloitte delivery lead | Business case (Wave 1) | Wave 2 production + audit-row attribution |
+| Service | The firm commercial (Practice) | Service catalog + SOW | Wave 2 contracted scope |
+| Persona | Client change leader + the firm's HITL designer | Reference-deployment narratives | Wave 2 persona-specific surfaces + training |
+| KPI | Client business-outcome owner + firm delivery lead | Business case (Wave 1) | Wave 2 production + audit-row attribution |
 
 ### 2.2B.9 Cross-reference to schema envelope
 
@@ -981,7 +981,7 @@ A good way to say this in an architect conversation: "The chain you care about �
 
 ### 2.2B.10 The one-sentence summary
 
-Every Deloitte Agentic AI Delivery engagement is a concrete instance of the chain **Scenario → Solution → Use Case → Service → Persona → KPI**; sellers who can walk this chain top-down in an executive conversation and bottom-up in an architect conversation carry architectural credibility generalized AI pitches cannot match.
+Every APEX Agentic AI Delivery engagement is a concrete instance of the chain **Scenario → Solution → Use Case → Service → Persona → KPI**; sellers who can walk this chain top-down in an executive conversation and bottom-up in an architect conversation carry architectural credibility generalized AI pitches cannot match.
 
 ## 2.2C The Human Oversight Spectrum — HITL, HOTL, and HIC
 
@@ -1053,7 +1053,7 @@ CFOs want two numbers: the investment and the payback window. The APEX audit-row
 ### Example: RC client with 400 stores, Wave 1
 
 - Services selected: CXP (customer-experience) + RVD (retail-viability dashboard) + ESL (electronic-shelf-label intelligence)
-- Deloitte Wave 1 investment: $4–6M
+- The firm's Wave 1 investment: $4–6M
 - First-year annualised benefit at Wave 2 scale: $4–7M
 - Payback window: 12–18 months on Wave 1 alone
 - Wave 2 compound benefit (year 2): $15–25M annualised
@@ -1062,7 +1062,7 @@ CFOs want two numbers: the investment and the payback window. The APEX audit-row
 ### Example: HLS Payer, Wave 1
 
 - Services selected: HLS-Payer-UM (utilization management) + HLS-Payer-M360 (member 360)
-- Deloitte Wave 1 investment: $1.5–2.5M
+- The firm's Wave 1 investment: $1.5–2.5M
 - First-year annualised benefit at Wave 2 scale: $8–15M (UM automation + denial reduction)
 - Payback window: 9–14 months on Wave 1
 - Wave 2 compound benefit (year 2): $30–50M annualised
@@ -1071,7 +1071,7 @@ CFOs want two numbers: the investment and the payback window. The APEX audit-row
 ### Example: AXLE OEM, Wave 1
 
 - Services selected: AXLE-Product-GEA (generative engineering) + AXLE-Mfg-CF (connected factory)
-- Deloitte Wave 1 investment: $2–3.5M
+- The firm's Wave 1 investment: $2–3.5M
 - First-year annualised benefit at Wave 2 scale: $6–12M (engineering cycle time + OEE)
 - Payback window: 14–20 months
 - Three-year cumulative ROI: 2.8–4.5×
@@ -1085,39 +1085,39 @@ The audit-row attribution makes benefit claims concrete:
 - Every stale-tag remediation has an audit row
 - Every prevented stockout has an audit row
 
-When the CFO's FP&A team asks "show me the number," Deloitte can produce the attribution query against the audit tables. The attribution is auditable because Purview governs the underlying data, and every agent action is logged in the Foundry observability layer.
+When the CFO's FP&A team asks "show me the number," the firm can produce the attribution query against the audit tables. The attribution is auditable because Purview governs the underlying data, and every agent action is logged in the Foundry observability layer.
 
 ## 2.5 Funding paths (Independence-compliant)
 
-Client funding reaches Deloitte through one of four compliant channels only.
+Client funding reaches the firm through one of four compliant channels only.
 
 ### Direct client funding
 
-The cleanest path. The client's budget funds Deloitte's SOW. Independence-neutral.
+The cleanest path. The client's budget funds the firm's SOW. Independence-neutral.
 
 ### DCIF — Digital Cloud Investment Fund
 
-Microsoft field allocates DCIF to a client to underwrite cloud investment. The client then engages Deloitte directly with their internal budget or the DCIF credit. Funds flow Microsoft → client → Deloitte, never Microsoft → Deloitte direct. Compliant because the client is the contracting party for the Deloitte services.
+Microsoft field allocates DCIF to a client to underwrite cloud investment. The client then engages the firm directly with their internal budget or the DCIF credit. Funds flow Microsoft → client → the firm, never Microsoft → the firm direct. Compliant because the client is the contracting party for the services.
 
 ### ISV Marketplace co-sell
 
-Revenue is transacted through Azure Marketplace where an ISV (not Microsoft Corporation) is the contracting party. Deloitte may co-sell or subcontract to the ISV. Compliant because Microsoft is not the direct counterparty to Deloitte.
+Revenue is transacted through Azure Marketplace where an ISV (not Microsoft Corporation) is the contracting party. The firm may co-sell or subcontract to the ISV. Compliant because Microsoft is not the direct counterparty to the firm.
 
 ### SI teaming
 
-Deloitte subcontracts to, or co-delivers with, a non-restricted SI (Accenture, Infosys, HCLTech, Cognizant, Capgemini) who holds the Microsoft funding relationship. Deloitte's fees flow through the lead SI, not Microsoft.
+The firm subcontracts to, or co-delivers with, a non-restricted SI (Accenture, Infosys, HCLTech, Cognizant, Capgemini) who holds the Microsoft funding relationship. The firm's fees flow through the lead SI, not Microsoft.
 
 ### Why ECIF is prohibited
 
-ECIF (Enterprise Customer Investment Fund) is a Microsoft funding mechanism that credits the Microsoft customer for deployment activities. It cannot flow directly from Microsoft to Deloitte because it would constitute a commercial transaction between the auditor (Deloitte) and the audit client (Microsoft) — a direct Independence violation under SEC Rule 2-01(c)(4).
+ECIF (Enterprise Customer Investment Fund) is a Microsoft funding mechanism that credits the Microsoft customer for deployment activities. It cannot flow directly from Microsoft to the firm because it would constitute a commercial transaction between the auditor (the firm) and the audit client (Microsoft) — a direct Independence violation under SEC Rule 2-01(c)(4).
 
-If a Microsoft seller offers ECIF funding for a Deloitte-led engagement, the correct response is:
+If a Microsoft seller offers ECIF funding for a firm-led engagement, the correct response is:
 
-"Deloitte cannot accept ECIF because of the audit relationship. The approved paths are direct client funding, DCIF allocated to the client, ISV Marketplace, or SI teaming with a non-restricted partner. Which of those works for this opportunity?"
+"The firm cannot accept ECIF because of the audit relationship. The approved paths are direct client funding, DCIF allocated to the client, ISV Marketplace, or SI teaming with a non-restricted partner. Which of those works for this opportunity?"
 
 This conversation should happen early — ideally during the pursuit-initiation call with the Microsoft field team — not during contract negotiation.
 
-> **Independence Reminder.** The Deloitte engagement is contracted between Deloitte and the client. The Microsoft platform licenses are contracted between the client and Microsoft. Never pitch a bundled "Deloitte + Microsoft" commercial that blurs this. Procurement teams will test this in negotiation; your answer must be consistent every time.
+> **Independence Reminder.** The engagement is contracted between the firm and the client. The Microsoft platform licenses are contracted between the client and Microsoft. Never pitch a bundled "the firm + Microsoft" commercial that blurs this. Procurement teams will test this in negotiation; your answer must be consistent every time.
 
 ## 2.6 The value-share option
 
@@ -1133,7 +1133,7 @@ For select services where measurable benefit is tightly attributable, value-shar
 - The baseline KPI is clearly measurable and agreed in writing
 - Attribution to APEX services is unambiguous (no confounding concurrent initiatives)
 - The client has audit-quality data on the baseline
-- Deloitte's Commercial QR and Risk have signed off
+- The firm's Commercial QR and Risk have signed off
 
 ### When value-share is inappropriate
 
@@ -1149,19 +1149,19 @@ Value-share is a sophisticated commercial mechanism, not a discount-dressed sale
 Procurement teams will test the two-contract framing. A common challenge:
 
 **Procurement**: "We want one number that includes everything."
-**Seller**: "Understood, and I want to be straightforward with you. Microsoft's platform licensing is a contract between your team and Microsoft; that's not something Deloitte can legally bundle into our services fee. What I can give you is a clean Deloitte fee with assumptions about Microsoft platform costs that you validate directly with Microsoft. That keeps the math transparent and avoids an Independence issue for our audit relationship with Microsoft."
+**Seller**: "Understood, and I want to be straightforward with you. Microsoft's platform licensing is a contract between your team and Microsoft; that's not something the firm can legally bundle into our services fee. What I can give you is a clean the firm fee with assumptions about Microsoft platform costs that you validate directly with Microsoft. That keeps the math transparent and avoids an Independence issue for our audit relationship with Microsoft."
 
 **Procurement**: "Other SIs give us one number."
-**Seller**: "Other SIs may, and they have different regulatory obligations. Deloitte audits Microsoft, so our Independence rules require this separation. It's not a procurement preference; it's a legal requirement for us. I can help you assemble a combined total-cost view that includes Microsoft's quote and Deloitte's fee side by side."
+**Seller**: "Other SIs may, and they have different regulatory obligations. The firm audits Microsoft, so our Independence rules require this separation. It's not a procurement preference; it's a legal requirement for us. I can help you assemble a combined total-cost view that includes Microsoft's quote and the firm's fee side by side."
 
-**Procurement**: "Will Microsoft discount if we commit to more Deloitte services?"
+**Procurement**: "Will Microsoft discount if we commit to more firm services?"
 **Seller**: "That's a question for your Microsoft account team; I can't and won't represent Microsoft's pricing. Happy to make the introduction if one's not already in place."
   `,
   summary: [
     'Three waves: Wave 1 envisioning + first services; Wave 2 Practice at scale; Wave 3 sustain and expand',
-    'Two-contract model — Deloitte services and Microsoft platform are separate contracts, always',
+    'Two-contract model — firm services and Microsoft platform are separate contracts, always',
     'ROI math is audit-row-defensible; CFO gets a number that traces to specific decisions',
-    'ECIF cannot flow Microsoft-to-Deloitte; use direct / DCIF / ISV Marketplace / SI teaming',
+    'ECIF cannot flow Microsoft-to-firm; use direct / DCIF / ISV Marketplace / SI teaming',
     'Value-share option on denial recovery, shrink, warranty — used selectively, not casually',
     'Procurement will test two-contract framing; rehearse the defense script',
   ],
@@ -1180,37 +1180,37 @@ chapters.push({
   objectives: [
     'Explain APEX\'s relationship to the Microsoft stack with Independence-compliant language',
     'Identify which platform capabilities APEX requires versus prefers',
-    'Position APEX as Deloitte IP that runs on Microsoft — not a joint offering',
+    'Position APEX as firm IP that runs on Microsoft — not a joint offering',
     'Navigate co-sell conversations with Microsoft field counterparts',
     'Handle procurement questions about "who sells what" without stumbling',
   ],
   body: `
-## 3.1 Deloitte delivers agentic AI on the Microsoft platform — start here
+## 3.1 The firm delivers agentic AI on the Microsoft platform — start here
 
-**Deloitte Agentic AI Delivery Services** is what Deloitte sells. It is the advisory, implementation, and managed-services motion for deploying agentic agents on the Microsoft technology platform. **APEX** is the proprietary internal accelerator Deloitte uses to deliver these services faster than a ground-up build would allow. APEX — the methodology, the semantic-model library, the agent catalog, the MCP tool library, the HITL gate framework, the audit-row discipline, the Wave 1/2/3 playbook — is Deloitte-owned, Deloitte-maintained, Deloitte-internal.
+**APEX Agentic AI Delivery Services** is what the firm sells. It is the advisory, implementation, and managed-services motion for deploying agentic agents on the Microsoft technology platform. **APEX** is the proprietary internal accelerator the firm uses to deliver these services faster than a ground-up build would allow. APEX — the methodology, the semantic-model library, the agent catalog, the MCP tool library, the HITL gate framework, the audit-row discipline, the Wave 1/2/3 playbook — is firm-owned, firm-maintained, internal.
 
-The Microsoft technology platform is the necessary substrate for Deloitte's agent delivery because that platform uniquely combines the data plane (Fabric), the intelligence plane (Azure AI Foundry + Azure OpenAI), the productivity layer (Copilot), the governance layer (Purview), and the identity layer (Entra) that agentic decision-automation requires at enterprise scale. MCP servers hosted in Azure Container Apps or Azure Functions glue the data plane and intelligence plane together with a model-agnostic tool contract.
+The Microsoft technology platform is the necessary substrate for the firm's agent delivery because that platform uniquely combines the data plane (Fabric), the intelligence plane (Azure AI Foundry + Azure OpenAI), the productivity layer (Copilot), the governance layer (Purview), and the identity layer (Entra) that agentic decision-automation requires at enterprise scale. MCP servers hosted in Azure Container Apps or Azure Functions glue the data plane and intelligence plane together with a model-agnostic tool contract.
 
-Deloitte does not sell Microsoft licenses. Clients procure Microsoft platform entitlements directly from Microsoft. Deloitte delivers Agentic AI Delivery Services as advisory and implementation services that run on top of those entitlements. APEX, as Deloitte's internal accelerator, makes that delivery feasible in months rather than years.
+The firm does not sell Microsoft licenses. Clients procure Microsoft platform entitlements directly from Microsoft. The firm delivers Agentic AI Delivery Services as advisory and implementation services that run on top of those entitlements. APEX, as the firm's internal accelerator, makes that delivery feasible in months rather than years.
 
 ### The vocabulary that keeps you safe
 
-Every sentence you speak about the Deloitte-Microsoft relationship has regulatory weight. The SEC and the PCAOB interpret language describing the relationship as evidence of the relationship's character. Use these approved formulations:
+Every sentence you speak about the Microsoft relationship has regulatory weight. The SEC and the PCAOB interpret language describing the relationship as evidence of the relationship's character. Use these approved formulations:
 
-- "Deloitte delivers agentic-AI services on the Microsoft technology platform."
+- "The firm delivers agentic-AI services on the Microsoft technology platform."
 - "Your agents will run on Microsoft Fabric, Foundry, Copilot, MCP, and Purview — all platform you license directly from Microsoft."
-- "Deloitte has a technology platform relationship with Microsoft."
-- "Deloitte's delivery accelerates your deployment on the Microsoft stack you license directly."
-- "Microsoft is a technology platform provider for Deloitte's agentic AI delivery practice."
+- "The firm has a technology platform relationship with Microsoft."
+- "The firm's delivery accelerates your deployment on the Microsoft stack you license directly."
+- "Microsoft is a technology platform provider for the firm's agentic AI delivery practice."
 
 Do NOT say:
 
 - "Buy APEX" / "APEX product" / "APEX license"
-- "Microsoft is our partner" / "Deloitte-Microsoft partnership"
+- "Microsoft is our partner" / "Microsoft partnership"
 - "Our alliance with Microsoft"
-- "The Deloitte-Microsoft joint venture"
+- "The Microsoft joint venture"
 - "A co-branded solution"
-- "Microsoft-authorized Deloitte services"
+- "Microsoft-authorized firm services"
 
 These are not stylistic preferences. Every one of them would be a finding in an Independence review, or a positioning error that creates client expectation mismatch.
 
@@ -1289,9 +1289,9 @@ This is an architectural observation, not a marketing claim. Clients evaluating 
 Be explicit with the client about what APEX is not. Ambiguity here causes Independence issues later.
 
 - **NOT Microsoft's product.** Microsoft does not sell APEX. Microsoft's Industry Solutions team may reference APEX in client conversations because the APEX reference architecture validates the Microsoft stack for agentic workloads; that reference is informational, not a Microsoft commercial offering.
-- **NOT a Microsoft alliance or partnership.** Deloitte's relationship with Microsoft in this context is a technology-platform relationship — we selected Microsoft as the runtime substrate for APEX. Microsoft does not co-own, co-brand, or co-market APEX.
-- **NOT a bundled commercial.** The client contracts two things separately: Deloitte services (APEX) and Microsoft platform entitlements. One contract never covers both.
-- **NOT a joint offering.** There is no combined Deloitte-Microsoft go-to-market motion in which Deloitte's fees are embedded in Microsoft's pricing or vice versa.
+- **NOT a Microsoft alliance or partnership.** The firm's relationship with Microsoft in this context is a technology-platform relationship — we selected Microsoft as the runtime substrate for APEX. Microsoft does not co-own, co-brand, or co-market APEX.
+- **NOT a bundled commercial.** The client contracts two things separately: firm services (APEX) and Microsoft platform entitlements. One contract never covers both.
+- **NOT a joint offering.** There is no combined Microsoft go-to-market motion in which the firm's fees are embedded in Microsoft's pricing or vice versa.
 - **NOT an ISV product.** APEX is a services engagement, not a software subscription. There is no APEX SKU on Azure Marketplace. (Some component assets may surface on Marketplace, but the platform itself is delivered as services.)
 
 ## 3.6 The client view
@@ -1300,41 +1300,41 @@ From the client's side, purchasing APEX looks like this:
 
 1. The client evaluates their strategic cloud and data platform commitments.
 2. If Microsoft is already their primary Azure + Fabric estate (or they are adopting it), APEX is a natural fit.
-3. The client signs a direct agreement with Deloitte for APEX advisory and implementation services.
+3. The client signs a direct agreement with the firm for APEX advisory and implementation services.
 4. The client consumes Microsoft platform services under their existing EA, MCA, or CSP arrangement with Microsoft.
-5. Deloitte does not invoice the client for Microsoft licenses; Deloitte's invoice covers only Deloitte-delivered services.
+5. The firm does not invoice the client for Microsoft licenses; the firm's invoice covers only firm-delivered services.
 6. The Microsoft account team handles platform expansion (additional Fabric capacity, Copilot seats, Foundry consumption) as the APEX Practice scales.
 
 ## 3.7 Co-selling with Microsoft field
 
-Co-selling between Deloitte practitioners and Microsoft field teams is permitted and frequent under the compliant funding paths established in Chapter 2. Microsoft's Industry Solutions Delivery (ISD) organization may provide:
+Co-selling between firm practitioners and Microsoft field teams is permitted and frequent under the compliant funding paths established in Chapter 2. Microsoft's Industry Solutions Delivery (ISD) organization may provide:
 
 - Executive air cover for CXO-level introductions
 - Account-team coordination and deal registration
 - Technical validation of Fabric / Foundry / Copilot fit
 - Demo environments and reference architectures
-- DCIF funding allocation to the client (which then funds Deloitte)
+- DCIF funding allocation to the client (which then funds the firm)
 
 What co-selling does NOT include:
 
-- Microsoft invoicing the client for Deloitte services
-- Microsoft paying Deloitte directly for customer delivery
-- Bundled Microsoft-Deloitte SOWs
-- Joint pricing commitments where Deloitte fees flex based on Microsoft commitments
+- Microsoft invoicing the client for firm services
+- Microsoft paying the firm directly for customer delivery
+- Bundled Microsoft SOWs
+- Joint pricing commitments where the firm fees flex based on Microsoft commitments
 
 ### The co-sell scripts
 
 **When a Microsoft seller asks about deal structure:**
-"Deloitte contracts directly with the client for services. Microsoft's platform licensing is a separate client-Microsoft arrangement. Happy to align on timing so the two contracts close together, but they're independent commercially."
+"The firm contracts directly with the client for services. Microsoft's platform licensing is a separate client-Microsoft arrangement. Happy to align on timing so the two contracts close together, but they're independent commercially."
 
 **When a Microsoft seller offers ECIF:**
-"Deloitte can't accept ECIF because of the audit relationship. The approved paths are direct client funding, DCIF allocated to the client, ISV Marketplace, or SI teaming with a non-restricted partner. Which fits this opportunity?"
+"The firm can't accept ECIF because of the audit relationship. The approved paths are direct client funding, DCIF allocated to the client, ISV Marketplace, or SI teaming with a non-restricted partner. Which fits this opportunity?"
 
 **When a Microsoft seller wants a joint pitch deck:**
-"Happy to build a technology-and-services story together. Our references to the Deloitte-Microsoft relationship need to use specific approved language — I'll route the draft through our Independence Office before we take it external."
+"Happy to build a technology-and-services story together. Our references to the Microsoft relationship need to use specific approved language — I'll route the draft through our Independence Office before we take it external."
 
 **When a client asks "are you the same team as Microsoft?":**
-"No. Deloitte is a separate firm. APEX is Deloitte intellectual property that leverages Microsoft's platform. We work closely with Microsoft's field team on accounts like yours, but the services contract is with Deloitte directly."
+"No. The firm is a separate firm. APEX is the firm intellectual property that leverages Microsoft's platform. We work closely with Microsoft's field team on accounts like yours, but the services contract is with the firm directly."
 
 ### 3.7A The Microsoft field org — who does what
 
@@ -1342,7 +1342,7 @@ Co-selling requires knowing which Microsoft role does what. The mental map:
 
 | Microsoft role | What they own | When to engage |
 |---|---|---|
-| **GPL** (Global Partner Leader) / Partner Development Manager | The Deloitte-Microsoft relationship at the field level | Deal-level alignment, escalation, pre-engagement briefing |
+| **GPL** (Global Partner Leader) / Partner Development Manager | The Microsoft relationship at the field level | Deal-level alignment, escalation, pre-engagement briefing |
 | **ATU** (Account Team Unit) Lead | The client relationship at Microsoft | Account context, executive introductions, consumption goals |
 | **GBB** (Global Black Belt) — Data & AI | Deep technical specialty on Fabric/Foundry/Purview | Technical proof, architecture reviews, customer workshops |
 | **ISD** (Industry Solutions Delivery) | Microsoft's own consulting arm | Awareness — they may compete for delivery scope |
@@ -1354,56 +1354,56 @@ Co-selling requires knowing which Microsoft role does what. The mental map:
 ### 3.7B The co-sell motion — step by step
 
 1. **Pre-qualify the Microsoft team alignment.** Before the first client meeting, call the GPL or Partner Development Manager to confirm Microsoft field awareness and appetite for the account. If Microsoft is cold on the account, co-sell motion is not available.
-2. **Confirm the ATU's appetite.** The ATU Lead decides whether to bring Deloitte into the account. Their questions: "What's your 30/60/90 value hypothesis? What Microsoft consumption does it drive? Which of my sellers do you want engaged?"
+2. **Confirm the ATU's appetite.** The ATU Lead decides whether to bring the firm into the account. Their questions: "What's your 30/60/90 value hypothesis? What Microsoft consumption does it drive? Which of my sellers do you want engaged?"
 3. **Identify the Microsoft champion.** One named individual — typically the ATU Lead, a GBB, or a CSA — becomes the co-sell counterpart. Build that relationship.
-4. **Co-plan before co-pitch.** Before any joint client meeting, hold a 30-minute internal Microsoft-Deloitte session to align on message, owner of each slide, and boundary lines.
-5. **Joint client meeting.** Microsoft leads the platform story; Deloitte leads the services, IP, and delivery story. Do not cross boundaries.
-6. **Debrief and align on next steps.** After the meeting, 15-minute Microsoft-Deloitte debrief. Agree next touchpoint.
+4. **Co-plan before co-pitch.** Before any joint client meeting, hold a 30-minute internal Microsoft session to align on message, owner of each slide, and boundary lines.
+5. **Joint client meeting.** Microsoft leads the platform story; the firm leads the services, IP, and delivery story. Do not cross boundaries.
+6. **Debrief and align on next steps.** After the meeting, 15-minute Microsoft debrief. Agree next touchpoint.
 7. **Track consumption.** Wave 1 and Wave 2 drive measurable Microsoft consumption (Fabric CU, Foundry tokens, Copilot seats). Share consumption telemetry with the Microsoft ATU quarterly; this is the basis for continued co-sell investment.
 
 ### 3.7C What to ask Microsoft for — and what never to ask for
 
 | Ask Microsoft for | Do NOT ask Microsoft for |
 |---|---|
-| Technical proof support (GBB, CSA time) | Funding for Deloitte's services (ECIF is prohibited) |
-| Joint client executive briefings | Bundled pricing with Deloitte services on one SOW |
-| Architecture reviews from the Product Group | Commitments about Deloitte's commercial terms |
-| Co-presented capability demos | Promises on behalf of Deloitte |
+| Technical proof support (GBB, CSA time) | Funding for the firm's services (ECIF is prohibited) |
+| Joint client executive briefings | Bundled pricing with firm services on one SOW |
+| Architecture reviews from the Product Group | Commitments about the firm's commercial terms |
+| Co-presented capability demos | Promises on behalf of the firm |
 | Platform capacity planning support | Client-meeting attendance without prior co-plan |
 | Microsoft field references from similar accounts | Non-standard contractual language binding both firms |
-| Consumption telemetry post-Wave-1 | Any commitment that implies Deloitte-Microsoft are a single commercial entity |
+| Consumption telemetry post-Wave-1 | Any commitment that implies Microsoft are a single commercial entity |
 
 ### 3.7D Common co-sell failure modes
 
-- **"Microsoft's here, so the deal is ours."** No. Microsoft presence establishes access; Deloitte still has to earn the services contract independently.
-- **"Let Microsoft own the first meeting."** No. A first meeting with only Microsoft + client without Deloitte presence means Deloitte shows up as an appendix in the client's memory.
-- **"Microsoft promised us ECIF."** Stop. ECIF direct to Deloitte is prohibited. Reconfirm through Independence before proceeding.
+- **"Microsoft's here, so the deal is ours."** No. Microsoft presence establishes access; the firm still has to earn the services contract independently.
+- **"Let Microsoft own the first meeting."** No. A first meeting with only Microsoft + client without the firm presence means the firm shows up as an appendix in the client's memory.
+- **"Microsoft promised us ECIF."** Stop. ECIF direct to the firm is prohibited. Reconfirm through Independence before proceeding.
 - **"The ATU Lead said they'd route the services scope to us."** Nice, but not binding. Build the client relationship directly; never rely on Microsoft routing alone.
 - **"We'll figure out boundaries in the meeting."** No. Co-plan before co-pitch. Every single time.
 
 ### 3.7E The quarterly motion
 
-A healthy APEX account runs a **quarterly Microsoft-Deloitte business review** at each tier-1 client:
+A healthy APEX account runs a **quarterly Microsoft business review** at each tier-1 client:
 
-- Wave status (Deloitte delivery)
+- Wave status (firm delivery)
 - Platform consumption trend (Microsoft view)
 - Next-quarter expansion pipeline (joint view)
 - Field-alignment issues escalated to GPL
 - Independence pre-clearance status refresh
 
-This rhythm is what separates accounts where the co-sell motion compounds from accounts where each new pursuit re-introduces Deloitte cold.
+This rhythm is what separates accounts where the co-sell motion compounds from accounts where each new pursuit re-introduces the firm cold.
 
 ## 3.8 What procurement will ask
 
 Procurement teams ask the same seven questions on every APEX engagement. Rehearse.
 
-1. **"Who is the contracting entity?"** — Deloitte (Deloitte Consulting LLP or regional equivalent). Not Microsoft.
-2. **"Is this a joint offering with Microsoft?"** — No. Deloitte product, Microsoft technology substrate, separate contracts.
+1. **"Who is the contracting entity?"** — the firm (the firm or regional equivalent). Not Microsoft.
+2. **"Is this a joint offering with Microsoft?"** — No. The firm product, Microsoft technology substrate, separate contracts.
 3. **"Can you include Microsoft licenses in your fee?"** — No. Independence prohibits it.
-4. **"Can Microsoft give us a discount if we use Deloitte?"** — Separate conversation with Microsoft account team. Deloitte does not negotiate Microsoft pricing.
-5. **"Who owns the IP created during the engagement?"** — Deloitte retains APEX framework IP (semantic models, agent library, orchestration patterns, methodology). Client retains all client-specific configurations, data, and customisations deployed to their tenant.
-6. **"Can we exit cleanly?"** — Yes. Client retains all their data, their configurations, and their Microsoft platform entitlements. Deloitte's IP remains Deloitte's.
-7. **"Will you indemnify us for Microsoft platform failures?"** — No. Deloitte indemnifies for Deloitte-delivered services. Microsoft platform indemnities are in the client-Microsoft contract.
+4. **"Can Microsoft give us a discount if we use the firm?"** — Separate conversation with Microsoft account team. The firm does not negotiate Microsoft pricing.
+5. **"Who owns the IP created during the engagement?"** — the firm retains APEX framework IP (semantic models, agent library, orchestration patterns, methodology). Client retains all client-specific configurations, data, and customisations deployed to their tenant.
+6. **"Can we exit cleanly?"** — Yes. Client retains all their data, their configurations, and their Microsoft platform entitlements. The firm's IP remains the firm's.
+7. **"Will you indemnify us for Microsoft platform failures?"** — No. The firm indemnifies for firm-delivered services. Microsoft platform indemnities are in the client-Microsoft contract.
 
 ## 3.9 The "multi-cloud enterprise" reality
 
@@ -1415,11 +1415,11 @@ Most Fortune 500 clients run two or three hyperscalers. APEX lands cleanly in mu
 
 This framing is credible and commercially accurate. Trying to reposition APEX as a replacement for what the client already has elsewhere is a losing play.
 
-> **Independence Reminder.** Marketing, proposal, and client-facing materials referencing APEX on Microsoft must avoid terms like "partner," "alliance," "joint venture," or any language implying a joint-commercial relationship. Approved terms: "APEX leverages Microsoft Fabric," "APEX runs on the Microsoft platform," "Deloitte's technology platform relationship with Microsoft." When in doubt, route draft materials through the Independence Office before external release.
+> **Independence Reminder.** Marketing, proposal, and client-facing materials referencing APEX on Microsoft must avoid terms like "partner," "alliance," "joint venture," or any language implying a joint-commercial relationship. Approved terms: "APEX leverages Microsoft Fabric," "APEX runs on the Microsoft platform," "the firm's technology platform relationship with Microsoft." When in doubt, route draft materials through the Independence Office before external release.
   `,
   summary: [
-    'APEX is Deloitte IP that leverages Microsoft as the runtime platform — always Deloitte-owned, always contracted separately',
-    'Client contracts Deloitte and Microsoft separately — two agreements, not one',
+    'APEX is firm IP that leverages Microsoft as the runtime platform — always firm-owned, always contracted separately',
+    'Client contracts the firm and Microsoft separately — two agreements, not one',
     'Fabric, Azure AI Foundry, Purview, Entra ID are mandatory; Copilot is preferred but optional',
     'Use "technology platform relationship" — never "partnership" or "alliance"',
     'Co-selling with Microsoft field is encouraged under compliant funding paths; joint commercials are not',
@@ -1449,13 +1449,13 @@ chapters.push({
 
 APEX sellers are not Microsoft sellers. Your job is not to defeat AWS, GCP, Oracle, IBM, or Salesforce on their own merits. Your job is to explain — accurately and without bias — why APEX as an agentic decision-automation platform runs today only on the Microsoft stack, and what that means for a client already invested in another hyperscaler.
 
-The posture matters because of Independence. Deloitte audits Microsoft. Disparaging Microsoft's competitors in a sales conversation creates an appearance problem that runs beyond the deal you are working. A seller who attacks AWS to close a Deloitte audit client's APEX deal puts the audit practice's credibility at risk. The correct posture is: respectful architectural honesty about what APEX requires, and graceful disqualification when those requirements do not match the client's strategic commitments.
+The posture matters because of Independence. The firm audits Microsoft. Disparaging Microsoft's competitors in a sales conversation creates an appearance problem that runs beyond the deal you are working. A seller who attacks AWS to close an audit client's APEX deal puts the audit practice's credibility at risk. The correct posture is: respectful architectural honesty about what APEX requires, and graceful disqualification when those requirements do not match the client's strategic commitments.
 
 ## 4.2 The core architectural argument
 
 \`\`\`mermaid
 graph TD
-    subgraph "Deloitte Agentic AI Delivery<br/>(accelerated by APEX internally)"
+    subgraph "APEX Agentic AI Delivery<br/>(accelerated by APEX internally)"
         AGENTS["Agent fleet<br/>(Practice-specific services)"]
     end
 
@@ -1562,10 +1562,10 @@ For each platform, this chapter states (a) what the platform is strong at, (b) t
 - "You should move everything to Microsoft." (Not the APEX sale; you'll lose credibility.)
 - "APEX will work on AWS, we can port it." (Unvalidated; don't promise.)
 - "AWS/GCP/Oracle can't do this." (Factually sloppy; the architectural argument is subtler.)
-- "Their governance is weaker." (Disparagement; undermines Deloitte's audit credibility.)
+- "Their governance is weaker." (Disparagement; undermines the firm's audit credibility.)
 - "We've seen bad projects on their platform." (Anecdote, not argument.)
 
-> **Independence Reminder.** Your job is to honestly position APEX as a Deloitte product that runs on the Microsoft platform. You are not defending Microsoft's competitive position against AWS/GCP/Oracle/IBM/Salesforce. If a client chooses a non-Microsoft strategic commitment, accept the outcome gracefully; there are many Deloitte offerings that fit those clients.
+> **Independence Reminder.** Your job is to honestly position APEX as a product that runs on the Microsoft platform. You are not defending Microsoft's competitive position against AWS/GCP/Oracle/IBM/Salesforce. If a client chooses a non-Microsoft strategic commitment, accept the outcome gracefully; there are many firm offerings that fit those clients.
 
 ## 4.6 The multi-cloud reality
 
@@ -1581,17 +1581,17 @@ Memorise this. It is Independence-compliant, architecturally accurate, and respe
 
 ## 4.7 When to disqualify — decision tree
 
-Not every prospect is a fit. Disqualification is not failure; unqualified pursuits waste Deloitte delivery capacity and damage client relationships when they inevitably collapse.
+Not every prospect is a fit. Disqualification is not failure; unqualified pursuits waste firm delivery capacity and damage client relationships when they inevitably collapse.
 
 Disqualify APEX when:
 
-1. **Client has explicit strategic commitment to AWS / GCP / Oracle / IBM for new AI workloads.** Honest disqualification. Offer platform-agnostic Deloitte advisory.
+1. **Client has explicit strategic commitment to AWS / GCP / Oracle / IBM for new AI workloads.** Honest disqualification. Offer platform-agnostic the firm advisory.
 2. **Client requires APEX to run on a non-Microsoft stack.** APEX is not ported. Do not commit to porting.
 3. **Client's Salesforce Agentforce footprint is expected to cover all agentic workloads including non-CRM.** Scope mismatch. APEX does not displace Agentforce in its home territory.
 4. **Client's governance framework explicitly prohibits adding a new cloud footprint.** Independent of platform preference, if no new footprint is permitted, APEX requires Fabric — disqualify.
-5. **Client's procurement requires bundled Microsoft-Deloitte commercials.** Independence prohibits. If the client insists after explanation, disqualify.
+5. **Client's procurement requires bundled Microsoft commercials.** Independence prohibits. If the client insists after explanation, disqualify.
 
-Keep a short list of trusted Deloitte advisory offerings to redirect disqualified prospects to. Most "APEX is not the fit" conversations end with a different Deloitte engagement, not a lost client.
+Keep a short list of trusted the firm advisory offerings to redirect disqualified prospects to. Most "APEX is not the fit" conversations end with a different firm engagement, not a lost client.
 
 ## 4.8 Complementary Platforms — Palantir, C3.ai, and the Ecosystem Around APEX
 
@@ -1722,7 +1722,7 @@ When a client asks **"How does APEX compete with Palantir / C3 / Databricks / Sn
 
 That sentence reframes the conversation from displacement to composition, which is both architecturally accurate and commercially larger.
 
-> **Independence Reminder.** When naming these platforms in client conversations, avoid any suggestion of preferred commercial arrangement. Deloitte has professional-services relationships with multiple platform providers; Independence rules require those relationships be disclosed where relevant but never positioned as commercial bundles.
+> **Independence Reminder.** When naming these platforms in client conversations, avoid any suggestion of preferred commercial arrangement. The firm has professional-services relationships with multiple platform providers; Independence rules require those relationships be disclosed where relevant but never positioned as commercial bundles.
   `,
   summary: [
     'APEX runs on Microsoft today because of architectural composition, not commercial bias',
@@ -1788,7 +1788,7 @@ flowchart LR
 
 Fabric is the data plane APEX requires. Every APEX deployment lands SOR data in Fabric's Lakehouse, canonicalizes in Silver, materializes in Gold, and serves Gold to agents via MCP. No Fabric, no APEX. This is not negotiable — APEX's semantic models (SCML, MERML, CXML, and their HLS, ER, AXLE, TMT, TH, ICE equivalents) are authored as Fabric artifacts.
 
-The client licenses Fabric capacity directly from Microsoft. Deloitte's APEX engagement does not include Fabric licensing; Deloitte delivers the advisory, schemas, and implementation that run on client-owned Fabric capacity. This is the two-contract model in operation.
+The client licenses Fabric capacity directly from Microsoft. The firm's APEX engagement does not include Fabric licensing; the firm delivers the advisory, schemas, and implementation that run on client-owned Fabric capacity. This is the two-contract model in operation.
 
 ### Why Fabric specifically
 
@@ -1948,7 +1948,7 @@ In discovery, ask:
 - What is the Fabric footprint today (if any)?
 - What is the CU commitment (monthly or annual reservation)?
 
-The client's Microsoft account team handles the actual sizing and quote. Deloitte's role is to advise on the architectural sizing envelope during discovery, not to procure on the client's behalf.
+The client's Microsoft account team handles the actual sizing and quote. The firm's role is to advise on the architectural sizing envelope during discovery, not to procure on the client's behalf.
 
 ### The sizing-advisory talking point
 
@@ -2043,7 +2043,7 @@ What Fabric does NOT ship:
 | **Decision audit row schema** | The audit-row pattern — input, reasoning, model version, tool version, HITL status, downstream effect — is a framework concept not a Fabric feature. | 2–4 months for audit-row framework |
 | **Manifest governance** | Event manifests, orchestration manifests, agent manifests, tenant manifests — the contract artifacts that make APEX deployments governable — are framework IP. | 4–6 months for manifest-framework establishment |
 | **Per-Practice productised services** | The 45+ APEX services each bundle scenario + personas + KPIs + SLOs + manifests + agents + commercial terms. Fabric ships none. | 18–24 months to productise one Practice to APEX's catalog depth |
-| **Independence-compliant delivery methodology** | The discipline of delivering on Microsoft for Deloitte audit clients with Audit Committee pre-clearance, funding-path compliance, and language discipline is methodological IP. | N/A to non-Deloitte firms |
+| **Independence-compliant delivery methodology** | The discipline of delivering on Microsoft for audit clients with Audit Committee pre-clearance, funding-path compliance, and language discipline is methodological IP. | N/A to third-party firms |
 
 The sum of what Fabric does not ship, done by the client themselves, is 18–24 months of engineering effort per Practice for a competent team, plus the organizational learning to deploy that effort in regulated industries without breaking governance. That is the time-to-first-production-service gap APEX closes.
 
@@ -2118,7 +2118,7 @@ Architects who have deployed Fabric for analytics sometimes ask "why can't our d
 
 **(d) Operating-model learning.** Running an agentic platform in production — evaluation, drift detection, model-upgrade handling, safety monitoring, cost discipline — is operating-model IP. APEX carries it from prior engagements. A client building their own absorbs that learning the hard way.
 
-**(e) Independence protection.** For Deloitte audit-client engagements, the scope discipline and language compliance are not optional. An in-house team or a non-Deloitte SI does not carry the same Audit-Committee-pre-clearance track record. This is a structural advantage Deloitte brings that no platform vendor can provide alone.
+**(e) Independence protection.** For the firm audit-client engagements, the scope discipline and language compliance are not optional. An in-house team or a third-party SI does not carry the same Audit-Committee-pre-clearance track record. This is a structural advantage the firm brings that no platform vendor can provide alone.
 
 None of this is an argument that the client cannot build it themselves — they absolutely can. The argument is that the time, cost, and risk of doing so exceed what APEX Wave 1 + Wave 2 would cost to deploy the same capability faster, more consistently, and with better governance from day one.
 
@@ -2203,12 +2203,12 @@ Fabric is not interchangeable with "any modern data platform." Six specific Fabr
 
 | Architect / CTO says | Seller response |
 |---|---|
-| "We can build this on Fabric ourselves." | "Absolutely — and many of our delivery engagements end with the client's team extending the semantic models we delivered in Wave 3. The question is time-to-first-production-service. A six-person team on raw Fabric typically takes 18–24 months per Practice. Deloitte delivers the first production service in 9–12 months using our internal accelerator methodology. If your CEO's public KPI commitment is this fiscal year, the math argues for engaging Deloitte." |
+| "We can build this on Fabric ourselves." | "Absolutely — and many of our delivery engagements end with the client's team extending the semantic models we delivered in Wave 3. The question is time-to-first-production-service. A six-person team on raw Fabric typically takes 18–24 months per Practice. The firm delivers the first production service in 9–12 months using our internal accelerator methodology. If your CEO's public KPI commitment is this fiscal year, the math argues for engaging the firm." |
 | "What does APEX actually add beyond what Fabric ships?" | "Seven things you'd otherwise build: industry semantic models, agent library, orchestration patterns, MCP tool catalog, HITL gate framework, audit-row attribution, and manifest governance. Plus the Independence-compliant delivery methodology for audit-client engagements. Fabric ships the platform; APEX ships the decision platform on top of it." |
 | "Isn't APEX just our team plus a methodology?" | "Methodology matters, but the IP is concrete. About 40 productionised agents per Practice, 150+ MCP tools, 47 orchestration patterns, Practice-specific semantic models — all Fabric-native artifacts. Wave 1 transfers these; your team extends them in Wave 2 and Wave 3." |
-| "Why should I trust that Deloitte's delivery will keep up with Fabric's evolution?" | "The artifacts we deliver ARE Fabric artifacts — Fabric tables, Foundry agents, Purview policies. When Fabric ships a new capability — say, a new Mirroring source or a Direct Lake improvement — our delivery pattern uses it immediately because it's native to the platform. Deloitte's accelerator is not a wrapper around Fabric; our methodology produces Fabric-resident artifacts your team can extend." |
-| "Can we buy APEX without Deloitte services?" | "APEX is not a product we sell — it's Deloitte's internal delivery accelerator. What you'd buy is Deloitte's Agentic AI Delivery Services. The agent fleet, Fabric semantic models, MCP tools, and governance artifacts we deploy into your tenant are yours at Wave 2 completion. The framework-level IP (methodology, templates, patterns) remains Deloitte's for the next engagement." |
-| "What if Microsoft ships something like APEX?" | "Microsoft and Deloitte's technology-platform relationship is explicit: Microsoft ships the platform, Deloitte builds the vertical-services IP on top. Microsoft's Industry Solutions team references APEX as the reference architecture for agentic decision-automation. They do not compete with APEX in the services layer." |
+| "Why should I trust that the firm's delivery will keep up with Fabric's evolution?" | "The artifacts we deliver ARE Fabric artifacts — Fabric tables, Foundry agents, Purview policies. When Fabric ships a new capability — say, a new Mirroring source or a Direct Lake improvement — our delivery pattern uses it immediately because it's native to the platform. The firm's accelerator is not a wrapper around Fabric; our methodology produces Fabric-resident artifacts your team can extend." |
+| "Can we buy APEX without firm services?" | "APEX is not a product we sell — it's the firm's internal delivery accelerator. What you'd buy is the firm's Agentic AI Delivery Services. The agent fleet, Fabric semantic models, MCP tools, and governance artifacts we deploy into your tenant are yours at Wave 2 completion. The framework-level IP (methodology, templates, patterns) remains the firm's for the next engagement." |
+| "What if Microsoft ships something like APEX?" | "Microsoft and the firm's technology-platform relationship is explicit: Microsoft ships the platform, the firm builds the vertical-services IP on top. Microsoft's Industry Solutions team references APEX as the reference architecture for agentic decision-automation. They do not compete with APEX in the services layer." |
 
 ### 5.5.8 Why Fabric — the deeper Fabric-specific briefing
 
@@ -2232,7 +2232,7 @@ The technical briefing should be 10–15 minutes. Sellers who cannot deliver it 
 
 Intellectual honesty matters. Sellers should know the three conditions under which the APEX + Fabric pitch should be declined, not forced:
 
-1. **Client strategic platform is explicitly AWS or GCP for new AI investment.** APEX does not port. Decline gracefully; offer platform-agnostic Deloitte advisory.
+1. **Client strategic platform is explicitly AWS or GCP for new AI investment.** APEX does not port. Decline gracefully; offer platform-agnostic the firm advisory.
 2. **Client has an in-flight in-house agent platform that is 12+ months into production.** APEX is an accelerator; duplicating already-built work wastes client investment. Evaluate co-existence or narrow-scope complement.
 3. **Client's timeline is less than 6 months from discovery to measurable outcome.** APEX Wave 1 is 4–8 weeks; Wave 2 first service is 4–6 months after Wave 1 close. If the client needs production value inside 6 months total, scope accordingly or decline.
 
@@ -2240,12 +2240,12 @@ Intellectual honesty matters. Sellers should know the three conditions under whi
 
 If the client has a strategic commitment that excludes Microsoft Fabric entirely, APEX is not a viable pitch. Qualify this in the first meeting. Having Databricks or Snowflake already is NOT a Fabric-blocker — APEX coexists. A hard "no Microsoft Azure data services" posture IS a blocker.
 
-> **Independence Reminder.** Do not quote Fabric, Databricks, or Snowflake pricing to the client on Deloitte letterhead. Refer the client to their Microsoft account team (Fabric, Azure Databricks) or Snowflake account team for capacity licensing. Deloitte's scope is advisory and implementation, not license resale.
+> **Independence Reminder.** Do not quote Fabric, Databricks, or Snowflake pricing to the client on the firm letterhead. Refer the client to their Microsoft account team (Fabric, Azure Databricks) or Snowflake account team for capacity licensing. The firm's scope is advisory and implementation, not license resale.
   `,
   summary: [
     'Fabric is mandatory for APEX; client licenses it directly from Microsoft',
     'Five integration patterns — know which applies to client\'s top SOR',
-    'Deloitte advises on sizing; does not quote or resell Fabric licensing',
+    'The firm advises on sizing; does not quote or resell Fabric licensing',
     'AWS/GCP/Oracle/Databricks/Snowflake alternatives don\'t replace Fabric for APEX',
   ],
   actions: [
@@ -2268,7 +2268,7 @@ chapters.push({
   body: `
 ## 6.1 What Foundry is and what it is not
 
-Azure AI Foundry is where APEX agents run. Every agent invocation is an Azure AI Agent Service call backed by a foundation model hosted in Foundry. The client contracts Foundry and Azure OpenAI directly from Microsoft; Deloitte's APEX engagement delivers the agent designs, prompts, MCP servers, and orchestrations that run on that runtime.
+Azure AI Foundry is where APEX agents run. Every agent invocation is an Azure AI Agent Service call backed by a foundation model hosted in Foundry. The client contracts Foundry and Azure OpenAI directly from Microsoft; the firm's APEX engagement delivers the agent designs, prompts, MCP servers, and orchestrations that run on that runtime.
 
 Foundry is NOT just a model endpoint. It is the enterprise agent platform — authoring, orchestration, evaluation, monitoring, governance. A seller who describes Foundry as "Microsoft's version of OpenAI" misses the distinction that matters to enterprise buyers: Foundry adds the production-grade operational tooling that raw model APIs lack.
 
@@ -2320,7 +2320,7 @@ A Bedrock agent, a Vertex agent, or a self-hosted LangChain app can reach simila
 
 ## 6.4 Model-tier economics (the cost conversation)
 
-Foundry token spend is a client operational cost, not a Deloitte fee. But sellers need to explain the economics during discovery so the CFO is not surprised by Month-6 platform invoices.
+Foundry token spend is a client operational cost, not a fee. But sellers need to explain the economics during discovery so the CFO is not surprised by Month-6 platform invoices.
 
 | Tier | Representative models | Relative cost | APEX use cases |
 |---|---|---|---|
@@ -2378,11 +2378,11 @@ Foundry consumes on a mix of PTUs (Provisioned Throughput Units) and PAYG (Pay-A
 - **PTU reservation** for predictable production workloads (fixed monthly cost, guaranteed throughput)
 - **PAYG token** for development, bursts, and long-tail workloads
 
-The client's Microsoft account team sizes and quotes. Deloitte advises on the architectural envelope during discovery.
+The client's Microsoft account team sizes and quotes. The firm advises on the architectural envelope during discovery.
 
 ## 6.9 Agent Orchestration — The Multi-Agent Pattern Library
 
-This is the deep-dive on how individual agents compose into complete workflows — the architectural concept that makes APEX services more than single-agent wrappers. Sellers who can explain orchestration in an architect conversation carry credibility that abstract "AI platform" pitches cannot match. For the complete per-schema catalog of specific orchestrations Deloitte delivers, see **Appendix T**.
+This is the deep-dive on how individual agents compose into complete workflows — the architectural concept that makes APEX services more than single-agent wrappers. Sellers who can explain orchestration in an architect conversation carry credibility that abstract "AI platform" pitches cannot match. For the complete per-schema catalog of specific orchestrations the firm delivers, see **Appendix T**.
 
 ### 6.9.1 What orchestration is (and isn't)
 
@@ -2442,7 +2442,7 @@ Real orchestrations compose these. An APEX recall orchestration is typically **p
 
 ### 6.9.3 The 47 APEX orchestration patterns
 
-APEX's internal accelerator library contains 47 reusable orchestration patterns — the productised IP that Deloitte applies across engagements. These 47 patterns are not 47 different workflow implementations; they are 47 **archetypes** from which specific orchestrations are composed.
+APEX's internal accelerator library contains 47 reusable orchestration patterns — the productised IP that the firm applies across engagements. These 47 patterns are not 47 different workflow implementations; they are 47 **archetypes** from which specific orchestrations are composed.
 
 Examples of the 47 archetypes:
 - "Anomaly-detection + disposition + HITL-approval + action"
@@ -2452,7 +2452,7 @@ Examples of the 47 archetypes:
 - "Classification-change propagation across dependent services"
 - "Cross-Practice entity federation with trust-boundary enforcement"
 
-Each archetype specifies the primitive patterns it uses, the general step-shape, the typical HITL insertion points, the classification handling, and the audit-row emission pattern. When Deloitte delivers a Practice-specific orchestration — say, an RC recall workflow — the implementation starts from the relevant archetype(s) and specialises to the Practice's semantic model and SOR landscape.
+Each archetype specifies the primitive patterns it uses, the general step-shape, the typical HITL insertion points, the classification handling, and the audit-row emission pattern. When the firm delivers a Practice-specific orchestration — say, an RC recall workflow — the implementation starts from the relevant archetype(s) and specialises to the Practice's semantic model and SOR landscape.
 
 Why 47? The number is a consequence of how decisions actually cluster at enterprise scale. Seven Practices × roughly seven decision-shape categories per Practice ≈ 47 distinct archetypes that, together, cover the vast majority of real operational decisions. Rare edge-case decisions get one-off treatment; the 47 archetypes cover the rest.
 
@@ -2578,7 +2578,7 @@ The operational test: **an APEX audit row is the minimum artifact a regulator, a
 
 ### 6.10.2 Audit row anatomy — the 14 required fields
 
-Every APEX agent emits an audit row with at least these fields. Deloitte's delivery standard enforces them through the manifest schema:
+Every APEX agent emits an audit row with at least these fields. The firm's delivery standard enforces them through the manifest schema:
 
 | Field | Content |
 |---|---|
@@ -2688,7 +2688,7 @@ When a HITL gate fires, the audit row captures:
 - The **justification** (optional but strongly encouraged free-text the human provides).
 - The **channel** (Teams card, Copilot Studio, dashboard, mobile app).
 
-Over time, the HITL-decision ledger becomes a training corpus: patterns in human modifications feed the next version of the agent's prompt/policy. This is how Deloitte's delivery improves the service quarter over quarter without retraining the foundation model.
+Over time, the HITL-decision ledger becomes a training corpus: patterns in human modifications feed the next version of the agent's prompt/policy. This is how the firm's delivery improves the service quarter over quarter without retraining the foundation model.
 
 ### 6.10.10 What the CFO, CCO, and CISO each get from the audit row
 
@@ -2796,8 +2796,8 @@ SK's Agent Framework exposes multiple orchestrator classes, each enforcing a dis
 
 - Custom Practice-specific orchestrations with complex domain logic (RC-E2E-03 assortment + pricing with elasticity reasoning; HLS clinical-decision-support with guideline adherence).
 - Agents that call MCP tools with complex parameter shaping.
-- Reasoning-heavy workloads where the agent code is Deloitte IP.
-- Any orchestration with IP-sensitive prompt design that should not leave Deloitte-managed code.
+- Reasoning-heavy workloads where the agent code is firm IP.
+- Any orchestration with IP-sensitive prompt design that should not leave firm-managed code.
 
 ### 6.11.3 Copilot Studio — the experience-surface platform
 
@@ -2862,7 +2862,7 @@ Copilot Studio invokes subagents through four distinct mechanisms:
 
 - Fastest path from APEX agent to worker-facing surface.
 - Native M365 / Teams integration — no custom UI.
-- Citizen-developer accessible; key for scaling the agent catalog beyond Deloitte's delivery bench.
+- Citizen-developer accessible; key for scaling the agent catalog beyond the firm's delivery bench.
 - Governance through Power Platform admin + Purview.
 - Handles channel complexity (Teams, web, mobile, voice) without custom code.
 
@@ -2884,7 +2884,7 @@ Copilot Studio invokes subagents through four distinct mechanisms:
 - Compliance Manager assessments at the agent level.
 - Agent Monitor — a central admin console for the tenant's agent population.
 - Agent Builder — enterprise-grade agent authoring with configuration-first UX.
-- Marketplace of pre-built agents (Microsoft, ISV, Deloitte-authored).
+- Marketplace of pre-built agents (Microsoft, ISV, firm-authored).
 - Unified M365 audit integration.
 
 **Key capabilities.**
@@ -2905,7 +2905,7 @@ Copilot Studio invokes subagents through four distinct mechanisms:
 - Purview sensitivity labels applied at agent registration.
 - Entra Agent ID auto-provisioned at publish time.
 - Scope declaration in manifest (user-delegated / app-delegated / data-scoped).
-- Publisher attestation (vendor / internal / Deloitte-authored).
+- Publisher attestation (vendor / internal / firm-authored).
 
 **How it's deployed.**
 
@@ -2952,7 +2952,7 @@ Agent365 subagent orchestration routes through the **Agent Orchestration Hub** �
 - Licensed via M365 E7 — no separate Azure agent-runtime spend (simplifies CFO conversation).
 - Unified with workforce identity, M365 audit, Purview — dramatically reduces integration lift.
 - Best fit for workforce-facing agents at scale.
-- Agent Marketplace enables Deloitte-authored APEX agent templates to distribute.
+- Agent Marketplace enables firm-authored APEX agent templates to distribute.
 
 **When to use Agent365 in an APEX engagement.**
 
@@ -2989,7 +2989,7 @@ Large APEX engagements — particularly Wave 2 and Wave 3 at enterprise scale �
 
 Example for an RC retail store-ops pursuit:
 
-- **SK** orchestrates DemandSensingAgent, MarkdownCadenceAgent, CategoryExposureAgent, ElasticityReasoningAgent (the IP — these carry Deloitte's RC semantic-model knowledge and archetype specialization).
+- **SK** orchestrates DemandSensingAgent, MarkdownCadenceAgent, CategoryExposureAgent, ElasticityReasoningAgent (the IP — these carry the firm's RC semantic-model knowledge and archetype specialization).
 - **Copilot Studio** surfaces the store-manager assistant and merchant-workstation assistant — both conversing with associates through Teams cards and approvals.
 - **Agent365** registers each agent with Entra Agent ID, applies DLP policies, routes cross-agent calls through the Hub, emits unified M365 audit.
 
@@ -3018,7 +3018,7 @@ When a client asks "which Microsoft orchestrator should we standardize on?" — 
 
 > *"All three, for different layers. Semantic Kernel is where your IP lives — custom orchestrations that encode your Practice-specific reasoning. Copilot Studio is where workers interact with the agents through M365 surfaces. Agent365 is the governance and identity layer that makes everything enterprise-ready. APEX composes all three in a cohesive architecture with one audit trail across all of it. The right question isn't 'which one' — it's 'which parts of the agent fleet belong in each layer.' That's what Wave 1 discovery decides."*
 
-That answer is architecturally accurate, it respects the client's Microsoft investment, and it positions Deloitte as the composer rather than as another framework vendor.
+That answer is architecturally accurate, it respects the client's Microsoft investment, and it positions the firm as the composer rather than as another framework vendor.
 
 ### 6.11.9 Common pitfalls
 
@@ -3153,7 +3153,7 @@ The file-first paradigm as APEX implements it derives from the **OpenClaw commun
 
 APEX adopts the paradigm and extends it for enterprise governance: signed manifests, Purview classes, Entra-gated reads, version pinning, immutability during run. These extensions are specifically motivated by the **ClawHavoc** attack research, which demonstrated the attack class against unhardened file-first deployments. APEX's governance layer makes that class infeasible in regulated deployments.
 
-The paradigm-provenance record is in the APEX-CORE Appendix A (internal workspace file). Client-facing materials credit the community lineage without implying any partnership or alliance between Deloitte and the OpenClaw community — OpenClaw is credited as a community-source pattern APEX adopts.
+The paradigm-provenance record is in the APEX-CORE Appendix A (internal workspace file). Client-facing materials credit the community lineage without implying any partnership or alliance between the firm and the OpenClaw community — OpenClaw is credited as a community-source pattern APEX adopts.
 
 ## 6.13 Parent-Child Agent Orchestration — The Control Plane
 
@@ -3320,11 +3320,11 @@ The orchestrator parses HEARTBEAT.md at process startup and registers Durable Fu
 
 > *"APEX's control plane separates spawning, monitoring, control, and reconciliation — conflating them is the largest source of multi-agent production pain. The default orchestration is supervisor-worker with a DAG spine; three control primitives (cancellation token, budget envelope, append-only status channel) compose into cooperative kills across four levels (pause, soft, hard, abort). Five production failure modes are designed-for (zombie children, split-brain HITL, cost runaway, stuck HITL, partial success ambiguity). The Azure stack maps Durable Functions as parent, Azure AI Agent Service (or SK) as child, Event Hubs as status channel, Cosmos as durable control store, and Azure Cache for Redis as the sub-millisecond hot-path cache for control-plane primitives only — never for data-plane content. Periodic autonomy is declared in HEARTBEAT.md and registered as Durable Functions timers."*
 
-> **Independence Reminder.** Do not advise the client on Foundry pricing. Microsoft's account team handles platform pricing and capacity. Deloitte handles design, model-mix recommendations, and implementation economics. The line between "architectural advice" and "commercial negotiation" is important and Independence-sensitive.
+> **Independence Reminder.** Do not advise the client on Foundry pricing. Microsoft's account team handles platform pricing and capacity. The firm handles design, model-mix recommendations, and implementation economics. The line between "architectural advice" and "commercial negotiation" is important and Independence-sensitive.
   `,
   summary: [
     'Foundry is the agent runtime — authoring, orchestration, evaluation, monitoring, governance in one platform',
-    'Client licenses Foundry directly; Deloitte designs and implements',
+    'Client licenses Foundry directly; the firm designs and implements',
     'Three-tier model strategy — Lightweight / Standard / Reasoning; ~10 % of catalog needs reasoning tier',
     'APEX is model-agnostic; Anthropic Claude and Meta Llama are first-class in Foundry',
     'Foundry + Purview + Entra composition is the trust story',
@@ -3354,7 +3354,7 @@ chapters.push({
 
 Every APEX HITL gate lands on a Copilot-capable surface. Microsoft 365 Copilot hosts the Teams adaptive cards for human approvals; Copilot Studio hosts conversational agent surfaces for customer-facing services; Copilot-for-X products (Sales, Service, Finance, Security) consume APEX-produced decisions within their native business-application context.
 
-The client licenses all Copilot SKUs directly from Microsoft. Deloitte's APEX engagement designs, implements, and operates the agent and surface integrations that use Copilot.
+The client licenses all Copilot SKUs directly from Microsoft. The firm's APEX engagement designs, implements, and operates the agent and surface integrations that use Copilot.
 
 > **Cross-reference.** Copilot Studio is one of three Microsoft agent-orchestrator runtimes. For the full deep-dive on how Semantic Kernel, Copilot Studio, and Agent365 (E7) compose in an APEX engagement — how each is built, deployed, managed, and how they call subagents across the stack — see **§6.11**. This chapter focuses on the experience-surface posture; §6.11 covers the cross-runtime orchestration mechanics.
 
@@ -3443,7 +3443,7 @@ Compliance-restricted clients may block Copilot entirely — typically in HLS Pr
 
 Copilot is preferred; it is not required. Sellers should confirm the client's Copilot posture in discovery.
 
-> **Independence Reminder.** When discussing Copilot at an audit client, service scope must avoid creating mutual interest in financial-system design. Confirm Audit Committee pre-approval for any Copilot-heavy engagement at a Deloitte audit client. The conversation with the Audit Committee is "Copilot is the user surface for the APEX decision platform" — not "Copilot is part of financial system design."
+> **Independence Reminder.** When discussing Copilot at an audit client, service scope must avoid creating mutual interest in financial-system design. Confirm Audit Committee pre-approval for any Copilot-heavy engagement at an audit client. The conversation with the Audit Committee is "Copilot is the user surface for the APEX decision platform" — not "Copilot is part of financial system design."
   `,
   summary: [
     'APEX makes Copilot the decision-surface, not just a productivity tool',
@@ -3505,7 +3505,7 @@ graph TD
 
 APEX's PII tokenization at the Silver boundary is not optional. Every APEX deployment ships with Purview integration for sensitivity labeling, DLP on outbound agent responses, and lineage. This is what makes APEX acceptable to the client's Chief Compliance Officer, General Counsel, and Risk Committee. It is also what makes APEX defensible under regulator scrutiny after the fact.
 
-The client licenses Purview directly from Microsoft. Deloitte's APEX engagement implements the Purview policy set, scans, classifications, and DLP rules that APEX services depend on.
+The client licenses Purview directly from Microsoft. The firm's APEX engagement implements the Purview policy set, scans, classifications, and DLP rules that APEX services depend on.
 
 ### What Purview adds that no workaround replicates
 
@@ -3752,7 +3752,7 @@ A typical audit review session:
 7. **Version change review.** Auditor reviews Git log on manifest / policy / prompt over the scope window; confirms that changes were approved, dated, and consistent with what the audit rows pinned.
 8. **Report.** Auditor writes findings referencing specific decision_ids — every claim backed by a retrievable artifact.
 
-The single most important property of this session: the auditor does not need custom tooling from Deloitte or the client. Purview, Git, and the standard ZIP export are sufficient. That's the architectural commitment APEX makes.
+The single most important property of this session: the auditor does not need custom tooling from the firm or the client. Purview, Git, and the standard ZIP export are sufficient. That's the architectural commitment APEX makes.
 
 ### 8.8.8 Relationship between §6.10 and §8.8
 
@@ -3774,16 +3774,16 @@ The split is load-bearing: **agents emit into Foundry; governance lives in Purvi
 
 APEX's audit architecture is simultaneously a delivery feature and an Independence safeguard:
 
-- **Deloitte can advise on audit architecture at audit clients** because the client operates Purview and the audit stores directly — Deloitte implements the design, but the client owns the evidence. Standard non-audit-service rules apply.
-- **Deloitte does not retain ongoing access to client audit stores.** Post-engagement, Deloitte's access is removed. The audit row's defensibility does not depend on continued Deloitte involvement.
-- **Deloitte's own work product is itself audit-rowed.** Deloitte engineers acting as Foundry identities during delivery are logged the same way the client's own engineers are — there is no "consultant-bypass" path.
-- **Audit-row immutability protects both parties.** If a regulatory review later occurs, the record of what Deloitte did, and what the client approved, is the same immutable record for both.
+- **The firm can advise on audit architecture at audit clients** because the client operates Purview and the audit stores directly — the firm implements the design, but the client owns the evidence. Standard non-audit-service rules apply.
+- **The firm does not retain ongoing access to client audit stores.** Post-engagement, the firm's access is removed. The audit row's defensibility does not depend on continued the firm involvement.
+- **The firm's own work product is itself audit-rowed.** firm engineers acting as Foundry identities during delivery are logged the same way the client's own engineers are — there is no "consultant-bypass" path.
+- **Audit-row immutability protects both parties.** If a regulatory review later occurs, the record of what the firm did, and what the client approved, is the same immutable record for both.
 
 ### 8.8.10 The one-page summary for the CCO and CISO conversation
 
-> *"Every APEX agent decision writes a structured, version-pinned, tamper-evident audit row. The row names the identity, the policy, the manifest, the model, the prompt, the inputs (by content hash), the tools called (by content hash), the reasoning trace, the decision, the human oversight, and the downstream effect. Foundry stores the row; Purview carries the lineage end-to-end from SOR to action; retention is enforced by WORM policy; the row is cryptographically non-repudiable. A regulator, internal auditor, or incident-responder can reconstruct any decision from this record without custom tooling. That is the APEX audit architecture, and it is why APEX ships into regulated industries under Deloitte Independence discipline."*
+> *"Every APEX agent decision writes a structured, version-pinned, tamper-evident audit row. The row names the identity, the policy, the manifest, the model, the prompt, the inputs (by content hash), the tools called (by content hash), the reasoning trace, the decision, the human oversight, and the downstream effect. Foundry stores the row; Purview carries the lineage end-to-end from SOR to action; retention is enforced by WORM policy; the row is cryptographically non-repudiable. A regulator, internal auditor, or incident-responder can reconstruct any decision from this record without custom tooling. That is the APEX audit architecture, and it is why APEX ships into regulated industries under Independence discipline."*
 
-> **Independence Reminder.** Purview sells independently of Deloitte services — it is a Microsoft product the client licenses directly. Deloitte can advise the client to deploy Purview without creating an Independence issue. At audit clients, standard non-audit service pre-approval rules apply to the Audit Committee; a Purview-heavy APEX engagement at a Deloitte audit client must be pre-cleared.
+> **Independence Reminder.** Purview sells independently of firm services — it is a Microsoft product the client licenses directly. The firm can advise the client to deploy Purview without creating an Independence issue. At audit clients, standard non-audit service pre-approval rules apply to the Audit Committee; a Purview-heavy APEX engagement at an audit client must be pre-cleared.
   `,
   summary: [
     'Purview is mandatory, not optional — APEX\'s compliance posture depends on it',
@@ -3813,7 +3813,7 @@ chapters.push({
     'The three pressure points RC leaders feel in 2026',
     'Which APEX services lead in RC pursuits',
     'How the Microsoft stack maps to RC decision-maker pains',
-    'Where Deloitte IP differentiates vs system integrators chasing the same spend',
+    'Where firm IP differentiates vs system integrators chasing the same spend',
     'The RC buyer personas and what each cares about',
     'Regulatory and sustainability context shaping RC pursuits',
   ],
@@ -3904,7 +3904,7 @@ Lead with these five in any RC pursuit. Each is a productised service with defin
 - **Fabric fit.** Requires inventory position, price history, sell-through, seasonal pattern, competitor — typically 4–7 SORs.
 - **Purview intensity.** Standard.
 
-Each of these services is built on Fabric (data plane) + Foundry (reasoning) + Copilot (experience) + Purview (trust). Client licenses the platform directly. Deloitte sells the IP and the delivery.
+Each of these services is built on Fabric (data plane) + Foundry (reasoning) + Copilot (experience) + Purview (trust). Client licenses the platform directly. The firm sells the IP and the delivery.
 
 ## 9.4 The RC buyer personas
 
@@ -3987,9 +3987,9 @@ APEX ships approximately 40 RC-specific agents — price-recommend, assortment-o
 
 ### 3. Independence-safe delivery
 
-Deloitte can deliver APEX on Microsoft in audit-client RC accounts under Audit Committee pre-clearances that have been tested on comparable engagements. Competitor SIs do not carry the same audit-independence obligations; they also do not carry the same audit-committee credibility when the client is a Deloitte audit client.
+The firm can deliver APEX on Microsoft in audit-client RC accounts under Audit Committee pre-clearances that have been tested on comparable engagements. Competitor SIs do not carry the same audit-independence obligations; they also do not carry the same audit-committee credibility when the client is an audit client.
 
-> **Key Play**: In a data-platform bake-off, position APEX not as "Fabric vs Snowflake" but as "Fabric-native RC agent library vs build-your-own." Platform choice is the client's; IP differentiation is Deloitte's. This framing sidesteps the hyperscaler wars entirely.
+> **Key Play**: In a data-platform bake-off, position APEX not as "Fabric vs Snowflake" but as "Fabric-native RC agent library vs build-your-own." Platform choice is the client's; IP differentiation is the firm's. This framing sidesteps the hyperscaler wars entirely.
 
 ## 9.7 Commercial envelope for RC
 
@@ -4014,7 +4014,7 @@ Expand the five-question standard with these additional discovery prompts:
 2. Is there a board-level recall, shrink, or provenance exposure in the last 24 months?
 3. Which data-platform investments are already in motion (Snowflake, Databricks, Fabric, GCP)?
 4. Who owns the P&L for the first service — Merch, Supply Chain, Marketing, or Store Ops?
-5. Is Deloitte the auditor? If so, is this engagement pre-cleared?
+5. Is the firm the auditor? If so, is this engagement pre-cleared?
 6. What is the MarTech stack incumbency (Adobe, Salesforce Marketing, Braze, Segment)?
 7. Which sub-segment of RC is this (grocery, apparel, specialty, CPG manufacturer)?
 8. What is the Copilot licensing footprint and deployment state?
@@ -4051,7 +4051,7 @@ This section is a cross-reference deep dive for anyone who needs to understand h
 
 ### 9.11.1 Practice framework — reference
 
-The Practice-framework definition is in §1.1A (read that first if you have not). In short: an APEX Practice is one of seven industry verticals (RC, HLS, ER, AXLE, TMT, TH, ICE) that bundles **canonical schemas**, **agent catalog**, **orchestration catalog**, **service catalog**, and **delivery playbook** into a reusable internal Deloitte asset. RC is the flagship and the deepest of the seven. The remainder of this deep-dive (§9.11.2–§9.11.9) applies the framework specifically to RC.
+The Practice-framework definition is in §1.1A (read that first if you have not). In short: an APEX Practice is one of seven industry verticals (RC, HLS, ER, AXLE, TMT, TH, ICE) that bundles **canonical schemas**, **agent catalog**, **orchestration catalog**, **service catalog**, and **delivery playbook** into a reusable internal firm asset. RC is the flagship and the deepest of the seven. The remainder of this deep-dive (§9.11.2–§9.11.9) applies the framework specifically to RC.
 
 \`\`\`mermaid
 flowchart LR
@@ -4117,7 +4117,7 @@ Every RC agent follows the same five-hop consumption path:
 4. **MCP tool binding.** Each Gold view is exposed to agents through exactly one typed MCP tool (e.g., \`get_lot_trace(lot_id)\`, \`get_customer_360(customer_id, scope)\`). The tool enforces identity, logs the call, applies DLP, and returns the view's current state.
 5. **Agent invocation.** The agent calls the MCP tool through Foundry's tool-use interface. Every call appears in the audit row with the invoking identity, the parameters passed, the classification of the returned data, and the downstream decision or action.
 
-This discipline means **no agent ever queries a table directly**. Every data access is a typed MCP call with an audit row. This is what makes APEX delivery defensible under regulatory review and Deloitte Independence audit.
+This discipline means **no agent ever queries a table directly**. Every data access is a typed MCP call with an audit row. This is what makes APEX delivery defensible under regulatory review and Independence audit.
 
 ### 9.11.5 Lineage — Purview end-to-end
 
@@ -4181,7 +4181,7 @@ For an RC seller or architect, the one-page internal mental model is:
     'RC has the deepest APEX service catalog — 13 services across E2E and TTP',
     'Lead with five services: Assortment/Pricing, Unified Customer, Product Tracking, Demand Sensing, Markdown',
     'Seven distinct buyer personas each with specific pain and lead service',
-    'Differentiate on Deloitte IP (semantic model + agent library), not on platform choice',
+    'Differentiate on firm IP (semantic model + agent library), not on platform choice',
     'Commercial envelope scales from $300K land to $30M+ transform',
     'Ten-question qualifier separates real pursuits from hopeful pipeline',
   ],
@@ -4236,7 +4236,7 @@ Every HLS pursuit touches at least two of:
 
 This is why Purview leads the HLS architecture conversation. A data platform that cannot prove PHI handling is a platform that will not pass the procurement gate.
 
-> **Independence Reminder**: Deloitte audits several large HLS companies. Before any engagement, confirm with the Independence office whether the target is a Deloitte audit client and what pre-approvals are required. Some HLS audit clients have standing pre-approvals for APEX-style engagements; others do not.
+> **Independence Reminder**: The firm audits several large HLS companies. Before any engagement, confirm with the Independence office whether the target is an audit client and what pre-approvals are required. Some HLS audit clients have standing pre-approvals for APEX-style engagements; others do not.
 
 ## 10.3 Priority APEX services
 
@@ -4264,7 +4264,7 @@ In HLS, Purview is often the FIRST workload, not the last. The conversation sequ
 
 This is inverted from RC, where the data-platform workload usually leads. In HLS, the trust architecture is the wedge.
 
-> **Key Play**: Lead HLS discovery with Purview. It demonstrates Deloitte understands the regulatory risk before we talk about reasoning agents.
+> **Key Play**: Lead HLS discovery with Purview. It demonstrates the firm understands the regulatory risk before we talk about reasoning agents.
 
 ## 10.5 Commercial envelope for HLS
 
@@ -4283,7 +4283,7 @@ Payer deals tend to be the largest single workload; Provider deals tend to be mu
 3. What is the current state of enterprise data classification and Purview deployment?
 4. Is there an active regulatory inspection, consent decree, or audit finding?
 5. Who is the executive sponsor — clinical, operational, commercial, or compliance?
-6. Is Deloitte the auditor? What is the pre-clearance status?
+6. Is the firm the auditor? What is the pre-clearance status?
 7. For Payer: which lines of business (commercial, MA, Medicaid) are in scope?
 8. For Provider: is the EHR incumbent Epic, Cerner (Oracle Health), Meditech, or other?
 9. For Life Sciences: which therapeutic areas and which commercial model (primary-care, specialty, rare)?
@@ -4309,7 +4309,7 @@ If the client cannot answer question 3 crisply, Purview leads the pursuit regard
 
 ## 10.9 Hospital Reference Deployment — A Day in the Charge Nurse's Shift (Illustrative)
 
-This section parallels Big Box Store Store 100 (§16.13) for HLS Provider. The illustrative persona is Raj Patel, Charge Nurse on a 32-bed Medical-Surgical unit at a mid-size academic medical center. The agents in this narrative are Deloitte-delivered onto the hospital's Microsoft platform; APEX is the internal accelerator that made delivery possible in 9 months.
+This section parallels Big Box Store Store 100 (§16.13) for HLS Provider. The illustrative persona is Raj Patel, Charge Nurse on a 32-bed Medical-Surgical unit at a mid-size academic medical center. The agents in this narrative are firm-delivered onto the hospital's Microsoft platform; APEX is the internal accelerator that made delivery possible in 9 months.
 
 ### 10.9.1 The shift at a glance
 
@@ -4519,7 +4519,7 @@ DLP policies ensure agent outputs never materialize PHI in Teams messages, email
 | **Schema** | Which HLS schemas are in scope and which are explicitly not; FHIR profile commitments; HL7 v2 legacy decisions. |
 | **Trust** | HIPAA + HITECH + Part 11 + Part 2 + GINA + state laws; break-glass design; IRB coordination for research; audit retention. |
 
-The HLS Trust envelope is the thickest of any Practice and is often drafted by Deloitte's Risk & Regulatory team alongside the delivery team.
+The HLS Trust envelope is the thickest of any Practice and is often drafted by the firm's Risk & Regulatory team alongside the delivery team.
 
 ### 10.10.9 Deep-dive summary for HLS
 
@@ -4604,7 +4604,7 @@ Mining and UOG pursuits always surface safety. Any APEX service whose output cou
 7. Is there an active methane / emissions monitoring program?
 8. What is the SCADA / DCS vendor footprint (ABB, Emerson, Honeywell, Siemens, GE)?
 9. What is the data-historian-to-cloud trajectory (on-prem only, hybrid, cloud-first)?
-10. Is Deloitte the auditor?
+10. Is the firm the auditor?
 
 ## 11.8 ER-specific technology considerations
 
@@ -4624,7 +4624,7 @@ Mining and UOG pursuits always surface safety. Any APEX service whose output cou
 
 ## 11.9 Utility Reference Deployment — A Day in the Dispatcher's Chair (Illustrative)
 
-Parallel to §16.13 and §10.9. Illustrative persona: Elena Vasquez, distribution-operations dispatcher at a mid-size investor-owned utility covering 1.2 million meters. Agents Deloitte-delivered on the utility's Microsoft platform; APEX internal accelerator.
+Parallel to §16.13 and §10.9. Illustrative persona: Elena Vasquez, distribution-operations dispatcher at a mid-size investor-owned utility covering 1.2 million meters. Agents firm-delivered on the utility's Microsoft platform; APEX internal accelerator.
 
 ### 11.9.1 Shift summary
 
@@ -4804,7 +4804,7 @@ chapters.push({
     'How generative engineering reshapes the product-development pitch',
   ],
   body: `
-> **Chapter abstract.** AXLE is product-engineering + manufacturing + aftermarket across automotive, aerospace, and discrete manufacturing — the Practice most standards-heavy (ISA-95, STEP, AutomationML, OPC UA, IATF 16949) and the only Practice that coexists with a parallel Deloitte framework (AXLE the automotive framework). The full Practice deep dive including federation with that framework is in §12.10.
+> **Chapter abstract.** AXLE is product-engineering + manufacturing + aftermarket across automotive, aerospace, and discrete manufacturing — the Practice most standards-heavy (ISA-95, STEP, AutomationML, OPC UA, IATF 16949) and the only Practice that coexists with a parallel the firm framework (AXLE the automotive framework). The full Practice deep dive including federation with that framework is in §12.10.
 
 ## 12.1 Scope of AXLE
 
@@ -4854,7 +4854,7 @@ The client sees Microsoft's Foundry reasoning + Fabric data + Copilot experience
 7. What is the MES / QMS footprint (Plex, Siemens Opcenter, SAP ME, Rockwell, Wonderware)?
 8. For aerospace: is there an active defense program that shapes cybersecurity?
 9. What is the sustainability / carbon-accounting program?
-10. Is Deloitte the auditor?
+10. Is the firm the auditor?
 
 ## 12.7 AXLE-specific technology considerations
 
@@ -4875,7 +4875,7 @@ The client sees Microsoft's Foundry reasoning + Fabric data + Copilot experience
 
 ## 12.9A Plant Reference Deployment — A Day on Line 3 (Illustrative)
 
-Parallel to Store 100 and the hospital / utility narratives. Illustrative persona: Sam Chen, shift supervisor on Line 3 at a large-OEM automotive assembly plant. Agents Deloitte-delivered on the OEM's Microsoft platform; APEX internal accelerator.
+Parallel to Store 100 and the hospital / utility narratives. Illustrative persona: Sam Chen, shift supervisor on Line 3 at a large-OEM automotive assembly plant. Agents firm-delivered on the OEM's Microsoft platform; APEX internal accelerator.
 
 ### 12.9A.1 Shift summary
 
@@ -4938,11 +4938,11 @@ Agent reconciles the shift: units produced, quality-event summary, maintenance e
 
 ## 12.9 AXLE Framework vs APEX AXLE Practice (AXLEML) — Sibling Frameworks, Complementary Positioning
 
-This section is the seller's reference for the conversation that comes up routinely when Deloitte is well-known to the client: **"We already considered the AXLE framework. Why are you pitching APEX?"** The honest answer is that AXLE and APEX are both DMTSP intellectual property, built on the same Microsoft technology platform, and intentionally complementary — not competing. Sellers who sound confused about the relationship lose credibility; sellers who can explain how AXLE and APEX fit together win credibility and often win bigger engagements that span both.
+This section is the seller's reference for the conversation that comes up routinely when the firm is well-known to the client: **"We already considered the AXLE framework. Why are you pitching APEX?"** The honest answer is that AXLE and APEX are both DMTSP intellectual property, built on the same Microsoft technology platform, and intentionally complementary — not competing. Sellers who sound confused about the relationship lose credibility; sellers who can explain how AXLE and APEX fit together win credibility and often win bigger engagements that span both.
 
 ### 12.9.1 Two frameworks, one DMTSP — what each is
 
-The Deloitte Microsoft Technology Services Practice (DMTSP) produces two flagship industry frameworks that touch industrial and manufacturing clients. Both leverage Microsoft Fabric + Azure AI Foundry + Purview + Entra as the runtime substrate. Both use the medallion architecture. Both use the Model Context Protocol. They differ in scope, depth, and intended use.
+The Microsoft Technology Services Practice (DMTSP) produces two flagship industry frameworks that touch industrial and manufacturing clients. Both leverage Microsoft Fabric + Azure AI Foundry + Purview + Entra as the runtime substrate. Both use the medallion architecture. Both use the Model Context Protocol. They differ in scope, depth, and intended use.
 
 **AXLE — Automotive eXchange Layer for Enterprise.** AXLE is DMTSP's purpose-built vertical framework for automotive manufacturing. It ships:
 
@@ -5037,14 +5037,14 @@ Lead with AXLE framework — not APEX — when:
 - The desired outcome is **Level 4 Industry 4.0 Orchestrated plant** specifically
 - The 4-month Wave 1 at reference-plant scale matches the client's decision-making cadence
 
-In these situations APEX AXLEML has more than the client needs, at higher cost than the AXLE framework's targeted envelope. Be honest: recommend AXLE. The Deloitte relationship is more important than which framework closes.
+In these situations APEX AXLEML has more than the client needs, at higher cost than the AXLE framework's targeted envelope. Be honest: recommend AXLE. The relationship is more important than which framework closes.
 
 ### 12.9.6 When to lead with APEX AXLE Practice (AXLEML)
 
 Lead with APEX AXLE Practice — specifically AXLEML — when:
 
 - The client is a **diversified industrial group** with multiple sectors (auto + aerospace + industrial products + discrete manufacturing)
-- The Deloitte engagement spans **multiple APEX Practices** (e.g., AXLE + RC for consumer-adjacent ops + ER for energy-intensive sites)
+- The engagement spans **multiple APEX Practices** (e.g., AXLE + RC for consumer-adjacent ops + ER for energy-intensive sites)
 - The client values **cross-Practice reasoning** as an architectural outcome (warranty from automotive correlates to aerospace in service data correlates to common supplier in industrial products)
 - The sponsor is a **Chief Digital Officer / Chief Data Officer** whose mandate is horizontal across business units
 - The 18-month Wave 2 trajectory aligns with the client's transformation horizon better than AXLE's plant-by-plant scaling
@@ -5095,7 +5095,7 @@ Rehearse these responses verbatim.
 
 **"Is APEX trying to replace AXLE?"**
 
-"No. They're sibling frameworks. AXLE ships things APEX doesn't — 9 automotive-specific schemas like AAML, CVML, WLML that are deeper in automotive than APEX AXLEML on day one. APEX ships things AXLE doesn't — aerospace, industrial products, and cross-Practice coverage into RC, ER, TMT, TH. If we're talking one Deloitte relationship with you, we coordinate the two framework teams so you get the right fit without duplication."
+"No. They're sibling frameworks. AXLE ships things APEX doesn't — 9 automotive-specific schemas like AAML, CVML, WLML that are deeper in automotive than APEX AXLEML on day one. APEX ships things AXLE doesn't — aerospace, industrial products, and cross-Practice coverage into RC, ER, TMT, TH. If we're talking one the firm relationship with you, we coordinate the two framework teams so you get the right fit without duplication."
 
 **"Which do we buy first?"**
 
@@ -5105,7 +5105,7 @@ Rehearse these responses verbatim.
 
 "Yes, and at your scale it's often the right answer. AXLE framework lands in the automotive plants for the deep operational value. APEX with AXLEML federates AXLE's schemas and extends into aerospace, industrial products, and your adjacent Practices. Both run on one Microsoft Fabric tenant with one Purview governance scope. One client, two complementary DMTSP frameworks, one Microsoft platform contract. Wave 1 scope clarifies which framework leads where."
 
-**"How do we know you're recommending what's best for us and not what's best for Deloitte?"**
+**"How do we know you're recommending what's best for us and not what's best for the firm?"**
 
 "Because misrecommending either framework guarantees a failed engagement, and failed engagements end the relationship. AXLE at a diversified industrial group would under-serve you; APEX AXLEML at a pure-play auto OEM would be more framework than you need. Our recommendation comes out of discovery, not out of which Practice we sit in. If AXLE is the right answer, we route you to the AXLE team; that's part of how DMTSP operates across frameworks."
 
@@ -5113,10 +5113,10 @@ Rehearse these responses verbatim.
 
 Both frameworks operate under the same DMTSP Independence discipline. There is no Independence conflict between them, but there are shared compliance obligations:
 
-- **Audit-client pre-clearance.** If the client is a Deloitte audit client (e.g., several large automotive OEMs), Audit Committee pre-clearance must be obtained before engagement regardless of which framework is leading. Pre-cleared scope may cover AXLE, APEX AXLE Practice, or both.
+- **Audit-client pre-clearance.** If the client is an audit client (e.g., several large automotive OEMs), Audit Committee pre-clearance must be obtained before engagement regardless of which framework is leading. Pre-cleared scope may cover AXLE, APEX AXLE Practice, or both.
 - **Funding paths.** Both frameworks follow the same compliant funding paths: direct client, DCIF allocated to client, ISV Marketplace, SI teaming. ECIF is prohibited for both.
 - **Language discipline.** Both frameworks use "Microsoft technology platform" and "technology relationship" language — never "partner," "alliance," or "joint venture."
-- **Two-contract commercial.** Client contracts Microsoft for platform and Deloitte for services separately, whether the Deloitte services are AXLE framework, APEX AXLE Practice, or federated.
+- **Two-contract commercial.** Client contracts Microsoft for platform and the firm for services separately, whether the services are AXLE framework, APEX AXLE Practice, or federated.
 
 Practitioners bridging between AXLE and APEX teams should coordinate pre-clearance filings with the Independence Office. At diversified industrial audit clients, combined-framework engagements often require amended pre-clearance relative to either framework alone; the Independence Office manages this routinely.
 
@@ -5260,7 +5260,7 @@ chapters.push({
 
 TMT clients often have mature internal AI teams. The pitch cannot be "AI as novelty." It has to be "AI platform acceleration — what you would build yourselves, delivered in weeks rather than years."
 
-APEX's value is the pre-built agent library and semantic model. TMT clients rarely accept wholesale Deloitte code without review; expect a paved-road approach where APEX is the reference architecture and the client extends it.
+APEX's value is the pre-built agent library and semantic model. TMT clients rarely accept wholesale the firm code without review; expect a paved-road approach where APEX is the reference architecture and the client extends it.
 
 ## 13.3 Priority APEX services
 
@@ -5284,7 +5284,7 @@ TMT Wave 3 deals can be very large, especially in TEL network-transformation eng
 2. Is there an internal platform-engineering team already building AI tooling?
 3. What is the public position on generative AI for internal use vs customer-facing use?
 4. What is the competitive context (peer moves, board pressure)?
-5. Is Deloitte the auditor?
+5. Is the firm the auditor?
 6. What is the cloud posture — Azure-primary, AWS-primary, multi-cloud?
 7. For TEL: regulatory context (CPNI, FCC compliance, net neutrality)?
 8. For MED: rights-management incumbency and content-supply-chain posture?
@@ -5307,7 +5307,7 @@ TMT Wave 3 deals can be very large, especially in TEL network-transformation eng
 | "Content rights make this impossible" (TMT-MED) | "APEX doesn't take rights decisions. Agents inform the rights team; rights-holders decide. Every recommendation carries provenance and attribution for rights defensibility." |
 | "Regulators will scrutinise customer-facing AI" (TMT-TEL) | "APEX's audit row is regulator-ready. For CPNI-sensitive workflows, Purview DLP enforces data handling. For FCC-scrutinised decisioning, the audit row is the defensibility." |
 
-> **Independence Reminder**: Several large TMT companies are Deloitte audit clients. Pre-clearance is essential before outbound.
+> **Independence Reminder**: Several large TMT companies are audit clients. Pre-clearance is essential before outbound.
 
 > **Key Play**: In TMT pursuits, position APEX as reference architecture the client's own engineers will extend. Not as a black-box deliverable.
 
@@ -5331,19 +5331,19 @@ TMT-TEC covers large software, cloud, hardware, and semiconductor firms. The buy
 - **Services-delivery productivity** (TEC-TEC-04) — professional-services engagement acceleration
 - **HR operations** (TEC-TEC-05) — employee-experience agents
 
-**What APEX intentionally does NOT deliver for TEC clients:** anything that touches their commercial product strategy, product engineering, or customer-data-as-commercial-asset decisions where Deloitte's involvement could conflict with client independence or competitive posture.
+**What APEX intentionally does NOT deliver for TEC clients:** anything that touches their commercial product strategy, product engineering, or customer-data-as-commercial-asset decisions where the firm's involvement could conflict with client independence or competitive posture.
 
 ### 13.8.3 The coopetition-sensitive conversation
 
 When a TMT-TEC client is a partial Microsoft competitor (cloud-infrastructure, productivity software, developer tools), the pitch requires delicate framing:
 
-- **Scope boundary is explicit.** Deloitte's services address internal enterprise-IT workloads (employee productivity, sales, support, HR), not the client's product portfolio.
-- **Deloitte's Microsoft relationship is disclosed.** Deloitte is Microsoft's auditor; Deloitte's DMTSP practice delivers on the Microsoft platform. If the client requires delivery on their own platform, Deloitte's platform-agnostic advisory practice may be the appropriate engagement rather than DMTSP.
-- **IP retention is documented.** What Deloitte delivers on the client's Microsoft internal-IT platform stays; Deloitte's APEX methodology stays with Deloitte.
+- **Scope boundary is explicit.** The firm's services address internal enterprise-IT workloads (employee productivity, sales, support, HR), not the client's product portfolio.
+- **The firm's Microsoft relationship is disclosed.** The firm is Microsoft's auditor; the firm's DMTSP practice delivers on the Microsoft platform. If the client requires delivery on their own platform, the firm's platform-agnostic advisory practice may be the appropriate engagement rather than DMTSP.
+- **IP retention is documented.** What the firm delivers on the client's Microsoft internal-IT platform stays; the firm's APEX methodology stays with the firm.
 
 ### 13.8.4 Architectural patterns for TEC
 
-TEC clients typically have mature data platforms, existing MLOps infrastructure, and sophisticated security posture. Deloitte's delivery adapts:
+TEC clients typically have mature data platforms, existing MLOps infrastructure, and sophisticated security posture. The firm's delivery adapts:
 - Lighter-touch Wave 1 (client teams absorb more of the architectural work)
 - Fabric-native deployment into client's enterprise-IT Microsoft footprint
 - Federation with client's existing data lakes via OneLake shortcuts
@@ -5373,18 +5373,18 @@ TMT-MED covers studios, streaming platforms, publishing, advertising, and agency
 
 ### 13.9.3 Creative-workflow sensitivity
 
-Creative workflows (script development, editorial, production, post-production) are where clients are most cautious about AI. Deloitte's delivery pattern respects this:
+Creative workflows (script development, editorial, production, post-production) are where clients are most cautious about AI. The firm's delivery pattern respects this:
 - Agent scope stops at the creative boundary — schedule, clearance, delivery, analytics are in-scope; screenplay, editing, color, casting are out-of-scope by design
 - HITL patterns are heavier in creative-adjacent workflows (more human decision authority retained)
 - Creative-leader relationships are cultivated but they are not the economic buyer; cross-functional sponsorship is essential
 
 ### 13.9.4 Rights-management complexity
 
-Content rights vary by title, territory, window, language, device, and time. APEX rights-utilisation services operate on rights metadata (what can be shown where and when), never on rights negotiation or rights strategy. The systems involved (Rightsline, Filemaker, custom) vary by studio; Deloitte's Wave 1 envisioning scopes rights-system integration specifically.
+Content rights vary by title, territory, window, language, device, and time. APEX rights-utilisation services operate on rights metadata (what can be shown where and when), never on rights negotiation or rights strategy. The systems involved (Rightsline, Filemaker, custom) vary by studio; the firm's Wave 1 envisioning scopes rights-system integration specifically.
 
 ### 13.9.5 Subscription-economics dimension
 
-Streaming clients have subscription-economics concerns — churn prediction, acquisition economics, content-ROI attribution. Deloitte's delivery for these clients frequently anchors on subscription economics with Fabric-resident member, viewing, and content data.
+Streaming clients have subscription-economics concerns — churn prediction, acquisition economics, content-ROI attribution. The firm's delivery for these clients frequently anchors on subscription economics with Fabric-resident member, viewing, and content data.
 
 ## 13.10 TMT-TEL (Telecommunications) — Deep Dive
 
@@ -5420,7 +5420,7 @@ TEL contact centers are among the largest in any industry. A tier-1 carrier may 
 
 ### 13.10.5 CPNI regulatory posture
 
-FCC's Customer Proprietary Network Information rules restrict what carriers can do with customer usage data. Every agent touching customer data goes through heightened Purview classification and DLP enforcement. Deloitte's CPNI-compliance discipline is battle-tested across tier-1 carrier engagements.
+FCC's Customer Proprietary Network Information rules restrict what carriers can do with customer usage data. Every agent touching customer data goes through heightened Purview classification and DLP enforcement. The firm's CPNI-compliance discipline is battle-tested across tier-1 carrier engagements.
 
 ### 13.10.6 BSS modernization as a recurring opportunity
 
@@ -5436,7 +5436,7 @@ Parallel to Big Box Store Store 100, hospital, and airline narratives. Illustrat
 
 ### 13.11.1 Transformation context
 
-The carrier runs a 12,000-agent contact-center operation across 8 sites handling ~180 million customer interactions annually. Handle time, FCR, and CPNI compliance are simultaneously the top metrics and the top cost drivers. Deloitte-delivered agent capabilities deployed via Microsoft's Contact Center stack over 14 months.
+The carrier runs a 12,000-agent contact-center operation across 8 sites handling ~180 million customer interactions annually. Handle time, FCR, and CPNI compliance are simultaneously the top metrics and the top cost drivers. Firm-delivered agent capabilities deployed via Microsoft's Contact Center stack over 14 months.
 
 ### 13.11.2 Phased rollout
 
@@ -5483,13 +5483,13 @@ TMT-TEL envelopes are the largest in TMT because scale is largest — network op
 
 TMT-TEL clients often have massive Microsoft licensing already (M365, Dynamics 365, Azure). The services pull-through is meaningful but the platform licensing is usually not the bottleneck.
 
-TMT-TEC coopetition may require creative licensing structures (e.g., some clients use competitor clouds for product workloads and Microsoft only for internal-IT). Deloitte's delivery scope matches.
+TMT-TEC coopetition may require creative licensing structures (e.g., some clients use competitor clouds for product workloads and Microsoft only for internal-IT). The firm's delivery scope matches.
 
-TMT-MED content workflows often live on AWS (historical media-tech incumbency); Deloitte's delivery accommodates hybrid Microsoft / AWS patterns where applicable.
+TMT-MED content workflows often live on AWS (historical media-tech incumbency); the firm's delivery accommodates hybrid Microsoft / AWS patterns where applicable.
 
 ### 13.12.3 Independence-specific to TMT
 
-Several large TMT companies are Deloitte audit clients. TMT-TEC especially — Microsoft itself is an audit client, and several other tier-1 TMT-TEC clients are audit clients. Pre-clearance is foundational; funding-path discipline (no ECIF direct to Deloitte) is foundational.
+Several large TMT companies are audit clients. TMT-TEC especially — Microsoft itself is an audit client, and several other tier-1 TMT-TEC clients are audit clients. Pre-clearance is foundational; funding-path discipline (no ECIF direct to the firm) is foundational.
 
 ## 13.13 TMT Practice Deep Dive — Data Foundations, Agent Consumption, and Governance
 
@@ -5647,7 +5647,7 @@ Most TH clients have fragmented identity across PSS/PNR systems, CRS, loyalty le
 2. How fragmented is traveler identity across PSS, loyalty, and ops?
 3. Is there an active disruption-recovery mandate post-2024 events?
 4. What is the loyalty program's current NPS?
-5. Is Deloitte the auditor?
+5. Is the firm the auditor?
 6. For airlines: PSS incumbent (Sabre, Amadeus, Navitaire, proprietary)?
 7. For hotels: PMS incumbent (Opera, Protel, property-proprietary)?
 8. What is the distribution posture (NDC, GDS mix, direct share)?
@@ -5673,7 +5673,7 @@ Most TH clients have fragmented identity across PSS/PNR systems, CRS, loyalty le
 
 ## 14.8 Airline Reference Deployment — A Day in IROPs (Illustrative)
 
-Parallel to the other Practice references. Illustrative persona: Maya Okonkwo, Operations Controller at a hub airline during a severe-weather day. Agents Deloitte-delivered on the airline's Microsoft platform; APEX internal accelerator.
+Parallel to the other Practice references. Illustrative persona: Maya Okonkwo, Operations Controller at a hub airline during a severe-weather day. Agents firm-delivered on the airline's Microsoft platform; APEX internal accelerator.
 
 ### 14.8.1 Shift context
 
@@ -5725,7 +5725,7 @@ Next-day-recovery agent assembles Day+1 operational plan: crew positioning, airc
 
 Maya's IROPs day is the TH equivalent of Marisol's shift at Store 100. Same pattern: agents consume the routine coordination, humans make the decisions, audit rows attribute every accommodation. The narrative resonates with airline COOs, Chief Network Officers, Chief Customer Officers, and regulators reviewing operational performance.
 
-> **Independence Reminder**: Several large airline and hotel groups are Deloitte audit clients. Check pre-clearance.
+> **Independence Reminder**: Several large airline and hotel groups are audit clients. Check pre-clearance.
 
 ## 14.9 TH Practice Deep Dive — Data Foundations, Agent Consumption, and Governance
 
@@ -5884,7 +5884,7 @@ Most ICE OEMs sell through exclusive dealer networks. Any APEX service that touc
 2. What is the telematics footprint on installed base?
 3. What is the aftermarket attach rate and how is it trending?
 4. What is the dealer-data governance structure?
-5. Is Deloitte the auditor?
+5. Is the firm the auditor?
 6. What is the connected-equipment platform (OEM-proprietary, third-party, Azure IoT)?
 7. Is there an active autonomy / automation program that shapes services?
 8. What is the rental-fleet exposure (dealer rental, OEM rental)?
@@ -5907,7 +5907,7 @@ Most ICE OEMs sell through exclusive dealer networks. Any APEX service that touc
 | "Autonomy changes everything; can we wait?" | "Autonomy rollout takes years. The aftermarket and connected-equipment services APEX provides generate value now, independent of autonomy trajectory. Wave 1 doesn't require autonomy prerequisites." |
 | "Aftermarket margin is our lifeblood; AI risks it" | "APEX Aftermarket services protect and grow the margin. Predictive-service agents surface warranty exposure early, optimize parts-stocking by dealer, and protect attach rate. Zero autonomy; human-in-the-loop throughout." |
 
-> **Independence Reminder**: The major heavy-equipment OEMs include Deloitte audit clients. Pre-clearance is essential.
+> **Independence Reminder**: The major heavy-equipment OEMs include audit clients. Pre-clearance is essential.
 
 ## 15.9 ICE Practice Deep Dive — Data Foundations, Agent Consumption, and Governance
 
@@ -6081,8 +6081,8 @@ Big Box Store does not need data-platform build help. It needs agent-IP accelera
 6. Who is the single-threaded executive owner for the target workload?
 7. What is the incumbent SI on the target scope?
 8. How is ROI measured internally — margin, conversion, associate productivity?
-9. What is the posture on Deloitte IP retention vs client IP ownership?
-10. Independence status — does Deloitte audit this company?
+9. What is the posture on firm IP retention vs client IP ownership?
+10. Independence status — does the firm audit this company?
 
 ## 16.7 Discovery agenda (3-day workshop)
 
@@ -6130,7 +6130,7 @@ APEX's differentiation on this account is the pre-built RC agent library and the
 |---|---|---|
 | CTO | "Our platform team will build this" | "Fine. APEX is the reference; your team extends it. Wave 1 is pattern transfer, not black-box deliverable." |
 | Chief Merchant | "We have category managers who know our business" | "They absolutely do. APEX's agents make them faster. Every recommendation has a HITL gate where their judgement is captured." |
-| CIO | "We don't want more vendor lock-in" | "APEX IP deployed to your tenant is yours. The reference library remains Deloitte's; what's in your Fabric workspace is yours at exit." |
+| CIO | "We don't want more vendor lock-in" | "APEX IP deployed to your tenant is yours. The reference library remains the firm's; what's in your Fabric workspace is yours at exit." |
 | Chief People Officer | "Associate AI raises labor concerns" | "Store-operations services are designed for manager leverage, not associate replacement. We can scope associate-neutral pilots first." |
 
 ### First-90-day detailed playbook
@@ -6221,7 +6221,7 @@ APEX's differentiation on this account is the pre-built RC agent library and the
 
 **Pain.** Big Box Store runs a proprietary cloud plus significant Azure and AWS. Big Box Store's own engineering teams have built substantial AI tooling, and their relationship with external SI proposals is sceptical. Any APEX proposal must explicitly respect what Big Box Store has already built; otherwise the platform team blocks the commercial.
 
-**APEX Solution.** APEX enters as reference architecture plus delivery muscle, not black-box platform. Fabric serves the APEX workload specifically; OneLake shortcuts reach Big Box Store Cloud and Azure Databricks data in place (Databricks co-existence pattern from Appendix F). Big Box Store's own engineers extend the APEX agent library; Deloitte's role is Wave 1 envisioning and Wave 2 implementation acceleration. IP retained by Deloitte is framework-level; everything in Big Box Store's tenant is Big Box Store's.
+**APEX Solution.** APEX enters as reference architecture plus delivery muscle, not black-box platform. Fabric serves the APEX workload specifically; OneLake shortcuts reach Big Box Store Cloud and Azure Databricks data in place (Databricks co-existence pattern from Appendix F). Big Box Store's own engineers extend the APEX agent library; the firm's role is Wave 1 envisioning and Wave 2 implementation acceleration. IP retained by the firm is framework-level; everything in Big Box Store's tenant is Big Box Store's.
 
 **Commercial anchor.** Applies across Wave 1 and Wave 2 as an architectural principle, not a separate workstream.
 
@@ -6241,9 +6241,9 @@ APEX's differentiation on this account is the pre-built RC agent library and the
 
 ## 16.13 Big Box Store Store 100 — A Day in the Shift (Illustrative Reference Deployment)
 
-Store 100 is Deloitte's canonical illustration of agentic agents in production retail operations. The narrative below traces one shift for Marisol Reyes, Operations Lead at Store 100, through eight events across the operational day. Every event shows agents running on Microsoft Fabric / Foundry / Copilot / MCP / Purview — the platform Big Box Store licenses directly from Microsoft — with Deloitte having delivered the agents using APEX as the internal accelerator. Marisol never sees APEX; she sees agents producing decision-ready briefs, handling routine workflows autonomously, and routing HITL gates to her with full context.
+Store 100 is the firm's canonical illustration of agentic agents in production retail operations. The narrative below traces one shift for Marisol Reyes, Operations Lead at Store 100, through eight events across the operational day. Every event shows agents running on Microsoft Fabric / Foundry / Copilot / MCP / Purview — the platform Big Box Store licenses directly from Microsoft — with the firm having delivered the agents using APEX as the internal accelerator. Marisol never sees APEX; she sees agents producing decision-ready briefs, handling routine workflows autonomously, and routing HITL gates to her with full context.
 
-> **Positioning note.** The content that follows describes what the client sees: a fleet of agents in production delivering measurable operational outcomes. APEX is what Deloitte used internally to deliver that fleet in 9–12 months rather than 18–24. When presenting this narrative to clients, describe it as "Deloitte-delivered agents running on your Microsoft platform" — never as "APEX services you licensed."
+> **Positioning note.** The content that follows describes what the client sees: a fleet of agents in production delivering measurable operational outcomes. APEX is what the firm used internally to deliver that fleet in 9–12 months rather than 18–24. When presenting this narrative to clients, describe it as "firm-delivered agents running on your Microsoft platform" — never as "APEX services you licensed."
 
 ### 16.13.1 The shift at a glance
 
@@ -6283,7 +6283,7 @@ One shift. Eight events. One hour of manager touch. Five hours of manager time r
 
 **Outcome.** 71 % of inventory saved. $1,313 write-off avoided against a $1,847 exposure. Doors opened at 7:00 with the dairy endcap re-fronted. Time-to-brief: 8 minutes. Manager touch: 90 seconds. Audit trail: complete.
 
-**How Deloitte delivered this.** Fabric Eventstream + Eventhouse ingested the telemetry; Foundry agents (designed using APEX agent library patterns) performed the correlation and disposition; Teams Copilot Studio surface rendered the HITL card; Purview classified the inventory-loss evidence chain; audit row attributes the $1,313 to this specific decision.
+**How the firm delivered this.** Fabric Eventstream + Eventhouse ingested the telemetry; Foundry agents (designed using APEX agent library patterns) performed the correlation and disposition; Teams Copilot Studio surface rendered the HITL card; Purview classified the inventory-loss evidence chain; audit row attributes the $1,313 to this specific decision.
 
 ### 16.13.3 Event 02 — DSD discrepancy at the receiving dock (7:20 AM, Receiving)
 
@@ -6368,23 +6368,23 @@ One shift. Eight events. One hour of manager touch. Five hours of manager time r
 
 ### 16.13.11 Why this narrative matters to sellers
 
-Store 100 is not a pitch deck — it is a concrete illustration of the class of Deloitte Agentic AI Delivery outcomes a sophisticated retail client should expect. When a CFO asks "what does AI actually DO for us at store level," the answer is: agents handle the eight-event class of operational friction, return the operator's day to the work only an operator can do, and attribute every decision to an audit row defensible to auditors and regulators. When a COO asks "what's the manager-productivity story," the answer is: 5.2 hours returned per shift per operations lead, times store count, equals the headline labor-capacity recovery.
+Store 100 is not a pitch deck — it is a concrete illustration of the class of APEX Agentic AI Delivery outcomes a sophisticated retail client should expect. When a CFO asks "what does AI actually DO for us at store level," the answer is: agents handle the eight-event class of operational friction, return the operator's day to the work only an operator can do, and attribute every decision to an audit row defensible to auditors and regulators. When a COO asks "what's the manager-productivity story," the answer is: 5.2 hours returned per shift per operations lead, times store count, equals the headline labor-capacity recovery.
 
 ### 16.13.12 How sellers use Store 100 in pursuit conversations
 
 - **With operations executives.** Walk the 8-event day to show real operational texture. The pattern language (FSMA 204, ESL sync, BOPIS substitution, shrink signature) resonates with operators who have lived these events.
 - **With CFOs.** Anchor the $18,400 single-shift impact scaled to the client's store count: at 500 stores and 250 operating days, that's ~$2.3B in annualised decision-attributable value. Present the ranges as illustrative.
-- **With CIOs and Chief Digital Officers.** Describe the MCP server layer, Fabric semantic-model backing, Foundry agent orchestration, Copilot surface, and Purview classification as the five-plane architecture Deloitte delivered onto their Microsoft platform.
+- **With CIOs and Chief Digital Officers.** Describe the MCP server layer, Fabric semantic-model backing, Foundry agent orchestration, Copilot surface, and Purview classification as the five-plane architecture the firm delivered onto their Microsoft platform.
 - **With Chief Compliance Officers.** The FSMA 204 recall trail (Event 05), the due-process preservation in shrink investigation (Event 07), and the pattern-detection lead on foreign-object incidents (Event 08) all demonstrate regulator-ready decision attribution.
-- **With procurement.** The services Deloitte delivered at Store 100 are the services on offer — APEX is how Deloitte delivered them faster than a ground-up build. The commercial structure remains two contracts: Big Box Store ↔ Microsoft for platform, Big Box Store ↔ Deloitte for services.
+- **With procurement.** The services the firm delivered at Store 100 are the services on offer — APEX is how the firm delivered them faster than a ground-up build. The commercial structure remains two contracts: Big Box Store ↔ Microsoft for platform, Big Box Store ↔ the firm for services.
 
-> **Independence Reminder.** When presenting Store 100, position it as "Deloitte-delivered agents running on the client's Microsoft platform." Never present APEX as a product Big Box Store licensed. The narrative works because it shows what Deloitte can deliver — the accelerator name stays internal to Deloitte teams.
+> **Independence Reminder.** When presenting Store 100, position it as "firm-delivered agents running on the client's Microsoft platform." Never present APEX as a product Big Box Store licensed. The narrative works because it shows what the firm can deliver — the accelerator name stays internal to firm teams.
 `,
   summary: [
-    'Big Box Store is a sophisticated buyer — position Deloitte services as accelerator, not displacement',
+    'Big Box Store is a sophisticated buyer — position firm services as accelerator, not displacement',
     'Foundry leads the architectural conversation',
     'Priority services: assortment, traceability, markdown, supply',
-    'Store 100 is the canonical Deloitte agentic-AI-delivery reference in retail',
+    'Store 100 is the canonical the firm agentic-AI-delivery reference in retail',
   ],
   actions: [
     'Confirm audit-client pre-clearance BEFORE outbound',
@@ -6470,7 +6470,7 @@ Nike is brand-led first, technology-enabled second. The pitch motion that works 
 
 ### Competitive landscape
 
-- Incumbent SIs include Accenture (loyalty), Deloitte Digital (brand)
+- Incumbent SIs include Accenture (loyalty), the firm's Digital (brand)
 - Salesforce Marketing Cloud is anchored; APEX is not a MarTech replacement
 - AWS has meaningful consumer-app footprint
 - Azure + Microsoft 365 adoption is growing on the enterprise-productivity side
@@ -6650,7 +6650,7 @@ Brand-portfolio analytics + depletion visibility + regulatory reporting automati
 7. What is the IT decision-making structure in a private company?
 8. What is the posture on cloud vs on-premises?
 9. Any Microsoft platform in production?
-10. Deloitte audit status?
+10. The firm audit status?
 
 ## 18.7 Discovery agenda
 
@@ -6680,7 +6680,7 @@ Privately-held regional anchor; decision pace is often faster than public-compan
 ### Competitive landscape
 
 - Smaller regional SI footprint than national-chain RC accounts
-- Often engages Deloitte Consulting for strategic work; platform SI for implementation
+- Often engages the firm for strategic work; platform SI for implementation
 - Less Microsoft platform maturity than public-company peers; Fabric may need to be introduced
 
 ### Stakeholder-specific objection patterns
@@ -6778,7 +6778,7 @@ Privately-held regional anchor; decision pace is often faster than public-compan
 
 **Pain.** Sazerac IT is modernising from on-premise to cloud. Fabric and Azure footprint are nascent; historical BI tooling (SAP BW, Qlik, SSRS) is the incumbent. Any APEX commercial must navigate a client less Microsoft-mature than large public-company peers.
 
-**APEX Solution.** Wave 1 envisioning explicitly includes Microsoft-platform-onboarding as a workstream — Microsoft account team handles Fabric capacity reservation; Deloitte handles architecture, security, and integration design. APEX deploys on Fabric from day one with hybrid connectivity to the on-premise estate via ADLS Gen2 shortcuts.
+**APEX Solution.** Wave 1 envisioning explicitly includes Microsoft-platform-onboarding as a workstream — Microsoft account team handles Fabric capacity reservation; the firm handles architecture, security, and integration design. APEX deploys on Fabric from day one with hybrid connectivity to the on-premise estate via ADLS Gen2 shortcuts.
 
 **Commercial anchor.** Wave 1 envisioning larger than mid-market norm to account for platform-introduction scope. Envelope $600K–1M.
 
@@ -6973,13 +6973,13 @@ APEX differentiator on J&J is Purview-led regulatory posture and the end-to-end 
 
 **Persona.** CIO in partnership with General Counsel and Audit Committee liaison.
 
-**Pain.** As a Deloitte audit client, J&J engagements require Audit Committee pre-clearance, scope boundaries, and ongoing Independence reporting. Any Deloitte commercial must navigate these constraints carefully.
+**Pain.** As an audit client, J&J engagements require Audit Committee pre-clearance, scope boundaries, and ongoing Independence reporting. Any commercial must navigate these constraints carefully.
 
 **APEX Solution.** Pre-clearance for APEX scope categories secured at the outset of the relationship; specific Wave 2 workstreams fall within cleared categories; Independence Office liaison continuous throughout delivery. ECIF funding not accepted; approved paths (direct, DCIF to client, ISV Marketplace, SI teaming) only.
 
 **Commercial anchor.** Operational discipline across Wave 1 and Wave 2; affects envelope predictability, not commercial structure.
 
-**Outcome / KPI.** Zero Independence findings; Audit Committee confidence in Deloitte-J&J engagement management; scope expansion viable within cleared categories.
+**Outcome / KPI.** Zero Independence findings; Audit Committee confidence in firm-J&J engagement management; scope expansion viable within cleared categories.
 
 ### Scenario 19.12.8: Wave 3 cross-segment expansion (Chairman / CEO-level)
 
@@ -7180,7 +7180,7 @@ GM has multiple potential entry points (SDV software, EV programs, manufacturing
 
 **Persona.** CIO in partnership with General Counsel and Audit Committee liaison.
 
-**Pain.** As a Deloitte audit client, GM engagements require Audit Committee pre-clearance and specific scope definitions. Commercial friction if not handled cleanly.
+**Pain.** As an audit client, GM engagements require Audit Committee pre-clearance and specific scope definitions. Commercial friction if not handled cleanly.
 
 **APEX Solution.** APEX scope categories pre-cleared; funding paths (direct / DCIF / ISV / SI teaming) only; ECIF declined. Ongoing Independence reporting through the engagement lifecycle. Audit Committee liaison maintained.
 
@@ -8401,7 +8401,7 @@ American Airlines has significant post-2022 operational focus. Union-sensitive w
 
 **Persona.** CIO in partnership with Audit Committee liaison.
 
-**Pain.** Applicable if AAL is a Deloitte audit client — pre-clearance, scope boundaries, ongoing Independence reporting.
+**Pain.** Applicable if AAL is an audit client — pre-clearance, scope boundaries, ongoing Independence reporting.
 
 **APEX Solution.** Pre-clearance secured; scope categories explicit; funding paths compliant; Independence-Office liaison continuous.
 
@@ -8688,7 +8688,7 @@ Assignment-intelligence agent + compliance-agent + assignee-experience surface. 
 6. Sponsor — CEO, COO, CIO?
 7. Incumbent vendors?
 8. M&A plans that would reshape scope?
-9. Deloitte existing relationships?
+9. The firm existing relationships?
 10. Independence status?
 
 ## 28.7 Discovery agenda
@@ -8817,7 +8817,7 @@ Mid-market privately-held global mobility services firm. Decision pace can be ve
 
 **Pain.** Mid-market IT has not previously needed Fabric-scale data platform. APEX commercial must navigate platform-introduction as part of Wave 1 scope.
 
-**APEX Solution.** Wave 1 explicitly includes Microsoft-platform-onboarding as a workstream. Microsoft account team handles capacity reservation; Deloitte handles architecture and integration design. APEX deploys on right-sized Fabric capacity for mid-market scale.
+**APEX Solution.** Wave 1 explicitly includes Microsoft-platform-onboarding as a workstream. Microsoft account team handles capacity reservation; the firm handles architecture and integration design. APEX deploys on right-sized Fabric capacity for mid-market scale.
 
 **Commercial anchor.** Wave 1 envisioning at $400–600K (larger than typical mid-market to cover platform intro).
 
@@ -8850,11 +8850,11 @@ chapters.push({
   body: `
 ## 29.1 The qualification posture
 
-Qualification is not lead-scoring. It is an explicit act of deciding whether this pursuit gets scarce Deloitte delivery capacity. Over-qualification is cheap; over-committed capacity is expensive.
+Qualification is not lead-scoring. It is an explicit act of deciding whether this pursuit gets scarce firm delivery capacity. Over-qualification is cheap; over-committed capacity is expensive.
 
 ## 29.2 The five hard-gate questions
 
-1. **Independence** — is the prospect a Deloitte audit client, and if so, is pre-clearance in place?
+1. **Independence** — is the prospect an audit client, and if so, is pre-clearance in place?
 2. **Sponsor** — is there a named, single-threaded executive sponsor with budget authority?
 3. **Pain** — is there a publicly committed KPI or board-level mandate that the pursuit ties to?
 4. **Budget** — does the prospect have Wave 1 budget in the current fiscal, or is the pursuit pending approval?
@@ -8895,7 +8895,7 @@ A qualified meeting has the right people in the room. Before accepting a first m
 - **Executive sponsor** — the person who can sign off on Wave 1 investment
 - **IT / platform representative** — so Microsoft footprint and architecture questions get answered
 - **Business-outcome owner** — the P&L leader who owns the KPI the pursuit serves
-- **Deloitte account team** — the client partner and any existing relationship holders
+- **firm account team** — the client partner and any existing relationship holders
 
 Missing any of the first three is a signal the meeting will not produce decisions. Offer to postpone until the room is right.
 
@@ -8903,7 +8903,7 @@ Missing any of the first three is a signal the meeting will not produce decision
 
 Run the first meeting to three outcomes, in priority order:
 
-1. Establish credibility — APEX is serious, Deloitte is the right team, Independence is handled
+1. Establish credibility — APEX is serious, the firm is the right team, Independence is handled
 2. Confirm or deny the pain — does the pressure point we think we're solving actually exist for this client
 3. Qualify for Wave 1 — is this pursuit ready for a Wave 1 envisioning commitment
 
@@ -8933,7 +8933,7 @@ Once qualified, the handoff to delivery is explicit. The qualifying partner tran
 - Commercial envelope estimate
 - Known risks
 
-This handoff is a Deloitte process moment, not a client-facing one. It ensures delivery starts informed.
+This handoff is a process moment, not a client-facing one. It ensures delivery starts informed.
 `,
   summary: [
     'Qualification is a resource-allocation decision, not a lead-score',
@@ -9015,7 +9015,7 @@ A proper envisioning workshop has ten to fifteen participants across three categ
 - 2–3 line-of-business practitioners who will use the services
 - Change-management or adoption leader
 
-**Deloitte side (3–5 people)**:
+**The firm side (3–5 people)**:
 - Engagement partner
 - Delivery lead (Wave 2 owner)
 - Industry Practice lead
@@ -9064,7 +9064,7 @@ chapters.push({
   num: 31, part: 5, title: 'Proposal and Commercial Framing',
   objectives: [
     'The two-contract commercial model in practice',
-    'How to frame the Deloitte services SOW',
+    'How to frame the services SOW',
     'Pricing approach — fixed, T&M, outcome-based',
     'Contract artifacts the pursuit team owns',
   ],
@@ -9074,11 +9074,11 @@ chapters.push({
 As established in Chapter 2, APEX engagements use a two-contract commercial model:
 
 1. **Client ↔ Microsoft** — platform licenses (Fabric, Copilot, Foundry, Purview)
-2. **Client ↔ Deloitte** — services (advisory, implementation, managed services)
+2. **Client ↔ the firm** — services (advisory, implementation, managed services)
 
-Deloitte sellers own Contract 2. We do not quote, commit, or negotiate Contract 1 on Microsoft's behalf. Microsoft sellers handle that.
+firm sellers own Contract 2. We do not quote, commit, or negotiate Contract 1 on Microsoft's behalf. Microsoft sellers handle that.
 
-> **Independence Reminder**: Deloitte must not represent Microsoft licensing terms in the services SOW. Cross-reference Microsoft's contract, but keep commercial commitments separated.
+> **Independence Reminder**: The firm must not represent Microsoft licensing terms in the services SOW. Cross-reference Microsoft's contract, but keep commercial commitments separated.
 
 ## 31.2 The services SOW structure
 
@@ -9086,7 +9086,7 @@ Deloitte sellers own Contract 2. We do not quote, commit, or negotiate Contract 
 - **Deliverables** — concrete artifacts per phase
 - **Timeline** — waves with explicit gates
 - **Investment** — pricing structure
-- **Roles** — named Deloitte leaders
+- **Roles** — named the firm leaders
 - **Client dependencies** — platform licenses, data access, SME time
 - **Commercial terms** — change control, acceptance, payment
 
@@ -9101,7 +9101,7 @@ Outcome-based pricing is attractive to clients but creates attribution risk. Use
 
 ## 31.4 Wave-gated commercial logic
 
-Deloitte commits to Wave 1 at SOW. Wave 2 SOW follows Wave 1 readout. Wave 3 SOW follows Wave 2 mid-point. This gates cost exposure and gives the client contractual off-ramps — reducing perceived risk.
+The firm commits to Wave 1 at SOW. Wave 2 SOW follows Wave 1 readout. Wave 3 SOW follows Wave 2 mid-point. This gates cost exposure and gives the client contractual off-ramps — reducing perceived risk.
 
 ## 31.5 The investment narrative
 
@@ -9127,7 +9127,7 @@ We have verified [Independence status: not an audit client / audit client with p
 
 We recommend starting [specific week] to align with [trigger: fiscal timing, regulatory deadline, peer-pressure event]. The next decision point is [specific item] by [date].
 
-[Deloitte partner signature]"
+[firm partner signature]"
 
 This cover letter makes the commercial decision concrete and surfaces the two-contract framing before procurement raises it.
 
@@ -9138,7 +9138,7 @@ Some APEX pursuits enter through a formal RFP rather than a direct-partnership c
 - Read the evaluation criteria before the response; match the response to what will be scored
 - Never invent scope the RFP did not ask for; scope creep loses points
 - Always answer Independence questions explicitly; ambiguity loses points
-- Provide named delivery leads with credentials; avoid generic "Deloitte will assign"
+- Provide named delivery leads with credentials; avoid generic "the firm will assign"
 - Price explicitly to the RFP structure; never embed Microsoft platform costs
 
 RFP-originated pursuits often run longer and carry lower close rates than partnership-originated. Resource accordingly.
@@ -9157,7 +9157,7 @@ Every proposal should include an internal commercial risk register — not share
 This register should inform the pricing envelope, the acceptance criteria, and the change-control provisions.
 `,
   summary: [
-    'Two-contract model — Deloitte owns services, Microsoft owns platform',
+    'Two-contract model — the firm owns services, Microsoft owns platform',
     'Wave-gated commercial logic reduces perceived risk',
     'Outcome pricing used sparingly',
   ],
@@ -9188,7 +9188,7 @@ chapters.push({
 Hyperscaler pro-serv arms have architectural depth but limited industry-vertical IP. Differentiate on:
 - Vertical depth — APEX's 45 services concentrated in 7 Practices
 - Independence-compliant delivery on audit clients
-- Outcome orientation — Deloitte sells business outcomes, hyperscaler pro-serv sells platform migrations
+- Outcome orientation — the firm sells business outcomes, hyperscaler pro-serv sells platform migrations
 
 ## 32.3 Against large SIs
 
@@ -9197,15 +9197,15 @@ Competing SIs often bring their own AI platforms. Differentiate on:
 - Single-vendor trust boundary (Microsoft) for regulated data
 - APEX's 165+ MCP tools and 47 orchestration patterns — comparable only if competitor has invested similarly
 
-> **Independence Reminder**: Do not disparage competitors. Frame differentiation on what Deloitte brings, not on what competitors lack.
+> **Independence Reminder**: Do not disparage competitors. Frame differentiation on what the firm brings, not on what competitors lack.
 
 ## 32.4 Against boutique AI consultancies
 
 Boutiques are nimble and cheap. Differentiate on:
-- Scale delivery — Deloitte runs multi-hundred-consultant programs
+- Scale delivery — the firm runs multi-hundred-consultant programs
 - Independence process and QR depth
 - Multi-year sustain and change capability
-- Acknowledge boutiques may win first pilots; position Deloitte for Wave 2 production
+- Acknowledge boutiques may win first pilots; position the firm for Wave 2 production
 
 ## 32.5 Architectural positioning vs alternative clouds
 
@@ -9226,7 +9226,7 @@ This is respectful disqualification, not hostile competition.
 
 ## 32.7 The competitive-landscape conversation with the client
 
-When a client openly compares Deloitte's APEX proposal to another SI's proposal, the posture is:
+When a client openly compares the firm's APEX proposal to another SI's proposal, the posture is:
 
 1. **Do not attack the competitor directly.** Independence concerns aside, it sounds desperate.
 2. **Ask what the client sees in the other proposal that matters to them.** Listening reveals their decision criteria.
@@ -9259,7 +9259,7 @@ Not every pursuit wins. When you lose:
   summary: [
     'Three competitive categories — hyperscaler pro-serv, large SIs, boutiques',
     'Differentiate on vertical depth, Independence, architectural fit',
-    'Respect competitors; frame differentiation on Deloitte\'s strengths',
+    'Respect competitors; frame differentiation on the firm\'s strengths',
   ],
   actions: [
     'Memorise the four win-theme patterns',
@@ -9301,7 +9301,7 @@ Response: Purview is the control plane, and Fabric supports regional residency. 
 
 ### 6. "We tried AI before and it failed"
 
-Response: Most early AI efforts were notebook-to-nowhere. Deloitte's agent delivery is production-first: Fabric pipelines, Foundry orchestration, Purview governance, MCP tool catalog, HITL gate framework, audit-row attribution. APEX as the internal accelerator brings 280+ production-grade agents, 165+ MCP tools, and manifest-driven governance that the notebook-to-nowhere efforts lacked.
+Response: Most early AI efforts were notebook-to-nowhere. The firm's agent delivery is production-first: Fabric pipelines, Foundry orchestration, Purview governance, MCP tool catalog, HITL gate framework, audit-row attribution. APEX as the internal accelerator brings 280+ production-grade agents, 165+ MCP tools, and manifest-driven governance that the notebook-to-nowhere efforts lacked.
 
 > **Example in the field — Big Box Store Store 100.** 8 operational events delivered in one shift — cold-chain write-off, DSD dispute, price integrity, phantom OOS, FDA recall, BOPIS substitution, shrink signal, customer incident. 6 events agent-resolved or decision-prepared; 2 fully autonomous; $18,400 impact protected in a single shift. See §16.13 for the production-grade narrative. This is what agent delivery looks like after the notebook-to-nowhere era ends.
 
@@ -9315,7 +9315,7 @@ Response: APEX IP is codified in Fabric artifacts, Python/C# code, and documente
 
 ### 9. "Independence — aren't you our auditor?"
 
-Response: If Deloitte audits the client, we follow the audit-independence process with pre-clearance from the Audit Committee. Services we can and cannot perform are defined explicitly; we do not work around them.
+Response: If the firm audits the client, we follow the audit-independence process with pre-clearance from the Audit Committee. Services we can and cannot perform are defined explicitly; we do not work around them.
 
 ### 10. "What's your implementation risk?"
 
@@ -9349,7 +9349,7 @@ Other objections indicate the pursuit will not close:
 - "We want it cheaper than any precedent" — budget is not real
 - "We need to see a POC first" — program commitment is absent
 - "We haven't decided on a cloud strategy" — foundational prerequisite is missing
-- "Our audit committee is currently reviewing Deloitte's independence" — active Independence concern
+- "Our audit committee is currently reviewing the firm's independence" — active Independence concern
 
 These are not objections to overcome; they are signals to disqualify gracefully and return to pipeline later.
 
@@ -9396,14 +9396,14 @@ Procurement is not the adversary. Procurement is a buyer with a job to do. Treat
 - Reasonable scope clarifications (write them down)
 - Reasonable benchmarking for managed-service run
 - Reasonable acceptance criteria tied to deliverables
-- Payment terms within Deloitte norms
+- Payment terms within the firm norms
 
 ## 34.4 What to defend
 
 - Unlimited liability (always cap)
-- IP transfer of Deloitte-proprietary APEX code and methods
+- IP transfer of firm-proprietary APEX code and methods
 - Services that would create Independence conflicts
-- Commercial outcomes Deloitte cannot attribution-control (e.g., market-share uplift)
+- Commercial outcomes the firm cannot attribution-control (e.g., market-share uplift)
 
 > **Independence Reminder**: For audit clients, procurement terms must be consistent with pre-cleared scope. Never negotiate scope outside of what Independence cleared without going back for re-clearance.
 
@@ -9418,8 +9418,8 @@ Procurement is not the adversary. Procurement is a buyer with a job to do. Treat
 
 - Do not accept unlimited indemnification "just to get it signed"
 - Do not sign a SOW with acceptance criteria you cannot measure
-- Do not concede Deloitte IP retention to close
-- Do not promise outcomes Deloitte cannot control
+- Do not concede firm IP retention to close
+- Do not promise outcomes the firm cannot control
 
 ## 34.7 Procurement escalation patterns
 
@@ -9427,15 +9427,15 @@ When procurement escalates beyond normal negotiation, patterns emerge:
 
 ### Pattern 1: Price-only escalation
 
-Procurement focuses exclusively on Deloitte fees. Response: route the conversation to the executive sponsor with the business case that anchors value to outcome. Price-only escalation typically collapses when the sponsor re-enters.
+Procurement focuses exclusively on the firm fees. Response: route the conversation to the executive sponsor with the business case that anchors value to outcome. Price-only escalation typically collapses when the sponsor re-enters.
 
 ### Pattern 2: IP-transfer demand
 
-Procurement demands transfer of APEX IP to the client. Response: clarify the IP-retention boundary. Client retains their data, their configurations, their Microsoft platform — Deloitte retains the APEX framework IP. This is non-negotiable.
+Procurement demands transfer of APEX IP to the client. Response: clarify the IP-retention boundary. Client retains their data, their configurations, their Microsoft platform — the firm retains the APEX framework IP. This is non-negotiable.
 
 ### Pattern 3: Terms-only escalation
 
-Procurement focuses on commercial terms (indemnification, liability caps, acceptance criteria). Response: partner with Deloitte Legal and Commercial QR early. Do not negotiate terms on the fly.
+Procurement focuses on commercial terms (indemnification, liability caps, acceptance criteria). Response: partner with the firm's Legal and Commercial QR early. Do not negotiate terms on the fly.
 
 ### Pattern 4: Timeline pressure
 
@@ -9509,7 +9509,7 @@ At SOW signature, the selling team produces:
 1. **Account strategy doc** — the why, the sponsor, the roadmap
 2. **Discovery synthesis** — the findings from Wave 1
 3. **Stakeholder map** — power, influence, sentiment
-4. **Commercial commitments doc** — what Deloitte promised
+4. **Commercial commitments doc** — what the firm promised
 5. **Risk register** — what could go wrong
 6. **Independence status** — pre-clearances, pending items, escalation path
 
@@ -9570,11 +9570,11 @@ These metrics should feed back into the seller's qualification discipline — a 
 
 ## 35.9 The career arc
 
-Sellers who maintain account continuity beyond signature build compounding client relationships. The senior Deloitte sellers with the largest APEX books-of-business have been present in their client's life for 5–10 years across multiple wave cycles. The selling motion is not transactional; it is a long-term professional relationship with the client's executive team. The handoff discipline described in this chapter is what makes that longevity possible.
+Sellers who maintain account continuity beyond signature build compounding client relationships. The senior firm sellers with the largest APEX books-of-business have been present in their client's life for 5–10 years across multiple wave cycles. The selling motion is not transactional; it is a long-term professional relationship with the client's executive team. The handoff discipline described in this chapter is what makes that longevity possible.
 
 ## 35.10 Delivery Team Composition — Who Actually Shows Up
 
-Sellers get asked in every procurement conversation: "who will actually do the work?" Having a credible answer differentiates pursuits. This section describes the canonical Deloitte delivery-team composition by Wave and by Practice intensity.
+Sellers get asked in every procurement conversation: "who will actually do the work?" Having a credible answer differentiates pursuits. This section describes the canonical firm delivery-team composition by Wave and by Practice intensity.
 
 ### 35.10.1 Wave 1 team (Envision & Land — 4–12 weeks)
 
@@ -9652,13 +9652,13 @@ Each Practice shifts team mix based on technical surface:
 
 Rehearsed answer when a client procurement lead asks "who are the actual people":
 
-> *"Wave 1 is 6–9 Deloitte consultants for 4–12 weeks — a partner-sponsored engagement with a delivery manager, Practice SME, Fabric / Foundry architects, a governance architect, and a small engineering team. We onboard the named individuals before kickoff; you'll interview the key roles before signing. Wave 2 scales to 18–28 people across onshore, near-shore, and offshore — all under one Deloitte delivery contract, with named individuals on every technical role you'd expect to have continuity on. We don't backfill with different people quarter to quarter; the Wave 1 architect is still on the account in Wave 3."*
+> *"Wave 1 is 6–9 firm consultants for 4–12 weeks — a partner-sponsored engagement with a delivery manager, Practice SME, Fabric / Foundry architects, a governance architect, and a small engineering team. We onboard the named individuals before kickoff; you'll interview the key roles before signing. Wave 2 scales to 18–28 people across onshore, near-shore, and offshore — all under one firm delivery contract, with named individuals on every technical role you'd expect to have continuity on. We don't backfill with different people quarter to quarter; the Wave 1 architect is still on the account in Wave 3."*
 
 That answer ends the "who will actually show up" conversation.
 
 ### 35.10.6 Subject Matter Expert (SME) catalog
 
-Deloitte maintains a Practice-aligned SME catalog by named individual. Sellers should know how to request SME time:
+The firm maintains a Practice-aligned SME catalog by named individual. Sellers should know how to request SME time:
 
 - **RC SME bench:** ~40 named experts; category-specific (grocery, apparel, CPG, specialty, DTC)
 - **HLS SME bench:** ~35 named experts split Payer / Provider / Life Sciences
@@ -9671,7 +9671,7 @@ Deloitte maintains a Practice-aligned SME catalog by named individual. Sellers s
 
 Request SME time through the Practice's SME Coordinator listed in Appendix X (Author & Contact Information).
 
-> **Independence Reminder.** Do not share the SME bench directly with clients as a roster. Individual named-SME engagement is coordinated through Deloitte's standard staffing process and reflects Independence, conflict, and capacity constraints. The procurement answer is "named individuals will be presented before Wave 1 kickoff."
+> **Independence Reminder.** Do not share the SME bench directly with clients as a roster. Individual named-SME engagement is coordinated through the firm's standard staffing process and reflects Independence, conflict, and capacity constraints. The procurement answer is "named individuals will be presented before Wave 1 kickoff."
 `,
   summary: [
     'Selling ends only when the account ends',
@@ -9907,12 +9907,12 @@ We consider it. Requires wave-gated off-ramps so the client is not stuck.
 ## C.4 Independence and trust objections
 
 **"Aren't you our auditor?"**
-If Deloitte audits the client, we follow audit independence rules with Audit Committee pre-clearance. Services we can and cannot perform are explicit; we do not work around them.
+If the firm audits the client, we follow audit independence rules with Audit Committee pre-clearance. Services we can and cannot perform are explicit; we do not work around them.
 
-**"How do we know Deloitte won't share our data?"**
-Standard engagement NDA; Deloitte data-handling protocols; client data never commingled with other clients; Independence office oversight on audit clients.
+**"How do we know the firm won't share our data?"**
+Standard engagement NDA; the firm data-handling protocols; client data never commingled with other clients; Independence office oversight on audit clients.
 
-**"Will we be locked into Deloitte?"**
+**"Will we be locked into the firm?"**
 APEX IP deployed to your tenant is yours. We retain the reference library, the methodology, the patterns; you retain the implementation.
 
 ## C.5 Organisational objections
@@ -9938,15 +9938,15 @@ Never drop the price by reducing scope; shift the conversation to the scope the 
 
 ### C.9.2 "Can you match Accenture's / IBM's / Cognizant's day-rate?"
 
-> *"We don't compete on day-rate. We compete on fixed-fee outcome-linked delivery with Deloitte's IP included. Our Wave 2 isn't a staffing contract; it's a productized delivery of specific services (RC-E2E-03, RC-E2E-09, etc.) with defined outcomes, defined HITL patterns, and defined KPI measurement. If you want staffing against your backlog, we're not the right answer. If you want named business outcomes with audit-row attribution, we are."*
+> *"We don't compete on day-rate. We compete on fixed-fee outcome-linked delivery with the firm's IP included. Our Wave 2 isn't a staffing contract; it's a productized delivery of specific services (RC-E2E-03, RC-E2E-09, etc.) with defined outcomes, defined HITL patterns, and defined KPI measurement. If you want staffing against your backlog, we're not the right answer. If you want named business outcomes with audit-row attribution, we are."*
 
-### C.9.3 "Why can't we bundle the Microsoft licensing with Deloitte services?"
+### C.9.3 "Why can't we bundle the Microsoft licensing with firm services?"
 
-> *"Because Deloitte is Microsoft's external auditor. SEC Rule 2-01 and PCAOB Rule 3520 require strict separation between the audit-client relationship and service delivery. We cannot sell bundled commercials. You license Microsoft platform from Microsoft directly; you contract Deloitte services separately. Every other SI that says they can bundle is either (a) not Microsoft's auditor, or (b) misrepresenting what's contractually permissible. The two-contract model is a feature, not a constraint."*
+> *"Because the firm is Microsoft's external auditor. SEC Rule 2-01 and PCAOB Rule 3520 require strict separation between the audit-client relationship and service delivery. We cannot sell bundled commercials. You license Microsoft platform from Microsoft directly; you contract firm services separately. Every other SI that says they can bundle is either (a) not Microsoft's auditor, or (b) misrepresenting what's contractually permissible. The two-contract model is a feature, not a constraint."*
 
 ### C.9.4 "Your Wave 1 envelope is 2–3× what we paid for our last advisory project."
 
-> *"The Wave 1 envelope funds a buildable production outcome — a working agent in an agreed-scope service, with manifests, governance, and audit row in production by Week 10. It isn't advisory. If what you want is a strategy document, Deloitte has an advisory offering at the price band you remember; APEX is a delivery offering. Which outcome does the board actually want?"*
+> *"The Wave 1 envelope funds a buildable production outcome — a working agent in an agreed-scope service, with manifests, governance, and audit row in production by Week 10. It isn't advisory. If what you want is a strategy document, the firm has an advisory offering at the price band you remember; APEX is a delivery offering. Which outcome does the board actually want?"*
 
 ### C.9.5 "The PTU costs look too high."
 
@@ -9978,7 +9978,7 @@ Never drop the price by reducing scope; shift the conversation to the scope the 
 
 ### C.9.12 "Can we defer payment to outcome realization?"
 
-> *"Partially, through value-share (§C.9.8) on eligible services, or through milestone-gated commercial terms on Wave 2. Full outcome-deferral across the engagement is not workable — we'd be funding your program on our balance sheet, which breaks Deloitte's finance model. Milestone gating is the practical middle ground."*
+> *"Partially, through value-share (§C.9.8) on eligible services, or through milestone-gated commercial terms on Wave 2. Full outcome-deferral across the engagement is not workable — we'd be funding your program on our balance sheet, which breaks the firm's finance model. Milestone gating is the practical middle ground."*
 
 ### C.9.13 Escalation pattern
 
@@ -10032,8 +10032,8 @@ For each selected service, size benefit as:
 
 For each wave:
 
-- Deloitte services investment
-- Platform (Microsoft) investment (informational; not Deloitte-quoted)
+- firm services investment
+- Platform (Microsoft) investment (informational; not firm-quoted)
 - Client-side investment (SME time, organizational change)
 
 ## D.5 Risk register template
@@ -10061,15 +10061,15 @@ Use as starting point, not as commitment. Actual envelope reflects client scale 
 });
 
 appendices.push({
-  letter: 'E', title: 'Deloitte Independence Notes',
+  letter: 'E', title: 'Independence Notes',
   body: `
 > This appendix restates Independence obligations the seller must understand. It does NOT replace the Independence office. When in doubt, route through Independence BEFORE action.
 
 ## E.1 Audit-client engagement rule
 
-When Deloitte audits a client:
+When the firm audits a client:
 
-- Non-audit services are restricted per SEC Rule 2-01, PCAOB Rule 3520, and Deloitte internal policy
+- Non-audit services are restricted per SEC Rule 2-01, PCAOB Rule 3520, and internal policy
 - Specific services are pre-cleared with the Audit Committee
 - Engagement SOW must align strictly with pre-cleared scope
 - Scope expansion requires re-clearance
@@ -10098,7 +10098,7 @@ When Deloitte audits a client:
 
 - Audit-client engagements reported per internal policy
 - Quarterly Independence reviews mandatory for audit-client engagements
-- Personal Independence compliance required for all Deloitte professionals on audit-client engagements
+- Personal Independence compliance required for all professionals on audit-client engagements
 
 ## E.6 Escalation
 
@@ -10111,7 +10111,7 @@ When Deloitte audits a client:
 
 Even for non-audit clients:
 
-- Deloitte internal risk protocols apply
+- internal risk protocols apply
 - Data-handling protocols apply
 - Conflict checks apply
 - Client confidentiality protocols apply
@@ -10155,7 +10155,7 @@ Three observations frame every conversation where Databricks or Snowflake is alr
 - **Purview depth.** Purview over Fabric is deeper than Purview over Unity Catalog. Classification, lineage, DLP on Databricks-resident data needs additional configuration and sometimes Databricks-side agents.
 - **Real-time intelligence.** Databricks Structured Streaming is strong for engineering; Fabric Real-Time Intelligence (Eventhouse, KQL, reflex) is a more integrated pattern for the live-dashboard, alerting, and reflex use cases APEX leans on.
 - **APEX semantic models are Fabric artifacts.** Re-authoring SCML, MERML, CXML (and HLS, ER, AXLE, TMT, TH, ICE equivalents) on Databricks-native tooling is not on the APEX roadmap.
-- **Two bills if not right-sized.** Fabric + Databricks costs more than either alone. Right-sizing matters. Deloitte's advisory role in discovery covers this.
+- **Two bills if not right-sized.** Fabric + Databricks costs more than either alone. Right-sizing matters. The firm's advisory role in discovery covers this.
 
 ### The discovery question that matters
 
@@ -10205,7 +10205,7 @@ Each platform plays to its strength. APEX's job is orchestration across all thre
 - Client explicitly rejects any new Microsoft Azure footprint
 - Client requires APEX to run entirely on Databricks SQL or Snowflake Cortex without any Fabric
 
-In these cases, APEX is not the right fit. Deloitte's broader platform-agnostic advisory remains available.
+In these cases, APEX is not the right fit. The firm's broader platform-agnostic advisory remains available.
 
 ## F.6 What to say in the first conversation
 
@@ -10217,7 +10217,7 @@ In these cases, APEX is not the right fit. Deloitte's broader platform-agnostic 
 | "Can we run APEX only on Snowflake?" | "No — APEX's 45 services assume Fabric as the data plane and Foundry as the agent runtime. Snowflake stays for what it does best; Fabric is added for APEX." |
 | "Isn't Fabric Databricks re-branded?" | "No. Fabric is a different product with OneLake, Direct Lake, Eventhouse, and integrated Copilot grounding. Databricks and Fabric coexist by design." |
 
-> **Independence Reminder.** Deloitte does not resell or commercially commit to Fabric, Databricks, or Snowflake licensing. Client contracts directly with Microsoft (Fabric, Azure Databricks) and Snowflake (when not on Azure Marketplace). Deloitte sells advisory and implementation services only.
+> **Independence Reminder.** The firm does not resell or commercially commit to Fabric, Databricks, or Snowflake licensing. Client contracts directly with Microsoft (Fabric, Azure Databricks) and Snowflake (when not on Azure Marketplace). The firm sells advisory and implementation services only.
 `,
 });
 
@@ -11102,7 +11102,7 @@ Example: Given Disruption Event impacting 15 Flights, agent produces 5 re-accomm
 
 Each pattern produces an APEX audit row with the input entities, reasoning trace, and proposed decision. HITL gates at the decision boundary; human approves, overrides, or escalates. This is how APEX decision-automation actually operates.
 
-> **Independence Reminder.** Entity names and schema references in this appendix are APEX IP. Do not import client-confidential entity names into APEX semantic models without explicit client authorisation and Purview classification. APEX's canonical semantic models are Deloitte IP; client-specific extensions live in the client's own Fabric tenant with IP retention governed by the two-contract model.
+> **Independence Reminder.** Entity names and schema references in this appendix are APEX IP. Do not import client-confidential entity names into APEX semantic models without explicit client authorisation and Purview classification. APEX's canonical semantic models are firm IP; client-specific extensions live in the client's own Fabric tenant with IP retention governed by the two-contract model.
 `,
 });
 
@@ -11213,7 +11213,7 @@ Sellers should know that approximately 80% of APEX's MCP tools are read tools; 1
 
 ## H.2A Gold Views and MCP Tools — The Binding Contract
 
-This section is the seller's reference for the most architect-asked question after "how does the agent get data" — **"how exactly does a Gold view become an MCP tool, and what governs the binding?"** The answer involves a specific contract pattern that Deloitte authors during Wave 2 implementation.
+This section is the seller's reference for the most architect-asked question after "how does the agent get data" — **"how exactly does a Gold view become an MCP tool, and what governs the binding?"** The answer involves a specific contract pattern that the firm authors during Wave 2 implementation.
 
 ### H.2A.1 The core relationship
 
@@ -11510,7 +11510,7 @@ With the foundation established, the remaining sections catalog the tools per Pr
 
 RC Practice MCP tools are organized into four servers: rc-scml-mcp (supply and inventory), rc-merml-mcp (merchandising), rc-cxml-mcp (customer), and rc-action-mcp (state-change actions).
 
-> **Example in the field — Big Box Store Store 100.** RC MCP tools are the tools Marisol Reyes's agents called during her shift (§16.13). The lot-trace tool during the Event 05 FDA recall; the shipment-status tool during Event 02 DSD dispute; the inventory-position tools during Event 04 OSA remediation; the customer-identity tool during Event 06 BOPIS substitution. Each tool reads a Gold view; each Gold view is materialized from Silver via one of the five transform patterns in §H.3. The agent fleet at Store 100 used approximately 35 distinct MCP tools across the eight events — all delivered by Deloitte onto Big Box Store's Microsoft platform.
+> **Example in the field — Big Box Store Store 100.** RC MCP tools are the tools Marisol Reyes's agents called during her shift (§16.13). The lot-trace tool during the Event 05 FDA recall; the shipment-status tool during Event 02 DSD dispute; the inventory-position tools during Event 04 OSA remediation; the customer-identity tool during Event 06 BOPIS substitution. Each tool reads a Gold view; each Gold view is materialized from Silver via one of the five transform patterns in §H.3. The agent fleet at Store 100 used approximately 35 distinct MCP tools across the eight events — all delivered by the firm onto Big Box Store's Microsoft platform.
 
 ### H.5.1 rc-scml-mcp server
 
@@ -12460,16 +12460,16 @@ APEX's MCP tool catalog is designed for extension. Clients frequently require to
 
 Client-authored tools remain in the client's Fabric tenant and MCP server infrastructure. APEX framework-level tools ship with APEX updates; client-specific tools are owned by the client. Both live in the same tool catalog, invocable by agents indistinguishably.
 
-> **Independence Reminder.** Tool names, Gold view names, and example payloads in this appendix are illustrative. Client-specific tool namespaces should not import APEX-internal tool names or schema identifiers without Purview classification and Independence review. The two-contract model applies: APEX framework tools are Deloitte IP; client-specific tools are client IP deployed to the client's tenant.
+> **Independence Reminder.** Tool names, Gold view names, and example payloads in this appendix are illustrative. Client-specific tool namespaces should not import APEX-internal tool names or schema identifiers without Purview classification and Independence review. The two-contract model applies: APEX framework tools are firm IP; client-specific tools are client IP deployed to the client's tenant.
 `,
 });
 
 appendices.push({
-  letter: 'I', title: 'Microsoft 365 E7 vs Deloitte Agentic AI Delivery — Capabilities, Overlap, and Gap Analysis',
+  letter: 'I', title: 'Microsoft 365 E7 vs APEX Agentic AI Delivery — Capabilities, Overlap, and Gap Analysis',
   body: `
-This appendix is the seller's reference for the conversation that surfaces when a client asks "we're considering Microsoft 365 E7 — why do we also need Deloitte's agent-delivery services?" or "what do Deloitte services deliver that E7 doesn't ship with?" Both questions are legitimate; the answers are concrete. This appendix deep-dives Microsoft 365 E7's agentic-AI capabilities as they are publicly described and emerging, maps the overlap with what Deloitte delivers, and identifies the specific gaps that Deloitte's services (accelerated internally by APEX) address.
+This appendix is the seller's reference for the conversation that surfaces when a client asks "we're considering Microsoft 365 E7 — why do we also need the firm's agent-delivery services?" or "what do firm services deliver that E7 doesn't ship with?" Both questions are legitimate; the answers are concrete. This appendix deep-dives Microsoft 365 E7's agentic-AI capabilities as they are publicly described and emerging, maps the overlap with what the firm delivers, and identifies the specific gaps that the firm's services (accelerated internally by APEX) address.
 
-> **Positioning note.** APEX is Deloitte's internal delivery accelerator, not a product the client buys. When this appendix compares "APEX" to "E7," it compares the capabilities Deloitte delivers using APEX acceleration vs the platform capabilities E7 licenses. The client does not license APEX — ever. The client licenses E7 from Microsoft and engages Deloitte for agent-delivery services.
+> **Positioning note.** APEX is the firm's internal delivery accelerator, not a product the client buys. When this appendix compares "APEX" to "E7," it compares the capabilities the firm delivers using APEX acceleration vs the platform capabilities E7 licenses. The client does not license APEX — ever. The client licenses E7 from Microsoft and engages the firm for agent-delivery services.
 
 > **Content basis.** This appendix is based on Microsoft's publicly announced and emerging Microsoft 365 E7 positioning. Specific SKU details evolve; architects and sellers should confirm current SKU inclusions with the Microsoft account team for any given pursuit. The comparison logic and gap analysis here are durable regardless of specific SKU churn.
 
@@ -12643,9 +12643,9 @@ This is where the seller's conversation lands on value. E7 provides a fantastic 
 
 **Not in E7.** E7 is a Microsoft product with Microsoft commercial terms.
 
-**APEX provides.** Deloitte's audit-independence discipline — scope pre-clearance for audit clients, funding-path compliance (ECIF-prohibited), language discipline (no "partner" / "alliance" / "joint venture"), two-contract commercial model.
+**APEX provides.** The firm's audit-independence discipline — scope pre-clearance for audit clients, funding-path compliance (ECIF-prohibited), language discipline (no "partner" / "alliance" / "joint venture"), two-contract commercial model.
 
-**Impact.** For Deloitte audit clients, APEX-on-Microsoft is the pre-cleared, independence-safe path to agentic decision-automation. E7 alone does not carry that.
+**Impact.** For audit clients, APEX-on-Microsoft is the pre-cleared, independence-safe path to agentic decision-automation. E7 alone does not carry that.
 
 ### I.3.10 Practice-specific SOR integration patterns
 
@@ -12732,7 +12732,7 @@ Microsoft Graph telemetry captures agent invocations across the tenant. For busi
 | Regulated-industry agentic AI with Audit-defensibility | Partial fit (generic governance only) | Good fit (adds Practice-specific governance) | Best fit |
 | Enterprise-wide AI governance across all workloads | Best fit (broad governance) | Narrow coverage (APEX-scope only) | Best fit |
 | Cross-Practice decision-automation at Diversified Industrial client | Not sufficient (no IP) | Good fit (APEX scope) | Best fit (E7 covers knowledge-worker; APEX covers decision-automation) |
-| Clients with Deloitte as auditor wanting AI program | Same licensing path | Audit-compliant scope | Both; APEX's audit-pre-clearance adds protection |
+| Clients with the firm as auditor wanting AI program | Same licensing path | Audit-compliant scope | Both; APEX's audit-pre-clearance adds protection |
 | Small mid-market client, single Practice | Likely over-capacity | Narrow Wave 1 possible | E7 usually under-scale for E7-class investment |
 
 ## I.7 Rehearsed seller scripts
@@ -12747,7 +12747,7 @@ Microsoft Graph telemetry captures agent invocations across the tenant. For busi
 
 **Client says:** "Is APEX redundant with E7?"
 
-**You say:** "They overlap on the user surface — both produce Copilot-grounded experiences and both use Entra-identified agents. APEX adds what E7 doesn't ship: Practice-specific semantic models, industry-vertical agents, MCP tool catalogs, HITL gate framework, audit-row attribution, and Deloitte's Independence-compliant delivery. E7 is the platform; APEX is the decision-automation IP that runs on it. They are complementary, not redundant."
+**You say:** "They overlap on the user surface — both produce Copilot-grounded experiences and both use Entra-identified agents. APEX adds what E7 doesn't ship: Practice-specific semantic models, industry-vertical agents, MCP tool catalogs, HITL gate framework, audit-row attribution, and the firm's Independence-compliant delivery. E7 is the platform; APEX is the decision-automation IP that runs on it. They are complementary, not redundant."
 
 **Client says:** "What if we adopt E7 without APEX initially and add APEX later?"
 
@@ -12755,34 +12755,34 @@ Microsoft Graph telemetry captures agent invocations across the tenant. For busi
 
 **Microsoft field counterpart asks:** "Are we competing with APEX by pushing E7?"
 
-**You say:** "Not at all. E7 pulls through Deloitte delivery engagements because our delivery requires the E7-class capabilities (Entra Agent ID, Purview for AI, Copilot Studio at scale, Defender for AI). Where you sell E7, we sell services on top. Where we sell services, we pull E7 licensing. The two-contract model means no commercial conflict — the client contracts you for E7 and Deloitte for Agentic AI Delivery Services separately."
+**You say:** "Not at all. E7 pulls through firm delivery engagements because our delivery requires the E7-class capabilities (Entra Agent ID, Purview for AI, Copilot Studio at scale, Defender for AI). Where you sell E7, we sell services on top. Where we sell services, we pull E7 licensing. The two-contract model means no commercial conflict — the client contracts you for E7 and the firm for Agentic AI Delivery Services separately."
 
 ## I.8 Independence considerations
 
 E7 vs APEX discussions may arise in audit-client pursuits. Key points:
 
-- **E7 is a Microsoft SKU.** Client contracts Microsoft for E7. Deloitte does not quote E7 pricing.
-- **APEX is Deloitte services.** Client contracts Deloitte for APEX. Two-contract model applies.
+- **E7 is a Microsoft SKU.** Client contracts Microsoft for E7. The firm does not quote E7 pricing.
+- **APEX is firm services.** Client contracts the firm for APEX. Two-contract model applies.
 - **Pre-clearance.** Both E7 and APEX engagements at audit clients require scope clarity; Audit-Committee pre-clearance for APEX services should anticipate E7 interaction where applicable.
 - **Language discipline.** Even when discussing E7 capabilities, use "Microsoft technology platform" and "technology relationship" language — never "partner," "alliance," or "joint venture."
-- **ECIF still prohibited.** E7 sell motion may involve Microsoft field ECIF conversations. Deloitte does not accept ECIF; DCIF-to-client, direct-client, ISV Marketplace, or SI teaming paths only.
+- **ECIF still prohibited.** E7 sell motion may involve Microsoft field ECIF conversations. The firm does not accept ECIF; DCIF-to-client, direct-client, ISV Marketplace, or SI teaming paths only.
 
-> **Independence Reminder.** Deloitte sellers do not represent E7's inclusions or pricing. When a client asks "what's in E7," the accurate response is "your Microsoft account team confirms current E7 inclusions; our role is to describe where Deloitte's agent delivery services add value on top of whatever Microsoft licensing you carry." Stay on the services side of the two-contract boundary.
+> **Independence Reminder.** firm sellers do not represent E7's inclusions or pricing. When a client asks "what's in E7," the accurate response is "your Microsoft account team confirms current E7 inclusions; our role is to describe where the firm's agent delivery services add value on top of whatever Microsoft licensing you carry." Stay on the services side of the two-contract boundary.
 `,
 });
 
 appendices.push({
   letter: 'J', title: 'Purview Integration — Capabilities, Identity, Tier Security, Lineage, and Business Catalog',
   body: `
-This appendix is the seller's comprehensive reference for Microsoft Purview in the context of Deloitte's agent delivery. It covers Purview's full capability surface, how Purview binds Entra identity to data authorisation for agentic workloads, the tier-level security model, data lineage, the Unified Catalog with business terms, and concrete Big Box Store Store 100 examples showing Purview in production. Sellers use this appendix in conversations with Chief Compliance Officers, Chief Privacy Officers, Chief Information Security Officers, General Counsels, and Chief Data Officers.
+This appendix is the seller's comprehensive reference for Microsoft Purview in the context of the firm's agent delivery. It covers Purview's full capability surface, how Purview binds Entra identity to data authorisation for agentic workloads, the tier-level security model, data lineage, the Unified Catalog with business terms, and concrete Big Box Store Store 100 examples showing Purview in production. Sellers use this appendix in conversations with Chief Compliance Officers, Chief Privacy Officers, Chief Information Security Officers, General Counsels, and Chief Data Officers.
 
 ## J.1 How to read this appendix
 
-Purview is a Microsoft platform capability the client licenses directly from Microsoft. This appendix describes what Purview does and how Deloitte's agent delivery services use Purview — with APEX as the internal accelerator providing Practice-specific classification taxonomies, DLP policy templates, and agent-scope patterns. Clients do not buy "APEX Purview"; they license Purview from Microsoft and engage Deloitte to configure Purview for their agentic-AI workloads using Deloitte's accumulated methodology.
+Purview is a Microsoft platform capability the client licenses directly from Microsoft. This appendix describes what Purview does and how the firm's agent delivery services use Purview — with APEX as the internal accelerator providing Practice-specific classification taxonomies, DLP policy templates, and agent-scope patterns. Clients do not buy "APEX Purview"; they license Purview from Microsoft and engage the firm to configure Purview for their agentic-AI workloads using the firm's accumulated methodology.
 
-## J.2 Purview's role in Deloitte's agent delivery
+## J.2 Purview's role in the firm's agent delivery
 
-Every Deloitte agentic-AI delivery assumes Purview is load-bearing infrastructure. Without Purview, the audit row is partial, the DLP policy enforcement is absent, the lineage query for regulator inquiry is manual reconstruction, and the classification taxonomy is inconsistent across the estate. With Purview, every one of these concerns becomes a platform property — built-in, native, queryable.
+Every agentic-AI delivery assumes Purview is load-bearing infrastructure. Without Purview, the audit row is partial, the DLP policy enforcement is absent, the lineage query for regulator inquiry is manual reconstruction, and the classification taxonomy is inconsistent across the estate. With Purview, every one of these concerns becomes a platform property — built-in, native, queryable.
 
 Purview answers six questions a Chief Compliance Officer asks about any AI deployment:
 
@@ -12793,7 +12793,7 @@ Purview answers six questions a Chief Compliance Officer asks about any AI deplo
 5. **Where are the compliance-relevant artifacts?** → Compliance Manager + Unified Catalog
 6. **What does the audit evidence look like?** → Audit logs + classification-preserved decision trail
 
-Deloitte's role is translating these six questions into Practice-specific implementations that pass regulatory scrutiny from day one.
+The firm's role is translating these six questions into Practice-specific implementations that pass regulatory scrutiny from day one.
 
 ## J.3 Purview capability map
 
@@ -12803,7 +12803,7 @@ Ten capability areas that together form Purview's surface. Each has an APEX-deli
 
 **What it is.** The inventory of the data estate with assets, schemas, classifications, lineage, and ownership. The Unified Catalog is the newer federation across Purview Data Map, Microsoft Fabric, and Power BI that presents one catalog surface to users and agents.
 
-**What Deloitte configures.** Fabric Lakehouse / Warehouse / Eventhouse scanning; client SORs (Epic, Sabre, SAP, Manhattan, Plex, OSIsoft PI, Salesforce, etc.) registered with automated scan schedules; Practice-specific asset-type taxonomies mapped to Fabric objects; role-based views of the catalog per business function.
+**What the firm configures.** Fabric Lakehouse / Warehouse / Eventhouse scanning; client SORs (Epic, Sabre, SAP, Manhattan, Plex, OSIsoft PI, Salesforce, etc.) registered with automated scan schedules; Practice-specific asset-type taxonomies mapped to Fabric objects; role-based views of the catalog per business function.
 
 **Why it matters for agents.** Every MCP tool invocation cross-references Data Map metadata to determine what the agent is allowed to see. Agents without catalog-visible data cannot access it — even if the data exists in OneLake.
 
@@ -12811,7 +12811,7 @@ Ten capability areas that together form Purview's surface. Each has an APEX-deli
 
 **What it is.** Automated and manual labeling of data with sensitivity categories. Purview ships ~100 out-of-box classifiers (credit card, SSN, passport, etc.) and supports custom classifiers. Sensitivity labels are the named classifications (Public, Internal, Confidential, Highly Confidential, and any custom tiers).
 
-**What Deloitte configures.** Per-Practice classifier extensions — PHI classifiers for HLS, CPNI classifiers for TMT-TEL, PCI-adjacent for RC payment data, export-controlled for defense AXLE, supplier-confidential pricing for RC. Label-propagation rules through transforms. Auto-classification policies that scan Bronze and Silver continuously.
+**What the firm configures.** Per-Practice classifier extensions — PHI classifiers for HLS, CPNI classifiers for TMT-TEL, PCI-adjacent for RC payment data, export-controlled for defense AXLE, supplier-confidential pricing for RC. Label-propagation rules through transforms. Auto-classification policies that scan Bronze and Silver continuously.
 
 **Why it matters for agents.** The label on a data element determines whether an agent may read it, whether the agent's output may contain it, whether Copilot may ground on it, and whether the data appears in audit evidence packages. Classification is the foundation of every downstream Purview capability.
 
@@ -12819,7 +12819,7 @@ Ten capability areas that together form Purview's surface. Each has an APEX-deli
 
 **What it is.** Policies that enforce data-handling rules based on classification. Information Protection handles encryption and rights management; DLP handles output-moderation and transfer-blocking.
 
-**What Deloitte configures.** DLP policies that inspect agent outputs before they leave the Foundry runtime. Policies like: "Never include cleartext SSN in a Copilot response"; "Block exports of PHI-classified data to Teams chats outside the authorized care team"; "Allow SKU data in agent output but mask supplier-confidential cost." DLP for AI specifically — the newer Purview capability that inspects agent-generated content the same way it inspects email and documents.
+**What the firm configures.** DLP policies that inspect agent outputs before they leave the Foundry runtime. Policies like: "Never include cleartext SSN in a Copilot response"; "Block exports of PHI-classified data to Teams chats outside the authorized care team"; "Allow SKU data in agent output but mask supplier-confidential cost." DLP for AI specifically — the newer Purview capability that inspects agent-generated content the same way it inspects email and documents.
 
 **Why it matters for agents.** An agent that has read access to a PHI-classified entity can return the entity through a tool call, but DLP inspects the agent's final response and redacts, blocks, or flags cleartext PHI that should never reach the user. The agent cannot bypass DLP.
 
@@ -12827,15 +12827,15 @@ Ten capability areas that together form Purview's surface. Each has an APEX-deli
 
 **What it is.** End-to-end provenance tracking — source system → Bronze → Silver → Gold → MCP tool → agent output → downstream consumer (Copilot, Power BI, integration).
 
-**What Deloitte configures.** Lineage registration at every transform step. Fabric pipelines emit lineage automatically where supported; custom transforms register lineage explicitly. Foundry agent invocations and MCP tool calls register as lineage events. The result: any data element at any point in the pipeline can be traced to every upstream source and every downstream use.
+**What the firm configures.** Lineage registration at every transform step. Fabric pipelines emit lineage automatically where supported; custom transforms register lineage explicitly. Foundry agent invocations and MCP tool calls register as lineage events. The result: any data element at any point in the pipeline can be traced to every upstream source and every downstream use.
 
-**Why it matters for agents.** When a regulator asks "how did this agent conclude X," Deloitte's answer is a lineage query that returns the complete reasoning trail — source data, transforms applied, classifications carried, agent model version, tool versions invoked, HITL approval identity and timestamp, downstream effect. This is the audit row's evidential backbone.
+**Why it matters for agents.** When a regulator asks "how did this agent conclude X," the firm's answer is a lineage query that returns the complete reasoning trail — source data, transforms applied, classifications carried, agent model version, tool versions invoked, HITL approval identity and timestamp, downstream effect. This is the audit row's evidential backbone.
 
 ### J.3.5 Business Glossary / Business Terms
 
 **What it is.** The definitional catalog of business terms — what does "Active Customer" mean in this enterprise; what's the definition of "Available Inventory"; how is "Margin" calculated? Each term has an owner, a definition, synonyms, and links to the data assets that implement it.
 
-**What Deloitte configures.** Per-Practice starter glossaries — RC's glossary ships with ~200 retail terms; HLS with ~250 healthcare terms; ER with ~150 utility/energy terms. Terms are linked to APEX semantic-model entities (SKU, Store, Category, Patient, Encounter, Well, etc.). The glossary becomes the shared vocabulary across business, analytics, and agent teams.
+**What the firm configures.** Per-Practice starter glossaries — RC's glossary ships with ~200 retail terms; HLS with ~250 healthcare terms; ER with ~150 utility/energy terms. Terms are linked to APEX semantic-model entities (SKU, Store, Category, Patient, Encounter, Well, etc.). The glossary becomes the shared vocabulary across business, analytics, and agent teams.
 
 **Why it matters for agents.** Agents ground on business terms. When a merchant asks "show me margin exposure on active assortments," the agent resolves "margin" and "active assortment" through the glossary before executing the query. The glossary prevents the "which margin?" ambiguity that kills analytics programs.
 
@@ -12843,7 +12843,7 @@ Ten capability areas that together form Purview's surface. Each has an APEX-deli
 
 **What it is.** Regulatory-framework tracking with assessments, controls, and evidence management. Pre-built assessments for HIPAA, GDPR, CCPA, SOX, PCI DSS, FedRAMP, 21 CFR Part 11, and dozens more.
 
-**What Deloitte configures.** Practice-relevant framework activation — HIPAA + HITECH + state privacy for HLS; SOX + FERC + NERC CIP for ER; PCI DSS + GDPR + CCPA for RC; etc. Control mapping from framework requirements to specific Purview policies, DLP rules, and classification taxonomies. Evidence-collection automation.
+**What the firm configures.** Practice-relevant framework activation — HIPAA + HITECH + state privacy for HLS; SOX + FERC + NERC CIP for ER; PCI DSS + GDPR + CCPA for RC; etc. Control mapping from framework requirements to specific Purview policies, DLP rules, and classification taxonomies. Evidence-collection automation.
 
 **Why it matters for agents.** A regulator inquiry about an AI deployment increasingly asks "show me your control framework and how it applies to AI workloads." Compliance Manager becomes the answer: the mapping, the evidence, the audit trail — all native.
 
@@ -12851,7 +12851,7 @@ Ten capability areas that together form Purview's surface. Each has an APEX-deli
 
 **What it is.** Behavioural-analytics detection for humans and workloads that deviate from expected patterns — unusual data access, exfiltration signals, policy violations, agent misbehavior.
 
-**What Deloitte configures.** Insider-risk policies scoped to APEX-delivered workloads. Unusual agent behavior (e.g., an agent making ten thousand tool calls in a minute, or an agent accessing data classifications it typically doesn't touch) raises a signal to the security operations team.
+**What the firm configures.** Insider-risk policies scoped to APEX-delivered workloads. Unusual agent behavior (e.g., an agent making ten thousand tool calls in a minute, or an agent accessing data classifications it typically doesn't touch) raises a signal to the security operations team.
 
 **Why it matters for agents.** Agents are identities. Insider Risk extends to agent workloads the same behavioral analytics that monitor human users. A compromised agent surfaces as an anomalous-behavior signal before it exfiltrates data.
 
@@ -12859,7 +12859,7 @@ Ten capability areas that together form Purview's surface. Each has an APEX-deli
 
 **What it is.** Immutable audit logs of administrative actions, data access, classification changes, policy modifications, and critically for AI — agent invocations and AI output generation.
 
-**What Deloitte configures.** Retention policies aligned to regulatory requirements (7 years for HIPAA, 5 years for SOX, varying for others). Audit stream export to Sentinel for security correlation. Audit integration with APEX's decision-audit-row so business outcomes can be traced back to specific agent invocations.
+**What the firm configures.** Retention policies aligned to regulatory requirements (7 years for HIPAA, 5 years for SOX, varying for others). Audit stream export to Sentinel for security correlation. Audit integration with APEX's decision-audit-row so business outcomes can be traced back to specific agent invocations.
 
 **Why it matters for agents.** Regulator-grade evidence. Every agent decision has a Purview audit row AND an APEX business-decision audit row. The two together are the defensible evidential chain for a specific decision six months after the fact.
 
@@ -12867,15 +12867,15 @@ Ten capability areas that together form Purview's surface. Each has an APEX-deli
 
 **What it is.** Continuous monitoring of data exposure to AI — which sensitive data is reachable by which agents, which Copilot integrations touch which classifications, where does posture drift from baseline.
 
-**What Deloitte configures.** Posture baselines at Wave 1 go-live. Alerts on posture drift — agent added with new tool scope, new sensitive data category classified, policy change that expands agent access. Weekly posture reports to the security operations team.
+**What the firm configures.** Posture baselines at Wave 1 go-live. Alerts on posture drift — agent added with new tool scope, new sensitive data category classified, policy change that expands agent access. Weekly posture reports to the security operations team.
 
-**Why it matters for agents.** Posture management is how sophisticated clients prove that their agent fleet remains within governance boundaries over time. It is also how Deloitte demonstrates that the post-delivery agent fleet continues to operate within the governance envelope originally designed.
+**Why it matters for agents.** Posture management is how sophisticated clients prove that their agent fleet remains within governance boundaries over time. It is also how the firm demonstrates that the post-delivery agent fleet continues to operate within the governance envelope originally designed.
 
 ### J.3.10 Privileged Access Management / Just-in-Time access
 
 **What it is.** Time-bounded, approval-gated access elevation for sensitive operations. Integrated with Entra Privileged Identity Management.
 
-**What Deloitte configures.** JIT patterns for high-privilege agent operations — e.g., an agent needs elevated access to approve a recall action or to issue a member-notification containing PHI. Access elevates for the specific action with approval trail, then drops.
+**What the firm configures.** JIT patterns for high-privilege agent operations — e.g., an agent needs elevated access to approve a recall action or to issue a member-notification containing PHI. Access elevates for the specific action with approval trail, then drops.
 
 **Why it matters for agents.** The principle of least privilege extended to agents. Standing high-privilege agents are a risk; JIT-elevated agents perform specific actions with full audit trail.
 
@@ -12925,7 +12925,7 @@ graph TD
 \`\`\`
 
 
-Deloitte's agent delivery uses a standard four-tier sensitivity model deployed onto Purview as the classification taxonomy. Clients can extend the model with custom tiers; the four-tier default is the reference.
+The firm's agent delivery uses a standard four-tier sensitivity model deployed onto Purview as the classification taxonomy. Clients can extend the model with custom tiers; the four-tier default is the reference.
 
 ### J.5.1 Tier 1 — Public
 
@@ -12949,7 +12949,7 @@ Derived data inherits the most restrictive tier of its inputs unless a declassif
 
 ### J.5.6 Cross-tier flows and approval paths
 
-Any data movement from higher tier to lower tier (e.g., Tier 3 → Tier 2 via aggregation) requires an approval rule in Purview. Deloitte's delivery configures these approvals via Compliance Manager; audit logs preserve the approval decisions.
+Any data movement from higher tier to lower tier (e.g., Tier 3 → Tier 2 via aggregation) requires an approval rule in Purview. The firm's delivery configures these approvals via Compliance Manager; audit logs preserve the approval decisions.
 
 ### J.5.7 Tier-breach detection
 
@@ -12957,7 +12957,7 @@ Insider Risk Management monitors for tier-breach signals — an agent accessing 
 
 ## J.6 Data Lineage in Agentic AI
 
-Lineage is where Deloitte's agent delivery differentiates most visibly from a build-your-own effort. Every Purview lineage registration answers the question "where did this come from and where did it go" for any data element.
+Lineage is where the firm's agent delivery differentiates most visibly from a build-your-own effort. Every Purview lineage registration answers the question "where did this come from and where did it go" for any data element.
 
 ### J.6.1 Bronze → Silver → Gold lineage
 
@@ -12978,7 +12978,7 @@ Four lineage query patterns APEX-delivered agents support:
 
 ### J.6.4 GDPR right-to-access query
 
-A GDPR data subject requests their information. Deloitte's delivery pattern: one Purview query returns all data assets containing the subject's identifiers, the transforms they participated in, the agents that consumed them, the decisions rendered, and downstream systems where their data was exported. What historically was a 40-hour manual reconstruction across teams becomes a sub-hour query.
+A GDPR data subject requests their information. The firm's delivery pattern: one Purview query returns all data assets containing the subject's identifiers, the transforms they participated in, the agents that consumed them, the decisions rendered, and downstream systems where their data was exported. What historically was a 40-hour manual reconstruction across teams becomes a sub-hour query.
 
 ### J.6.5 HIPAA access-log traceability
 
@@ -12994,7 +12994,7 @@ Every business term has a name, a definition, an owner (the accountable business
 
 ### J.7.2 APEX semantic-model term registration
 
-APEX's Practice semantic models ship with starter glossaries. When Deloitte deploys SCML for a retail client, ~200 RC business terms register into the client's Purview glossary automatically — "Assortment," "Category," "Markdown," "SKU," "Store Cluster," "Inventory Position," "Demand Signal." The client extends the glossary with organization-specific terms and definitions; shared structure accelerates adoption.
+APEX's Practice semantic models ship with starter glossaries. When the firm deploys SCML for a retail client, ~200 RC business terms register into the client's Purview glossary automatically — "Assortment," "Category," "Markdown," "SKU," "Store Cluster," "Inventory Position," "Demand Signal." The client extends the glossary with organization-specific terms and definitions; shared structure accelerates adoption.
 
 ### J.7.3 Per-Practice business-term taxonomies
 
@@ -13016,7 +13016,7 @@ Every term in the glossary links to the APEX semantic-model entity that implemen
 
 ### J.7.5 Client glossary extensions
 
-Clients extend the starter glossary with organization-specific terms — their definition of "active," their computation of "margin," their scoping of "territory." Extensions are client-owned IP in the client's Purview tenant; APEX starter-glossary content remains Deloitte-methodology-owned at framework level.
+Clients extend the starter glossary with organization-specific terms — their definition of "active," their computation of "margin," their scoping of "territory." Extensions are client-owned IP in the client's Purview tenant; APEX starter-glossary content remains firm-methodology-owned at framework level.
 
 ## J.8 Big Box Store Store 100 — Purview in Production
 
@@ -13058,11 +13058,11 @@ Without a shared business vocabulary across stores, the Store 100 incident would
 
 **Client asks:** "How do we govern AI outputs for sensitive data?"
 
-**You say:** "Your Purview deployment enforces it. Classification on your Fabric data propagates through Foundry agent outputs; DLP for AI inspects every generated response; sensitive data is redacted or blocked unless the recipient identity has authorized scope. Deloitte configures Purview with Practice-specific classification taxonomies — PHI patterns for HLS clients, CPNI patterns for telecom, PCI-adjacent patterns for retail. The governance isn't something we build into the agents; it's something the platform enforces around the agents."
+**You say:** "Your Purview deployment enforces it. Classification on your Fabric data propagates through Foundry agent outputs; DLP for AI inspects every generated response; sensitive data is redacted or blocked unless the recipient identity has authorized scope. The firm configures Purview with Practice-specific classification taxonomies — PHI patterns for HLS clients, CPNI patterns for telecom, PCI-adjacent patterns for retail. The governance isn't something we build into the agents; it's something the platform enforces around the agents."
 
 **Client asks:** "How do we prove to a regulator that our AI is compliant?"
 
-**You say:** "Purview Compliance Manager maps regulatory frameworks — HIPAA, GDPR, SOX, 21 CFR Part 11, whatever applies to your business — to the specific controls in your environment. Deloitte configures the mapping during Wave 1. When a regulator asks, you export a controls-and-evidence package from Compliance Manager that shows how each framework requirement is satisfied. The audit row traces any specific decision back to its source data and the framework controls that governed it."
+**You say:** "Purview Compliance Manager maps regulatory frameworks — HIPAA, GDPR, SOX, 21 CFR Part 11, whatever applies to your business — to the specific controls in your environment. The firm configures the mapping during Wave 1. When a regulator asks, you export a controls-and-evidence package from Compliance Manager that shows how each framework requirement is satisfied. The audit row traces any specific decision back to its source data and the framework controls that governed it."
 
 **Client asks:** "Can an agent accidentally see data it shouldn't?"
 
@@ -13070,25 +13070,25 @@ Without a shared business vocabulary across stores, the Store 100 incident would
 
 **Client asks:** "How does business know what's in the data?"
 
-**You say:** "Purview Unified Catalog with Business Glossary. Deloitte delivers a Practice-specific starter glossary — hundreds of terms relevant to your industry with definitions, owners, and links to the data assets that implement them. Business users discover data through natural language; agents resolve business-term questions to precise entity queries using the same glossary; governance team uses the glossary as the definitional source of truth."
+**You say:** "Purview Unified Catalog with Business Glossary. The firm delivers a Practice-specific starter glossary — hundreds of terms relevant to your industry with definitions, owners, and links to the data assets that implement them. Business users discover data through natural language; agents resolve business-term questions to precise entity queries using the same glossary; governance team uses the glossary as the definitional source of truth."
 
 **Client asks:** "What if one line of business needs isolation from another?"
 
-**You say:** "Classification-scoped. Each Practice's data carries a Practice-scoped classification; cross-Practice agent access requires explicit federation approval. RC agents cannot see HLS data by accident; AXLE agents cannot see CPNI by accident. Deloitte configures the classifications and the federation rules during Wave 1 architecture."
+**You say:** "Classification-scoped. Each Practice's data carries a Practice-scoped classification; cross-Practice agent access requires explicit federation approval. RC agents cannot see HLS data by accident; AXLE agents cannot see CPNI by accident. The firm configures the classifications and the federation rules during Wave 1 architecture."
 
-**Client asks:** "What's different about Purview with Deloitte vs Purview on our own?"
+**Client asks:** "What's different about Purview with the firm vs Purview on our own?"
 
-**You say:** "Configuration accelerator. Purview is a rich platform; setting it up for agentic-AI workloads at enterprise scale is 6–12 months of engineering if you start from scratch. Deloitte's delivery brings Practice-specific classification taxonomies, DLP policy templates, compliance framework mappings, business-term starter glossaries, and the lineage-registration patterns for agent workloads. Your Purview runs on your tenant with your licensing; we configure it faster than you could configure it yourselves."
+**You say:** "Configuration accelerator. Purview is a rich platform; setting it up for agentic-AI workloads at enterprise scale is 6–12 months of engineering if you start from scratch. The firm's delivery brings Practice-specific classification taxonomies, DLP policy templates, compliance framework mappings, business-term starter glossaries, and the lineage-registration patterns for agent workloads. Your Purview runs on your tenant with your licensing; we configure it faster than you could configure it yourselves."
 
 ## J.10 Independence Considerations
 
-- **Purview is a Microsoft product.** Client licenses directly from Microsoft. Deloitte does not quote Purview pricing or commit to Purview terms on Microsoft's behalf.
-- **Deloitte configuration is services.** The configuration work — classification taxonomies, DLP policies, glossary registration, lineage patterns — is Deloitte Agentic AI Delivery Services. Contracted separately from Microsoft licensing.
-- **Audit-client rules still apply.** At Deloitte audit clients, Purview-configuration engagements follow standard Audit Committee pre-clearance. Purview configuration is non-audit service; scope clearance required.
-- **No ECIF.** Microsoft-funded ECIF dollars for Purview implementation are prohibited for Deloitte. Approved funding paths only: direct client, DCIF to client, ISV Marketplace, SI teaming.
-- **Language discipline.** "Deloitte configures Purview" is correct; "Deloitte resells Purview" is wrong; "Deloitte's Purview product" is wrong; "Microsoft-Deloitte joint Purview offering" is wrong.
+- **Purview is a Microsoft product.** Client licenses directly from Microsoft. The firm does not quote Purview pricing or commit to Purview terms on Microsoft's behalf.
+- **The firm configuration is services.** The configuration work — classification taxonomies, DLP policies, glossary registration, lineage patterns — is APEX Agentic AI Delivery Services. Contracted separately from Microsoft licensing.
+- **Audit-client rules still apply.** At audit clients, Purview-configuration engagements follow standard Audit Committee pre-clearance. Purview configuration is non-audit service; scope clearance required.
+- **No ECIF.** Microsoft-funded ECIF dollars for Purview implementation are prohibited for the firm. Approved funding paths only: direct client, DCIF to client, ISV Marketplace, SI teaming.
+- **Language discipline.** "The firm configures Purview" is correct; "the firm resells Purview" is wrong; "the firm's Purview product" is wrong; "Microsoft joint Purview offering" is wrong.
 
-> **Independence Reminder.** Purview classification policies and DLP rules authored by Deloitte during delivery are, on the client's Purview tenant, the client's configuration. Deloitte's framework-level methodology (which classifications to create, which DLP patterns to apply, which compliance frameworks to map) remains Deloitte IP for use in the next engagement. At exit, the client keeps their configured Purview; Deloitte keeps the methodology. Two-contract model preserved.
+> **Independence Reminder.** Purview classification policies and DLP rules authored by the firm during delivery are, on the client's Purview tenant, the client's configuration. The firm's framework-level methodology (which classifications to create, which DLP patterns to apply, which compliance frameworks to map) remains firm IP for use in the next engagement. At exit, the client keeps their configured Purview; the firm keeps the methodology. Two-contract model preserved.
 `,
 });
 
@@ -13097,8 +13097,8 @@ chapters.push({
   objectives: [
     'The Microsoft Contact Center stack — Dynamics 365 Contact Center, Copilot Studio, Azure Communication Services, Voice AI',
     'Why the contact center is one of the highest-ROI APEX-accelerated deployment sites',
-    'How Deloitte accelerates contact-center agentic AI using APEX methodology',
-    'Core capabilities Deloitte delivers — real-time voice assist, post-call summarisation, case orchestration, IVR-to-agent transitions, voice-of-customer intelligence',
+    'How the firm accelerates contact-center agentic AI using APEX methodology',
+    'Core capabilities the firm delivers — real-time voice assist, post-call summarisation, case orchestration, IVR-to-agent transitions, voice-of-customer intelligence',
     'Commercial envelope and typical outcomes for contact-center deployments',
   ],
   body: `
@@ -13106,7 +13106,7 @@ chapters.push({
 
 The contact center is where customer experience, operational cost, and regulatory exposure all converge in a single workflow. A mid-size enterprise contact center handles 5–50 million interactions per year; a large enterprise handles 100M+. Every interaction carries a cost (labor, licensing, infrastructure), a customer-experience outcome (NPS, first-contact resolution, handle time), and a regulatory footprint (CPNI, HIPAA, PCI, state privacy rules). Contact centers are also where AI value becomes immediately measurable because handle-time, FCR, and CSAT are already instrumented.
 
-**Why this chapter.** Sellers routinely encounter contact-center conversations in RC, HLS Payer, HLS Provider, TMT-TEL, TH, and ICE pursuits. The Microsoft Contact Center stack plus voice + agentic AI is a high-leverage entry point — and Deloitte's delivery accelerates deployment substantially through APEX methodology.
+**Why this chapter.** Sellers routinely encounter contact-center conversations in RC, HLS Payer, HLS Provider, TMT-TEL, TH, and ICE pursuits. The Microsoft Contact Center stack plus voice + agentic AI is a high-leverage entry point — and the firm's delivery accelerates deployment substantially through APEX methodology.
 
 ## 36.2 The Microsoft Contact Center stack
 
@@ -13227,7 +13227,7 @@ Real-time detection of regulatory-sensitive phrases, automated quality-check aga
 
 ## 36.4 How APEX accelerates contact-center delivery
 
-Deloitte's agent-delivery methodology — when applied to contact-center pursuits — reuses many of the patterns APEX accelerates elsewhere:
+The firm's agent-delivery methodology — when applied to contact-center pursuits — reuses many of the patterns APEX accelerates elsewhere:
 
 ### 36.4.1 Conversational semantic models
 
@@ -13249,7 +13249,7 @@ APEX's MCP tool library extended with contact-center-specific tools:
 
 ### 36.4.3 HITL patterns for contact center
 
-Deloitte's HITL gate framework adapts to voice context — soft HITL (assist agent suggests, human accepts), hard HITL (bot escalates to human), approval HITL (supervisor approves compensation above threshold).
+The firm's HITL gate framework adapts to voice context — soft HITL (assist agent suggests, human accepts), hard HITL (bot escalates to human), approval HITL (supervisor approves compensation above threshold).
 
 ### 36.4.4 Purview classification for conversation data
 
@@ -13261,9 +13261,9 @@ Every bot-handled resolution, every agent-assist suggestion accepted by a human,
 
 ### 36.4.6 Wave-1 envisioning adapted for contact center
 
-Deloitte's standard Wave 1 four-week envisioning adapts cleanly — the specific Practice services selected shift (contact-center-oriented), but the methodology, discovery pattern, and business-case assembly are the same.
+The firm's standard Wave 1 four-week envisioning adapts cleanly — the specific Practice services selected shift (contact-center-oriented), but the methodology, discovery pattern, and business-case assembly are the same.
 
-## 36.5 Key contact-center capabilities Deloitte delivers
+## 36.5 Key contact-center capabilities the firm delivers
 
 **CC-CCX-01 Real-time Voice Assist.** Live-transcript-driven agent assist with knowledge retrieval, response suggestion, compliance flag. Typical uplift: handle-time -15% to -25%, FCR +5 to +10 points, CSAT +10 points.
 
@@ -13305,7 +13305,7 @@ If 4–6 crisply answered, the pursuit is real. Qualify out if the client's cont
 
 ## 36.8 Coexistence with non-Microsoft contact-center platforms
 
-Many clients run Genesys, NICE CX, Cisco Webex Contact Center, Avaya, or vendor-specific contact-center software. Deloitte's delivery accommodates:
+Many clients run Genesys, NICE CX, Cisco Webex Contact Center, Avaya, or vendor-specific contact-center software. The firm's delivery accommodates:
 
 - **Dynamics 365 Contact Center replacement** — where client is ready to migrate the agent desktop to Microsoft
 - **Microsoft-powered overlay** — Copilot Studio + Foundry agents + ACS overlaid on incumbent contact-center platform for assist, intelligence, and voice-AI capabilities without replacing the call-routing fabric
@@ -13326,16 +13326,16 @@ The overlay pattern is the most flexible and preserves client investment in exis
 
 Standard DMTSP Independence discipline applies:
 - Client licenses D365 Contact Center, Copilot Studio, ACS, Speech, Foundry, Purview from Microsoft directly
-- Deloitte's contact-center services contracted separately
+- The firm's contact-center services contracted separately
 - Audit-client pre-clearance required for call-center scope at audit clients
 - Conversation-data PII / PHI handling gets enhanced Purview scrutiny
 - No ECIF for contact-center implementation funding (standard approved paths only)
 
-> **Independence Reminder.** When positioning contact-center offerings, maintain the two-contract framing. Microsoft Contact Center stack is licensed from Microsoft; Deloitte accelerates deployment. Never present as bundled.
+> **Independence Reminder.** When positioning contact-center offerings, maintain the two-contract framing. Microsoft Contact Center stack is licensed from Microsoft; the firm accelerates deployment. Never present as bundled.
   `,
   summary: [
     'Microsoft Contact Center stack = Dynamics 365 + Copilot Studio + ACS + Speech + Foundry + Dataverse + Purview + Entra',
-    'Seven core capabilities Deloitte delivers across pre-call, in-call, post-call, VoC, supervisor, compliance, WFM',
+    'Seven core capabilities the firm delivers across pre-call, in-call, post-call, VoC, supervisor, compliance, WFM',
     'APEX methodology accelerates by extending existing CXML + MCP + HITL + Purview + audit-row patterns to contact-center context',
     'Overlay pattern lets clients keep Genesys / NICE / Cisco while adding Microsoft AI capabilities',
     'Commercial envelopes: Wave 1 $400K-$1.5M, Wave 2 $4-18M, Wave 3 $6-25M per enterprise',
@@ -13351,7 +13351,7 @@ Standard DMTSP Independence discipline applies:
 chapters.push({
   num: 37, part: 5, title: 'Conclusion — The Seller Compact',
   objectives: [
-    'Revisit the positioning compact: what Deloitte sells, what APEX accelerates, what clients experience',
+    'Revisit the positioning compact: what the firm sells, what APEX accelerates, what clients experience',
     'Crystallise the single-sentence seller message',
     'Frame the seller professional arc through this guide',
     'Establish the continuous-improvement disciplines that keep this guide current',
@@ -13361,9 +13361,9 @@ chapters.push({
 
 Thirty-six chapters and twenty-one appendices is a lot of content. Before closing the book, the seller should be able to state the essence of this guide in three sentences without looking it up.
 
-**Sentence one.** Deloitte sells Agentic AI Delivery Services; clients contract Microsoft directly for the platform; APEX is Deloitte internal delivery accelerator that never appears in client conversations, proposals, or SOWs.
+**Sentence one.** The firm sells Agentic AI Delivery Services; clients contract Microsoft directly for the platform; APEX is internal delivery accelerator that never appears in client conversations, proposals, or SOWs.
 
-**Sentence two.** Microsoft four-plane architecture (Fabric data plane, Foundry reasoning plane, Purview governance plane, Entra identity plane) is the only stack that natively composes the capabilities enterprise agentic AI requires — and Deloitte accelerates delivery from the 18–24 month ground-up baseline to a 9–12 month Wave 2 timeline through APEX methodology.
+**Sentence two.** Microsoft four-plane architecture (Fabric data plane, Foundry reasoning plane, Purview governance plane, Entra identity plane) is the only stack that natively composes the capabilities enterprise agentic AI requires — and the firm accelerates delivery from the 18–24 month ground-up baseline to a 9–12 month Wave 2 timeline through APEX methodology.
 
 **Sentence three.** Every agent decision writes an audit row that attributes measurable business outcome; every data element carries a Purview classification that governs access and output; every action flows through a human-in-the-loop gate where judgment matters — and this discipline is what makes enterprise agentic AI defensible at the Chief Compliance Officer, Chief Financial Officer, and Board level.
 
@@ -13377,21 +13377,21 @@ Sellers engage with this guide at three career stages, and the emphasis shifts a
 
 **The seller running pursuits.** Part III (industry playbooks, Ch 9–15), Part IV (account playbooks, Ch 16–28), and Part V (pursuit motion, Ch 29–35) are where the seller spends most time. Industry chapter depth, account-specific intelligence, qualification discipline, discovery workshop execution, proposal framing, objection handling, procurement navigation, and delivery handoff — the operating material for every active pursuit.
 
-**The seller maturing the practice.** Ch 36 (Contact Center), Ch 37 (this conclusion), and the appendices (A–U) are the material the seller uses to deepen specialisation, consult on cross-practice or regulatory-sensitive pursuits, mentor junior sellers, and contribute back to Deloitte methodology. A seller who reads this guide in their first year and returns to contribute in their fifth has completed the arc.
+**The seller maturing the practice.** Ch 36 (Contact Center), Ch 37 (this conclusion), and the appendices (A–U) are the material the seller uses to deepen specialisation, consult on cross-practice or regulatory-sensitive pursuits, mentor junior sellers, and contribute back to firm methodology. A seller who reads this guide in their first year and returns to contribute in their fifth has completed the arc.
 
 ## 37.3 The disciplines that survive this guide revision cycles
 
-Content in this guide will change. Microsoft platform evolves; Deloitte service catalog evolves; client industries evolve; regulatory frameworks evolve. Certain disciplines, however, should survive every revision:
+Content in this guide will change. Microsoft platform evolves; the firm service catalog evolves; client industries evolve; regulatory frameworks evolve. Certain disciplines, however, should survive every revision:
 
-**Independence discipline.** Deloitte audits Microsoft. The two-contract commercial model, the language rules ("technology platform relationship," never "partnership"), the funding-path compliance (no ECIF direct to Deloitte), and the audit-client pre-clearance requirement are non-negotiable. Every seller preserves these.
+**Independence discipline.** The firm audits Microsoft. The two-contract commercial model, the language rules ("technology platform relationship," never "partnership"), the funding-path compliance (no ECIF direct to the firm), and the audit-client pre-clearance requirement are non-negotiable. Every seller preserves these.
 
-**Honest architectural argument.** APEX methodology is Microsoft-native because Microsoft is the only platform that natively composes the four planes enterprise agentic AI requires. Not because Deloitte has a commercial relationship with Microsoft that favours the platform. When a client strategic commitment is AWS, GCP, or another stack, the honest answer is that APEX does not fit; Deloitte has platform-agnostic advisory services available separately.
+**Honest architectural argument.** APEX methodology is Microsoft-native because Microsoft is the only platform that natively composes the four planes enterprise agentic AI requires. Not because the firm has a commercial relationship with Microsoft that favours the platform. When a client strategic commitment is AWS, GCP, or another stack, the honest answer is that APEX does not fit; the firm has platform-agnostic advisory services available separately.
 
 **Client-outcome discipline.** Every deployment carries measurable business outcomes attributed through the audit row. No "we improved AI maturity" hand-waving. CFO-credible dollar-per-decision attribution is the discipline.
 
-**HITL-first agentic AI.** Agents prepare, humans decide — until the client, the regulator, and Deloitte delivery leadership all agree that a specific agent action is appropriate for autonomy. The default posture is HITL. The burden of proof is on autonomy, not on human-in-loop.
+**HITL-first agentic AI.** Agents prepare, humans decide — until the client, the regulator, and firm delivery leadership all agree that a specific agent action is appropriate for autonomy. The default posture is HITL. The burden of proof is on autonomy, not on human-in-loop.
 
-**Cross-practice coherence.** A Deloitte engagement at an enterprise client often spans multiple practices (APEX Industry Practices, AXLE automotive framework, adjacent Deloitte offerings). Cross-practice coordination is how the total client value is greater than any single practice engagement alone.
+**Cross-practice coherence.** An engagement at an enterprise client often spans multiple practices (APEX Industry Practices, AXLE automotive framework, adjacent firm offerings). Cross-practice coordination is how the total client value is greater than any single practice engagement alone.
 
 ## 37.4 Three closing recommendations
 
@@ -13403,14 +13403,14 @@ Content in this guide will change. Microsoft platform evolves; Deloitte service 
 
 ## 37.5 The compact
 
-Sellers are Deloitte front door to enterprise agentic AI. The client experience with Deloitte begins with the seller, and the trajectory of a multi-year strategic relationship is often set in the first ninety seconds of the first conversation. The content of this guide — all thirty-six preceding chapters and twenty-one appendices — exists to make those ninety seconds credible, those first meetings consequential, those pursuits closable, and those deliveries defensible.
+Sellers are the firm front door to enterprise agentic AI. The client experience with the firm begins with the seller, and the trajectory of a multi-year strategic relationship is often set in the first ninety seconds of the first conversation. The content of this guide — all thirty-six preceding chapters and twenty-one appendices — exists to make those ninety seconds credible, those first meetings consequential, those pursuits closable, and those deliveries defensible.
 
 Everything else follows from that.
 
 > **Independence Reminder.** The positioning discipline established in §1.0 is the single most important thing in this guide. When in doubt about language, structure, or commercial framing, the default answer is the one that preserves the two-contract model and the Independence Office approved vocabulary. Nothing else — not a bigger close, not a faster deal, not a more compelling pitch — is worth compromising that discipline.
   `,
   summary: [
-    'Three sentences capture the entire guide: what Deloitte sells, why Microsoft, how decisions stay defensible',
+    'Three sentences capture the entire guide: what the firm sells, why Microsoft, how decisions stay defensible',
     'Sellers use the guide differently at different career stages — foundation, pursuit-running, practice-maturing',
     'Four disciplines survive every revision: Independence, honest architecture, client-outcome focus, HITL-first',
     'Rehearse the scripts; read appendices out of order; contribute back',
@@ -13456,9 +13456,9 @@ The preceding chapters cover each pursuit stage in isolation. This chapter walks
 
 ## 38.3 The scenario
 
-**Client.** A mid-size regional retail chain — 240 stores, $3.8B annual revenue, publicly traded. CFO committed to 150bp margin improvement over 24 months on the last earnings call. Chief Merchant named in her own letter to store directors as responsible for category margin uplift. Current state: SAP S/4 Retail, Oracle Retail Xstore POS, Salesforce Commerce Cloud e-commerce, Adobe Experience Platform for MarTech, mature Microsoft Fabric footprint (F128 reserved) from a prior data-platform project. Not a Deloitte audit client (simplifies Independence).
+**Client.** A mid-size regional retail chain — 240 stores, $3.8B annual revenue, publicly traded. CFO committed to 150bp margin improvement over 24 months on the last earnings call. Chief Merchant named in her own letter to store directors as responsible for category margin uplift. Current state: SAP S/4 Retail, Oracle Retail Xstore POS, Salesforce Commerce Cloud e-commerce, Adobe Experience Platform for MarTech, mature Microsoft Fabric footprint (F128 reserved) from a prior data-platform project. Not an audit client (simplifies Independence).
 
-**The trigger.** A Microsoft GPL who supports the account calls the Deloitte APEX lead: "My ATU thinks this account is ready for agentic AI. Chief Merchant has a margin target and is frustrated by the pace of the current vendor. Can you take a look?"
+**The trigger.** A Microsoft GPL who supports the account calls the APEX lead: "My ATU thinks this account is ready for agentic AI. Chief Merchant has a margin target and is frustrated by the pace of the current vendor. Can you take a look?"
 
 ## 38.4 Week −4 — Internal qualification
 
@@ -13468,7 +13468,7 @@ The APEX lead, before any outbound contact, runs §1.5 qualifier internally with
 2. **Single-threaded executive sponsor?** Maybe — Chief Merchant is the budget owner; CFO is the funding gate.
 3. **Microsoft footprint?** Strong — F128 Fabric, E5 across workforce, Copilot deployed to 800 seats.
 4. **Incumbent SI?** Yes — Accenture on adjacent scope. Neutral, not hostile.
-5. **Auditor?** Not Deloitte. Independence footprint limited to standard tax / advisory separation.
+5. **Auditor?** Not the firm. Independence footprint limited to standard tax / advisory separation.
 6. **Budget posture?** Funded through Merch OpEx for FY27; unused. Ready to deploy.
 7. **Decision window?** Signed by end of Q2; delivery start Q3.
 
@@ -13484,7 +13484,7 @@ Meeting scheduled for the following Tuesday afternoon.
 
 ## 38.6 Week −2 — First meeting
 
-Deloitte team: Principal + RC SME.
+firm team: Principal + RC SME.
 Client team: Chief Merchant + VP Category Management (observer).
 
 Agenda executed per §X.3. The Principal's 3-slide framing:
@@ -13507,7 +13507,7 @@ Deal-qualify checkpoint with pursuit QR: go. Budget assigned to pursuit. Microso
 
 ## 38.8 Week 0 — Discovery Week 1 (Context and pain)
 
-Client team: Chief Merchant, VP Category, VP Pricing, Director of Merchandising Operations, Director of Store Operations. Deloitte team: 4 people per above.
+Client team: Chief Merchant, VP Category, VP Pricing, Director of Merchandising Operations, Director of Store Operations. firm team: 4 people per above.
 
 3-hour session produces:
 
@@ -13587,12 +13587,12 @@ Draft sent to client Friday Week 4.
 
 Procurement raises the seven predictable questions per §3.8:
 
-- MSA already in place from prior Deloitte engagement — reused with amendment.
+- MSA already in place from prior firm engagement — reused with amendment.
 - Payment terms: 40% milestone-1 / 30% milestone-2 / 30% completion.
 - SLA on deliverables: weekly checkpoint; remedies for slippage.
-- Insurance / indemnity: standard Deloitte language.
+- Insurance / indemnity: standard the firm language.
 - Subcontractor disclosure: near-shore engineers disclosed.
-- IP: Deloitte retains APEX IP; client work product per standard terms.
+- IP: The firm retains APEX IP; client work product per standard terms.
 - Exit: termination-for-convenience with 30-day notice; pro-rated work product.
 
 Three rounds of redlines. All manageable.
@@ -13665,22 +13665,22 @@ chapters.push({
 
 **APEX — Agent-based Platform for EXecution.**
 
-APEX is Deloitte's internal delivery accelerator for agentic AI on the Microsoft technology platform. The acronym encodes the core idea: a platform built specifically to turn reasoning agents into executable, governable, auditable business decisions at enterprise scale.
+APEX is the firm's internal delivery accelerator for agentic AI on the Microsoft technology platform. The acronym encodes the core idea: a platform built specifically to turn reasoning agents into executable, governable, auditable business decisions at enterprise scale.
 
 - **A** — Agent-based
 - **P** — Platform
 - **E** — for
 - **X** — EXecution
 
-APEX is a framework of methodology, semantic-model libraries, agent catalogs, MCP tool libraries, HITL gate patterns, audit-row discipline, and Wave 1/2/3 playbooks. APEX is **Deloitte-internal** — it is the accelerator that makes delivery fast, not a product the client buys. Clients contract Deloitte for Agentic AI Delivery Services; Deloitte uses APEX to deliver them. See §1.0 and Appendix Y for the complete positioning.
+APEX is a framework of methodology, semantic-model libraries, agent catalogs, MCP tool libraries, HITL gate patterns, audit-row discipline, and Wave 1/2/3 playbooks. APEX is **internal** — it is the accelerator that makes delivery fast, not a product the client buys. Clients contract the firm for Agentic AI Delivery Services; the firm uses APEX to deliver them. See §1.0 and Appendix Y for the complete positioning.
 
 ## A note from the author
 
-You are holding (or reading on a screen) the Deloitte sellers guide for Agentic AI Delivery Services. The guide exists because the window of opportunity for enterprise agentic AI is genuinely open and genuinely finite. Clients who move now with discipline will have agentic operations that compound for a decade. Clients who delay by eighteen months will have catching up to do. Clients who move without discipline — who skip Independence, skip HITL, skip audit-row attribution — will have failed deployments that harden the organization against future attempts. Sellers have a material role in whether enterprises end up in the first, second, or third category.
+You are holding (or reading on a screen) the sellers guide for Agentic AI Delivery Services. The guide exists because the window of opportunity for enterprise agentic AI is genuinely open and genuinely finite. Clients who move now with discipline will have agentic operations that compound for a decade. Clients who delay by eighteen months will have catching up to do. Clients who move without discipline — who skip Independence, skip HITL, skip audit-row attribution — will have failed deployments that harden the organization against future attempts. Sellers have a material role in whether enterprises end up in the first, second, or third category.
 
-This is the guide I wish I had when I started delivering enterprise agentic AI on the Microsoft platform. It codifies what works and, just as importantly, what does not. The first discipline — established in §1.0 and restated throughout — is that **Deloitte does not sell APEX**. Clients buy Agentic AI Delivery Services from Deloitte; they buy the Microsoft platform from Microsoft; APEX is the internal delivery accelerator that lets us move faster than a ground-up build allows. Sellers who internalise this discipline carry credibility that sellers who blur it do not.
+This is the guide I wish I had when I started delivering enterprise agentic AI on the Microsoft platform. It codifies what works and, just as importantly, what does not. The first discipline — established in §1.0 and restated throughout — is that **the firm does not sell APEX**. Clients buy Agentic AI Delivery Services from the firm; they buy the Microsoft platform from Microsoft; APEX is the internal delivery accelerator that lets us move faster than a ground-up build allows. Sellers who internalise this discipline carry credibility that sellers who blur it do not.
 
-The second discipline is **Independence**. Deloitte is Microsoft external auditor. Every sentence about the Deloitte-Microsoft relationship is regulatorily material. The approved language ("technology platform relationship," "collaboration," never "partnership" or "alliance"), the approved funding paths (direct client, DCIF to client, ISV Marketplace, SI teaming — never ECIF direct to Deloitte), and the audit-client pre-clearance requirement are not stylistic preferences. They are what keep Deloitte audit practice credible.
+The second discipline is **Independence**. The firm is Microsoft external auditor. Every sentence about the Microsoft relationship is regulatorily material. The approved language ("technology platform relationship," "collaboration," never "partnership" or "alliance"), the approved funding paths (direct client, DCIF to client, ISV Marketplace, SI teaming — never ECIF direct to the firm), and the audit-client pre-clearance requirement are not stylistic preferences. They are what keep the firm audit practice credible.
 
 The third discipline is **client outcomes**. Every agent decision writes an audit row that attributes measurable business outcome. No hand-waving. A CFO asking "what are we getting for this" should get a defensible dollar-per-decision answer. Chapter 1 §1.3 covers the three executive pains; Appendix S covers expected KPI ranges per Industry and Functional Area. The discipline is measurement, attribution, and honest range-commitment.
 
@@ -13720,7 +13720,7 @@ Big Box Store • Nike • Sazerac • J&J • GM • Bridgestone • Caterpilla
 Qualifying • Discovery • Proposal • Competitive Positioning • Objection Handling • Procurement • Delivery Handoff (incl. team composition §35.10) • Contact Center • Conclusion • End-to-End Pursuit Walkthrough
 
 ### Appendices A–Z
-A Microsoft Product • B Discovery Questions • C Objection Handbook + §C.9 Pricing • D ROI Calculators • E Independence Notes • F Short Glossary • G Fabric + Databricks/Snowflake co-existence • H APEX Schemas • I MCP Server Tools • J M365 E7 vs Deloitte • K Purview Integration • L Entra & Agent Identity • M Foundry Deep Dive • N Competitive Intelligence • O Commercial Templates • P Discovery Decks • Q Regulatory Reference • R Roadmap • S Managed Services • T KPI Expectations • U Orchestration Catalog • V Cost Calculation • W Cross-Reference Index • X Discovery-to-SOW Artifacts • Y About the Author • Z Comprehensive Glossary
+A Microsoft Product • B Discovery Questions • C Objection Handbook + §C.9 Pricing • D ROI Calculators • E Independence Notes • F Short Glossary • G Fabric + Databricks/Snowflake co-existence • H APEX Schemas • I MCP Server Tools • J M365 E7 vs the firm • K Purview Integration • L Entra & Agent Identity • M Foundry Deep Dive • N Competitive Intelligence • O Commercial Templates • P Discovery Decks • Q Regulatory Reference • R Roadmap • S Managed Services • T KPI Expectations • U Orchestration Catalog • V Cost Calculation • W Cross-Reference Index • X Discovery-to-SOW Artifacts • Y About the Author • Z Comprehensive Glossary
 
 ## Independence bright-line quick-reference
 
@@ -13728,18 +13728,18 @@ The single most-used reference card. Ten things never to say; ten compliance-saf
 
 | Never say | Say instead |
 |---|---|
-| "Deloitte partners with Microsoft" | "Deloitte has a technology platform relationship with Microsoft" |
-| "Our joint venture with Microsoft" | "Deloitte delivers services on the Microsoft platform" |
-| "Microsoft and Deloitte are aligned on pricing" | "Microsoft sets platform pricing; Deloitte sets services pricing independently" |
-| "We can bundle Microsoft and Deloitte" | "You contract Microsoft platform separately from Deloitte services" |
+| "firm partners with Microsoft" | "The firm has a technology platform relationship with Microsoft" |
+| "Our joint venture with Microsoft" | "The firm delivers services on the Microsoft platform" |
+| "Microsoft and the firm are aligned on pricing" | "Microsoft sets platform pricing; the firm sets services pricing independently" |
+| "We can bundle Microsoft and the firm" | "You contract Microsoft platform separately from firm services" |
 | "Microsoft ECIF funds this work" | "Compliant funding paths are direct client, DCIF allocated to client, ISV Marketplace, SI teaming" |
-| "APEX is a Microsoft-endorsed product" | "APEX is Deloitte's internal delivery accelerator, not a product offered to clients" |
-| "We sell APEX" | "Clients contract Deloitte for Agentic AI Delivery Services; Deloitte uses APEX internally" |
-| "Microsoft guarantees this outcome" | "Microsoft provides the platform; Deloitte is accountable for the delivery outcome" |
-| "The audit committee approved this at all Deloitte audit clients" | "Audit Committee pre-clearance is engagement-specific and must be confirmed per pursuit" |
-| "Microsoft promised ECIF" | "ECIF direct to Deloitte is prohibited by Independence rules regardless of who promises it" |
+| "APEX is a Microsoft-endorsed product" | "APEX is the firm's internal delivery accelerator, not a product offered to clients" |
+| "We sell APEX" | "Clients contract the firm for Agentic AI Delivery Services; the firm uses APEX internally" |
+| "Microsoft guarantees this outcome" | "Microsoft provides the platform; the firm is accountable for the delivery outcome" |
+| "The audit committee approved this at all audit clients" | "Audit Committee pre-clearance is engagement-specific and must be confirmed per pursuit" |
+| "Microsoft promised ECIF" | "ECIF direct to the firm is prohibited by Independence rules regardless of who promises it" |
 
-When uncertain, route the language through the Deloitte Independence Office before external use.
+When uncertain, route the language through the Independence Office before external use.
 
 ## Change log
 
@@ -13755,35 +13755,35 @@ The guide evolves quarterly at minimum. Contribution path in Appendix X.
 
 ## Who contributed to this guide
 
-This guide synthesizes learning from hundreds of Deloitte consultants across the DMTSP practice, industry practice leaders in RC / HLS / ER / AXLE / TMT / TH / ICE, the AXLE automotive framework team, technical architects across the Fabric / Foundry / Copilot / Purview / Entra ecosystem, and the Deloitte Independence Office. Names and attributions appear in Appendix X.
+This guide synthesizes learning from hundreds of firm consultants across the DMTSP practice, industry practice leaders in RC / HLS / ER / AXLE / TMT / TH / ICE, the AXLE automotive framework team, technical architects across the Fabric / Foundry / Copilot / Purview / Entra ecosystem, and the Independence Office. Names and attributions appear in Appendix X.
 
 ## What this guide is not
 
-This guide is **not** a legal document. Every Independence reminder points back to the Independence Office for authoritative interpretation. Every regulatory reference (Appendix P) is informational, not legal advice. Every commercial framework (Appendix N) passes through Deloitte Commercial QR before client proposal.
+This guide is **not** a legal document. Every Independence reminder points back to the Independence Office for authoritative interpretation. Every regulatory reference (Appendix P) is informational, not legal advice. Every commercial framework (Appendix N) passes through the firm's Commercial QR before client proposal.
 
-This guide is **not** a client-facing artifact. It is a Deloitte-internal document. When you need client-facing material, use the adapted decks referenced in Appendix O, adapted per pursuit with client-specific substance and reviewed through standard QR channels.
+This guide is **not** a client-facing artifact. It is an internal document. When you need client-facing material, use the adapted decks referenced in Appendix O, adapted per pursuit with client-specific substance and reviewed through standard QR channels.
 
-This guide is **not** static. It evolves quarterly at minimum, and whenever Microsoft platform or Deloitte service catalog changes warrant. Contribute back (Appendix X) when your pursuits produce patterns worth codifying.
+This guide is **not** static. It evolves quarterly at minimum, and whenever Microsoft platform or the firm service catalog changes warrant. Contribute back (Appendix X) when your pursuits produce patterns worth codifying.
 
 ## The moment
 
-In April 2026, the Microsoft four-plane architecture is the only enterprise stack that natively composes data, reasoning, governance, and identity for agentic AI. Deloitte Independence obligation with Microsoft means the commercial path is services-only, two-contract, ECIF-prohibited — the discipline that makes the services relationship durable. And Deloitte Agentic AI Delivery Services, accelerated internally by APEX and (in automotive) AXLE, represents the path to production in under twelve months for clients who otherwise would spend two years building.
+In April 2026, the Microsoft four-plane architecture is the only enterprise stack that natively composes data, reasoning, governance, and identity for agentic AI. Independence obligation with Microsoft means the commercial path is services-only, two-contract, ECIF-prohibited — the discipline that makes the services relationship durable. And APEX Agentic AI Delivery Services, accelerated internally by APEX and (in automotive) AXLE, represents the path to production in under twelve months for clients who otherwise would spend two years building.
 
 That is the moment. This guide is how sellers engage with it.
 
 — **Keven Markham**
 VP, Enterprise Transformation
-Deloitte Microsoft Technology & Services Practice
+Microsoft Technology & Services Practice
 April 2026
   `,
   summary: [
-    'Deloitte does not sell APEX; Deloitte sells Agentic AI Delivery Services; APEX is internal accelerator',
+    'The firm does not sell APEX; the firm sells Agentic AI Delivery Services; APEX is internal accelerator',
     'Independence, client outcomes, and HITL-first discipline are the three foundational disciplines',
     'Read order depends on career stage; new sellers sequential, experienced sellers as reference',
-    'This guide is Deloitte-internal; not legal advice; contribute back when patterns emerge',
+    'This guide is internal; not legal advice; contribute back when patterns emerge',
   ],
   actions: [
-    'Commit the Deloitte-does-not-sell-APEX positioning to automatic recall',
+    'Commit the firm-does-not-sell-APEX positioning to automatic recall',
     'Read the guide in the order appropriate to your career stage',
     'Route Independence questions to the Independence Office directly, not to guide interpretation',
     'Contribute pattern-level learning back quarterly',
@@ -13793,22 +13793,22 @@ April 2026
 appendices.push({
   letter: 'K', title: 'Entra & Agent Identity — The Identity Plane for Agentic AI',
   body: `
-This appendix covers Microsoft Entra's role as the identity plane for Deloitte-delivered agentic AI. Entra authenticates every human user, every agent, every MCP tool call, and every data-plane query. Without Entra's identity guarantees, Purview's classification enforcement would be unenforceable.
+This appendix covers Microsoft Entra's role as the identity plane for firm-delivered agentic AI. Entra authenticates every human user, every agent, every MCP tool call, and every data-plane query. Without Entra's identity guarantees, Purview's classification enforcement would be unenforceable.
 
 ## K.1 How to read this appendix
 
-Entra is a Microsoft platform the client licenses directly. This appendix covers Entra capabilities in the context of Deloitte's agent-delivery services — how agents receive identity, how conditional access gates their actions, how managed identities eliminate credential sprawl, and how Entra Agent ID (emerging) elevates agents to first-class identity principals.
+Entra is a Microsoft platform the client licenses directly. This appendix covers Entra capabilities in the context of the firm's agent-delivery services — how agents receive identity, how conditional access gates their actions, how managed identities eliminate credential sprawl, and how Entra Agent ID (emerging) elevates agents to first-class identity principals.
 
 ## K.2 The four identity categories in APEX
 
 Every action in the APEX architecture is performed by one of four identity types:
 
-- **Human user identity** — a Deloitte consultant or client employee authenticated via Entra with their named credentials.
+- **Human user identity** — a consultant or client employee authenticated via Entra with their named credentials.
 - **Delegated identity** — an agent acting on behalf of a specific human user, inheriting that user's scope for this interaction (typical for Copilot Studio agents).
 - **Workload (managed) identity** — an autonomous agent or service principal acting as itself, with a defined scope bound to its manifest (typical for Foundry-hosted agents invoked on events).
 - **Hybrid delegated + workload** — an agent that switches identity modes based on context (e.g., background processing as workload, user-facing action as delegate).
 
-Deloitte's delivery patterns each agent into one of these categories during design. The category determines the scope model, the audit trail, and the HITL boundary.
+The firm's delivery patterns each agent into one of these categories during design. The category determines the scope model, the audit trail, and the HITL boundary.
 
 ## K.3 Entra capability map
 
@@ -13834,7 +13834,7 @@ Cryptographic attestation of identity. For agents, emerging pattern: every agent
 
 ### K.3.6 Entra Agent ID (emerging)
 
-First-class agent identity — agents treated as principals, not as service accounts. Per-agent audit, per-agent conditional access, per-agent lifecycle. Deloitte's delivery pattern positions agent fleets to adopt Entra Agent ID as it graduates from preview.
+First-class agent identity — agents treated as principals, not as service accounts. Per-agent audit, per-agent conditional access, per-agent lifecycle. The firm's delivery pattern positions agent fleets to adopt Entra Agent ID as it graduates from preview.
 
 ### K.3.7 Entra ID Protection
 
@@ -13846,7 +13846,7 @@ Identity for partner users and customers. For APEX, relevant where client-facing
 
 ### K.3.9 Cross-tenant access settings
 
-Trust relationships between tenants. In multi-tenant APEX deployments (e.g., a bank with an insurance subsidiary), cross-tenant settings govern which Deloitte-delivered agents can reach which subsidiary's data.
+Trust relationships between tenants. In multi-tenant APEX deployments (e.g., a bank with an insurance subsidiary), cross-tenant settings govern which firm-delivered agents can reach which subsidiary's data.
 
 ## K.4 Agent identity deep-dive
 
@@ -13914,22 +13914,22 @@ This design survives audit scrutiny because every action has identity provenance
 
 ## K.8 Independence and Entra
 
-At Deloitte-audit clients, Entra configuration is delivered by Deloitte as part of Agentic AI Delivery Services. The client licenses Entra from Microsoft. At engagement exit, the configured Entra policies remain in the client's tenant; Deloitte retains framework-level methodology.
+At audit clients, Entra configuration is delivered by the firm as part of Agentic AI Delivery Services. The client licenses Entra from Microsoft. At engagement exit, the configured Entra policies remain in the client's tenant; the firm retains framework-level methodology.
 
-> **Independence Reminder.** Never position Entra as Deloitte's product. It is a Microsoft platform capability. Deloitte's services configure Entra for agent-delivery scenarios using APEX methodology internally.
+> **Independence Reminder.** Never position Entra as the firm's product. It is a Microsoft platform capability. The firm's services configure Entra for agent-delivery scenarios using APEX methodology internally.
 `,
 });
 
 appendices.push({
   letter: 'L', title: 'Azure AI Foundry — The Reasoning Plane Deep Dive',
   body: `
-Azure AI Foundry is the intelligence plane for Deloitte's agent delivery. This appendix covers Foundry's full capability surface — model catalog, agent authoring, evaluation, monitoring, responsible-AI enforcement — and how Deloitte configures Foundry for Practice-specific agent workloads.
+Azure AI Foundry is the intelligence plane for the firm's agent delivery. This appendix covers Foundry's full capability surface — model catalog, agent authoring, evaluation, monitoring, responsible-AI enforcement — and how the firm configures Foundry for Practice-specific agent workloads.
 
 ## L.1 Foundry's role in APEX delivery
 
 Every APEX agent runs in Foundry. Every MCP tool call reaches a Gold view whose query was authored by a Foundry agent. Every reasoning chain — single-turn decision, multi-turn planning, tool-use orchestration — executes in Foundry. Without Foundry, the agents exist as concepts but cannot run in production.
 
-The client licenses Foundry directly from Microsoft. Deloitte's services configure and populate Foundry with:
+The client licenses Foundry directly from Microsoft. The firm's services configure and populate Foundry with:
 - Practice-specific agent definitions
 - Tool bindings to MCP servers
 - Evaluation harnesses per agent type
@@ -13957,7 +13957,7 @@ Two primary paths:
 - **Foundry Agent Service (managed runtime)** — declarative agent definitions with tool bindings, prompts, evaluation hooks
 - **Custom agents (code-first)** — Python or .NET with Foundry SDKs, deployed to Container Apps or Functions
 
-Deloitte's APEX library standardises on the Foundry Agent Service for ~90% of agent patterns; custom code for the complex 10% requiring bespoke reasoning chains.
+The firm's APEX library standardises on the Foundry Agent Service for ~90% of agent patterns; custom code for the complex 10% requiring bespoke reasoning chains.
 
 ### L.2.3 Prompt management
 
@@ -13996,7 +13996,7 @@ Content Safety service:
 - Groundedness checks
 - Protected-material detection (code, text)
 
-Foundry integrates Content Safety by default; Deloitte configures thresholds per Practice and use case.
+Foundry integrates Content Safety by default; the firm configures thresholds per Practice and use case.
 
 ### L.2.8 Fine-tuning
 
@@ -14006,7 +14006,7 @@ Where foundation-model behavior needs customisation:
 - Fine-tuning (when RAG insufficient; model-specific)
 - Distillation (smaller model trained from larger's outputs)
 
-Deloitte's default: RAG over Fabric Gold. Fine-tuning reserved for high-volume narrow-domain agents where cost savings justify.
+The firm's default: RAG over Fabric Gold. Fine-tuning reserved for high-volume narrow-domain agents where cost savings justify.
 
 ### L.2.9 Multi-agent orchestration
 
@@ -14019,11 +14019,11 @@ APEX's 47 orchestration patterns map to these primitives, with additional HITL-g
 
 ### L.2.10 Cost and capacity
 
-Foundry billing per-token for most models; per-hour for dedicated hosting. Deloitte's sizing model estimates annual Foundry cost per Practice at Wave 2 scale, enabling the CFO conversation.
+Foundry billing per-token for most models; per-hour for dedicated hosting. The firm's sizing model estimates annual Foundry cost per Practice at Wave 2 scale, enabling the CFO conversation.
 
 ## L.3 Model tier strategy
 
-Deloitte's default model-tier assignment:
+The firm's default model-tier assignment:
 
 | Agent type | Recommended tier | Rationale |
 |---|---|---|
@@ -14033,7 +14033,7 @@ Deloitte's default model-tier assignment:
 | Embedding | Text-embedding-3-large | RAG retrieval |
 | Specialized clinical | MedLM or equivalent | HLS-specific |
 
-Deloitte's delivery optimizes for the cheapest model that meets evaluation threshold, revisited quarterly.
+The firm's delivery optimizes for the cheapest model that meets evaluation threshold, revisited quarterly.
 
 ## L.4 Agent patterns in Foundry
 
@@ -14087,7 +14087,7 @@ Foundry token cost is the largest ongoing Microsoft-licensing-side expense in a 
 - Batch inference for non-latency-sensitive agents
 - RAG optimization (retrieve less, reason over quality)
 
-Deloitte's delivery includes quarterly cost-review cadence to tune.
+The firm's delivery includes quarterly cost-review cadence to tune.
 
 ## L.8 Reference deployment — Big Box Store Store 100 Foundry configuration
 
@@ -14103,28 +14103,28 @@ Store 100 agent fleet runs in Foundry with:
 ## L.9 Independence considerations
 
 - Foundry is a Microsoft product; client contracts Microsoft
-- Deloitte's Foundry configuration (agent definitions, evaluators, monitoring) is services work
+- The firm's Foundry configuration (agent definitions, evaluators, monitoring) is services work
 - Audit-client pre-clearance required for regulated-industry agent deployment
-- Language: "Deloitte configures Foundry for agent delivery" — never "Deloitte sells Foundry"
+- Language: "The firm configures Foundry for agent delivery" — never "the firm sells Foundry"
 
-> **Independence Reminder.** Foundry pricing and licensing terms are Microsoft-to-client. Deloitte does not represent Foundry economics on Deloitte letterhead.
+> **Independence Reminder.** Foundry pricing and licensing terms are Microsoft-to-client. The firm does not represent Foundry economics on the firm letterhead.
 `,
 });
 
 appendices.push({
   letter: 'M', title: 'Competitive Intelligence Dossier — Engagement-Level Competitors',
   body: `
-This appendix covers engagement-level competitive intelligence for the major SIs Deloitte faces in agentic-AI delivery pursuits. Chapter 4 covers platform-level competition (AWS, GCP, IBM Cloud, Oracle, Salesforce). This appendix covers services competitors.
+This appendix covers engagement-level competitive intelligence for the major SIs the firm faces in agentic-AI delivery pursuits. Chapter 4 covers platform-level competition (AWS, GCP, IBM Cloud, Oracle, Salesforce). This appendix covers services competitors.
 
 ## M.1 Accenture
 
 **Strength.** Breadth, scale, deep Microsoft Alliance (branded as "Avanade" for Microsoft-specific delivery). Large agentic-AI investments (~$3B announced). Broad industry coverage.
 
-**Weakness.** Their scale can mean less specialization per engagement team. Their Microsoft Alliance is commercial-forward, which creates Independence-positioning advantages for Deloitte at audit clients.
+**Weakness.** Their scale can mean less specialization per engagement team. Their Microsoft Alliance is commercial-forward, which creates Independence-positioning advantages for the firm at audit clients.
 
 **Where they win.** Enterprise-scale transformations where client values Accenture's industrial-scale delivery machinery; clients where Avanade has historical depth.
 
-**Where Deloitte wins.** Deloitte audit-client base (Independence advantage), regulated-industry specificity, boardroom credibility with CFOs and Audit Committees.
+**Where the firm wins.** The firm audit-client base (Independence advantage), regulated-industry specificity, boardroom credibility with CFOs and Audit Committees.
 
 **Rehearsed response.** "Accenture is a capable alternative. The differentiator at clients like yours is our Independence posture and the depth of our AXLEML / SCML / PatientML semantic-model library. Let's compare on delivery accelerator IP and reference-architecture maturity, not on consultant headcount."
 
@@ -14132,13 +14132,13 @@ This appendix covers engagement-level competitive intelligence for the major SIs
 
 **Strength.** Strong European presence, growing agentic-AI practice, Microsoft-capable delivery.
 
-**Weakness.** Narrower US market presence than Accenture/Deloitte. Less regulated-industry specificity.
+**Weakness.** Narrower US market presence than Accenture. Less regulated-industry specificity.
 
 **Where they win.** European engagements, cost-sensitive pursuits.
 
-**Where Deloitte wins.** US-majority pursuits, regulated industries, complex multi-Practice engagements.
+**Where the firm wins.** US-majority pursuits, regulated industries, complex multi-Practice engagements.
 
-**Rehearsed response.** "Capgemini can deliver. The Deloitte differentiator is our regulatory specificity — if your pursuit touches HIPAA, FSMA 204, SOX, or 21 CFR Part 11, our compliance-integrated delivery pattern is an architectural advantage, not an add-on."
+**Rehearsed response.** "Capgemini can deliver. The differentiator is our regulatory specificity — if your pursuit touches HIPAA, FSMA 204, SOX, or 21 CFR Part 11, our compliance-integrated delivery pattern is an architectural advantage, not an add-on."
 
 ## M.3 IBM Consulting
 
@@ -14148,9 +14148,9 @@ This appendix covers engagement-level competitive intelligence for the major SIs
 
 **Where they win.** IBM-incumbent clients, watsonx-selected deployments, hybrid-cloud preferences.
 
-**Where Deloitte wins.** Microsoft-primary strategic clients, clients who want single-stack coherence.
+**Where the firm wins.** Microsoft-primary strategic clients, clients who want single-stack coherence.
 
-**Rehearsed response.** "IBM is strong where watsonx is the strategic platform choice. For clients committed to Microsoft as the primary AI platform, Deloitte's delivery accelerator is purpose-built for Fabric / Foundry / Copilot / Purview composition. Architectural fit matters more than competitor features."
+**Rehearsed response.** "IBM is strong where watsonx is the strategic platform choice. For clients committed to Microsoft as the primary AI platform, the firm's delivery accelerator is purpose-built for Fabric / Foundry / Copilot / Purview composition. Architectural fit matters more than competitor features."
 
 ## M.4 TCS (Tata Consultancy Services)
 
@@ -14160,19 +14160,19 @@ This appendix covers engagement-level competitive intelligence for the major SIs
 
 **Where they win.** Cost-sensitive pursuits, execution-heavy Wave 2 implementation, operate phases.
 
-**Where Deloitte wins.** Executive-advisory-led pursuits, regulated industries, strategic transformations where Deloitte's boardroom credibility matters.
+**Where the firm wins.** Executive-advisory-led pursuits, regulated industries, strategic transformations where the firm's boardroom credibility matters.
 
-**Rehearsed response.** "TCS is a capable execution partner. The Deloitte differentiator is strategic-advisory depth — our partners sit in your board and steering-committee conversations and bring regulated-industry and audit-committee fluency. If your pursuit is execution-only, TCS may fit; if it spans strategy through execution, Deloitte's offering differs."
+**Rehearsed response.** "TCS is a capable execution partner. The differentiator is strategic-advisory depth — our partners sit in your board and steering-committee conversations and bring regulated-industry and audit-committee fluency. If your pursuit is execution-only, TCS may fit; if it spans strategy through execution, the firm's offering differs."
 
 ## M.5 Infosys
 
 **Strength.** Strong retail and banking, growing agentic-AI investment, competitive pricing.
 
-**Weakness.** Smaller regulated-industry footprint, less boardroom presence at Fortune 100 than Deloitte.
+**Weakness.** Smaller regulated-industry footprint, less boardroom presence at Fortune 100 than the firm.
 
 **Where they win.** Retail pursuits with cost sensitivity, mid-market clients.
 
-**Where Deloitte wins.** Same pattern as TCS — strategic + regulated.
+**Where the firm wins.** Same pattern as TCS — strategic + regulated.
 
 **Rehearsed response.** Similar to TCS.
 
@@ -14184,7 +14184,7 @@ This appendix covers engagement-level competitive intelligence for the major SIs
 
 **Where they win.** HLS pursuits with strong Cognizant incumbency.
 
-**Where Deloitte wins.** Strategic HLS transformations; clients migrating away from Cognizant.
+**Where the firm wins.** Strategic HLS transformations; clients migrating away from Cognizant.
 
 ## M.7 Wipro
 
@@ -14208,26 +14208,26 @@ In specific Practice areas, specialty firms may compete:
 ## M.10 Competitive posture rules
 
 1. **Never disparage a competitor.** Independence rules and client sophistication mean disparagement backfires.
-2. **Lead on Deloitte differentiators** — Independence, regulated-industry depth, APEX internal accelerator, boardroom credibility.
+2. **Lead on the firm differentiators** — Independence, regulated-industry depth, APEX internal accelerator, boardroom credibility.
 3. **Acknowledge where competitors are strong** — credibility grows when you concede accurately.
-4. **Close on architectural fit** — "APEX methodology + Microsoft platform + Deloitte Independence" is hard to replicate.
+4. **Close on architectural fit** — "APEX methodology + Microsoft platform + Independence" is hard to replicate.
 
-> **Independence Reminder.** Competitive intelligence is internal seller material. Never share competitor-specific analysis with clients on Deloitte letterhead.
+> **Independence Reminder.** Competitive intelligence is internal seller material. Never share competitor-specific analysis with clients on the firm letterhead.
 `,
 });
 
 appendices.push({
   letter: 'N', title: 'Commercial Modeling Templates — ROI, Business Case, SOW, Value-Share',
   body: `
-This appendix provides the commercial templates sellers use in pursuit. All templates are internal Deloitte; client versions adapted from these.
+This appendix provides the commercial templates sellers use in pursuit. All templates are internal the firm; client versions adapted from these.
 
 ## N.1 ROI calculator structure
 
 Every pursuit needs a client-specific ROI model. Standard structure:
 
 **Inputs:**
-- Wave 1 investment envelope (Deloitte services)
-- Wave 2 investment envelope (Deloitte services)
+- Wave 1 investment envelope (firm services)
+- Wave 2 investment envelope (firm services)
 - Microsoft platform annual consumption (client pays, informational for ROI context)
 - Implementation timeline (Wave 1 weeks, Wave 2 months)
 - Steady-state operating cost
@@ -14280,7 +14280,7 @@ Use client's actual scale and public KPIs to scope each benefit category.
 
 **Supporting detail:**
 - Benefit breakdown by category (3-5 categories typical)
-- Investment breakdown (Deloitte services + Microsoft platform + client resource)
+- Investment breakdown (firm services + Microsoft platform + client resource)
 - Risk register with mitigation
 - Governance and HITL model
 - Success criteria per Wave
@@ -14288,13 +14288,13 @@ Use client's actual scale and public KPIs to scope each benefit category.
 
 ## N.4 SOW structural template
 
-**Standard SOW sections for Deloitte Agentic AI Delivery Services:**
+**Standard SOW sections for APEX Agentic AI Delivery Services:**
 1. Executive summary
 2. Scope (in-scope, out-of-scope)
 3. Approach and methodology (Wave structure)
 4. Deliverables
 5. Project timeline
-6. Project team (Deloitte resources; client resources)
+6. Project team (firm resources; client resources)
 7. Fees and payment schedule
 8. Commercial terms
 9. Change-control process
@@ -14314,25 +14314,25 @@ For select APEX services (RC shrink, RC recovery, ICE warranty, HLS denial recov
 - Maximum / cap on value-share payout
 - Client right to dispute measurement
 
-Not all clients and pursuits fit value-share. Deloitte Commercial QR reviews fit per engagement.
+Not all clients and pursuits fit value-share. The firm's Commercial QR reviews fit per engagement.
 
 ## N.6 Pricing-conversation choreography
 
 **Order of operations:**
 1. Establish outcome / benefit (qualitative first)
 2. Anchor benefit magnitude (range)
-3. Introduce Deloitte services fee in relation to benefit
+3. Introduce firm services fee in relation to benefit
 4. Note Microsoft platform is separate, contracted client↔Microsoft
 5. Respond to "cheaper alternatives" by differentiating on risk, speed, Independence
 6. Close on payback window and 3-year cumulative value
 
 **Never:**
 - Quote Microsoft platform pricing
-- Bundle commercials across Deloitte and Microsoft
+- Bundle commercials across the firm and Microsoft
 - Lead with fee before establishing benefit
 - Accept outcome-pricing without baseline methodology
 
-> **Independence Reminder.** Commercial templates are internal. Client-facing versions reviewed by Deloitte Commercial QR before issue.
+> **Independence Reminder.** Commercial templates are internal. Client-facing versions reviewed by the firm's Commercial QR before issue.
 `,
 });
 
@@ -14345,9 +14345,9 @@ This appendix outlines the 12-slide deck structure for first-meeting conversatio
 
 1. **Opener.** "Your agentic-AI program in three questions."
 2. **The three questions:** Can you deliver measurable outcomes in 12 months? Can your governance survive regulator inspection? Can your architecture evolve with Microsoft's platform?
-3. **Deloitte's answer to question 1** — delivery track record (referenceable).
-4. **Deloitte's answer to question 2** — integrated Purview / Entra / Compliance-Manager posture.
-5. **Deloitte's answer to question 3** — Microsoft-native delivery, accelerator methodology.
+3. **The firm's answer to question 1** — delivery track record (referenceable).
+4. **The firm's answer to question 2** — integrated Purview / Entra / Compliance-Manager posture.
+5. **The firm's answer to question 3** — Microsoft-native delivery, accelerator methodology.
 6. **The four-plane architecture** — Fabric / Foundry / Purview / Entra.
 7. **Store 100 reference** — concrete retail outcome.
 8. **Practice-specific reference** (HLS / ER / AXLE / TH per client's industry).
@@ -14363,7 +14363,7 @@ This appendix outlines the 12-slide deck structure for first-meeting conversatio
 3. **Audit row attribution** — per-decision dollar traceability.
 4. **Payback examples** — per-Practice benefit anchors (Appendix N).
 5. **Risk register** — what's bounded, what's managed.
-6. **The two-contract commercial** — Microsoft platform + Deloitte services separate.
+6. **The two-contract commercial** — Microsoft platform + firm services separate.
 7. **Per-Wave investment and outcome.**
 8. **Reference financial cases** (anonymised).
 9. **Microsoft licensing economics** — high level, direct to client's account team for detail.
@@ -14405,7 +14405,7 @@ This appendix outlines the 12-slide deck structure for first-meeting conversatio
 
 1. **Opener.** "Customer-facing AI that scales human judgment."
 2. **The customer-experience tension** — personalisation vs creepy; fast vs mistake-prone.
-3. **Deloitte's HITL + Purview pattern.**
+3. **The firm's HITL + Purview pattern.**
 4. **Big Box Store BOPIS substitution** — 47-second customer confirmation.
 5. **Industry-specific customer example.**
 6. **Agentic personalisation architecture** — Fabric + Foundry + Copilot.
@@ -14513,20 +14513,20 @@ This appendix is the seller's regulatory primer per Practice. Sellers do not giv
 
 When a client raises a regulation:
 1. Acknowledge the regulation exists and applies
-2. Note that Deloitte's delivery includes compliance design as a Wave-1 deliverable
+2. Note that the firm's delivery includes compliance design as a Wave-1 deliverable
 3. Describe the general pattern (Purview for lineage, audit row for defensibility, HITL for human accountability)
 4. Commit to specific-regulation mapping in envisioning, not in first-meeting
 
-**Never:** provide definitive legal interpretation; Deloitte Legal reviews regulated-industry SOWs.
+**Never:** provide definitive legal interpretation; the firm's Legal reviews regulated-industry SOWs.
 
-> **Independence Reminder.** Regulatory references are general; not legal advice. Client-specific compliance engagements include legal review per Deloitte policy.
+> **Independence Reminder.** Regulatory references are general; not legal advice. Client-specific compliance engagements include legal review per firm policy.
 `,
 });
 
 appendices.push({
   letter: 'Q', title: 'FY27/FY28 Platform and Services Roadmap',
   body: `
-This appendix covers the forward-looking 24-month view of where Deloitte's agent delivery and the Microsoft platform are heading. Sellers use this for multi-year engagement conversations.
+This appendix covers the forward-looking 24-month view of where the firm's agent delivery and the Microsoft platform are heading. Sellers use this for multi-year engagement conversations.
 
 ## Q.1 Microsoft platform trajectory
 
@@ -14548,7 +14548,7 @@ This appendix covers the forward-looking 24-month view of where Deloitte's agent
 - Industry-specific Copilot variants in wider GA
 - Regulatory frameworks beginning to harden around AI (EU AI Act fully operational, US federal frameworks coalescing)
 
-## Q.2 Deloitte Agentic AI Delivery Services trajectory
+## Q.2 APEX Agentic AI Delivery Services trajectory
 
 ### FY27 roadmap
 
@@ -14562,7 +14562,7 @@ This appendix covers the forward-looking 24-month view of where Deloitte's agent
 ### FY28 roadmap
 
 - Autonomous-tier agent patterns (beyond today's HITL-heavy patterns, for specific low-stakes use cases)
-- Client-extension SDK / toolkit (enabling client engineering teams to extend APEX without Deloitte for certain patterns)
+- Client-extension SDK / toolkit (enabling client engineering teams to extend APEX without the firm for certain patterns)
 - Industry-vertical reference deployments expanded (beyond Store 100 model)
 - Continuous-improvement operational pattern as standard Wave 3 motion
 
@@ -14580,14 +14580,14 @@ This appendix covers the forward-looking 24-month view of where Deloitte's agent
 - Position Wave 3 as a forward-looking architecture that evolves with Microsoft's trajectory
 - Use the roadmap to justify multi-year commercial commitments without over-committing to specific feature availability
 
-> **Independence Reminder.** Microsoft's roadmap is Microsoft's. Deloitte does not pre-announce Microsoft features; direct clients to their Microsoft account team for specific roadmap commitments.
+> **Independence Reminder.** Microsoft's roadmap is Microsoft's. The firm does not pre-announce Microsoft features; direct clients to their Microsoft account team for specific roadmap commitments.
 `,
 });
 
 appendices.push({
   letter: 'R', title: 'Managed Services & Sustain Motion — Post-Wave-2 Operations',
   body: `
-This appendix covers the sustain phase that follows Wave 2 implementation. Managed services is where the largest long-term commercial value lives and where Deloitte's client relationship becomes durable.
+This appendix covers the sustain phase that follows Wave 2 implementation. Managed services is where the largest long-term commercial value lives and where the firm's client relationship becomes durable.
 
 ## R.1 What sustain means
 
@@ -14595,17 +14595,17 @@ Post-Wave-2 "go-live" is not the end. Agent fleets require ongoing operation: ev
 
 ## R.2 Three sustain operating models
 
-### Model A: Client-operated, Deloitte advisory
+### Model A: Client-operated, the firm advisory
 
-Client operates the agent fleet with their own team; Deloitte provides advisory, periodic review, major-change support. Lower ongoing fee; client owns operational maturity.
+Client operates the agent fleet with their own team; the firm provides advisory, periodic review, major-change support. Lower ongoing fee; client owns operational maturity.
 
-### Model B: Deloitte-operated managed service
+### Model B: Firm-operated managed service
 
-Deloitte runs agent fleet on client's Microsoft platform. Full managed operation including evaluation, tuning, scope expansion, incident response. Monthly / quarterly fee structure; SLA-backed.
+The firm runs agent fleet on client's Microsoft platform. Full managed operation including evaluation, tuning, scope expansion, incident response. Monthly / quarterly fee structure; SLA-backed.
 
 ### Model C: Hybrid
 
-Client operates routine; Deloitte handles exceptions, major changes, regulatory updates, scope expansions. Most common pattern at scale.
+Client operates routine; the firm handles exceptions, major changes, regulatory updates, scope expansions. Most common pattern at scale.
 
 ## R.3 Managed-service scope dimensions
 
@@ -14665,7 +14665,7 @@ Healthy managed-service relationships:
 - 95%+ renewal at end of term
 - Typical scope expansion: 15-25% year-over-year
 - Cross-practice expansion: 30%+ of clients expand to a second Practice within 36 months
-- Deloitte's role deepens from delivery to strategic advisor
+- The firm's role deepens from delivery to strategic advisor
 
 ## R.7 Exit and handoff
 
@@ -14674,7 +14674,7 @@ When a client ends managed service:
 - Full documentation handoff
 - Knowledge transfer to client team
 - Artefact ownership transfer (configurations, pipelines, agents are client's)
-- APEX framework methodology remains Deloitte's (client does not own methodology)
+- APEX framework methodology remains the firm's (client does not own methodology)
 - Post-exit: option for periodic advisory engagement
 
 ## R.8 Selling managed services
@@ -14688,7 +14688,7 @@ Managed services is a separate commercial conversation from Wave 1-2. Best timin
 appendices.push({
   letter: 'S', title: 'KPI Expectations — APEX and AXLE Outcomes by Industry and Functional Area',
   body: `
-This appendix presents KPI improvement expectations from Deloitte agent delivery (accelerated by APEX and, for automotive, AXLE). KPIs are organized by Industry and by Functional Area — Corporate, Operations, and Frontline — so sellers can match the right KPI to the buyer in the room.
+This appendix presents KPI improvement expectations from the firm agent delivery (accelerated by APEX and, for automotive, AXLE). KPIs are organized by Industry and by Functional Area — Corporate, Operations, and Frontline — so sellers can match the right KPI to the buyer in the room.
 
 ## S.1 How to read this appendix
 
@@ -14924,11 +14924,11 @@ Relevant across RC / HLS / TMT-TEL / TH / ICE wherever contact-center presence e
 
 ## S.10 KPI defensibility disciplines
 
-Every KPI above carries three defensibility disciplines that Deloitte delivery builds in:
+Every KPI above carries three defensibility disciplines that firm delivery builds in:
 
 1. **Baseline established in Wave 1.** Before agents deploy, baseline measurement methodology is agreed with the client. No "it was always like this" arguments later.
 2. **Attribution mechanism.** Every KPI uplift traces to specific agent decisions through APEX audit row. CFO's FP&A team can query the attribution path.
-3. **Confounding-factor management.** Concurrent initiatives that could influence KPIs are inventoried; measurement accounts for them. Deloitte Commercial QR reviews attribution methodology for value-share arrangements.
+3. **Confounding-factor management.** Concurrent initiatives that could influence KPIs are inventoried; measurement accounts for them. The firm's Commercial QR reviews attribution methodology for value-share arrangements.
 
 ## S.11 KPI conversation discipline for sellers
 
@@ -14937,9 +14937,9 @@ Every KPI above carries three defensibility disciplines that Deloitte delivery b
 - **Offer ranges, not points** — avoid false precision; stretch-conservative-realistic trio
 - **Frame attribution explicitly** — "this KPI will be measured by [specific audit-row query] with [specific confounding factor] controlled"
 - **Match to the buyer** — CFOs get dollar KPIs; COOs get cycle-time; frontline leaders get time-returned
-- **Never use a competitor's KPI** — "Accenture told us +X%" is not a Deloitte commitment
+- **Never use a competitor's KPI** — "Accenture told us +X%" is not a commitment
 
-> **Independence Reminder.** KPI ranges are illustrative and based on Deloitte's aggregated delivery experience. Specific client commitments go through Deloitte Commercial QR review. Value-share arrangements with KPI-linked fees require additional Independence and Risk sign-off.
+> **Independence Reminder.** KPI ranges are illustrative and based on the firm's aggregated delivery experience. Specific client commitments go through the firm's Commercial QR review. Value-share arrangements with KPI-linked fees require additional Independence and Risk sign-off.
 `,
 });
 
@@ -15031,12 +15031,12 @@ The sellers guide has **38 chapters and 26 appendices** (A through Z). Linear re
 | B | Discovery Question Bank |
 | C | Objection Handbook (incl. §C.9 pricing) |
 | D | ROI Calculators & Commercial Templates |
-| E | Deloitte Independence Notes |
+| E | Independence Notes |
 | F | Glossary (quick-reference) |
 | G | Data Platform Co-existence — Fabric with Databricks / Snowflake |
 | H | APEX Schemas, Entities, Agent Consumption Patterns |
 | I | MCP Server Tools |
-| J | Microsoft 365 E7 vs Deloitte Delivery |
+| J | Microsoft 365 E7 vs the firm's Delivery |
 | K | Purview Integration |
 | L | Entra & Agent Identity |
 | M | Azure AI Foundry Deep Dive |
@@ -15084,25 +15084,25 @@ Purpose: convert a warm introduction or cold contact into a scheduled first meet
 >
 > {{FirstName}},
 >
-> Thanks for the introduction from {{Referrer}}. I lead {{Practice}} for Deloitte's Microsoft Technology & Services Practice. A few {{similar-industry}} clients have asked us the same question this year: **how do we deliver agentic AI on our Microsoft estate without another 18-month data-platform project?**
+> Thanks for the introduction from {{Referrer}}. I lead {{Practice}} for Microsoft Technology & Services Practice. A few {{similar-industry}} clients have asked us the same question this year: **how do we deliver agentic AI on our Microsoft estate without another 18-month data-platform project?**
 >
-> The short answer is our APEX delivery framework — Deloitte's internal accelerator that compresses Wave-1 envisioning to 4–8 weeks and Wave-2 delivery to 6–12 months by reusing canonical schemas, agent catalogs, and orchestration patterns specific to {{Practice}}.
+> The short answer is our APEX delivery framework — the firm's internal accelerator that compresses Wave-1 envisioning to 4–8 weeks and Wave-2 delivery to 6–12 months by reusing canonical schemas, agent catalogs, and orchestration patterns specific to {{Practice}}.
 >
 > Could I book a 30-minute call to show you the reference architecture and the two or three {{Practice}} services that typically lead? Week of {{Date}} works if you have time.
 >
 > {{Signature}}
 
-**Reviewer checklist before sending.** Is "APEX" positioned as internal Deloitte accelerator, not a product? Is the two-contract framing absent from this email (intentionally — first-meeting goal, not legal)? Is the industry-specific hook present?
+**Reviewer checklist before sending.** Is "APEX" positioned as internal the firm accelerator, not a product? Is the two-contract framing absent from this email (intentionally — first-meeting goal, not legal)? Is the industry-specific hook present?
 
 ## W.3 The 30-minute discovery agenda
 
-For a first exploratory conversation with a C-level or VP-level sponsor. Deloitte team of 2 (lead + SME or architect); client team of 1–3.
+For a first exploratory conversation with a C-level or VP-level sponsor. firm team of 2 (lead + SME or architect); client team of 1–3.
 
 | Time | Topic | Lead | Output |
 |---|---|---|---|
-| 0–5 min | Introductions, meeting goal | Deloitte lead | Alignment on agenda |
+| 0–5 min | Introductions, meeting goal | The firm lead | Alignment on agenda |
 | 5–10 min | Client context — what's on your board agenda for agentic AI | Client speaks | Qualifier signal per §1.5 |
-| 10–20 min | Deloitte framing — 3 slides: APEX framework, reference architecture, one industry narrative | Deloitte lead | Architect credibility |
+| 10–20 min | The firm framing — 3 slides: APEX framework, reference architecture, one industry narrative | The firm lead | Architect credibility |
 | 20–25 min | The question we most want your input on — which decision in your operating area would you most want automated first? | Client speaks | Lead-service hypothesis |
 | 25–30 min | Next steps | Both | Scheduled discovery workshop OR explicit decline |
 
@@ -15110,7 +15110,7 @@ Ends with one of three outcomes: **discovery workshop scheduled**, **second expl
 
 ## W.4 The four-week discovery workshop outline
 
-Wave 0 / Wave 1 pre-landing. Four weekly sessions, 2–3 hours each. Deloitte team of 4; client team of 6–10.
+Wave 0 / Wave 1 pre-landing. Four weekly sessions, 2–3 hours each. firm team of 4; client team of 6–10.
 
 ### W.4.1 Week 1 — Context and pain mapping
 
@@ -15170,20 +15170,20 @@ Output: Wave 1 plan, Wave 2 roadmap, draft SOW.
 
 ## W.6 Wave 1 SOW outline
 
-Each section below is a placeholder that Deloitte Commercial fills with approved language.
+Each section below is a placeholder that the firm's Commercial fills with approved language.
 
 1. Parties and recitals
 2. Engagement scope — "Wave 1 envisioning and landing for {{ServiceList}} on Microsoft technology platform"
 3. Deliverables — reference §W.5 list, numbered
 4. Timeline — 4–12 weeks, named weekly milestones
-5. Team — Deloitte team per §35.10.1 (individuals named at contract execution)
+5. Team — firm team per §35.10.1 (individuals named at contract execution)
 6. Client obligations — data access, stakeholder availability, platform access
 7. Microsoft platform prerequisites — "Client responsible for Microsoft platform licensing and capacity independently"
 8. Commercial terms — Wave 1 fixed fee + expenses; payment schedule
 9. Wave 2 option — client option to extend, commercial envelope range declared
-10. Independence provisions — specific to Deloitte audit-client status if applicable
-11. Intellectual property — APEX IP remains Deloitte; client work product as defined
-12. Standard terms — per Deloitte MSA / engagement letter
+10. Independence provisions — specific to the firm audit-client status if applicable
+11. Intellectual property — APEX IP remains the firm; client work product as defined
+12. Standard terms — per the firm's MSA / engagement letter
 
 ## W.7 Wave 2 SOW additions
 
@@ -15200,11 +15200,11 @@ Wave 2 SOWs add:
 Before submitting the SOW to the client, route through the pursuit QR:
 
 - [ ] Independence pre-clearance confirmed if audit client
-- [ ] Funding path identified and Independence-compliant (no ECIF direct to Deloitte)
+- [ ] Funding path identified and Independence-compliant (no ECIF direct to the firm)
 - [ ] Two-contract framing explicit in SOW
 - [ ] Scope / schedule / price internally consistent
 - [ ] Named team roles approved by Delivery
-- [ ] IP terms consistent with standard Deloitte IP policy
+- [ ] IP terms consistent with standard firm IP policy
 - [ ] Regulatory obligations accurately reflected
 - [ ] KPI commitments defensible (per §C.9.10)
 
@@ -15216,7 +15216,7 @@ Before submitting the SOW to the client, route through the pursuit QR:
 - **Over-scoping Wave 1.** Wave 1 is **not** for 10 services. 1–3 is right; Wave 2 grows.
 - **Under-scoping KPI.** "KPI improvement" is not a deliverable. "MAPE reduction of 20–35% for SKU-store-day forecast, Week 10 vs Wave 0 baseline" is.
 
-> **Independence Reminder.** All templates in this appendix are internal starting points. Every externally-distributed document must be reviewed by the pursuit QR and, where Deloitte is the client's auditor, by the Independence Office before release.
+> **Independence Reminder.** All templates in this appendix are internal starting points. Every externally-distributed document must be reviewed by the pursuit QR and, where the firm is the client's auditor, by the Independence Office before release.
 `,
 });
 
@@ -15227,15 +15227,15 @@ appendices.push({
 
 **Keven Markham**
 VP, Enterprise Transformation
-Deloitte Microsoft Technology & Services Practice (DMTSP)
+Microsoft Technology & Services Practice (DMTSP)
 
-Keven leads enterprise transformation within Deloitte's Microsoft Technology & Services Practice, with a focus on agentic-AI delivery on the Microsoft platform. His work centers on the architectural and operational discipline required to move agentic AI from pilot to production at enterprise scale in regulated industries.
+Keven leads enterprise transformation within Microsoft Technology & Services Practice, with a focus on agentic-AI delivery on the Microsoft platform. His work centers on the architectural and operational discipline required to move agentic AI from pilot to production at enterprise scale in regulated industries.
 
-Keven has delivered large-scale Microsoft-platform transformations across Retail, Healthcare, Energy, Manufacturing, Telecom, and Travel. His recent work includes authoring and codifying the APEX internal delivery accelerator methodology — the framework of semantic models, agent libraries, MCP tool catalogs, HITL gate patterns, and audit-row discipline that Deloitte uses to accelerate agentic-AI deployment on the Microsoft technology platform.
+Keven has delivered large-scale Microsoft-platform transformations across Retail, Healthcare, Energy, Manufacturing, Telecom, and Travel. His recent work includes authoring and codifying the APEX internal delivery accelerator methodology — the framework of semantic models, agent libraries, MCP tool catalogs, HITL gate patterns, and audit-row discipline that the firm uses to accelerate agentic-AI deployment on the Microsoft technology platform.
 
 ### AXLE — the Automotive eXchange Layer for Enterprise
 
-In parallel to APEX, Keven authored **AXLE** (Automotive eXchange Layer for Enterprise) — Deloitte DMTSP's purpose-built framework for the automotive industry. AXLE codifies agentic-AI delivery patterns specific to automotive OEMs, tier-1 and tier-2 suppliers, connected-vehicle operations, and dealer-network transformation.
+In parallel to APEX, Keven authored **AXLE** (Automotive eXchange Layer for Enterprise) — DMTSP's purpose-built framework for the automotive industry. AXLE codifies agentic-AI delivery patterns specific to automotive OEMs, tier-1 and tier-2 suppliers, connected-vehicle operations, and dealer-network transformation.
 
 **AXLE at a glance:**
 - **9 canonical ML schemas** spanning the automotive value chain: AAML (Assembly Analytics), QEML (Quality Engineering), PDML (Predictive Maintenance), SCML (Supply Chain), WOSFML (Workforce Operations / Shift), DTML (Digital Twin), CVML (Connected Vehicle), ESML (ESG / Sustainability), WLML (Warranty Lifecycle)
@@ -15260,9 +15260,9 @@ For detailed positioning on when to lead with AXLE vs APEX AXLE Practice, see §
 
 Keven's prior work includes enterprise data-platform transformations, cloud-migration programs at Fortune 100 scale, and leadership roles in digital-transformation advisory across North American enterprises.
 
-## X.2 About the Deloitte Microsoft Technology & Services Practice (DMTSP)
+## X.2 About the Microsoft Technology & Services Practice (DMTSP)
 
-DMTSP is Deloitte's practice dedicated to delivering services on the Microsoft technology platform. The practice operates under Deloitte's Independence framework given Deloitte's role as Microsoft's external auditor; DMTSP's engagement structure, funding paths, and service offerings reflect this regulatory posture.
+DMTSP is the firm's practice dedicated to delivering services on the Microsoft technology platform. The practice operates under the firm's Independence framework given the firm's role as Microsoft's external auditor; DMTSP's engagement structure, funding paths, and service offerings reflect this regulatory posture.
 
 DMTSP's services span:
 - Advisory and strategy for Microsoft-platform adoption
@@ -15275,26 +15275,26 @@ DMTSP's services span:
 
 ## X.3 About this Sellers Guide
 
-This sellers guide is a Deloitte-internal document. It codifies the positioning, methodology, commercial structure, and pursuit motion for Deloitte Agentic AI Delivery Services.
+This sellers guide is an internal document. It codifies the positioning, methodology, commercial structure, and pursuit motion for APEX Agentic AI Delivery Services.
 
 **Intended readers:**
-- Deloitte partners, senior managers, and managers engaged in Microsoft agentic-AI pursuits
-- Deloitte sellers assigned to anchor accounts with agentic-AI opportunity
+- firm partners, senior managers, and managers engaged in Microsoft agentic-AI pursuits
+- firm sellers assigned to anchor accounts with agentic-AI opportunity
 - Delivery leads transitioning from implementation into ongoing managed-services engagements
-- Microsoft field counterparts engaged in co-sell motion with Deloitte (for relationship management, not as a client-facing artifact)
+- Microsoft field counterparts engaged in co-sell motion with the firm (for relationship management, not as a client-facing artifact)
 
 **Not intended for:**
 - External distribution
 - Client-facing presentation as a standalone artifact
-- Reuse outside Deloitte's services practice
+- Reuse outside the firm's services practice
 
 ## X.4 Document governance
 
 - **Owner:** Keven Markham, DMTSP Enterprise Transformation
 - **Version:** Live (continuously updated)
-- **Classification:** Deloitte-internal
+- **Classification:** internal
 - **Independence review:** Completed for positioning and language discipline
-- **Update cadence:** Quarterly at minimum; ad-hoc on material Microsoft platform changes or Deloitte service-catalog evolution
+- **Update cadence:** Quarterly at minimum; ad-hoc on material Microsoft platform changes or the firm service-catalog evolution
 
 ## X.5 Contact Information
 
@@ -15302,34 +15302,34 @@ For questions about content in this guide, contributions, corrections, or reques
 
 **Keven Markham**
 VP, Enterprise Transformation
-Deloitte Microsoft Technology & Services Practice
-Email: kmarkham@deloitte.com
-Microsoft Teams: Available via Deloitte tenant directory
+Microsoft Technology & Services Practice
+Email: kmarkham@example.com
+Microsoft Teams: Available via the firm tenant directory
 
 **For pursuit-specific guidance**, route through your sector lead and/or Practice lead who will coordinate with DMTSP as needed.
 
-**For Independence questions**, contact the Deloitte Independence Office directly through the standard internal channel. Do not improvise Independence-related language in client conversations — the Independence Office has approved formulations for every scenario this guide addresses.
+**For Independence questions**, contact the Independence Office directly through the standard internal channel. Do not improvise Independence-related language in client conversations — the Independence Office has approved formulations for every scenario this guide addresses.
 
-**For Microsoft co-sell coordination**, use the established Deloitte-Microsoft co-sell routing per your sector; do not engage Microsoft field independently for a new pursuit without coordination.
+**For Microsoft co-sell coordination**, use the established Microsoft co-sell routing per your sector; do not engage Microsoft field independently for a new pursuit without coordination.
 
 ## X.6 Acknowledgements
 
-This guide synthesizes learning from hundreds of Deloitte consultants across the DMTSP practice, industry practice leaders in RC / HLS / ER / AXLE / TMT / TH / ICE, the AXLE automotive framework team, technical architects across the Fabric / Foundry / Copilot / Purview / Entra ecosystem, and the Deloitte Independence Office.
+This guide synthesizes learning from hundreds of firm consultants across the DMTSP practice, industry practice leaders in RC / HLS / ER / AXLE / TMT / TH / ICE, the AXLE automotive framework team, technical architects across the Fabric / Foundry / Copilot / Purview / Entra ecosystem, and the Independence Office.
 
-The reference-deployment narratives (Big Box Store Store 100 in Chapter 16, hospital / utility / plant / airline illustrative deployments in the Practice chapters) are composite illustrations drawn from patterns across actual Deloitte engagements; specific client attribution is intentionally avoided to preserve confidentiality and Independence posture.
+The reference-deployment narratives (Big Box Store Store 100 in Chapter 16, hospital / utility / plant / airline illustrative deployments in the Practice chapters) are composite illustrations drawn from patterns across actual firm engagements; specific client attribution is intentionally avoided to preserve confidentiality and Independence posture.
 
 ## X.7 Feedback and contributions
 
 This guide improves through feedback. If you find errors, outdated content, unclear positioning, missing scenarios, or successful pursuit patterns worth codifying, send to the author. Contributions routed through Independence review; accepted additions credited in the next revision's acknowledgements.
 
-> **Independence Reminder.** Author contact information is for internal Deloitte use. Do not share author email or direct contact with clients; standard engagement channels (partners, senior managers) are the appropriate client-facing contact points for Deloitte services.
+> **Independence Reminder.** Author contact information is for internal the firm use. Do not share author email or direct contact with clients; standard engagement channels (partners, senior managers) are the appropriate client-facing contact points for firm services.
 `,
 });
 
 appendices.push({
   letter: 'T', title: 'Orchestration Catalog — Per Schema',
   body: `
-This appendix is the seller's and architect's reference catalog of orchestrations Deloitte delivers across APEX Practices. Each orchestration entry specifies description, schemas used, action invoked, data consumed, HITL pattern, and trigger. Organized by Practice → Schema. Cross-reference §6.9 for the orchestration deep-dive, §12.9 for the AXLE framework's 10 automotive orchestrations, and §1.6 for canonical-schema acceleration context.
+This appendix is the seller's and architect's reference catalog of orchestrations the firm delivers across APEX Practices. Each orchestration entry specifies description, schemas used, action invoked, data consumed, HITL pattern, and trigger. Organized by Practice → Schema. Cross-reference §6.9 for the orchestration deep-dive, §12.9 for the AXLE framework's 10 automotive orchestrations, and §1.6 for canonical-schema acceleration context.
 
 ## T.1 How to read this catalog
 
@@ -16684,7 +16684,7 @@ The archetype cross-reference gives Wave 2 commercial envelope math concrete inp
 - **Compliance questions about governance** — every orchestration in the catalog has explicit HITL pattern + classification handling + audit emission. That per-orchestration governance is the compliance story.
 - **Microsoft field-team coordination** — when a Microsoft seller asks "what workloads pull through" for an APEX engagement, orchestration count × Foundry consumption per orchestration = Foundry pull-through.
 
-> **Independence Reminder.** Orchestrations in this catalog are Deloitte APEX IP used internally to accelerate delivery. Clients contract Deloitte for the agent-delivery outcome; APEX's orchestration library is how Deloitte achieves the outcome. Never position "APEX orchestrations" as a product the client buys.
+> **Independence Reminder.** Orchestrations in this catalog are the firm's APEX IP used internally to accelerate delivery. Clients contract the firm for the agent-delivery outcome; APEX's orchestration library is how the firm achieves the outcome. Never position "APEX orchestrations" as a product the client buys.
 `,
 });
 
@@ -16707,7 +16707,7 @@ This glossary is the comprehensive reference of terms used throughout the seller
 
 **Agentic AI** — AI systems that use agents — LLM-backed reasoners with tool-use capability — to take multi-step actions under defined constraints.
 
-**APEX** — **Agent-based Platform for EXecution.** Deloitte's internal delivery accelerator for agentic AI on the Microsoft platform. Never sold as a product to clients. Composed of methodology, semantic-model library, agent catalog, MCP tool library, HITL gate framework, audit-row discipline, and Wave 1/2/3 playbook.
+**APEX** — **Agent-based Platform for EXecution.** The firm's internal delivery accelerator for agentic AI on the Microsoft platform. Never sold as a product to clients. Composed of methodology, semantic-model library, agent catalog, MCP tool library, HITL gate framework, audit-row discipline, and Wave 1/2/3 playbook.
 
 **Archetype (orchestration archetype)** — One of the 47 reusable orchestration patterns in APEX's internal catalog. Practice-specific orchestrations are instantiations of archetypes, not bespoke designs. See Appendix T.
 
@@ -16715,13 +16715,13 @@ This glossary is the comprehensive reference of terms used throughout the seller
 
 **APEX Core** — The shared infrastructure (manifests, runtime, tool-binding, audit row, HITL framework) that every APEX-delivered service builds upon.
 
-**APEX Wave** — The delivery phases Deloitte uses: Wave 1 (Envision + Land), Wave 2 (Enable + Scale), Wave 3 (Sustain + Transform).
+**APEX Wave** — The delivery phases the firm uses: Wave 1 (Envision + Land), Wave 2 (Enable + Scale), Wave 3 (Sustain + Transform).
 
 **Attribution (audit row)** — The mechanism by which every APEX agent decision traces to a measurable business outcome, enabling CFO-credible ROI conversations.
 
 **Audit row** — The per-decision record that APEX writes for every agent action, containing inputs, reasoning trace, model version, tool version, HITL status, and downstream effect. Regulator-ready evidential record.
 
-**AXLE** — Deloitte's Automotive eXchange Layer for Enterprise — sibling DMTSP framework to APEX, purpose-built for automotive manufacturing. 9 canonical ML schemas (AAML, QEML, PDML, SCML, WOSFML, DTML, CVML, ESML, WLML), 10 agentic orchestrations, 6 reference architecture layers, 7 MCP servers.
+**AXLE** — the firm's Automotive eXchange Layer for Enterprise — sibling DMTSP framework to APEX, purpose-built for automotive manufacturing. 9 canonical ML schemas (AAML, QEML, PDML, SCML, WOSFML, DTML, CVML, ESML, WLML), 10 agentic orchestrations, 6 reference architecture layers, 7 MCP servers.
 
 **AXLEML** — APEX's canonical semantic model for the AXLE Practice (automotive + aerospace + industrial products + discrete manufacturing). Different from the AXLE framework (narrower automotive-only).
 
@@ -16759,7 +16759,7 @@ This glossary is the comprehensive reference of terms used throughout the seller
 
 **Classification** — Purview's system for labeling data with sensitivity categories (PII, PHI, PCI, SOX-controlled, etc.). Drives downstream DLP, access control, and audit.
 
-**Commercial QR** — Deloitte's Commercial Quality Review process for engagement commercials and value-share arrangements.
+**Commercial QR** — the firm's Commercial Quality Review process for engagement commercials and value-share arrangements.
 
 **Compliance Manager** — Purview's regulatory-framework tracking tool with assessments, controls, and evidence management.
 
@@ -16785,7 +16785,7 @@ This glossary is the comprehensive reference of terms used throughout the seller
 
 **Dataverse** — The business-application data store underlying Dynamics 365 and Power Platform.
 
-**DCIF (Digital Cloud Investment Fund)** — Approved Microsoft funding path where Microsoft allocates funds to the client who then contracts Deloitte directly. Compliant with Deloitte Independence.
+**DCIF (Digital Cloud Investment Fund)** — Approved Microsoft funding path where Microsoft allocates funds to the client who then contracts the firm directly. Compliant with Independence.
 
 **DDL (Data Definition Language)** — SQL statements that define database structure (CREATE TABLE, ALTER TABLE).
 
@@ -16795,11 +16795,11 @@ This glossary is the comprehensive reference of terms used throughout the seller
 
 **Delta Lake** — The open-source Delta table format used in Fabric Lakehouse. ACID transactions, time travel, schema evolution.
 
-**Deloitte Agentic AI Delivery Services** — The services Deloitte sells to clients for agentic AI on the Microsoft platform. Clients buy this; clients do not buy APEX.
+**APEX Agentic AI Delivery Services** — The services the firm sells to clients for agentic AI on the Microsoft platform. Clients buy this; clients do not buy APEX.
 
 **DLP (Data Loss Prevention)** — Purview's policy engine that enforces data-handling rules based on classification, including inspection of agent outputs.
 
-**DMTSP** — Deloitte Microsoft Technology & Services Practice. Deloitte's practice dedicated to Microsoft-platform services.
+**DMTSP** — Microsoft Technology & Services Practice. The firm's practice dedicated to Microsoft-platform services.
 
 **DOT tarmac rule** — US Department of Transportation rule limiting passenger time on aircraft tarmac during ground delays. Airline operations must detect and respond to tarmac-rule exposure.
 
@@ -16807,7 +16807,7 @@ This glossary is the comprehensive reference of terms used throughout the seller
 
 **E7 (Microsoft 365 E7)** — The emerging Microsoft 365 Enterprise SKU positioned as the agentic-AI-focused tier. Covered in Appendix I.
 
-**ECIF (Enterprise Customer Investment Fund)** — Microsoft funding mechanism that **cannot** flow directly to Deloitte due to Deloitte's audit relationship with Microsoft. Approved funding paths are direct client, DCIF to client, ISV Marketplace, or SI teaming.
+**ECIF (Enterprise Customer Investment Fund)** — Microsoft funding mechanism that **cannot** flow directly to the firm due to the firm's audit relationship with Microsoft. Approved funding paths are direct client, DCIF to client, ISV Marketplace, or SI teaming.
 
 **EHR (Electronic Health Record)** — Clinical information system (Epic, Oracle Health Cerner, Meditech, etc.).
 
@@ -16877,7 +16877,7 @@ This glossary is the comprehensive reference of terms used throughout the seller
 
 **IROPs (Irregular Operations)** — Airline industry term for operational disruptions (weather cancellations, mechanical, crew). Recovery is a major TH Practice use case.
 
-**ISV (Independent Software Vendor)** — Software vendor who may host Microsoft solutions on Azure Marketplace. One of the approved funding paths for Deloitte DMTSP engagements.
+**ISV (Independent Software Vendor)** — Software vendor who may host Microsoft solutions on Azure Marketplace. One of the approved funding paths for DMTSP engagements.
 
 ## Y.10 J
 
@@ -16961,7 +16961,7 @@ This glossary is the comprehensive reference of terms used throughout the seller
 
 **Power BI** — Microsoft's business-intelligence and semantic-model platform. Direct Lake serving is the default APEX Gold consumption path.
 
-**Practice (APEX Practice)** — One of the seven APEX industry verticals: RC, HLS, ER, AXLE, TMT, TH, ICE. A Practice is not a product; it is a bundle of five reusable Deloitte internal assets — canonical schemas, agent catalog, orchestration catalog, service catalog, delivery playbook — organized per vertical to compress client time-to-value. See §1.1A.
+**Practice (APEX Practice)** — One of the seven APEX industry verticals: RC, HLS, ER, AXLE, TMT, TH, ICE. A Practice is not a product; it is a bundle of five reusable internal assets — canonical schemas, agent catalog, orchestration catalog, service catalog, delivery playbook — organized per vertical to compress client time-to-value. See §1.1A.
 
 **Pre-measure** — Calculated column computed during Silver → Gold transform. Embodied in Gold table columns.
 
@@ -16977,7 +16977,7 @@ This glossary is the comprehensive reference of terms used throughout the seller
 
 ## Y.17 Q
 
-**QR (Quality Review)** — Deloitte's internal review process. Commercial QR, Independence QR, Risk QR all apply to engagement delivery.
+**QR (Quality Review)** — the firm's internal review process. Commercial QR, Independence QR, Risk QR all apply to engagement delivery.
 
 ## Y.18 R
 
@@ -17001,7 +17001,7 @@ This glossary is the comprehensive reference of terms used throughout the seller
 
 **Sensitivity label** — Purview classification applied to data elements. Drives DLP, encryption, and access decisions.
 
-**Service (APEX service)** — Productised bundle of scenario + personas + KPIs + SLOs + manifests + agents + commercial terms. Internal Deloitte shorthand; client-facing language is "Deloitte agentic-AI service."
+**Service (APEX service)** — Productised bundle of scenario + personas + KPIs + SLOs + manifests + agents + commercial terms. Internal the firm shorthand; client-facing language is "the firm agentic-AI service."
 
 **Shortcut (OneLake shortcut)** — Fabric mechanism for referencing data in place across workspaces and clouds without copying.
 
@@ -17019,7 +17019,7 @@ This glossary is the comprehensive reference of terms used throughout the seller
 
 ## Y.20 T
 
-**TCS (Tata Consultancy Services)** — Major competitor to Deloitte in services delivery. See Appendix M.
+**TCS (Tata Consultancy Services)** — Major competitor to the firm in services delivery. See Appendix M.
 
 **TEL (TMT-TEL)** — Telecom sub-segment of TMT Practice.
 
@@ -17035,9 +17035,9 @@ This glossary is the comprehensive reference of terms used throughout the seller
 
 **TMT (Technology, Media & Telecom)** — APEX Practice covering TEC, MED, and TEL sub-segments.
 
-**Tool (MCP tool)** — A specific capability an agent can invoke through the MCP interface. Deloitte-delivered APEX catalog contains 165+ tools across Practices.
+**Tool (MCP tool)** — A specific capability an agent can invoke through the MCP interface. Firm-delivered APEX catalog contains 165+ tools across Practices.
 
-**Two-contract model** — The Independence-required commercial structure where client contracts Microsoft for platform and Deloitte for services separately.
+**Two-contract model** — The Independence-required commercial structure where client contracts Microsoft for platform and the firm for services separately.
 
 ## Y.21 U
 
@@ -17047,7 +17047,7 @@ This glossary is the comprehensive reference of terms used throughout the seller
 
 ## Y.22 V
 
-**Value-share** — Commercial arrangement where a portion of Deloitte fees is contingent on measurable business outcomes. Applicable to select APEX services (RC shrink, RC recovery, HLS denial recovery, ICE warranty).
+**Value-share** — Commercial arrangement where a portion of the firm fees is contingent on measurable business outcomes. Applicable to select APEX services (RC shrink, RC recovery, HLS denial recovery, ICE warranty).
 
 **VoC (Voice of Customer)** — Aggregate customer-feedback analytics. A contact-center capability area.
 
@@ -17081,14 +17081,14 @@ This glossary is the comprehensive reference of terms used throughout the seller
 
 **360 (member 360, customer 360, patient 360)** — Unified cross-source view of an entity. Foundation for personalisation, care management, next-best-action agents.
 
-> **Independence Reminder.** This glossary is internal reference material. Definitions of Deloitte-specific terminology (DMTSP, APEX, AXLE, Wave structure) should not appear in client-facing materials without Independence Office review.
+> **Independence Reminder.** This glossary is internal reference material. Definitions of firm-specific terminology (DMTSP, APEX, AXLE, Wave structure) should not appear in client-facing materials without Independence Office review.
 `,
 });
 
 appendices.push({
   letter: 'U', title: 'Cost Calculation — Microsoft Fabric + Agentic AI',
   body: `
-This appendix is the seller's practical reference for sizing client investments across the two-contract model: **(1) client ↔ Microsoft** for platform capacity (Fabric + Azure OpenAI) and **(2) client ↔ Deloitte** for Agentic AI Delivery Services. Source references: Deloitte's standard Fabric licensing calculator, Azure OpenAI PTU Calculator documentation, and APEX internal delivery economics.
+This appendix is the seller's practical reference for sizing client investments across the two-contract model: **(1) client ↔ Microsoft** for platform capacity (Fabric + Azure OpenAI) and **(2) client ↔ the firm** for Agentic AI Delivery Services. Source references: The firm's standard Fabric licensing calculator, Azure OpenAI PTU Calculator documentation, and APEX internal delivery economics.
 
 ## U.1 How to Read This Appendix
 
@@ -17096,9 +17096,9 @@ The cost of an Agentic AI program has three stacked layers:
 
 1. **Microsoft Fabric capacity** — reserved compute (F-SKU) for the data platform (Bronze / Silver / Gold medallion, OneLake storage, Power BI, real-time).
 2. **Azure OpenAI + Foundry runtime** — model inference (PTU or PAYGO), orchestration runtime, retrieval (AI Search), safety (Content Safety), and MCP endpoint hosting.
-3. **Deloitte Agentic AI Delivery Services** — Deloitte's Wave 1 / 2 / 3 services to design, build, and run agents on top of layers 1 and 2.
+3. **APEX Agentic AI Delivery Services** — the firm's Wave 1 / 2 / 3 services to design, build, and run agents on top of layers 1 and 2.
 
-The client contracts layers 1 and 2 directly with Microsoft. The client contracts layer 3 with Deloitte. APEX (Deloitte's internal delivery accelerator) makes layers 1 and 2 do more per dollar — it is not priced to the client as a separate SKU.
+The client contracts layers 1 and 2 directly with Microsoft. The client contracts layer 3 with the firm. APEX (the firm's internal delivery accelerator) makes layers 1 and 2 do more per dollar — it is not priced to the client as a separate SKU.
 
 ## U.2 Microsoft Fabric Cost Calculation
 
@@ -17257,7 +17257,7 @@ Illustrative RC client in Wave 2 scale (Big Box Store pattern):
 | Content Safety + Purview scanning | ~\\$30,000 |
 | MCP endpoints, APIM, observability | ~\\$15,000 |
 | **Microsoft platform subtotal (to Microsoft)** | **~\\$320,000** |
-| Deloitte Agentic AI Delivery Services (Wave 2 build + run) | varies by scope — typically 2–4x platform cost in year 1, 0.5–1x in steady state |
+| APEX Agentic AI Delivery Services (Wave 2 build + run) | varies by scope — typically 2–4x platform cost in year 1, 0.5–1x in steady state |
 
 ## U.5 APEX Acceleration Impact on Cost
 
@@ -17269,7 +17269,7 @@ APEX's internal accelerators — canonical schemas, orchestration catalog, pre-b
 
 **Seller-facing framing (Independence-safe):**
 
-> *"Client pays Microsoft for platform capacity. Deloitte's delivery services — accelerated by APEX internally — make that capacity do more, so the dollar-per-outcome on Fabric and Foundry is two-to-three times better than a greenfield build."*
+> *"Client pays Microsoft for platform capacity. The firm's delivery services — accelerated by APEX internally — make that capacity do more, so the dollar-per-outcome on Fabric and Foundry is two-to-three times better than a greenfield build."*
 
 ## U.6 Quick Reference — The Three Formulas
 
@@ -17286,7 +17286,7 @@ AGENTIC AI (Model):
     + PAYGO_spillover + AI_Search + Content_Safety + MCP_hosting + Purview
 
 TOTAL CLIENT INVESTMENT:
-  Platform (to Microsoft)    +    Deloitte Services (to Deloitte)
+  Platform (to Microsoft)    +    the firm's Services (to the firm)
   [two separate contracts — Independence requirement]
 \`\`\`
 
@@ -17295,11 +17295,11 @@ TOTAL CLIENT INVESTMENT:
 - **§2.2A Envelope Framework** — the Commercial Envelope is the contract-boundary artifact that maps Wave 1 / 2 / 3 cost bands to delivery scope.
 - **Appendix D** — ROI Calculators & Commercial Templates.
 - **Appendix N** — Commercial Modeling Templates (ROI, Business Case, SOW, Value-Share).
-- **Appendix I** — Microsoft 365 E7 vs Deloitte Agentic AI Delivery, for licensing-stack comparisons.
+- **Appendix I** — Microsoft 365 E7 vs APEX Agentic AI Delivery, for licensing-stack comparisons.
 - **Appendix L** — Azure AI Foundry Deep Dive, for runtime architecture underlying the model-inference line.
 - **Appendix F** — Data Platform Co-Existence (Fabric with Databricks / Snowflake), for mixed-estate cost modelling.
 
-> **Independence Reminder.** All dollar figures in this appendix are illustrative Deloitte internal planning estimates for seller sizing conversations. Actual Microsoft pricing is set by Microsoft and subject to change; final commercial proposals must use current Microsoft list pricing obtained through the client's Microsoft account team. APEX acceleration claims (30–50% token reduction, 40–60% cache hit rate) are Deloitte-measured internal benchmarks and should be positioned as "Deloitte experience has shown" rather than as guaranteed outcomes.
+> **Independence Reminder.** All dollar figures in this appendix are illustrative internal planning estimates for seller sizing conversations. Actual Microsoft pricing is set by Microsoft and subject to change; final commercial proposals must use current Microsoft list pricing obtained through the client's Microsoft account team. APEX acceleration claims (30–50% token reduction, 40–60% cache hit rate) are firm-measured internal benchmarks and should be positioned as "the firm experience has shown" rather than as guaranteed outcomes.
 `,
 });
 

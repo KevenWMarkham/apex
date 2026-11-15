@@ -16,11 +16,11 @@
 
 **KEVEN:** What was the question?
 
-**RILEY:** She said — *"Riley, we have ten Bobs and ten thousand engineers. We have everyone telling us AI is going to change everything. We've heard the same speech from twenty firms. What is the* one thing *Deloitte does for Disney that nobody else does?"*
+**RILEY:** She said — *"Riley, we have ten Bobs and ten thousand engineers. We have everyone telling us AI is going to change everything. We've heard the same speech from twenty firms. What is the* one thing *the firm does for Disney that nobody else does?"*
 
 **KEVEN:** That's a *really* hard question.
 
-**RILEY:** It's a really hard question. And the honest answer — the answer that earned us the next meeting — *was not about technology.* It was about *the way Deloitte composes an APEX engagement at Disney specifically.* Not in the abstract. *At Disney.* The way the seven Practices map onto Disney's three operating segments. The way the TMT-MED Practice has been curated against Disney's specific portfolio. The way the GSSC Lab can demonstrate a working agent against Disney-shaped data on day one. *That* is the differentiator.
+**RILEY:** It's a really hard question. And the honest answer — the answer that earned us the next meeting — *was not about technology.* It was about *the way the firm composes an APEX engagement at Disney specifically.* Not in the abstract. *At Disney.* The way the seven Practices map onto Disney's three operating segments. The way the TMT-MED Practice has been curated against Disney's specific portfolio. The way the GSSC Lab can demonstrate a working agent against Disney-shaped data on day one. *That* is the differentiator.
 
 And honestly — until I had said that out loud, I had been pitching APEX as if Disney were a generic media client. *They are not.* No one is.
 
@@ -44,7 +44,7 @@ The reason an account-specific podcast matters for Disney is — *Disney isn't a
 
 **KEVEN:** And the audience for this podcast specifically —
 
-**RILEY:** The Deloitte Account Team for Disney. Partners. Senior managers. Managers. Senior consultants. Anyone who's going to walk into Burbank, Lake Buena Vista, or one of the other Disney properties on behalf of the account. *Five episodes, two-and-a-half hours, this is your preparation.*
+**RILEY:** The Account Team for Disney. Partners. Senior managers. Managers. Senior consultants. Anyone who's going to walk into Burbank, Lake Buena Vista, or one of the other Disney properties on behalf of the account. *Five episodes, two-and-a-half hours, this is your preparation.*
 
 ### A century of context
 
@@ -154,7 +154,7 @@ The 16 fall into four groups.
 
 **KEVEN:** So you'd suggest —
 
-**RILEY:** I'd suggest — *open with the cross-segment view in the first conversation with senior leadership.* Then, in the second meeting with a segment leader, pick the segment that owns the pain. The opening conversation is about *what Deloitte uniquely sees* — the cross-segment value of a composed canonical data layer. The second conversation is about *the specific Wave 1.*
+**RILEY:** I'd suggest — *open with the cross-segment view in the first conversation with senior leadership.* Then, in the second meeting with a segment leader, pick the segment that owns the pain. The opening conversation is about *what the firm uniquely sees* — the cross-segment value of a composed canonical data layer. The second conversation is about *the specific Wave 1.*
 
 **KEVEN:** I think you're right. And it's specifically counter to the typical engagement pattern, which is — pick the segment first, get to Wave 1 fastest. The Disney-specific play is — *establish cross-segment credibility first.* The lower-velocity opening pays off in longer-term commitment.
 

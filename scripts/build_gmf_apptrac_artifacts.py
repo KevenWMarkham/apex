@@ -210,8 +210,8 @@ def build_walkthrough():
             "auto-decision rate moves from 35% to 75% over Wave 2; manual review hours drop ~60%.")
     addcallout(doc, "Independence note",
                "AXLE-FIN-01 agent manifests, credit policy manifests, and LEDGER are GMF artifacts; "
-               "Deloitte's role is advisory and implementation enablement. Before any contract, the SOW "
-               "is routed through Deloitte's Independence office; if Deloitte audits GM (parent) or GMF, "
+               "The firm's role is advisory and implementation enablement. Before any contract, the SOW "
+               "is routed through the firm's Independence office; if the firm audits GM (parent) or GMF, "
                "engagement structure is designed accordingly. The underlying APEX pattern is "
                "independence-safe by construction.")
     pb(doc)
@@ -242,7 +242,7 @@ def build_walkthrough():
     ])
     addbody(doc,
             "If AXLE-FIN-01's pattern handles GMF's mixed-tier captive-finance underwriting, it ports "
-            "across the Deloitte DMTSP captive-finance portfolio with manifest-layer adaptation: Ford "
+            "across the DMTSP captive-finance portfolio with manifest-layer adaptation: Ford "
             "Credit (similar scale, different policy corpus), Chrysler Capital (Stellantis), Toyota "
             "Financial (different tier mix). Beyond auto: powersports lending (Polaris, Harley-Davidson "
             "captives), marine, RV, equipment finance — all share the architectural substrate.")
@@ -621,10 +621,10 @@ def build_walkthrough():
 
     addh(doc, "10.2 · Independence posture in GMF commercial conversations", level=2)
     addcallout(doc, "Independence",
-               "Before contracting, confirm Deloitte's external-audit relationship with GM (parent) and GMF. "
+               "Before contracting, confirm the firm's external-audit relationship with GM (parent) and GMF. "
                "If audit-relationship-constrained, structure SOW so manifests, policies, and LEDGER are GMF "
-               "artifacts; Deloitte's role advisory and implementation enablement. Route the SOW through "
-               "Deloitte's Independence office. The underlying APEX pattern is independence-safe by design.")
+               "artifacts; the firm's role advisory and implementation enablement. Route the SOW through "
+               "The firm's Independence office. The underlying APEX pattern is independence-safe by design.")
     pb(doc)
 
     # Section 11
@@ -861,11 +861,11 @@ h1 em{font-style:italic;font-weight:400;color:var(--amber)}
     <div class="left">
       <p style="font-family:'Fraunces',serif;font-size:16px;color:var(--ink-0)">Companion artifacts:</p>
       <p style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-2)">Walkthrough · Six-Agents Architecture · AppTrac SOR Integration</p>
-      <p class="signoff">— Deloitte Microsoft Technology Solutions & Practices</p>
+      <p class="signoff">— Microsoft Technology Solutions & Practices</p>
     </div>
     <div class="right">
       <b>Independence-safe by design</b>
-      All AXLE-FIN-01 commercial materials use "Deloitte's Microsoft practice," "DMTSP," "Microsoft platform capabilities," "Microsoft-native deployment." The terms "partner," "alliance," and "strategic alliance" do not appear.
+      All AXLE-FIN-01 commercial materials use "the firm's Microsoft practice," "DMTSP," "Microsoft platform capabilities," "Microsoft-native deployment." The terms "partner," "alliance," and "strategic alliance" do not appear.
       <br><br>v1.0 · 27 Apr 2026
     </div>
   </div>
@@ -966,7 +966,7 @@ def build_six_agents():
     addcallout(doc, "Independence-safe model artifact ownership",
                "Custom Doc Intelligence models trained for GMF are GMF artifacts. The training data — "
                "labeled deal-jacket samples from GMF dealers — is GMF's. The model weights are stored in "
-               "GMF's Foundry workspace. Deloitte's role is advisory + implementation enablement on the "
+               "GMF's Foundry workspace. The firm's role is advisory + implementation enablement on the "
                "training pipeline; the resulting model and its lifecycle are GMF-owned.",
                accent=GOLD)
 

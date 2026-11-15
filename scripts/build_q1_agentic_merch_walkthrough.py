@@ -10,7 +10,7 @@ Sourced from:
     APEX-RC-Scenario-Chains.xlsx   -- RC scenario library (anchor scenarios)
 
 Output:
-    C:\\Users\\kmarkham\\OneDrive - Deloitte (O365D)\\Documents\\APEX-Agentic-Merch-Q1-Walkthrough.docx
+    C:\\Users\\kmarkham\\OneDrive - the firm (O365D)\\Documents\\APEX-Agentic-Merch-Q1-Walkthrough.docx
 """
 from __future__ import annotations
 import io, sys, os
@@ -23,7 +23,7 @@ from docx.oxml.ns import qn
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
-OUT = r"C:\Users\kmarkham\OneDrive - Deloitte (O365D)\Documents\APEX-Agentic-Merch-Q1-Walkthrough.docx"
+OUT = r"C:\Users\kmarkham\OneDrive - the firm (O365D)\Documents\APEX-Agentic-Merch-Q1-Walkthrough.docx"
 
 INK_DARK = RGBColor(0x0D, 0x28, 0x18)
 INK_GREEN = RGBColor(0x86, 0xBC, 0x25)
@@ -200,8 +200,8 @@ add_table(
 # Independence callout
 doc.add_paragraph()
 add_callout(
-    "Agentic-Merch Q1 manifests, decision-rights tables, and policy thresholds use Deloitte-approved Microsoft platform language throughout. "
-    "Independence rules require: 'Deloitte's Microsoft practice,' 'DMTSP,' 'Microsoft platform capabilities.' "
+    "Agentic-Merch Q1 manifests, decision-rights tables, and policy thresholds use firm-approved Microsoft platform language throughout. "
+    "Independence rules require: 'The firm's Microsoft practice,' 'DMTSP,' 'Microsoft platform capabilities.' "
     "Cost-offset partnerships (BVA, ECIF workarounds) are positioned to clients via approved language only.",
     label="INDEPENDENCE NOTE",
 )
@@ -292,7 +292,7 @@ add_bullet("Multi-tier approval routing — Planning Lead ($ ≤50K) → VP SC (
 add_bullet("Microsoft Teams maturity — apparel HQs run on Teams, making Adaptive Card HITL the dominant approval surface")
 
 add_para(
-    "If Agentic-Merch Q1's orchestration pattern handles an apparel retailer's WBR, it ports across the Deloitte DMTSP retail portfolio "
+    "If Agentic-Merch Q1's orchestration pattern handles an apparel retailer's WBR, it ports across the DMTSP retail portfolio "
     "with manifest-only configuration changes — same decision-rights model, same MERML / SCML / CXML schemas, same Adaptive Card surface, same LEDGER audit shape."
 )
 
@@ -632,7 +632,7 @@ add_h3("RC-E2E-02 · Inventory & Replenishment")
 add_para(
     "The inventory-action service. Owns Agent 8 — rebalance + new-PO + secondary-supplier activation. Primary persona: VP Supply Chain. "
     "Co-binds with RC-E2E-03 because the WBR exception triage spans both services — a markdown-block decision (RC-E2E-03) typically pairs "
-    "with a rebalance + new-PO action (RC-E2E-02). Q1 is the first scenario where Deloitte demonstrates RC-E2E-03 + RC-E2E-02 fused at the orchestration layer."
+    "with a rebalance + new-PO action (RC-E2E-02). Q1 is the first scenario where the firm demonstrates RC-E2E-03 + RC-E2E-02 fused at the orchestration layer."
 )
 
 add_h2("6.3 · Backstop service")
@@ -979,7 +979,7 @@ add_table(
 
 add_h2("10.1 · What the envelope buys")
 add_para(
-    "The commercial envelope is not a project-labor-hours calculation. It reflects the total value-delivery bundle: Deloitte-delivered solutioning, "
+    "The commercial envelope is not a project-labor-hours calculation. It reflects the total value-delivery bundle: Firm-delivered solutioning, "
     "Microsoft platform commitments, third-party ISV teaming where applicable, manifest-driven configuration, change-management for nine personas, "
     "and the LEDGER substrate that makes every subsequent scenario cheap."
 )
@@ -993,10 +993,10 @@ add_para(
 
 add_h2("10.3 · Independence posture in commercial conversations")
 add_callout(
-    "The seller and delivery team use Deloitte-approved language throughout the Apparel-Retailer commercial conversation. "
+    "The seller and delivery team use firm-approved language throughout the Apparel-Retailer commercial conversation. "
     "Cost-offset partnerships with Microsoft (BVA-led entry, ECIF workarounds via ISV teaming, MACC-burndown structures) are positioned to the "
-    "client only via approved language: 'Deloitte's Microsoft practice,' 'DMTSP,' 'Microsoft platform capabilities,' 'co-investment.' "
-    "Deloitte does not receive ECIF directly from Microsoft.",
+    "client only via approved language: 'The firm's Microsoft practice,' 'DMTSP,' 'Microsoft platform capabilities,' 'co-investment.' "
+    "The firm does not receive ECIF directly from Microsoft.",
     label="INDEPENDENCE",
 )
 
@@ -1102,7 +1102,7 @@ glossary = [
     ("Adaptive Card",    "Microsoft Teams rich-card format used by Q1 for HITL approval surfaces; versioned schema; webhook write-back to LEDGER"),
     ("Agent",            "A bounded unit of intent + tool-use that emits typed output and writes a LEDGER audit row"),
     ("Apparel Retailer", "The illustrative Q1 reference client — generic apparel banner, ~800 stores, weekly WBR cadence"),
-    ("APEX",             "Agentic Platform for Enterprise eXecution — Deloitte's reference 5-plane / 6-agent runtime architecture"),
+    ("APEX",             "Agentic Platform for Enterprise eXecution — the firm's reference 5-plane / 6-agent runtime architecture"),
     ("Audit row",        "14-field structured record emitted by every agent decision; WORM-stored in LEDGER with hash-chain link to predecessor"),
     ("Briefer",          "Q1 persona name for Agent 13.3 — synthesizes Done / Your Call / Watch tiers and renders Adaptive Cards"),
     ("Chief Merchant",   "Q1 primary persona — owns the WBR, approves Your Call items, sees Done items, watches Watch items"),
@@ -1177,8 +1177,8 @@ add_table(
 
 doc.add_paragraph()
 add_para(
-    "Independence posture preserved across every APEX Agentic-Merch Q1 artifact: 'Deloitte's Microsoft practice,' 'DMTSP,' 'Microsoft platform capabilities,' "
-    "'co-investment.' Deloitte does not receive ECIF directly from Microsoft.",
+    "Independence posture preserved across every APEX Agentic-Merch Q1 artifact: 'The firm's Microsoft practice,' 'DMTSP,' 'Microsoft platform capabilities,' "
+    "'co-investment.' The firm does not receive ECIF directly from Microsoft.",
     italic=True, size=10, color=INK_GREY,
 )
 

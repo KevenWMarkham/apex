@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "APEX TM Forum SID Pattern-B mirror — information-model subset consumed by TMT."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "Proprietary — Deloitte Internal. TM Forum SID is openly published; structural mirrors only." }
+license = { text = "Proprietary — Internal. TM Forum SID is openly published; structural mirrors only." }
 dependencies = [
     "apex-core",
     "apex-schemas-common",

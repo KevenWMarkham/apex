@@ -1,7 +1,7 @@
 """Build the APEX + CAF integration architecture document.
 
 Companion to CAF-Scope-Reply-to-Converge-Team.docx. Answers the next-layer
-question: now that we agree CAF is the substrate, how does APEX — Deloitte's
+question: now that we agree CAF is the substrate, how does APEX — the firm's
 industry scenario reference architecture — sit on top of CAF, and how do
 APEX scenarios cross practices/apps using CAF A2A?
 
@@ -405,7 +405,7 @@ def fig_scope_delta():
     ax2.set_title("APEX scenario layer · adds on top of CAF", fontsize=11, color=APEX_GOLD,
                   fontweight="bold", loc="left", pad=10)
     for i in range(len(apex_items)):
-        ax2.text(0.5, i, "DELOITTE IP", ha="center", va="center",
+        ax2.text(0.5, i, "THE FIRM IP", ha="center", va="center",
                  fontsize=9, color="white", fontweight="bold")
     ax2.invert_yaxis()
     for s in ["top", "right", "bottom", "left"]:
@@ -645,19 +645,19 @@ def build():
     style.font.size = Pt(11)
 
     # ==== HEADER ====
-    add_eyebrow(doc, "DELOITTE · INTEGRATION ARCHITECTURE · APEX + CAF")
+    add_eyebrow(doc, "THE FIRM · INTEGRATION ARCHITECTURE · APEX + CAF")
     p = doc.add_paragraph()
     r = p.add_run("APEX on CAF — scenario framework on a production substrate")
     set_run(r, bold=True, size=22, color=INK)
     p2 = doc.add_paragraph()
-    r2 = p2.add_run("How Deloitte's APEX reference architecture integrates with Converge Agentic Framework through A2A")
+    r2 = p2.add_run("How the firm's APEX reference architecture integrates with Converge Agentic Framework through A2A")
     set_run(r2, size=13, color=INK2, italic=True)
 
     doc.add_paragraph()
     add_kv(doc, [
         ("Companion to",   "CAF-Scope-Reply-to-Converge-Team.docx (24 Apr 2026)"),
         ("Audience",       "Converge / AI & Eng leadership · APEX build team · Practice leads · DMTSP PMO"),
-        ("Author",         "K. Markham · Deloitte Microsoft Technology Solutions & Practices"),
+        ("Author",         "K. Markham · Microsoft Technology Solutions & Practices"),
         ("Date",           "24 April 2026"),
         ("Purpose",        "Extend the CAF-vs-Agentic-Merch scoping reply by showing exactly where APEX sits in the overall architecture and how APEX scenarios consume CAF via A2A"),
         ("Status",         "Integration architecture — reference for W1 build planning"),
@@ -669,8 +669,8 @@ def build():
              "The companion memo to the Converge team established that CAF is the production "
              "substrate and that Agentic Merch should inherit it rather than parallel it. That "
              "leaves one question open: if CAF is the substrate, what sits on top of it for the "
-             "industry scenario work Deloitte delivers? The answer is APEX — the Agentic Platform "
-             "for Enterprise eXecution — Deloitte's reference architecture for industry "
+             "industry scenario work the firm delivers? The answer is APEX — the Agentic Platform "
+             "for Enterprise eXecution — the firm's reference architecture for industry "
              "scenarios, authored inside DMTSP across the seven Practices (RC, HLS, ER, AXLE, TMT, "
              "TH, ICE).")
     add_body(doc,
@@ -955,7 +955,7 @@ def build():
              "in Practice-authored form. The two sets are disjoint by design.")
     add_figure(doc, f6,
                "Figure 6 · Complete scope picture. Left: seven CAF substrate primitives, all in "
-               "production. Right: seven APEX scenario-layer primitives, all Deloitte IP authored "
+               "production. Right: seven APEX scenario-layer primitives, all IP authored "
                "by DMTSP practices. Together they compose the complete agentic solution — CAF "
                "runs the agents; APEX productizes the scenarios.")
 
@@ -1028,10 +1028,10 @@ def build():
     r = p.add_run("— K. Markham")
     set_run(r, bold=True, size=11, color=INK)
     p2 = doc.add_paragraph()
-    r2 = p2.add_run("Deloitte Microsoft Technology Solutions & Practices")
+    r2 = p2.add_run("Microsoft Technology Solutions & Practices")
     set_run(r2, size=10, color=INK2)
     p3 = doc.add_paragraph()
-    r3 = p3.add_run("kmarkham@deloitte.com")
+    r3 = p3.add_run("kmarkham@example.com")
     set_run(r3, size=10, color=INK2, italic=True)
 
     # ==== APPENDIX ====
@@ -1068,7 +1068,7 @@ def build():
               col_widths=[2.4, 2.4, 1.7])
 
     add_body(doc,
-             "Independence posture preserved across this document: 'Deloitte's Microsoft "
+             "Independence posture preserved across this document: 'The firm's Microsoft "
              "practice,' 'DMTSP,' 'Microsoft platform capabilities,' 'Microsoft-native "
              "deployment.' The terms 'partner,' 'alliance,' and 'strategic alliance' do not "
              "appear.",

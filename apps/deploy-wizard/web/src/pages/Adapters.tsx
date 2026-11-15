@@ -107,7 +107,7 @@ export default function Adapters() {
           for the agent runtime and identity rooting. Adapters fill the
           remaining protocol slots — data lake bronze sources, federated
           identity, parallel-write SIEM, etc. — per the client's
-          CAB-approved architecture. Deloitte does not have an alliance
+          CAB-approved architecture. The firm does not have an alliance
           posture with any cloud or SaaS provider; adapters honor existing
           client investments.
         </p>

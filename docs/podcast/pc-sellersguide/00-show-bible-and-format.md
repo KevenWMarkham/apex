@@ -26,7 +26,7 @@ What we are **not** borrowing:
 
 ### Keven · the practitioner
 
-- VP, Deloitte's Microsoft Technology & Services Practice
+- VP, Microsoft Technology & Services Practice
 - 22+ years on the Microsoft platform; Industrial Products & Services background
 - Has been in the room for these deals
 - Vocabulary: specific, concrete, slightly informal. "The CIO leaned back and said…"
@@ -132,7 +132,7 @@ What to read next.
 
 The Sellers Guide has a bright-line list of things sellers cannot say. Audio inherits it:
 
-- ❌ Never: "audit," "attest," "audit-grade," "Deloitte will audit"
+- ❌ Never: "audit," "attest," "audit-grade," "the firm will audit"
 - ❌ Never: "ECIF" as a positive funding path
 - ✅ Always: "audit-ready *evidence package*" (artefacts the client's auditor can use)
 - ✅ Always: "DCIF, value-share, or direct funding"
@@ -179,7 +179,7 @@ The Sellers Guide is a living document. When a chapter materially changes:
 
 ## 6. A note on tone
 
-This is **not** a marketing podcast. It is a *practitioner* podcast. The implied listener is a Deloitte seller who has to walk into a CIO's office on Tuesday morning and explain APEX without notes, on the technical and commercial merits, independently of any partner-channel positioning. The audio is their preparation.
+This is **not** a marketing podcast. It is a *practitioner* podcast. The implied listener is a seller who has to walk into a CIO's office on Tuesday morning and explain APEX without notes, on the technical and commercial merits, independently of any partner-channel positioning. The audio is their preparation.
 
 So: be honest about what doesn't work. Be specific about what does. Sound like two people who have been in the chair and are talking to a third person who's about to be in the chair.
 

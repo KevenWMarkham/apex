@@ -87,6 +87,6 @@ v2 is longer because each topic gets the breathing room the user asked for.
 ## Notes
 
 - All references to **canonical schemas** anchor at **Silver**, not Gold — the corrected architectural framing.
-- All Microsoft-relationship references reflect Deloitte's **Independence-from-Microsoft posture** — recommendation on the merits, not partner-channel compensation.
+- All Microsoft-relationship references reflect the firm's **Independence-from-Microsoft posture** — recommendation on the merits, not partner-channel compensation.
 - ICE = "Industrial · Construction · Equipment" per the Services Guide source.
 - Episode 12 ties to the Sellers Podcast and Deployment Podcast — the Trilogy is structured as a composable three-podcast series. See `../pc-sellersguide/` (10 episodes) and `../pc-deploymentguide/` (6 episodes).

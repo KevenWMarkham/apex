@@ -68,10 +68,10 @@ instructions = [
     "• Demo proof: https://ca-visionkit-portal.gentlestone-9b49b099.eastus2.azurecontainerapps.io",
     "",
     "INDEPENDENCE NOTE",
-    "Microsoft money flows via ISV Marketplace burndown + SI Teaming, never direct ECIF to Deloitte.",
+    "Microsoft money flows via ISV Marketplace burndown + SI Teaming, never direct ECIF to the firm.",
     "All funding-vehicle references use APEX-Design-v3 §S21 'Funding & Independence' nomenclature.",
     "",
-    "Internal · Deloitte's Microsoft Technology & Services Practice",
+    "Internal · Microsoft Technology & Services Practice",
     "Prepared by Keven Markham, VP · 2026-05-23",
 ]
 for i, line in enumerate(instructions, start=4):
@@ -131,7 +131,7 @@ inputs_data = [
     ("% of basket Amazon currently takes",      0.12,      "Estimated share Alexa routes to AMZN", "pct_yellow"),
 
     ("ENGAGEMENT PRICING (per Sellers-Guide §8.1)", None, None, "section"),
-    ("BVA workshop fee ($)",                    35000,     "Often Deloitte-absorbed", "cur"),
+    ("BVA workshop fee ($)",                    35000,     "Often firm-absorbed", "cur"),
     ("CFMP Pack Lite ($)",                      200000,    "Range $150-250K", "cur"),
     ("CHC Pack Lite (B2C) ($)",                 325000,    "Range $250-400K", "cur"),
     ("CFMP Pack Standard ($)",                  1000000,   "Range $500K-$1.5M", "cur"),
@@ -361,7 +361,7 @@ out_row(8, "Total value/yr at end-of-wave",
         "=B6+B7", "=C6+C7", "=D6+D7", bold=True)
 
 # Section: Engagement cost
-ws.cell(row=10, column=1, value="DELOITTE ENGAGEMENT COST").font = BOLD
+ws.cell(row=10, column=1, value="THE FIRM ENGAGEMENT COST").font = BOLD
 ws.cell(row=10, column=1).fill = SECTION_BG
 for cc in range(2,6): ws.cell(row=10, column=cc).fill = SECTION_BG
 
@@ -391,11 +391,11 @@ out_row(19, "Net value (Value − Cost), annual",
         "=B8-B15", "=C8-C15", "=D8-D15", bold=True)
 
 # Section: 3-year TCV
-ws.cell(row=21, column=1, value="3-YEAR TOTAL CONTRACT VALUE (Deloitte)").font = BOLD
+ws.cell(row=21, column=1, value="3-YEAR TOTAL CONTRACT VALUE (the firm)").font = BOLD
 ws.cell(row=21, column=1).fill = SECTION_BG
 for cc in range(2,6): ws.cell(row=21, column=cc).fill = SECTION_BG
 
-out_row(22, "Deloitte 3-yr TCV (build + Operate)",
+out_row(22, "the firm 3-yr TCV (build + Operate)",
         "=B11+B12+B13",
         "=C11+C12+C13+C14",
         "=D11+D12+D13+D14",
@@ -404,9 +404,9 @@ out_row(22, "Deloitte 3-yr TCV (build + Operate)",
 ws["A24"] = "READING THIS PAGE"
 ws["A24"].font = BOLD
 ws["A24"].fill = DELOIT_GREEN
-ws["A25"] = ("• Customer-side value is recurring annual; Deloitte cost is mostly one-time (build) plus Operate run-rate.")
+ws["A25"] = ("• Customer-side value is recurring annual; the firm cost is mostly one-time (build) plus Operate run-rate.")
 ws["A26"] = ("• 'Value : Cost' >1 means the engagement pays for itself in year 1; >3 = strong; >5 = exceptional.")
-ws["A27"] = ("• 3-yr TCV column shows expected Deloitte revenue across the three waves.")
+ws["A27"] = ("• 3-yr TCV column shows expected the firm revenue across the three waves.")
 ws["A28"] = ("• Sensitivity sheet shows how the picture changes when 3 key inputs move ±25%.")
 for r in (25,26,27,28):
     ws.cell(row=r, column=1).alignment = LEFT

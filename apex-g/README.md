@@ -6,7 +6,7 @@ Cloud Storage, Pub/Sub, Cloud DLP, Chronicle, Cloud IAM, Workspace.
 
 **Status: Stub package.** Concrete implementations are scaffolded with
 `NotImplementedError` and an Independence-compliant port plan. APEX-G
-ships when a Deloitte client commissions a Google Cloud variant
+ships when a client commissions a Google Cloud variant
 deployment.
 
 APEX-G is a **sibling product** to APEX-M and APEX-A — same APEX-Core
@@ -42,7 +42,7 @@ for the canonical sequence of work to ship APEX-G:
 ## Independence
 
 APEX-G integrates with the client's existing Google Cloud investment.
-Deloitte does **not** resell, sublicense, or have an alliance posture
+The firm does **not** resell, sublicense, or have an alliance posture
 with Google. APEX-G exists as a sibling product so APEX is **not
 Microsoft-dependent**; it is **multi-cloud-portable** by construction.
 

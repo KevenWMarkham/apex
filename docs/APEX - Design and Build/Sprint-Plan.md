@@ -110,7 +110,7 @@ Phase I in this session landed **architecture + mocks + ADRs + book content**. P
 ### Sprint 47 — Lab tenant for first client (2 weeks)
 **Owner:** Engagement lead + Tenant SRE
 **Exit:** RC-E2E-03 deployed to client's Lab tenant, both featured scenarios run end-to-end
-- Onboard the client's Azure subscription: assign roles to Deloitte deployment principal
+- Onboard the client's Azure subscription: assign roles to the firm deployment principal
 - Operator runs Pre-deployment Security Gate; remediates per checklist
 - Wizard deploys APEX-M platform Bicep + RC-E2E-03 service Bicep + agent fleet
 - Smoke tests: synthetic cold-chain excursion event, synthetic markdown batch
@@ -208,7 +208,7 @@ Each sprint takes one RC service through the same flow: agent prompts authored �
 
 ## APEX-G / APEX-A port — on-demand
 
-Per [Multi-Cloud Port Plan](../apex-core/Multi-Cloud-Port-Plan.md), neither variant is on a fixed sprint schedule. The trigger is a Deloitte client commissioning a non-Microsoft variant deployment as their primary substrate.
+Per [Multi-Cloud Port Plan](../apex-core/Multi-Cloud-Port-Plan.md), neither variant is on a fixed sprint schedule. The trigger is a client commissioning a non-Microsoft variant deployment as their primary substrate.
 
 When commissioned, the port follows a discrete project plan (estimated 8–10 sprints from kickoff to first client deploy):
 
@@ -243,7 +243,7 @@ Each sprint maps to the engagement's commercial wave per Sellers Guide:
 
 | Sprint number | Engagement wave | Commercial posture |
 |---|---|---|
-| 30–46 | Pre-engagement (framework + platform) | Internal Deloitte investment |
+| 30–46 | Pre-engagement (framework + platform) | Internal the firm investment |
 | 47 | W1 Foundation + W2 Pilot kickoff | Fixed-price W2 contract begins |
 | 48 | W2 Pilot live | Fixed-price W2 burns down |
 | 49–55 | W2 Pilot + W2 expansion (additional services) | W2 fixed-price; possibly outcome-based add-ons |

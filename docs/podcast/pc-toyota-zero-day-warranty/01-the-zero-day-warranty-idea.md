@@ -40,7 +40,7 @@ Then Warranty Engineering needs to be brought in to compose the causal model onc
 
 **MIA:** For *one* warranty cluster. In a normal month there are several. Stack them up and the quality organisation is running a permanent backlog of investigations. The engineer at her desk at eleven o'clock at night is not unusual. She is the *system working as designed* — and the design is past its expiration date.
 
-**KEVEN:** This podcast is about what changes when we can compose the data she needs *and trace it in minutes, not weeks.* Five episodes. I'm Keven Markham, Deloitte's Microsoft Technology and Services Practice. Twenty-two years on the Microsoft platform.
+**KEVEN:** This podcast is about what changes when we can compose the data she needs *and trace it in minutes, not weeks.* Five episodes. I'm Keven Markham, Microsoft Technology and Services Practice. Twenty-two years on the Microsoft platform.
 
 **MIA:** I'm Mia. Eighteen years on automotive accounts, mostly on the manufacturing-IT and quality-leadership side. I've sat in those quality reviews. I've watched the eleven-o'clock-on-a-Tuesday-night moment happen. This podcast is for the Account Team — and for any Toyota colleague who happens to be listening. The Zero Day Warranty Podcast. Episode One. *The Zero Day Warranty Idea.*
 
@@ -200,7 +200,7 @@ In the reference scenario, *$2.8 million* of that $4.2M is recovered as a suppli
 
 **MIA:** Two estates that matter here, and both are already in motion.
 
-The Microsoft estate. *Toyota Connected North America runs on Azure.* That is not a Deloitte proposal — that is Toyota's standing architecture. The connected-vehicle data we just talked about lives on Microsoft cloud today. Toyota's broader IT estate has been on Microsoft productivity, identity, and cloud services for years. *Microsoft Industry Cloud for Manufacturing* — the family of capabilities that brings Fabric, Foundry, Power Platform, and Dataverse together for manufacturing data use cases — is directly aligned with the Manufacturing Excellence priority Ted Ogawa has named.
+The Microsoft estate. *Toyota Connected North America runs on Azure.* That is not a proposal — that is Toyota's standing architecture. The connected-vehicle data we just talked about lives on Microsoft cloud today. Toyota's broader IT estate has been on Microsoft productivity, identity, and cloud services for years. *Microsoft Industry Cloud for Manufacturing* — the family of capabilities that brings Fabric, Foundry, Power Platform, and Dataverse together for manufacturing data use cases — is directly aligned with the Manufacturing Excellence priority Ted Ogawa has named.
 
 **KEVEN:** And on the NVIDIA side.
 
@@ -212,11 +212,11 @@ On the autonomous-vehicle side, *Toyota's autonomous driving development uses NV
 
 **MIA:** The point is this podcast is *not introducing new vendors* to Toyota. Both Microsoft and NVIDIA are platforms Toyota already uses. *What this podcast is about is how to compose them — specifically, for the Zero Day Warranty agentic scenario.* The data foundation sits on Microsoft Fabric, the agent reasons through Microsoft Agent Framework, the governance comes through Microsoft Purview. NVIDIA shows up later — Episodes 4 and 5 — as the *Day-0 prevention* extension at the station, and as the existing Omniverse and Drive estates that compose into the same picture.
 
-**KEVEN:** And how we talk about Deloitte's role.
+**KEVEN:** And how we talk about the firm's role.
 
-**MIA:** Carefully and accurately. *Deloitte recommends.* The recommendation is Microsoft Fabric, Agent Framework, and Purview for the Zero Day Warranty agentic scenario at Toyota. That recommendation is on the technical and economic merits — the platforms are the right fit for the problem and for Toyota's existing estate.
+**MIA:** Carefully and accurately. *The firm recommends.* The recommendation is Microsoft Fabric, Agent Framework, and Purview for the Zero Day Warranty agentic scenario at Toyota. That recommendation is on the technical and economic merits — the platforms are the right fit for the problem and for Toyota's existing estate.
 
-*Toyota contracts with Microsoft directly for the licensing.* Microsoft paper, Microsoft and Toyota. *Toyota contracts with Deloitte directly for the services.* Deloitte paper, Deloitte and Toyota. Two contracts. *No compensation flows from Microsoft to Deloitte for the platform recommendation.* That is the model. It is going to be named again in Episode 5 the same way. The Account Team should be fluent in stating it that way on a Toyota call.
+*Toyota contracts with Microsoft directly for the licensing.* Microsoft paper, Microsoft and Toyota. *Toyota contracts with the firm directly for the services.* firm paper, the firm and Toyota. Two contracts. *No compensation flows from Microsoft to the firm for the platform recommendation.* That is the model. It is going to be named again in Episode 5 the same way. The Account Team should be fluent in stating it that way on a Toyota call.
 
 ### What we'll cover across the five episodes
 
@@ -290,7 +290,7 @@ And the cost of the slow attribution is not just dollars. *It is credibility.* T
 
 *Three — audit-ready is the load-bearing wall.* Every agent decision is one row. Hash-chained. Replay-validated. Echoed through Microsoft Purview. *That is the architectural reason this can land in the warranty path at all.* Episodes 2 and 3 walk it; every episode references it.
 
-**MIA:** And the Independence frame the Account Team needs to be fluent in. *Deloitte recommends. Toyota contracts with Microsoft directly for the platform. Toyota contracts with Deloitte directly for the services. Two contracts. No compensation flows from Microsoft to Deloitte for the platform recommendation.* Said exactly that way.
+**MIA:** And the Independence frame the Account Team needs to be fluent in. *The firm recommends. Toyota contracts with Microsoft directly for the platform. Toyota contracts with the firm directly for the services. Two contracts. No compensation flows from Microsoft to the firm for the platform recommendation.* Said exactly that way.
 
 **KEVEN:** Said exactly that way.
 

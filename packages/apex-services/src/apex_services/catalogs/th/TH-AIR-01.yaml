@@ -48,4 +48,4 @@ linked_archetypes:
 
 schemas_touched: [IROPsML, TravelerML, OpsML-TH]
 standards: ['DOT', 'EU261', 'IATA NDC']
-primary_contact: th-practice-lead@deloitte.com
+primary_contact: th-practice-lead@example.com

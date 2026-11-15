@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "APEX THML — Travel & Hospitality canonical entities over OpenTravel + IATA NDC."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "Proprietary — Deloitte Internal" }
+license = { text = "Proprietary — Internal" }
 dependencies = [
     "apex-core",
     "apex-schemas-common",

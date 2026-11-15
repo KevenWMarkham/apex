@@ -6,7 +6,7 @@
 **New service-code family:** `TMT-TEL-HOM-*` (Telco Home Agentic)
 **Companion build-spec amendment:** [`docs/build-specs/apex-tmt-agentic-home-amendment.md`](../../build-specs/apex-tmt-agentic-home-amendment.md)
 **Status:** Draft
-**Primary author:** tmt-practice-lead@deloitte.com
+**Primary author:** tmt-practice-lead@example.com
 
 ## The thesis in one paragraph
 

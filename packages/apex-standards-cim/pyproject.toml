@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "APEX IEC 61970 + IEC 61968 CIM Pattern-B mirror — utility power-system model + utility operations (consumed by ER)."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "Proprietary — Deloitte Internal. CIM / IEC 61970 / IEC 61968 are IEC-copyrighted; this package ships structural mirrors only." }
+license = { text = "Proprietary — Internal. CIM / IEC 61970 / IEC 61968 are IEC-copyrighted; this package ships structural mirrors only." }
 dependencies = [
     "apex-core",
     "apex-schemas-common",

@@ -199,7 +199,7 @@ def build():
     style.font.size = Pt(11)
 
     # ===== HEADER BLOCK =====
-    add_eyebrow(doc, "DELOITTE · MEMO · FULL-SCOPE REPLY")
+    add_eyebrow(doc, "THE FIRM · MEMO · FULL-SCOPE REPLY")
     p = doc.add_paragraph()
     r = p.add_run("Agentic Merch should inherit CAF — not parallel it")
     set_run(r, bold=True, size=22, color=INK)
@@ -211,7 +211,7 @@ def build():
     doc.add_paragraph()
     add_kv(doc, [
         ("To",       "Converge / AI & Eng leadership — attn: Saurabh and platform leads"),
-        ("From",     "K. Markham · Deloitte Microsoft Technology Solutions & Practices"),
+        ("From",     "K. Markham · Microsoft Technology Solutions & Practices"),
         ("Date",     "24 April 2026"),
         ("Subject",  "CAF vs. Agentic Merch — full-scope scoping reply"),
         ("Cc",       "Merchandising Practice lead · RC Practice lead · DMTSP PMO"),
@@ -481,10 +481,10 @@ def build():
     r = p.add_run("— K. Markham")
     set_run(r, bold=True, size=11, color=INK)
     p2 = doc.add_paragraph()
-    r2 = p2.add_run("Deloitte Microsoft Technology Solutions & Practices")
+    r2 = p2.add_run("Microsoft Technology Solutions & Practices")
     set_run(r2, size=10, color=INK2)
     p3 = doc.add_paragraph()
-    r3 = p3.add_run("kmarkham@deloitte.com")
+    r3 = p3.add_run("kmarkham@example.com")
     set_run(r3, size=10, color=INK2, italic=True)
 
     add_pagebreak(doc)
@@ -514,7 +514,7 @@ def build():
               col_widths=[2.8, 3.7])
 
     add_body(doc,
-             "Independence posture preserved across this memo: 'Deloitte's Microsoft practice,' "
+             "Independence posture preserved across this memo: 'The firm's Microsoft practice,' "
              "'DMTSP,' 'Microsoft platform capabilities,' 'Microsoft-native deployment.' The "
              "terms 'partner,' 'alliance,' and 'strategic alliance' do not appear.",
              italic=True, color=MUTE, size=9)

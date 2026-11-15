@@ -12,7 +12,7 @@ description: >
   worker-permit data + near-miss reports. Aggregates leading indicators
   into operations-leader weekly dashboards.
 archetype_id: F4-regulatory-trigger-audit-preserve
-primary_contact: er-og-practice-lead@deloitte.com
+primary_contact: er-og-practice-lead@example.com
 
 tools:
   - tool_id: apex.er.mcp.hseml.get_incident_log

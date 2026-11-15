@@ -308,11 +308,11 @@ Deliverables:
 | SAP S/4HANA data quality gaps | Medium | Medium | Balance-Fetch validation layer; unknown/ambiguous balances route to a pre-close exception queue for Controller pre-clearing |
 | Intercompany cross-entity timing mismatches | High | Medium | Interco-Match tolerates T+1 and T+2 timing diffs; flags only T+3 as exceptions |
 | Confidence-score drift (model decay) | Low | High | LEDGER feedback loop re-scores accrual patterns quarterly; HITL override reasons become training signal |
-| Independence concerns (Deloitte audits Nike?) | **Verify** | **Blocking if true** | Check Deloitte audit status; if audit client, engage Deloitte Digital / Advisory under appropriate independence framework — do not proceed assuming Consulting can lead |
+| Independence concerns (the firm audits Nike?) | **Verify** | **Blocking if true** | Check the firm audit status; if audit client, engage the firm's Digital / Advisory under appropriate independence framework — do not proceed assuming Consulting can lead |
 
 ### Independence call-out
 
-Before selling this deeper at Nike, confirm Deloitte's independence posture. If Deloitte is Nike's external auditor, this work must be structured to preserve independence. The build is **client-software that Nike runs** — the agent manifests, policy manifests, and LEDGER are Nike artifacts; Deloitte's role is advisory and implementation enablement. Structure the statement of work accordingly and route through the independence office before contracting.
+Before selling this deeper at Nike, confirm the firm's independence posture. If the firm is Nike's external auditor, this work must be structured to preserve independence. The build is **client-software that Nike runs** — the agent manifests, policy manifests, and LEDGER are Nike artifacts; the firm's role is advisory and implementation enablement. Structure the statement of work accordingly and route through the independence office before contracting.
 
 ---
 

@@ -48,13 +48,13 @@
 
 **The opening demo** — section twenty-three point eight — *content rights conflict detection.* The agent reads through a proposed content reuse, identifies all rights-holders affected, surfaces conflicts and required clearances. Or — for parks — *guest-experience anomaly detection at scale.*
 
-**Commercial envelope** — section twenty-three point nine — Wave One typically 3.5 to 5 million dollars Deloitte services. This is a multi-Wave relationship from day one.
+**Commercial envelope** — section twenty-three point nine — Wave One typically 3.5 to 5 million dollars firm services. This is a multi-Wave relationship from day one.
 
 **JORDAN:** Observation — *this account values craft.* The buyer in media is unusually attuned to *how things are presented.* Your decks have to be beautiful. Your demos have to be precise. Bring craft.
 
 ### Chapter 24 — the Tier-1 North American telecommunications operator (TMT-TEL)
 
-**KEVEN:** Chapter Twenty-Four. *A Tier-1 North American telecommunications operator.* This is a long-time Deloitte and Microsoft relationship and the buyer profile is well-known.
+**KEVEN:** Chapter Twenty-Four. *A Tier-1 North American telecommunications operator.* This is a long-time the firm and Microsoft relationship and the buyer profile is well-known.
 
 **APEX thesis** — section twenty-four point three — *contact-center transformation as Wave One, network-operations augmentation as Wave Two.* The order matters. Contact-center is the visible value. Network ops is the structural value. You don't lead with network ops because it's an architectural conversation. You lead with contact-center because it's a *customer-pain* conversation.
 
@@ -110,7 +110,7 @@
 
 ### Chapter 28 — the corporate relocation and mobility services provider (TH-adjacent)
 
-**KEVEN:** Chapter Twenty-Eight. The last anchor account. *A corporate relocation and mobility services provider.* TH-adjacent because it's travel and mobility, services-adjacent because it's a B2B services business — not a B2C consumer brand. Smaller in pure dollar size than the other anchors but strategically interesting because it's the gateway to the broader Deloitte mobility-services portfolio.
+**KEVEN:** Chapter Twenty-Eight. The last anchor account. *A corporate relocation and mobility services provider.* TH-adjacent because it's travel and mobility, services-adjacent because it's a B2B services business — not a B2C consumer brand. Smaller in pure dollar size than the other anchors but strategically interesting because it's the gateway to the broader the firm mobility-services portfolio.
 
 **APEX thesis** — section twenty-eight point three — *traveller-experience and assignment-management orchestration.* Corporate relocation is a high-touch, high-stakes service. Agents help manage the dozens of vendor handoffs, regulatory checks, and traveller comms.
 
@@ -120,7 +120,7 @@
 
 **Commercial envelope** — section twenty-eight point nine — Wave One typically 1.5 to 2.5 million dollars services. Smaller than the other anchors but with strategic significance for the wider mobility-services portfolio.
 
-**JORDAN:** Observation — *the smallest anchor account is the most over-looked.* It's the one where a single Wave One win produces a disproportionate effect on the Deloitte mobility-services book. Don't dismiss it for size.
+**JORDAN:** Observation — *the smallest anchor account is the most over-looked.* It's the one where a single Wave One win produces a disproportionate effect on the mobility-services book. Don't dismiss it for size.
 
 ### The thirteen-account picture
 
@@ -128,15 +128,15 @@
 
 **KEVEN:** Three things.
 
-One — **the Practice mix.** Five RC-adjacent, three AXLE-or-ICE, three TMT, three TH-adjacent (two airlines plus the mobility provider). Two HLS-adjacent (the conglomerate touches HLS through pharma and medical devices). The mix tells you where Microsoft and Deloitte are betting jointly — and it skews toward RC and TMT.
+One — **the Practice mix.** Five RC-adjacent, three AXLE-or-ICE, three TMT, three TH-adjacent (two airlines plus the mobility provider). Two HLS-adjacent (the conglomerate touches HLS through pharma and medical devices). The mix tells you where Microsoft and the firm are betting jointly — and it skews toward RC and TMT.
 
 Two — **the Microsoft pillar lead mix.** Roughly half lead with Fabric. About a third lead with Foundry. The rest lead with Copilot or Purview. Notable: *no anchor account leads with all four pillars.* The Sellers Guide is disciplined about this — *lead with one, compose with all four.*
 
-Three — **the Wave One commercial envelope range.** Smallest is the mobility provider — 1.5 to 2.5 million. Largest is the OEM and the telco — 4 to 6 million plus. Average is about 3.5 million. The aggregate Wave One commercial opportunity across the thirteen accounts is in the 45 to 55 million dollar range *just for Deloitte services* — not counting Microsoft consumption or Wave Two and Wave Three expansion.
+Three — **the Wave One commercial envelope range.** Smallest is the mobility provider — 1.5 to 2.5 million. Largest is the OEM and the telco — 4 to 6 million plus. Average is about 3.5 million. The aggregate Wave One commercial opportunity across the thirteen accounts is in the 45 to 55 million dollar range *just for firm services* — not counting Microsoft consumption or Wave Two and Wave Three expansion.
 
 **JORDAN:** So the Part Four catalogue is — what is it — about a 50-million-dollar Wave One opportunity if fully landed.
 
-**KEVEN:** Approximately. And that's why Deloitte and Microsoft have agreed these are the priority pursuits. The strategic question is not *can we land them.* The strategic question is *can we land them in parallel without breaking delivery capacity.*
+**KEVEN:** Approximately. And that's why the firm and Microsoft have agreed these are the priority pursuits. The strategic question is not *can we land them.* The strategic question is *can we land them in parallel without breaking delivery capacity.*
 
 **JORDAN:** Which is Episode Seven's problem.
 
@@ -170,7 +170,7 @@ Three — **the Wave One commercial envelope range.** Smallest is the mobility p
 
 **KEVEN:** Fact Six — Chapter 28 strategic significance?
 
-**JORDAN:** Gateway to Deloitte's broader mobility-services portfolio. Smallest envelope, biggest leverage.
+**JORDAN:** Gateway to the firm's broader mobility-services portfolio. Smallest envelope, biggest leverage.
 
 **KEVEN:** Time.
 
@@ -180,7 +180,7 @@ Three — **the Wave One commercial envelope range.** Smallest is the mobility p
 
 **KEVEN:** Adopt versus Hold on the TMT-and-TH portfolio specifically. Jordan, Adopt.
 
-**JORDAN:** Adopt — **invest in the airline accounts now.** Both airline anchors plus the mobility-provider anchor together form a coherent TH-services franchise inside Deloitte. The IROPs demo travels across all three. The traveller-profile canonical schema works for all three. A seller who invests in TH this year has three anchor accounts to draw from. That's significant.
+**JORDAN:** Adopt — **invest in the airline accounts now.** Both airline anchors plus the mobility-provider anchor together form a coherent TH-services franchise inside the firm. The IROPs demo travels across all three. The traveller-profile canonical schema works for all three. A seller who invests in TH this year has three anchor accounts to draw from. That's significant.
 
 **KEVEN:** Hold. When is the TMT-and-TH portfolio *not* the right focus?
 

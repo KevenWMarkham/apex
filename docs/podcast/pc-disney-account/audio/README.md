@@ -1,6 +1,6 @@
 # The Disney Account Podcast · Audio Files
 
-Five MP3 episodes — the Deloitte Account Team's internal podcast for The Walt Disney Company. Each episode is wrapped with a royalty-free opening and closing music sting (see *Music* section below).
+Five MP3 episodes — the Account Team's internal podcast for The Walt Disney Company. Each episode is wrapped with a royalty-free opening and closing music sting (see *Music* section below).
 
 Voices via **Microsoft Edge Neural TTS** (`edge-tts`). Concatenated with **ffmpeg**.
 
@@ -48,9 +48,9 @@ Each episode begins with a 5-second **opening sting** and ends with a 6-second *
 
 ### Why this matters for the Account Team
 
-Using actual copyrighted Disney music — for example, *"When You Wish Upon a Star,"* the Disney chime logo, or any Pixar/Marvel/Lucasfilm theme — in a podcast about Disney as a Deloitte client would be a copyright violation *against the client.* That would be an Independence problem and a relationship problem simultaneously. The synthesised stings are the safe path.
+Using actual copyrighted Disney music — for example, *"When You Wish Upon a Star,"* the Disney chime logo, or any Pixar/Marvel/Lucasfilm theme — in a podcast about Disney as a client would be a copyright violation *against the client.* That would be an Independence problem and a relationship problem simultaneously. The synthesised stings are the safe path.
 
-If the Account Team wants different music — for example, a properly licensed orchestral cue from a royalty-free music library, or a custom-composed cue commissioned through Deloitte's brand team — that's straightforward to swap in. Replace `opening_sting.mp3` and `closing_sting.mp3` and re-run `python _apply_music.py`.
+If the Account Team wants different music — for example, a properly licensed orchestral cue from a royalty-free music library, or a custom-composed cue commissioned through the firm's brand team — that's straightforward to swap in. Replace `opening_sting.mp3` and `closing_sting.mp3` and re-run `python _apply_music.py`.
 
 ## Format
 
@@ -112,7 +112,7 @@ audio/
 
 ## Series content overview
 
-Six episodes for the Deloitte Account Team for The Walt Disney Company:
+Six episodes for the Account Team for The Walt Disney Company:
 
 - **Ep 1** — The Disney Account · three segments · six pressure points · 16 Disney-fit scenarios preview
 - **Ep 2** — The Customer Experience Six · all six CX scenarios from the curated Disney portfolio
@@ -123,6 +123,6 @@ Six episodes for the Deloitte Account Team for The Walt Disney Company:
 
 ## Notes
 
-- **Internal use only.** This podcast names Disney directly because it's internal Deloitte Account Team preparation. The Trilogy podcasts anonymise Disney as "a global media and entertainment conglomerate."
-- **Independence-from-Microsoft posture** preserved throughout — Deloitte does not co-sell, recommendation is on the merits, two-contract model with Microsoft.
+- **Internal use only.** This podcast names Disney directly because it's internal firm Account Team preparation. The Trilogy podcasts anonymise Disney as "a global media and entertainment conglomerate."
+- **Independence-from-Microsoft posture** preserved throughout — the firm does not co-sell, recommendation is on the merits, two-contract model with Microsoft.
 - **Companion podcasts in this folder family** — `../pc-sellersguide/` (10 episodes · framework-wide selling) · `../pc-servicesguide/` (12 episodes · framework-wide architecture) · `../pc-deploymentguide/` (6 episodes · framework-wide operations).

@@ -1093,7 +1093,7 @@ def build():
               col_widths=[1.7, 4.6])
 
     add_body(doc,
-             "Independence posture preserved: 'Deloitte's Microsoft practice,' 'DMTSP,' "
+             "Independence posture preserved: 'The firm's Microsoft practice,' 'DMTSP,' "
              "'Microsoft platform capabilities,' 'Microsoft-native deployment.' Source-system "
              "vendor names (Revionics, Trace One, Emerson, etc.) are illustrative — confirm "
              "actual Kroger source-system inventory in Approach-stage discovery.",

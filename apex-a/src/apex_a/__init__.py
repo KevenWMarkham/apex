@@ -2,7 +2,7 @@
 
 APEX-A is a sibling product to APEX-M (Microsoft) and APEX-G (Google
 Cloud). Concrete implementations are stubbed today and ship when a
-Deloitte client commissions an AWS variant deployment.
+firm client commissions an AWS variant deployment.
 
 Importing any concrete impl raises NotImplementedError with a pointer to
 the port plan. Protocol-level imports work — `apex_a` is a real Python

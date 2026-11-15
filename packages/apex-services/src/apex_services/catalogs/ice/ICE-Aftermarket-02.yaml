@@ -40,4 +40,4 @@ linked_archetypes:
   - F2-event-cluster-pattern-match
 
 schemas_touched: [QMSML-ICE, ConnectedICEML, AMML-ICE]
-primary_contact: ice-practice-lead@deloitte.com
+primary_contact: ice-practice-lead@example.com

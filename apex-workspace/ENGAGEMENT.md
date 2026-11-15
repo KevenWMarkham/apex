@@ -9,7 +9,7 @@ inherits_from:
   - APEX-CORE.md
   - CHARTER.md
 authors:
-  - Deloitte DMTSP — Consumer Industry
+  - DMTSP — Consumer Industry
 purpose: >
   Engagement-specific collaborator list, escalation rota, contractual
   windows, and named thresholds. Inherits constitutional rules from

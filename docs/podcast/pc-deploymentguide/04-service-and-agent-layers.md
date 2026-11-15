@@ -124,7 +124,7 @@ Now your second Service is approved. You're not standing up a new tenant. You're
 
 **KEVEN:** Talk me through it.
 
-**SAM:** The framework's pattern is — agents are *immutable container images.* Built in a Deloitte authoring registry. Signed with cosign. Mirrored to the client's tenant registry. Pulled at runtime by *SHA digest,* not by tag.
+**SAM:** The framework's pattern is — agents are *immutable container images.* Built in an authoring registry. Signed with cosign. Mirrored to the client's tenant registry. Pulled at runtime by *SHA digest,* not by tag.
 
 **KEVEN:** Why SHA digest, not tag?
 

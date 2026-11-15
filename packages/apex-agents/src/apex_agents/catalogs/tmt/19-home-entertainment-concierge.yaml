@@ -14,7 +14,7 @@ description: >
   bundled-streamer offers to surface on the Telco bill. Read-only by
   default; write only for explicit content adds.
 archetype_id: F2-event-cluster-pattern-match
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.home.read_media_session_events

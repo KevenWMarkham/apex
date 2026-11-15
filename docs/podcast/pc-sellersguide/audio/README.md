@@ -65,7 +65,7 @@ Each Handbook-weave episode references back to the original Sellers Guide arc by
 
 ## Notes
 
-- All ten episodes carry the **Independence-from-Microsoft** framing established in the original arc revisions — Deloitte does NOT co-sell with Microsoft; recommendation is on the merits.
+- All ten episodes carry the **Independence-from-Microsoft** framing established in the original arc revisions — the firm does NOT co-sell with Microsoft; recommendation is on the merits.
 - All references to **canonical schemas** anchor at **Silver**, not Gold — the corrected architectural framing.
 - **ICE** terminology in the audio: per user-confirmed framing.
 - The Sellers Handbook weave does not modify Eps 1-7 — they're preserved as-is. Eps 8-10 *extend* the series.

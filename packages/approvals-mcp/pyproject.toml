@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "APEX approvals-mcp — HITL approval workflow (request / status / record)."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "Proprietary — Deloitte Internal" }
+license = { text = "Proprietary — Internal" }
 dependencies = ["apex-core", "mcp-common", "pydantic>=2.9.0"]
 
 [project.scripts]

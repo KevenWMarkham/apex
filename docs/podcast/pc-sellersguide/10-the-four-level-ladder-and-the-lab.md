@@ -13,7 +13,7 @@
 
 [Sound: a slow exhale. Then a chair settling.]
 
-**KEVEN:** I want to start with a single number that captures why this episode matters. *Five days.* That's how long it takes — using the GSSC Lab — to ship a Power BI Opportunity Heatmap to a Deloitte industry practice leader. *Five days.* Demonstrable. Real. Live. They walk away with a working .pbix they can open without us in the room.
+**KEVEN:** I want to start with a single number that captures why this episode matters. *Five days.* That's how long it takes — using the GSSC Lab — to ship a Power BI Opportunity Heatmap to an industry practice leader. *Five days.* Demonstrable. Real. Live. They walk away with a working .pbix they can open without us in the room.
 
 Compare to the alternative — *six weeks of environment build before you have anything to show.* Five days versus six weeks. That difference *is* the GSSC Lab's value.
 
@@ -45,7 +45,7 @@ Episode Ten is — *the full ladder, all four rungs, the substrate underneath, t
 
 **KEVEN:** Start at the bottom. L1. *The Power BI Opportunity Heatmap.*
 
-What it is — *a free gift* the seller offers to a Deloitte industry practice leader. The seller says — *"I'll build you a Power BI Opportunity Heatmap for your portfolio. Five days. Free. You own the .pbix."* The leader almost always says yes. Free gift. Five days. No catch. They own the artefact.
+What it is — *a free gift* the seller offers to an industry practice leader. The seller says — *"I'll build you a Power BI Opportunity Heatmap for your portfolio. Five days. Free. You own the .pbix."* The leader almost always says yes. Free gift. Five days. No catch. They own the artefact.
 
 What's in it — *the heatmap shows, for the practice's portfolio of accounts, every place where APEX would compress delivery.* Account by account. Industry by industry. Service by Service from the catalog. Each cell scored on three dimensions — *opportunity size, Microsoft attach potential, Wave 1 readiness.* The leader sees, on a single page, where the highest-value places to start are.
 
@@ -113,7 +113,7 @@ What attaches — *Dynamics 365 becomes central.* Customer Insights. Sales Copil
 
 **KEVEN:** OK. Underneath all four rungs — *the GSSC Lab.* I want to spend real time on this because it's a structural advantage.
 
-What it is — *a fully provisioned Microsoft-native environment* in Deloitte's tenant. *Always on. Pre-built. Live today.* Fabric F64-plus capacity. Foundry workspace. Copilot Studio. Purview catalog. Entra tenant. Dynamics 365 sandbox. *All running, all wired together, all available to demonstrate.*
+What it is — *a fully provisioned Microsoft-native environment* in the firm's tenant. *Always on. Pre-built. Live today.* Fabric F64-plus capacity. Foundry workspace. Copilot Studio. Purview catalog. Entra tenant. Dynamics 365 sandbox. *All running, all wired together, all available to demonstrate.*
 
 The Microsoft Agent 365 framework is wired and active inside the Lab. *Agent 365* is Microsoft's umbrella agent runtime — the integration of Agent Framework, Foundry Agent Service, and the surrounding governance. The Lab demonstrates Agent 365 in production-shaped configuration.
 
@@ -129,13 +129,13 @@ One — *L1 demos in person.* The seller walks into the practice leader's office
 
 Two — *Wave 1 starts thirty days from yes.* Because the platform substrate already exists, the engagement doesn't spend six to eight weeks on environment provisioning. The Lab serves as the development substrate during Discover and Design phases; the production substrate is promoted into the client's tenant for Build and Deploy.
 
-Three — *the Lab is the Independence-safe demo path.* The Lab runs on *Deloitte tenant with synthetic data.* No client data ever enters the Lab. Promotion to the client's tenant is an L2 motion, with the client's own Microsoft licensing covering the production substrate. *That clean separation* — Deloitte's lab versus client's production — *is what makes the demo posture Independence-clean.*
+Three — *the Lab is the Independence-safe demo path.* The Lab runs on *the firm tenant with synthetic data.* No client data ever enters the Lab. Promotion to the client's tenant is an L2 motion, with the client's own Microsoft licensing covering the production substrate. *That clean separation* — the firm's lab versus client's production — *is what makes the demo posture Independence-clean.*
 
 **JORDAN:** And the seller's say-not-say discipline at the Lab —
 
-**KEVEN:** Three things to say. *"This is Deloitte's lab — pre-built, working today." "We promote from here into your tenant for production." "You're looking at Agent 365 running an APEX edition agent."*
+**KEVEN:** Three things to say. *"This is the firm's lab — pre-built, working today." "We promote from here into your tenant for production." "You're looking at Agent 365 running an APEX edition agent."*
 
-Three things *not* to say. *"This is your environment."* It's Deloitte's. *"This is what you'll license."* The services are licensed from Deloitte; the platform is licensed from Microsoft separately. *"Microsoft built this for us."* The Lab is Deloitte's intellectual property running on Microsoft platforms — never frame the relationship in a way that suggests Microsoft funded or built it for us.
+Three things *not* to say. *"This is your environment."* It's the firm's. *"This is what you'll license."* The services are licensed from the firm; the platform is licensed from Microsoft separately. *"Microsoft built this for us."* The Lab is the firm's intellectual property running on Microsoft platforms — never frame the relationship in a way that suggests Microsoft funded or built it for us.
 
 ### The Six-Phase Seller Journey
 
@@ -169,7 +169,7 @@ Each phase has a defined entry and exit. Each phase produces an artefact. The ar
 
 *The BVA in 5 Bullets.* A Business Value Assessment compressed to *one slide, five bullets.* The five — *(1) the metric we'll move, (2) the gap today, (3) the agent that closes the gap, (4) the Wave 1 timeline and cost, (5) the return math.* If the BVA needs more than five bullets, the deal isn't ready. The discipline of the five bullets is what produces clear deals.
 
-*The Independence Cheat Sheet.* A one-pager — *say this, don't say that* — for every Independence-sensitive conversation. ECIF is prohibited; DCIF and direct client funding are valid. *"Deloitte's Microsoft Technology and Services Practice"* — yes. *"Microsoft partner-channel co-sell"* — never. Microsoft software contracts directly with the client; Deloitte services contract directly with the client; *Deloitte is not in the software margin.* The cheat sheet is the seller's bright-line guard against Independence breaches.
+*The Independence Cheat Sheet.* A one-pager — *say this, don't say that* — for every Independence-sensitive conversation. ECIF is prohibited; DCIF and direct client funding are valid. *"Microsoft Technology and Services Practice"* — yes. *"Microsoft partner-channel co-sell"* — never. Microsoft software contracts directly with the client; firm services contract directly with the client; *the firm is not in the software margin.* The cheat sheet is the seller's bright-line guard against Independence breaches.
 
 *One-Page Practice Pitch Template.* The deliverable the seller leaves with the practice leader. One page. The practice's portfolio. The top three Wave 1 candidates. The BVA shape for the top one. The kickoff timeline. *That one page is the artefact the practice leader carries into their own internal conversation.*
 
@@ -227,7 +227,7 @@ That's the series. That's the work. *Now go climb the ladder.*
 
 ### Final sign-off
 
-**KEVEN:** Thanks for listening to the APEX Sellers Podcast. Ten episodes — the original Sellers Guide arc plus the Sellers Handbook weave. About five hours total. If you walk into a Deloitte practice leader's office Monday morning with the four unlock sentences in your head, the 30-Minute Framework on your tablet, and the GSSC Lab pre-loaded — *this series did its job.*
+**KEVEN:** Thanks for listening to the APEX Sellers Podcast. Ten episodes — the original Sellers Guide arc plus the Sellers Handbook weave. About five hours total. If you walk into a practice leader's office Monday morning with the four unlock sentences in your head, the 30-Minute Framework on your tablet, and the GSSC Lab pre-loaded — *this series did its job.*
 
 If you finish all three Trilogy podcasts — Sellers, Services, Deployment — *you have the complete picture.* Pursuit through delivery through production. *That practitioner is the one who carries an APEX engagement end-to-end.*
 

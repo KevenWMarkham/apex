@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Shared infrastructure for APEX canonical schemas: entity base, SCD2, DDL generator, Purview payload emitter, standards registry."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "Proprietary — Deloitte Internal" }
+license = { text = "Proprietary — Internal" }
 dependencies = [
     "apex-core",
     "pydantic>=2.9.0",

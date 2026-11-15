@@ -76,9 +76,9 @@ Target ~150 specific orchestration entries.
 ## Independence posture
 
 Consistent with established framing:
-- APEX orchestration patterns are Deloitte IP, internal accelerator
+- APEX orchestration patterns are firm IP, internal accelerator
 - Client receives orchestrated agent fleets on their Microsoft platform
-- No "APEX orchestration product" language — use "Deloitte-delivered orchestration patterns"
+- No "APEX orchestration product" language — use "firm-delivered orchestration patterns"
 
 ## Success Criteria
 

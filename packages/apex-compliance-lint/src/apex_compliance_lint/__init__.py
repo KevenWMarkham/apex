@@ -30,7 +30,6 @@ from apex_compliance_lint.rules import (
     APEX_BRAND,
     APEX_TYPOGRAPHY,
     DEFAULT_PACKS,
-    DELOITTE_MICROSOFT_INDEPENDENCE,
 )
 from apex_compliance_lint.types import (
     FileAdapter,
@@ -47,7 +46,6 @@ __all__ = [
     "APEX_TYPOGRAPHY",
     "CONTEXT_RADIUS",
     "DEFAULT_PACKS",
-    "DELOITTE_MICROSOFT_INDEPENDENCE",
     "DOCXAdapter",
     "FileAdapter",
     "HTMLAdapter",

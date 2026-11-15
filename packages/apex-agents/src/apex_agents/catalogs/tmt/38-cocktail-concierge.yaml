@@ -12,7 +12,7 @@ description: >
   Retail (mixers, citrus, garnish). Reads cellar; suggests recipes based
   on cellar + weather + day-of-week + household preferences.
 archetype_id: F2-event-cluster-pattern-match
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.home.read_household_cellar

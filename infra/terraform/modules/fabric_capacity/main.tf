@@ -13,7 +13,7 @@
 #     environment         = "prod"
 #     practice            = "rc"
 #     monthly_budget_usd  = 5500
-#     capacity_admins     = ["apex-rc-admins@deloitte.com"]
+#     capacity_admins     = ["apex-rc-admins@example.com"]
 #   }
 #
 # Source-of-truth references:

@@ -12,7 +12,7 @@ description: >
   signals + medication-administration history. Pre-classifies severity
   per FDA reporting requirements.
 archetype_id: F4-regulatory-trigger-audit-preserve
-primary_contact: hls-ls-practice-lead@deloitte.com
+primary_contact: hls-ls-practice-lead@example.com
 
 tools:
   - tool_id: apex.hls.mcp.patientml.get_clinical_notes

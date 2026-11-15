@@ -10,7 +10,7 @@ inherits_from:
   - CHARTER.md
   - ENGAGEMENT.md
 authors:
-  - Deloitte DMTSP — Consumer Industry
+  - DMTSP — Consumer Industry
 purpose: >
   The human at the keyboard. Per-operator threshold overrides, working
   hours, primary collaborators. Loaded at boot step 5 (after ENGAGEMENT,

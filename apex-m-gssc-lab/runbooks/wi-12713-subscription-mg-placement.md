@@ -13,7 +13,7 @@
 |---|---|
 | Subscription display name | `sub-apex-m-gssc-lab` |
 | Subscription ID | `<actual GUID>` |
-| Parent management group | `mg-apex-m-lab` (under `mg-deloitte-dmtsp`) |
+| Parent management group | `mg-apex-m-lab` (under `mg-dmtsp`) |
 | Region (primary / paired) | `eastus2` / `eastus` |
 | Owner | `<engineer-email>` |
 | Pack-tenant (sub-scope) | `shared` |
@@ -95,8 +95,8 @@ Reverting the merge commit alone does **not** roll back the cloud state.
 ## Independence (§14.1)
 
 - No client data, no client identity, no Microsoft-direct ECIF flow.
-- Subscription name, owner email, and all tag values are Deloitte-internal.
-- Cost center `DMTSP-APEX-M-LAB` routes to Deloitte DMTSP internal cost center per §14.1.
+- Subscription name, owner email, and all tag values are internal.
+- Cost center `DMTSP-APEX-M-LAB` routes to DMTSP internal cost center per §14.1.
 - This work item touched no client tenant or client identity in its execution.
 
 ## API versions and tooling (as deployed)

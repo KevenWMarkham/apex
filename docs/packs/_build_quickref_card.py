@@ -13,7 +13,7 @@ from copy import deepcopy
 
 OUT = r"C:\Stage\Clients\Industries\APEX\docs\reference\Sellers-Quick-Reference-Card.pptx"
 
-# Deloitte palette
+# The firm palette
 GREEN = RGBColor(0x86, 0xBC, 0x25)
 NAVY  = RGBColor(0x1A, 0x1F, 0x2E)
 DEEP  = RGBColor(0x0E, 0x14, 0x23)
@@ -67,7 +67,7 @@ def tb(x, y, w, h, text, size=10, bold=False, color=INK, align=PP_ALIGN.LEFT, fo
 box(0, 0, 8.5, 0.85, fill=DEEP)
 box(0, 0.85, 8.5, 0.06, fill=GREEN)
 tb(0.35, 0.12, 7.8, 0.4, "APEX  ·  CFMP  ·  CHC", size=22, bold=True, color=RGBColor(0xFF,0xFF,0xFF))
-tb(0.35, 0.50, 7.8, 0.32, "Sellers Quick Reference  ·  Deloitte's Microsoft Practice (DMTSP)",
+tb(0.35, 0.50, 7.8, 0.32, "Sellers Quick Reference  ·  the firm's Microsoft Practice (DMTSP)",
    size=11, color=GREEN)
 
 # ============ Section: 60-second pitch ============
@@ -75,7 +75,7 @@ y = 1.05
 box(0.30, y, 7.90, 1.15, fill=BG, line=NAVY)
 tb(0.45, y+0.05, 7.6, 0.25, "THE 60-SECOND PITCH", size=9, bold=True, color=GREEN)
 tb(0.45, y+0.30, 7.6, 0.85,
-   ("Deloitte has built an agentic-commerce delivery framework called APEX. We've shipped a working merchandise "
+   ("The firm has built an agentic-commerce delivery framework called APEX. We've shipped a working merchandise "
     "demo on Microsoft Foundry — 800 SKUs in a vector catalog, voice-driven shopping with Azure Speech, a "
     "14-field cryptographic audit trail, customer journey from CHOOSE through pickup. We've extended it into "
     "the home: cameras, Sonos, kitchen tablet, privacy regime tougher than Alexa by construction. Scoped "
@@ -156,7 +156,7 @@ tb(COL2_X+0.15, y3+0.05, COL_W-0.30, 0.25, "INDEPENDENCE LANGUAGE", size=9, bold
 tb(COL2_X+0.15, y3+0.34, 0.85, 0.22, "NEVER", size=8.5, bold=True, color=ACCENT)
 never_items = [
     "“Microsoft partner / alliance”",
-    "“Microsoft funds Deloitte”",
+    "“Microsoft funds the firm”",
     "“ECIF” in client convo",
     "“Joint Microsoft commercial”",
 ]
@@ -165,7 +165,7 @@ for i, t in enumerate(never_items):
 
 tb(COL2_X+0.15, y3+1.10, 0.85, 0.22, "ALWAYS", size=8.5, bold=True, color=GREEN)
 always_items = [
-    "“Deloitte's Microsoft practice / DMTSP”",
+    "“The firm's Microsoft practice / DMTSP”",
     "“Microsoft money via ISV Marketplace”",
     "“Cloud profile: Microsoft / APEX-M”",
     "“Independent of Microsoft”",
@@ -223,7 +223,7 @@ tb(5.10, y4+2.92, 3.00, 0.16, "ca-visionkit-portal...azurecontainerapps.io", siz
 
 # ============ Footer ============
 box(0, 10.55, 8.5, 0.45, fill=SLATE)
-tb(0.30, 10.60, 8.0, 0.18, "Internal · Deloitte's Microsoft Technology & Services Practice",
+tb(0.30, 10.60, 8.0, 0.18, "Internal · Microsoft Technology & Services Practice",
    size=7.5, color=RGBColor(0xCC,0xD0,0xD9))
 tb(0.30, 10.78, 8.0, 0.18, "Prepared by Keven Markham, VP  ·  2026-05-23  ·  Companion to APEX-CFMP-CHC-Sellers-Guide-for-DMTSP.md",
    size=7, color=RGBColor(0x90,0x96,0xA3))

@@ -10,13 +10,13 @@
 
 [Sound: airport ambient. Boarding announcement faint.]
 
-**KEVEN:** I want to start with the moment that motivates this entire episode. You're an Account Team member. You've finished a long Tuesday in Burbank. You're heading back to LAX. You sit down at the gate with twenty-five minutes before boarding. Your inbox shows three new emails — one from a senior person at Disney asking for a follow-up, one from a Deloitte partner asking *"so what's the next play,"* and one from the Microsoft account team asking to align on next week's outreach.
+**KEVEN:** I want to start with the moment that motivates this entire episode. You're an Account Team member. You've finished a long Tuesday in Burbank. You're heading back to LAX. You sit down at the gate with twenty-five minutes before boarding. Your inbox shows three new emails — one from a senior person at Disney asking for a follow-up, one from a partner asking *"so what's the next play,"* and one from the Microsoft account team asking to align on next week's outreach.
 
 [pause]
 
 **RILEY:** And the question that runs through your head —
 
-**KEVEN:** The question is — *who am I supposed to call next, and what am I supposed to say?* Not abstractly. Concretely. The Disney conversation you had today produced specific signal — about a specific segment, with a specific buyer, raising specific pain. The Deloitte partner wants the play. The Microsoft team wants alignment that's Independence-clean. The Disney person expects a follow-up by end-of-week. *Twenty-five minutes at the airport gate. You have to know what the next moves are.*
+**KEVEN:** The question is — *who am I supposed to call next, and what am I supposed to say?* Not abstractly. Concretely. The Disney conversation you had today produced specific signal — about a specific segment, with a specific buyer, raising specific pain. The partner wants the play. The Microsoft team wants alignment that's Independence-clean. The Disney person expects a follow-up by end-of-week. *Twenty-five minutes at the airport gate. You have to know what the next moves are.*
 
 That's what this episode is about. The Account Team Playbook. Who to call. What to say. What to commit to in writing and what not to. How to keep the Independence-posture clean. And the ninety-day calendar for the Disney account that the team needs to walk back from.
 
@@ -40,7 +40,7 @@ This episode is the most *internally focused* of the series. The Trilogy podcast
 
 **KEVEN:** Play one. The relationship map.
 
-**RILEY:** The Account Team's job, before any of the plays we'll cover, is *to have a current relationship map.* Specifically — every senior person at Disney the team has access to, mapped against the *role they own* in our pursuit. The map has three columns. *Disney person and role. Deloitte primary relationship-owner. Engagement context.*
+**RILEY:** The Account Team's job, before any of the plays we'll cover, is *to have a current relationship map.* Specifically — every senior person at Disney the team has access to, mapped against the *role they own* in our pursuit. The map has three columns. *Disney person and role. The firm primary relationship-owner. Engagement context.*
 
 The Disney persons fall into four buckets.
 
@@ -54,7 +54,7 @@ The Disney persons fall into four buckets.
 
 **KEVEN:** And the rule for the relationship map —
 
-**RILEY:** *Every Disney relationship has exactly one Deloitte primary owner.* No two Deloitte members own the same Disney relationship. *The reason* — Disney leaders compare notes. If two Deloitte people give them different pitches, the leader notices, and the credibility of the entire Account Team takes a hit. *One owner per relationship. Coordinated messaging. Always.*
+**RILEY:** *Every Disney relationship has exactly one the firm primary owner.* No two the firm members own the same Disney relationship. *The reason* — Disney leaders compare notes. If two firm people give them different pitches, the leader notices, and the credibility of the entire Account Team takes a hit. *One owner per relationship. Coordinated messaging. Always.*
 
 The Account Team weekly meeting maintains the map. The map is a living document.
 
@@ -96,17 +96,17 @@ One index card per discovery conversation. Three to five conversations across th
 
 **KEVEN:** Play three. Independence at Disney specifically.
 
-**RILEY:** Disney is a Deloitte audit client. The Independence boundary at this account is *carefully managed by Deloitte's Independence Office and the Disney Account Team's senior leadership.* The principles from the Sellers Podbook apply, plus three Disney-specific notes.
+**RILEY:** Disney is an audit client. The Independence boundary at this account is *carefully managed by the firm's Independence Office and the Disney Account Team's senior leadership.* The principles from the Sellers Podbook apply, plus three Disney-specific notes.
 
-Note one — *Microsoft technology recommendations are on the merits, not on partner-channel compensation.* The Sellers Podcast Episode 2 covered this; at Disney specifically, the Account Team should be *explicit* in conversations that *Deloitte does not co-sell with Microsoft, does not take partner-channel margin, does not have a financial flow from Microsoft tied to Disney engagement work.* Disney's procurement will probe this; the Account Team should be precise.
+Note one — *Microsoft technology recommendations are on the merits, not on partner-channel compensation.* The Sellers Podcast Episode 2 covered this; at Disney specifically, the Account Team should be *explicit* in conversations that *the firm does not co-sell with Microsoft, does not take partner-channel margin, does not have a financial flow from Microsoft tied to Disney engagement work.* Disney's procurement will probe this; the Account Team should be precise.
 
-Note two — *the GSSC Lab posture at Disney is Deloitte tenant, synthetic data.* No Disney data enters the Lab. Promotion to Disney's tenant is an L2 motion under Disney's separate Microsoft licensing. Don't blur this boundary in conversation. The Lab is *Deloitte's environment shown to Disney.* Not *"your environment running on Deloitte hardware."*
+Note two — *the GSSC Lab posture at Disney is the firm tenant, synthetic data.* No Disney data enters the Lab. Promotion to Disney's tenant is an L2 motion under Disney's separate Microsoft licensing. Don't blur this boundary in conversation. The Lab is *the firm's environment shown to Disney.* Not *"your environment running on the firm hardware."*
 
-Note three — *the two-contract model.* Disney's Microsoft consumption is contracted directly with Microsoft under Disney's existing enterprise agreement. Deloitte's services are contracted directly with Disney under separate SOWs. *No software pass-through.* The Account Team should be precise on this in every commercial conversation.
+Note three — *the two-contract model.* Disney's Microsoft consumption is contracted directly with Microsoft under Disney's existing enterprise agreement. The firm's services are contracted directly with Disney under separate SOWs. *No software pass-through.* The Account Team should be precise on this in every commercial conversation.
 
 **KEVEN:** And the language that signals Independence is correctly framed —
 
-**RILEY:** Three phrases to say. *"Deloitte's Microsoft Technology and Services Practice."* *"Microsoft-native deployment."* *"Two-contract model — Microsoft directly with you, Deloitte directly with you."*
+**RILEY:** Three phrases to say. *"Microsoft Technology and Services Practice."* *"Microsoft-native deployment."* *"Two-contract model — Microsoft directly with you, the firm directly with you."*
 
 Three phrases to never say. *"We co-sell with Microsoft."* *"Microsoft is paying us to deliver this."* *"This is a partner-channel motion."*
 
@@ -116,17 +116,17 @@ The Independence Cheat Sheet from the Sellers Podbook is the operational referen
 
 **KEVEN:** Play four. Coordinating with the Microsoft account team for Disney.
 
-**RILEY:** Microsoft has an account team for Disney. The Account Team for Deloitte and the Microsoft team coordinate *operationally* but not *commercially.* Important distinction.
+**RILEY:** Microsoft has an account team for Disney. The Account Team for the firm and the Microsoft team coordinate *operationally* but not *commercially.* Important distinction.
 
-*Operational coordination is appropriate and expected.* When Disney needs Microsoft technical resources, when Disney's questions about Microsoft roadmap come up, when the GSSC Lab demos need Microsoft technical-context support — the Deloitte Account Team coordinates with the Microsoft account team to get Disney the answers Disney needs. *That coordination is client-benefiting and independence-clean.*
+*Operational coordination is appropriate and expected.* When Disney needs Microsoft technical resources, when Disney's questions about Microsoft roadmap come up, when the GSSC Lab demos need Microsoft technical-context support — the Account Team coordinates with the Microsoft account team to get Disney the answers Disney needs. *That coordination is client-benefiting and independence-clean.*
 
-*Commercial coordination is not appropriate.* Joint commercial motion — *"Microsoft and Deloitte are proposing X to Disney"* — is not a posture the Account Team adopts. Deloitte proposes services to Disney. Microsoft licenses platforms to Disney. The two commercial threads are parallel, not joined.
+*Commercial coordination is not appropriate.* Joint commercial motion — *"Microsoft and the firm are proposing X to Disney"* — is not a posture the Account Team adopts. The firm proposes services to Disney. Microsoft licenses platforms to Disney. The two commercial threads are parallel, not joined.
 
 **KEVEN:** And the practical mechanics —
 
 **RILEY:** Monthly Account Team coordination meeting with the Microsoft team. The agenda — *Disney technical conversations both teams are in, upcoming Disney executive moments, technical resources Disney has requested.* The agenda is *operational.* Not commercial.
 
-*The Deloitte Account Team owns the Disney commercial relationship.* The Microsoft account team owns Microsoft's commercial relationship with Disney. *Two separate relationships, parallel.*
+*The Account Team owns the Disney commercial relationship.* The Microsoft account team owns Microsoft's commercial relationship with Disney. *Two separate relationships, parallel.*
 
 ### Play 5 · The ninety-day calendar
 
@@ -140,7 +140,7 @@ The Independence Cheat Sheet from the Sellers Podbook is the operational referen
 
 *Days 30-60.* The discovery and scenario-matching window. Apply the 30-Min Framework with the L1 buyers. Fill index cards. Confirm the Wave 1 scenario candidate.
 
-*Days 60-75.* The BVA construction window. Build the BVA-in-5-bullets per Wave 1 candidate. Get internal Deloitte review (delivery partner, engagement partner, technical reviewer). *Refine before showing to Disney.*
+*Days 60-75.* The BVA construction window. Build the BVA-in-5-bullets per Wave 1 candidate. Get internal the firm review (delivery partner, engagement partner, technical reviewer). *Refine before showing to Disney.*
 
 *Days 75-90.* The Wave 1 SOW window. Present the BVA-and-bundle to the Disney L2 buyer. Schedule the GSSC Lab demo (if not yet done). Get conditional commitment. Execute SOW negotiation in parallel with Independence and procurement review.
 
@@ -166,11 +166,11 @@ The two hardest moments — based on my twelve years on this account.
 
 *Hard moment one — Wave 1 delivery.* The first SOW. Ninety days. The Account Team has committed to a KPI envelope. The delivery team is racing against the calendar. *If Wave 1 misses its KPI envelope, the L2-to-L3 conversation doesn't happen.* Wave 2 is harder. Wave 3 disappears. *Wave 1 is the single most consequential moment in the account.* The Account Team's job is to make sure the delivery team *cannot* miss Wave 1 — by being available, by escalating risks early, by removing client-side blockers in real time.
 
-*Hard moment two — the senior-leader change.* Disney has senior-leader transitions. They happen. The Account Team's strategic relationship may suddenly shift. *The seller who was in the room a quarter ago is now talking to a new person.* Resilience to leadership change at Disney is part of the Account Team's continuous job. *Multiple Deloitte relationships across the org. Multiple Disney relationships across each segment. No single point of relationship failure.*
+*Hard moment two — the senior-leader change.* Disney has senior-leader transitions. They happen. The Account Team's strategic relationship may suddenly shift. *The seller who was in the room a quarter ago is now talking to a new person.* Resilience to leadership change at Disney is part of the Account Team's continuous job. *Multiple the firm relationships across the org. Multiple Disney relationships across each segment. No single point of relationship failure.*
 
 **KEVEN:** And the third hardest moment —
 
-**RILEY:** *Hard moment three — the Microsoft moment.* Microsoft has its own Disney conversations. Microsoft's product roadmap changes things in Disney's licensing posture. Microsoft will offer Disney things — *and offer to bring Deloitte in.* The Deloitte Account Team's discipline is — *we accept Microsoft's coordination support, we never accept Microsoft's commercial direction.* That distinction is what protects Independence. *Make it explicit when it comes up.*
+**RILEY:** *Hard moment three — the Microsoft moment.* Microsoft has its own Disney conversations. Microsoft's product roadmap changes things in Disney's licensing posture. Microsoft will offer Disney things — *and offer to bring the firm in.* The Account Team's discipline is — *we accept Microsoft's coordination support, we never accept Microsoft's commercial direction.* That distinction is what protects Independence. *Make it explicit when it comes up.*
 
 ### A final reading
 
@@ -192,7 +192,7 @@ The two hardest moments — based on my twelve years on this account.
 
 **KEVEN:** Series-wide close.
 
-**RILEY:** Five things I want every member of the Deloitte Account Team for Disney to walk away with.
+**RILEY:** Five things I want every member of the Account Team for Disney to walk away with.
 
 One — *Disney is three segments. Every conversation is segment-specific. The ladder climbs per segment.*
 
@@ -235,11 +235,11 @@ The Trilogy podcasts — Sellers, Services, Deployment — give you the framewor
 ### Microsoft Learn
 
 - **Microsoft Cloud for Industry — Media & Entertainment** · Microsoft Learn
-- **Microsoft Partner Center — Independence and ethics** · Microsoft Learn (Deloitte's perspective)
+- **Microsoft Partner Center — Independence and ethics** · Microsoft Learn (the firm's perspective)
 
-### Deloitte internal references (Independence)
+### internal references (Independence)
 
-- **Deloitte Independence Office — Microsoft-related guidance**
+- **Independence Office — Microsoft-related guidance**
 - **Sellers Handbook — *Independence Cheat Sheet* (Ch 27)**
 - **Sellers Guide — Independence Bright-Line Quick-Reference**
 

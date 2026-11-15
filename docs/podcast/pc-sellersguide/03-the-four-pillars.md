@@ -10,7 +10,7 @@
 
 [Sound: whiteboard squeak, light meeting hum]
 
-**KEVEN:** Late last year I was in a meeting with three Deloitte partners and four Microsoft directors trying to qualify a deal at a global pharmaceutical company. And I will never forget the moment we lost it. The Microsoft side was pitching Foundry — *here are the models, here is the agent orchestration, here is the safety stack* — and the Deloitte side was pitching Fabric — *here is the data foundation, here is the medallion, here is OneLake* — and the head of the client's AI center of excellence looks at us and says, *"Are these the same product or two different products?"*
+**KEVEN:** Late last year I was in a meeting with three firm partners and four Microsoft directors trying to qualify a deal at a global pharmaceutical company. And I will never forget the moment we lost it. The Microsoft side was pitching Foundry — *here are the models, here is the agent orchestration, here is the safety stack* — and the side was pitching Fabric — *here is the data foundation, here is the medallion, here is OneLake* — and the head of the client's AI center of excellence looks at us and says, *"Are these the same product or two different products?"*
 
 [pause]
 
@@ -167,7 +167,7 @@ Role two — *ROI attribution.* When APEX attaches measurable outcomes to Copilo
 
 **JORDAN:** Copilot Studio. Section seven point five. The net-new vertical opportunity.
 
-**KEVEN:** Copilot Studio is the channel through which Deloitte ships vertical Copilots. We build APEX agents in Agent Framework, we wrap them in Copilot Studio for the persona-facing layer, and the client deploys both. The commercial pattern — Deloitte builds the Service, the client deploys the Copilot Studio assets at scale.
+**KEVEN:** Copilot Studio is the channel through which the firm ships vertical Copilots. We build APEX agents in Agent Framework, we wrap them in Copilot Studio for the persona-facing layer, and the client deploys both. The commercial pattern — the firm builds the Service, the client deploys the Copilot Studio assets at scale.
 
 **JORDAN:** Section seven point six — when Copilot does not fit.
 
@@ -239,7 +239,7 @@ Stage five — **Auditor reads.** Your client's auditor accesses Purview directl
 
 **JORDAN:** And the seller who confuses these pillars —
 
-**KEVEN:** — loses the deal. Because the buyer concludes that the seller doesn't understand the product. The pharma deal we lost — the reason was each Deloitte and Microsoft person pitched *their* pillar. Nobody pitched the composition. Once you can pitch the composition, the four pillars stop being four products and start being one architecture.
+**KEVEN:** — loses the deal. Because the buyer concludes that the seller doesn't understand the product. The pharma deal we lost — the reason was each and Microsoft person pitched *their* pillar. Nobody pitched the composition. Once you can pitch the composition, the four pillars stop being four products and start being one architecture.
 
 ---
 

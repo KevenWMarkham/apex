@@ -10,7 +10,7 @@ prompt_sha: ""
 description: >
   Subscriber-churn risk prediction with retention-offer recommendation. CPNI-scoped.
 archetype_id: F3-predictive-trigger-workflow-aware
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.subscriberml.get_subscriber_profile

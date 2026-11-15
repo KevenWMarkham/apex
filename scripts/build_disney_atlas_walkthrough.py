@@ -361,11 +361,11 @@ def build():
 
     add_callout(doc, "Independence note",
                 "TMT-MED-01's agent manifests, policy manifests, and LEDGER are Disney artifacts; "
-                "Deloitte's role is advisory and implementation enablement. The SOW is structured "
-                "so that the program meets Deloitte independence requirements regardless of "
+                "The firm's role is advisory and implementation enablement. The SOW is structured "
+                "so that the program meets the firm independence requirements regardless of "
                 "Disney's external-audit firm relationship at the time of contracting. The "
                 "underlying APEX pattern is independence-safe by design; the specific engagement "
-                "structure is designed in concert with Deloitte's Independence office.")
+                "structure is designed in concert with the firm's Independence office.")
 
     # ============ SECTION 2 · Why ============
     add_h(doc, "Section 2 · Why Subscriber Lifecycle, Why Disney+, Why Now", level=1)
@@ -400,7 +400,7 @@ def build():
     ])
     add_body(doc,
              "If TMT-MED-01's orchestration pattern handles Disney's retail-streaming subscriber "
-             "lifecycle, it ports across the Deloitte DMTSP practices to telco subscriber lifecycle "
+             "lifecycle, it ports across the DMTSP practices to telco subscriber lifecycle "
              "(churn intervention with bundle dynamics), software SaaS customer success (consumption "
              "and renewal), and travel loyalty programs (status-tier retention) with only the "
              "manifest layer changing.")
@@ -1111,7 +1111,7 @@ def build():
     add_h(doc, "10.1 · What the envelope buys", level=2)
     add_body(doc,
              "The commercial envelope is not a project-labor-hours calculation. It reflects the "
-             "total value-delivery bundle: Deloitte-delivered solutioning and Practice expertise; "
+             "total value-delivery bundle: Firm-delivered solutioning and Practice expertise; "
              "Microsoft platform licensing and consumption (Fabric F-SKU, Foundry, Azure OpenAI, "
              "Teams, Entra, Power BI); CAF-substrate consumption and any Converge-tier costs that "
              "ride with it; ISV co-sell where applicable; client-side enablement and change "
@@ -1130,14 +1130,14 @@ def build():
 
     add_h(doc, "10.3 · Independence posture in Disney commercial conversations", level=2)
     add_callout(doc, "Independence",
-                "The seller and delivery team use Deloitte-appropriate language throughout: "
-                "'Deloitte's Microsoft practice,' 'DMTSP,' 'Microsoft platform capabilities,' "
+                "The seller and delivery team use firm-appropriate language throughout: "
+                "'The firm's Microsoft practice,' 'DMTSP,' 'Microsoft platform capabilities,' "
                 "'Microsoft-native deployment.' The terms 'partner,' 'alliance,' and 'strategic "
                 "alliance' do not appear in TMT-MED-01 commercial materials. The engagement is "
                 "structured so that manifests, policies, and LEDGER are Disney artifacts; "
-                "Deloitte's role is advisory and implementation enablement. Before any contract "
+                "The firm's role is advisory and implementation enablement. Before any contract "
                 "drafting, confirm Disney's external-audit firm relationship and route the SOW "
-                "through Deloitte's Independence office.")
+                "through the firm's Independence office.")
 
     pagebreak(doc)
 
@@ -1276,7 +1276,7 @@ def build():
                   ["Agent",
                    "A bounded unit of intent + tool-use that emits typed output and writes an audit row per decision."],
                   ["APEX",
-                   "Agentic Platform for Enterprise eXecution — Deloitte's reference architecture for industry scenarios on Microsoft-native deployment."],
+                   "Agentic Platform for Enterprise eXecution — the firm's reference architecture for industry scenarios on Microsoft-native deployment."],
                   ["At-risk cohort",
                    "Subscriber group whose engagement signal indicates elevated churn probability within an actionable intervention window."],
                   ["Audit row",
@@ -1386,7 +1386,7 @@ def build():
               col_widths=[2.3, 2.0, 2.0])
 
     add_body(doc,
-             "Independence posture preserved across every APEX TMT-MED-01 artifact: 'Deloitte's Microsoft "
+             "Independence posture preserved across every APEX TMT-MED-01 artifact: 'The firm's Microsoft "
              "practice,' 'DMTSP,' 'Microsoft platform capabilities,' 'Microsoft-native "
              "deployment.' The terms 'partner,' 'alliance,' and 'strategic alliance' do not "
              "appear in any artifact.",

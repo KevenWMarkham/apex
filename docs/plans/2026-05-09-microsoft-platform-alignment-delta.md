@@ -107,7 +107,7 @@
 
 - [ ] **E.1** Add a new chapter **"Surfacing APEX in Microsoft 365"** to Deployment Guide (proposed ch 11.5). Documents the [Custom engine agents for M365 Copilot](https://learn.microsoft.com/microsoft-365/copilot/extensibility/overview-custom-engine-agent) path. Foundry hosted agent → M365 Agents Toolkit packaging → publish to M365 Copilot + Teams.
 - [ ] **E.2** Define publishing policy per RC service — e.g., RC-E2E-04 Loyalty Churn surfaced as Copilot Studio agent for marketers; RC-E2E-03 Pricing surfaced as M365 Copilot custom engine agent for the merchandising director.
-- [ ] **E.3** Document **Microsoft Commercial Marketplace** path for agents Deloitte wants to ship across multiple tenants. Cite [Make your multitenant agent available](https://learn.microsoft.com/en-us/microsoft-copilot-studio/multi-tenant-make-agent-available-teams-microsoft-365-copilot).
+- [ ] **E.3** Document **Microsoft Commercial Marketplace** path for agents the firm wants to ship across multiple tenants. Cite [Make your multitenant agent available](https://learn.microsoft.com/en-us/microsoft-copilot-studio/multi-tenant-make-agent-available-teams-microsoft-365-copilot).
 - [ ] **E.4** Add **Dataverse** as an organizational-context data source for agents needing M365 entity lookups. Cite [Dataverse MCP server + Python SDK](https://learn.microsoft.com/power-platform/release-plan/2026wave1/data-platform/).
 - [ ] **E.5** Add **Power Automate** as an alternative orchestration substrate for the wizard's "non-agent" workflow steps (e.g., approval routing, ticket creation). Cite Power Automate 2026 wave 1.
 - [ ] **E.6** Update Sellers Guide to call out the M365 Copilot surface as part of every service envelope where applicable.
@@ -140,10 +140,10 @@ The most important lesson from this review: APEX is over-building in places wher
 
 ## H. Things to validate (open questions)
 
-- [ ] **H.1** Does the Foundry hosted-agent ACR public-reachability constraint conflict with Deloitte client tenants requiring no-public-egress? If yes, design a workaround (Container Apps fallback for those tenants until private ACR support lands).
+- [ ] **H.1** Does the Foundry hosted-agent ACR public-reachability constraint conflict with firm client tenants requiring no-public-egress? If yes, design a workaround (Container Apps fallback for those tenants until private ACR support lands).
 - [ ] **H.2** APEX's "tenant manifest" per Deployment Guide §3 — is this still needed if Entra Agent ID provides the agent-identity registry? Consider folding APEX manifest into Entra Agent ID blueprints.
 - [ ] **H.3** APEX's audit-row schema (14 fields per BL.P.77) — needs cross-walk against Purview Audit schema. Likely overlap; reconcile.
-- [ ] **H.4** Does Foundry Agent Service's standard region list cover every Deloitte client tenant region we'll target? Validate against client commercial envelopes.
+- [ ] **H.4** Does Foundry Agent Service's standard region list cover every client tenant region we'll target? Validate against client commercial envelopes.
 - [ ] **H.5** APEX's classification tier model (T1–T4) — cross-walk with Purview's standard sensitivity-label taxonomy (Public / Internal / Confidential / Highly Confidential / Strictly Confidential). Likely 1:1 but confirm.
 
 ---

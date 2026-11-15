@@ -1,7 +1,7 @@
 # CFMP Pack Lite — Vision AI Dev Kit Wedge
 
 **The quickest wedge for a CMO / CX-VP conversation in DMTSP.**
-Sold as Deloitte agentic-AI delivery services (not a product) under APEX-M Service Envelope Tier-2 Lite.
+Sold as the firm agentic-AI delivery services (not a product) under APEX-M Service Envelope Tier-2 Lite.
 
 | | |
 |---|---|
@@ -19,14 +19,14 @@ Sold as Deloitte agentic-AI delivery services (not a product) under APEX-M Servi
 
 ## 60-second pitch
 
-> "You're selling shelf-edge AI on Foundry today. Deloitte's CFMP turns that into a billable, audit-defensible, repeatable engagement: customer-journey scenarios on the cameras you already own, with a 14-field WORM ledger that proves to your DPO every nudge was consent-gated. We ship three scenarios live in 4–6 weeks for $150–250K under a BVA, then grow scenario-by-scenario."
+> "You're selling shelf-edge AI on Foundry today. The firm's CFMP turns that into a billable, audit-defensible, repeatable engagement: customer-journey scenarios on the cameras you already own, with a 14-field WORM ledger that proves to your DPO every nudge was consent-gated. We ship three scenarios live in 4–6 weeks for $150–250K under a BVA, then grow scenario-by-scenario."
 
 **Why CFMP-Lite is the strongest opening at a Microsoft retail account right now:**
 
 1. **The proof rig already exists.** Vision AI Dev Kit + portal + agent + LEDGER + Azure Maps wayfinding is running on `gpt-5-mini` today. No "imagine if…" demo. The seller can show it on a phone.
 2. **CMO/CX-VP buy faster than Ops VP.** Customer-funded BVAs (trip conversion, basket size, NPS, loyalty churn) are easier to land than ops-cost BVAs.
-3. **Foundation enhancements that ship with CFMP unlock the next four packs** (Banking-Customer, Telco-Customer, Hospitality-Guest, Healthcare-Patient). The buyer gets the wedge; Deloitte gets the platform leverage.
-4. **Independence-safe by design.** APEX-M routes Microsoft funding via ISV Marketplace + SI Teaming — never direct ECIF to Deloitte.
+3. **Foundation enhancements that ship with CFMP unlock the next four packs** (Banking-Customer, Telco-Customer, Hospitality-Guest, Healthcare-Patient). The buyer gets the wedge; the firm gets the platform leverage.
+4. **Independence-safe by design.** APEX-M routes Microsoft funding via ISV Marketplace + SI Teaming — never direct ECIF to the firm.
 
 ---
 
@@ -141,12 +141,12 @@ Per APEX-Design-v3 S21 + CFMP v0.2 §11:
 
 | Path | When to use | Independence stance |
 |---|---|---|
-| **BVA (client-funded)** | Lite entry — 4 hour workshop produces shortlist + ROI worksheet | Clean — Deloitte fee from client |
-| **DCIF (Deloitte co-invest)** | When Lite is the proving ground for a known FY-bound Standard | Clean — Deloitte commits its own balance sheet |
-| **ISV Marketplace burndown** | Microsoft co-funds via the retailer's Marketplace commitment | Clean — money flows Microsoft → Marketplace → Deloitte |
-| **SI Teaming POC** | Microsoft wants a co-pursuit but Deloitte's audit relationship blocks direct ECIF | Clean — non-competing SI receives ECIF, Deloitte delivers under SI sub |
-| **Client direct + T&M** | Custom-build asks beyond the Lite scope (T4) | Clean — Deloitte on Deloitte paper |
-| ❌ Direct ECIF to Deloitte | Never | Forbidden — SEC audit-independence rule |
+| **BVA (client-funded)** | Lite entry — 4 hour workshop produces shortlist + ROI worksheet | Clean — the firm fee from client |
+| **DCIF (the firm co-invest)** | When Lite is the proving ground for a known FY-bound Standard | Clean — the firm commits its own balance sheet |
+| **ISV Marketplace burndown** | Microsoft co-funds via the retailer's Marketplace commitment | Clean — money flows Microsoft → Marketplace → the firm |
+| **SI Teaming POC** | Microsoft wants a co-pursuit but the firm's audit relationship blocks direct ECIF | Clean — non-competing SI receives ECIF, the firm delivers under SI sub |
+| **Client direct + T&M** | Custom-build asks beyond the Lite scope (T4) | Clean — the firm on firm paper |
+| ❌ Direct ECIF to the firm | Never | Forbidden — SEC audit-independence rule |
 
 ---
 
@@ -167,12 +167,12 @@ Per APEX-Design-v3 S21 + CFMP v0.2 §11:
 
 | Buyer question | Seller answer |
 |---|---|
-| "Is this a product?" | "No. CFMP is a scoped Deloitte agentic-AI delivery engagement on the APEX framework, sold per industry under the standard Service Envelope tiers." |
+| "Is this a product?" | "No. CFMP is a scoped the firm agentic-AI delivery engagement on the APEX framework, sold per industry under the standard Service Envelope tiers." |
 | "Why now?" | "Because the proof rig is running on a laptop today. You're not buying a vision — you're funding the productization of three working scenarios into your stores." |
 | "What about my DPO?" | "Every customer-facing action lands a LedgerRow with the consent token at decision moment, hashed into the chain. apex-replay reproduces the decision byte-identical. Your DPO gets cryptographic evidence, not a screenshot." |
 | "What if we move off Azure later?" | "Same 10-asset bundle runs on APEX-G and APEX-A. The Maps interface (proposed #15) abstracts Azure Maps Creator behind a profile-swappable contract. No re-platform, just a config flip." |
 | "How do I expand this?" | "Same wedge, more scenarios. Lite → Standard adds 7 more in 12–16 weeks. Standard → Enterprise lights up all 18. Each step is additive — no rework." |
-| "How does this connect to your audit relationship with Microsoft?" | "Microsoft money flows via ISV Marketplace or SI Teaming, never direct ECIF to Deloitte. We've packaged the funding paths so the LCSP can sequence them in one slide." |
+| "How does this connect to your audit relationship with Microsoft?" | "Microsoft money flows via ISV Marketplace or SI Teaming, never direct ECIF to the firm. We've packaged the funding paths so the LCSP can sequence them in one slide." |
 
 ---
 
@@ -187,4 +187,4 @@ Per APEX-Design-v3 S21 + CFMP v0.2 §11:
 
 ---
 
-*Internal · Deloitte Microsoft Technology & Services Practice · Prepared by Keven Markham, VP · 2026-05-23*
+*Internal · Microsoft Technology & Services Practice · Prepared by Keven Markham, VP · 2026-05-23*

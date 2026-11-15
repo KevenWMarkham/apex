@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "APEX L1 Contract — manifest schemas, validators, canonical envelope, SemVer bump classification."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "Proprietary — Deloitte Internal" }
+license = { text = "Proprietary — Internal" }
 dependencies = [
     "pydantic>=2.9.0",
     "pyyaml>=6.0.2",

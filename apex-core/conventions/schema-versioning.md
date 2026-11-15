@@ -19,7 +19,7 @@ Each layer is owned by a different stakeholder and written as JSON conforming to
 |---|---|---|---|
 | **L1 - Contract** | `apex-core/data/schema-manifest-contract.json` | APEX SteerCo (Core maintainers) | Defines the shape, required fields, and SemVer rules every downstream manifest must obey. |
 | **L2 - Edition catalog** | `apex-<code>/data/schemas.manifest.json` | Edition maintainers | Declares the schemas this edition offers and the SemVer of each. Carries the full entity-level changelog. |
-| **L3 - Fleet registry** | `apex-fleet/data/fleet-registry.json` | DMTSP Account Teams (Deloitte-side) | Source of truth for which client accounts are pinned to which schema versions, plus per-account upgrade policy. |
+| **L3 - Fleet registry** | `apex-fleet/data/fleet-registry.json` | DMTSP Account Teams (firm-side) | Source of truth for which client accounts are pinned to which schema versions, plus per-account upgrade policy. |
 | **L4 - Tenant deployed manifest** | `<client-onelake>/apex-sync/deployed-manifest.json` | Client tenant (written by the pull pipeline) | Read-only record of what is currently running in that one tenant. Never leaves the tenant. |
 
 The design doc at `docs/plans/2026-04-17-schema-versioning-manifest-design.md` covers the rationale for four layers, the distribution pattern (GitOps-style pull, no push), and the Independence posture that makes L4 tenant-local.

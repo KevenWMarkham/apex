@@ -579,7 +579,7 @@ Tasks 2.2 (MERML) and 2.3 (CXML) follow the same revised shape. Sprint 2 duratio
 
 1. **Terminology-service hosting.** SNOMED CT is ~350k concepts. Do we expect tenants to bring their own terminology service (Snowstorm, TermServer), or do we ship a reference service? Default stance: tenants BYO, APEX ships the hook + a dev-only mock.
 2. **Pinning transmission.** When APEX bumps `apex_pinned_version` for FHIR R4 → R5, tenants currently pinned at APEX `0.3.x` that don't upgrade — do they stay on R4 indefinitely, or is there a forced-upgrade policy driven by Appendix K (Independence / Compliance)?
-3. **Licence review for production.** Before the first client ships, Deloitte Legal should sign off on the attribution + redistribution matrix in §8. Flagged as a gate before Sprint 18 reference deployments.
+3. **Licence review for production.** Before the first client ships, the firm's Legal should sign off on the attribution + redistribution matrix in §8. Flagged as a gate before Sprint 18 reference deployments.
 4. **Standards-bump cadence.** FHIR moves fast (R4 → R4B → R5 in ~4 years). ISA-95 has not moved since 2018. We propose quarterly registry audit, bumping only when consumers need it. Confirm cadence.
 5. **Version-pin per tenant vs per APEX release?** Spec currently allows both; default is per-APEX-release to keep Fleet simple. Confirm.
 

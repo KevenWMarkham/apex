@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "APEX ISA-95 Pattern-B mirror — manufacturing / operations hierarchy + personnel + equipment + material (shared by ER, AXLE, ICE)."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "Proprietary — Deloitte Internal. ISA-95 reference: ANSI/ISA-95.00.01–95.00.05." }
+license = { text = "Proprietary — Internal. ISA-95 reference: ANSI/ISA-95.00.01–95.00.05." }
 dependencies = [
     "apex-core",
     "apex-schemas-common",

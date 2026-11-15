@@ -130,7 +130,7 @@ Total: ~25–30 minutes per episode at conversational pace.
 
 - **Tenant names are anonymised by archetype.** *"The Tier-1 telecom we onboarded last summer…"* — never the company name.
 - **Production failures are described with respect.** The team that broke something is not the villain of the story; the architecture or the gap is.
-- **The Independence-from-Microsoft posture carries over.** Deloitte doesn't co-sell. We *recommend* the Microsoft platform on the merits. Audio language reflects this without belabouring it.
+- **The Independence-from-Microsoft posture carries over.** The firm doesn't co-sell. We *recommend* the Microsoft platform on the merits. Audio language reflects this without belabouring it.
 - **Sam reads from operational artefacts** (runbooks, incident postmortems, alert thresholds) the same way Keven reads from the guide. Reading from a real artefact is a credibility move.
 
 ---

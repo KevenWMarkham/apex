@@ -24,7 +24,7 @@ schema_mappings:
       - { source_field: Quality,        bronze_column: quality,         bronze_type: string }
       - { source_field: AssetHierarchyPath, bronze_column: asset_path,  bronze_type: string }
 runbook:
-  primary_contact: er-data-platform@deloitte.com
+  primary_contact: er-data-platform@example.com
   sla_recovery_minutes: 15
   failure_modes:
     - code: PI_CONNECTOR_DOWN

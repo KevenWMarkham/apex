@@ -243,7 +243,7 @@ Two — *the Service follows the foundation.* Silver canonical we built in Episo
 
 - **NRF (National Retail Federation) — State of Retailing reports** · [nrf.com/research](https://www.nrf.com/research)
 - *"The Future of Retail Loyalty"* · McKinsey, 2024
-- *"Retail margin trends 1985-2025"* · Deloitte Center for Industry Insights
+- *"Retail margin trends 1985-2025"* · the firm's Center for Industry Insights
 - *"How DTC reshaped retail margins"* · Harvard Business Review, 2022
 - *"The Amazon effect on margin compression"* · MIT Sloan Management Review
 - **U.S. Census Retail Trade data** · [census.gov](https://www.census.gov/retail/) — long-run margin and turnover statistics

@@ -72,4 +72,4 @@ The companion section in `docs/book/Professional-APEX-M-Sellers-Guide.html` and 
 
 ---
 
-*Maintained by Deloitte's Microsoft Technology & Services Practice · Last reorganized 2026-05-23*
+*Maintained by Microsoft Technology & Services Practice · Last reorganized 2026-05-23*

@@ -12,7 +12,7 @@
 
 This document inherits Part 0 of APEX Core v1.0 unchanged. Every restriction on terminology, PII, and Independence posture applies here. In particular:
 
-- **Independence posture:** the fleet-registry and any distribution channel described below must not retain client-identifiable data on the Deloitte side. Only manifest hashes, pinned versions, and opaque account IDs travel across the boundary.
+- **Independence posture:** the fleet-registry and any distribution channel described below must not retain client-identifiable data on the side. Only manifest hashes, pinned versions, and opaque account IDs travel across the boundary.
 - **Terminology:** the usual forbidden terms (partner, alliance, strategic alliance) do not appear here and must not appear in any derived artifacts.
 - **PII:** all example data in this document (account IDs, hashes, ticket IDs) is synthetic and clearly fictional.
 
@@ -42,13 +42,13 @@ Four layers. Each owned by a different stakeholder. Each written as JSON conform
 |---|---|---|---|---|
 | **L1 — Contract** | `apex-core/data/schema-manifest-contract.json` | APEX SteerCo (Core maintainers) | Defines the shape, required fields, and SemVer rules every downstream manifest must obey. Versioned with Core. | Changes rarely; every change is a Core amendment. |
 | **L2 — Edition catalog** | `apex-<code>/data/schemas.manifest.json` | Edition maintainers (one per edition) | Declares the schemas this edition offers and the SemVer of each (e.g., MERML@1.3.0, SCML@1.0.0). Carries the full entity-level changelog. | Changes with every schema bump. |
-| **L3 — Fleet registry** | `apex-fleet/data/fleet-registry.json` (new Deloitte-side repo or subfolder) | DMTSP Account Teams | Source of truth for which client accounts are pinned to which schema versions, plus per-account upgrade policy. | Changes when an account is onboarded, a version is pinned, or a heartbeat is recorded. |
+| **L3 — Fleet registry** | `apex-fleet/data/fleet-registry.json` (new firm-side repo or subfolder) | DMTSP Account Teams | Source of truth for which client accounts are pinned to which schema versions, plus per-account upgrade policy. | Changes when an account is onboarded, a version is pinned, or a heartbeat is recorded. |
 | **L4 — Tenant deployed manifest** | `<client-onelake>/apex-sync/deployed-manifest.json` | Client tenant (written by pull pipeline) | Read-only record of what is currently running in that one tenant. Read by the in-tenant Power BI view. Never leaves the tenant. | Rewritten on every successful `apex-sync apply`. |
 
 ### 2.2 Why four layers, not fewer
 
 - **Separating L1 from L2** mirrors the Core v1.1 `edition-registry.json` precedent. Core defines grammar; editions populate. Anyone fluent in APEX already recognizes this pattern.
-- **L3 is its own layer** because fleet state is a Deloitte operational concern, not an edition-authoring concern. Keeping it separate prevents client onboarding churn from polluting edition spec history.
+- **L3 is its own layer** because fleet state is an operational concern, not an edition-authoring concern. Keeping it separate prevents client onboarding churn from polluting edition spec history.
 - **L4 exists because of Independence.** The tenant must own its own state locally; the fleet registry only holds the *intent* (what should be deployed) and a hash of the last heartbeat (what actually is). No data flows out of the tenant except the hash.
 
 ### 2.3 Distribution pattern — GitOps-style pull, no push
@@ -59,7 +59,7 @@ The Git repository containing L1, L2, and L3 is the authoritative source. On mer
 2. Each bundle is signed and published to an Azure DevOps artifact feed (or equivalent signed release channel).
 3. Each client tenant runs a scheduled Logic App or Fabric Data Factory pipeline that pulls *only its own bundle* (scoped by tenant ID on the release side) and applies it locally.
 
-Deloitte does not push to tenants. Deloitte does not hold tenant credentials. The pattern is GitOps — declarative artifacts in Git, reconciled by a pull agent — applied to data schemas instead of Kubernetes manifests.
+The firm does not push to tenants. The firm does not hold tenant credentials. The pattern is GitOps — declarative artifacts in Git, reconciled by a pull agent — applied to data schemas instead of Kubernetes manifests.
 
 ---
 
@@ -240,7 +240,7 @@ The four JSON shapes below are the contracts. Full examples; fields can grow in 
 }
 ```
 
-Note: `account_id` is opaque; `account_alias` is a Deloitte-side label; `last_heartbeat_manifest_hash` is a SHA-256 of the tenant's L4 file as it stood at its last heartbeat — the only thing besides the ID that crosses the tenant boundary.
+Note: `account_id` is opaque; `account_alias` is a firm-side label; `last_heartbeat_manifest_hash` is a SHA-256 of the tenant's L4 file as it stood at its last heartbeat — the only thing besides the ID that crosses the tenant boundary.
 
 ### 3.4 L4 — Tenant deployed manifest
 
@@ -625,7 +625,7 @@ apex-th/
 
 apex-hls/, apex-tmt/, apex-er/, apex-ice/      (same pattern as editions come online)
 
-apex-fleet/                                    (NEW — Deloitte-side, separate repo or subfolder)
+apex-fleet/                                    (NEW — firm-side, separate repo or subfolder)
 ├── data/
 │   └── fleet-registry.json                    (L3)
 ├── tools/
@@ -634,7 +634,7 @@ apex-fleet/                                    (NEW — Deloitte-side, separate 
     └── fleet-report.html                      (generated by apex-validate --fleet)
 ```
 
-The tenant side lives inside each client's OneLake and is not tracked in any Deloitte repo:
+The tenant side lives inside each client's OneLake and is not tracked in any repo:
 
 ```
 <client-onelake>/apex-sync/
@@ -655,7 +655,7 @@ This design lands as APEX Core v1.2. The amendment document (`apex-core-v1.2-ame
    - `☑ Edition includes schemas.manifest.json conforming to Core v1.2 contract.`
    - `☑ Every schema declares version + changelog + envelope_required.`
    - `☑ apex-validate exits 0 or 1 (no criticals) against the edition.`
-4. **Introduce the fleet layer.** Declares L3/L4 as Deloitte-side operational artifacts; names the new `apex-fleet/` folder convention; clarifies that fleet state is not an edition-authoring concern.
+4. **Introduce the fleet layer.** Declares L3/L4 as firm-side operational artifacts; names the new `apex-fleet/` folder convention; clarifies that fleet state is not an edition-authoring concern.
 5. **Introduce the tools.** `apex-validate` and `apex-sync` become Core-shipped tools; the existing Phase 4 harness is extended rather than replaced.
 6. **Update Part 0 inheritance.** Every active edition spec updates its Part 0 line: *"This spec inherits from APEX Core v1.2."*
 
@@ -714,7 +714,7 @@ Four phases; each independently valuable and mergeable.
 
 **GitOps, not Kubernetes.** The pull/reconcile pattern is borrowed from GitOps but applied to declarative data-schema artifacts. Kubernetes is not in the APEX reference stack and is not introduced here.
 
-**Independence is preserved by construction.** No client row data, no client credentials, no Deloitte-side runtime handle on any tenant. The only things that cross the boundary are: opaque account ID, pinned versions, manifest hash, heartbeat timestamp.
+**Independence is preserved by construction.** No client row data, no client credentials, no firm-side runtime handle on any tenant. The only things that cross the boundary are: opaque account ID, pinned versions, manifest hash, heartbeat timestamp.
 
 **Reuse before invention.** The gate taxonomy (HITL / ACK_ONLY / ZERO_TOUCH / ESCALATION) comes straight from Core Part 8.3. The inheritance pattern comes straight from the v1.1 edition-registry precedent. The design system for the report comes straight from Core Part 9. No new frameworks.
 

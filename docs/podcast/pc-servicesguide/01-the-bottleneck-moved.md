@@ -40,7 +40,7 @@ That's the arc I want to walk in this episode. Where the bottleneck used to be. 
 
 **KEVEN:** Era one — the dashboard era. Call it 1995 through roughly 2015. Twenty years. The defining technology was the *business intelligence dashboard.* SAP BusinessObjects. Cognos. MicroStrategy. Later — Tableau, Qlik, Power BI. The thesis was — *if we can get the right numbers in front of the right executive at the right time, the executive will make a better decision.*
 
-The bottleneck in this era was *getting the data in one place.* So a generation of consulting firms — Deloitte included — built data warehouses. Then data marts. Then enterprise data warehouses. Then the *next* enterprise data warehouse because the first one was already obsolete. The whole industry was a data-plumbing exercise.
+The bottleneck in this era was *getting the data in one place.* So a generation of consulting firms — the firm included — built data warehouses. Then data marts. Then enterprise data warehouses. Then the *next* enterprise data warehouse because the first one was already obsolete. The whole industry was a data-plumbing exercise.
 
 **MORGAN:** And it worked.
 

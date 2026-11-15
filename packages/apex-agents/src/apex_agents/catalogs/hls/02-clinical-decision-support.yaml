@@ -12,7 +12,7 @@ description: >
   recommendations for diagnosis + treatment with per-recommendation
   citation chain (UpToDate, PubMed, hospital order sets).
 archetype_id: F7-magentic-reasoning-multi-source
-primary_contact: hls-practice-lead@deloitte.com
+primary_contact: hls-practice-lead@example.com
 
 tools:
   - tool_id: apex.hls.mcp.patientml.get_patient_360

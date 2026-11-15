@@ -364,11 +364,11 @@ h1 em { font-style: italic; font-weight: 400; color: var(--amber); }
       <p style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--ink-2);">
         Walkthrough · Service Portfolio · SOR Bronze→Silver · ERD · ROI Case · Persona Day-in-the-Life · FSMA 204 Compliance Checklist
       </p>
-      <p class="signoff">— Deloitte Microsoft Technology Solutions &amp; Practices</p>
+      <p class="signoff">— Microsoft Technology Solutions &amp; Practices</p>
     </div>
     <div class="right">
       <b>Independence-safe by design</b>
-      All RC-E2E-03 commercial materials use "Deloitte's Microsoft practice," "DMTSP," "Microsoft platform capabilities," "Microsoft-native deployment." The terms "partner," "alliance," and "strategic alliance" do not appear.
+      All RC-E2E-03 commercial materials use "the firm's Microsoft practice," "DMTSP," "Microsoft platform capabilities," "Microsoft-native deployment." The terms "partner," "alliance," and "strategic alliance" do not appear.
       <br><br>v1.0 · 27 Apr 2026
     </div>
   </div>
@@ -571,13 +571,13 @@ h2 {
         <div class="lever-eye">Lever 1 · Event volume</div>
         <h4>Cold-chain excursions detected</h4>
         <div class="multi">~12.4M / yr</div>
-        <div class="basis">85 events × 52 weeks × 2,800 stores. Industry reference range 70–110/banner/wk depending on banner footprint and fixture density. Sourced from FDA FSMA 204 modeling and Deloitte grocery operations benchmark.</div>
+        <div class="basis">85 events × 52 weeks × 2,800 stores. Industry reference range 70–110/banner/wk depending on banner footprint and fixture density. Sourced from FDA FSMA 204 modeling and the firm grocery operations benchmark.</div>
       </div>
       <div class="lever" style="--accent: var(--violet);">
         <div class="lever-eye">Lever 2 · Per-event shrink at risk</div>
         <h4>$ exposure per event</h4>
         <div class="multi">$1,313</div>
-        <div class="basis">Median destroy-all baseline value. Range $400 (small-format produce) to $4,200 (frozen seafood case). Reference from Deloitte cold-chain markdown library across 8 reference clients.</div>
+        <div class="basis">Median destroy-all baseline value. Range $400 (small-format produce) to $4,200 (frozen seafood case). Reference from the firm cold-chain markdown library across 8 reference clients.</div>
       </div>
       <div class="lever" style="--accent: var(--gold);">
         <div class="lever-eye">Lever 3 · Reduction rate</div>
@@ -732,7 +732,7 @@ h2 {
   <div class="footer-band">
     <div>APEX · RC-E2E-03 · Kroger · ROI Case · v1.0 · 27 Apr 2026</div>
     <div>Companion · APEX-RC-E2E-03-Walkthrough.docx · APEX-RC-E2E-03-Kroger-OnePager.html</div>
-    <div>Deloitte · Microsoft Technology Solutions &amp; Practices</div>
+    <div>The firm · Microsoft Technology Solutions &amp; Practices</div>
   </div>
 </div>
 
@@ -1158,7 +1158,7 @@ h1 em { font-style: italic; font-weight: 400; color: var(--amber); }
   <div class="footer-band">
     <div>APEX · RC-E2E-03 · Kroger · Persona Day-in-the-Life · v1.0 · 27 Apr 2026</div>
     <div>Companion · APEX-RC-E2E-03-Walkthrough.docx · APEX-RC-Grocery-Merchandising-Service-Portfolio.docx</div>
-    <div>Deloitte · Microsoft Technology Solutions &amp; Practices</div>
+    <div>The firm · Microsoft Technology Solutions &amp; Practices</div>
   </div>
 </div>
 """ + THEME_TOGGLE_JS + """
@@ -1686,7 +1686,7 @@ def build_fsma():
               ],
               col_widths=[2.9, 3.5])
 
-    add_body(doc, "Independence posture preserved across this document: 'Deloitte's Microsoft practice,' "
+    add_body(doc, "Independence posture preserved across this document: 'The firm's Microsoft practice,' "
                   "'DMTSP,' 'Microsoft platform capabilities,' 'Microsoft-native deployment.' The terms "
                   "'partner,' 'alliance,' and 'strategic alliance' do not appear.",
              italic=True, color=MUTE, size=9)

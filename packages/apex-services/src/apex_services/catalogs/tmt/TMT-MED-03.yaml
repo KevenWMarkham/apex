@@ -42,4 +42,4 @@ linked_archetypes:
 
 schemas_touched: [ContentSafetyML, MEDML]
 standards: ['EU DSA', 'DMCA §512', 'COPPA']
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com

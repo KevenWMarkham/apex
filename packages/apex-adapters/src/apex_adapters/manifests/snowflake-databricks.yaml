@@ -21,7 +21,7 @@ schema_mappings:
       - { source_field: SOURCE_ROW_ID, bronze_column: source_row_id, bronze_type: string }
       - { source_field: PAYLOAD_JSON,  bronze_column: payload_json,  bronze_type: string }
 runbook:
-  primary_contact: core-data-platform@deloitte.com
+  primary_contact: core-data-platform@example.com
   sla_recovery_minutes: 240
   failure_modes:
     - code: SHORTCUT_DETACHED

@@ -41,4 +41,4 @@ linked_archetypes:
 
 schemas_touched: [ConnectedProductML, AftermarketML]
 standards: ['SAE J1939']
-primary_contact: axle-practice-lead@deloitte.com
+primary_contact: axle-practice-lead@example.com

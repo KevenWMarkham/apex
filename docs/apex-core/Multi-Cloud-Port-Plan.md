@@ -4,7 +4,7 @@ How sibling variants ship after APEX-M. Both follow the same template; differenc
 
 ## Trigger
 
-A Deloitte client commissions a non-Microsoft variant deployment as their **primary substrate**. Examples:
+A client commissions a non-Microsoft variant deployment as their **primary substrate**. Examples:
 
 - Client's CAB has approved Google Cloud as the primary cloud → port APEX-G
 - Client is AWS-native with no M365 footprint → port APEX-A

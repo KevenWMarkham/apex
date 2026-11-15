@@ -97,7 +97,7 @@ def sheet_readme(wb):
         ("APEX-TMT-Reference-Architecture.html",     "TMT Practice reference — six sub-Practices, planes, archetypes."),
         ("APEX-CAF-Integration-Architecture.docx",   "How TMT-MED-01 consumes CAF via A2A — substrate-vs-scenario layering."),
         ("",                                         ""),
-        ("Independence posture",                     "All TMT-MED-01 commercial materials use 'Deloitte's Microsoft practice,' 'DMTSP,' 'Microsoft platform capabilities,' 'Microsoft-native deployment.' The terms 'partner,' 'alliance,' and 'strategic alliance' do not appear. Before contracting, confirm Disney's external-audit firm relationship and route the SOW through Deloitte's Independence office."),
+        ("Independence posture",                     "All TMT-MED-01 commercial materials use 'the firm's Microsoft practice,' 'DMTSP,' 'Microsoft platform capabilities,' 'Microsoft-native deployment.' The terms 'partner,' 'alliance,' and 'strategic alliance' do not appear. Before contracting, confirm Disney's external-audit firm relationship and route the SOW through the firm's Independence office."),
     ]
     for i, (left, right) in enumerate(sections, start=1):
         if i == 1:
@@ -229,7 +229,7 @@ SPRINT_ROWS = [
     ("Approach", "A-S02", "SOW Build-Out & Independence", "A-S02-T3",
      "Independence review & SOW drafting",
      "• Confirm Disney external auditor relationship\n"
-     "• Route engagement through Deloitte Independence office\n"
+     "• Route engagement through Independence office\n"
      "• Draft SOW with audit-safe structure (Disney-owned manifests/policies/LEDGER)\n"
      "• Privacy-Office review of personalization-evidence shape",
      "Written Independence-office approval received; SOW executed with Disney procurement; Audit Committee notification documented; Privacy Office signoff on evidence shape.",

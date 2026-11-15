@@ -10,7 +10,7 @@ inherits_from:
   - CHARTER.md
   - ENGAGEMENT.md
 authors:
-  - Deloitte DMTSP — Consumer Industry
+  - DMTSP — Consumer Industry
   - Keven Markham (VP, APEX)
 purpose: >
   Operating rules for autonomous decision-making. Four bands —
@@ -95,7 +95,7 @@ the run and contacts the named collaborator.
 - **PII / PCI exposure detected** — payment-card or restricted-PII
   surface where it should not be (e.g., a free-text note carrying a
   card number). Escalation: tenant DPO + APEX security on-call.
-- **Independence-language near-miss** — Deloitte-internal reference to
+- **Independence-language near-miss** — internal reference to
   "partnership" / "alliance" with Microsoft or any third party.
   Escalation: engagement counsel.
 - **Budget breach during close window** — close-acceleration policy

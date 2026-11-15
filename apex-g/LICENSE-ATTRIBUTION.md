@@ -23,7 +23,7 @@ client's existing Google Cloud investment using:
 
 ## Independence posture
 
-Per Deloitte's Microsoft Technology & Services Practice, this
+Per Microsoft Technology & Services Practice, this
 attribution records that APEX-G:
 
 - **Will not** be a redistribution of any Google Cloud product

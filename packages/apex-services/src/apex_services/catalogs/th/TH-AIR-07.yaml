@@ -39,4 +39,4 @@ linked_archetypes:
   - F1-continuous-monitor-hitl-alert
 
 schemas_touched: [TravelerML, OpsML-TH]
-primary_contact: th-practice-lead@deloitte.com
+primary_contact: th-practice-lead@example.com

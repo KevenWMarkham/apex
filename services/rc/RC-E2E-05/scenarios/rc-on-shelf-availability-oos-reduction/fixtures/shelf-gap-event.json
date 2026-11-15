@@ -1,5 +1,5 @@
 {
-  "$schema": "https://apex.deloitte.com/schemas/smoke-test-fixture-v1.json",
+  "$schema": "https://apex.example.com/schemas/smoke-test-fixture-v1.json",
   "fixture_id": "rc-on-shelf-availability-oos-reduction--canonical-1",
   "description": "Canonical synthetic shelf-gap event per Services Guide §18.3 envelope. Big Box Store 100 shift-open detects two POS-velocity-zero events on dairy aisle (one KVI stockout, one low-stock). Two associates clocked-in. Drives the full 24-step chain end-to-end via mocks.",
 

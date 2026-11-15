@@ -30,7 +30,7 @@ schema_mappings:
       - { source_field: JobProfileId,  bronze_column: job_profile_id, bronze_type: string }
       - { source_field: PositionTitle, bronze_column: position_title, bronze_type: string }
 runbook:
-  primary_contact: core-data-platform@deloitte.com
+  primary_contact: core-data-platform@example.com
   sla_recovery_minutes: 240  # tolerable for HR data
   failure_modes:
     - code: REPORT_NOT_PUBLISHED

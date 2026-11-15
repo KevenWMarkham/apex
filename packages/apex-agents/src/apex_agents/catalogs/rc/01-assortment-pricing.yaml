@@ -11,7 +11,7 @@ description: >
   Category-level margin-exposure detection, price elasticity modeling,
   competitive-response simulation, and markdown-cadence recommendation.
 archetype_id: F1-continuous-monitor-hitl-alert
-primary_contact: rc-practice-lead@deloitte.com
+primary_contact: rc-practice-lead@example.com
 
 tools:
   - tool_id: apex.rc.mcp.merml.get_category_exposure

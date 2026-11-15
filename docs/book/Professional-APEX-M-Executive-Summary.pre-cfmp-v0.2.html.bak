@@ -193,11 +193,11 @@
   </section>
 
   <h1 class="section">1 · The One-Sentence Version</h1>
-  <p class="lead"><strong>APEX is a framework that accelerates the building of services and agents on the Microsoft Platform.</strong> Clients buy <em>Services</em> — productized envelopes with KPI commitments, sold to industry anchor accounts under a two-contract Independence model — and Deloitte's Microsoft practice builds those Services faster, more consistently, and with more rigorous governance by using the APEX framework. The current Service catalog runs to 38 productized Services across 7 industry practices, all built on APEX.</p>
+  <p class="lead"><strong>APEX is a framework that accelerates the building of services and agents on the Microsoft Platform.</strong> Clients buy <em>Services</em> — productized envelopes with KPI commitments, sold to industry anchor accounts under a two-contract Independence model — and the firm's Microsoft practice builds those Services faster, more consistently, and with more rigorous governance by using the APEX framework. The current Service catalog runs to 38 productized Services across 7 industry practices, all built on APEX.</p>
 
   <div class="kicker">
     <span class="lab">What gets bought · what does the building</span>
-    <p>The client buys a Service with a KPI envelope. The Service is built using the APEX framework. APEX itself is not productized for sale; it is the framework Deloitte's Microsoft practice uses internally to deliver Services on the Microsoft Platform. This distinction is structural, not stylistic — the two-contract Independence model (client ↔ Microsoft for platform, client ↔ Deloitte for the Service engagement) makes the Service the contractable unit, not the framework.</p>
+    <p>The client buys a Service with a KPI envelope. The Service is built using the APEX framework. APEX itself is not productized for sale; it is the framework the firm's Microsoft practice uses internally to deliver Services on the Microsoft Platform. This distinction is structural, not stylistic — the two-contract Independence model (client ↔ Microsoft for platform, client ↔ the firm for the Service engagement) makes the Service the contractable unit, not the framework.</p>
   </div>
 
   <div class="kicker">
@@ -236,7 +236,7 @@
     <tbody>
       <tr><td><strong>Platform (Layer 1)</strong></td><td>Microsoft.ContainerRegistry · Microsoft.App/managedEnvironments · Microsoft.KeyVault Premium HSM · Microsoft Entra ID identities · Microsoft.OperationalInsights</td><td>Per client tenant</td><td>Quarterly</td></tr>
       <tr><td><strong>Service (Layer 2)</strong></td><td>Bicep module composing Container Apps onto the Platform · per-Service data plane · KPI envelope · audit attribution</td><td>Per Service per tenant</td><td>Per upgrade window</td></tr>
-      <tr><td><strong>Agent (Layer 3)</strong></td><td>Container images (~12 across the catalog) · reused across Services · signed Microsoft Notation + cosign · pulled by SHA digest</td><td>Deloitte authoring</td><td>Continuous</td></tr>
+      <tr><td><strong>Agent (Layer 3)</strong></td><td>Container images (~12 across the catalog) · reused across Services · signed Microsoft Notation + cosign · pulled by SHA digest</td><td>The firm authoring</td><td>Continuous</td></tr>
     </tbody>
   </table>
 
@@ -277,11 +277,11 @@
 
   <h1 class="section">6 · The Independence Posture</h1>
 
-  <p class="lead">APEX is sold and deployed under a two-contract model: client ↔ Microsoft for the platform, client ↔ Deloitte for services, ECIF flowing direct from Microsoft. This is structural, not stylistic.</p>
+  <p class="lead">APEX is sold and deployed under a two-contract model: client ↔ Microsoft for the platform, client ↔ the firm for services, ECIF flowing direct from Microsoft. This is structural, not stylistic.</p>
 
   <p>The architecture enforces Independence at four boundaries:</p>
   <ul>
-    <li><strong>Two Container Registries</strong> · Deloitte authoring registry signs images; client tenant registry pulls verified images. Image bytes cross by mirror; no runtime path back.</li>
+    <li><strong>Two Container Registries</strong> · firm authoring registry signs images; client tenant registry pulls verified images. Image bytes cross by mirror; no runtime path back.</li>
     <li><strong>Per-tenant Microsoft Fabric workspace</strong> · client SOR data and the LEDGER never leave the client's Microsoft platform tenancy.</li>
     <li><strong>Microsoft.KeyVault HSM CMK</strong> · client controls the cryptographic root; tokenization and HSM signing happen under client-owned keys.</li>
     <li><strong>Microsoft Purview audit graph</strong> · the client's Purview is the regulator-walkable audit substrate.</li>
@@ -358,13 +358,13 @@
 
   <div class="kicker">
     <span class="lab">Closing Independence reminder</span>
-    <p>Throughout this summary and any artifact derived from it, the relationship is described as <strong>"Deloitte's Microsoft practice," "DMTSP," "Microsoft platform capabilities,"</strong> or <strong>"Microsoft-native deployment."</strong> Never <em>partner</em>, <em>alliance</em>, or <em>strategic alliance</em>. The two-contract structure is enforced architecturally; the language reinforces what the architecture already does.</p>
+    <p>Throughout this summary and any artifact derived from it, the relationship is described as <strong>"The firm's Microsoft practice," "DMTSP," "Microsoft platform capabilities,"</strong> or <strong>"Microsoft-native deployment."</strong> Never <em>partner</em>, <em>alliance</em>, or <em>strategic alliance</em>. The two-contract structure is enforced architecturally; the language reinforces what the architecture already does.</p>
   </div>
 
   </main>
 
   <footer class="es-footer">
-    <strong>Professional APEX · Executive Summary</strong> &nbsp;·&nbsp; Companion to the Trilogy &nbsp;·&nbsp; Keven Markham · VP Enterprise Transformation · Deloitte's Microsoft Technology &amp; Services Practice &nbsp;·&nbsp; April–May 2026 &nbsp;·&nbsp; Internal Use Only
+    <strong>Professional APEX · Executive Summary</strong> &nbsp;·&nbsp; Companion to the Trilogy &nbsp;·&nbsp; Keven Markham · VP Enterprise Transformation · the firm's Microsoft Technology &amp; Services Practice &nbsp;·&nbsp; April–May 2026 &nbsp;·&nbsp; Internal Use Only
   </footer>
 
 </body>

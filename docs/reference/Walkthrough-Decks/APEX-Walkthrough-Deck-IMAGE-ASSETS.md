@@ -11,7 +11,7 @@ search-term hint.
 2. Right-click → **Change Picture** → choose source:
    - **From Stock Images** (Microsoft 365 — recommended; includes royalty-free
      Unsplash-style photography licensed for commercial use)
-   - **From a File** (your own / Deloitte brand library)
+   - **From a File** (your own / firm brand library)
    - **From Online Pictures** (Bing image search with Creative Commons filter)
 3. Use the suggested search term below as your query.
 4. After dropping in, recommend applying **50–65% dark transparency** on
@@ -51,10 +51,10 @@ search-term hint.
 - **Pexels** (https://www.pexels.com) — CC0; downloadable.
 - **Pixabay** (https://pixabay.com) — CC0; downloadable.
 
-## Deloitte brand alternatives
+## firm brand alternatives
 
-If your engagement needs Deloitte-branded imagery, the **Deloitte Brand
-Library** (deloitte.com / brand portal — internal SSO) ships approved
+If your engagement needs firm-branded imagery, the **brand
+library** (brand portal — internal SSO) ships approved
 client-deck photography under the standard internal-use license. Same
 DMTSP green and navy palette already applied in the deck means brand
 photos will land cleanly.
@@ -74,4 +74,4 @@ each slide is a visual anchor + 3–5 keyword chips.
 
 ---
 
-*Internal · Deloitte Microsoft Technology & Services Practice · v3 · 2026-05-23*
+*Internal · Microsoft Technology & Services Practice · v3 · 2026-05-23*

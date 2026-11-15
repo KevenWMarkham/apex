@@ -86,7 +86,7 @@ variable "cost_center" {
 variable "owner" {
   description = "Engagement owner UPN or team alias. Stamped into 'apex:owner' tag."
   type        = string
-  default     = "deloitte-apex-team"
+  default     = "firm-apex-team"
 }
 
 variable "tags" {

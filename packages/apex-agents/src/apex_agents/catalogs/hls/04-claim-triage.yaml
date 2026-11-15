@@ -12,7 +12,7 @@ description: >
   rationale and audit trail. Reduces examiner backlog while preserving
   every-claim audit row.
 archetype_id: F2-event-cluster-pattern-match
-primary_contact: hls-practice-lead@deloitte.com
+primary_contact: hls-practice-lead@example.com
 
 tools:
   - tool_id: apex.hls.mcp.claimml.get_claim

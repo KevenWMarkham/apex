@@ -553,7 +553,7 @@ const JS = `
 const parts = {
   1: { title: 'Why Kroger, Why APEX', intro: 'The strategic context for the Kroger pursuit, where margin moves in modern grocery, and how APEX wedges into the Kroger estate alongside 84.51°, Ocado, and Boost.' },
   2: { title: 'The Service Portfolio', intro: 'The two anchor services (RC-E2E-03 Assortment & Pricing and RC-E2E-09 Product Tracking), the high-attach catalog, and how Kroger differentiates from Albertsons, Publix, HEB, and Ahold.' },
-  3: { title: 'The Architecture', intro: 'System of record, the Fabric plane, the Foundry agent plane, the MCP layer, and Purview governance — the five technology planes Deloitte assembles for Kroger.' },
+  3: { title: 'The Architecture', intro: 'System of record, the Fabric plane, the Foundry agent plane, the MCP layer, and Purview governance — the five technology planes the firm assembles for Kroger.' },
   4: { title: 'The Pursuit', intro: 'Executive engagement, the pitch, risk and stakeholder management, the demo, and the client-presentable Kroger Store 412 day-in-the-shift narrative.' },
   5: { title: 'At Scale', intro: 'Operations and test strategy, the multi-wave service roadmap, cross-grocer expansion, and the closing seller compact.' },
 };
@@ -617,10 +617,10 @@ const FRONT_MATTER = `
   <h1 class="title"><span class="accent">Kroger</span> Services</h1>
   <div class="subtitle">The Anchor-Account Companion to APEX RC-E2E-03 + RC-E2E-09</div>
   <div class="edition">FY27 Pipeline · Assortment, Pricing & Product Tracking at The Kroger Co.</div>
-  <p class="tagline">A field guide for Deloitte sellers and delivery leads pursuing the Kroger agentic-AI program. Wraps the seventeen pursuit deliverables into one read — strategy, services, architecture, pursuit motion, and at-scale playbook.</p>
+  <p class="tagline">A field guide for firm sellers and delivery leads pursuing the Kroger agentic-AI program. Wraps the seventeen pursuit deliverables into one read — strategy, services, architecture, pursuit motion, and at-scale playbook.</p>
   <div class="wrox-label">WROX-STYLE EDITION · KROGER VOLUME</div>
   <div class="byline">
-    by the APEX RC team · Deloitte Microsoft Technology &amp; Services Practice<br>
+    by the APEX RC team · Microsoft Technology &amp; Services Practice<br>
     April 2026 · Version 1.0 · CONFIDENTIAL — internal use only
   </div>
 </section>
@@ -638,7 +638,7 @@ const FRONT_MATTER = `
   <p>Each chapter ends with a <strong>Companion Artifacts</strong> callout listing the underlying deliverable files. Click through whenever you need the full document.</p>
   <aside class="callout independence">
     <div class="callout-label">Independence Reminder</div>
-    <p>This book contains publicly-observable strategic signals on The Kroger Co. It does not represent that Deloitte is currently engaged with Kroger, nor does it disclose confidential client information. All account narratives are framed as hypotheses to validate in discovery. The Kroger Store 412 narrative in Chapter 18 is illustrative — it is not a description of any actual Kroger store deployment.</p>
+    <p>This book contains publicly-observable strategic signals on The Kroger Co. It does not represent that the firm is currently engaged with Kroger, nor does it disclose confidential client information. All account narratives are framed as hypotheses to validate in discovery. The Kroger Store 412 narrative in Chapter 18 is illustrative — it is not a description of any actual Kroger store deployment.</p>
   </aside>
 </section>
 `;

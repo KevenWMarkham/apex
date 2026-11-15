@@ -11,7 +11,7 @@ description: >
   AMI consumption-anomaly detection at billing time. Flags meters with
   reads incompatible with usage history before invoice generation.
 archetype_id: F1-continuous-monitor-hitl-alert
-primary_contact: er-pu-practice-lead@deloitte.com
+primary_contact: er-pu-practice-lead@example.com
 
 tools:
   - tool_id: apex.er.mcp.meterml.get_ami_reads

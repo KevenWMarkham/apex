@@ -1,7 +1,7 @@
 # Toyota Zero Day Warranty Podcast — Design
 
 **Date:** 2026-05-14
-**Author:** Keven Markham (kmarkham@deloitte.com) · Deloitte's Microsoft Technology & Services Practice
+**Author:** Keven Markham (kmarkham@example.com) · Microsoft Technology & Services Practice
 **Status:** Design approved · ready for writing-plans handoff
 **Source folders referenced:**
 - `C:\Stage\Clients\Industries\Automotive\Toyota\` (account context)
@@ -16,7 +16,7 @@ Create a 5-episode podcast series for the Toyota Account Team, anchored on the *
 
 ## Audience
 
-**Both internal Deloitte Account Team and client-shareable.** Spoken content avoids internal codenames (ORCH-01, BRML, AAML referenced by client-safe names — "the build record domain," "the assembly-line telemetry domain"). Internal mapping lives in episode preambles and the series README, not in the dialog. Independence-from-Microsoft framing (two-contract model, no co-sell language) preserved throughout.
+**Both internal firm Account Team and client-shareable.** Spoken content avoids internal codenames (ORCH-01, BRML, AAML referenced by client-safe names — "the build record domain," "the assembly-line telemetry domain"). Internal mapping lives in episode preambles and the series README, not in the dialog. Independence-from-Microsoft framing (two-contract model, no co-sell language) preserved throughout.
 
 ## Architecture
 

@@ -10,7 +10,7 @@ prompt_sha: ""
 description: >
   Disruption-event communications drafting. Composes tier-personalized notifications via traveler's preferred channel during IROPs.
 archetype_id: F1-continuous-monitor-hitl-alert
-primary_contact: th-practice-lead@deloitte.com
+primary_contact: th-practice-lead@example.com
 
 tools:
   - tool_id: apex.th.mcp.travelerml.get_unified_profile

@@ -1,6 +1,6 @@
 # The DTNA Account Podcast · Audio Files
 
-Five MP3 episodes — the Deloitte Account Team's internal podcast for Daimler Trucks North America. Each episode is wrapped with a royalty-free opening and closing music sting in an industrial-toned register (see *Music* section below).
+Five MP3 episodes — the Account Team's internal podcast for Daimler Trucks North America. Each episode is wrapped with a royalty-free opening and closing music sting in an industrial-toned register (see *Music* section below).
 
 Voices via **Microsoft Edge Neural TTS** (`edge-tts`). Concatenated with **ffmpeg**.
 
@@ -64,7 +64,7 @@ Stingless backups in `audio/_originals/`. The synth path has exponential-backoff
 
 ## Series content overview
 
-Five episodes for the Deloitte Account Team for Daimler Trucks North America:
+Five episodes for the Account Team for Daimler Trucks North America:
 
 - **Ep 1** — The DTNA Account · four brands (Freightliner, Western Star, Thomas Built, Detroit) · three strategic themes (electrification, autonomy, freight cycle) · AXLE Practice mapping
 - **Ep 2** — The Manufacturing & Quality Plays · six AXLE-Practice scenarios — Zero Day Warranty, predictive maintenance, quality escape, plant-floor agent assist, supplier traceability, production planning
@@ -74,10 +74,10 @@ Five episodes for the Deloitte Account Team for Daimler Trucks North America:
 
 ## Notes
 
-- **Internal use only.** Names DTNA directly because it's internal Deloitte Account Team preparation.
-- **Daimler Truck global Independence framing** — DTNA's parent (Daimler Truck Holding AG) is a publicly listed German company. Engagement scope coordination with Deloitte global Independence Office is required. Ep 5 covers this in operational detail.
+- **Internal use only.** Names DTNA directly because it's internal firm Account Team preparation.
+- **Daimler Truck global Independence framing** — DTNA's parent (Daimler Truck Holding AG) is a publicly listed German company. Engagement scope coordination with the firm global Independence Office is required. Ep 5 covers this in operational detail.
 - **AXLE Practice mapping** — most plays anchor to AXLE; some adjacencies into ICE (aftermarket parts) and TH (fleet customer experience).
-- **Independence-from-Microsoft posture** preserved throughout — Deloitte does not co-sell; recommendation on the merits.
+- **Independence-from-Microsoft posture** preserved throughout — the firm does not co-sell; recommendation on the merits.
 
 ## Companion podcasts in this folder family
 

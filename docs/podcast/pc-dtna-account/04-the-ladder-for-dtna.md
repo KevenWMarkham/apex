@@ -94,7 +94,7 @@ Three — *the Daimler Truck global Independence structure must be coordinated b
 
 Dollar value at L3 — *five to twenty million dollars* services revenue annually. Expansion revenue. Same client, growing footprint, predictable cadence.
 
-What's in the CoE by L3. *DTNA is operating typically four to six Services in production* — possibly Zero Day Warranty, Connected Diagnostic, Dealer Performance, Quality Escape, and one or two of the operations plays. *Plus the platform-and-governance services.* DTNA has *internal capability* operating these, with Deloitte as advisor, deployer for new Services, and operate-partner.
+What's in the CoE by L3. *DTNA is operating typically four to six Services in production* — possibly Zero Day Warranty, Connected Diagnostic, Dealer Performance, Quality Escape, and one or two of the operations plays. *Plus the platform-and-governance services.* DTNA has *internal capability* operating these, with the firm as advisor, deployer for new Services, and operate-partner.
 
 The buyer at L3 — *the steering committee.* CTO. CIO. COO. CFO. President of one or more segments. The decision-making body for L3 is multi-person, multi-quarter.
 
@@ -170,7 +170,7 @@ Lab use cases for DTNA conversations —
 
 *L3 use case.* The Lab is the test-and-rehearse platform for new Services before they reach DTNA's production tenant.
 
-*Independence boundary.* The Lab is *Deloitte tenant, synthetic data.* No DTNA data enters the Lab. Promotion to DTNA's tenant is an L2 motion under DTNA's separate Microsoft licensing.
+*Independence boundary.* The Lab is *the firm tenant, synthetic data.* No DTNA data enters the Lab. Promotion to DTNA's tenant is an L2 motion under DTNA's separate Microsoft licensing.
 
 ### A reading I want to do
 

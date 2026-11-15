@@ -30,7 +30,7 @@ That is Sarah's week. Five distinct frictions. Five different moments where the 
 
 **REID:** Five frictions in seven days. None of them is the technology being broken in the technical sense — every one of those apps works, every one of them has a five-star review somewhere. The technology is broken in the *fit* sense. None of it understands that Sarah's grocery life is one continuous problem, and the apps keep handing her back fragments of it.
 
-**KEVEN:** Welcome to the CFMP Podcast. Eight episodes. I'm Keven Markham, twenty-two years on the Microsoft platform. I run the Microsoft Technology and Services practice at Deloitte. I sell, I architect, and I live in the gap between a designer's intent and what a Microsoft seller can actually defend in front of a CIO.
+**KEVEN:** Welcome to the CFMP Podcast. Eight episodes. I'm Keven Markham, twenty-two years on the Microsoft platform. I run the Microsoft Technology and Services practice at the firm. I sell, I architect, and I live in the gap between a designer's intent and what a Microsoft seller can actually defend in front of a CIO.
 
 **REID:** I'm Reid. Cross-cloud principal architect. I have built production retail and consumer workloads on AWS, on GCP, and on Microsoft. I'm here as the honesty enforcer. When the design is doing something distinctive, I will name it. When it is doing something every grocery app on the market does and dressing it up in agent language, I will name *that* too. The argument has to defend itself.
 

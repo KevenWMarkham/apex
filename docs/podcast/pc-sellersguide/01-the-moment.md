@@ -52,15 +52,15 @@
 
 **JORDAN:** And the "M" in APEX-M?
 
-**KEVEN:** Microsoft. The branded edition that runs on Fabric, Foundry, Copilot, and Purview. There's an APEX core that is platform-agnostic in theory. In practice we sell APEX-M — and we sell it as a Deloitte offering, independently, on the technical and commercial merits of the platform recommendation.
+**KEVEN:** Microsoft. The branded edition that runs on Fabric, Foundry, Copilot, and Purview. There's an APEX core that is platform-agnostic in theory. In practice we sell APEX-M — and we sell it as an offering, independently, on the technical and commercial merits of the platform recommendation.
 
 **JORDAN:** OK, and what *isn't* APEX? Because this is going to come up immediately.
 
-**KEVEN:** Three things. One, APEX is not a software product. Deloitte doesn't sell you a license. The licenses are Microsoft's. APEX is the *framework* that turns the licenses into outcomes.
+**KEVEN:** Three things. One, APEX is not a software product. The firm doesn't sell you a license. The licenses are Microsoft's. APEX is the *framework* that turns the licenses into outcomes.
 
 **JORDAN:** So how does the client pay for APEX?
 
-**KEVEN:** They pay Deloitte for the implementation services. They pay Microsoft for the consumption. Two contracts.
+**KEVEN:** They pay the firm for the implementation services. They pay Microsoft for the consumption. Two contracts.
 
 **JORDAN:** And the second thing it isn't?
 
@@ -88,7 +88,7 @@
 
 **JORDAN:** Why those seven?
 
-**KEVEN:** They're the seven where Deloitte already has deep industry IP, where Microsoft has anchor accounts at the C-level, and where the agentic AI ROI math actually pencils out at the CFO level. The Sellers Guide has a whole chapter on each one — Part Three, chapters nine through fifteen. We'll cover all seven in Episode Four.
+**KEVEN:** They're the seven where the firm already has deep industry IP, where Microsoft has anchor accounts at the C-level, and where the agentic AI ROI math actually pencils out at the CFO level. The Sellers Guide has a whole chapter on each one — Part Three, chapters nine through fifteen. We'll cover all seven in Episode Four.
 
 **JORDAN:** OK. And just so we're crisp — what's the difference between a Practice, a Service, an agent, and an orchestration? Because these all sound like the same thing.
 
@@ -185,7 +185,7 @@ For AXLE — automotive — we've got the canonical schema for vehicle build rec
 
 **KEVEN:** Three things.
 
-One — articulate APEX in one sentence to any executive: *"APEX is the framework Deloitte uses to put governed, audit-ready agentic AI into production on the Microsoft platform, in six to nine months for Wave One, across seven industry Practices."*
+One — articulate APEX in one sentence to any executive: *"APEX is the framework the firm uses to put governed, audit-ready agentic AI into production on the Microsoft platform, in six to nine months for Wave One, across seven industry Practices."*
 
 Two — diagnose the buyer's pain quickly. Stranded investment? CIO. Trust gap? CCO. Velocity gap? LOB. Lead with the pain that matches the seat.
 
@@ -259,7 +259,7 @@ Three — qualify in or out in the first forty-five minutes. Section one point f
 
 **JORDAN:** Three things.
 
-One — **memorise the one-sentence pitch.** APEX is the framework Deloitte uses to put governed, audit-ready agentic AI into production on the Microsoft platform. Six to nine months, Wave One, seven industry Practices. Don't paraphrase. Use those words.
+One — **memorise the one-sentence pitch.** APEX is the framework the firm uses to put governed, audit-ready agentic AI into production on the Microsoft platform. Six to nine months, Wave One, seven industry Practices. Don't paraphrase. Use those words.
 
 Two — **carry the first-meeting qualifier in your head.** Five questions. The most important one — "what did your last AI-enabled change deliver, measured in dollars or hours?" That single question will tell you in two minutes whether you're in a Wave One or a Wave Two deal — or no deal at all.
 

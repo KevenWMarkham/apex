@@ -6,12 +6,12 @@ Layout DNA inspired by the reference templates:
   • Portrait-style team / persona cards
   • Process flows with numbered circles
   • Real bar charts + donut charts for data viz
-  • Strong accent bars at slide edges (Deloitte green in our case)
+  • Strong accent bars at slide edges (the firm green in our case)
   • Generous whitespace · large type · one focal element per slide
 
 All imagery generated via Pillow (silhouette portraits, abstract scene
 compositions, gradient hero backgrounds) — no photo drops required.
-Brand stays Deloitte: green #86BC25 + navy #1A1F2E + light bg #FAFAFA.
+Brand stays the firm: green #86BC25 + navy #1A1F2E + light bg #FAFAFA.
 """
 
 from __future__ import annotations
@@ -270,7 +270,7 @@ def page_footer(slide, slide_no: int, total: int):
     add_rect(slide, Inches(0.5), Inches(7.0), Inches(12.33), Inches(0.02),
              fill=SOFT_LINE)
     add_textbox(slide, Inches(0.5), Inches(7.10), Inches(9), Inches(0.30),
-                "APEX  ·  Deloitte Microsoft Technology & Services Practice",
+                "APEX  ·  Microsoft Technology & Services Practice",
                 size=9, color=MUTED)
     add_textbox(slide, Inches(11.00), Inches(7.10), Inches(2.0), Inches(0.30),
                 f"{slide_no} / {total}", size=9, bold=True, color=GREEN,
@@ -312,7 +312,7 @@ def main() -> None:
                 "APEX", size=140, bold=True, color=WHITE)
     add_rect(s, Inches(5.5), Inches(3.85), Inches(0.6), Inches(0.12), fill=GREEN)
     add_textbox(s, Inches(5.5), Inches(4.05), Inches(7.5), Inches(0.6),
-                "Deloitte's agentic-AI", size=28, color=WHITE)
+                "The firm's agentic-AI", size=28, color=WHITE)
     add_textbox(s, Inches(5.5), Inches(4.55), Inches(7.5), Inches(0.6),
                 "delivery framework",
                 size=28, bold=True, color=WHITE)
@@ -831,7 +831,7 @@ def main() -> None:
     s = prs.slides.add_slide(blank)
     add_rect(s, Inches(0), Inches(0), SLIDE_W, SLIDE_H, fill=BG)
     header_minimal(s, "Independence  —  non-negotiable",
-                   "Deloitte audits Microsoft. SEC rules shape every engagement.", number=9)
+                   "The firm audits Microsoft. SEC rules shape every engagement.", number=9)
 
     # Two-column comparison with strong visual cards
     def indep_panel(x, w, *, tone, headline, items):
@@ -862,16 +862,16 @@ def main() -> None:
 
     indep_panel(Inches(0.55), Inches(6.1), tone="do", headline="DO", items=[
         "BVA (client-funded discovery)",
-        "DCIF (Deloitte co-invest fund)",
+        "DCIF (the firm co-invest fund)",
         "ISV Marketplace burndown",
         "SI Teaming POC",
         "T&M  ·  Client direct",
     ])
     indep_panel(Inches(6.85), Inches(6.0), tone="dont", headline="DO NOT", items=[
-        "Route ECIF through Deloitte",
+        "Route ECIF through the firm",
         "Use “partnership” / “alliance” language",
         "Take Microsoft co-sell credit",
-        "Sell APEX itself (Deloitte IP)",
+        "Sell APEX itself (firm IP)",
         "Imply joint commercial entity",
     ])
     page_footer(s, 11, TOTAL)
@@ -910,15 +910,15 @@ def main() -> None:
                              Inches(1.0), Inches(1.0),
                              bg=GREEN, glyph="✓", glyph_color=WHITE, glyph_size=44)
     add_textbox(s, Inches(6.85), Inches(3.5), Inches(6.0), Inches(0.7),
-                "Deloitte delivery framework", size=24, bold=True, color=GREEN_DK,
+                "firm delivery framework", size=24, bold=True, color=GREEN_DK,
                 align=PP_ALIGN.CENTER)
     add_textbox(s, Inches(6.85), Inches(4.2), Inches(6.0), Inches(0.4),
-                "—  the client engages Deloitte  —",
+                "—  the client engages the firm  —",
                 size=11, color=MUTED, italic=True, align=PP_ALIGN.CENTER)
-    iss = ["Sell  Deloitte agentic services",
+    iss = ["Sell  the firm agentic services",
            "Scoped per Pack · per tier",
            "Funded via standard envelope",
-           "Framework is Deloitte IP"]
+           "Framework is firm IP"]
     for i, t in enumerate(iss):
         add_textbox(s, Inches(7.05), Inches(4.85 + i * 0.36),
                     Inches(5.6), Inches(0.35),

@@ -10,7 +10,7 @@
 
 ## Part 0 — Compliance & Language Constraints (Inherited)
 
-This guide inherits Part 0 of APEX Core unchanged. All Deloitte–Microsoft terminology rules apply. The HTML walkthrough and this guide use synthetic reference-implementation identifiers — Store 100, Marisol Reyes, DFW Metroplex, Apr 14 2026, the eight event timestamps. These are scenario data, not client data.
+This guide inherits Part 0 of APEX Core unchanged. All the firm–Microsoft terminology rules apply. The HTML walkthrough and this guide use synthetic reference-implementation identifiers — Store 100, Marisol Reyes, DFW Metroplex, Apr 14 2026, the eight event timestamps. These are scenario data, not client data.
 
 **Scenario-vs-engagement boundary.** This guide is *reusable* across engagements. Real client-engagement specifics — actual store numbers, real manager names, client-identifiable ROI figures, named vendors, named regulators — belong in engagement-specific deliverables, not in this document. When an Account Team uses this guide with a live client, the facilitator maps Store 100's synthetic scenarios to the client's actual operational equivalents verbally; the document itself stays synthetic.
 
@@ -124,7 +124,7 @@ Critical severity. Between 02:15 and 06:27 the dairy endcap held at 48–52°F a
 A: The disposition classifier reports a confidence band. Below threshold, the case flips from ACK_ONLY to HITL — the manager sees the split and can override. Above threshold, the manager sees the recommendation but still has the final approval tap. False-save errors are the regulated risk; false-destroy errors are the financial risk. We calibrate the threshold to the sub-category.
 
 **Q: "Who owns the write-off policy decisions — us or you?"**
-A: The client. The agent stages the write-off; the approval routing lives in the client's finance system. Deloitte never holds the approval handle. This is explicit in Core Part 6 Independence posture.
+A: The client. The agent stages the write-off; the approval routing lives in the client's finance system. The firm never holds the approval handle. This is explicit in Core Part 6 Independence posture.
 
 ### The ROI point
 
@@ -486,9 +486,9 @@ Sum across a store's weekly event volume. Multiply by store count. The W1 + W2 O
 
 **Response.** Every agent is backtested in isolation before orchestrator wiring (Core decomposition philosophy). Every ORCH declares its HITL gates explicitly (Core Part 8.3). Drift is monitored via Azure AI Foundry evals and the edition's eval harness. When confidence falls below threshold, the gate escalates — ACK_ONLY becomes HITL. The system degrades gracefully, it doesn't fail silently.
 
-### 13.2 "What's the Deloitte Independence story here?"
+### 13.2 "What's the Independence story here?"
 
-**Response.** Core Part 6 is unambiguous. Client-tenant data planes. No Deloitte-side retention of client-identifiable data. Every schema and every agent runs on the client's Azure tenant. Deloitte's visibility ends at the engagement boundary; operational data stays in the client's OneLake. We formalized this further in Core v1.2 — only opaque account IDs, version numbers, and manifest hashes ever cross the boundary.
+**Response.** Core Part 6 is unambiguous. Client-tenant data planes. No firm-side retention of client-identifiable data. Every schema and every agent runs on the client's Azure tenant. The firm's visibility ends at the engagement boundary; operational data stays in the client's OneLake. We formalized this further in Core v1.2 — only opaque account IDs, version numbers, and manifest hashes ever cross the boundary.
 
 ### 13.3 "How long until we see value?"
 
@@ -496,7 +496,7 @@ Sum across a store's weekly event volume. Multiply by store count. The W1 + W2 O
 
 ### 13.4 "What if our IT team doesn't have the Fabric / Foundry skills?"
 
-**Response.** That's scoping, not scope. The engagement includes Deloitte engineers who know Fabric, Foundry, and Agent Service. Knowledge transfer is part of the wave-exit criteria for W1 — by the time W1 closes, client-side engineers are operating the fleet, Deloitte is advisory. This is intentional; it's how we avoid creating a long-term dependency.
+**Response.** That's scoping, not scope. The engagement includes firm engineers who know Fabric, Foundry, and Agent Service. Knowledge transfer is part of the wave-exit criteria for W1 — by the time W1 closes, client-side engineers are operating the fleet, the firm is advisory. This is intentional; it's how we avoid creating a long-term dependency.
 
 ### 13.5 "Our data isn't clean enough for this."
 

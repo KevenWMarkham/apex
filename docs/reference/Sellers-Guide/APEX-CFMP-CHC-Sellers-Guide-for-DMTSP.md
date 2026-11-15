@@ -8,23 +8,23 @@ Read cover-to-cover once. Reference any section live in 30 seconds.
 | **Audience** | DMTSP sellers, LCSPs, engagement leads taking CFMP or CHC into a client conversation |
 | **Scope** | APEX as the framework · CFMP (in-store, customer-side) · CHC (in-home, two variants) · Alexa-replacement positioning |
 | **Date** | 2026-05-23 |
-| **Owner** | Keven Markham, VP — Deloitte's Microsoft Practice |
+| **Owner** | Keven Markham, VP — the firm's Microsoft Practice |
 
 ---
 
 ## 1. Master frame — what you're selling
 
 ### You ARE selling:
-**A scoped Deloitte agentic-AI delivery engagement on the APEX framework, sold per industry under standard Service Envelope tiers.** The buyer pays Deloitte for engineering + ongoing operate; the framework itself is the IP that makes the engagement repeatable, auditable, and sellable.
+**A scoped the firm agentic-AI delivery engagement on the APEX framework, sold per industry under standard Service Envelope tiers.** The buyer pays the firm for engineering + ongoing operate; the framework itself is the IP that makes the engagement repeatable, auditable, and sellable.
 
 ### You are NOT selling:
 - **A product** — APEX is a delivery framework. CFMP is a scoped engagement. CHC is a cross-pack engagement.
-- **A Microsoft co-sell** — Deloitte sells; Microsoft money rides ISV Marketplace / SI Teaming. Never direct ECIF to Deloitte.
+- **A Microsoft co-sell** — the firm sells; Microsoft money rides ISV Marketplace / SI Teaming. Never direct ECIF to the firm.
 - **A platform license** — there is no license SKU. Clients buy delivery services that include the framework, manifests, and Operate run-rate.
 - **A custom build** — first-time clients buy the catalog Pack with their overlay, not a bespoke greenfield build.
 
 ### The one-sentence positioning
-> "Deloitte delivers your in-store and in-home agentic-commerce capability as a scoped engagement on APEX — our cloud-neutral delivery framework that ships the canonical playbook, the 14-field WORM ledger, the privacy constitution, and the operate run-rate. Microsoft Foundry, Azure OpenAI, and Azure Maps run underneath. The agent that talks to your customer is delivered by Deloitte."
+> "The firm delivers your in-store and in-home agentic-commerce capability as a scoped engagement on APEX — our cloud-neutral delivery framework that ships the canonical playbook, the 14-field WORM ledger, the privacy constitution, and the operate run-rate. Microsoft Foundry, Azure OpenAI, and Azure Maps run underneath. The agent that talks to your customer is delivered by the firm."
 
 ---
 
@@ -38,14 +38,14 @@ Each pitch is a deeper layer of the same story. Use the shortest version that ea
 
 ### 2.2 The 60-second pitch (intro on a discovery call)
 
-> "Deloitte has built an agentic-commerce delivery framework called APEX. We've shipped a working merchandise demo on Microsoft Foundry — eight hundred SKUs in a vector catalog, voice-driven shopping with Azure Speech, a fourteen-field cryptographic audit trail on every nudge, and a customer journey from 'what should I buy' through pickup and substitution. We've extended it into the home: cameras and Sonos in the kitchen, a tablet kiosk on the counter, and a privacy regime tougher than Alexa by construction. We sell it as a scoped engagement to your team — first a BVA workshop, then a four-to-six-week Pack Lite live with three scenarios in your stores, then a path to your loyalty base across the whole journey. The demo runs in a browser. Want me to share my screen?"
+> "The firm has built an agentic-commerce delivery framework called APEX. We've shipped a working merchandise demo on Microsoft Foundry — eight hundred SKUs in a vector catalog, voice-driven shopping with Azure Speech, a fourteen-field cryptographic audit trail on every nudge, and a customer journey from 'what should I buy' through pickup and substitution. We've extended it into the home: cameras and Sonos in the kitchen, a tablet kiosk on the counter, and a privacy regime tougher than Alexa by construction. We sell it as a scoped engagement to your team — first a BVA workshop, then a four-to-six-week Pack Lite live with three scenarios in your stores, then a path to your loyalty base across the whole journey. The demo runs in a browser. Want me to share my screen?"
 
 ### 2.3 The 5-minute pitch (slot opened up in a meeting, no demo yet)
 
 Cover these five beats in order — about a minute each:
 
 1. **The problem**: Alexa-mediated commerce. 70M households, every basket routes to Amazon by default. Merchandisers either pay Amazon to be a Skill or get disintermediated. Telcos own the pipe and watch the ARPU bypass them.
-2. **The thesis**: A regulated, privacy-first alternative exists when the agent is delivered by an integrator (Deloitte) on a delivery framework (APEX), with a custodian who isn't a merchant (telco) or a fiduciary loyalty-program (Kroger Plus, Walmart+).
+2. **The thesis**: A regulated, privacy-first alternative exists when the agent is delivered by an integrator (the firm) on a delivery framework (APEX), with a custodian who isn't a merchant (telco) or a fiduciary loyalty-program (Kroger Plus, Walmart+).
 3. **The technical answer**: APEX is cloud-neutral; runs on Foundry today, also on Vertex, also on Bedrock. Industry Solution Packs are 10-asset bundles. Every customer-facing action lands a hash-chained LedgerRow with the consent state at decision moment. Auditors and DPOs query in seconds.
 4. **The proof**: working demo on Microsoft Foundry with gpt-5-mini agents, Azure Speech, Azure Maps Creator wayfinding, 800-product pgvector catalog, Vision AI Dev Kit cameras feeding the Bronze layer through the Featurization Layer. Running today.
 5. **The ask**: a 4-hour BVA workshop with your CMO/CX team to shortlist 3-5 scenarios for a Pack Lite engagement. $100K-$400K depending on scope. Funded as BVA + DCIF. Microsoft money rides ISV Marketplace separately.
@@ -179,7 +179,7 @@ Five framings you should be able to draw on a wall in under 60 seconds. Each lan
 ### 5.1 The Alexa-replacement contrast
 
 ```
-   ALEXA  (Amazon)              vs               APEX  (Deloitte / framework)
+   ALEXA  (Amazon)              vs               APEX  (the firm / framework)
    ─────────────────────                          ─────────────────────────
    Commercial provider                            Telco (CPNI) or Merch (LEDGER)
    ToS-based recourse                             Statutory privacy regime
@@ -189,7 +189,7 @@ Five framings you should be able to draw on a wall in under 60 seconds. Each lan
    No audit trail disclosed                       14-field WORM hash chain
 ```
 
-Draw on the wall when the buyer says "isn't this just Alexa with a Deloitte logo?"
+Draw on the wall when the buyer says "isn't this just Alexa with a logo?"
 
 ### 5.2 The 5-layer APEX pancake
 
@@ -302,14 +302,14 @@ End with: "What part would you like to dig into?"
 
 ## 7. Objection handbook — top 15 with handlers
 
-### O1. "Isn't this just Alexa with a Deloitte logo?"
+### O1. "Isn't this just Alexa with a logo?"
 > "Alexa is a commercial provider with ToS-based recourse. We're delivering a regulated framework with statutory privacy custodianship — either via the telco's CPNI obligation or the merchandiser's loyalty fiduciary. Amazon doesn't compete with itself; we deliver an agent for YOU. Different category."
 
 ### O2. "We already have an Alexa Skill. Why this?"
 > "Your Skill routes 30% commission to Amazon and competes against Amazon Fresh by default. Our agent runs on your stack, in your loyalty program, with no platform tax. You capture 100% of the basket and own the customer relationship."
 
 ### O3. "What's the framework lock-in?"
-> "None. APEX runs on Microsoft, Google, or AWS — same Pack manifests, profile-specific implementations. Industry Solution Packs are 10-asset bundles delivered to you. The manifests are yours. The runtime is open architecture. Independent of Deloitte, the framework still works."
+> "None. APEX runs on Microsoft, Google, or AWS — same Pack manifests, profile-specific implementations. Industry Solution Packs are 10-asset bundles delivered to you. The manifests are yours. The runtime is open architecture. Independent of the firm, the framework still works."
 
 ### O4. "Microsoft does this with Foundry directly."
 > "Foundry is the agent runtime — and an excellent one. We use it as the LLM and orchestration substrate. APEX is the engagement layer above Foundry: methodology, canonical schemas, the LEDGER, industry packs, service envelopes. Foundry runs the runtime. We deliver the engagement."
@@ -335,8 +335,8 @@ End with: "What part would you like to dig into?"
 ### O11. "What if we want to switch off Azure later?"
 > "The Pack manifests touch only the 14-interface abstract contract. The cloud profile is a deployment YAML setting. Same Pack runs on Vertex, Bedrock, or wherever. Re-platforming a Pack is a config change, not a code migration. You don't get locked into Microsoft via this engagement."
 
-### O12. "Deloitte is Microsoft's auditor. Aren't we breaking independence rules?"
-> "We've engineered the funding paths to be independence-safe by construction. Microsoft money to us routes via ISV Marketplace burndown or SI Teaming with a non-competing SI. Deloitte never receives ECIF directly from Microsoft. SOWs reference Microsoft as 'cloud profile' or 'platform' — never 'partner' or 'alliance.' Our legal has cleared the pattern; we have language discipline."
+### O12. "The firm is Microsoft's auditor. Aren't we breaking independence rules?"
+> "We've engineered the funding paths to be independence-safe by construction. Microsoft money to us routes via ISV Marketplace burndown or SI Teaming with a non-competing SI. The firm never receives ECIF directly from Microsoft. SOWs reference Microsoft as 'cloud profile' or 'platform' — never 'partner' or 'alliance.' Our legal has cleared the pattern; we have language discipline."
 
 ### O13. "We don't have the data to do this."
 > "The Pack ships with synthetic demo data, source adapters for common SOR systems (Oracle RMS, SAP IS-Retail, Manhattan, etc.), and a 60+ acceptance-test suite that proves Pack health in CI. We're delivering capability, not asking you to be data-perfect first."
@@ -355,7 +355,7 @@ End with: "What part would you like to dig into?"
 
 | Tier | What it includes | Price | Timeline | Funding |
 |---|---|---|---|---|
-| BVA Workshop | 4-hour discovery + scenario shortlist + ROI worksheet | $0-50K (sometimes Deloitte-absorbed) | 1 day | Client or DCIF |
+| BVA Workshop | 4-hour discovery + scenario shortlist + ROI worksheet | $0-50K (sometimes firm-absorbed) | 1 day | Client or DCIF |
 | T1 Foundation | One-time per tenant: VV runtime, LEDGER, MCP, Entra/Purview wiring | $400-700K | 6-10w | BVA + DCIF |
 | **CFMP Pack Lite** | 3 scenarios live on client data | **$150-250K** | **4-6w** | **BVA + DCIF** |
 | **CHC Pack Lite (B2C)** | CFMP + home overlay, 3 NEED scenarios live | **$250-400K** | **6-8w** | **BVA + DCIF** |
@@ -375,7 +375,7 @@ End with: "What part would you like to dig into?"
 | Vehicle | T1 Foundation | T2 Lite | T2 Std | T3 | T4 | T5 |
 |---|---|---|---|---|---|---|
 | BVA (client-funded) | ✓ | ✓ | | | | |
-| DCIF (Deloitte co-invest) | ✓ | ✓ | ✓ | | | |
+| DCIF (the firm co-invest) | ✓ | ✓ | ✓ | | | |
 | ISV Marketplace burndown | | ✓ | ✓ | ✓ | | |
 | SI Teaming POC | | | ✓ | ✓ | | |
 | Client direct | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
@@ -394,22 +394,22 @@ This protects the firm. **Memorize the words to use and the words to never use.*
 ### NEVER say
 - "Microsoft partner" / "Microsoft alliance" / "We partner with Microsoft"
 - "Joint Microsoft commercial" / "Microsoft commits funding"
-- "Microsoft pays Deloitte" / "Microsoft co-funds us"
+- "Microsoft pays the firm" / "Microsoft co-funds us"
 - "ECIF" in client conversation (it's an internal Microsoft mechanism, not a client-visible term)
 - "Microsoft GTM"
 
 ### Always say (the legal-safe equivalents)
-- "Deloitte's Microsoft practice" / "DMTSP"
+- "The firm's Microsoft practice" / "DMTSP"
 - "Microsoft technology" / "Microsoft platform" / "Cloud profile: Microsoft"
 - "Microsoft incentive routes via Marketplace" (if technical context requires)
-- "Independent of Microsoft" (when referring to Deloitte's role)
+- "Independent of Microsoft" (when referring to the firm's role)
 - "Microsoft-funded burndown via ISV Marketplace" (only with procurement in the room)
 
 ### The independence sentence (always available)
-> "Deloitte is Microsoft's auditor. SEC rules forbid us receiving ECIF directly from Microsoft. We've engineered the funding paths around that constraint — Microsoft money flows via ISV Marketplace burndown or SI Teaming, never directly to Deloitte. Our language discipline reflects the rule."
+> "The firm is Microsoft's auditor. SEC rules forbid us receiving ECIF directly from Microsoft. We've engineered the funding paths around that constraint — Microsoft money flows via ISV Marketplace burndown or SI Teaming, never directly to the firm. Our language discipline reflects the rule."
 
 ### If pressed for more detail
-> "We have a non-competing SI we team with for Microsoft-funded POCs. That SI receives ECIF; Deloitte delivers under sub. Our Architecture Council and legal have cleared the pattern. We can walk procurement through it if helpful."
+> "We have a non-competing SI we team with for Microsoft-funded POCs. That SI receives ECIF; the firm delivers under sub. Our Architecture Council and legal have cleared the pattern. We can walk procurement through it if helpful."
 
 ---
 
@@ -451,7 +451,7 @@ Send the next-step email within 24 hours. Reference one specific thing they said
 >
 > [Name],
 >
-> Deloitte's Microsoft practice has built a working agentic-commerce demo on Foundry — voice-driven shopping, in-store wayfinding via Azure Maps, a 14-field cryptographic ledger on every customer-facing decision. It runs in a browser on my laptop.
+> The firm's Microsoft practice has built a working agentic-commerce demo on Foundry — voice-driven shopping, in-store wayfinding via Azure Maps, a 14-field cryptographic ledger on every customer-facing decision. It runs in a browser on my laptop.
 >
 > We've extended it into the home: cameras, Sonos, a kitchen tablet, a privacy regime designed to be tougher than Alexa by construction.
 >
@@ -536,7 +536,7 @@ Before any client conversation:
 
 **The price anchors**: $150-250K CFMP Lite · $250-400K CHC Lite · $750K-1.5M Standard · $25-110K/mo Operate.
 
-**The two language rules**: "Deloitte's Microsoft practice" not "Microsoft partner." "Microsoft money rides ISV Marketplace" not "Microsoft funds us."
+**The two language rules**: "The firm's Microsoft practice" not "Microsoft partner." "Microsoft money rides ISV Marketplace" not "Microsoft funds us."
 
 **The proof anchor**: the demo URL. If they can see it, they buy it.
 
@@ -665,4 +665,4 @@ The point for the seller: **this is durable hardware** (no battery replacement, 
 
 ---
 
-*Internal · Deloitte Microsoft Technology & Services Practice · Prepared by Keven Markham, VP · 2026-05-23*
+*Internal · Microsoft Technology & Services Practice · Prepared by Keven Markham, VP · 2026-05-23*

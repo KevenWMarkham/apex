@@ -1,5 +1,5 @@
 {
-  "$schema": "https://apex.deloitte.com/schemas/smoke-test-fixture-v1.json",
+  "$schema": "https://apex.example.com/schemas/smoke-test-fixture-v1.json",
   "fixture_id": "rc-returns-fraud-detection--canonical-1",
   "description": "Canonical synthetic returns-fraud event per Services Guide §18.5 envelope. Three returns drive the three adaptive-HITL bands: low-score auto-clear, medium-score HITL review, high-score with ring_indicator triggering Tier-3 PII unlock + hold. Tests Concurrent canonical pattern (Analyst + Fraud Specialist run in parallel).",
 

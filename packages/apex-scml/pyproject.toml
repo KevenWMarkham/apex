@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "APEX SCML — Supply Chain Markup Language canonical entities (RC Practice)."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "Proprietary — Deloitte Internal" }
+license = { text = "Proprietary — Internal" }
 dependencies = [
     "apex-core",
     "apex-schemas-common",

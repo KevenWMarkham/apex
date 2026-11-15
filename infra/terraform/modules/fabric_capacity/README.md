@@ -18,7 +18,7 @@ with APEX-canonical naming, tagging, and cost guardrails.
 | `monthly_budget_usd` | no | `999999` | Cost guardrail. Fails plan if exceeded. |
 | `allow_budget_breach` | no | `false` | Override the budget guardrail (PR review required). |
 | `cost_center` | no | `TBD` | Stamped to tag. |
-| `owner` | no | `deloitte-apex-team` | Stamped to tag. |
+| `owner` | no | `firm-apex-team` | Stamped to tag. |
 | `tags` | no | `{}` | Merged with canonical APEX tag set. |
 
 ## Cost guardrail

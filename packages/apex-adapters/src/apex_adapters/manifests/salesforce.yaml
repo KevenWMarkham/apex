@@ -31,7 +31,7 @@ schema_mappings:
       - { source_field: StageName, bronze_column: stage,        bronze_type: string }
       - { source_field: CloseDate, bronze_column: close_date,   bronze_type: date }
 runbook:
-  primary_contact: rc-data-platform@deloitte.com
+  primary_contact: rc-data-platform@example.com
   sla_recovery_minutes: 30
   failure_modes:
     - code: API_RATE_LIMIT

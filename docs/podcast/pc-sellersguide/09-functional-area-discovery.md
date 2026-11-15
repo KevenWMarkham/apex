@@ -266,7 +266,7 @@ Two — *the five functional areas each have their characteristic priorities and
 
 - **"Functional-area selling in enterprise services"** · Harvard Business Review
 - **"What CFOs measure"** · CFO Magazine annual reports
-- **"The COO agenda 2025"** · Deloitte Consulting Insights
+- **"The COO agenda 2025"** · the firm's Insights
 - **"The CMO survey"** · Duke Fuqua School of Business — long-running CMO benchmark
 - **"State of the CIO"** · IDG annual survey
 - **The "Five Why" technique** · Taiichi Ohno, Toyota Production System

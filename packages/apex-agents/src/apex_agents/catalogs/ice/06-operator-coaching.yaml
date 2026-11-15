@@ -10,7 +10,7 @@ prompt_sha: ""
 description: >
   Operator-coaching agent. Detects sub-optimal operating patterns (over-revving, sharp turning) and surfaces coaching prompts.
 archetype_id: F2-event-cluster-pattern-match
-primary_contact: ice-practice-lead@deloitte.com
+primary_contact: ice-practice-lead@example.com
 
 tools:
   - tool_id: apex.ice.mcp.connectedml.get_operator_signals

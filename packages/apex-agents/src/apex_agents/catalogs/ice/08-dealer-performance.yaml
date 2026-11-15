@@ -10,7 +10,7 @@ prompt_sha: ""
 description: >
   Dealer-performance scorecard agent. Aggregates parts attach, service revenue, customer satisfaction, and inventory health into scorecards.
 archetype_id: F1-continuous-monitor-hitl-alert
-primary_contact: ice-practice-lead@deloitte.com
+primary_contact: ice-practice-lead@example.com
 
 tools:
   - tool_id: apex.ice.mcp.amml.get_dealer_metrics

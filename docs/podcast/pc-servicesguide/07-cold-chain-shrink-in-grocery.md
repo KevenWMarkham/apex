@@ -187,7 +187,7 @@ Two — *the value of an agentic Service is concentrated in a minority of high-v
 - **Food Marketing Institute — Shrink Reports** · [fmi.org](https://www.fmi.org/) — industry shrink benchmarks
 - **National Sustainable Agriculture Coalition — Cold Chain Resources** · cold-chain best practices
 - **U.S. FDA — Food Safety Modernization Act** · [fda.gov](https://www.fda.gov/) — regulatory thresholds
-- *"The retail cold chain in 2024"* · Deloitte Center for the Edge
+- *"The retail cold chain in 2024"* · the firm's Center for the Edge
 - *"Shrink and the agentic opportunity"* · Boston Consulting Group, 2024
 
 ### From the APEX Trilogy

@@ -1,11 +1,11 @@
 [project]
 name = "apex"
 version = "0.1.0"
-description = "APEX — Agent-based Platform for EXecution. Deloitte's delivery accelerator for agentic AI on Microsoft."
+description = "APEX — Agent-based Platform for EXecution. The firm's delivery accelerator for agentic AI on Microsoft."
 readme = "README.md"
 requires-python = ">=3.11"
-authors = [{ name = "Deloitte APEX Team" }]
-license = { text = "Proprietary — Deloitte Internal" }
+authors = [{ name = "the firm's APEX Team" }]
+license = { text = "Proprietary — Internal" }
 
 [tool.uv.workspace]
 members = ["packages/*"]
@@ -21,12 +21,12 @@ dev-dependencies = [
 ]
 
 # --- Internal package index ---
-# When the Deloitte-internal Artifactory / proxy URL is known, uncomment and
+# When the internal Artifactory / proxy URL is known, uncomment and
 # set the URL below. uv will resolve from the internal index first, falling
 # back to PyPI for any dependency not mirrored internally.
 #
 # [[tool.uv.index]]
-# name = "deloitte-internal"
+# name = "internal"
 # url = "https://<internal-artifactory-host>/api/pypi/pypi-virtual/simple/"
 # default = true
 # explicit = false

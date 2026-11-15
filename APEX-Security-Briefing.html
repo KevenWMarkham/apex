@@ -847,7 +847,7 @@ body.light .tag.na { background: rgba(20,14,4,0.05); }
       </div>
       <h2>Deployment topology</h2>
       <p class="lede">
-        APEX has two clearly separated trust zones — a Deloitte-owned <strong>authoring zone</strong> that produces
+        APEX has two clearly separated trust zones — a firm-owned <strong>authoring zone</strong> that produces
         signed framework artifacts and never holds client data, and the <strong>client Azure tenant</strong> where every
         runtime component, every byte of client data, every audit row, and every encryption key lives.
       </p>
@@ -855,7 +855,7 @@ body.light .tag.na { background: rgba(20,14,4,0.05); }
       <div class="arch-wrap" role="figure" aria-label="APEX deployment architecture diagram">
         <svg viewBox="0 0 1000 580" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="archtitle archdesc">
           <title id="archtitle">APEX deployment architecture</title>
-          <desc id="archdesc">Two trust zones — Deloitte authoring at top, client Azure tenant below — connected by a signed GitOps pull. The client tenant contains sources, Microsoft Fabric (Bronze/Silver/Gold + audit), Azure AI Agent Service, MCP servers, Logic Apps orchestrations, Microsoft Teams for HITL, and a band of cross-cutting controls (Entra ID, Purview, App Insights, Key Vault, Defender for Cloud).</desc>
+          <desc id="archdesc">Two trust zones — the firm authoring at top, client Azure tenant below — connected by a signed GitOps pull. The client tenant contains sources, Microsoft Fabric (Bronze/Silver/Gold + audit), Azure AI Agent Service, MCP servers, Logic Apps orchestrations, Microsoft Teams for HITL, and a band of cross-cutting controls (Entra ID, Purview, App Insights, Key Vault, Defender for Cloud).</desc>
 
           <defs>
             <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
@@ -869,8 +869,8 @@ body.light .tag.na { background: rgba(20,14,4,0.05); }
             </marker>
           </defs>
 
-          <!-- ─── DELOITTE AUTHORING ZONE ─── -->
-          <text x="40" y="18" class="arch-zone-label" fill="#E87B3C">DELOITTE AUTHORING ZONE — IP ONLY · NO CLIENT DATA</text>
+          <!-- ─── THE FIRM AUTHORING ZONE ─── -->
+          <text x="40" y="18" class="arch-zone-label" fill="#E87B3C">THE FIRM AUTHORING ZONE — IP ONLY · NO CLIENT DATA</text>
           <rect x="20" y="24" width="960" height="58" rx="10" class="arch-zone-ember" stroke-dasharray="6 4"/>
 
           <rect x="60"  y="38" width="200" height="32" rx="6" class="arch-box-ember"/>
@@ -929,7 +929,7 @@ body.light .tag.na { background: rgba(20,14,4,0.05); }
           <!-- Audit row -->
           <rect x="290" y="218" width="650" height="34" rx="6" class="arch-box-violet"/>
           <text x="615" y="232" text-anchor="middle" class="arch-text">silver_decision_audit</text>
-          <text x="615" y="246" text-anchor="middle" class="arch-text-muted">append-only · CMK · 5–7y retention · Deloitte cannot read without client role</text>
+          <text x="615" y="246" text-anchor="middle" class="arch-text-muted">append-only · CMK · 5–7y retention · the firm cannot read without client role</text>
 
           <!-- Runtime row -->
           <rect x="40"  y="290" width="220" height="78" rx="8" class="arch-box-teal"/>
@@ -1016,7 +1016,7 @@ body.light .tag.na { background: rgba(20,14,4,0.05); }
         </svg>
 
         <div class="arch-legend">
-          <span><i class="lg-ember"></i>Deloitte authoring zone (no client data)</span>
+          <span><i class="lg-ember"></i>The firm authoring zone (no client data)</span>
           <span><i class="lg-sky"></i>Client Azure tenant boundary</span>
           <span><i class="lg-teal"></i>Agent runtime (managed identity)</span>
           <span><i class="lg-amber"></i>Decision gate · HITL surface</span>
@@ -1026,7 +1026,7 @@ body.light .tag.na { background: rgba(20,14,4,0.05); }
 
       <h3>Reading the diagram</h3>
       <ul>
-        <li><strong>Two trust zones, one signed boundary.</strong> Deloitte authors APEX (top); client deploys it (bottom). The only thing that crosses is a signed manifest bundle pulled GitOps-style — never client data going up, never Deloitte secrets coming down.</li>
+        <li><strong>Two trust zones, one signed boundary.</strong> The firm authors APEX (top); client deploys it (bottom). The only thing that crosses is a signed manifest bundle pulled GitOps-style — never client data going up, never the firm secrets coming down.</li>
         <li><strong>Data flow is left-to-right inside the tenant.</strong> Sources → Bronze → Silver → Gold. Tokenisation happens at the Bronze→Silver boundary — cleartext PII never reaches Silver, Gold, or any agent.</li>
         <li><strong>Decision flow is bottom-to-top.</strong> Agent reasons → MCP tool calls Fabric (tokens only) → Logic Apps orchestrates → Teams prompts a human → audit row written.</li>
         <li><strong>Cross-cutting controls run alongside everything.</strong> Entra authenticates every actor, Purview labels and DLP-blocks every data egress, App Insights traces every span, Key Vault holds the CMK, Defender watches the posture.</li>
@@ -1034,7 +1034,7 @@ body.light .tag.na { background: rgba(20,14,4,0.05); }
 
       <div class="callout" style="border-left-color: var(--sky);">
         <strong>The bottom line.</strong> Every component above is a Microsoft-managed service or a workload running on
-        one — no Deloitte-hosted middleware, no parallel security plane. If the client's Azure tenant is governed to
+        one — no firm-hosted middleware, no parallel security plane. If the client's Azure tenant is governed to
         Microsoft's Well-Architected baseline, APEX inherits that posture for free.
       </div>
     </section>
@@ -1047,7 +1047,7 @@ body.light .tag.na { background: rgba(20,14,4,0.05); }
       <h2>Where does our data live?</h2>
       <p class="lede">
         APEX is a framework, not a product. Clients deploy APEX-shaped solutions on their own Microsoft infrastructure.
-        There is no Deloitte-side runtime, no Deloitte-side retention, and no shared multi-tenant control plane.
+        There is no firm-side runtime, no firm-side retention, and no shared multi-tenant control plane.
       </p>
 
       <h3>The Independence posture, in three rules</h3>
@@ -1055,17 +1055,17 @@ body.light .tag.na { background: rgba(20,14,4,0.05); }
         <div class="card ember">
           <span class="kbd">RULE 1</span>
           <h4>Client-tenant data planes</h4>
-          <p>Every byte of client data lives inside the client's Azure tenant — Bronze/Silver/Gold lakehouses, the audit log, PII tokens, decision records. Deloitte does not host an APEX runtime.</p>
+          <p>Every byte of client data lives inside the client's Azure tenant — Bronze/Silver/Gold lakehouses, the audit log, PII tokens, decision records. The firm does not host an APEX runtime.</p>
         </div>
         <div class="card ember">
           <span class="kbd">RULE 2</span>
           <h4>Client-issued identities</h4>
-          <p>Deloitte personnel deploying or operating APEX use client-issued Entra identities, not Deloitte service principals. The client's IAM is the audit boundary.</p>
+          <p>firm personnel deploying or operating APEX use client-issued Entra identities, not the firm service principals. The client's IAM is the audit boundary.</p>
         </div>
         <div class="card ember">
           <span class="kbd">RULE 3</span>
           <h4>No client identity in code</h4>
-          <p>The <code>PRACTICE-ACCOUNT-ID</code> validation rule enforces opaque account IDs in shipped artifacts — client identity stays out of Deloitte-owned source and logs.</p>
+          <p>The <code>PRACTICE-ACCOUNT-ID</code> validation rule enforces opaque account IDs in shipped artifacts — client identity stays out of firm-owned source and logs.</p>
         </div>
       </div>
 
@@ -1260,7 +1260,7 @@ body.light .tag.na { background: rgba(20,14,4,0.05); }
         </div>
         <div class="card violet">
           <h4>Customer-managed keys</h4>
-          <p>Encrypted with Fabric CMK, key in the client's Azure Key Vault. Even Deloitte personnel operating the engagement cannot read the audit log without client-issued role assignment.</p>
+          <p>Encrypted with Fabric CMK, key in the client's Azure Key Vault. Even firm personnel operating the engagement cannot read the audit log without client-issued role assignment.</p>
         </div>
         <div class="card violet">
           <h4>Retention by practice</h4>
@@ -1516,11 +1516,11 @@ body.light .tag.na { background: rgba(20,14,4,0.05); }
         </div>
 
         <div class="qa-item">
-          <div class="qa-q"><span class="q-mark">Q2</span><span class="q-text">"Who can read the audit log? Can Deloitte personnel read it?"</span></div>
+          <div class="qa-q"><span class="q-mark">Q2</span><span class="q-text">"Who can read the audit log? Can firm personnel read it?"</span></div>
           <div class="qa-a">
-            Only identities the client grants <code>mi-apex-*-observability</code> read role to. Deloitte personnel
+            Only identities the client grants <code>mi-apex-*-observability</code> read role to. firm personnel
             operating an engagement use client-issued identities; the role assignment is controlled by client IAM. The
-            audit table is encrypted with a CMK in the client's Key Vault — even if Deloitte's storage subscription were
+            audit table is encrypted with a CMK in the client's Key Vault — even if the firm's storage subscription were
             compromised, the audit ciphertext is unreadable without the client's key.
           </div>
         </div>

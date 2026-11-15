@@ -10,7 +10,7 @@ prompt_sha: ""
 description: >
   User-generated-content moderation across text + image + video. Routes flagged content to T&S reviewers with policy-citation chain.
 archetype_id: F4-regulatory-trigger-audit-preserve
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.contentsafetyml.get_ugc_record

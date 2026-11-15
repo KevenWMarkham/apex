@@ -73,8 +73,8 @@ version = "0.1.0"
 description = "APEX Agentic Merch Q1 — Wave-1 reference implementation (Apparel Retailer scenario; laptop prototype)."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "Proprietary — Deloitte Internal" }
-authors = [{ name = "Deloitte DMTSP — Consumer Industry" }]
+license = { text = "Proprietary — Internal" }
+authors = [{ name = "DMTSP — Consumer Industry" }]
 dependencies = [
     "apex-core>=0.1.0",
     "apex-orchestrator>=0.2.0",
@@ -326,7 +326,7 @@ wave1_scope:
 
 sellers_guide_section: "§16.13 (shared anchor with big-box-store)"
 demo_script_path: "agentic-merch.md"
-primary_contact: rc-practice-lead@deloitte.com
+primary_contact: rc-practice-lead@example.com
 ```
 
 **Step 2: Author the demo script**
@@ -338,7 +338,7 @@ Create `packages/apex-references/src/apex_references/demo_scripts/agentic-merch.
 
 **Reference deployment:** `agentic-merch` (RC)
 **Walkthrough source:** `06-artifacts/MVP-Sprint Plan with Backlog/APEX-Agentic-Merch-Q1-Walkthrough.docx`
-**Audience:** Internal Deloitte readout (Chief Merchant + Apparel-Retailer SteerCo simulation)
+**Audience:** Internal the firm readout (Chief Merchant + Apparel-Retailer SteerCo simulation)
 **Duration:** 45 minutes total — 25 min cinematic + 20 min engineering deep-dive
 
 ---
@@ -3064,7 +3064,7 @@ Cinematic styling:
 - Persona card transitions
 - DMM-bypass strikethrough effect
 
-Internal Deloitte review at end of week.
+Internal the firm review at end of week.
 
 Commit: `feat(agentic-merch): Path A cinematic polish (Sprint 27 design tokens)`
 
@@ -3227,7 +3227,7 @@ git tag -a agentic-merch-q1-w1.0 -m "Agentic Merch Q1 W1 prototype — 6-of-6 de
 git push origin main --tags
 ```
 
-**Week 6 Milestone:** Internal Deloitte readout-ready. Release tagged `agentic-merch-q1-w1.0`. ~97 tests in package, ~24 conformance markers (12 existing + 12 new), cross-package suite at ~792.
+**Week 6 Milestone:** Internal the firm readout-ready. Release tagged `agentic-merch-q1-w1.0`. ~97 tests in package, ~24 conformance markers (12 existing + 12 new), cross-package suite at ~792.
 
 ---
 

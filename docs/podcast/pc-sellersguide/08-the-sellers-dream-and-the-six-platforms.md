@@ -13,7 +13,7 @@
 
 [Sound: quiet office. A whiteboard marker uncaps.]
 
-**KEVEN:** I want to start with a moment from a sales kickoff in February. I was in a room with about thirty Deloitte sellers. They were good. Some had been on the Microsoft account for ten-plus years. Some were newer. We were doing an internal session on agentic AI selling, and somebody — a senior partner — raised his hand and asked a question that I think every seller eventually asks but most don't articulate.
+**KEVEN:** I want to start with a moment from a sales kickoff in February. I was in a room with about thirty firm sellers. They were good. Some had been on the Microsoft account for ten-plus years. Some were newer. We were doing an internal session on agentic AI selling, and somebody — a senior partner — raised his hand and asked a question that I think every seller eventually asks but most don't articulate.
 
 [pause]
 
@@ -49,7 +49,7 @@ Today we cover the first two. The Functional-Area Discovery and the Four-Level L
 
 **JORDAN:** OK. Start with the Dream. What is it?
 
-**KEVEN:** The Sellers Dream is — *one diagram, four levels of revenue, climbed by one seller, against one Deloitte industry practice, over multiple years.* That's the whole thing.
+**KEVEN:** The Sellers Dream is — *one diagram, four levels of revenue, climbed by one seller, against one the firm industry practice, over multiple years.* That's the whole thing.
 
 Picture it as a ladder. Bottom rung — *Level One.* A Power BI Opportunity Heatmap, given to the practice leader as a free gift. Five days of effort. Twenty-five to seventy-five thousand dollars of wedge revenue. The practice leader sees, on their own .pbix, *every place in their portfolio where APEX would compress delivery.* That's the cold-open.
 
@@ -79,7 +79,7 @@ Transition four — L3 to L4 — *the consumer unlock.* *"Your B2B is humming. W
 
 **KEVEN:** And underneath all four levels — *the substrate.* Always-on. Pre-built. Live today. *The GSSC Lab.*
 
-I'll go deep on the Lab in Episode Ten. For now — know that it exists. Deloitte's Microsoft Technology and Services Practice operates a pre-built environment with Fabric F64-plus, Foundry workspace, Copilot Studio, Purview catalog, Entra tenant, Dynamics 365 sandbox — all live today. Microsoft Agent 365 framework wired and active. APEX fleets installed — thirty-four RC agents live, thirty TH agents live, the other Practices staged. The APEX Scenario Matcher running on Foundry.
+I'll go deep on the Lab in Episode Ten. For now — know that it exists. Microsoft Technology and Services Practice operates a pre-built environment with Fabric F64-plus, Foundry workspace, Copilot Studio, Purview catalog, Entra tenant, Dynamics 365 sandbox — all live today. Microsoft Agent 365 framework wired and active. APEX fleets installed — thirty-four RC agents live, thirty TH agents live, the other Practices staged. The APEX Scenario Matcher running on Foundry.
 
 *That substrate is what lets L1 ship in five days and Wave 1 ship in thirty days, not ninety.* Episode Ten goes into operating the Lab. Today it's enough to know it exists and it's the foundation everything climbs from.
 
@@ -89,7 +89,7 @@ I'll go deep on the Lab in Episode Ten. For now — know that it exists. Deloitt
 
 **KEVEN:** The implication is — *the seller's mental model of an engagement changes.* It's no longer *"win the deal, deliver the deal, finish the deal."* It's — *"climb the ladder.* Cold-open with a gift. Convert to Wave 1. Scale to B2B fleet. Open the B2C door. Each transition unlocked by a single sentence. Each rung worth more than the prior."
 
-That's a different selling motion than the one most consulting sellers have ever been taught. The closest analog is the SaaS land-and-expand motion — start small, prove value, expand. But the APEX version is *enterprise-services-flavoured* — with a Deloitte SOW at each rung, Microsoft platforms attaching from L2 upward, and Independence preserved structurally throughout.
+That's a different selling motion than the one most consulting sellers have ever been taught. The closest analog is the SaaS land-and-expand motion — start small, prove value, expand. But the APEX version is *enterprise-services-flavoured* — with an SOW at each rung, Microsoft platforms attaching from L2 upward, and Independence preserved structurally throughout.
 
 **JORDAN:** And the connection to the Sellers Guide content from Episodes One through Seven —
 
@@ -135,7 +135,7 @@ Let me explain why those two became first-class platforms in the seller's vocabu
 
 **KEVEN:** The composition — for L2 onwards, all six attach. The dollar weight shifts as the practice climbs. At L2, Fabric and Foundry dominate consumption. At L3, Logic Apps and the Azure AI Agent Service grow. At L4, Dynamics 365 and the M365 Copilot per-seat licenses become the largest line items.
 
-The single sentence the seller carries — *"From L2 onward, the client licenses six Microsoft platforms directly. Deloitte's services SOW is independent of those licenses. Two contracts. Always."*
+The single sentence the seller carries — *"From L2 onward, the client licenses six Microsoft platforms directly. The firm's services SOW is independent of those licenses. Two contracts. Always."*
 
 ### A reading I want to do
 
@@ -171,7 +171,7 @@ The single sentence the seller carries — *"From L2 onward, the client licenses
 
 **KEVEN:** Three things.
 
-One — *the Sellers Dream is one ladder, four rungs, climbed at one Deloitte practice across multiple years.* L1 Power BI wedge. L2 Wave 1 agentic services. L3 B2B practice-wide. L4 B2C transformation. Memorise the four unlock sentences.
+One — *the Sellers Dream is one ladder, four rungs, climbed at one firm practice across multiple years.* L1 Power BI wedge. L2 Wave 1 agentic services. L3 B2B practice-wide. L4 B2C transformation. Memorise the four unlock sentences.
 
 Two — *the Six Growth Platforms extend the Four Pillars to cover the full revenue arc.* Fabric. Foundry. Copilot. Purview. Entra. Dynamics 365. Lead with four; let the other two earn their introduction.
 

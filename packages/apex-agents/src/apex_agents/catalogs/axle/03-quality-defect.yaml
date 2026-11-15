@@ -11,7 +11,7 @@ description: >
   Detect quality defects via vision-system signals + CMM measurements +
   inline-test outputs. Classifies severity and routes to disposition.
 archetype_id: F2-event-cluster-pattern-match
-primary_contact: axle-practice-lead@deloitte.com
+primary_contact: axle-practice-lead@example.com
 
 tools:
   - tool_id: apex.axle.mcp.qmsml.get_inspection_results

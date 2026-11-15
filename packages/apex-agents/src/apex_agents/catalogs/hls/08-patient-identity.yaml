@@ -12,7 +12,7 @@ description: >
   affiliated-network feeds. Resolves probabilistic matches with
   data-steward HITL on lower-confidence merges.
 archetype_id: F5-identity-resolution-confidence-merge
-primary_contact: hls-practice-lead@deloitte.com
+primary_contact: hls-practice-lead@example.com
 
 tools:
   - tool_id: apex.hls.mcp.patientml.get_candidate_duplicates

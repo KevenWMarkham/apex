@@ -1,7 +1,7 @@
 """APEX-G — Google Cloud variant of APEX (stub).
 
 APEX-G is a sibling product to APEX-M (Microsoft) and APEX-A (AWS).
-Concrete implementations are stubbed today and ship when a Deloitte
+Concrete implementations are stubbed today and ship when a firm
 client commissions a Google Cloud variant deployment.
 
 Importing any concrete impl raises NotImplementedError with a pointer to

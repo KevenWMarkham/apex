@@ -30,7 +30,7 @@ schema_mappings:
       - { source_field: EventType,  bronze_column: event_type,  bronze_type: string }
       - { source_field: EventTimestamp, bronze_column: event_ts, bronze_type: timestamp }
 runbook:
-  primary_contact: rc-data-platform@deloitte.com
+  primary_contact: rc-data-platform@example.com
   sla_recovery_minutes: 30
   failure_modes:
     - code: PIPELINE_TIMEOUT

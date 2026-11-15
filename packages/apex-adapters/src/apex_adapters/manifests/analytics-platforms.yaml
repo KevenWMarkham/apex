@@ -29,5 +29,5 @@ schema_mappings:
       - { source_field: event_timestamp, bronze_column: event_ts,      bronze_type: timestamp, nullable: false }
       - { source_field: event_name,     bronze_column: event_name,     bronze_type: string }
 runbook:
-  primary_contact: rc-data-platform@deloitte.com
+  primary_contact: rc-data-platform@example.com
   sla_recovery_minutes: 240

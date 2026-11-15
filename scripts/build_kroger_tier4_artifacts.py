@@ -156,9 +156,9 @@ def build_grocer_comparison():
       ("Lot-trace platform","Trace One + FoodLogiQ","In-house","FoodLogiQ","In-house + supplier","Mixed","Trace One","Mixed"),
       ("84.51°-equivalent data analytics","84.51° (in-house subsidiary)","Walmart Connect (separate)","No equivalent","No equivalent","Roundel","No equivalent","No equivalent"),
       ("Microsoft footprint","Substantial · Azure + Fabric strategic","Limited · multi-cloud","Mixed","Limited · multi-cloud","Substantial","Mixed","Limited"),
-      ("Audit firm (verify currency)","PwC","Ernst & Young","Deloitte","KPMG","Ernst & Young","KPMG","Ernst & Young"),
-      ("Independence-office routing","Required","Required if audit overlap","CRITICAL · Deloitte audit client","Required","Required","Required","Required"),
-      ("Deloitte engagement history","Strong DMTSP relationship","Limited","CRITICAL audit relationship","Mixed","Strong","Mixed","Limited"),
+      ("Audit firm (verify currency)","PwC","Ernst & Young","the firm","KPMG","Ernst & Young","KPMG","Ernst & Young"),
+      ("Independence-office routing","Required","Required if audit overlap","CRITICAL · audit client","Required","Required","Required","Required"),
+      ("firm engagement history","Strong DMTSP relationship","Limited","CRITICAL audit relationship","Mixed","Strong","Mixed","Limited"),
       ("Pursuit priority ranking","#1 (anchor)","#3","#7 (audit constraint)","#4","#2","#5","#6"),
     ]
     for i, d in enumerate(DIMS, start=2):
@@ -202,7 +202,7 @@ def build_grocer_comparison():
        "RC-E2E-09 (FSMA 204) as wedge",
        "FSMA 204 manifests + evidence packet · partial reuse",
        "FY28 H2 — needs MSFT-platform investment"),
-      (7,"Albertsons-Safeway","CRITICAL: Deloitte external audit relationship · MUST route through Independence office FIRST",
+      (7,"Albertsons-Safeway","CRITICAL: The firm external audit relationship · MUST route through Independence office FIRST",
        "Independence-office determination required before any pursuit conversation",
        "Pattern reuse possible IF independence cleared",
        "On hold pending independence-office determination"),
@@ -284,8 +284,8 @@ def build_grocer_comparison():
     ws.row_dimensions[1].height = 30
     NOTES = [
       ("Kroger","Reference engagement in flight. Cincinnati banner cluster. 84.51° relationship is unique advantage. Independence routing proceeded; PwC audit relationship documented. Multi-banner pattern is the key reusable IP."),
-      ("Walmart (Grocery)","Largest US grocery scale with $280B+ exposure. Multi-cloud preference (AWS-leaning) means MSFT-native pitch needs platform-justification angle. Scale + EY audit creates sizing-vs-independence tradeoff. Lead with FSMA 204 angle (RC-E2E-09); E&Y not Deloitte audit so engagement structure is straightforward."),
-      ("Albertsons-Safeway","CRITICAL: Deloitte external audit relationship. Independence-office determination required BEFORE any pursuit conversation. Engagement structure must preserve audit independence. Hold pursuit until independence office signs off."),
+      ("Walmart (Grocery)","Largest US grocery scale with $280B+ exposure. Multi-cloud preference (AWS-leaning) means MSFT-native pitch needs platform-justification angle. Scale + EY audit creates sizing-vs-independence tradeoff. Lead with FSMA 204 angle (RC-E2E-09); E&Y not the firm audit so engagement structure is straightforward."),
+      ("Albertsons-Safeway","CRITICAL: The firm external audit relationship. Independence-office determination required BEFORE any pursuit conversation. Engagement structure must preserve audit independence. Hold pursuit until independence office signs off."),
       ("Costco","Membership model changes elasticity calibration. Single-brand simplifies banner-mix vs Kroger. KPMG audit relationship straightforward. Supplier-driven SKU model is unique constraint. Wave-1 anchor: tier-1 warehouses with high fresh mix."),
       ("Target","Strong Microsoft footprint = lower platform-investment friction. Grocery is growth segment. Roundel ad-platform provides 84.51°-equivalent data backbone. NA-anchor cluster Wave-1. Likely the most-clean execution after Kroger."),
       ("Ahold Delhaize US","Multi-banner footprint similar to Kroger pattern; reuses Cincinnati methodology. European parent's data-residency requirements may add complexity. Stop & Shop is best candidate banner. KPMG audit straightforward."),
@@ -538,7 +538,7 @@ def build_ml_model_spec():
     addh(doc, "5.3 · Independence &amp; auditability", level=2)
     addcallout(doc, "Model artifacts are Kroger artifacts",
                "Trained model weights, training data lineage, and policy-corpus embeddings are Kroger artifacts. "
-               "Deloitte's role is advisory and implementation enablement. Model governance (training cadence, "
+               "The firm's role is advisory and implementation enablement. Model governance (training cadence, "
                "deployment approval, drift triage) flows through Kroger ML Engineering with Audience Lead and "
                "Food Safety Lead as approval persona. This preserves audit independence and aligns with the "
                "Independence-office routing of the engagement.")
@@ -562,7 +562,7 @@ def build_ml_model_spec():
               ["APEX-RC-E2E-03-Kroger-Risk-Register.xlsx","Risks R-06, R-07 — model drift + bias"]],
              col_widths=[3.4,3.0])
 
-    addbody(doc, "Independence posture preserved: 'Deloitte's Microsoft practice,' 'DMTSP,' "
+    addbody(doc, "Independence posture preserved: 'The firm's Microsoft practice,' 'DMTSP,' "
                  "'Microsoft platform capabilities,' 'Microsoft-native deployment.' The terms 'partner,' "
                  "'alliance,' and 'strategic alliance' do not appear.",
             italic=True, color=MUTE, size=9)
@@ -783,7 +783,7 @@ def build_privacy_spec():
               ["APEX-RC-E2E-03-09-Fabric-Runbook.docx","Implementation runbook §6.3"]],
              col_widths=[3.4,3.0])
 
-    addbody(doc, "Independence posture preserved across this document: 'Deloitte's Microsoft practice,' "
+    addbody(doc, "Independence posture preserved across this document: 'The firm's Microsoft practice,' "
                  "'DMTSP,' 'Microsoft platform capabilities,' 'Microsoft-native deployment.' The terms "
                  "'partner,' 'alliance,' and 'strategic alliance' do not appear.",
             italic=True, color=MUTE, size=9)
