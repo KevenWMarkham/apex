@@ -28,6 +28,7 @@ The backbone stays fixed at 24 steps with one HITL gate at step 16. The edition 
 | 4 | Tokenizer / PII | Applicant names, contacts, DOB and credential numbers tokenized before any agent reads a packet |
 | 5 | Silver canonical | `TALML` + `EVDML` |
 | 7 | MCP | Posting library, district rubric, state credential lookup |
+| 10 | HITL surface | AI-Services Cairn as the front door: voice, Teams and the office console over one tool layer, with a confirm gate and server re-check on every governed tool |
 | 13–15 | Agents | Assess (gate, evidence, conflicts) → Score (weighted rubric) → Compose (interview and reference plan) |
 | 16 | HITL gate | Screening committee decision. Advance stays locked while required qualifications are unverified or material findings are open |
 | 17 | Act + evidence-write | Draft invitation, clarification request or regret notice; people send it |
