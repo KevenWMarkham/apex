@@ -3,10 +3,8 @@
 from __future__ import annotations
 
 import pytest
-
 from apex_core.types import BumpClass, GateKind, GateVariant
 from apex_orchestrator import (
-    GateOutcome,
     InMemoryApprovalsClient,
     resolve_gate_kind,
     resolve_gate_runner,

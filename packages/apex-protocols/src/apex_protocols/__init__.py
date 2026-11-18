@@ -22,16 +22,18 @@ from apex_protocols.base import (
     AddressSpaceMapping,
     AuthMode,
     ConfigError,
-    ConnectionError as ProtocolConnectionError,
     ProtocolClient,
     ProtocolEndpoint,
     ProtocolError,
     Sample,
 )
+from apex_protocols.base import (
+    ConnectionError as ProtocolConnectionError,
+)
 from apex_protocols.iec61850 import (
+    IED,
     GOOSEControlBlock,
     IEC61850StubClient,
-    IED,
     LogicalDevice,
     LogicalNode,
     SCDDocument,
@@ -55,6 +57,8 @@ from apex_protocols.opcua import (
 )
 
 __all__ = [
+    "IED",
+    "SUPPORTED_PROTOCOLS",
     "AddressNode",
     "AddressSpaceError",
     "AddressSpaceMapping",
@@ -64,7 +68,6 @@ __all__ = [
     "DecodedSignal",
     "GOOSEControlBlock",
     "IEC61850StubClient",
-    "IED",
     "J1939Normalizer",
     "LogicalDevice",
     "LogicalNode",
@@ -77,7 +80,6 @@ __all__ = [
     "ProtocolEndpoint",
     "ProtocolError",
     "SCDDocument",
-    "SUPPORTED_PROTOCOLS",
     "SVControlBlock",
     "Sample",
     "SignalThrottle",

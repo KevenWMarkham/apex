@@ -5,7 +5,6 @@ from __future__ import annotations
 from datetime import UTC, datetime
 
 import pytest
-
 from apex_rc.ledger_feedback import (
     ALL_SERVICES,
     FusionBucket,
@@ -22,7 +21,6 @@ from apex_rc.ledger_feedback import (
     retrieve_similar,
     service_local_redis_keys,
 )
-
 
 # ---------------------------------------------------------------------------
 # Risk-class canonicalisation

@@ -5,13 +5,12 @@ from __future__ import annotations
 from datetime import UTC, datetime
 
 import pytest
-from pydantic import ValidationError
-
 from apex_core.types import Classification, Practice
 from apex_medallion import (
     RetentionPolicy,
     build_purview_retention_payload,
 )
+from pydantic import ValidationError
 
 
 class TestRetentionPolicy:

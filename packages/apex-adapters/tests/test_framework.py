@@ -5,7 +5,6 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-
 from apex_adapters.framework import (
     Adapter,
     AdapterSpec,
@@ -20,7 +19,6 @@ from apex_adapters.framework import (
     load_adapter_spec,
     register_adapter,
 )
-
 
 # ---------------------------------------------------------------------------
 # FieldMapping + SchemaMapping

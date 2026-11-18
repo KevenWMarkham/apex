@@ -2,10 +2,9 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 import pytest
-
 from apex_protocols import (
     SUPPORTED_PROTOCOLS,
     AddressNode,
@@ -20,7 +19,6 @@ from apex_protocols import (
     OPCUAConfig,
     OPCUAStubClient,
     ProtocolEndpoint,
-    ProtocolError,
     Sample,
     SignalThrottle,
     build_endpoint,
@@ -38,7 +36,6 @@ from apex_protocols.datasets import (
 )
 from apex_protocols.datasets.j1939_dataset import frames_with_timestamps
 from apex_protocols.j1939_transport.normalizer import SPN_LAYOUTS
-
 
 # ---------------------------------------------------------------------------
 # Common base
@@ -406,7 +403,7 @@ def test_j1939_known_pgns_covers_aemp_set() -> None:
 def test_signal_throttle_drops_in_window_samples() -> None:
     """Burst within the throttle window: only first emission survives."""
     throttle = SignalThrottle(default_min_interval_ms=1000)
-    base = datetime(2025, 6, 30, tzinfo=timezone.utc)
+    base = datetime(2025, 6, 30, tzinfo=UTC)
     signals = [
         DecodedSignal(
             pgn=61444,
@@ -432,7 +429,7 @@ def test_signal_throttle_per_pgn_override() -> None:
         default_min_interval_ms=1000,
         per_pgn_min_interval_ms={61444: 200},
     )
-    base = datetime(2025, 6, 30, tzinfo=timezone.utc)
+    base = datetime(2025, 6, 30, tzinfo=UTC)
     signals = [
         DecodedSignal(
             pgn=61444,
@@ -451,7 +448,7 @@ def test_signal_throttle_per_pgn_override() -> None:
 def test_signal_throttle_separate_keys_per_source_address() -> None:
     """Two ECUs emitting same PGN throttle independently."""
     throttle = SignalThrottle(default_min_interval_ms=1000)
-    base = datetime(2025, 6, 30, tzinfo=timezone.utc)
+    base = datetime(2025, 6, 30, tzinfo=UTC)
     signals = [
         DecodedSignal(pgn=61444, spn=190, source_address=0x00, value=1800, timestamp=base),
         DecodedSignal(pgn=61444, spn=190, source_address=0x01, value=2200, timestamp=base),
@@ -463,7 +460,7 @@ def test_signal_throttle_separate_keys_per_source_address() -> None:
 
 def test_signal_throttle_reset_clears_state() -> None:
     throttle = SignalThrottle(default_min_interval_ms=1000)
-    base = datetime(2025, 6, 30, tzinfo=timezone.utc)
+    base = datetime(2025, 6, 30, tzinfo=UTC)
     sig = DecodedSignal(pgn=61444, spn=190, source_address=0, value=1800, timestamp=base)
     assert throttle.should_emit(sig)
     assert not throttle.should_emit(sig)  # second call within window

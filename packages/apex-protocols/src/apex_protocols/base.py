@@ -21,10 +21,9 @@ implement the :class:`ProtocolClient` protocol.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from enum import StrEnum
 from typing import Any, Protocol
-
 
 # ---------------------------------------------------------------------------
 # Authentication modes
@@ -68,7 +67,7 @@ class Sample:
 
     value: float | int | str | bool | None
     units: str = ""
-    timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    timestamp: datetime = field(default_factory=lambda: datetime.now(UTC))
 
     quality: str = "good"
     """Wire-protocol quality flag: ``good`` / ``uncertain`` / ``bad`` /
@@ -204,7 +203,7 @@ class ProtocolClient(Protocol):
 
     def read_one(self, node_id: str) -> Sample: ...
 
-    def subscribe(self, node_ids: list[str]) -> "list[Sample]": ...
+    def subscribe(self, node_ids: list[str]) -> list[Sample]: ...
 
 
 # ---------------------------------------------------------------------------
@@ -226,7 +225,8 @@ class ConnectionError(ProtocolError):
 
 class AddressSpaceError(ProtocolError):
     """Raised when an address-space lookup fails or the parsed source file
-    is structurally invalid."""
+    is structurally invalid.
+    """
 
 
 SUPPORTED_PROTOCOLS: tuple[str, ...] = ("opcua", "iec61850", "j1939")

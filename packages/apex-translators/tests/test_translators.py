@@ -15,11 +15,10 @@ from __future__ import annotations
 import json
 
 import pytest
-
 from apex_translators import (
     EmitError,
-    ParseError,
     ParsedMessage,
+    ParseError,
     emit_epcis_json,
     emit_hl7v2,
     emit_oagis,
@@ -33,6 +32,7 @@ from apex_translators import (
     strip_mllp,
     wrap_mllp,
 )
+from apex_translators.edi_x12.parser import iter_transaction_sets
 from apex_translators.fixtures import (
     CDA_FIXTURES,
     EDI_X12_FIXTURES,
@@ -41,8 +41,6 @@ from apex_translators.fixtures import (
     OAGIS_FIXTURES,
     PADIS_FIXTURES,
 )
-from apex_translators.edi_x12.parser import iter_transaction_sets
-
 
 # ---------------------------------------------------------------------------
 # EDI X12 — Task 23.1

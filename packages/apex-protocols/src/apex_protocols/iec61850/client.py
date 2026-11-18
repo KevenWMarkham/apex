@@ -12,11 +12,13 @@ surfaces in APEX via the SCD parser.
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from apex_protocols.base import (
     ConnectionError as ProtocolConnectionError,
+)
+from apex_protocols.base import (
     ProtocolEndpoint,
     Sample,
 )
@@ -54,7 +56,7 @@ class IEC61850StubClient:
         return Sample(
             node_id=node_id,
             value=self._snapshot[node_id],
-            timestamp=datetime.now(timezone.utc),
+            timestamp=datetime.now(UTC),
             quality="good",
         )
 

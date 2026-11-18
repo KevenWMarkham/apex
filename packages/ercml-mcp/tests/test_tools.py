@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from ercml_mcp import (
     CONTRACTS,
     get_meter_by_key,

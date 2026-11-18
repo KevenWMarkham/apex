@@ -4,11 +4,10 @@ from __future__ import annotations
 
 from typing import Annotated
 
-from pydantic import BaseModel
-
 from apex_core.types import Classification, Practice
 from apex_identity import evaluate_visibility
 from mcp_common import ScopeContext
+from pydantic import BaseModel
 
 
 class _Widget(BaseModel):

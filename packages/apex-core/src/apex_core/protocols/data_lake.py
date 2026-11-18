@@ -15,14 +15,16 @@ Adapters that bring data from a client's existing data plane:
 
 from __future__ import annotations
 
+from collections.abc import Iterator
 from dataclasses import dataclass, field
-from typing import Any, Iterator, Protocol, runtime_checkable
+from typing import Any, Protocol, runtime_checkable
 
 
 @dataclass(frozen=True)
 class DataLakeQuery:
     """Read intent against a tier. Engine-neutral; concrete impl picks
-    SQL / KQL / Spark / Bedrock SQL based on tier and provider."""
+    SQL / KQL / Spark / Bedrock SQL based on tier and provider.
+    """
 
     tier: str  # "bronze" | "silver" | "gold"
     schema: str  # APEX-Core canonical schema family (SCML, MERML, etc.)
@@ -54,17 +56,20 @@ class DataLake(Protocol):
 
     def query(self, q: DataLakeQuery, *, operator_scope: str) -> Iterator[dict[str, Any]]:
         """Read with operator scope enforced via the variant's identity model
-        (OneLake user identity mode for APEX-M, etc.)."""
+        (OneLake user identity mode for APEX-M, etc.).
+        """
         ...
 
     def write(self, w: DataLakeWrite) -> int:
         """Append rows. Returns count written. Bronze accepts append-only
-        with ingest metadata; Silver writes are CDC-driven."""
+        with ingest metadata; Silver writes are CDC-driven.
+        """
         ...
 
     def get_security_policy(self, *, schema: str, entity: str) -> dict[str, Any]:
         """Returns the OneLake/equivalent policy enforced on this entity:
-        RLS predicates, column masks, classification."""
+        RLS predicates, column masks, classification.
+        """
         ...
 
     def list_entities(self, *, schema: str | None = None) -> list[str]:

@@ -10,12 +10,12 @@ the configured delimiters. Round-trip conformance: ``emit(parse(x)) == x``
 for all golden fixtures (Sprint 23 exit criterion).
 """
 
+from apex_translators.edi_x12.emitter import EDIX12Emitter, emit_x12
 from apex_translators.edi_x12.parser import (
     EDIX12Delimiters,
     EDIX12Parser,
     parse_x12,
 )
-from apex_translators.edi_x12.emitter import EDIX12Emitter, emit_x12
 
 __all__ = [
     "EDIX12Delimiters",

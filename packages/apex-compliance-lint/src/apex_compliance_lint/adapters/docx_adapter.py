@@ -13,7 +13,6 @@ from pathlib import Path
 
 from apex_compliance_lint.types import FileAdapter
 
-
 W_NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
 
 
@@ -53,9 +52,8 @@ class DOCXAdapter(FileAdapter):
     def _extract_via_zip(path: Path) -> list[tuple[int, str]]:
         """Stdlib-only fallback when python-docx isn't installed."""
         try:
-            with zipfile.ZipFile(path) as zf:
-                with zf.open("word/document.xml") as fh:
-                    data = fh.read()
+            with zipfile.ZipFile(path) as zf, zf.open("word/document.xml") as fh:
+                data = fh.read()
         except (zipfile.BadZipFile, KeyError):
             return []
         try:

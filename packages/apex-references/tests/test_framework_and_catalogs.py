@@ -5,14 +5,11 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-from typer.testing import CliRunner
-
 from apex_references import (
     PRACTICE_CODES,
     KpiTarget,
     ReferenceSpec,
     SolutionArchitecture,
-    TriggeringScenario,
     UseCase,
     Wave1Scope,
     catalogs_root,
@@ -25,6 +22,7 @@ from apex_references import (
     validate_references,
 )
 from apex_references._cli import references_app
+from typer.testing import CliRunner
 
 runner = CliRunner()
 
@@ -166,7 +164,7 @@ def test_every_reference_wave1_scope_coherent() -> None:
         ws = entry.spec.wave1_scope
         assert ws.duration_weeks_low <= ws.duration_weeks_high
         assert ws.fee_band_usd_low <= ws.fee_band_usd_high
-        assert 4 <= ws.duration_weeks_low
+        assert ws.duration_weeks_low >= 4
         assert ws.duration_weeks_high <= 16
         assert ws.deliverables, f"{entry.spec.name} declares no deliverables"
         assert ws.success_criteria, f"{entry.spec.name} declares no success criteria"
@@ -188,9 +186,9 @@ def test_validator_passes_for_shipped_anchors() -> None:
 
 def test_validator_passes_with_full_cross_references() -> None:
     """With live agent / service / adapter catalogs, all references resolve."""
-    from apex_services import all_service_codes
-    from apex_agents import scan_all_catalogs as agents_scan
     from apex_adapters.catalog import load_all_shipped_manifests
+    from apex_agents import scan_all_catalogs as agents_scan
+    from apex_services import all_service_codes
 
     codes = all_service_codes()
     agents = {e.spec.name for entries in agents_scan().values() for e in entries}
@@ -378,9 +376,9 @@ def test_airline_composes_th_agents_and_services() -> None:
 def test_conformance_all_five_anchor_references() -> None:
     """All 5 anchor references load, validate, cross-reference cleanly."""
     assert total_references() == 5
-    from apex_services import all_service_codes
-    from apex_agents import scan_all_catalogs as agents_scan
     from apex_adapters.catalog import load_all_shipped_manifests
+    from apex_agents import scan_all_catalogs as agents_scan
+    from apex_services import all_service_codes
 
     report = validate_references(
         service_codes=all_service_codes(),

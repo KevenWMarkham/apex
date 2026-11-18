@@ -7,21 +7,16 @@ container so the suite runs without Docker.
 
 from __future__ import annotations
 
-import json
 import sys
-import time
 
 import pytest
-
 from apex_orchestrator.control_plane.redis_client import (
     CONTROL_PLANE_UNREACHABLE,
-    BudgetCounters,
     CancelLevel,
     RedisControlPlane,
     RedisUnavailable,
     StubRedis,
 )
-
 
 # ---------------------------------------------------------------------------
 # Fixtures

@@ -2,20 +2,15 @@
 
 from __future__ import annotations
 
-import pytest
-
 from apex_core.protocols import (
     BindingMode,
     PersonaPrincipalBinding,
-    UseCasePersonaBindings,
 )
 from apex_core.validators import (
     SYNTHETIC_LAB_PERSONAS,
-    Substrate,
     quick_check_psg_15,
     validate_use_case_personas,
 )
-
 
 # ---------------------------------------------------------------------------
 # Substrate-aware behaviour
@@ -263,4 +258,4 @@ def test_synthetic_lab_personas_covers_all_6_rc_personas() -> None:
         "rebecca-hall-returns-ops-mgr",
         "compliance-officer-fsma-204",
     }
-    assert SYNTHETIC_LAB_PERSONAS == frozenset(expected)
+    assert frozenset(expected) == SYNTHETIC_LAB_PERSONAS

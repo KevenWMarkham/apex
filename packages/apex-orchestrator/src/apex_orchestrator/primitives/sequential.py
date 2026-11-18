@@ -23,7 +23,7 @@ class SequentialRunner:
 
     def add(
         self, *, step_id: str, agent_name: str, agent_version: str, fn: StepFn
-    ) -> "SequentialRunner":
+    ) -> SequentialRunner:
         self._steps.append(_Step(step_id, agent_name, agent_version, fn))
         return self
 

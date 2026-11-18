@@ -17,15 +17,15 @@ Lifecycle hooks (Task 26.7.1-3):
 from __future__ import annotations
 
 import logging
+from collections.abc import Callable
 from dataclasses import dataclass, field
-from typing import Any, Callable
+from typing import Any
 
 from apex_orchestrator.control_plane.redis_client import (
     CancelLevel,
     RedisControlPlane,
     RedisUnavailable,
 )
-
 
 log = logging.getLogger("apex.orchestrator.orchestrator.parent")
 

@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
 import typer
@@ -10,15 +9,12 @@ import typer
 from apex_adapters.catalog import (
     ADAPTER_REGISTRY,
     list_shipped_manifests,
-    load_all_shipped_manifests,
     load_shipped_manifest,
 )
 from apex_adapters.framework import (
     list_adapters,
     load_adapter_spec,
-    register_adapter,
 )
-
 
 adapters_app = typer.Typer(
     name="adapters",
@@ -74,7 +70,7 @@ def validate_all_cmd() -> None:
     for name in manifests:
         try:
             load_shipped_manifest(name)
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             failures.append((name, f"{type(exc).__name__}: {exc}"))
     if failures:
         typer.echo(f"FAIL: {len(failures)} manifest(s) failed to load:")

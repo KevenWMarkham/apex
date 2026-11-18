@@ -5,7 +5,6 @@ from __future__ import annotations
 from datetime import UTC, datetime, timedelta
 
 import pytest
-
 from apex_standards_iso14224 import (
     Iso14224EquipmentClass,
     Iso14224EquipmentSubclass,

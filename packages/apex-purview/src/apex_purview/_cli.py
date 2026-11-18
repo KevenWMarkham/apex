@@ -17,6 +17,8 @@ from pathlib import Path
 
 import typer
 
+from apex_purview._register import print_report, register_all
+from apex_purview.catalog import emit_catalog_bundle, emit_relationship_typedefs
 from apex_purview.classifications import (
     APEX_CLASSIFICATIONS,
     emit_classification_typedefs,
@@ -24,28 +26,24 @@ from apex_purview.classifications import (
     enumerate_classifications,
     load_schema_yaml,
 )
+from apex_purview.dlp import (
+    SURFACES,
+    build_default_bundle,
+    emit_dlp_payload,
+    lookup_action,
+)
 from apex_purview.lineage import (
     emit_from_spec,
     emit_lineage_batch,
     emit_process_typedefs,
     load_lineage_spec,
 )
-from apex_purview.dlp import (
-    DEFAULT_DLP_MATRIX,
-    SURFACES,
-    build_default_bundle,
-    emit_dlp_payload,
-    lookup_action,
-)
+from apex_purview.propagation import build_propagation_graph, validate_propagation
 from apex_purview.retention import (
-    DEFAULT_RETENTION_MATRIX,
     build_default_retention_bundle,
     emit_retention_payload,
     lookup_retention,
 )
-from apex_purview.catalog import emit_catalog_bundle, emit_relationship_typedefs
-from apex_purview.propagation import build_propagation_graph, validate_propagation
-from apex_purview._register import print_report, register_all
 
 purview_app = typer.Typer(
     name="purview",
@@ -117,7 +115,7 @@ def emit_attachments_cmd(
 @purview_app.command("register-all")
 def register_all_cmd(
     root: Path = typer.Option(
-        Path("."),
+        Path(),
         "--root",
         help="Repository root to scan for schema YAMLs.",
     ),

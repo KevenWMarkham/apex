@@ -12,9 +12,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import get_type_hints
 
+from apex_schemas_common.ddl import _python_to_delta
 from pydantic import BaseModel
-
-from apex_schemas_common.ddl import _python_to_delta, _unwrap_optional
 
 
 @dataclass(frozen=True, slots=True)

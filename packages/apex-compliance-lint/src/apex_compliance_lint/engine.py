@@ -15,10 +15,8 @@ from apex_compliance_lint.types import (
     LintReport,
     Rule,
     RulePack,
-    Severity,
     Violation,
 )
-
 
 CONTEXT_RADIUS = 60
 """±60-char window inside a single line — used for the *reported* context."""

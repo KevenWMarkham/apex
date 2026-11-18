@@ -18,7 +18,6 @@ from dataclasses import dataclass, field
 
 from apex_protocols.base import AddressSpaceError
 
-
 NS_61850_SCL = "http://www.iec.ch/61850/2003/SCL"
 
 

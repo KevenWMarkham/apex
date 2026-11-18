@@ -5,15 +5,13 @@ from __future__ import annotations
 from datetime import UTC, datetime
 
 import pytest
-from pydantic import ValidationError
-
 from apex_core.envelope import CanonicalEnvelope
 from apex_core.quality import (
     QUALITY_FIELDS,
     DataQualityMetadata,
     QualityDimension,
 )
-
+from pydantic import ValidationError
 
 # ---------------------------------------------------------------------------
 # Model basics
@@ -37,7 +35,7 @@ def test_quality_fields_includes_all_dimensions() -> None:
         "iso8000_pinned_version",
         "quality_assessed_at",
     }
-    assert QUALITY_FIELDS == expected
+    assert expected == QUALITY_FIELDS
 
 
 def test_default_metadata_has_all_none_dimensions() -> None:

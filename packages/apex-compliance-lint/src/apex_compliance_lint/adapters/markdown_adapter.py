@@ -12,7 +12,6 @@ from pathlib import Path
 
 from apex_compliance_lint.types import FileAdapter
 
-
 _FENCE_RE = re.compile(r"^\s*```")
 _INLINE_CODE_RE = re.compile(r"`[^`]+`")
 _LINK_TEXT_RE = re.compile(r"\[([^\]]+)\]\([^)]+\)")

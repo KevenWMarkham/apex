@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from apex_core.types import Classification
 from fabric_mcp import InMemoryFabricBackend, set_fabric_backend
 from hlscml_mcp import (

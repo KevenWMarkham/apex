@@ -13,18 +13,18 @@ from apex_core.validators.fleet import FleetReport, validate_fleet
 from apex_core.validators.manifest import ValidationReport, validate_manifest
 from apex_core.validators.practice import PracticeReport, validate_practice
 from apex_core.validators.use_case_personas import (
+    SYNTHETIC_LAB_PERSONAS,
     PersonaBindingValidationReport,
     Substrate,
-    SYNTHETIC_LAB_PERSONAS,
     quick_check_psg_15,
     validate_use_case_personas,
 )
 
 __all__ = [
-    "FleetReport",
-    "PracticeReport",
-    "PersonaBindingValidationReport",
     "SYNTHETIC_LAB_PERSONAS",
+    "FleetReport",
+    "PersonaBindingValidationReport",
+    "PracticeReport",
     "Substrate",
     "ValidationReport",
     "quick_check_psg_15",

@@ -27,16 +27,15 @@ import hashlib
 import json
 import logging
 import re
-import time
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Callable, Optional
+from typing import Any
 
 from apex_orchestrator.control_plane.redis_client import (
     CacheEvent,
     RedisControlPlane,
 )
-
 
 log = logging.getLogger("apex.orchestrator.mcp.dispatcher")
 
@@ -64,7 +63,7 @@ class CharterCatalog:
 
     tools: dict[str, CharterTool] = field(default_factory=dict)
 
-    def get(self, tool: str) -> Optional[CharterTool]:
+    def get(self, tool: str) -> CharterTool | None:
         return self.tools.get(tool)
 
     def must_get(self, tool: str) -> CharterTool:

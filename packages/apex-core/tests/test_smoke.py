@@ -2,10 +2,9 @@
 
 from __future__ import annotations
 
-from typer.testing import CliRunner
-
 import apex_core
 from apex_core.cli import app
+from typer.testing import CliRunner
 
 
 def test_version_exposed() -> None:

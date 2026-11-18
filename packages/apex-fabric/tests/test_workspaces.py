@@ -6,8 +6,6 @@ from dataclasses import dataclass
 from typing import Any
 
 import pytest
-from typer.testing import CliRunner
-
 from apex_fabric._cli import fabric_app
 from apex_fabric.workspaces import (
     ENVIRONMENTS,
@@ -19,6 +17,7 @@ from apex_fabric.workspaces import (
     parse_workspace_name,
     validate_workspace_name,
 )
+from typer.testing import CliRunner
 
 runner = CliRunner()
 

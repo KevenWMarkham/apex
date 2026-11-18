@@ -12,7 +12,6 @@ from pathlib import Path
 
 from apex_adapters.framework import AdapterSpec, load_adapter_spec
 
-
 #: Canonical filename → declared subtask mapping. Keyed by
 #: ``adapter_name`` (matches the ``name`` field in each YAML).
 ADAPTER_REGISTRY: dict[str, dict[str, str]] = {

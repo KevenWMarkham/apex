@@ -53,7 +53,7 @@ class TokenService:
         self._secret = _resolve_secret(secret)
 
     def _compute_token(self, *, value: str, classification: Classification) -> str:
-        msg = f"{self.tenant_id}|{classification.value}|{value}".encode("utf-8")
+        msg = f"{self.tenant_id}|{classification.value}|{value}".encode()
         digest = hmac.new(self._secret, msg, hashlib.sha256).digest()[:12]
         suffix = base64.urlsafe_b64encode(digest).rstrip(b"=").decode("ascii")
         return f"{TOKEN_PREFIX}{suffix}"

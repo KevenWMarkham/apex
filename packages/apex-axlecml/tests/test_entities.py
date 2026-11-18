@@ -7,8 +7,6 @@ from decimal import Decimal
 from uuid import uuid4
 
 import pytest
-from pydantic import ValidationError
-
 from apex_axlecml import (
     AxleReliabilityRecord,
     BillOfMaterials,
@@ -24,6 +22,7 @@ from apex_axlecml import (
     WorkCenter,
 )
 from apex_standards_iso14224 import Iso14224EquipmentClass
+from pydantic import ValidationError
 
 
 def _envelope() -> dict[str, object]:

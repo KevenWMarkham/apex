@@ -21,7 +21,6 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
 
-
 # ---------------------------------------------------------------------------
 # Named equipment-class mapping (Task 24.4.2)
 # ---------------------------------------------------------------------------

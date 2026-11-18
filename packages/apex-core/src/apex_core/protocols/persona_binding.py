@@ -20,9 +20,8 @@ This lives in ``apex-core`` (not ``apex-m``) because:
   HITL fire time — is variant-specific. APEX-M's resolver lives in
   ``apex_m.persona_resolver`` and uses Microsoft Graph.
 
-References
+References:
 ----------
-
 - Cross-Service-Boundaries.md (Sprint 39)
 - Pre-deployment-Security-Gate.md PSG-15 (Sprint 47.6 — adds the lint)
 - agent-identity-blueprints.md (Phase I.1 design)
@@ -134,7 +133,7 @@ class PersonaPrincipalBinding(BaseModel):
     )
 
     @model_validator(mode="after")
-    def _validate_binding_mode_fields(self) -> "PersonaPrincipalBinding":
+    def _validate_binding_mode_fields(self) -> PersonaPrincipalBinding:
         """Each binding_mode requires its own field set."""
         if self.binding_mode == BindingMode.ENTRA_GROUP:
             if not self.entra_group_object_id:
@@ -162,14 +161,14 @@ class PersonaPrincipalBinding(BaseModel):
         return self
 
     @model_validator(mode="after")
-    def _validate_lifecycle(self) -> "PersonaPrincipalBinding":
+    def _validate_lifecycle(self) -> PersonaPrincipalBinding:
         if self.valid_from is not None and self.valid_to is not None:
             if self.valid_to <= self.valid_from:
                 raise ValueError("valid_to must be after valid_from")
         return self
 
     @model_validator(mode="after")
-    def _validate_audit_row_records(self) -> "PersonaPrincipalBinding":
+    def _validate_audit_row_records(self) -> PersonaPrincipalBinding:
         if self.audit_row_records not in (
             "principal_only",
             "principal_and_persona",
@@ -182,7 +181,7 @@ class PersonaPrincipalBinding(BaseModel):
         return self
 
     @model_validator(mode="after")
-    def _validate_teams_chat_resolution(self) -> "PersonaPrincipalBinding":
+    def _validate_teams_chat_resolution(self) -> PersonaPrincipalBinding:
         if self.teams_chat_resolution not in ("directory_lookup", "raw_upn"):
             raise ValueError(
                 f"teams_chat_resolution {self.teams_chat_resolution!r} not in "
@@ -210,7 +209,7 @@ class UseCasePersonaBindings(BaseModel):
     )
 
     @model_validator(mode="after")
-    def _validate_keys_match_persona_ids(self) -> "UseCasePersonaBindings":
+    def _validate_keys_match_persona_ids(self) -> UseCasePersonaBindings:
         for key, binding in self.bindings.items():
             if binding.persona_id != key:
                 raise ValueError(

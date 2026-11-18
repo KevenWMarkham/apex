@@ -1,7 +1,8 @@
 """Emit Appendices G (products), H (partners), K (competitive), J (exercises)."""
 
-import yaml
 from pathlib import Path
+
+import yaml
 
 ROOT = Path(__file__).parent / "src" / "apex_registries"
 

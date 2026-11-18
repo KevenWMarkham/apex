@@ -17,7 +17,6 @@ import re
 
 from apex_compliance_lint.types import Rule, RulePack, Severity
 
-
 APEX_TYPOGRAPHY = RulePack(
     pack_id="apex_typography",
     name="APEX Typography",

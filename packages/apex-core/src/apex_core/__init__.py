@@ -21,10 +21,10 @@ from apex_core.quality import (
 
 __all__ = [
     "CORE_ENVELOPE_FIELDS",
-    "CanonicalEnvelope",
-    "DataQualityMetadata",
     "ENVELOPE_FIELDS",
     "QUALITY_FIELDS",
+    "CanonicalEnvelope",
+    "DataQualityMetadata",
     "QualityDimension",
     "__version__",
 ]

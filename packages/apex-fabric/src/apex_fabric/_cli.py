@@ -16,8 +16,6 @@ client directly (see ``tests/test_workspaces.py``,
 
 from __future__ import annotations
 
-from pathlib import Path
-
 import typer
 
 from apex_fabric.workspaces import (
@@ -28,7 +26,6 @@ from apex_fabric.workspaces import (
     parse_workspace_name,
     validate_workspace_name,
 )
-
 
 fabric_app = typer.Typer(
     name="fabric",

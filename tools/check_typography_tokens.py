@@ -21,7 +21,6 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 
-
 # Approved family names from Appendix N §1
 APPROVED_FAMILIES: frozenset[str] = frozenset(
     {

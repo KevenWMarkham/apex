@@ -24,11 +24,10 @@ from typing import Any
 
 from apex_translators.base import (
     FORMAT_CDA,
-    ParseError,
     ParsedMessage,
+    ParseError,
     Segment,
 )
-
 
 # CDA namespace (HL7 v3)
 NS_CDA = "urn:hl7-org:v3"

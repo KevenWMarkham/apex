@@ -8,14 +8,14 @@ transactions; each transaction's segments are flattened into the
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
-from datetime import datetime, timezone
-from typing import Iterator
+from collections.abc import Iterator
+from dataclasses import dataclass
+from datetime import UTC, datetime
 
 from apex_translators.base import (
     FORMAT_EDI_X12,
-    ParseError,
     ParsedMessage,
+    ParseError,
     Segment,
 )
 
@@ -159,7 +159,7 @@ class EDIX12Parser:
                     day=int(date_str[4:6]),
                     hour=int(time_str[0:2]),
                     minute=int(time_str[2:4]),
-                    tzinfo=timezone.utc,
+                    tzinfo=UTC,
                 )
         except (ValueError, IndexError):
             # ISA timestamp malformed; non-fatal — leave sent_at None

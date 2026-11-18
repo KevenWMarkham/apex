@@ -6,7 +6,6 @@ from dataclasses import dataclass
 from typing import Any
 
 import pytest
-
 from apex_fabric.shortcuts import (
     AdlsGen2Target,
     DataverseTarget,
@@ -18,7 +17,6 @@ from apex_fabric.shortcuts import (
     ShortcutSpec,
     practice_reference_shortcuts,
 )
-
 
 # ---------------------------------------------------------------------------
 # Target dataclasses → Atlas shape

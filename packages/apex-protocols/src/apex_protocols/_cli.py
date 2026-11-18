@@ -18,7 +18,6 @@ from apex_protocols.datasets import (
 )
 from apex_protocols.j1939_transport.normalizer import SPN_LAYOUTS
 
-
 protocols_app = typer.Typer(
     name="protocols",
     help="APEX OT protocol adapters — OPC UA, IEC 61850, SAE J1939.",

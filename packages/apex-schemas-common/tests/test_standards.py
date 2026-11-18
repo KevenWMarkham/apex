@@ -3,8 +3,6 @@
 from __future__ import annotations
 
 import pytest
-from pydantic import BaseModel, Field, ValidationError
-
 from apex_core.types import Practice
 from apex_schemas_common.standards import (
     GLN,
@@ -18,6 +16,7 @@ from apex_schemas_common.standards import (
     list_standards,
     lookup,
 )
+from pydantic import BaseModel, Field, ValidationError
 
 
 class _Box(BaseModel):

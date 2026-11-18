@@ -13,9 +13,8 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Any
 
-from pydantic import BaseModel, ConfigDict, Field, model_validator
-
 from apex_core.types import Classification, Practice
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 DAYS_PER_YEAR = 365
 DEFAULT_RETENTION_DAYS = 7 * DAYS_PER_YEAR
@@ -47,7 +46,7 @@ class RetentionPolicy(BaseModel):
     notes: str = ""
 
     @model_validator(mode="after")
-    def _validate_legal_hold_expiry(self) -> "RetentionPolicy":
+    def _validate_legal_hold_expiry(self) -> RetentionPolicy:
         if self.legal_hold_expires is not None and not self.legal_hold:
             raise ValueError("legal_hold_expires is only valid when legal_hold=True.")
         return self
@@ -57,7 +56,7 @@ class RetentionPolicy(BaseModel):
         return self.classification_overrides.get(classification, self.duration_days)
 
     @classmethod
-    def default_for_practice(cls, practice: Practice) -> "RetentionPolicy":
+    def default_for_practice(cls, practice: Practice) -> RetentionPolicy:
         """Return the APEX-default retention for a given Practice."""
         if practice is Practice.HLS:
             return cls(practice=practice, duration_days=HLS_RETENTION_DAYS)

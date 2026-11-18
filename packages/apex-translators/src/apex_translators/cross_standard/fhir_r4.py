@@ -19,12 +19,11 @@ Lossy cases (see ``LOSSY_CASES.md``):
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 from uuid import uuid4
 
 from apex_translators.base import ParsedMessage
-
 
 # ---------------------------------------------------------------------------
 # Common helpers
@@ -36,7 +35,7 @@ def _new_bundle(bundle_type: str = "collection") -> dict[str, Any]:
         "resourceType": "Bundle",
         "id": f"bundle-{uuid4()}",
         "type": bundle_type,
-        "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "timestamp": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
         "entry": [],
     }
 

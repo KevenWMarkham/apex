@@ -5,8 +5,6 @@ from __future__ import annotations
 import re
 
 import pytest
-from pydantic import ValidationError
-
 from apex_core.types import Classification, Practice
 from apex_medallion import (
     BronzeLandingConfig,
@@ -14,6 +12,7 @@ from apex_medallion import (
     SourcePattern,
     generate_bronze_ddl,
 )
+from pydantic import ValidationError
 
 
 def _cfg(**overrides: object) -> BronzeLandingConfig:

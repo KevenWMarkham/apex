@@ -46,22 +46,26 @@ class ThreatProtection(Protocol):
     def shield_prompt(self, *, prompt: str, context: dict[str, Any]) -> PromptShieldResult:
         """Pre-invocation check on user-controlled prompt. Returns whether
         the prompt is safe to forward to the agent runtime. Defender for
-        AI Prompt Shields on APEX-M."""
+        AI Prompt Shields on APEX-M.
+        """
         ...
 
     def evaluate_response(
         self, *, prompt: str, response: str, context: dict[str, Any]
     ) -> ThreatVerdict:
         """Post-invocation evaluation: data leak detection, credential
-        theft signals, off-policy completion."""
+        theft signals, off-policy completion.
+        """
         ...
 
     def get_posture(self, *, agent_id: str) -> dict[str, Any]:
         """DSPM-for-AI style posture report for the agent: known
-        vulnerabilities, attack-path findings, classification gaps."""
+        vulnerabilities, attack-path findings, classification gaps.
+        """
         ...
 
     def scan_model(self, *, image_ref: str) -> ThreatVerdict:
         """AI Model Security scan (preview on APEX-M) — pre-deploy gate
-        for embedded malware, unsafe operators, exposed secrets."""
+        for embedded malware, unsafe operators, exposed secrets.
+        """
         ...

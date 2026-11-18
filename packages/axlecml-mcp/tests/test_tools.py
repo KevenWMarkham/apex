@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from axlecml_mcp import (
     CONTRACTS,
     get_equipment_by_key,

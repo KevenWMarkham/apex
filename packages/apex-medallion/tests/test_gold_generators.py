@@ -4,12 +4,7 @@ from __future__ import annotations
 
 import re
 
-from pydantic import Field
-
 from apex_medallion.gold import (
-    MeasureDefinition,
-    MeasureKind,
-    MeasureLanguage,
     SemanticModelSpec,
     TableSpec,
     generate_kql_function,
@@ -24,6 +19,7 @@ from apex_medallion.gold.rc_measures import (
 )
 from apex_medallion.gold.warehouse import view_definition_sha
 from apex_schemas_common import CanonicalEntity
+from pydantic import Field
 
 
 class _Widget(CanonicalEntity):

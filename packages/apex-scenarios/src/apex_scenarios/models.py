@@ -21,7 +21,6 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
-
 PRACTICE_CODES: tuple[str, ...] = ("RC", "HLS", "ER", "AXLE", "TMT", "TH", "ICE")
 #: Canonical KPI directions found in the live scenario library.
 #: - ``up``      — metric should increase (margin, accuracy, attainment)

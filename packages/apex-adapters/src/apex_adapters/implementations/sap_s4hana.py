@@ -34,7 +34,6 @@ from apex_adapters.framework import (
     register_adapter,
 )
 
-
 #: Canonical SAP tables most APEX RC / AXLE / ICE engagements need
 #: ingested into Bronze. Engagement-specific Specs may extend this list.
 CANONICAL_SAP_TABLES: tuple[str, ...] = (
@@ -82,7 +81,8 @@ class SapS4HanaAdapter(Adapter):
 
     def probe(self) -> bool:
         """Probe the mirrored DB. In production: `SELECT 1` against the
-        Fabric Mirror endpoint."""
+        Fabric Mirror endpoint.
+        """
         return self._golden_data is not None or True
 
     def discover(self) -> list[str]:
@@ -151,6 +151,6 @@ class SapS4HanaAdapter(Adapter):
                 result.rows_read += rows
                 result.rows_written += rows
                 result.fields_mapped += mapping.field_count()
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             result.errors.append(f"{type(exc).__name__}: {exc}")
         return result

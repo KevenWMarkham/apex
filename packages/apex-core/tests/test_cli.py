@@ -4,9 +4,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from typer.testing import CliRunner
-
 from apex_core.cli import app
+from typer.testing import CliRunner
 
 runner = CliRunner()
 FIXTURES = Path(__file__).parent / "fixtures"

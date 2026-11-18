@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from mcp_common import McpError, McpErrorCode
 from telemetry_mcp import (
     CONTRACTS,

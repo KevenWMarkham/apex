@@ -36,9 +36,9 @@ walker (Task 28.2.4), and the SoW-quotable effort roll-up (Task 28.2.5).
 
 from __future__ import annotations
 
+from collections.abc import Iterable
 from dataclasses import dataclass, field
-from typing import Iterable, Literal
-
+from typing import Literal
 
 FoundationClass = Literal["schema", "ledger", "mcp", "hitl", "policy"]
 FOUNDATION_CLASSES: tuple[FoundationClass, ...] = (
@@ -470,7 +470,8 @@ def blocks_unblocking_scenario(service_code: str) -> tuple[FoundationBlock, ...]
 
 def transitive_prerequisites(name: str) -> tuple[FoundationBlock, ...]:
     """Return ``name`` itself plus every ancestor block in the prerequisite
-    DAG. Topologically sorted so consumers can iterate directly."""
+    DAG. Topologically sorted so consumers can iterate directly.
+    """
     target = get_block(name)
     if target is None:
         raise KeyError(f"unknown foundation block {name!r}")

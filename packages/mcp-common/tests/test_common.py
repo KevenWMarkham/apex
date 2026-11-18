@@ -11,7 +11,6 @@ from mcp_common import (
     SloSpec,
     ToolContract,
     compute_hash,
-    emit_trace,
     require_agent_identity,
     scope_allows,
     traced_call,
@@ -107,9 +106,8 @@ class TestTrace:
 
         captured: list = []
         set_trace_sink(captured.append)
-        with pytest.raises(ValueError):
-            with traced_call(tool_name="x.fail"):
-                raise ValueError("boom")
+        with pytest.raises(ValueError), traced_call(tool_name="x.fail"):
+            raise ValueError("boom")
         assert captured[0].error_class == "ValueError"
 
 

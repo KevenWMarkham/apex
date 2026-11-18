@@ -7,9 +7,8 @@ plane: classification propagation, SLO tracking, per-tool version pinning.
 
 from __future__ import annotations
 
-from pydantic import BaseModel, ConfigDict, Field
-
 from apex_core.types import Classification
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class SloSpec(BaseModel):

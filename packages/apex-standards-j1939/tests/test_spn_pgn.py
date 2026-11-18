@@ -3,10 +3,9 @@
 from __future__ import annotations
 
 from apex_standards_j1939 import (
-    SEED_PGNS,
-    SEED_SPNS,
     J1939PGN,
     J1939SPN,
+    SEED_SPNS,
     load_pgn_catalog,
     load_spn_catalog,
     lookup_pgn,

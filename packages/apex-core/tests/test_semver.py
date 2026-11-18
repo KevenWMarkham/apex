@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from apex_core.semver import SemVer, classify_bump
 from apex_core.types import BumpClass
 

@@ -7,12 +7,10 @@ from enum import StrEnum
 from typing import Annotated, Literal
 from uuid import uuid4
 
-from pydantic import Field
-
 from apex_core.types import Classification
 from apex_schemas_common import CanonicalEntity, ScdType2Fields
 from apex_standards_opentravel import OtaAirReservation
-
+from pydantic import Field
 
 # --- Entities --------------------------------------------------------------
 

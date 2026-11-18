@@ -5,14 +5,12 @@ from __future__ import annotations
 from datetime import UTC, datetime, timedelta
 
 import pytest
-from pydantic import ValidationError
-
 from apex_core.protocols import (
     BindingMode,
     PersonaPrincipalBinding,
     UseCasePersonaBindings,
 )
-
+from pydantic import ValidationError
 
 # ---------------------------------------------------------------------------
 # 4 binding modes — happy paths

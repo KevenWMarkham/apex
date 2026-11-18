@@ -24,7 +24,6 @@ from apex_translators.fixtures import (
     PADIS_FIXTURES,
 )
 
-
 translators_app = typer.Typer(
     name="translators",
     help="APEX message-format translators — EDI X12, HL7 v2, CDA, EPCIS, OAGIS, PADIS.",

@@ -5,7 +5,6 @@ from __future__ import annotations
 from datetime import UTC, datetime
 
 import pytest
-
 from apex_core.types import Classification
 from apex_tokenizer import (
     DeltaVaultBackend,

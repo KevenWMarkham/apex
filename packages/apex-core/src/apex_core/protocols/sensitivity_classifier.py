@@ -16,7 +16,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Protocol, runtime_checkable
+from typing import Protocol, runtime_checkable
 
 
 class SensitivityTier(str, Enum):
@@ -54,7 +54,8 @@ class SensitivityClassifier(Protocol):
     def classify_text(self, text: str) -> SensitivityTier:
         """Run the provider's classification engine on text. Used for
         agent prompt + response classification per Purview AI Activity
-        Explorer."""
+        Explorer.
+        """
         ...
 
     def get_label_inventory(self) -> list[ProviderLabel]:

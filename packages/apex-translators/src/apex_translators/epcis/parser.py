@@ -18,11 +18,10 @@ from typing import Any
 
 from apex_translators.base import (
     FORMAT_EPCIS,
-    ParseError,
     ParsedMessage,
+    ParseError,
     Segment,
 )
-
 
 EPCIS_EVENT_TYPES: tuple[str, ...] = (
     "ObjectEvent",

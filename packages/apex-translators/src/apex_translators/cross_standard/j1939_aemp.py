@@ -17,9 +17,8 @@ extensions outside the named set are documented in ``LOSSY_CASES.md``.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
-
 
 # ---------------------------------------------------------------------------
 # AEMP 2.0 named event types
@@ -104,7 +103,7 @@ class J1939Frame:
     value: float | int | str
     units: str = ""
     source_address: int = 0
-    timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    timestamp: datetime = field(default_factory=lambda: datetime.now(UTC))
 
 
 @dataclass
@@ -116,7 +115,7 @@ class AEMPEvent:
     units: str
     equipment_id: str
     """OEM-assigned equipment serial / asset id."""
-    timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    timestamp: datetime = field(default_factory=lambda: datetime.now(UTC))
     oem: str = ""
     extras: dict[str, Any] = field(default_factory=dict)
     """OEM-specific extension fields surfaced as metadata; documented as

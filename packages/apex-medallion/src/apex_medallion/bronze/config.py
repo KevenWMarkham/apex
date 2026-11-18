@@ -4,9 +4,8 @@ from __future__ import annotations
 
 from enum import StrEnum
 
-from pydantic import BaseModel, ConfigDict, Field
-
 from apex_core.types import Classification, Practice
+from pydantic import BaseModel, ConfigDict, Field
 
 from apex_medallion.bronze.retention import RetentionPolicy
 

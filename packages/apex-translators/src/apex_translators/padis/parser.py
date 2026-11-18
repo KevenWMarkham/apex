@@ -25,11 +25,10 @@ from dataclasses import dataclass
 
 from apex_translators.base import (
     FORMAT_PADIS,
-    ParseError,
     ParsedMessage,
+    ParseError,
     Segment,
 )
-
 
 PADIS_MESSAGE_TYPES: tuple[str, ...] = (
     "PNL",  # Passenger Name List

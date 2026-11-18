@@ -27,7 +27,6 @@ from typing import Any
 
 from apex_purview.classifications import APEX_CLASSIFICATIONS, _normalize_key
 
-
 # ---------------------------------------------------------------------------
 # Retention duration enum
 # ---------------------------------------------------------------------------

@@ -3,9 +3,6 @@
 from __future__ import annotations
 
 import pytest
-from pydantic import ValidationError
-from typer.testing import CliRunner
-
 from apex_services import (
     PRACTICE_CODES,
     SERVICE_CODE_RE,
@@ -23,6 +20,8 @@ from apex_services import (
     validate_service_catalogs,
 )
 from apex_services._cli import services_app
+from pydantic import ValidationError
+from typer.testing import CliRunner
 
 runner = CliRunner()
 
@@ -222,8 +221,9 @@ def test_validate_flags_no_persona() -> None:
             WaveEnvelope(wave=Wave.WAVE_1, duration="d", fee_band_low_usd=1, fee_band_high_usd=2)
         ],
     )
-    from apex_services.framework import CatalogEntry, validate_service_catalogs
     from pathlib import Path
+
+    from apex_services.framework import CatalogEntry, validate_service_catalogs
 
     fake = {p: [] for p in PRACTICE_CODES}
     fake["rc"] = [CatalogEntry(path=Path("/dev/null"), spec=bad)]
@@ -245,8 +245,9 @@ def test_validate_flags_value_share_without_money_kpi() -> None:
         ],
         value_share_eligible=True,
     )
-    from apex_services.framework import CatalogEntry, validate_service_catalogs
     from pathlib import Path
+
+    from apex_services.framework import CatalogEntry, validate_service_catalogs
 
     fake = {p: [] for p in PRACTICE_CODES}
     fake["rc"] = [CatalogEntry(path=Path("/dev/null"), spec=spec)]
@@ -333,8 +334,8 @@ def test_cli_validate_passes() -> None:
 def test_all_service_codes_are_consumable_by_scenario_validator() -> None:
     """The scenario-library validator (Sprint 28 Task 28.7.2) accepts a
     service_catalog_codes set; this catalog provides it."""
-    from apex_scenarios.validators import validate_service_codes
     from apex_scenarios.models import Scenario
+    from apex_scenarios.validators import validate_service_codes
 
     catalog = all_service_codes()
     # Pick a scenario whose service_code is in the shipped catalog

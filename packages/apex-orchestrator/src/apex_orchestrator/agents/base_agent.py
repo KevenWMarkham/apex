@@ -11,17 +11,15 @@ from __future__ import annotations
 
 import logging
 import time
+from collections.abc import Callable
 from dataclasses import dataclass, field
-from typing import Any, Callable, Optional
 
 from apex_orchestrator.control_plane.redis_client import (
     CONTROL_PLANE_UNREACHABLE,
-    BudgetCounters,
     CancelLevel,
     RedisControlPlane,
     RedisUnavailable,
 )
-
 
 log = logging.getLogger("apex.orchestrator.agents.base_agent")
 
@@ -60,7 +58,7 @@ class BaseAgent:
     """Budget envelope from spawn config — keys: tool_calls, tokens,
     cost_cents, wall_s."""
 
-    cosmos_fallback: Optional[Callable[[str, str], dict]] = None
+    cosmos_fallback: Callable[[str, str], dict] | None = None
     """Cosmos fallback reader for cancel/budget when Redis is down.
     Production injects a Cosmos client; tests inject a stub."""
 
@@ -173,7 +171,7 @@ class BaseAgent:
 
     # -- heartbeat ---------------------------------------------------
 
-    def maybe_heartbeat(self, now_s: Optional[float] = None) -> bool:
+    def maybe_heartbeat(self, now_s: float | None = None) -> bool:
         """Sprint 26 Task 26.8.3 — emit a heartbeat every 30s.
 
         Returns True iff this call actually emitted (i.e., interval

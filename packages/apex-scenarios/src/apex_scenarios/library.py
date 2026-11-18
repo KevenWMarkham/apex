@@ -23,7 +23,6 @@ from apex_scenarios.models import (
     compact_to_extended,
 )
 
-
 # ---------------------------------------------------------------------------
 # Default repository-relative paths
 # ---------------------------------------------------------------------------
@@ -70,7 +69,7 @@ def load_scenario_library(path: str | Path = DEFAULT_LIBRARY_PATH) -> list[Scena
                     scenarios.append(compact_to_extended(compact, practice=practice))
                 else:
                     scenarios.append(Scenario(practice=practice, **row))
-            except Exception as exc:  # noqa: BLE001
+            except Exception as exc:
                 raise ValueError(f"{path}: practice {practice!r} row #{i}: {exc}") from exc
 
     return scenarios

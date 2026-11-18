@@ -18,9 +18,10 @@ from __future__ import annotations
 
 import json
 import sys
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
 
 import yaml
 
@@ -179,7 +180,7 @@ def _emit_one(
             num_classifications=len(typedefs.get("classificationDefs", [])),
             num_attachments=len(attachments),
         )
-    except Exception as exc:  # noqa: BLE001 — intentionally catch-all; recorded on result
+    except Exception as exc:
         return RegistrationResult(
             path=schema_path,
             ok=False,

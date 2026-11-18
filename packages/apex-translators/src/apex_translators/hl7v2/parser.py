@@ -28,15 +28,14 @@ plus passes through any other segments encountered, raw, into
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from apex_translators.base import (
     FORMAT_HL7V2,
-    ParseError,
     ParsedMessage,
+    ParseError,
     Segment,
 )
-
 
 # ---------------------------------------------------------------------------
 # MLLP framing
@@ -220,7 +219,7 @@ def _parse_hl7_dtm(dtm: str) -> datetime | None:
                 hour=int(s[8:10]),
                 minute=int(s[10:12]),
                 second=int(s[12:14]),
-                tzinfo=timezone.utc,
+                tzinfo=UTC,
             )
         if len(s) >= 12:
             return datetime(
@@ -229,14 +228,14 @@ def _parse_hl7_dtm(dtm: str) -> datetime | None:
                 day=int(s[6:8]),
                 hour=int(s[8:10]),
                 minute=int(s[10:12]),
-                tzinfo=timezone.utc,
+                tzinfo=UTC,
             )
         if len(s) >= 8:
             return datetime(
                 year=int(s[0:4]),
                 month=int(s[4:6]),
                 day=int(s[6:8]),
-                tzinfo=timezone.utc,
+                tzinfo=UTC,
             )
     except ValueError:
         return None

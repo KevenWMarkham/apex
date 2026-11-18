@@ -5,18 +5,22 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-
+from check_color_tokens import (
+    main as color_main,
+)
+from check_color_tokens import (
+    scan_file as color_scan_file,
+)
 from check_typography_tokens import (
     APPROVED_FAMILIES,
     is_var_reference,
+)
+from check_typography_tokens import (
     main as typography_main,
+)
+from check_typography_tokens import (
     scan_file as typography_scan_file,
 )
-from check_color_tokens import (
-    main as color_main,
-    scan_file as color_scan_file,
-)
-
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
@@ -80,7 +84,8 @@ def test_typography_accepts_var_reference(tmp_path: Path) -> None:
 
 def test_typography_allowlists_tokens_file(tmp_path: Path) -> None:
     """The tokens file is the only place where literal family declarations
-    are expected — they're the source-of-truth definitions."""
+    are expected — they're the source-of-truth definitions.
+    """
     p = tmp_path / "apex-design-tokens.css"
     p.write_text(
         ":root { --apex-font-body: 'IBM Plex Sans', system-ui, sans-serif; }",
@@ -169,7 +174,8 @@ def test_color_allowlists_tokens_file(tmp_path: Path) -> None:
 
 def test_color_allowlists_appendix_n_documentation(tmp_path: Path) -> None:
     """Appendix N prose discusses hex tokens in its registry tables —
-    that prose is documentation, not artifact CSS."""
+    that prose is documentation, not artifact CSS.
+    """
     p = tmp_path / "APEX-Appendix-N-Design-System.md"
     p.write_text(
         "The token --apex-text is #E8ECF4 in dark theme.",

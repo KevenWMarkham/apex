@@ -23,7 +23,7 @@ import re
 from dataclasses import dataclass, field
 from enum import StrEnum
 from pathlib import Path
-from typing import Pattern
+from re import Pattern
 
 
 class Severity(StrEnum):
@@ -135,7 +135,8 @@ class LintReport:
     @property
     def exit_code(self) -> int:
         """0 = clean (no errors); 1 = at least one error.
-        Config errors get exit code 2 — those don't flow through here."""
+        Config errors get exit code 2 — those don't flow through here.
+        """
         return 0 if self.ok else 1
 
 

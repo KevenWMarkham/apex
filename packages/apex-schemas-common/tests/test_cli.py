@@ -2,9 +2,8 @@
 
 from __future__ import annotations
 
-from typer.testing import CliRunner
-
 from apex_core.cli import app
+from typer.testing import CliRunner
 
 runner = CliRunner()
 

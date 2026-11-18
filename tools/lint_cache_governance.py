@@ -31,7 +31,6 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 
-
 CHARTER_PATH = Path("apex-workspace") / "CHARTER.md"
 
 

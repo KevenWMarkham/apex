@@ -5,7 +5,6 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-
 from apex_orchestrator.control_plane.redis_client import (
     RedisControlPlane,
     StubRedis,
@@ -21,11 +20,8 @@ from apex_orchestrator.heartbeat.scheduler import (
     TriggerFire,
 )
 from apex_orchestrator.orchestrator.parent import (
-    BudgetEnvelope,
-    ChildSpawn,
     ParentOrchestrator,
 )
-
 
 HEARTBEAT_PATH = Path(__file__).resolve().parents[3] / "apex-workspace" / "HEARTBEAT.md"
 

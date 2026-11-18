@@ -135,6 +135,6 @@ class EpicClarityAdapter(Adapter):
                 result.rows_read += rows
                 result.rows_written += rows
                 result.fields_mapped += mapping.field_count()
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             result.errors.append(f"{type(exc).__name__}: {exc}")
         return result

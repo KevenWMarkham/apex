@@ -6,9 +6,6 @@ import json
 import shutil
 from pathlib import Path
 
-import pytest
-from typer.testing import CliRunner
-
 from apex_purview._cli import purview_app
 from apex_purview._register import (
     RegistrationReport,
@@ -17,6 +14,7 @@ from apex_purview._register import (
     main,
     register_all,
 )
+from typer.testing import CliRunner
 
 FIXTURES = Path(__file__).parent / "fixtures"
 runner = CliRunner()

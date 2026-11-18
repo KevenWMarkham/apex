@@ -1,7 +1,8 @@
 """Emit Appendix A schema registry — 48 canonical schema families."""
 
-import yaml
 from pathlib import Path
+
+import yaml
 
 OUT = Path(__file__).parent / "src" / "apex_registries" / "schemas"
 OUT.mkdir(parents=True, exist_ok=True)

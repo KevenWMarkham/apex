@@ -8,8 +8,8 @@ from typing import Any
 from uuid import uuid4
 
 from apex_standards_j1939 import (
-    CanFrame,
     J1939SPN,
+    CanFrame,
     lookup_spn,
 )
 

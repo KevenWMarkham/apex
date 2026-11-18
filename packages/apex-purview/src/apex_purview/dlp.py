@@ -32,7 +32,6 @@ from typing import Any
 
 from apex_purview.classifications import APEX_CLASSIFICATIONS, _normalize_key
 
-
 # ---------------------------------------------------------------------------
 # Surface and action taxonomy
 # ---------------------------------------------------------------------------

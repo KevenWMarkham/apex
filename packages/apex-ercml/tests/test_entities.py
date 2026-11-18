@@ -7,8 +7,6 @@ from decimal import Decimal
 from uuid import uuid4
 
 import pytest
-from pydantic import ValidationError
-
 from apex_ercml import (
     Asset,
     AssetLifecycleState,
@@ -26,6 +24,7 @@ from apex_standards_iso14224 import (
     Iso14224EquipmentClass,
     Iso14224FailureMode,
 )
+from pydantic import ValidationError
 
 
 def _envelope() -> dict[str, object]:

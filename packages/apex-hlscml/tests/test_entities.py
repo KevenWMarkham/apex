@@ -7,8 +7,6 @@ from decimal import Decimal
 from uuid import uuid4
 
 import pytest
-from pydantic import ValidationError
-
 from apex_hlscml import (
     AdverseEvent,
     ClaimHeader,
@@ -30,6 +28,7 @@ from apex_hlscml import (
 from apex_hlscml.entities.adverse_event import AeSeverity
 from apex_hlscml.entities.claim import ClaimStatus, ClaimType
 from apex_hlscml.entities.diagnostic_report import DiagnosticReportStatus
+from pydantic import ValidationError
 
 
 def _envelope() -> dict[str, object]:

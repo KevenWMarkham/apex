@@ -13,7 +13,6 @@ from apex_services.framework import (
     validate_service_catalogs,
 )
 
-
 services_app = typer.Typer(
     name="services",
     help="APEX Service Catalog — list / inspect / validate productized service manifests.",
@@ -85,7 +84,7 @@ def inspect_cmd(
                 if spec.standards:
                     typer.echo(f"standards:           {', '.join(spec.standards)}")
                 typer.echo("")
-                typer.echo(f"brief:")
+                typer.echo("brief:")
                 typer.echo(f"  {spec.brief}")
                 typer.echo("")
                 typer.echo("KPIs:")

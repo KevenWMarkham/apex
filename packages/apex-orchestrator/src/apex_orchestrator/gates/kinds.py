@@ -61,7 +61,7 @@ class AckOnlyGate:
 
     kind = GateKind.ACK_ONLY
 
-    def __init__(self, *, notifier: "Notifier | None" = None) -> None:
+    def __init__(self, *, notifier: Notifier | None = None) -> None:
         self.notifier = notifier
 
     def apply(self, *, decision_id: str, proposal: dict[str, Any]) -> GateOutcome:

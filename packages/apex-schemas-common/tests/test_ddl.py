@@ -5,10 +5,9 @@ from __future__ import annotations
 import re
 from decimal import Decimal
 
-from pydantic import Field
-
 from apex_schemas_common import CanonicalEntity, generate_delta_ddl
 from apex_schemas_common.standards import GTIN14
+from pydantic import Field
 
 
 class _SKU(CanonicalEntity):

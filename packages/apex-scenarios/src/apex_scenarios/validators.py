@@ -20,11 +20,10 @@ Each validator returns a structured :class:`ValidationReport` with an
 from __future__ import annotations
 
 import re
+from collections.abc import Iterable
 from dataclasses import dataclass, field
-from typing import Iterable
 
 from apex_scenarios.models import FeaturedChain, Scenario
-
 
 # ---------------------------------------------------------------------------
 # Common report dataclasses
@@ -364,7 +363,7 @@ _KPI_DELTA_MONEY_RE = re.compile(
 def extract_kpi_name(kpi_field: str) -> str | None:
     """Pull the KPI name out of a delta string.
 
-    Examples
+    Examples:
     --------
     - ``"+2.4pp GM"``           → ``"GM"``
     - ``"+18% margin"``         → ``"margin"``

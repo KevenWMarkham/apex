@@ -14,7 +14,6 @@ from pathlib import Path
 
 from apex_compliance_lint.types import FileAdapter
 
-
 A_NS = "http://schemas.openxmlformats.org/drawingml/2006/main"
 
 

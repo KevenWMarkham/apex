@@ -3,8 +3,6 @@
 from __future__ import annotations
 
 import pytest
-from pydantic import ValidationError
-
 from apex_scenarios.models import (
     PRACTICE_CODES,
     Scenario,
@@ -12,6 +10,7 @@ from apex_scenarios.models import (
     compact_to_extended,
     extended_to_compact,
 )
+from pydantic import ValidationError
 
 
 def test_compact_required_fields() -> None:

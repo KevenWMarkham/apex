@@ -11,11 +11,9 @@ import re
 from pathlib import Path
 
 import yaml
-
 from apex_agents import scan_all_catalogs as scan_agents
-from apex_services import scan_all_catalogs as scan_services
 from apex_references import scan_all_references
-
+from apex_services import scan_all_catalogs as scan_services
 
 REGISTRY_DIR = Path(__file__).parent / "src" / "apex_registries"
 

@@ -17,7 +17,8 @@ from typing import Any, Protocol, runtime_checkable
 @dataclass(frozen=True)
 class AgentBlueprint:
     """Template for creating individual agent identities with shared
-    governance, conditional access, and lifecycle policy."""
+    governance, conditional access, and lifecycle policy.
+    """
 
     blueprint_id: str
     parent_id: str | None

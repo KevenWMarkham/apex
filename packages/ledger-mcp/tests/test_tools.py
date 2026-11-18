@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from ledger_mcp import (
     CONTRACTS,
     append_audit_row,

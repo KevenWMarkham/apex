@@ -9,9 +9,8 @@ from __future__ import annotations
 
 from typing import TypeVar
 
-from pydantic import BaseModel
-
 from mcp_common import ScopeContext
+from pydantic import BaseModel
 
 from apex_identity.lattice import evaluate_visibility
 
@@ -43,5 +42,5 @@ def apply_agent_safe_view(
     if not decision.masked_fields:
         return instance
 
-    updates = {name: None for name in decision.masked_fields}
+    updates = dict.fromkeys(decision.masked_fields)
     return instance.model_copy(update=updates)

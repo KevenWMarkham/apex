@@ -6,13 +6,9 @@ from pathlib import Path
 
 import pytest
 import yaml
-from typer.testing import CliRunner
-
-from apex_core.types import Practice
+from apex_schemas_common._cli import standards_app
 from apex_schemas_common.standards import (
     STANDARDS,
-    StandardSpec,
-    StandardType,
 )
 from apex_schemas_common.standards.catalog import (
     catalog_path,
@@ -23,7 +19,7 @@ from apex_schemas_common.standards.catalog import (
     standard_to_dict,
     write_catalog,
 )
-from apex_schemas_common._cli import standards_app
+from typer.testing import CliRunner
 
 runner = CliRunner()
 

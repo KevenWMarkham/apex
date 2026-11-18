@@ -7,12 +7,12 @@ ApplicationArea + DataArea envelope. Used by AXLE supplier EDI + MES
 integrations.
 """
 
+from apex_translators.oagis.emitter import OAGISEmitter, emit_oagis
 from apex_translators.oagis.parser import (
     OAGIS_VERBS,
     OAGISParser,
     parse_oagis,
 )
-from apex_translators.oagis.emitter import OAGISEmitter, emit_oagis
 
 __all__ = [
     "OAGIS_VERBS",

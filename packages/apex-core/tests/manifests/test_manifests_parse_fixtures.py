@@ -6,7 +6,6 @@ from pathlib import Path
 
 import pytest
 import yaml
-
 from apex_core.manifests import (
     AgentManifest,
     BaseManifest,

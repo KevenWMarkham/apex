@@ -14,11 +14,10 @@ from typing import Any
 
 from apex_translators.base import (
     FORMAT_OAGIS,
-    ParseError,
     ParsedMessage,
+    ParseError,
     Segment,
 )
-
 
 OAGIS_VERBS: tuple[str, ...] = (
     "Get",

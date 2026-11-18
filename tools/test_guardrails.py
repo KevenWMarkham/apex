@@ -5,18 +5,19 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-
 from check_restricted_terminology import (
-    Finding,
-    scan_path,
     main as restricted_main,
+)
+from check_restricted_terminology import (
+    scan_path,
 )
 from check_standards_licences import (
     check_package,
     find_standards_packages,
+)
+from check_standards_licences import (
     main as licences_main,
 )
-
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 

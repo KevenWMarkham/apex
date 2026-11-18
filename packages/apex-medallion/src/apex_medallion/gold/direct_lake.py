@@ -9,7 +9,7 @@ measures sourced from the :class:`MeasureRegistry`.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 from apex_medallion.gold.measure import MeasureDefinition, MeasureLanguage
 

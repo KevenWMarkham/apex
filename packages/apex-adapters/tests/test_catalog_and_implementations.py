@@ -5,8 +5,6 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-from typer.testing import CliRunner
-
 from apex_adapters import (
     EpicClarityAdapter,
     SapS4HanaAdapter,
@@ -17,6 +15,7 @@ from apex_adapters import (
 from apex_adapters._cli import adapters_app
 from apex_adapters.catalog import ADAPTER_REGISTRY
 from apex_adapters.implementations.sap_s4hana import CANONICAL_SAP_TABLES
+from typer.testing import CliRunner
 
 FIXTURES = Path(__file__).parent / "fixtures"
 runner = CliRunner()

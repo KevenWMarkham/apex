@@ -11,12 +11,10 @@ from apex_registries.framework import (
     list_preclearance,
     load_playbook,
     package_root,
-    scan_all_registries,
     scan_registry,
     total_entries,
     validate_registries,
 )
-
 
 registries_app = typer.Typer(
     name="registries",

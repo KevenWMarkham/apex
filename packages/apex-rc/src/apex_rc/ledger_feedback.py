@@ -24,7 +24,7 @@ service contributes its own primary key (e.g., sku_key + decision_class)
 plus a shared **fusion bucket** (e.g., `category × season_quarter ×
 loyalty_tier_distribution`) that all services compute identically.
 
-References
+References:
 ----------
 - Roadmap.md BL.C.30d (LEDGER feedback visualization)
 - Services Guide §25.8 (Pricer learning loop)
@@ -36,7 +36,6 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from typing import Literal
-
 
 # ---------------------------------------------------------------------------
 # Service identity

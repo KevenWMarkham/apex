@@ -5,16 +5,13 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-
 from apex_compliance_lint import (
     APEX_BRAND,
-    APEX_TYPOGRAPHY,
     DEFAULT_PACKS,
     DELOITTE_MICROSOFT_INDEPENDENCE,
     HTMLAdapter,
     MarkdownAdapter,
     Rule,
-    RulePack,
     Severity,
     Violation,
     default_registry,
@@ -23,7 +20,6 @@ from apex_compliance_lint import (
     lint_paths,
     make_pattern,
 )
-
 
 # ---------------------------------------------------------------------------
 # Adapters
@@ -415,4 +411,4 @@ def test_conformance_apex_workspace_is_independence_clean() -> None:
             f"{v.file.name}:{v.line}:{v.column} [{v.rule_id}] {v.matched_text!r}"
             for v in report.errors
         ]
-        pytest.fail(f"apex-workspace markdown has Independence violations:\n  " + "\n  ".join(msgs))
+        pytest.fail("apex-workspace markdown has Independence violations:\n  " + "\n  ".join(msgs))

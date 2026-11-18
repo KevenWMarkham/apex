@@ -8,6 +8,7 @@ from typing import Literal
 from pydantic import BaseModel, Field
 
 from apex_standards_fhir.primitives import (
+    _FHIR_BASE_CONFIG,
     FhirAddress,
     FhirCodeableConcept,
     FhirContactPoint,
@@ -15,7 +16,6 @@ from apex_standards_fhir.primitives import (
     FhirIdentifier,
     FhirPeriod,
     FhirReference,
-    _FHIR_BASE_CONFIG,
 )
 
 

@@ -3,10 +3,9 @@
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import pytest
-
 from apex_translators import (
     AEMP_EVENT_TYPES,
     CIM_ISO_EQUIPMENT_MAP,
@@ -22,12 +21,10 @@ from apex_translators import (
 )
 from apex_translators.cross_standard.cim_iso15926 import CIMAsset, ISO15926Asset
 from apex_translators.cross_standard.j1939_aemp import (
-    AEMP_PGN_MAP,
     AEMPEvent,
     J1939Frame,
 )
 from apex_translators.fixtures import CDA_FIXTURES, HL7V2_FIXTURES
-
 
 # ---------------------------------------------------------------------------
 # Task 24.2 — HL7 v2 → FHIR R4
@@ -272,7 +269,7 @@ def test_j1939_engine_hours_to_aemp() -> None:
         value=1234.5,
         units="h",
         source_address=0,
-        timestamp=datetime(2025, 6, 30, 14, 30, tzinfo=timezone.utc),
+        timestamp=datetime(2025, 6, 30, 14, 30, tzinfo=UTC),
     )
     event = j1939_to_aemp(frame, equipment_id="CAT-D6T-12345", oem="Caterpillar")
     assert event.event_type == "EngineHours"
@@ -290,7 +287,7 @@ def test_every_named_pgn_round_trips(pgn: int, mapping) -> None:
         spn=mapping.spn,
         value=42.0,
         units=mapping.units,
-        timestamp=datetime(2025, 1, 1, tzinfo=timezone.utc),
+        timestamp=datetime(2025, 1, 1, tzinfo=UTC),
     )
     event = j1939_to_aemp(frame, equipment_id="ASSET-001")
     assert event.event_type == mapping.aemp_event
@@ -306,7 +303,7 @@ def test_aemp_to_j1939_round_trip() -> None:
         value=78,
         units="%",
         equipment_id="JD-9620R-77",
-        timestamp=datetime(2025, 6, 30, 14, 30, tzinfo=timezone.utc),
+        timestamp=datetime(2025, 6, 30, 14, 30, tzinfo=UTC),
     )
     frame = aemp_to_j1939(event)
     assert frame.pgn == 65276

@@ -8,12 +8,10 @@ from enum import StrEnum
 from typing import Annotated
 from uuid import uuid4
 
-from pydantic import BaseModel, ConfigDict, Field, StringConstraints
-
 from apex_core.types import Classification
 from apex_schemas_common import CanonicalEntity, ScdType2Fields
 from apex_standards_iso14224 import Iso14224EquipmentClass, Iso14224FailureMode
-
+from pydantic import BaseModel, ConfigDict, Field, StringConstraints
 
 # --- Pattern-A identifier type ---------------------------------------------
 

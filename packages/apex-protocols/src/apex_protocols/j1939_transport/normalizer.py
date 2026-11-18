@@ -18,12 +18,9 @@ uses the per-PGN signal layouts from the
 
 from __future__ import annotations
 
+from collections.abc import Iterable
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
-from typing import Iterable
-
-from apex_protocols.base import ProtocolError
-
+from datetime import UTC, datetime
 
 # ---------------------------------------------------------------------------
 # Frame
@@ -40,7 +37,7 @@ class CANFrame:
     data: bytes
     """Up to 8 data bytes."""
 
-    timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    timestamp: datetime = field(default_factory=lambda: datetime.now(UTC))
 
 
 @dataclass
@@ -52,7 +49,7 @@ class DecodedSignal:
     source_address: int
     value: float | int
     units: str = ""
-    timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    timestamp: datetime = field(default_factory=lambda: datetime.now(UTC))
 
 
 # ---------------------------------------------------------------------------

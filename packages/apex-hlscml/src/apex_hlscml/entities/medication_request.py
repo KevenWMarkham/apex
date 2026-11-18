@@ -5,10 +5,9 @@ from __future__ import annotations
 from datetime import datetime
 from enum import StrEnum
 
-from pydantic import Field
-
 from apex_schemas_common import CanonicalEntity
 from apex_schemas_common.standards import NdcCode, RxNormConceptId
+from pydantic import Field
 
 
 class MedicationRequestStatus(StrEnum):

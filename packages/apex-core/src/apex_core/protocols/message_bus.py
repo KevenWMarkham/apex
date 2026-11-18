@@ -12,7 +12,7 @@ all satisfy this protocol for cross-cloud event routing.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any, Callable, Protocol, runtime_checkable
+from typing import Any, Protocol, runtime_checkable
 
 
 @dataclass(frozen=True)
@@ -61,5 +61,6 @@ class MessageBus(Protocol):
     ) -> str:
         """Attach an activator-style rule (Eventstream Activator on
         APEX-M) that fires `action` when `rule` matches an inbound message.
-        Returns the activator id."""
+        Returns the activator id.
+        """
         ...

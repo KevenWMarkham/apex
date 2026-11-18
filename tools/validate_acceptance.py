@@ -60,7 +60,7 @@ def validate_laptop_substrate() -> bool:
     the chain end-to-end against mock backends.
     """
     _section("A1 — Laptop substrate: docker-compose render")
-    from apex_wizard.deployments import RenderedParameters, render_parameters, TreeSelection
+    from apex_wizard.deployments import RenderedParameters, TreeSelection, render_parameters
 
     selection = TreeSelection(
         selected_ids=["service:RC-E2E-03"],
@@ -135,7 +135,7 @@ def validate_laptop_substrate() -> bool:
 def validate_cloud_substrate() -> bool:
     """Validate dev / stage / prod cloud-substrate rendering."""
     _section("A2 — Cloud substrate: Bicep parameter render")
-    from apex_wizard.deployments import render_parameters, TreeSelection
+    from apex_wizard.deployments import TreeSelection, render_parameters
 
     all_ok = True
     for substrate in ("dev", "stage", "prod"):
@@ -280,7 +280,7 @@ def validate_use_case_incorporation() -> bool:
         _json.dumps(prod_bound, indent=2),
         encoding="utf-8",
     )
-    _ok(f"Evidence written: A3_default_use_case.json + A3_bigbox_prod_use_case.json")
+    _ok("Evidence written: A3_default_use_case.json + A3_bigbox_prod_use_case.json")
     _ok("Use-case incorporation flow validated: clone -> bind -> deploy gates pass")
     return True
 
@@ -293,10 +293,9 @@ def validate_use_case_incorporation() -> bool:
 def validate_wizard_end_to_end() -> bool:
     """Validate the full wizard deploy chain via FastAPI TestClient."""
     _section("A4 — Wizard end-to-end: POST /api/deployments (mock mode)")
-    from fastapi.testclient import TestClient
-
     from apex_wizard.deployments import _reset_deployment_store_for_test
     from apex_wizard.main import app
+    from fastapi.testclient import TestClient
 
     _reset_deployment_store_for_test()
     client = TestClient(app)
@@ -317,7 +316,7 @@ def validate_wizard_end_to_end() -> bool:
     if len(body["gates"]) != 15:
         _fail(f"expected 15 gates, got {len(body['gates'])}")
         return False
-    _ok(f"/api/security-gate returns all 15 gates (PSG-1 through PSG-15)")
+    _ok("/api/security-gate returns all 15 gates (PSG-1 through PSG-15)")
     _ok(f"  overall_status: {body['overall_status']} · deploy_allowed: {body['deploy_allowed']}")
 
     # Deploy

@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Callable
 
 from apex_orchestrator.types import StepFn, StepResult
 
@@ -43,7 +43,7 @@ class HierarchicalRunner:
         agent_name: str,
         agent_version: str,
         fn: StepFn,
-    ) -> "HierarchicalRunner":
+    ) -> HierarchicalRunner:
         self._specialists[step_id] = _Specialist(step_id, agent_name, agent_version, fn)
         return self
 

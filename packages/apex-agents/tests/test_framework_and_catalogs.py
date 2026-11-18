@@ -5,24 +5,21 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-from typer.testing import CliRunner
-
 from apex_agents import (
     PRACTICE_CODES,
     AgentSpec,
     HITLGate,
-    KpiTarget,
     ModelTier,
     OversightMode,
     ToolBinding,
     catalogs_root,
-    load_agent_spec,
     scan_all_catalogs,
     scan_practice_catalog,
     total_agents,
     validate_catalogs,
 )
 from apex_agents._cli import agents_app
+from typer.testing import CliRunner
 
 runner = CliRunner()
 

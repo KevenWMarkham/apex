@@ -6,7 +6,6 @@ import json
 from pathlib import Path
 
 import pytest
-
 from apex_scenarios.library import (
     ScenarioIndex,
     load_featured_chains,

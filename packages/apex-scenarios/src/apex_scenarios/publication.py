@@ -18,7 +18,6 @@ from pathlib import Path
 from apex_scenarios.library import ScenarioIndex
 from apex_scenarios.models import PRACTICE_CODES
 
-
 PRACTICE_LONG_NAME: dict[str, str] = {
     "RC": "Retail & Consumer",
     "HLS": "Healthcare & Life Sciences",
@@ -41,8 +40,8 @@ def render_practice_markdown(index: ScenarioIndex, practice: str) -> str:
     lines.append(f"**Total scenarios:** {len(rows)}")
     lines.append("")
     lines.append(
-        f"**Source of truth:** `docs/scenarios/_catalog/scenario-library.json` "
-        f"(stamped at master-catalog publication time)."
+        "**Source of truth:** `docs/scenarios/_catalog/scenario-library.json` "
+        "(stamped at master-catalog publication time)."
     )
     lines.append("")
     lines.append(

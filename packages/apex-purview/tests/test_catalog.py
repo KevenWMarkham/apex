@@ -5,8 +5,6 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from typer.testing import CliRunner
-
 from apex_purview._cli import purview_app
 from apex_purview.catalog import (
     EntityRelationship,
@@ -19,6 +17,7 @@ from apex_purview.catalog import (
     emit_relationships_from_schema,
 )
 from apex_purview.classifications import load_schema_yaml
+from typer.testing import CliRunner
 
 FIXTURES = Path(__file__).parent / "fixtures"
 runner = CliRunner()

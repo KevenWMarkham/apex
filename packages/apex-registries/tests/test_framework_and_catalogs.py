@@ -3,19 +3,12 @@
 from __future__ import annotations
 
 import pytest
-from typer.testing import CliRunner
-
 from apex_registries import (
     PRACTICE_CODES,
     REGISTRY_DIRS,
     ArchetypeEntry,
-    CompetitiveEntry,
-    ExerciseEntry,
     KpiEntry,
-    McpToolEntry,
-    PartnerEntry,
     PersonaEntry,
-    ProductEntry,
     SchemaEntry,
     list_discovery,
     list_playbooks,
@@ -28,6 +21,7 @@ from apex_registries import (
     validate_registries,
 )
 from apex_registries._cli import registries_app
+from typer.testing import CliRunner
 
 runner = CliRunner()
 

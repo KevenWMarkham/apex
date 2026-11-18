@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from mcp_common import McpError, McpErrorCode
 from vendor_portal_mcp import (
     CONTRACTS,

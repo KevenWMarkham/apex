@@ -22,7 +22,7 @@ from apex_orchestrator.primitives import (
     SequentialRunner,
     StepFn,
 )
-from apex_orchestrator.runtime import Orchestrator, OrchestrationResult, OrchestrationStatus
+from apex_orchestrator.runtime import OrchestrationResult, OrchestrationStatus, Orchestrator
 from apex_orchestrator.tuning import TuningRequest, TuningStatus, TuningStore
 from apex_orchestrator.types import StepResult
 

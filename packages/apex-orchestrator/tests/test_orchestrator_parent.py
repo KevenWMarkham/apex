@@ -2,18 +2,15 @@
 
 from __future__ import annotations
 
-import sys
 import time
 
 import pytest
-
 from apex_orchestrator.agents.base_agent import (
     BaseAgent,
     BudgetExceeded,
     CancelRequested,
 )
 from apex_orchestrator.control_plane.redis_client import (
-    CONTROL_PLANE_UNREACHABLE,
     CancelLevel,
     RedisControlPlane,
     StubRedis,
@@ -23,7 +20,6 @@ from apex_orchestrator.orchestrator.parent import (
     ChildSpawn,
     ParentOrchestrator,
 )
-
 
 # ---------------------------------------------------------------------------
 # Fixtures

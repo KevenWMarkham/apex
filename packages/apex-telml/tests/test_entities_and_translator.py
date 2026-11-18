@@ -6,7 +6,6 @@ from datetime import UTC, datetime
 from uuid import uuid4
 
 import pytest
-
 from apex_standards_sid import SidCustomer, SidLifecycleStatus
 from apex_telml import (
     BillingAccount,

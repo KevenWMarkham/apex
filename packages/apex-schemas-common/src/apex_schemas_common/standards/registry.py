@@ -10,9 +10,8 @@ from __future__ import annotations
 from enum import StrEnum
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict
-
 from apex_core.types import Practice
+from pydantic import BaseModel, ConfigDict
 
 
 class StandardType(StrEnum):

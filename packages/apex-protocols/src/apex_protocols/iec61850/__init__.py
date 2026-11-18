@@ -7,22 +7,22 @@ domain per Sprint 25 §25.2.3).
 
 from apex_protocols.iec61850.client import IEC61850StubClient
 from apex_protocols.iec61850.scd import (
-    GOOSEControlBlock,
     IED,
+    GOOSEControlBlock,
     LogicalDevice,
     LogicalNode,
-    SVControlBlock,
     SCDDocument,
+    SVControlBlock,
     parse_scd,
 )
 
 __all__ = [
+    "IED",
     "GOOSEControlBlock",
     "IEC61850StubClient",
-    "IED",
     "LogicalDevice",
     "LogicalNode",
-    "SVControlBlock",
     "SCDDocument",
+    "SVControlBlock",
     "parse_scd",
 ]

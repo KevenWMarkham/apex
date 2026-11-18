@@ -13,14 +13,12 @@ Exit codes per Sprint 29 §29.9.5:
 
 from __future__ import annotations
 
-import sys
 from pathlib import Path
 
 import typer
 
 from apex_compliance_lint import (
     DEFAULT_PACKS,
-    LintReport,
     Severity,
     default_registry,
     lint_paths,
@@ -30,7 +28,6 @@ from apex_compliance_lint.rules import (
     APEX_TYPOGRAPHY,
     DELOITTE_MICROSOFT_INDEPENDENCE,
 )
-
 
 app = typer.Typer(
     name="apex-compliance-lint",

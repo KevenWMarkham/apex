@@ -30,8 +30,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-from apex_purview.classifications import APEX_CLASSIFICATIONS, _normalize_key
-
+from apex_purview.classifications import _normalize_key
 
 # ---------------------------------------------------------------------------
 # Severity ordering (most-restrictive-wins)

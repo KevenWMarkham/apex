@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-
 # Synthetic SCD for the ER Practice substation example. Minimal but
 # structurally valid against IEC 61850-6 (SCL XML schema).
 IEC61850_SCD_XML = """<?xml version="1.0" encoding="UTF-8"?>

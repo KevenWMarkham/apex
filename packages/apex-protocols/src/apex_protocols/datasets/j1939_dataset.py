@@ -12,7 +12,7 @@ Source address 0x00 = Engine #1; data bytes are little-endian per J1939.
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 
 def _arb(priority: int, pgn: int, sa: int) -> int:
@@ -26,7 +26,7 @@ def _arb(priority: int, pgn: int, sa: int) -> int:
     return ((priority & 0x07) << 26) | (dp << 24) | (pf << 16) | (ps << 8) | (sa & 0xFF)
 
 
-_BASE_TS = datetime(2025, 6, 30, 14, 30, tzinfo=timezone.utc)
+_BASE_TS = datetime(2025, 6, 30, 14, 30, tzinfo=UTC)
 
 
 # (arbitration_id, data_bytes, offset_seconds_from_base)

@@ -10,25 +10,43 @@ from apex_scenarios.exporters import (
 )
 from apex_scenarios.foundation import (
     CATALOG as FOUNDATION_CATALOG,
+)
+from apex_scenarios.foundation import (
     FOUNDATION_CLASSES,
     EffortRollup,
     FoundationBlock,
     FoundationClass,
-    all_blocks as all_foundation_blocks,
-    blocks_by_class as foundation_blocks_by_class,
     blocks_unblocking_scenario,
     dependency_graph_edges,
     effort_rollup,
-    get_block as get_foundation_block,
     transitive_prerequisites,
+)
+from apex_scenarios.foundation import (
+    all_blocks as all_foundation_blocks,
+)
+from apex_scenarios.foundation import (
+    blocks_by_class as foundation_blocks_by_class,
+)
+from apex_scenarios.foundation import (
+    get_block as get_foundation_block,
 )
 from apex_scenarios.fusion import (
     CATALOG as FUSION_CATALOG,
+)
+from apex_scenarios.fusion import (
     FusionMesh,
-    all_meshes as all_fusion_meshes,
-    get_mesh as get_fusion_mesh,
     mesh_by_w2_service_code,
+)
+from apex_scenarios.fusion import (
+    all_meshes as all_fusion_meshes,
+)
+from apex_scenarios.fusion import (
+    get_mesh as get_fusion_mesh,
+)
+from apex_scenarios.fusion import (
     meshes_by_practice as fusion_meshes_by_practice,
+)
+from apex_scenarios.fusion import (
     per_practice_counts as fusion_per_practice_counts,
 )
 from apex_scenarios.library import (

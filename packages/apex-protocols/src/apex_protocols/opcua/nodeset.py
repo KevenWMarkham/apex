@@ -19,7 +19,6 @@ from dataclasses import dataclass, field
 
 from apex_protocols.base import AddressSpaceError
 
-
 NS_NODESET = "http://opcfoundation.org/UA/2011/03/UANodeSet.xsd"
 
 

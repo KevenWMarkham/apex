@@ -7,8 +7,6 @@ from decimal import Decimal
 from uuid import uuid4
 
 import pytest
-from pydantic import ValidationError
-
 from apex_iceml import (
     AempSnapshotInput,
     FleetMember,
@@ -22,6 +20,7 @@ from apex_iceml import (
     TelemetryReading,
     telemetry_reading_from_aemp,
 )
+from pydantic import ValidationError
 
 
 def _envelope() -> dict[str, object]:

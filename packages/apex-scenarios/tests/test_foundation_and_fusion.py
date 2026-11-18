@@ -3,15 +3,11 @@
 from __future__ import annotations
 
 import pytest
-
 from apex_scenarios import (
     FOUNDATION_CATALOG,
     FOUNDATION_CLASSES,
     FUSION_CATALOG,
     EffortRollup,
-    FoundationBlock,
-    FusionMesh,
-    PRACTICE_CODES,
     all_foundation_blocks,
     all_fusion_meshes,
     blocks_unblocking_scenario,
@@ -25,7 +21,6 @@ from apex_scenarios import (
     mesh_by_w2_service_code,
     transitive_prerequisites,
 )
-
 
 # ---------------------------------------------------------------------------
 # Foundation catalog — Task 28.2

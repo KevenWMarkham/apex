@@ -11,7 +11,8 @@ from datetime import UTC, datetime
 from typing import Any
 
 from apex_core.types import Classification
-from fabric_mcp import FABRIC_BACKEND, query_gold_view as _fabric_query_view
+from fabric_mcp import FABRIC_BACKEND
+from fabric_mcp import query_gold_view as _fabric_query_view
 from mcp_common import McpError, McpErrorCode, ToolContract, traced_call
 
 SERVER_NAME = "rc-e2e-04-mcp"

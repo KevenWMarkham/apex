@@ -13,7 +13,6 @@ from apex_references.framework import (
     validate_references,
 )
 
-
 references_app = typer.Typer(
     name="references",
     help="APEX Reference Deployments — list / inspect / validate / demo turnkey Wave-1 blueprints.",
@@ -63,10 +62,10 @@ def inspect_cmd(
     typer.echo(f"practice:              {spec.practice}")
     typer.echo(f"sellers_guide_section: {spec.sellers_guide_section}")
     typer.echo("")
-    typer.echo(f"description:")
+    typer.echo("description:")
     typer.echo(f"  {spec.description}")
     typer.echo("")
-    typer.echo(f"sponsor_personas:")
+    typer.echo("sponsor_personas:")
     for p in spec.sponsor_personas:
         typer.echo(f"  - {p}")
     typer.echo("")

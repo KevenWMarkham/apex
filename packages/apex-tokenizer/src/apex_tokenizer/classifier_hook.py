@@ -5,9 +5,8 @@ from __future__ import annotations
 from types import NoneType, UnionType
 from typing import Annotated, Any, TypeVar, Union, get_args, get_origin, get_type_hints
 
-from pydantic import BaseModel
-
 from apex_core.types import Classification
+from pydantic import BaseModel
 
 from apex_tokenizer.service import TokenService, get_default_service
 

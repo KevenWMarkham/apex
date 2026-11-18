@@ -7,6 +7,6 @@ Deloitte client's CAB has approved the integration. See README.md
 and sec_independence.md.
 """
 
-from .protocols import SATISFIES, ADAPTER_NAME, PROVIDER_LABEL
+from .protocols import ADAPTER_NAME, PROVIDER_LABEL, SATISFIES
 
-__all__ = ["SATISFIES", "ADAPTER_NAME", "PROVIDER_LABEL"]
+__all__ = ["ADAPTER_NAME", "PROVIDER_LABEL", "SATISFIES"]

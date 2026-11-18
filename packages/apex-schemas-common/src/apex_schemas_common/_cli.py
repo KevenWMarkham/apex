@@ -10,12 +10,11 @@ from __future__ import annotations
 
 import importlib
 import pkgutil
-from pathlib import Path
 
 import typer
+from apex_core.types import Practice
 from pydantic import BaseModel
 
-from apex_core.types import Practice
 from apex_schemas_common.standards import (
     STANDARDS,
     audit_model,

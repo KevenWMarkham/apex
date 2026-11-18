@@ -5,8 +5,6 @@ from __future__ import annotations
 from datetime import date, datetime, timedelta
 
 import pytest
-from pydantic import ValidationError
-
 from apex_standards_opentravel import (
     OtaAirReservation,
     OtaAirSegment,
@@ -15,6 +13,7 @@ from apex_standards_opentravel import (
     OtaHotelStay,
     OtaTraveler,
 )
+from pydantic import ValidationError
 
 
 def _traveler() -> OtaTraveler:

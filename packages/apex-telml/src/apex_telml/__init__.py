@@ -7,12 +7,10 @@ from enum import StrEnum
 from typing import Annotated
 from uuid import uuid4
 
-from pydantic import Field
-
 from apex_core.types import Classification
 from apex_schemas_common import CanonicalEntity, ScdType2Fields
 from apex_standards_sid import SidCustomer, SidLifecycleStatus
-
+from pydantic import Field
 
 # --- Entities ---------------------------------------------------------------
 

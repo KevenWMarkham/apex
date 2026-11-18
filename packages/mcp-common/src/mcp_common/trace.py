@@ -5,15 +5,16 @@ from __future__ import annotations
 import hashlib
 import json
 import time
+from collections.abc import Callable, Iterator
 from contextlib import contextmanager
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
-from typing import Any, Callable, Iterator
+from typing import Any
 from uuid import UUID, uuid4
 
 from apex_core.types import Classification
 
-_TRACE_SINK: Callable[["ToolTraceRecord"], None] | None = None
+_TRACE_SINK: Callable[[ToolTraceRecord], None] | None = None
 
 
 @dataclass(frozen=True, slots=True)

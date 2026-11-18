@@ -34,7 +34,6 @@ from apex_core.protocols.persona_binding import (
     UseCasePersonaBindings,
 )
 
-
 # ---------------------------------------------------------------------------
 # Substrate awareness
 # ---------------------------------------------------------------------------

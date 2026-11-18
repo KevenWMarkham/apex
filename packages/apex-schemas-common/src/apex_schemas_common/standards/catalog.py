@@ -24,7 +24,6 @@ import yaml
 
 from apex_schemas_common.standards.registry import STANDARDS, StandardSpec
 
-
 # ---------------------------------------------------------------------------
 # Catalog file location
 # ---------------------------------------------------------------------------

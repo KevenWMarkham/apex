@@ -1,5 +1,4 @@
-"""
-Generate the services/ tree from APEX-Scenario-Chains.xlsx.
+"""Generate the services/ tree from APEX-Scenario-Chains.xlsx.
 
 Layout:
   services/
@@ -75,7 +74,8 @@ def yaml_dump(data: dict) -> str:
 def write(path: Path, content: str) -> None:
     """Always write — overwrites existing content. Use for canonical files
     that must reflect the latest registry / xlsx (READMEs, scenario.yaml,
-    service.yaml, Bicep templates, _registry.json)."""
+    service.yaml, Bicep templates, _registry.json).
+    """
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(content, encoding="utf-8")
 
@@ -83,7 +83,8 @@ def write(path: Path, content: str) -> None:
 def write_if_missing(path: Path, content: str) -> bool:
     """Only write if the file doesn't exist. Use for stubs the user is
     expected to hand-edit (agent.yaml, prompts/*.md). Returns True if
-    written, False if skipped."""
+    written, False if skipped.
+    """
     if path.exists():
         return False
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -113,7 +114,8 @@ def load_extras() -> dict[str, dict]:
 def agent_roles_for(service_code: str, extras: dict) -> list[dict]:
     """Merge default 6 roles with any per-service extras. Each entry is a
     dict {role, label, description, hitl_gate} — defaults are filled in for
-    the canonical roles."""
+    the canonical roles.
+    """
     out: list[dict] = []
     for role in DEFAULT_AGENT_ROLES:
         out.append(
@@ -305,7 +307,7 @@ appear only in `services/_registry.json` (zero scaffolding) until promoted.
             "deployment": {
                 "wave_strategy": "three-wave",
                 "iac": "bicep",
-                "module": f"apex-m/infra/bicep/modules/service.bicep",
+                "module": "apex-m/infra/bicep/modules/service.bicep",
                 "service_module": f"services/{ind_slug}/{scode}/bicep/main.bicep",
             },
             "agent_archetype": {

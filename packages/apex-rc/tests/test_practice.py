@@ -66,7 +66,8 @@ def test_proml_entities_listed() -> None:
 
 def test_crmml_aliases_resolve_to_cxml() -> None:
     """Sprint 30.5 — CRMML.* aliases must resolve to canonical CXML entities."""
-    from apex_cxml import Customer as CxmlCustomer, Loyalty as CxmlLoyalty
+    from apex_cxml import Customer as CxmlCustomer
+    from apex_cxml import Loyalty as CxmlLoyalty
     from apex_rc.crmml import CRMML_ALIASES, Customer, Loyalty
 
     # Re-exports are the same class, not a copy.

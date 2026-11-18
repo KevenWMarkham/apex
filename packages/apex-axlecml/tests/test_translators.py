@@ -6,7 +6,6 @@ from datetime import UTC, datetime
 from decimal import Decimal
 
 import pytest
-
 from apex_axlecml import (
     Equipment,
     EquipmentStatus,

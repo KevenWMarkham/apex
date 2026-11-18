@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from apex_core.types import Classification
 from cxml_mcp import (
     CONTRACTS,

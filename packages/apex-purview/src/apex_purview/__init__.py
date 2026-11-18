@@ -12,6 +12,16 @@ Sprint 13 modules:
 
 from __future__ import annotations
 
+from apex_purview.catalog import (
+    EntityRelationship,
+    GlossaryDef,
+    GlossaryTerm,
+    emit_catalog_bundle,
+    emit_glossary_def,
+    emit_glossary_terms_from_schema,
+    emit_relationship_typedefs,
+    emit_relationships_from_schema,
+)
 from apex_purview.classifications import (
     APEX_CLASSIFICATIONS,
     ClassificationAttachment,
@@ -19,6 +29,22 @@ from apex_purview.classifications import (
     emit_classification_typedefs,
     emit_entity_classifications,
     enumerate_classifications,
+)
+from apex_purview.dlp import (
+    ACTIONS,
+    DEFAULT_DLP_MATRIX,
+    SURFACES,
+    DLPPolicyBundle,
+    DLPRule,
+    DLPViolationAlert,
+    action_severity,
+    build_bundle_from_overrides,
+    build_default_bundle,
+    emit_dlp_payload,
+    lookup_action,
+)
+from apex_purview.dlp import (
+    most_restrictive as most_restrictive_action,
 )
 from apex_purview.lineage import (
     PROCESS_TYPES,
@@ -36,19 +62,17 @@ from apex_purview.lineage import (
     emit_sor_to_bronze,
     load_lineage_spec,
 )
-from apex_purview.dlp import (
-    ACTIONS,
-    DEFAULT_DLP_MATRIX,
-    SURFACES,
-    DLPPolicyBundle,
-    DLPRule,
-    DLPViolationAlert,
-    action_severity,
-    build_bundle_from_overrides,
-    build_default_bundle,
-    emit_dlp_payload,
-    lookup_action,
-    most_restrictive as most_restrictive_action,
+from apex_purview.propagation import (
+    CLASSIFICATION_SEVERITY,
+    PropagationNode,
+    PropagationReport,
+    PropagationViolation,
+    build_propagation_graph,
+    severity,
+    validate_propagation,
+)
+from apex_purview.propagation import (
+    most_restrictive as most_restrictive_classification,
 )
 from apex_purview.retention import (
     DEFAULT_RETENTION_MATRIX,
@@ -60,26 +84,6 @@ from apex_purview.retention import (
     build_retention_with_overrides,
     emit_retention_payload,
     lookup_retention,
-)
-from apex_purview.catalog import (
-    EntityRelationship,
-    GlossaryDef,
-    GlossaryTerm,
-    emit_catalog_bundle,
-    emit_glossary_def,
-    emit_glossary_terms_from_schema,
-    emit_relationship_typedefs,
-    emit_relationships_from_schema,
-)
-from apex_purview.propagation import (
-    CLASSIFICATION_SEVERITY,
-    PropagationNode,
-    PropagationReport,
-    PropagationViolation,
-    build_propagation_graph,
-    most_restrictive as most_restrictive_classification,
-    severity,
-    validate_propagation,
 )
 
 __all__ = [

@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from fda_mcp import (
     CONTRACTS,
     InMemoryFdaBackend,

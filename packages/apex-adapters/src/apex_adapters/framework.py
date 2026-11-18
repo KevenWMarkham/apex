@@ -31,11 +31,10 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Literal
+from typing import Literal
 
 import yaml
 from pydantic import BaseModel, ConfigDict, Field
-
 
 # ---------------------------------------------------------------------------
 # Connection methods
@@ -279,7 +278,7 @@ class Adapter(ABC):
             result.rows_written = self.ingest(mapping, limit=limit)
             result.rows_read = result.rows_written
             result.fields_mapped = mapping.field_count()
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             result.errors.append(f"{type(exc).__name__}: {exc}")
         return result
 

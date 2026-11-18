@@ -6,8 +6,6 @@ from datetime import UTC, datetime
 from typing import Annotated
 from uuid import uuid4
 
-from pydantic import Field
-
 from apex_core.types import Classification
 from apex_medallion.silver import Scd2Config, add_scd2_fields_to_instance, tokenise_and_stamp
 from apex_schemas_common import CanonicalEntity, ScdType2Fields
@@ -17,6 +15,7 @@ from apex_tokenizer import (
     reset_default_service,
     set_default_service,
 )
+from pydantic import Field
 
 
 class _ExampleEntity(CanonicalEntity, ScdType2Fields):

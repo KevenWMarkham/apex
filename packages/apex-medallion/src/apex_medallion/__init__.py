@@ -6,8 +6,8 @@ from apex_medallion.bronze import (
     RetentionPolicy,
     SourcePattern,
     build_purview_retention_payload,
-    default_partition_columns,
     dead_letter_ddl,
+    default_partition_columns,
     generate_bronze_ddl,
 )
 

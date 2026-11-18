@@ -19,7 +19,6 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 
-
 # Match 3, 4, 6, or 8-digit hex literals after the `#` sigil. Word-boundary
 # on the leading char is `(?<![\w&])` to avoid matching CSS escape codes
 # or HTML-entity tails (e.g., `&#33;`).

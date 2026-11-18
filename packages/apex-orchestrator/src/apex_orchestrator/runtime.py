@@ -86,7 +86,7 @@ class Orchestrator:
         fn: StepFn,
         bump_class: BumpClass | None = None,
         approver_group: str | None = None,
-    ) -> "Orchestrator":
+    ) -> Orchestrator:
         self._steps.append(
             _OrchestrationStep(
                 step_id=step_id,
@@ -144,7 +144,7 @@ class Orchestrator:
             step = self._steps[idx]
             try:
                 step_result = step.fn(self._state["context"])
-            except Exception as exc:  # noqa: BLE001
+            except Exception as exc:
                 return OrchestrationResult(
                     status=OrchestrationStatus.FAILED,
                     context=dict(self._state["context"]),

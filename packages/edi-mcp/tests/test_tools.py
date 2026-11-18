@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from edi_mcp import CONTRACTS, emit_810, parse_850, parse_856
 from mcp_common import McpError, McpErrorCode
 

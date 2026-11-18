@@ -18,18 +18,32 @@ import typer
 from apex_scenarios.exporters import csv_filename, write_csv
 from apex_scenarios.foundation import (
     FOUNDATION_CLASSES,
-    all_blocks as all_foundation_blocks,
-    blocks_by_class as foundation_blocks_by_class,
     blocks_unblocking_scenario,
     effort_rollup,
-    get_block as get_foundation_block,
     transitive_prerequisites,
+)
+from apex_scenarios.foundation import (
+    all_blocks as all_foundation_blocks,
+)
+from apex_scenarios.foundation import (
+    blocks_by_class as foundation_blocks_by_class,
+)
+from apex_scenarios.foundation import (
+    get_block as get_foundation_block,
 )
 from apex_scenarios.fusion import (
     all_meshes as all_fusion_meshes,
+)
+from apex_scenarios.fusion import (
     get_mesh as get_fusion_mesh,
+)
+from apex_scenarios.fusion import (
     mesh_by_w2_service_code,
+)
+from apex_scenarios.fusion import (
     meshes_by_practice as fusion_meshes_by_practice,
+)
+from apex_scenarios.fusion import (
     per_practice_counts as fusion_per_practice_counts,
 )
 from apex_scenarios.library import (
@@ -48,7 +62,6 @@ from apex_scenarios.validators import (
     validate_wave_data_presence,
 )
 
-
 scenarios_app = typer.Typer(
     name="scenarios",
     help="APEX Scenario Library tooling — validation, export, master catalog publication.",
@@ -63,9 +76,7 @@ def _index(root: Path) -> ScenarioIndex:
 
 @scenarios_app.command("stats")
 def stats_cmd(
-    root: Path = typer.Option(
-        Path("."), "--root", help="Repository root containing docs/scenarios."
-    ),
+    root: Path = typer.Option(Path(), "--root", help="Repository root containing docs/scenarios."),
 ) -> None:
     """Show coverage and wave-completion statistics."""
     idx = _index(root)
@@ -82,7 +93,7 @@ def stats_cmd(
 
 @scenarios_app.command("validate")
 def validate_cmd(
-    root: Path = typer.Option(Path("."), "--root"),
+    root: Path = typer.Option(Path(), "--root"),
     fail_on_warnings: bool = typer.Option(
         False,
         "--fail-on-warnings",
@@ -125,7 +136,7 @@ def validate_cmd(
 
 @scenarios_app.command("export-csv")
 def export_csv_cmd(
-    root: Path = typer.Option(Path("."), "--root"),
+    root: Path = typer.Option(Path(), "--root"),
     practice: str | None = typer.Option(
         None,
         "--practice",
@@ -153,7 +164,7 @@ def export_csv_cmd(
 
 @scenarios_app.command("publish-catalog")
 def publish_catalog_cmd(
-    root: Path = typer.Option(Path("."), "--root"),
+    root: Path = typer.Option(Path(), "--root"),
     output_dir: Path = typer.Argument(..., help="Output directory for Appendix L."),
 ) -> None:
     """Publish the Appendix L Scenario Library master catalog."""

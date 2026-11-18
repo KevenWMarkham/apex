@@ -4,11 +4,10 @@ from __future__ import annotations
 
 from typing import Annotated
 
-from pydantic import Field
-
 from apex_core.types import Classification
 from apex_schemas_common import CanonicalEntity, build_purview_payload
 from apex_schemas_common.standards import GTIN14
+from pydantic import Field
 
 
 class _SKU(CanonicalEntity):

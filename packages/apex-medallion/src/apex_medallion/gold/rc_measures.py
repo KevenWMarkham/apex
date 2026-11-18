@@ -8,6 +8,7 @@ in later sprints.
 from __future__ import annotations
 
 from apex_core.types import Classification
+
 from apex_medallion.gold.measure import (
     MeasureDefinition,
     MeasureKind,

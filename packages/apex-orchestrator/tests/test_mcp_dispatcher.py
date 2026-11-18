@@ -5,7 +5,6 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-
 from apex_orchestrator.control_plane.redis_client import (
     RedisControlPlane,
     StubRedis,
@@ -18,7 +17,6 @@ from apex_orchestrator.mcp.dispatcher import (
     arg_hash_of,
     parse_charter_catalog,
 )
-
 
 CHARTER_PATH = Path(__file__).resolve().parents[3] / "apex-workspace" / "CHARTER.md"
 

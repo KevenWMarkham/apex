@@ -6,10 +6,9 @@ from datetime import date, datetime
 from decimal import Decimal
 from enum import StrEnum
 
-from pydantic import Field
-
 from apex_schemas_common import CanonicalEntity
 from apex_schemas_common.standards import CptCode, HcpcsCode
+from pydantic import Field
 
 
 class ClaimStatus(StrEnum):

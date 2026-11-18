@@ -1,7 +1,8 @@
 """Emit Appendix D — 47 orchestration archetypes."""
 
-import yaml
 from pathlib import Path
+
+import yaml
 
 OUT = Path(__file__).parent / "src" / "apex_registries" / "archetypes"
 OUT.mkdir(parents=True, exist_ok=True)

@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-
 # Synthetic NodeSet2.xml for the AXLE Practice north-plant Line 7
 # example. Uses the standard UANodeSet schema namespace.
 OPCUA_NODESET_XML = """<?xml version="1.0" encoding="utf-8"?>

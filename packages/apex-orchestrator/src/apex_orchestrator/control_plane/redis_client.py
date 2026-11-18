@@ -27,10 +27,9 @@ from __future__ import annotations
 import json
 import logging
 import time
-from dataclasses import asdict, dataclass, field
+from dataclasses import dataclass, field
 from enum import StrEnum
-from typing import Any, Literal, Optional, Protocol, runtime_checkable
-
+from typing import Any, Literal, Protocol, runtime_checkable
 
 log = logging.getLogger("apex.orchestrator.control_plane.redis")
 
@@ -95,8 +94,8 @@ class RedisProtocol(Protocol):
     tests pass :class:`StubRedis` to drive the same logic deterministically.
     """
 
-    def get(self, key: str) -> Optional[bytes]: ...
-    def set(self, key: str, value: bytes | str, ex: Optional[int] = None) -> bool: ...
+    def get(self, key: str) -> bytes | None: ...
+    def set(self, key: str, value: bytes | str, ex: int | None = None) -> bool: ...
     def setex(self, key: str, time: int, value: bytes | str) -> bool: ...
     def delete(self, *keys: str) -> int: ...
     def exists(self, key: str) -> int: ...
@@ -156,13 +155,13 @@ class StubRedis:
 
     # ----- get/set/del/exists/expire -----
 
-    def get(self, key: str) -> Optional[bytes]:
+    def get(self, key: str) -> bytes | None:
         self._check_fail()
         if self._expired(key):
             return None
         return self._kv.get(key)
 
-    def set(self, key: str, value: bytes | str, ex: Optional[int] = None) -> bool:
+    def set(self, key: str, value: bytes | str, ex: int | None = None) -> bool:
         self._check_fail()
         v = value.encode("utf-8") if isinstance(value, str) else value
         self._kv[key] = v
@@ -284,7 +283,7 @@ class BudgetCounters:
     extra: dict[str, int] = field(default_factory=dict)
 
     @classmethod
-    def empty(cls) -> "BudgetCounters":
+    def empty(cls) -> BudgetCounters:
         return cls()
 
 
@@ -354,7 +353,8 @@ class RedisControlPlane:
 
     def set_cancel_token(self, run_id: str, level: CancelLevel | str) -> None:
         """Set the cancel token. Caller-side write — control-plane SOR is
-        Cosmos / DF entities; this just lights up the fast read path."""
+        Cosmos / DF entities; this just lights up the fast read path.
+        """
         if isinstance(level, str):
             level = CancelLevel(level)
         try:
@@ -450,7 +450,8 @@ class RedisControlPlane:
 
     def heartbeat(self, run_id: str, child_id: str, ttl_s: int = DEFAULT_HEARTBEAT_TTL_S) -> None:
         """Emit one heartbeat. Caller emits every 30s; TTL 60s. SETEX
-        idempotent."""
+        idempotent.
+        """
         try:
             self._r.setex(
                 self._key_heartbeat(run_id, child_id),
@@ -481,7 +482,8 @@ class RedisControlPlane:
 
     def enqueue_hitl(self, hitl_id: str, deadline_unix: int, payload: dict) -> None:
         """Enqueue a HITL deadline. Deadline is Unix timestamp; payload
-        held alongside as a hash."""
+        held alongside as a hash.
+        """
         try:
             self._r.zadd(self._key_hitl_zset(), {hitl_id: float(deadline_unix)})
             self._r.hset(
@@ -506,7 +508,8 @@ class RedisControlPlane:
     def pop_expired_hitl(self, now_unix: int) -> list[str]:
         """Return every HITL id whose deadline ≤ ``now_unix``. Atomic
         ZREM removes them from the queue; the caller emits the
-        deadline-missed events."""
+        deadline-missed events.
+        """
         try:
             members = self._r.zrangebyscore(self._key_hitl_zset(), 0, float(now_unix))
             ids = [m.decode("utf-8") if isinstance(m, bytes) else str(m) for m in members]
@@ -599,7 +602,7 @@ class RedisControlPlane:
             )
             return False
 
-    def get_cached_mcp_response(self, tool: str, arg_hash: str, entra_scope: str) -> Optional[Any]:
+    def get_cached_mcp_response(self, tool: str, arg_hash: str, entra_scope: str) -> Any | None:
         """Lookup a cached MCP tool response. **Fail-closed** to ``None``
         (cache miss) — Redis unreachable → caller hits the real tool.
 
@@ -623,7 +626,8 @@ class RedisControlPlane:
         """Sprint 26 Task 26.7.3 — TTL-expire run-scoped keys within 5
         minutes after run completion. Cancel-token + heartbeat keys are
         already TTL-bound but explicit short-TTL on completion keeps the
-        Redis footprint trim."""
+        Redis footprint trim.
+        """
         try:
             self._r.expire(self._key_cancel(run_id), ttl_s)
             log.info(

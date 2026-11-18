@@ -12,7 +12,6 @@ from apex_agents.framework import (
     validate_catalogs,
 )
 
-
 agents_app = typer.Typer(
     name="agents",
     help="APEX Agent Catalog — list / inspect / validate Practice agent manifests.",
@@ -94,7 +93,7 @@ def inspect_cmd(
                 if spec.forbidden_classifications:
                     typer.echo(f"forbidden_classes:   {spec.forbidden_classifications}")
                 typer.echo("")
-                typer.echo(f"description:")
+                typer.echo("description:")
                 typer.echo(f"  {spec.description}")
                 return
     typer.echo(f"Agent {agent_name!r} not found.")

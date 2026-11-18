@@ -12,7 +12,6 @@ from pathlib import Path
 
 from apex_compliance_lint.types import FileAdapter
 
-
 _SKIP_TAGS = {"script", "style", "noscript", "template"}
 
 

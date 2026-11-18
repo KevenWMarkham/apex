@@ -17,7 +17,6 @@ import re
 
 from apex_compliance_lint.types import Rule, RulePack, Severity, make_pattern
 
-
 # ---------------------------------------------------------------------------
 # Allowed-context patterns (suppress matches inside these contexts)
 # ---------------------------------------------------------------------------

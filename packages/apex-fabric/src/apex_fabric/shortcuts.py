@@ -25,7 +25,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any, Literal
 
-from apex_fabric.workspaces import TokenProvider, FABRIC_API_BASE
+from apex_fabric.workspaces import FABRIC_API_BASE, TokenProvider
 
 #: Supported shortcut target kinds. Maps to the Fabric API's
 #: ``target.{kind}`` envelope keys.

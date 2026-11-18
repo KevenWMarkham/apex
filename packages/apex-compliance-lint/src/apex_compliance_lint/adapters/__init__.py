@@ -8,9 +8,9 @@ so the core package installs without them; users opt in via
 ``pip install apex-compliance-lint[docx]`` / ``[pptx]``.
 """
 
+from apex_compliance_lint.adapters.docx_adapter import DOCXAdapter
 from apex_compliance_lint.adapters.html_adapter import HTMLAdapter
 from apex_compliance_lint.adapters.markdown_adapter import MarkdownAdapter
-from apex_compliance_lint.adapters.docx_adapter import DOCXAdapter
 from apex_compliance_lint.adapters.pptx_adapter import PPTXAdapter
 
 __all__ = ["DOCXAdapter", "HTMLAdapter", "MarkdownAdapter", "PPTXAdapter"]

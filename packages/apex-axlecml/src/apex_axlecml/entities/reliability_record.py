@@ -4,8 +4,6 @@ from __future__ import annotations
 
 from datetime import datetime
 
-from pydantic import Field
-
 from apex_schemas_common import CanonicalEntity
 from apex_standards_iso14224 import (
     Iso14224EquipmentClass,
@@ -13,6 +11,7 @@ from apex_standards_iso14224 import (
     Iso14224FailureMechanism,
     Iso14224FailureMode,
 )
+from pydantic import Field
 
 
 class AxleReliabilityRecord(CanonicalEntity):

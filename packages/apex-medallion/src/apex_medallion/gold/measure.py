@@ -12,9 +12,8 @@ from __future__ import annotations
 
 from enum import StrEnum
 
-from pydantic import BaseModel, ConfigDict, Field
-
 from apex_core.types import Classification
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class MeasureKind(StrEnum):

@@ -14,9 +14,9 @@ timers. The class here holds the **deployment-neutral logic**:
 from __future__ import annotations
 
 import logging
+from collections.abc import Callable
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
-from typing import Callable
+from datetime import UTC, datetime
 
 from apex_orchestrator.heartbeat.parser import HeartbeatRoutine
 from apex_orchestrator.orchestrator.parent import (
@@ -24,7 +24,6 @@ from apex_orchestrator.orchestrator.parent import (
     ChildSpawn,
     ParentOrchestrator,
 )
-
 
 log = logging.getLogger("apex.orchestrator.heartbeat.scheduler")
 
@@ -67,9 +66,7 @@ class HeartbeatScheduler:
     routines: list[HeartbeatRoutine]
     parent: ParentOrchestrator
     spawn_run_id_factory: Callable[[str], str] = field(
-        default=lambda routine_name: (
-            f"hb-{routine_name}-{int(datetime.now(timezone.utc).timestamp())}"
-        )
+        default=lambda routine_name: f"hb-{routine_name}-{int(datetime.now(UTC).timestamp())}"
     )
     """Factory for run ids — production injects a UUID-based factory."""
 
@@ -91,7 +88,7 @@ class HeartbeatScheduler:
         self.parent.on_child_spawn(spawn)
         evt = TriggerFire(
             routine_name=routine_name,
-            fired_at=datetime.now(timezone.utc),
+            fired_at=datetime.now(UTC),
             trigger_source=spawn.trigger_source,
             spawned_run_id=run_id,
         )
@@ -121,7 +118,7 @@ class HeartbeatScheduler:
         self._lookup(routine_name)
         evt = HeartbeatMissedEvent(
             routine_name=routine_name,
-            missed_at=datetime.now(timezone.utc),
+            missed_at=datetime.now(UTC),
             reason=reason,
         )
         self.emit_event(
