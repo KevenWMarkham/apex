@@ -65,7 +65,8 @@ def list_recalls_by_date(
     with traced_call(
         tool_name=f"{SERVER_NAME}.list_recalls_by_date",
         tool_version=TOOL_VERSION,
-        agent_id=agent_id, caller_identity=caller_identity,
+        agent_id=agent_id,
+        caller_identity=caller_identity,
         parameters={"since_iso": since_iso, "limit": limit},
         classification_applied=[Classification.PUBLIC],
     ) as ctx:
@@ -84,7 +85,8 @@ def get_recall_detail(
     with traced_call(
         tool_name=f"{SERVER_NAME}.get_recall_detail",
         tool_version=TOOL_VERSION,
-        agent_id=agent_id, caller_identity=caller_identity,
+        agent_id=agent_id,
+        caller_identity=caller_identity,
         parameters={"recall_id": recall_id},
         classification_applied=[Classification.PUBLIC],
     ) as ctx:
@@ -109,7 +111,8 @@ def search_adverse_events(
     with traced_call(
         tool_name=f"{SERVER_NAME}.search_adverse_events",
         tool_version=TOOL_VERSION,
-        agent_id=agent_id, caller_identity=caller_identity,
+        agent_id=agent_id,
+        caller_identity=caller_identity,
         parameters={"product": product, "limit": limit},
         classification_applied=[Classification.PUBLIC],
     ) as ctx:
@@ -120,17 +123,20 @@ def search_adverse_events(
 
 CONTRACTS: list[ToolContract] = [
     ToolContract(
-        name=f"{SERVER_NAME}.list_recalls_by_date", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.list_recalls_by_date",
+        version=TOOL_VERSION,
         description="List FDA recall events since a date.",
         classification_propagation=[Classification.PUBLIC],
     ),
     ToolContract(
-        name=f"{SERVER_NAME}.get_recall_detail", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.get_recall_detail",
+        version=TOOL_VERSION,
         description="Fetch a recall record by id.",
         classification_propagation=[Classification.PUBLIC],
     ),
     ToolContract(
-        name=f"{SERVER_NAME}.search_adverse_events", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.search_adverse_events",
+        version=TOOL_VERSION,
         description="Search FDA adverse-event reports by product.",
         classification_propagation=[Classification.PUBLIC],
     ),

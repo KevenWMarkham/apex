@@ -127,9 +127,7 @@ def parse_scd(raw: str) -> SCDDocument:
         raise AddressSpaceError(f"SCD XML parse error: {exc}") from exc
 
     if not root.tag.endswith("SCL"):
-        raise AddressSpaceError(
-            f"SCD root must be SCL, got {root.tag!r}"
-        )
+        raise AddressSpaceError(f"SCD root must be SCL, got {root.tag!r}")
 
     doc = SCDDocument()
 
@@ -138,11 +136,7 @@ def parse_scd(raw: str) -> SCDDocument:
         doc.file_revision = header.get("revision", "")
         history = _find_local(header, "History")
         if history is not None:
-            doc.history = [
-                hi.get("what", "")
-                for hi in history
-                if hi.tag.split("}")[-1] == "Hitem"
-            ]
+            doc.history = [hi.get("what", "") for hi in history if hi.tag.split("}")[-1] == "Hitem"]
 
     for ied_el in [c for c in root if c.tag.split("}")[-1] == "IED"]:
         ied = IED(
@@ -178,7 +172,9 @@ def parse_scd(raw: str) -> SCDDocument:
                                     dataset=gse.get("datSet", ""),
                                 )
                             )
-                        for sv in [c for c in ln_el if c.tag.split("}")[-1] == "SampledValueControl"]:
+                        for sv in [
+                            c for c in ln_el if c.tag.split("}")[-1] == "SampledValueControl"
+                        ]:
                             ld.sv_blocks.append(
                                 SVControlBlock(
                                     name=sv.get("name", ""),

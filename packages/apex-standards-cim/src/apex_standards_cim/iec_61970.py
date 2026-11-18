@@ -44,7 +44,9 @@ class CimEquipment(BaseModel):
     description: str = ""
     in_service: bool = True
     normally_in_service: bool = True
-    equipment_container_mrid: MRID | None = Field(None, description="Substation / line / bay container.")
+    equipment_container_mrid: MRID | None = Field(
+        None, description="Substation / line / bay container."
+    )
 
 
 class CimEnergyEvent(BaseModel):

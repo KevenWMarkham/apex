@@ -44,10 +44,13 @@ def stats_cmd() -> None:
 @registries_app.command("list")
 def list_cmd(
     registry: str = typer.Argument(
-        ..., help="Registry name (kpis, personas, mcp_tools, schemas, archetypes, products, partners, competitive, exercises)."
+        ...,
+        help="Registry name (kpis, personas, mcp_tools, schemas, archetypes, products, partners, competitive, exercises).",
     ),
     practice: str | None = typer.Option(None, "--practice", "-p"),
-    family: str | None = typer.Option(None, "--family", "-f", help="Family filter (archetypes/products/partners only)."),
+    family: str | None = typer.Option(
+        None, "--family", "-f", help="Family filter (archetypes/products/partners only)."
+    ),
 ) -> None:
     """List entries in one registry, optionally filtered."""
     if registry not in REGISTRY_DIRS:
@@ -67,8 +70,20 @@ def list_cmd(
             continue
         # Resolve a sensible label
         label_keys = ("name", "display_name", "schema_code", "tool_id", "competitor")
-        label = next((getattr(spec, k) for k in label_keys if getattr(spec, k, None)), entry.path.stem)
-        id_keys = ("kpi_id", "persona_id", "tool_id", "schema_code", "archetype_id", "product_id", "partner_id", "entry_id", "exercise_id")
+        label = next(
+            (getattr(spec, k) for k in label_keys if getattr(spec, k, None)), entry.path.stem
+        )
+        id_keys = (
+            "kpi_id",
+            "persona_id",
+            "tool_id",
+            "schema_code",
+            "archetype_id",
+            "product_id",
+            "partner_id",
+            "entry_id",
+            "exercise_id",
+        )
         ident = next((getattr(spec, k) for k in id_keys if getattr(spec, k, None)), entry.path.stem)
         typer.echo(f"  {ident:50} {label}")
 
@@ -83,12 +98,30 @@ def inspect_cmd(
         typer.echo(f"Unknown registry {registry!r}", err=True)
         raise typer.Exit(code=1)
     entries = scan_registry(registry)
-    id_keys = ("kpi_id", "persona_id", "tool_id", "schema_code", "archetype_id", "product_id", "partner_id", "entry_id", "exercise_id")
+    id_keys = (
+        "kpi_id",
+        "persona_id",
+        "tool_id",
+        "schema_code",
+        "archetype_id",
+        "product_id",
+        "partner_id",
+        "entry_id",
+        "exercise_id",
+    )
     for entry in entries:
         for k in id_keys:
             if getattr(entry.spec, k, None) == ident:
                 import yaml
-                typer.echo(yaml.safe_dump(entry.spec.model_dump(), sort_keys=False, default_flow_style=False, allow_unicode=True))
+
+                typer.echo(
+                    yaml.safe_dump(
+                        entry.spec.model_dump(),
+                        sort_keys=False,
+                        default_flow_style=False,
+                        allow_unicode=True,
+                    )
+                )
                 return
     typer.echo(f"Entry {ident!r} not found in {registry!r}", err=True)
     raise typer.Exit(code=1)
@@ -144,6 +177,7 @@ def validate_cmd() -> None:
     a_tool: set[str] | None = None
     try:
         from apex_agents import scan_all_catalogs as agents_scan
+
         a_kpi = set()
         a_per = set()
         a_tool = set()
@@ -158,6 +192,7 @@ def validate_cmd() -> None:
         pass
     try:
         from apex_services import scan_all_catalogs as services_scan
+
         s_kpi = set()
         s_per = set()
         for entries in services_scan().values():

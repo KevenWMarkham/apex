@@ -19,15 +19,15 @@ class UnitSymbol(StrEnum):
     """Subset of IEC 61970-301 unit symbols used by ER reference deployments."""
 
     NONE = "none"
-    W = "W"                 # watt
-    VAR = "VAr"             # volt-ampere reactive
-    VA = "VA"               # volt-ampere
-    V = "V"                 # volt
-    A = "A"                 # ampere
+    W = "W"  # watt
+    VAR = "VAr"  # volt-ampere reactive
+    VA = "VA"  # volt-ampere
+    V = "V"  # volt
+    A = "A"  # ampere
     OHM = "ohm"
     HZ = "Hz"
     DEG_C = "degC"
-    K = "K"                 # kelvin
+    K = "K"  # kelvin
     KW = "kW"
     KWH = "kWh"
     MW = "MW"

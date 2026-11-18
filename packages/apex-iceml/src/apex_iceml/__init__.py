@@ -89,9 +89,7 @@ class ServiceEvent(CanonicalEntity):
 
     equipment_key: str = Field(..., description="FK → IceEquipment.entity_id.")
     occurred_at: datetime
-    oem_fault_code: str | None = Field(
-        None, description="OEM service / diagnostic trouble code."
-    )
+    oem_fault_code: str | None = Field(None, description="OEM service / diagnostic trouble code.")
     j1939_spn: int | None = Field(None, ge=0)
     severity: ServiceEventSeverity = ServiceEventSeverity.INFO
     failure_mode: Iso14224FailureMode | None = None
@@ -156,7 +154,9 @@ class AempSnapshotInput(BaseModel):
     fuel_level_pct: Decimal | None = None
 
 
-def _envelope(*, entity_id: str, event_ts: datetime, source_system: str = "aemp") -> dict[str, object]:
+def _envelope(
+    *, entity_id: str, event_ts: datetime, source_system: str = "aemp"
+) -> dict[str, object]:
     return {
         "event_id": uuid4(),
         "event_ts": event_ts,

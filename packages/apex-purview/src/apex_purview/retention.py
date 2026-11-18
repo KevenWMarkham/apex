@@ -133,9 +133,7 @@ class LegalHoldConfig:
                 raise ValueError(f"Unknown classification in legal hold: {c!r}.")
         return {
             "matterId": self.matter_id,
-            "classifications": [
-                APEX_CLASSIFICATIONS[c]["type_name"] for c in self.classifications
-            ],
+            "classifications": [APEX_CLASSIFICATIONS[c]["type_name"] for c in self.classifications],
             "custodian": self.custodian,
             "startedAt": self.started_iso,
             "description": self.description,
@@ -257,7 +255,5 @@ def lookup_retention(
     if key not in APEX_CLASSIFICATIONS:
         raise ValueError(f"Unknown classification: {classification!r} (normalized {key!r}).")
     if key not in matrix:
-        raise ValueError(
-            f"Classification {key!r} missing from retention matrix."
-        )
+        raise ValueError(f"Classification {key!r} missing from retention matrix.")
     return matrix[key]

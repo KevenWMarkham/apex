@@ -38,8 +38,10 @@ class TestTeamsCard:
 
     def test_facts_populated(self) -> None:
         card = build_adaptive_card(
-            title="t", subtitle="s",
-            decision_id="d", proposal={"a": 1, "b": "two"},
+            title="t",
+            subtitle="s",
+            decision_id="d",
+            proposal={"a": 1, "b": "two"},
             approver_group="g",
         )
         facts = next(b for b in card["body"] if b["type"] == "FactSet")["facts"]

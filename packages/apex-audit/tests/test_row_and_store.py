@@ -22,20 +22,26 @@ from apex_audit import (
 
 def _row(**overrides) -> AuditRow:
     defaults = dict(
-        trace_id="t-1", decision_id="d-1", agent_id="a1",
-        invoking_identity="user:qa", manifest_version="m",
-        policy_version="p", model_version="gpt-4.1", prompt_version="pr",
+        trace_id="t-1",
+        decision_id="d-1",
+        agent_id="a1",
+        invoking_identity="user:qa",
+        manifest_version="m",
+        policy_version="p",
+        model_version="gpt-4.1",
+        prompt_version="pr",
         inputs_ref="sha256:aaa",
         tools_called=(
             ToolCallRecord(
-                mcp_tool_id="fabric-mcp.query", tool_version="1.0.0",
-                parameters_hash="sha256:pp", result_hash="sha256:rr",
+                mcp_tool_id="fabric-mcp.query",
+                tool_version="1.0.0",
+                parameters_hash="sha256:pp",
+                result_hash="sha256:rr",
             ),
         ),
         reasoning_trace_ref="sha256:rz",
         decision_output={"action": "markdown", "pct": -30},
-        hitl_status=HitlRecord(status=HitlStatus.APPROVED,
-                               approver_identity="qa@ex.com"),
+        hitl_status=HitlRecord(status=HitlStatus.APPROVED, approver_identity="qa@ex.com"),
         downstream_effect_ref=None,
     )
     defaults.update(overrides)
@@ -46,10 +52,19 @@ class TestAuditRow:
     def test_14_required_fields_present(self) -> None:
         row = _row()
         required = {
-            "trace_id", "decision_id", "agent_id", "invoking_identity",
-            "manifest_version", "policy_version", "model_version",
-            "prompt_version", "inputs_ref", "tools_called",
-            "reasoning_trace_ref", "decision_output", "hitl_status",
+            "trace_id",
+            "decision_id",
+            "agent_id",
+            "invoking_identity",
+            "manifest_version",
+            "policy_version",
+            "model_version",
+            "prompt_version",
+            "inputs_ref",
+            "tools_called",
+            "reasoning_trace_ref",
+            "decision_output",
+            "hitl_status",
             "downstream_effect_ref",
         }
         dumped = row.to_dict()
@@ -109,19 +124,20 @@ class TestCompositeRow:
     def test_append_composite(self) -> None:
         store = AuditStore(signing_key=b"key")
         comp = OrchestrationCompositeRow(
-            trace_id="t-1", orchestration_id="orc-1",
-            archetype_id="rc.cold_chain", trigger="event",
+            trace_id="t-1",
+            orchestration_id="orc-1",
+            archetype_id="rc.cold_chain",
+            trigger="event",
             tenant_id="tenant-a",
             participating_agents=(
                 ParticipatingAgent(
-                    decision_id="d-1", agent_id="a1", step_order=0,
+                    decision_id="d-1",
+                    agent_id="a1",
+                    step_order=0,
                 ),
             ),
             orchestration_outcome="completed",
-            hitl_gates_fired=(
-                HitlEvent(decision_id="d-1", gate_kind="HITL",
-                          status="approved"),
-            ),
+            hitl_gates_fired=(HitlEvent(decision_id="d-1", gate_kind="HITL", status="approved"),),
             started_at=datetime.now(UTC),
         )
         sealed = store.append_composite(comp)

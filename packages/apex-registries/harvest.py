@@ -42,9 +42,7 @@ def write_yaml(path: Path, data: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8") as fh:
         fh.write("# harvest:auto-generated — apex_registries.harvest\n")
-        yaml.safe_dump(
-            data, fh, sort_keys=False, default_flow_style=False, allow_unicode=True
-        )
+        yaml.safe_dump(data, fh, sort_keys=False, default_flow_style=False, allow_unicode=True)
 
 
 def harvest_kpis() -> int:
@@ -156,8 +154,7 @@ def harvest_personas() -> int:
             seniority=seniority,
             function=source,
             description=(
-                f"{name} ({prac.upper()}). Persona referenced by APEX "
-                f"{source} manifests."
+                f"{name} ({prac.upper()}). Persona referenced by APEX {source} manifests."
             ),
             typical_decisions=[],
             pains=[],

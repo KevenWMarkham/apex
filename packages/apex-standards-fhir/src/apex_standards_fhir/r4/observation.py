@@ -25,8 +25,14 @@ class FhirObservation(BaseModel):
     id: str | None = None
     identifier: list[FhirIdentifier] = Field(default_factory=list)
     status: Literal[
-        "registered", "preliminary", "final", "amended",
-        "corrected", "cancelled", "entered-in-error", "unknown",
+        "registered",
+        "preliminary",
+        "final",
+        "amended",
+        "corrected",
+        "cancelled",
+        "entered-in-error",
+        "unknown",
     ]
     category: list[FhirCodeableConcept] = Field(default_factory=list)
     code: FhirCodeableConcept = Field(..., description="What is observed (typically LOINC).")
@@ -34,9 +40,7 @@ class FhirObservation(BaseModel):
     encounter: FhirReference | None = None
     effective_date_time: datetime | None = Field(None, alias="effectiveDateTime")
     value_quantity: FhirQuantity | None = Field(None, alias="valueQuantity")
-    value_codeable_concept: FhirCodeableConcept | None = Field(
-        None, alias="valueCodeableConcept"
-    )
+    value_codeable_concept: FhirCodeableConcept | None = Field(None, alias="valueCodeableConcept")
     value_string: str | None = Field(None, alias="valueString")
     value_boolean: bool | None = Field(None, alias="valueBoolean")
     interpretation: list[FhirCodeableConcept] = Field(default_factory=list)

@@ -77,13 +77,28 @@ CONTENT_FINGERPRINTS: list[tuple[re.Pattern[str], str]] = [
 
 # File extensions worth scanning for content fingerprints
 SCAN_EXTENSIONS: set[str] = {
-    ".py", ".md", ".txt", ".csv", ".tsv", ".json", ".yaml", ".yml",
+    ".py",
+    ".md",
+    ".txt",
+    ".csv",
+    ".tsv",
+    ".json",
+    ".yaml",
+    ".yml",
 }
 
 # Path fragments to skip entirely
 SKIP_PATH_FRAGMENTS: list[str] = [
-    "__pycache__", ".git", ".venv", "node_modules", "dist", "build",
-    ".pytest_cache", ".mypy_cache", ".ruff_cache", "site-packages",
+    "__pycache__",
+    ".git",
+    ".venv",
+    "node_modules",
+    "dist",
+    "build",
+    ".pytest_cache",
+    ".mypy_cache",
+    ".ruff_cache",
+    "site-packages",
 ]
 
 # Filenames where mentioning restricted-terminology names is expected
@@ -173,7 +188,9 @@ def main(argv: list[str] | None = None) -> int:
         )
     )
     parser.add_argument(
-        "path", nargs="?", default=".",
+        "path",
+        nargs="?",
+        default=".",
         help="Root path to scan (default: current directory).",
     )
     args = parser.parse_args(argv)

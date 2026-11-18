@@ -24,9 +24,16 @@ def test_record_minimal() -> None:
 def test_ddl_includes_required_columns() -> None:
     ddl = dead_letter_ddl()
     for col in (
-        "dead_letter_id", "source_system", "source_pattern",
-        "target_table", "occurred_at", "error_class", "error_message",
-        "retry_count", "payload_raw", "run_id",
+        "dead_letter_id",
+        "source_system",
+        "source_pattern",
+        "target_table",
+        "occurred_at",
+        "error_class",
+        "error_message",
+        "retry_count",
+        "payload_raw",
+        "run_id",
     ):
         assert re.search(rf"\b{col}\b", ddl), f"missing column {col}"
 

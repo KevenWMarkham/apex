@@ -21,7 +21,9 @@ class SequentialRunner:
     def __init__(self) -> None:
         self._steps: list[_Step] = []
 
-    def add(self, *, step_id: str, agent_name: str, agent_version: str, fn: StepFn) -> "SequentialRunner":
+    def add(
+        self, *, step_id: str, agent_name: str, agent_version: str, fn: StepFn
+    ) -> "SequentialRunner":
         self._steps.append(_Step(step_id, agent_name, agent_version, fn))
         return self
 
@@ -31,12 +33,14 @@ class SequentialRunner:
         results: list[StepResult] = []
         for step in self._steps:
             result = step.fn(context)
-            results.append(StepResult(
-                step_id=step.step_id,
-                agent_name=step.agent_name,
-                agent_version=step.agent_version,
-                result=result,
-            ))
+            results.append(
+                StepResult(
+                    step_id=step.step_id,
+                    agent_name=step.agent_name,
+                    agent_version=step.agent_version,
+                    result=result,
+                )
+            )
             context.setdefault("_history", []).append({"step_id": step.step_id, "result": result})
             context.update(result)
         return context, results

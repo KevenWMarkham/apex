@@ -75,9 +75,18 @@ class HL7v2Delimiters:
     converts to LF or CRLF. Parser tolerates both."""
 
 
-SUPPORTED_SEGMENTS: frozenset[str] = frozenset({
-    "MSH", "PID", "PV1", "OBX", "OBR", "ORC", "RXE", "AL1",
-})
+SUPPORTED_SEGMENTS: frozenset[str] = frozenset(
+    {
+        "MSH",
+        "PID",
+        "PV1",
+        "OBX",
+        "OBR",
+        "ORC",
+        "RXE",
+        "AL1",
+    }
+)
 
 
 # ---------------------------------------------------------------------------
@@ -138,9 +147,7 @@ class HL7v2Parser:
                 segments.append(Segment(name=head, elements=elements, raw=line))
             else:
                 fields = line.split(delims.field)
-                segments.append(
-                    Segment(name=fields[0], elements=fields[1:], raw=line)
-                )
+                segments.append(Segment(name=fields[0], elements=fields[1:], raw=line))
 
         msg = ParsedMessage(
             format=FORMAT_HL7V2,
@@ -181,7 +188,11 @@ class HL7v2Parser:
         if len(msh.elements) >= 9:
             # Message type may be "ADT^A04" — keep the raw composite
             msg.message_type = msh.elements[8].split(delims.component)[0:2]
-            msg.message_type = "^".join(msg.message_type) if isinstance(msg.message_type, list) else msh.elements[8]
+            msg.message_type = (
+                "^".join(msg.message_type)
+                if isinstance(msg.message_type, list)
+                else msh.elements[8]
+            )
         if len(msh.elements) >= 10:
             msg.control_number = msh.elements[9]
         if len(msh.elements) >= 12:

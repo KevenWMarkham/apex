@@ -211,6 +211,7 @@ class ShortcutClient:
         if self.http_client is not None:
             return self.http_client
         import httpx
+
         return httpx.Client(timeout=30.0)
 
     def _headers(self) -> dict[str, str]:
@@ -223,10 +224,7 @@ class ShortcutClient:
     def create_shortcut(self, spec: ShortcutSpec) -> dict[str, Any]:
         """``POST /v1/workspaces/{ws}/items/{item}/shortcuts``."""
         client = self._client()
-        url = (
-            f"{self.base_url}/workspaces/{spec.workspace_id}"
-            f"/items/{spec.item_id}/shortcuts"
-        )
+        url = f"{self.base_url}/workspaces/{spec.workspace_id}/items/{spec.item_id}/shortcuts"
         resp = client.post(url, json=spec.to_create_body(), headers=self._headers())
         resp.raise_for_status()
         return resp.json()
@@ -234,24 +232,16 @@ class ShortcutClient:
     def list_shortcuts(self, workspace_id: str, item_id: str) -> list[dict[str, Any]]:
         """``GET /v1/workspaces/{ws}/items/{item}/shortcuts``."""
         client = self._client()
-        url = (
-            f"{self.base_url}/workspaces/{workspace_id}"
-            f"/items/{item_id}/shortcuts"
-        )
+        url = f"{self.base_url}/workspaces/{workspace_id}/items/{item_id}/shortcuts"
         resp = client.get(url, headers=self._headers())
         resp.raise_for_status()
         body = resp.json()
         return body.get("value", [])
 
-    def delete_shortcut(
-        self, workspace_id: str, item_id: str, name: str, path: str
-    ) -> None:
+    def delete_shortcut(self, workspace_id: str, item_id: str, name: str, path: str) -> None:
         """``DELETE /v1/workspaces/{ws}/items/{item}/shortcuts/{path}/{name}``."""
         client = self._client()
-        url = (
-            f"{self.base_url}/workspaces/{workspace_id}"
-            f"/items/{item_id}/shortcuts/{path}/{name}"
-        )
+        url = f"{self.base_url}/workspaces/{workspace_id}/items/{item_id}/shortcuts/{path}/{name}"
         resp = client.delete(url, headers=self._headers())
         resp.raise_for_status()
 

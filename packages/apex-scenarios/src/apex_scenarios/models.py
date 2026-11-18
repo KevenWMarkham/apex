@@ -103,9 +103,7 @@ class Scenario(BaseModel):
         if v is None:
             return v
         if v.upper() not in PRACTICE_CODES:
-            raise ValueError(
-                f"practice must be one of {PRACTICE_CODES}, got {v!r}"
-            )
+            raise ValueError(f"practice must be one of {PRACTICE_CODES}, got {v!r}")
         return v.upper()
 
     @field_validator("kpi_direction", mode="before")

@@ -35,8 +35,7 @@ def _valid_row(trace_id: str = "trace-1", decision_id: str = "dec-1") -> dict:
         "tools_called": (),
         "reasoning_trace_ref": "sha256:rz",
         "decision_output": {"action": "salvage"},
-        "hitl_status": {"status": "approved",
-                        "approver_identity": "qa@ex.com"},
+        "hitl_status": {"status": "approved", "approver_identity": "qa@ex.com"},
         "downstream_effect_ref": None,
     }
 

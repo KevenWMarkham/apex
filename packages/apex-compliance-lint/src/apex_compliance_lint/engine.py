@@ -31,7 +31,9 @@ commercial alliance' without making per-line reporting noisy."""
 
 
 def evaluate_rule(
-    rule: Rule, lines: list[tuple[int, str]], path: Path,
+    rule: Rule,
+    lines: list[tuple[int, str]],
+    path: Path,
 ) -> list[Violation]:
     """Apply one rule to a list of extracted lines."""
     out: list[Violation] = []
@@ -53,8 +55,7 @@ def evaluate_rule(
             neighborhood = " ".join(t for _, t in lines[neighbor_start:neighbor_end])
 
             suppressed = any(
-                ac.search(inline_context) or ac.search(neighborhood)
-                for ac in rule.allowed_contexts
+                ac.search(inline_context) or ac.search(neighborhood) for ac in rule.allowed_contexts
             )
             if suppressed:
                 continue
@@ -76,7 +77,9 @@ def evaluate_rule(
 
 
 def lint_file(
-    path: Path, adapter: FileAdapter, packs: list[RulePack],
+    path: Path,
+    adapter: FileAdapter,
+    packs: list[RulePack],
 ) -> LintReport:
     """Lint one file using one adapter and a list of rule packs.
 

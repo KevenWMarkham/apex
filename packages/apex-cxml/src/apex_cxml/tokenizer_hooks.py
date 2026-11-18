@@ -20,13 +20,15 @@ from pydantic import BaseModel
 
 from apex_core.types import Classification
 
-_TOKENISED_CLASSIFICATIONS: frozenset[Classification] = frozenset({
-    Classification.PII,
-    Classification.PHI,
-    Classification.PCI,
-    Classification.TRADE_SECRET,
-    Classification.MEMBER_ONLY,
-})
+_TOKENISED_CLASSIFICATIONS: frozenset[Classification] = frozenset(
+    {
+        Classification.PII,
+        Classification.PHI,
+        Classification.PCI,
+        Classification.TRADE_SECRET,
+        Classification.MEMBER_ONLY,
+    }
+)
 
 
 @dataclass(frozen=True, slots=True)

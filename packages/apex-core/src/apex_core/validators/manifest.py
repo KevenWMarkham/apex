@@ -72,9 +72,7 @@ def validate_manifest(path: Path) -> ValidationReport:
         return ValidationReport(path, None, False, [f"YAML parse error: {exc}"])
 
     if not isinstance(raw, dict):
-        return ValidationReport(
-            path, None, False, ["Manifest root must be a YAML mapping."]
-        )
+        return ValidationReport(path, None, False, ["Manifest root must be a YAML mapping."])
 
     kind = raw.get("kind")
     if not isinstance(kind, str) or kind not in _DISPATCH:
@@ -90,10 +88,7 @@ def validate_manifest(path: Path) -> ValidationReport:
     try:
         manifest = model_cls.model_validate(raw)
     except ValidationError as exc:
-        errors = [
-            f"{'.'.join(str(p) for p in err['loc'])}: {err['msg']}"
-            for err in exc.errors()
-        ]
+        errors = [f"{'.'.join(str(p) for p in err['loc'])}: {err['msg']}" for err in exc.errors()]
         return ValidationReport(path, kind, False, errors)
 
     return ValidationReport(path, kind, True, [], manifest)

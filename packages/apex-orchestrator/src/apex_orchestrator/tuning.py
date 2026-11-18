@@ -79,8 +79,11 @@ class TuningStore:
     ) -> TuningRequest:
         req = TuningRequest(
             request_id=str(uuid4()),
-            service=service, from_gate=from_gate, to_gate=to_gate,
-            requested_by=requested_by, rationale=rationale,
+            service=service,
+            from_gate=from_gate,
+            to_gate=to_gate,
+            requested_by=requested_by,
+            rationale=rationale,
         )
         self._requests[req.request_id] = req
         self.history.append({"event": "proposed", "request_id": req.request_id})
@@ -103,10 +106,12 @@ class TuningStore:
         old_status = req.status
         new_status = req.evaluate(now=now)
         if new_status != old_status:
-            self.history.append({
-                "event": f"status_change:{old_status.value}_to_{new_status.value}",
-                "request_id": request_id,
-            })
+            self.history.append(
+                {
+                    "event": f"status_change:{old_status.value}_to_{new_status.value}",
+                    "request_id": request_id,
+                }
+            )
         return req
 
     def get(self, request_id: str) -> TuningRequest:

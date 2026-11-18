@@ -138,14 +138,12 @@ def test_every_reference_has_use_cases_and_kpis() -> None:
 
 def test_every_reference_declares_triggering_scenarios() -> None:
     for entry in scan_all_references():
-        assert entry.spec.triggering_scenarios, \
-            f"{entry.spec.name} has no triggering scenarios"
+        assert entry.spec.triggering_scenarios, f"{entry.spec.name} has no triggering scenarios"
 
 
 def test_every_reference_declares_sponsor_personas() -> None:
     for entry in scan_all_references():
-        assert entry.spec.sponsor_personas, \
-            f"{entry.spec.name} has no sponsor personas"
+        assert entry.spec.sponsor_personas, f"{entry.spec.name} has no sponsor personas"
 
 
 def test_every_reference_has_demo_script_present() -> None:
@@ -171,8 +169,7 @@ def test_every_reference_wave1_scope_coherent() -> None:
         assert 4 <= ws.duration_weeks_low
         assert ws.duration_weeks_high <= 16
         assert ws.deliverables, f"{entry.spec.name} declares no deliverables"
-        assert ws.success_criteria, \
-            f"{entry.spec.name} declares no success criteria"
+        assert ws.success_criteria, f"{entry.spec.name} declares no success criteria"
 
 
 # ---------------------------------------------------------------------------
@@ -196,9 +193,7 @@ def test_validator_passes_with_full_cross_references() -> None:
     from apex_adapters.catalog import load_all_shipped_manifests
 
     codes = all_service_codes()
-    agents = {
-        e.spec.name for entries in agents_scan().values() for e in entries
-    }
+    agents = {e.spec.name for entries in agents_scan().values() for e in entries}
     adapters = set(load_all_shipped_manifests().keys())
 
     report = validate_references(
@@ -389,14 +384,10 @@ def test_conformance_all_five_anchor_references() -> None:
 
     report = validate_references(
         service_codes=all_service_codes(),
-        agent_catalog={
-            e.spec.name for entries in agents_scan().values() for e in entries
-        },
+        agent_catalog={e.spec.name for entries in agents_scan().values() for e in entries},
         adapter_catalog=set(load_all_shipped_manifests().keys()),
     )
-    assert report.ok, [
-        f"{i.reference}: [{i.code}] {i.message}" for i in report.errors
-    ]
+    assert report.ok, [f"{i.reference}: [{i.code}] {i.message}" for i in report.errors]
 
 
 @pytest.mark.conformance

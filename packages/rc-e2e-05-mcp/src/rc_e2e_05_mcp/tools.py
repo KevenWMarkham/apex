@@ -183,7 +183,7 @@ def commit_task_dispatch(
     sku_key: str | None = None,
     bay_id: str | None = None,
     task_kind: str | None = None,
-    completion_kind: str | None = None,    # None = fan-out; set on completion
+    completion_kind: str | None = None,  # None = fan-out; set on completion
     trace_id: str | None = None,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",

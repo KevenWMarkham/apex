@@ -52,7 +52,8 @@ def get_vendor_status(
     with traced_call(
         tool_name=f"{SERVER_NAME}.get_vendor_status",
         tool_version=TOOL_VERSION,
-        agent_id=agent_id, caller_identity=caller_identity,
+        agent_id=agent_id,
+        caller_identity=caller_identity,
         parameters={"vendor_id": vendor_id},
         classification_applied=[Classification.INTERNAL],
     ) as ctx:
@@ -76,7 +77,8 @@ def list_vendor_orders(
     with traced_call(
         tool_name=f"{SERVER_NAME}.list_vendor_orders",
         tool_version=TOOL_VERSION,
-        agent_id=agent_id, caller_identity=caller_identity,
+        agent_id=agent_id,
+        caller_identity=caller_identity,
         parameters={"vendor_id": vendor_id, "limit": limit},
         classification_applied=[Classification.INTERNAL],
     ) as ctx:
@@ -94,7 +96,8 @@ def get_vendor_compliance_score(
     with traced_call(
         tool_name=f"{SERVER_NAME}.get_vendor_compliance_score",
         tool_version=TOOL_VERSION,
-        agent_id=agent_id, caller_identity=caller_identity,
+        agent_id=agent_id,
+        caller_identity=caller_identity,
         parameters={"vendor_id": vendor_id},
         classification_applied=[Classification.INTERNAL, Classification.TRADE_SECRET],
     ) as ctx:
@@ -110,17 +113,20 @@ def get_vendor_compliance_score(
 
 CONTRACTS: list[ToolContract] = [
     ToolContract(
-        name=f"{SERVER_NAME}.get_vendor_status", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.get_vendor_status",
+        version=TOOL_VERSION,
         description="Return the current portal status for a vendor.",
         classification_propagation=[Classification.INTERNAL],
     ),
     ToolContract(
-        name=f"{SERVER_NAME}.list_vendor_orders", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.list_vendor_orders",
+        version=TOOL_VERSION,
         description="List recent orders for a vendor.",
         classification_propagation=[Classification.INTERNAL],
     ),
     ToolContract(
-        name=f"{SERVER_NAME}.get_vendor_compliance_score", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.get_vendor_compliance_score",
+        version=TOOL_VERSION,
         description="Return the compliance scorecard for a vendor.",
         classification_propagation=[Classification.INTERNAL, Classification.TRADE_SECRET],
     ),

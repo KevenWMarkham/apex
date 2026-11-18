@@ -46,7 +46,5 @@ class TraceContext:
 
 def require_trace_id(trace_id: str | None) -> str:
     if not trace_id:
-        raise TraceMissingError(
-            "trace_id is required for audit-row emission (Section 11.6)"
-        )
+        raise TraceMissingError("trace_id is required for audit-row emission (Section 11.6)")
     return trace_id

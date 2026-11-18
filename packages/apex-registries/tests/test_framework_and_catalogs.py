@@ -39,8 +39,11 @@ runner = CliRunner()
 
 def test_kpi_entry_practice_normalizes() -> None:
     k = KpiEntry(
-        kpi_id="kpi.rc.test", name="Test KPI", practice="RC",
-        direction="up", description="x",
+        kpi_id="kpi.rc.test",
+        name="Test KPI",
+        practice="RC",
+        direction="up",
+        description="x",
     )
     assert k.practice == "rc"
 
@@ -52,15 +55,21 @@ def test_kpi_entry_rejects_unknown_practice() -> None:
 
 def test_persona_entry_seniority_default() -> None:
     p = PersonaEntry(
-        persona_id="persona.rc.test", name="Test", practice="rc",
-        function="Operations", description="x",
+        persona_id="persona.rc.test",
+        name="Test",
+        practice="rc",
+        function="Operations",
+        description="x",
     )
     assert p.seniority == "vp"
 
 
 def test_archetype_entry_defaults() -> None:
     a = ArchetypeEntry(
-        archetype_id="arch.test", family="triage", name="Test", description="x",
+        archetype_id="arch.test",
+        family="triage",
+        name="Test",
+        description="x",
     )
     assert a.typical_oversight == "HITL"
     assert a.typical_model_tier == "standard"
@@ -68,8 +77,11 @@ def test_archetype_entry_defaults() -> None:
 
 def test_schema_entry_practice_normalization() -> None:
     s = SchemaEntry(
-        schema_code="TEST", name="Test", description="x",
-        practices=["RC", "HLS"], primary_entities=["Foo"],
+        schema_code="TEST",
+        name="Test",
+        description="x",
+        practices=["RC", "HLS"],
+        primary_entities=["Foo"],
     )
     assert s.practices == ["rc", "hls"]
 
@@ -145,9 +157,22 @@ def test_every_schema_has_entities() -> None:
 
 def test_every_archetype_has_family_and_oversight() -> None:
     valid_families = {
-        "triage", "cascade", "rca", "recovery", "personalize", "optimize",
-        "monitor", "predict", "schedule", "match", "translate", "summarize",
-        "explain", "score", "negotiate", "compose",
+        "triage",
+        "cascade",
+        "rca",
+        "recovery",
+        "personalize",
+        "optimize",
+        "monitor",
+        "predict",
+        "schedule",
+        "match",
+        "translate",
+        "summarize",
+        "explain",
+        "score",
+        "negotiate",
+        "compose",
     }
     for entry in scan_registry("archetypes"):
         spec = entry.spec
@@ -163,9 +188,20 @@ def test_archetype_count_is_exactly_47() -> None:
 
 def test_every_product_has_family_and_role() -> None:
     valid_families = {
-        "fabric", "foundry", "copilot-studio", "purview", "defender",
-        "entra", "intune", "teams", "power-platform", "azure-openai",
-        "azure-ml", "github-copilot", "azure-storage", "azure-network",
+        "fabric",
+        "foundry",
+        "copilot-studio",
+        "purview",
+        "defender",
+        "entra",
+        "intune",
+        "teams",
+        "power-platform",
+        "azure-openai",
+        "azure-ml",
+        "github-copilot",
+        "azure-storage",
+        "azure-network",
     }
     for entry in scan_registry("products"):
         spec = entry.spec
@@ -241,9 +277,7 @@ def test_load_playbook_unknown_returns_empty() -> None:
 def test_validator_no_errors_on_shipped_registries() -> None:
     """Shipped registries pass governance with zero errors (warnings allowed)."""
     report = validate_registries()
-    assert report.ok, [
-        f"{i.registry}/{i.entry}: [{i.code}] {i.message}" for i in report.errors
-    ]
+    assert report.ok, [f"{i.registry}/{i.entry}: [{i.code}] {i.message}" for i in report.errors]
 
 
 def test_validator_with_full_cross_references_no_errors() -> None:
@@ -251,6 +285,7 @@ def test_validator_with_full_cross_references_no_errors() -> None:
     a_kpi = a_per = a_tool = s_kpi = s_per = None
     try:
         from apex_agents import scan_all_catalogs as agents_scan
+
         a_kpi = set()
         a_per = set()
         a_tool = set()
@@ -265,6 +300,7 @@ def test_validator_with_full_cross_references_no_errors() -> None:
         pass
     try:
         from apex_services import scan_all_catalogs as services_scan
+
         s_kpi = set()
         s_per = set()
         for entries in services_scan().values():

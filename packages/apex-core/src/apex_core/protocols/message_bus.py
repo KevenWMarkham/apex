@@ -8,6 +8,7 @@ APEX-A satisfies via SNS/SQS + EventBridge.
 Adapters: cloud.aws.eventbridge, cloud.gcp.pubsub, cloud.azure.event_grid
 all satisfy this protocol for cross-cloud event routing.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -27,7 +28,7 @@ class Message:
 class Subscription:
     subscription_id: str
     topic: str
-    handler_ref: str        # e.g., "apex-m:rc-e2e-03:cold-chain-trigger"
+    handler_ref: str  # e.g., "apex-m:rc-e2e-03:cold-chain-trigger"
     filter: str | None = None  # provider-specific filter expression
 
 

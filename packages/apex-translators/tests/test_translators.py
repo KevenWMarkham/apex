@@ -293,11 +293,14 @@ def test_oagis_parses_bod(bod: str) -> None:
     assert msg.message_type == bod
 
 
-@pytest.mark.parametrize("bod,expected_verb,expected_noun", [
-    ("ProcessItem", "Process", "Item"),
-    ("SyncCarrier", "Sync", "Carrier"),
-    ("GetManufacturingFacility", "Get", "ManufacturingFacility"),
-])
+@pytest.mark.parametrize(
+    "bod,expected_verb,expected_noun",
+    [
+        ("ProcessItem", "Process", "Item"),
+        ("SyncCarrier", "Sync", "Carrier"),
+        ("GetManufacturingFacility", "Get", "ManufacturingFacility"),
+    ],
+)
 def test_oagis_decomposes_verb_and_noun(bod: str, expected_verb: str, expected_noun: str) -> None:
     msg = parse_oagis(OAGIS_FIXTURES[bod])
     assert msg.metadata["verb"] == expected_verb
@@ -410,6 +413,7 @@ def test_conformance_cda_four_named_sections() -> None:
 def test_conformance_epcis_four_event_types_supported() -> None:
     """Sprint 23 §23.4.1 — Object/Aggregation/Transaction/Transformation."""
     from apex_translators.epcis.parser import EPCIS_EVENT_TYPES
+
     expected = {"ObjectEvent", "AggregationEvent", "TransactionEvent", "TransformationEvent"}
     assert expected.issubset(set(EPCIS_EVENT_TYPES))
 

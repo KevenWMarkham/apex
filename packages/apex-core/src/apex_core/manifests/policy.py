@@ -40,9 +40,7 @@ class ClassificationMapping(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    path: str = Field(
-        ..., description="Dotted attribute path, e.g. 'cxml.customer.email'."
-    )
+    path: str = Field(..., description="Dotted attribute path, e.g. 'cxml.customer.email'.")
     classification: Classification
 
 

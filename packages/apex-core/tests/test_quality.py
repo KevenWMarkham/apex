@@ -121,10 +121,10 @@ def test_is_fully_assessed_false_with_any_none() -> None:
 
 def test_degraded_dimensions_returns_below_threshold() -> None:
     md = DataQualityMetadata(
-        completeness=0.95,   # OK
-        consistency=0.6,     # degraded
-        accuracy=0.5,        # degraded
-        currency=0.7,        # exactly threshold — NOT degraded
+        completeness=0.95,  # OK
+        consistency=0.6,  # degraded
+        accuracy=0.5,  # degraded
+        currency=0.7,  # exactly threshold — NOT degraded
     )
     degraded = md.degraded_dimensions(threshold=0.7)
     assert QualityDimension.CONSISTENCY in degraded

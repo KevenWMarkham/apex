@@ -75,17 +75,13 @@ _FRONTMATTER_RE = re.compile(
 def _split_frontmatter(raw: str) -> tuple[dict[str, Any], str]:
     m = _FRONTMATTER_RE.match(raw)
     if m is None:
-        raise HeartbeatParseError(
-            "HEARTBEAT.md must start with a YAML frontmatter block (---)"
-        )
+        raise HeartbeatParseError("HEARTBEAT.md must start with a YAML frontmatter block (---)")
     try:
         front = yaml.safe_load(m.group(1)) or {}
     except yaml.YAMLError as exc:
         raise HeartbeatParseError(f"Frontmatter YAML error: {exc}") from exc
     if not isinstance(front, dict):
-        raise HeartbeatParseError(
-            f"Frontmatter must be a mapping, got {type(front).__name__}"
-        )
+        raise HeartbeatParseError(f"Frontmatter must be a mapping, got {type(front).__name__}")
     if front.get("file") != "HEARTBEAT.md":
         raise HeartbeatParseError(
             f"Frontmatter file must be 'HEARTBEAT.md', got {front.get('file')!r}"

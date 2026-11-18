@@ -22,13 +22,16 @@ def get_patient_by_key(
     with traced_call(
         tool_name=f"{SERVER_NAME}.get_patient_by_key",
         tool_version=TOOL_VERSION,
-        agent_id=agent_id, caller_identity=caller_identity,
+        agent_id=agent_id,
+        caller_identity=caller_identity,
         parameters={"patient_key": patient_key},
         classification_applied=[Classification.PHI],
     ) as ctx:
         row = _fabric_get_entity(
-            "patient", patient_key,
-            agent_id=agent_id, caller_identity=caller_identity,
+            "patient",
+            patient_key,
+            agent_id=agent_id,
+            caller_identity=caller_identity,
         )
         ctx["result"] = row
         return row
@@ -49,13 +52,17 @@ def list_observations_for_patient(
     with traced_call(
         tool_name=f"{SERVER_NAME}.list_observations_for_patient",
         tool_version=TOOL_VERSION,
-        agent_id=agent_id, caller_identity=caller_identity,
+        agent_id=agent_id,
+        caller_identity=caller_identity,
         parameters={"patient_key": patient_key, "loinc_code": loinc_code, "limit": limit},
         classification_applied=[Classification.PHI],
     ) as ctx:
         rows = _fabric_query_view(
-            "gold_hlscml.observation", filters, limit,
-            agent_id=agent_id, caller_identity=caller_identity,
+            "gold_hlscml.observation",
+            filters,
+            limit,
+            agent_id=agent_id,
+            caller_identity=caller_identity,
         )
         ctx["result"] = rows
         return rows
@@ -72,13 +79,17 @@ def list_medications_for_patient(
     with traced_call(
         tool_name=f"{SERVER_NAME}.list_medications_for_patient",
         tool_version=TOOL_VERSION,
-        agent_id=agent_id, caller_identity=caller_identity,
+        agent_id=agent_id,
+        caller_identity=caller_identity,
         parameters={"patient_key": patient_key, "limit": limit},
         classification_applied=[Classification.PHI],
     ) as ctx:
         rows = _fabric_query_view(
-            "gold_hlscml.medication_request", {"patient_key": patient_key}, limit,
-            agent_id=agent_id, caller_identity=caller_identity,
+            "gold_hlscml.medication_request",
+            {"patient_key": patient_key},
+            limit,
+            agent_id=agent_id,
+            caller_identity=caller_identity,
         )
         ctx["result"] = rows
         return rows
@@ -86,19 +97,22 @@ def list_medications_for_patient(
 
 CONTRACTS: list[ToolContract] = [
     ToolContract(
-        name=f"{SERVER_NAME}.get_patient_by_key", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.get_patient_by_key",
+        version=TOOL_VERSION,
         description="Return a tokenised HLSCML Patient by key.",
         classification_propagation=[Classification.PHI],
         required_scopes=_REQUIRED_SCOPES,
     ),
     ToolContract(
-        name=f"{SERVER_NAME}.list_observations_for_patient", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.list_observations_for_patient",
+        version=TOOL_VERSION,
         description="List observations for a patient (optionally filtered by LOINC).",
         classification_propagation=[Classification.PHI],
         required_scopes=_REQUIRED_SCOPES,
     ),
     ToolContract(
-        name=f"{SERVER_NAME}.list_medications_for_patient", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.list_medications_for_patient",
+        version=TOOL_VERSION,
         description="List medication requests for a patient.",
         classification_propagation=[Classification.PHI],
         required_scopes=_REQUIRED_SCOPES,

@@ -22,14 +22,17 @@ class DeadLetterRecord(BaseModel):
     dead_letter_id: UUID = Field(default_factory=uuid4)
     source_system: str = Field(..., description="Which SOR produced the failed payload.")
     source_pattern: str = Field(
-        ..., description="Landing pattern (mirrored_database, eventstream, ...).",
+        ...,
+        description="Landing pattern (mirrored_database, eventstream, ...).",
     )
     target_table: str = Field(
-        ..., description="Intended Bronze target table, for audit.",
+        ...,
+        description="Intended Bronze target table, for audit.",
     )
     occurred_at: datetime
     error_class: str = Field(
-        ..., description="Exception class name (e.g. 'ParseError', 'AuthExpired').",
+        ...,
+        description="Exception class name (e.g. 'ParseError', 'AuthExpired').",
     )
     error_message: str
     retry_count: int = Field(0, ge=0)

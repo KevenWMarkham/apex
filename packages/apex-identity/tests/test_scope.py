@@ -22,12 +22,17 @@ def _setup() -> tuple[MockEntraProvisioningProvider, InMemoryTenantRoleStore]:
 def test_resolve_composes_identity_and_role() -> None:
     prov, roles = _setup()
     prov.register("agent-1", "tenant-A")
-    roles.set_role("agent-1", AgentRole(
-        role_id="rc-reader", tenant_id="tenant-A",
-        practice=Practice.RC, persona="store-ops-lead",
-        allowed_classifications=(Classification.INTERNAL, Classification.PII),
-        row_filters={"region": "US-WEST"},
-    ))
+    roles.set_role(
+        "agent-1",
+        AgentRole(
+            role_id="rc-reader",
+            tenant_id="tenant-A",
+            practice=Practice.RC,
+            persona="store-ops-lead",
+            allowed_classifications=(Classification.INTERNAL, Classification.PII),
+            row_filters={"region": "US-WEST"},
+        ),
+    )
     scope = ScopeResolver(prov, roles).resolve("agent-1")
     assert scope.tenant_id == "tenant-A"
     assert scope.practice is Practice.RC
@@ -52,9 +57,14 @@ def test_resolve_agent_without_role_raises() -> None:
 def test_tenant_mismatch_rejected() -> None:
     prov, roles = _setup()
     prov.register("agent-3", "tenant-A")
-    roles.set_role("agent-3", AgentRole(
-        role_id="weird", tenant_id="tenant-B",
-        practice=None, persona=None,
-    ))
+    roles.set_role(
+        "agent-3",
+        AgentRole(
+            role_id="weird",
+            tenant_id="tenant-B",
+            practice=None,
+            persona=None,
+        ),
+    )
     with pytest.raises(ValueError):
         ScopeResolver(prov, roles).resolve("agent-3")

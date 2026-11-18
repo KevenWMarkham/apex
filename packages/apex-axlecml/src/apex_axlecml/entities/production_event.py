@@ -29,9 +29,7 @@ class ProductionEvent(CanonicalEntity):
 
     event_type: ProductionEventType
     equipment_key: str = Field(..., description="FK → AXLECML Equipment.entity_id.")
-    work_center_key: str | None = Field(
-        None, description="FK → AXLECML WorkCenter.entity_id."
-    )
+    work_center_key: str | None = Field(None, description="FK → AXLECML WorkCenter.entity_id.")
     batch_id: str | None = None
     phase_id: str | None = Field(None, description="ISA-88 phase name.")
     operator_id: str | None = None

@@ -183,9 +183,7 @@ class ServiceSpec(BaseModel):
     @classmethod
     def _validate_practice(cls, v: str) -> str:
         if v.lower() not in PRACTICE_CODES:
-            raise ValueError(
-                f"practice must be one of {PRACTICE_CODES}, got {v!r}"
-            )
+            raise ValueError(f"practice must be one of {PRACTICE_CODES}, got {v!r}")
         return v.lower()
 
     @field_validator("service_code", mode="before")
@@ -205,9 +203,9 @@ class ServiceSpec(BaseModel):
         return self.personas[0] if self.personas else None
 
     def has_value_share(self) -> bool:
-        return (
-            self.value_share_eligible
-            or self.commercial_model in (CommercialModel.VALUE_SHARE, CommercialModel.HYBRID)
+        return self.value_share_eligible or self.commercial_model in (
+            CommercialModel.VALUE_SHARE,
+            CommercialModel.HYBRID,
         )
 
     def wave_envelope(self, wave: Wave) -> WaveEnvelope | None:
@@ -227,9 +225,7 @@ def load_service_spec(path: str | Path) -> ServiceSpec:
     with Path(path).open("r", encoding="utf-8") as fh:
         data = yaml.safe_load(fh)
     if not isinstance(data, dict):
-        raise ValueError(
-            f"Service spec {path}: expected mapping, got {type(data).__name__}"
-        )
+        raise ValueError(f"Service spec {path}: expected mapping, got {type(data).__name__}")
     return ServiceSpec.model_validate(data)
 
 
@@ -333,59 +329,76 @@ def validate_service_catalogs(
             # Service-code prefix matches practice
             expected_prefix = practice.upper() + "-"
             if not spec.service_code.startswith(expected_prefix):
-                report.issues.append(CatalogIssue(
-                    practice=practice,
-                    service_code=spec.service_code,
-                    code="PRACTICE_PREFIX_MISMATCH",
-                    message=f"Code should start with {expected_prefix!r}",
-                ))
+                report.issues.append(
+                    CatalogIssue(
+                        practice=practice,
+                        service_code=spec.service_code,
+                        code="PRACTICE_PREFIX_MISMATCH",
+                        message=f"Code should start with {expected_prefix!r}",
+                    )
+                )
 
             # Personas present
             if not spec.personas:
-                report.issues.append(CatalogIssue(
-                    practice=practice, service_code=spec.service_code,
-                    code="NO_PERSONAS",
-                    message="Every productized service must declare at least one persona.",
-                ))
+                report.issues.append(
+                    CatalogIssue(
+                        practice=practice,
+                        service_code=spec.service_code,
+                        code="NO_PERSONAS",
+                        message="Every productized service must declare at least one persona.",
+                    )
+                )
 
             # KPIs present
             if not spec.kpis:
-                report.issues.append(CatalogIssue(
-                    practice=practice, service_code=spec.service_code,
-                    code="NO_KPIS",
-                    message="Every productized service must declare at least one KPI.",
-                ))
+                report.issues.append(
+                    CatalogIssue(
+                        practice=practice,
+                        service_code=spec.service_code,
+                        code="NO_KPIS",
+                        message="Every productized service must declare at least one KPI.",
+                    )
+                )
 
             # Wave envelope present
             if not spec.waves:
-                report.issues.append(CatalogIssue(
-                    practice=practice, service_code=spec.service_code,
-                    code="NO_WAVE_ENVELOPE",
-                    message="Service must declare at least one Wave envelope.",
-                ))
+                report.issues.append(
+                    CatalogIssue(
+                        practice=practice,
+                        service_code=spec.service_code,
+                        code="NO_WAVE_ENVELOPE",
+                        message="Service must declare at least one Wave envelope.",
+                    )
+                )
 
             # Value-share-eligible services need money-direction KPIs
             if spec.has_value_share():
                 money_kpis = [k for k in spec.kpis if k.direction == "money"]
                 if not money_kpis:
-                    report.issues.append(CatalogIssue(
-                        practice=practice, service_code=spec.service_code,
-                        code="VALUE_SHARE_WITHOUT_MONEY_KPI",
-                        severity="warning",
-                        message=(
-                            "Value-share commercial model usually requires a "
-                            "money-direction KPI for clean attribution."
-                        ),
-                    ))
+                    report.issues.append(
+                        CatalogIssue(
+                            practice=practice,
+                            service_code=spec.service_code,
+                            code="VALUE_SHARE_WITHOUT_MONEY_KPI",
+                            severity="warning",
+                            message=(
+                                "Value-share commercial model usually requires a "
+                                "money-direction KPI for clean attribution."
+                            ),
+                        )
+                    )
 
             # Linked agents resolve
             if agent_catalog is not None and spec.linked_agents:
                 unresolved = [a for a in spec.linked_agents if a not in agent_catalog]
                 for u in unresolved:
-                    report.issues.append(CatalogIssue(
-                        practice=practice, service_code=spec.service_code,
-                        code="AGENT_NOT_FOUND",
-                        message=f"linked_agent {u!r} is not in the agent catalog.",
-                    ))
+                    report.issues.append(
+                        CatalogIssue(
+                            practice=practice,
+                            service_code=spec.service_code,
+                            code="AGENT_NOT_FOUND",
+                            message=f"linked_agent {u!r} is not in the agent catalog.",
+                        )
+                    )
 
     return report

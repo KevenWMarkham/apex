@@ -22,10 +22,10 @@ from apex_schemas_common import CanonicalEntity, ScdType2Fields
 class ElasticityModelKind(StrEnum):
     """Model class that produced the coefficient."""
 
-    LOG_LOG = "LOG_LOG"              # Constant-elasticity log-log regression
-    SEMI_LOG = "SEMI_LOG"            # log(Q) = α + β·P
-    PIECEWISE = "PIECEWISE"          # Piecewise linear over price segments
-    BAYESIAN = "BAYESIAN"            # Bayesian hierarchical model
+    LOG_LOG = "LOG_LOG"  # Constant-elasticity log-log regression
+    SEMI_LOG = "SEMI_LOG"  # log(Q) = α + β·P
+    PIECEWISE = "PIECEWISE"  # Piecewise linear over price segments
+    BAYESIAN = "BAYESIAN"  # Bayesian hierarchical model
 
 
 class Elasticity(CanonicalEntity, ScdType2Fields):

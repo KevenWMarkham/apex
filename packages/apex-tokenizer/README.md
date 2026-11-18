@@ -13,15 +13,15 @@ APEX's deterministic + reversible token service — the runtime that ships from 
 
 ```python
 from apex_tokenizer import (
-    TokenService,          # wrap a backend + call tokenize / detokenize
-    VaultBackend,           # protocol
-    InMemoryVaultBackend,   # default for dev + tests
-    VaultEntry,             # row structure
-    tokenize,               # module-level convenience
+    TokenService,  # wrap a backend + call tokenize / detokenize
+    VaultBackend,  # protocol
+    InMemoryVaultBackend,  # default for dev + tests
+    VaultEntry,  # row structure
+    tokenize,  # module-level convenience
     detokenize,
     tokenize_classified_fields,  # walk a Pydantic model → tokenise classified fields
     set_default_service,
-    vault_ddl,              # Delta DDL for the vault table
+    vault_ddl,  # Delta DDL for the vault table
 )
 ```
 

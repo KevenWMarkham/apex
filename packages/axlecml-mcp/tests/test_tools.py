@@ -15,20 +15,22 @@ from fabric_mcp import InMemoryFabricBackend, set_fabric_backend
 
 @pytest.fixture(autouse=True)
 def _seed() -> None:
-    set_fabric_backend(InMemoryFabricBackend(
-        entities={
-            ("equipment", "eq-1"): {"name": "CNC Lathe 01", "isa95_id": "EQ-1"},
-        },
-        views={
-            "gold_axlecml.production_event": [
-                {"event_type": "BATCH_START", "equipment_key": "eq-1"},
-                {"event_type": "BATCH_END", "equipment_key": "eq-1"},
-            ],
-            "gold_axlecml.quality_result": [
-                {"test_code": "TENSILE", "equipment_key": "eq-1", "status": "pass"},
-            ],
-        },
-    ))
+    set_fabric_backend(
+        InMemoryFabricBackend(
+            entities={
+                ("equipment", "eq-1"): {"name": "CNC Lathe 01", "isa95_id": "EQ-1"},
+            },
+            views={
+                "gold_axlecml.production_event": [
+                    {"event_type": "BATCH_START", "equipment_key": "eq-1"},
+                    {"event_type": "BATCH_END", "equipment_key": "eq-1"},
+                ],
+                "gold_axlecml.quality_result": [
+                    {"test_code": "TENSILE", "equipment_key": "eq-1", "status": "pass"},
+                ],
+            },
+        )
+    )
 
 
 def test_get_equipment() -> None:

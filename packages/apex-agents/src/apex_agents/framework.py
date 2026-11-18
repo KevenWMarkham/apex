@@ -45,8 +45,8 @@ class ModelTier(str, Enum):
     """
 
     LIGHTWEIGHT = "lightweight"  # GPT-4o-mini class, <2k tokens, simple classification
-    STANDARD = "standard"        # GPT-4o / Claude Sonnet, most agent reasoning
-    REASONING = "reasoning"      # o-series / Claude Opus, multi-step planning + elasticity
+    STANDARD = "standard"  # GPT-4o / Claude Sonnet, most agent reasoning
+    REASONING = "reasoning"  # o-series / Claude Opus, multi-step planning + elasticity
 
 
 class OversightMode(str, Enum):
@@ -54,7 +54,7 @@ class OversightMode(str, Enum):
 
     HITL = "HITL"  # Human-in-the-Loop — checkpoint per consequential decision
     HOTL = "HOTL"  # Human-on-the-Loop — exception-based monitoring of routine
-    HIC = "HIC"    # Human-in-Command — strategic governance
+    HIC = "HIC"  # Human-in-Command — strategic governance
 
 
 # ---------------------------------------------------------------------------
@@ -160,9 +160,7 @@ class AgentSpec(BaseModel):
     @classmethod
     def _validate_practice(cls, v: str) -> str:
         if v.lower() not in PRACTICE_CODES:
-            raise ValueError(
-                f"practice must be one of {PRACTICE_CODES}, got {v!r}"
-            )
+            raise ValueError(f"practice must be one of {PRACTICE_CODES}, got {v!r}")
         return v.lower()
 
     def write_tools(self) -> list[ToolBinding]:

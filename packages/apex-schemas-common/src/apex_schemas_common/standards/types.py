@@ -115,6 +115,8 @@ SnomedCtConceptId = Annotated[
 
 Eidr = Annotated[
     str,
-    StringConstraints(pattern=r"^10\.5240/[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{4}-[A-Z0-9]$"),
+    StringConstraints(
+        pattern=r"^10\.5240/[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{4}-[A-Z0-9]$"
+    ),
     StandardRef("eidr", "Content-ID", "2.1"),
 ]

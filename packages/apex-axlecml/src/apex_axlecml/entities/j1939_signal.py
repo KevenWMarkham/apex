@@ -18,9 +18,7 @@ class J1939Signal(CanonicalEntity):
     signal_name: str
     value: Decimal
     unit: str = ""
-    equipment_key: str | None = Field(
-        None, description="FK → AXLECML Equipment.entity_id."
-    )
+    equipment_key: str | None = Field(None, description="FK → AXLECML Equipment.entity_id.")
     captured_at: datetime
     raw_can_frame: str | None = Field(
         None, description="Hex-encoded CAN frame (for audit / replay)."

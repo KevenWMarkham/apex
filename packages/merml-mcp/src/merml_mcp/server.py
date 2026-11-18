@@ -7,7 +7,9 @@ def main() -> None:  # pragma: no cover
     from mcp.server.fastmcp import FastMCP  # type: ignore[import-not-found]
 
     from merml_mcp.tools import (
-        get_current_price, list_active_promotions, list_recent_markdowns,
+        get_current_price,
+        list_active_promotions,
+        list_recent_markdowns,
     )
 
     mcp = FastMCP("merml-mcp")

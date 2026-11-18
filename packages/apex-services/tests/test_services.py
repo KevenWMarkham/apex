@@ -40,8 +40,14 @@ def _minimal(**overrides) -> ServiceSpec:
         brief="A test service.",
         personas=[Persona(name="Tester")],
         kpis=[KpiCommitment(name="test", direction="up")],
-        waves=[WaveEnvelope(wave=Wave.WAVE_1, duration="4 weeks",
-                           fee_band_low_usd=100_000, fee_band_high_usd=500_000)],
+        waves=[
+            WaveEnvelope(
+                wave=Wave.WAVE_1,
+                duration="4 weeks",
+                fee_band_low_usd=100_000,
+                fee_band_high_usd=500_000,
+            )
+        ],
     )
     base.update(overrides)
     return ServiceSpec(**base)
@@ -49,8 +55,13 @@ def _minimal(**overrides) -> ServiceSpec:
 
 def test_service_code_canonical_pattern() -> None:
     for code in [
-        "RC-E2E-03", "HLS-LS-03", "ER-PU-01", "AXLE-Connected-Factory-01",
-        "TMT-MED-03", "TH-AIR-01", "ICE-EaaS-01",
+        "RC-E2E-03",
+        "HLS-LS-03",
+        "ER-PU-01",
+        "AXLE-Connected-Factory-01",
+        "TMT-MED-03",
+        "TH-AIR-01",
+        "ICE-EaaS-01",
     ]:
         assert SERVICE_CODE_RE.match(code), f"Should match: {code}"
 
@@ -71,10 +82,12 @@ def test_practice_rejects_unknown() -> None:
 
 
 def test_primary_persona_returns_first_primary() -> None:
-    spec = _minimal(personas=[
-        Persona(name="A", role="secondary"),
-        Persona(name="B", role="primary"),
-    ])
+    spec = _minimal(
+        personas=[
+            Persona(name="A", role="secondary"),
+            Persona(name="B", role="primary"),
+        ]
+    )
     assert spec.primary_persona().name == "B"
 
 
@@ -89,10 +102,12 @@ def test_has_value_share_via_commercial_model() -> None:
 
 
 def test_wave_envelope_lookup() -> None:
-    spec = _minimal(waves=[
-        WaveEnvelope(wave=Wave.WAVE_1, duration="d", fee_band_low_usd=1, fee_band_high_usd=2),
-        WaveEnvelope(wave=Wave.WAVE_2, duration="d", fee_band_low_usd=3, fee_band_high_usd=4),
-    ])
+    spec = _minimal(
+        waves=[
+            WaveEnvelope(wave=Wave.WAVE_1, duration="d", fee_band_low_usd=1, fee_band_high_usd=2),
+            WaveEnvelope(wave=Wave.WAVE_2, duration="d", fee_band_low_usd=3, fee_band_high_usd=4),
+        ]
+    )
     w1 = spec.wave_envelope(Wave.WAVE_1)
     assert w1 is not None and w1.fee_band_low_usd == 1
     w3 = spec.wave_envelope(Wave.WAVE_3)
@@ -146,8 +161,9 @@ def test_all_service_codes_returns_canonical_set() -> None:
 def test_every_service_code_matches_canonical_pattern() -> None:
     for entries in scan_all_catalogs().values():
         for entry in entries:
-            assert SERVICE_CODE_RE.match(entry.spec.service_code), \
+            assert SERVICE_CODE_RE.match(entry.spec.service_code), (
                 f"Bad service_code: {entry.spec.service_code}"
+            )
 
 
 def test_every_service_practice_matches_code_prefix() -> None:
@@ -202,7 +218,9 @@ def test_validate_flags_no_persona() -> None:
         brief="b",
         personas=[],
         kpis=[KpiCommitment(name="k", direction="up")],
-        waves=[WaveEnvelope(wave=Wave.WAVE_1, duration="d", fee_band_low_usd=1, fee_band_high_usd=2)],
+        waves=[
+            WaveEnvelope(wave=Wave.WAVE_1, duration="d", fee_band_low_usd=1, fee_band_high_usd=2)
+        ],
     )
     from apex_services.framework import CatalogEntry, validate_service_catalogs
     from pathlib import Path
@@ -217,10 +235,14 @@ def test_validate_flags_no_persona() -> None:
 def test_validate_flags_value_share_without_money_kpi() -> None:
     spec = ServiceSpec(
         service_code="RC-E2E-99",
-        practice="rc", display_name="t", brief="b",
+        practice="rc",
+        display_name="t",
+        brief="b",
         personas=[Persona(name="P")],
         kpis=[KpiCommitment(name="k", direction="up")],
-        waves=[WaveEnvelope(wave=Wave.WAVE_1, duration="d", fee_band_low_usd=1, fee_band_high_usd=2)],
+        waves=[
+            WaveEnvelope(wave=Wave.WAVE_1, duration="d", fee_band_low_usd=1, fee_band_high_usd=2)
+        ],
         value_share_eligible=True,
     )
     from apex_services.framework import CatalogEntry, validate_service_catalogs
@@ -318,8 +340,12 @@ def test_all_service_codes_are_consumable_by_scenario_validator() -> None:
     # Pick a scenario whose service_code is in the shipped catalog
     scenarios = [
         Scenario(
-            title="t", service_code="RC-E2E-06", brief="b",
-            kpi="+18% margin", kpi_direction="up", practice="RC",
+            title="t",
+            service_code="RC-E2E-06",
+            brief="b",
+            kpi="+18% margin",
+            kpi_direction="up",
+            practice="RC",
         )
     ]
     report = validate_service_codes(scenarios, service_catalog_codes=catalog)

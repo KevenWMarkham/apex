@@ -11,6 +11,7 @@ etc.) for client-mandated parallel detection.
 This protocol is mandatory pre-prod per MCSB v2 Artificial Intelligence
 Security baseline.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -20,8 +21,10 @@ from typing import Any, Protocol, runtime_checkable
 @dataclass(frozen=True)
 class PromptShieldResult:
     is_safe: bool
-    detected_attacks: list[str] = field(default_factory=list)  # e.g., ["jailbreak", "prompt-injection"]
-    severity: str = "info"      # "info" | "low" | "medium" | "high" | "critical"
+    detected_attacks: list[str] = field(
+        default_factory=list
+    )  # e.g., ["jailbreak", "prompt-injection"]
+    severity: str = "info"  # "info" | "low" | "medium" | "high" | "critical"
     raw: dict[str, Any] = field(default_factory=dict)
 
 
@@ -30,7 +33,7 @@ class ThreatVerdict:
     safe: bool
     threats_detected: list[str]
     severity: str
-    recommended_action: str    # "block" | "audit" | "warn" | "pass"
+    recommended_action: str  # "block" | "audit" | "warn" | "pass"
     evidence_ref: str | None = None
 
 

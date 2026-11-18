@@ -42,24 +42,32 @@ class TestIdentifierRegex:
 
     def test_loinc_format(self) -> None:
         _Box(
-            gtin="12345678901234", sscc="123456789012345678",
-            gln="1234567890123", loinc="1234-5",
+            gtin="12345678901234",
+            sscc="123456789012345678",
+            gln="1234567890123",
+            loinc="1234-5",
         )
         with pytest.raises(ValidationError):
             _Box(
-                gtin="12345678901234", sscc="123456789012345678",
-                gln="1234567890123", loinc="invalid",
+                gtin="12345678901234",
+                sscc="123456789012345678",
+                gln="1234567890123",
+                loinc="invalid",
             )
 
     def test_icd10_format(self) -> None:
         _Box(
-            gtin="12345678901234", sscc="123456789012345678",
-            gln="1234567890123", icd10="E11.9",
+            gtin="12345678901234",
+            sscc="123456789012345678",
+            gln="1234567890123",
+            icd10="E11.9",
         )
         with pytest.raises(ValidationError):
             _Box(
-                gtin="12345678901234", sscc="123456789012345678",
-                gln="1234567890123", icd10="not-a-code",
+                gtin="12345678901234",
+                sscc="123456789012345678",
+                gln="1234567890123",
+                icd10="not-a-code",
             )
 
 

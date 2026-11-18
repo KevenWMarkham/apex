@@ -26,8 +26,10 @@ class TestIec61970:
     def test_asset_location_linkage(self) -> None:
         loc = CimLocation(m_rid=str(uuid4()), name="Substation A", latitude=37.7, longitude=-122.4)
         asset = CimAsset(
-            m_rid=str(uuid4()), name="Transformer T1",
-            asset_type="PowerTransformer", location_mrid=loc.m_rid,
+            m_rid=str(uuid4()),
+            name="Transformer T1",
+            asset_type="PowerTransformer",
+            location_mrid=loc.m_rid,
         )
         assert asset.location_mrid == loc.m_rid
 
@@ -46,6 +48,7 @@ class TestIec61970:
 
     def test_energy_event_rejects_bad_severity(self) -> None:
         from pydantic import ValidationError
+
         with pytest.raises(ValidationError):
             CimEnergyEvent(
                 m_rid=str(uuid4()),

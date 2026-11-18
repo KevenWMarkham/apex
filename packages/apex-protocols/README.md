@@ -19,17 +19,23 @@ adapter boundary** per Sprint 25 exit criterion.
 ```python
 from apex_protocols import (
     # Common base
-    Sample, AddressNode, AddressSpaceMapping,
-    ProtocolEndpoint, ProtocolError,
-
+    Sample,
+    AddressNode,
+    AddressSpaceMapping,
+    ProtocolEndpoint,
+    ProtocolError,
     # OPC UA (Task 25.1)
-    OPCUAConfig, OPCUAStubClient, parse_nodeset,
-
+    OPCUAConfig,
+    OPCUAStubClient,
+    parse_nodeset,
     # IEC 61850 (Task 25.2)
-    parse_scd, IEC61850StubClient,
-
+    parse_scd,
+    IEC61850StubClient,
     # J1939 transport (Task 25.3)
-    CANFrame, decode_frame, J1939Normalizer, SignalThrottle,
+    CANFrame,
+    decode_frame,
+    J1939Normalizer,
+    SignalThrottle,
 )
 ```
 
@@ -41,12 +47,14 @@ config. Bronze loaders propagate it onto the row's Purview label.
 
 ```python
 mapping = AddressSpaceMapping(protocol="opcua", name="north-plant")
-mapping.add(AddressNode(
-    node_id="ns=2;s=Line7.OperatorId",
-    canonical_entity="ProductionJob",
-    canonical_field="operator_id",
-    classification="pii",  # ← propagates downstream
-))
+mapping.add(
+    AddressNode(
+        node_id="ns=2;s=Line7.OperatorId",
+        canonical_entity="ProductionJob",
+        canonical_field="operator_id",
+        classification="pii",  # ← propagates downstream
+    )
+)
 
 raw = client.read_one("ns=2;s=Line7.OperatorId")
 sample = mapping.annotate(raw)

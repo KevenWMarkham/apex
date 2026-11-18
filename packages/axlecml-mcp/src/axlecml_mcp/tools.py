@@ -22,13 +22,16 @@ def get_equipment_by_key(
     with traced_call(
         tool_name=f"{SERVER_NAME}.get_equipment_by_key",
         tool_version=TOOL_VERSION,
-        agent_id=agent_id, caller_identity=caller_identity,
+        agent_id=agent_id,
+        caller_identity=caller_identity,
         parameters={"equipment_key": equipment_key},
         classification_applied=[Classification.INTERNAL],
     ) as ctx:
         row = _fabric_get_entity(
-            "equipment", equipment_key,
-            agent_id=agent_id, caller_identity=caller_identity,
+            "equipment",
+            equipment_key,
+            agent_id=agent_id,
+            caller_identity=caller_identity,
         )
         ctx["result"] = row
         return row
@@ -45,13 +48,17 @@ def list_production_events(
     with traced_call(
         tool_name=f"{SERVER_NAME}.list_production_events",
         tool_version=TOOL_VERSION,
-        agent_id=agent_id, caller_identity=caller_identity,
+        agent_id=agent_id,
+        caller_identity=caller_identity,
         parameters={"equipment_key": equipment_key, "limit": limit},
         classification_applied=[Classification.INTERNAL],
     ) as ctx:
         rows = _fabric_query_view(
-            "gold_axlecml.production_event", {"equipment_key": equipment_key}, limit,
-            agent_id=agent_id, caller_identity=caller_identity,
+            "gold_axlecml.production_event",
+            {"equipment_key": equipment_key},
+            limit,
+            agent_id=agent_id,
+            caller_identity=caller_identity,
         )
         ctx["result"] = rows
         return rows
@@ -68,13 +75,17 @@ def list_recent_quality_results(
     with traced_call(
         tool_name=f"{SERVER_NAME}.list_recent_quality_results",
         tool_version=TOOL_VERSION,
-        agent_id=agent_id, caller_identity=caller_identity,
+        agent_id=agent_id,
+        caller_identity=caller_identity,
         parameters={"equipment_key": equipment_key, "limit": limit},
         classification_applied=[Classification.INTERNAL],
     ) as ctx:
         rows = _fabric_query_view(
-            "gold_axlecml.quality_result", {"equipment_key": equipment_key}, limit,
-            agent_id=agent_id, caller_identity=caller_identity,
+            "gold_axlecml.quality_result",
+            {"equipment_key": equipment_key},
+            limit,
+            agent_id=agent_id,
+            caller_identity=caller_identity,
         )
         ctx["result"] = rows
         return rows
@@ -82,19 +93,22 @@ def list_recent_quality_results(
 
 CONTRACTS: list[ToolContract] = [
     ToolContract(
-        name=f"{SERVER_NAME}.get_equipment_by_key", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.get_equipment_by_key",
+        version=TOOL_VERSION,
         description="Return an AXLECML Equipment row by key.",
         classification_propagation=[Classification.INTERNAL],
         required_scopes=_REQUIRED_SCOPES,
     ),
     ToolContract(
-        name=f"{SERVER_NAME}.list_production_events", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.list_production_events",
+        version=TOOL_VERSION,
         description="List production events for a specific equipment.",
         classification_propagation=[Classification.INTERNAL],
         required_scopes=_REQUIRED_SCOPES,
     ),
     ToolContract(
-        name=f"{SERVER_NAME}.list_recent_quality_results", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.list_recent_quality_results",
+        version=TOOL_VERSION,
         description="List recent quality results on a specific equipment.",
         classification_propagation=[Classification.INTERNAL],
         required_scopes=_REQUIRED_SCOPES,

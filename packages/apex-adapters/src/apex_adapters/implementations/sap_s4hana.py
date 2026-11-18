@@ -38,20 +38,20 @@ from apex_adapters.framework import (
 #: Canonical SAP tables most APEX RC / AXLE / ICE engagements need
 #: ingested into Bronze. Engagement-specific Specs may extend this list.
 CANONICAL_SAP_TABLES: tuple[str, ...] = (
-    "KNA1",   # Customer master
-    "LFA1",   # Vendor master
-    "MARA",   # Material master (general)
-    "MARC",   # Material master (plant)
-    "MARD",   # Material master (storage location)
-    "MBEW",   # Material valuation
-    "EKKO",   # Purchasing document header
-    "EKPO",   # Purchasing document item
-    "BKPF",   # Accounting document header
-    "BSEG",   # Accounting document line item
-    "VBAK",   # Sales document header
-    "VBAP",   # Sales document item
-    "LIKP",   # Delivery header
-    "LIPS",   # Delivery item
+    "KNA1",  # Customer master
+    "LFA1",  # Vendor master
+    "MARA",  # Material master (general)
+    "MARC",  # Material master (plant)
+    "MARD",  # Material master (storage location)
+    "MBEW",  # Material valuation
+    "EKKO",  # Purchasing document header
+    "EKPO",  # Purchasing document item
+    "BKPF",  # Accounting document header
+    "BSEG",  # Accounting document line item
+    "VBAK",  # Sales document header
+    "VBAP",  # Sales document item
+    "LIKP",  # Delivery header
+    "LIPS",  # Delivery item
 )
 
 
@@ -96,9 +96,7 @@ class SapS4HanaAdapter(Adapter):
             return sorted(self._golden_data.keys())
         return [m.source_table for m in self.spec.schema_mappings]
 
-    def ingest(
-        self, mapping: SchemaMapping, *, limit: int | None = None
-    ) -> int:
+    def ingest(self, mapping: SchemaMapping, *, limit: int | None = None) -> int:
         """Ingest a SAP table into Bronze.
 
         In production: SAP HANA SQL → Fabric Bronze Delta with CDC stamps.

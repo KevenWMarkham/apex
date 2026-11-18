@@ -30,9 +30,14 @@ def test_find_standards_packages_returns_all_eight() -> None:
     pkgs = find_standards_packages(REPO_ROOT)
     names = {p.name for p in pkgs}
     expected = {
-        "apex-standards-cdisc", "apex-standards-cim", "apex-standards-fhir",
-        "apex-standards-isa95", "apex-standards-iso14224", "apex-standards-j1939",
-        "apex-standards-opentravel", "apex-standards-sid",
+        "apex-standards-cdisc",
+        "apex-standards-cim",
+        "apex-standards-fhir",
+        "apex-standards-isa95",
+        "apex-standards-iso14224",
+        "apex-standards-j1939",
+        "apex-standards-opentravel",
+        "apex-standards-sid",
     }
     assert expected.issubset(names)
 
@@ -83,8 +88,7 @@ def test_scan_detects_restricted_filename(tmp_path: Path) -> None:
 def test_scan_detects_loinc_table_dump_in_text_file(tmp_path: Path) -> None:
     bad = tmp_path / "harmless_name.txt"
     bad.write_text(
-        "LOINC_NUM, COMPONENT, PROPERTY, TIME_ASPCT, SYSTEM\n"
-        "718-7, Hemoglobin, MCnc, Pt, Bld\n",
+        "LOINC_NUM, COMPONENT, PROPERTY, TIME_ASPCT, SYSTEM\n718-7, Hemoglobin, MCnc, Pt, Bld\n",
         encoding="utf-8",
     )
     findings = scan_path(tmp_path)

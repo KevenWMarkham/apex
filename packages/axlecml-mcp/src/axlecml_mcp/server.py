@@ -7,7 +7,9 @@ def main() -> None:  # pragma: no cover
     from mcp.server.fastmcp import FastMCP  # type: ignore[import-not-found]
 
     from axlecml_mcp.tools import (
-        get_equipment_by_key, list_production_events, list_recent_quality_results,
+        get_equipment_by_key,
+        list_production_events,
+        list_recent_quality_results,
     )
 
     mcp = FastMCP("axlecml-mcp")

@@ -60,9 +60,7 @@ class EpicClarityAdapter(Adapter):
         with path.open("r", encoding="utf-8") as fh:
             data = json.load(fh)
         if not isinstance(data, dict):
-            raise ValueError(
-                f"Golden dataset {path}: expected mapping of {{table_name: [rows]}}"
-            )
+            raise ValueError(f"Golden dataset {path}: expected mapping of {{table_name: [rows]}}")
         self._golden_path = path
         self._golden_data = data
 
@@ -86,9 +84,7 @@ class EpicClarityAdapter(Adapter):
         # No data → return tables declared in the spec
         return [m.source_table for m in self.spec.schema_mappings]
 
-    def ingest(
-        self, mapping: SchemaMapping, *, limit: int | None = None
-    ) -> int:
+    def ingest(self, mapping: SchemaMapping, *, limit: int | None = None) -> int:
         """Ingest the source table named by ``mapping`` into Bronze.
 
         In production: SELECT … FROM ``mapping.source_table``,

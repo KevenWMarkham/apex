@@ -47,16 +47,20 @@ def test_telco_customer_default_segment() -> None:
 
 def test_product_offering() -> None:
     po = ProductOffering(
-        sid_id="po1", name="Business Fibre 1 Gbps",
+        sid_id="po1",
+        name="Business Fibre 1 Gbps",
         monthly_recurring_charge_usd=299.0,
-        **_envelope(), **_scd2(),
+        **_envelope(),
+        **_scd2(),
     )  # type: ignore[arg-type]
     assert po.monthly_recurring_charge_usd == 299.0
 
 
 def test_product_links_offering_and_customer() -> None:
     p = Product(
-        sid_id="prod1", product_offering_key="po:1", customer_key="c:1",
+        sid_id="prod1",
+        product_offering_key="po:1",
+        customer_key="c:1",
         service_keys=["svc1", "svc2"],
         **_envelope(),
     )  # type: ignore[arg-type]
@@ -65,7 +69,8 @@ def test_product_links_offering_and_customer() -> None:
 
 def test_service_kind() -> None:
     s = Service(
-        sid_id="svc1", name="Fibre Access",
+        sid_id="svc1",
+        name="Fibre Access",
         service_kind=ServiceKind.FIXED_BROADBAND,
         **_envelope(),
     )  # type: ignore[arg-type]
@@ -79,7 +84,8 @@ def test_network_resource_kinds_enumerated() -> None:
 
 def test_network_resource() -> None:
     nr = NetworkResource(
-        sid_id="nr1", name="ONT-SN-987",
+        sid_id="nr1",
+        name="ONT-SN-987",
         resource_kind=ResourceKind.PHYSICAL,
         resource_type="ONT",
         **_envelope(),
@@ -88,16 +94,18 @@ def test_network_resource() -> None:
 
 
 def test_billing_account_defaults_usd() -> None:
-    ba = BillingAccount(sid_id="ba1", customer_key="c:1",
-                        **_envelope(), **_scd2())  # type: ignore[arg-type]
+    ba = BillingAccount(sid_id="ba1", customer_key="c:1", **_envelope(), **_scd2())  # type: ignore[arg-type]
     assert ba.currency == "USD"
 
 
 @pytest.mark.conformance
 def test_telco_customer_from_sid() -> None:
-    sid = SidCustomer(id="sid-c-1", party_id="sid-p-1",
-                      customer_segment="enterprise",
-                      billing_account_ids=["ba1", "ba2"])
+    sid = SidCustomer(
+        id="sid-c-1",
+        party_id="sid-p-1",
+        customer_segment="enterprise",
+        billing_account_ids=["ba1", "ba2"],
+    )
     tc = telco_customer_from_sid(sid)
     assert tc.sid_id == "sid-c-1"
     assert tc.customer_segment is CustomerSegment.ENTERPRISE

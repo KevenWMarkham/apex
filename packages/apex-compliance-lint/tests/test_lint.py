@@ -73,16 +73,13 @@ def test_markdown_adapter_strips_code_fences(tmp_path: Path) -> None:
 def test_markdown_adapter_strips_yaml_frontmatter(tmp_path: Path) -> None:
     p = tmp_path / "doc.md"
     p.write_text(
-        "---\n"
-        "title: This is a partner doc\n"
-        "---\n\n"
-        "Body content here.\n",
+        "---\ntitle: This is a partner doc\n---\n\nBody content here.\n",
         encoding="utf-8",
     )
     lines = MarkdownAdapter().extract(p)
     text = " ".join(t for _, t in lines)
     assert "Body content" in text
-    assert "title:" not in text   # frontmatter stripped
+    assert "title:" not in text  # frontmatter stripped
 
 
 def test_markdown_adapter_preserves_link_text(tmp_path: Path) -> None:
@@ -229,8 +226,7 @@ def test_independence_does_not_flag_trading_partner(tmp_path: Path) -> None:
     )
     report = lint_file(p, MarkdownAdapter(), [DELOITTE_MICROSOFT_INDEPENDENCE])
     partner_violations = [
-        v for v in report.violations
-        if v.rule_id == "deloitte_microsoft_independence.partner"
+        v for v in report.violations if v.rule_id == "deloitte_microsoft_independence.partner"
     ]
     assert partner_violations == [], (
         f"Expected zero 'partner' flags inside 'trading partner' context; "
@@ -246,8 +242,7 @@ def test_independence_does_not_flag_microsoft_partner_of_the_year(tmp_path: Path
     )
     report = lint_file(p, MarkdownAdapter(), [DELOITTE_MICROSOFT_INDEPENDENCE])
     partner_violations = [
-        v for v in report.violations
-        if v.rule_id == "deloitte_microsoft_independence.partner"
+        v for v in report.violations if v.rule_id == "deloitte_microsoft_independence.partner"
     ]
     assert partner_violations == []
 
@@ -260,8 +255,7 @@ def test_independence_does_not_flag_channel_partner(tmp_path: Path) -> None:
     )
     report = lint_file(p, MarkdownAdapter(), [DELOITTE_MICROSOFT_INDEPENDENCE])
     partner_violations = [
-        v for v in report.violations
-        if v.rule_id == "deloitte_microsoft_independence.partner"
+        v for v in report.violations if v.rule_id == "deloitte_microsoft_independence.partner"
     ]
     assert partner_violations == []
 
@@ -331,7 +325,9 @@ def test_lint_paths_skips_unknown_extensions(tmp_path: Path) -> None:
     txt = tmp_path / "notes.txt"
     txt.write_text("partnership with Microsoft", encoding="utf-8")
     report = lint_paths(
-        [txt], adapter_registry=default_registry(), packs=list(DEFAULT_PACKS),
+        [txt],
+        adapter_registry=default_registry(),
+        packs=list(DEFAULT_PACKS),
     )
     # .txt has no adapter; no violations emitted
     assert report.files_scanned == 0
@@ -344,10 +340,14 @@ def test_lint_report_exit_codes(tmp_path: Path) -> None:
     dirty.write_text("Our partnership with Microsoft.\n", encoding="utf-8")
 
     clean_report = lint_paths(
-        [clean], adapter_registry=default_registry(), packs=list(DEFAULT_PACKS),
+        [clean],
+        adapter_registry=default_registry(),
+        packs=list(DEFAULT_PACKS),
     )
     dirty_report = lint_paths(
-        [dirty], adapter_registry=default_registry(), packs=list(DEFAULT_PACKS),
+        [dirty],
+        adapter_registry=default_registry(),
+        packs=list(DEFAULT_PACKS),
     )
     assert clean_report.exit_code == 0
     assert clean_report.ok is True
@@ -415,7 +415,4 @@ def test_conformance_apex_workspace_is_independence_clean() -> None:
             f"{v.file.name}:{v.line}:{v.column} [{v.rule_id}] {v.matched_text!r}"
             for v in report.errors
         ]
-        pytest.fail(
-            f"apex-workspace markdown has Independence violations:\n  "
-            + "\n  ".join(msgs)
-        )
+        pytest.fail(f"apex-workspace markdown has Independence violations:\n  " + "\n  ".join(msgs))

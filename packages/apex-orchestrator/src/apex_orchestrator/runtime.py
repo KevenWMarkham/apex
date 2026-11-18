@@ -70,7 +70,12 @@ class Orchestrator:
         self.tenant_gate_override = tenant_gate_override or {}
         self._steps: list[_OrchestrationStep] = []
         self._pending_pid_to_step_idx: dict[str, int] = {}
-        self._state: dict[str, Any] = {"context": {}, "step_idx": 0, "results": [], "gate_outcomes": []}
+        self._state: dict[str, Any] = {
+            "context": {},
+            "step_idx": 0,
+            "results": [],
+            "gate_outcomes": [],
+        }
 
     def add_step(
         self,
@@ -82,10 +87,16 @@ class Orchestrator:
         bump_class: BumpClass | None = None,
         approver_group: str | None = None,
     ) -> "Orchestrator":
-        self._steps.append(_OrchestrationStep(
-            step_id=step_id, agent_name=agent_name, agent_version=agent_version,
-            fn=fn, bump_class=bump_class, approver_group=approver_group,
-        ))
+        self._steps.append(
+            _OrchestrationStep(
+                step_id=step_id,
+                agent_name=agent_name,
+                agent_version=agent_version,
+                fn=fn,
+                bump_class=bump_class,
+                approver_group=approver_group,
+            )
+        )
         return self
 
     def run(self, initial_context: dict[str, Any]) -> OrchestrationResult:
@@ -98,7 +109,9 @@ class Orchestrator:
         }
         return self._advance()
 
-    def resume(self, pending_id: str, decision: str, approver_id: str, rationale: str = "") -> OrchestrationResult:
+    def resume(
+        self, pending_id: str, decision: str, approver_id: str, rationale: str = ""
+    ) -> OrchestrationResult:
         """Continue after an approver decides on a pending HITL/ESCALATION gate."""
         if self.approvals is None:
             raise RuntimeError("resume() requires an approvals client.")
@@ -139,12 +152,14 @@ class Orchestrator:
                     gate_outcomes=list(self._state["gate_outcomes"]),
                     rejection_reason=f"step {step.step_id!r} failed: {type(exc).__name__}: {exc}",
                 )
-            self._state["results"].append(StepResult(
-                step_id=step.step_id,
-                agent_name=step.agent_name,
-                agent_version=step.agent_version,
-                result=step_result,
-            ))
+            self._state["results"].append(
+                StepResult(
+                    step_id=step.step_id,
+                    agent_name=step.agent_name,
+                    agent_version=step.agent_version,
+                    result=step_result,
+                )
+            )
             self._state["context"].update(step_result)
 
             if step.bump_class is not None:

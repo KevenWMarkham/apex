@@ -48,21 +48,23 @@ def _scd2() -> dict[str, object]:
 
 class TestMeter:
     def test_electricity_default(self) -> None:
-        m = Meter(cim_mrid="mrid-1", serial_number="AMI-001",
-                  **_envelope(), **_scd2())  # type: ignore[arg-type]
+        m = Meter(cim_mrid="mrid-1", serial_number="AMI-001", **_envelope(), **_scd2())  # type: ignore[arg-type]
         assert m.kind is MeterKind.ELECTRICITY
 
     def test_gas_meter(self) -> None:
-        m = Meter(cim_mrid="mrid-2", serial_number="GAS-001",
-                  kind=MeterKind.GAS, **_envelope(), **_scd2())  # type: ignore[arg-type]
+        m = Meter(
+            cim_mrid="mrid-2", serial_number="GAS-001", kind=MeterKind.GAS, **_envelope(), **_scd2()
+        )  # type: ignore[arg-type]
         assert m.kind is MeterKind.GAS
 
 
 class TestMeterReading:
     def test_with_measured_quality(self) -> None:
         r = MeterReading(
-            meter_key="meter:1", timestamp=datetime.now(UTC),
-            value=Decimal("125.42"), unit="kWh",
+            meter_key="meter:1",
+            timestamp=datetime.now(UTC),
+            value=Decimal("125.42"),
+            unit="kWh",
             quality=ReadingQuality.MEASURED,
             **_envelope(),
         )  # type: ignore[arg-type]
@@ -94,8 +96,7 @@ class TestGridEvent:
 
 class TestAsset:
     def test_lifecycle_default(self) -> None:
-        a = Asset(cim_mrid="mrid-5", name="Transformer T1",
-                  **_envelope(), **_scd2())  # type: ignore[arg-type]
+        a = Asset(cim_mrid="mrid-5", name="Transformer T1", **_envelope(), **_scd2())  # type: ignore[arg-type]
         assert a.lifecycle_state is AssetLifecycleState.IN_SERVICE
 
 

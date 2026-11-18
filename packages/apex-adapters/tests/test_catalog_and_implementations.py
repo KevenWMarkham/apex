@@ -46,12 +46,21 @@ def test_adapter_registry_covers_every_subtask() -> None:
     """ADAPTER_REGISTRY enumerates Sprint 15 subtasks for each shipped adapter."""
     assert set(ADAPTER_REGISTRY.keys()) == set(list_shipped_manifests())
     expected_subtasks = {
-        "15.1.1", "15.1.2",
-        "15.2.1", "15.2.2",
-        "15.3.1", "15.3.2", "15.3.3", "15.3.4",
-        "15.4.1", "15.4.2",
-        "15.5.1", "15.5.2",
-        "15.6.1", "15.6.2", "15.6.3",
+        "15.1.1",
+        "15.1.2",
+        "15.2.1",
+        "15.2.2",
+        "15.3.1",
+        "15.3.2",
+        "15.3.3",
+        "15.3.4",
+        "15.4.1",
+        "15.4.2",
+        "15.5.1",
+        "15.5.2",
+        "15.6.1",
+        "15.6.2",
+        "15.6.3",
     }
     seen = {meta["subtask"] for meta in ADAPTER_REGISTRY.values()}
     assert seen == expected_subtasks
@@ -78,7 +87,7 @@ def test_epic_clarity_smoke_test_with_golden_dataset() -> None:
     adapter = EpicClarityAdapter(spec)
     result = adapter.smoke_test(golden_dataset=FIXTURES / "golden_epic_clarity.json")
     assert result.ok, result.errors
-    assert result.rows_read == 3   # 2 PATIENT + 1 PAT_ENC
+    assert result.rows_read == 3  # 2 PATIENT + 1 PAT_ENC
     assert result.rows_written == 3
     assert result.fields_mapped == 8  # 4 patient + 4 encounter
 
@@ -119,7 +128,7 @@ def test_sap_smoke_test_with_golden_dataset() -> None:
     adapter = SapS4HanaAdapter(spec)
     result = adapter.smoke_test(golden_dataset=FIXTURES / "golden_sap.json")
     assert result.ok, result.errors
-    assert result.rows_read == 4    # 1 KNA1 + 2 MARA + 1 BSEG
+    assert result.rows_read == 4  # 1 KNA1 + 2 MARA + 1 BSEG
     assert result.fields_mapped == 12  # 3 KNA1 + 3 MARA + 6 BSEG
 
 
@@ -177,8 +186,10 @@ def test_cli_smoke_test_with_golden() -> None:
     result = runner.invoke(
         adapters_app,
         [
-            "smoke-test", "epic-clarity",
-            "--golden", str(FIXTURES / "golden_epic_clarity.json"),
+            "smoke-test",
+            "epic-clarity",
+            "--golden",
+            str(FIXTURES / "golden_epic_clarity.json"),
         ],
     )
     assert result.exit_code == 0, result.stdout

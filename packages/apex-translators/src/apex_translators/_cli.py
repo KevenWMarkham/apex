@@ -62,7 +62,9 @@ def formats_cmd() -> None:
 
 @translators_app.command("fixtures")
 def fixtures_cmd(
-    format: str = typer.Argument(..., help="Format key (edi-x12, hl7v2, cda, epcis, oagis, padis)."),
+    format: str = typer.Argument(
+        ..., help="Format key (edi-x12, hl7v2, cda, epcis, oagis, padis)."
+    ),
 ) -> None:
     """List fixture names for a format."""
     if format not in _FIXTURE_BUNDLES:

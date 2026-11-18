@@ -204,13 +204,9 @@ class DLPRule:
                 f"See APEX_CLASSIFICATIONS in apex_purview.classifications."
             )
         if self.surface not in SURFACES:
-            raise ValueError(
-                f"Unknown surface: {self.surface!r}. Allowed: {SURFACES}"
-            )
+            raise ValueError(f"Unknown surface: {self.surface!r}. Allowed: {SURFACES}")
         if self.action not in ACTIONS:
-            raise ValueError(
-                f"Unknown action: {self.action!r}. Allowed: {ACTIONS}"
-            )
+            raise ValueError(f"Unknown action: {self.action!r}. Allowed: {ACTIONS}")
 
 
 @dataclass(frozen=True)

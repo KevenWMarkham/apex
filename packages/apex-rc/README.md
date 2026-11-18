@@ -15,7 +15,7 @@ later sprints) bind its agent catalogue and service catalogue.
 from apex_rc import rc_bundle
 
 bundle = rc_bundle()
-print(bundle.practice)           # Practice.RC
-print(bundle.entities["scml"])   # ['SKU', 'Location', 'Lot', ...]
-print(bundle.standards)          # ['gs1-gtin', 'gs1-sscc', 'gs1-gln', ...]
+print(bundle.practice)  # Practice.RC
+print(bundle.entities["scml"])  # ['SKU', 'Location', 'Lot', ...]
+print(bundle.standards)  # ['gs1-gtin', 'gs1-sscc', 'gs1-gln', ...]
 ```

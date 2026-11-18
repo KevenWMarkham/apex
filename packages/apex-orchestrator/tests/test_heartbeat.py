@@ -80,11 +80,8 @@ def test_parser_rejects_wrong_file_marker(tmp_path: Path) -> None:
 def test_parser_rejects_routine_missing_required_fields(tmp_path: Path) -> None:
     bad = tmp_path / "HEARTBEAT.md"
     bad.write_text(
-        "---\nfile: HEARTBEAT.md\n---\n"
-        "## Routine 1 — Incomplete\n"
-        "- **Trigger:** every hour\n"
+        "---\nfile: HEARTBEAT.md\n---\n## Routine 1 — Incomplete\n- **Trigger:** every hour\n",
         # Missing orch, budget, oversight
-        ,
         encoding="utf-8",
     )
     with pytest.raises(HeartbeatParseError, match="missing required"):
@@ -123,7 +120,8 @@ def _make_scheduler():
         cosmos_writer=lambda k, v: cosmos_writes.append((k, v)),
     )
     sched = HeartbeatScheduler(
-        routines=routines, parent=parent,
+        routines=routines,
+        parent=parent,
         emit_event=lambda t, p: events.append((t, p)),
     )
     return sched, parent, redis, events, cosmos_writes

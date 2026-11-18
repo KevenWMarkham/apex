@@ -31,10 +31,10 @@ from apex_cxml import (
 
 # Module-level mapping that the wizard / Services Guide can introspect.
 CRMML_ALIASES: dict[str, type] = {
-    "CRMML.Customer":    Customer,
-    "CRMML.Loyalty":     Loyalty,
+    "CRMML.Customer": Customer,
+    "CRMML.Loyalty": Loyalty,
     "CRMML.Interaction": Interaction,
-    "CRMML.Order":       Order,
+    "CRMML.Order": Order,
 }
 
 # Per RC build-status sprint-30 item 30.5 — Customer / Loyalty / Interaction

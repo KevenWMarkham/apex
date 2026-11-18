@@ -151,7 +151,9 @@ def validate_cloud_substrate() -> bool:
 
         failures: list[str] = []
         if rendered.format != "bicep-parameters":
-            failures.append(f"[{substrate}] format expected 'bicep-parameters', got {rendered.format}")
+            failures.append(
+                f"[{substrate}] format expected 'bicep-parameters', got {rendered.format}"
+            )
         if rendered.blueprint != "apex-m/infra/bicep/blueprints/w2-pilot.bicep":
             failures.append(f"[{substrate}] blueprint path unexpected: {rendered.blueprint}")
         if rendered.parameters is None:
@@ -159,16 +161,21 @@ def validate_cloud_substrate() -> bool:
         else:
             schema_uri = rendered.parameters.get("$schema", "")
             if "deploymentParameters.json" not in schema_uri:
-                failures.append(f"[{substrate}] parameters not in Azure deploymentParameters format")
+                failures.append(
+                    f"[{substrate}] parameters not in Azure deploymentParameters format"
+                )
             tenant_val = rendered.parameters.get("parameters", {}).get("tenant", {}).get("value")
             if tenant_val != f"bigbox-{substrate}":
                 failures.append(f"[{substrate}] tenant param mismatch: {tenant_val}")
-            selections = rendered.parameters.get("parameters", {}).get("selections", {}).get("value", [])
+            selections = (
+                rendered.parameters.get("parameters", {}).get("selections", {}).get("value", [])
+            )
             if not any(s.get("serviceCode") == "RC-E2E-03" for s in selections):
                 failures.append(f"[{substrate}] RC-E2E-03 not in selections array")
 
         # Evidence
         import json as _json
+
         evidence = EVIDENCE_DIR / f"A2_{substrate}_bicep_params.json"
         evidence.write_text(_json.dumps(rendered.parameters or {}, indent=2), encoding="utf-8")
         _ok(f"[{substrate}] Bicep parameters rendered -> {evidence}")
@@ -178,7 +185,9 @@ def validate_cloud_substrate() -> bool:
                 _fail(f)
             all_ok = False
         else:
-            _ok(f"[{substrate}] format=bicep-parameters · blueprint={Path(rendered.blueprint).name}")
+            _ok(
+                f"[{substrate}] format=bicep-parameters · blueprint={Path(rendered.blueprint).name}"
+            )
 
     if all_ok:
         _ok("All 3 cloud substrates (dev/stage/prod) emit valid Bicep parameters")
@@ -207,7 +216,7 @@ def validate_use_case_incorporation() -> bool:
         "service_code": "RC-E2E-03",
         "scenario_id": "rc-cold-chain-excursion-mid-shift",
         "primary_variant": "APEX-M",
-        "substrate": "lab",   # Lab worked example
+        "substrate": "lab",  # Lab worked example
         "personas_active": [
             {"id": "marisol-reyes-store-ops"},
             {"id": "daniel-chen-merch-director"},
@@ -253,18 +262,23 @@ def validate_use_case_incorporation() -> bool:
     prod_bound_report = validate_use_case_personas(prod_bound)
     if prod_bound_report.valid:
         _ok("Cloned _default -> bigbox-prod WITH bindings: PSG-15 green, deploy allowed")
-        _ok(f"  Bound personas: {prod_bound_report.bindings_count} of {len(prod_bound_report.personas_active)} active")
+        _ok(
+            f"  Bound personas: {prod_bound_report.bindings_count} of {len(prod_bound_report.personas_active)} active"
+        )
     else:
         _fail(f"Bound prod use-case should pass: errors={prod_bound_report.errors}")
         return False
 
     # Write evidence
     import json as _json
+
     (EVIDENCE_DIR / "A3_default_use_case.json").write_text(
-        _json.dumps(default_use_case, indent=2), encoding="utf-8",
+        _json.dumps(default_use_case, indent=2),
+        encoding="utf-8",
     )
     (EVIDENCE_DIR / "A3_bigbox_prod_use_case.json").write_text(
-        _json.dumps(prod_bound, indent=2), encoding="utf-8",
+        _json.dumps(prod_bound, indent=2),
+        encoding="utf-8",
     )
     _ok(f"Evidence written: A3_default_use_case.json + A3_bigbox_prod_use_case.json")
     _ok("Use-case incorporation flow validated: clone -> bind -> deploy gates pass")
@@ -348,11 +362,14 @@ def validate_wizard_end_to_end() -> bool:
 
     # Evidence
     import json as _json
+
     (EVIDENCE_DIR / "A4_wizard_deployment_record.json").write_text(
-        _json.dumps(record, indent=2), encoding="utf-8",
+        _json.dumps(record, indent=2),
+        encoding="utf-8",
     )
     (EVIDENCE_DIR / "A4_wizard_security_gate.json").write_text(
-        _json.dumps(body, indent=2), encoding="utf-8",
+        _json.dumps(body, indent=2),
+        encoding="utf-8",
     )
     _ok("Wizard end-to-end chain validated: PSG -> what-if -> deploy -> audit row -> drift")
     return True
@@ -372,10 +389,8 @@ def main() -> int:
     results: dict[str, bool] = {
         "A1 — Laptop substrate (docker-compose render)": validate_laptop_substrate(),
         "A2 — Cloud substrate (Bicep parameter render × 3 substrates)": validate_cloud_substrate(),
-        "A3 — Use-case incorporation (clone _default + persona bindings + PSG-15)":
-            validate_use_case_incorporation(),
-        "A4 — Wizard end-to-end (PSG -> deploy -> drift via FastAPI)":
-            validate_wizard_end_to_end(),
+        "A3 — Use-case incorporation (clone _default + persona bindings + PSG-15)": validate_use_case_incorporation(),
+        "A4 — Wizard end-to-end (PSG -> deploy -> drift via FastAPI)": validate_wizard_end_to_end(),
     }
 
     _section("SUMMARY")

@@ -32,7 +32,9 @@ class CdiscSubject(BaseModel):
     investigator_id: str | None = None
     site_id: str | None = None
     enrolled_date: date | None = None
-    status: str = Field("enrolled", description="e.g. 'enrolled', 'screen_failure', 'completed', 'withdrawn'.")
+    status: str = Field(
+        "enrolled", description="e.g. 'enrolled', 'screen_failure', 'completed', 'withdrawn'."
+    )
 
 
 class CdiscFormData(BaseModel):

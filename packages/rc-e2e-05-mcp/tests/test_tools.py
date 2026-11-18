@@ -64,13 +64,23 @@ def _seed_fabric() -> InMemoryFabricBackend:
                     "store_id": "store-100",
                     "shift_capacity_minutes_remaining": 240,
                     "associates": [
-                        {"associate_id": "tok-emp-A", "skill_tier": "level_3",
-                         "authorised_zones": ["dairy", "bakery"], "last_known_bay": "bay-A1"},
-                        {"associate_id": "tok-emp-B", "skill_tier": "level_1",
-                         "authorised_zones": ["dairy"], "last_known_bay": "bay-D1"},
+                        {
+                            "associate_id": "tok-emp-A",
+                            "skill_tier": "level_3",
+                            "authorised_zones": ["dairy", "bakery"],
+                            "last_known_bay": "bay-A1",
+                        },
+                        {
+                            "associate_id": "tok-emp-B",
+                            "skill_tier": "level_1",
+                            "authorised_zones": ["dairy"],
+                            "last_known_bay": "bay-D1",
+                        },
                     ],
                     "bay_layout": {
-                        "bay-A1-bay-A4": 1,  "bay-A4-bay-A6": 1,  "bay-A6-bay-D1": 4,
+                        "bay-A1-bay-A4": 1,
+                        "bay-A4-bay-A6": 1,
+                        "bay-A6-bay-D1": 4,
                     },
                     "task_duration_norms": {
                         "restock_from_backroom": 3,
@@ -95,7 +105,8 @@ def test_get_oos_event_aggregates_skus() -> None:
     assert panel["store_id"] == "store-100"
     assert len(panel["affected_skus"]) == 2
     assert {s["sku_key"] for s in panel["affected_skus"]} == {
-        "SKU-MILK-2PCT-1G", "SKU-YOGURT-32OZ-PLAIN",
+        "SKU-MILK-2PCT-1G",
+        "SKU-YOGURT-32OZ-PLAIN",
     }
     # Key-value flag preserved
     milk = next(s for s in panel["affected_skus"] if s["sku_key"] == "SKU-MILK-2PCT-1G")
@@ -119,7 +130,8 @@ def test_get_oos_event_invalid_input_rejected() -> None:
 
 def test_get_shelf_gap_assignment_basis_returns_roster() -> None:
     basis = get_shelf_gap_assignment_basis(
-        store_id="store-100", as_of="2026-05-10T06:00:00Z",
+        store_id="store-100",
+        as_of="2026-05-10T06:00:00Z",
     )
     assert basis["store_id"] == "store-100"
     assert basis["shift_capacity_minutes_remaining"] == 240
@@ -135,7 +147,8 @@ def test_get_shelf_gap_assignment_basis_returns_roster() -> None:
 def test_get_shelf_gap_assignment_basis_missing_raises_not_found() -> None:
     with pytest.raises(McpError) as exc:
         get_shelf_gap_assignment_basis(
-            store_id="store-no-such", as_of="2026-05-10T06:00:00Z",
+            store_id="store-no-such",
+            as_of="2026-05-10T06:00:00Z",
         )
     assert exc.value.code is McpErrorCode.NOT_FOUND
 
@@ -220,13 +233,17 @@ def test_commit_task_dispatch_conflict_on_param_mismatch() -> None:
         operator_principal="jamie.oconnor@labtenant.onmicrosoft.com",
     )
     commit_task_dispatch(  # type: ignore[arg-type]
-        sku_key="SKU-MILK", bay_id="bay-A4",
-        task_kind="restock_from_backroom", **base,
+        sku_key="SKU-MILK",
+        bay_id="bay-A4",
+        task_kind="restock_from_backroom",
+        **base,
     )
     with pytest.raises(McpError) as exc:
         commit_task_dispatch(  # type: ignore[arg-type]
-            sku_key="SKU-YOGURT", bay_id="bay-A4",
-            task_kind="restock_from_backroom", **base,
+            sku_key="SKU-YOGURT",
+            bay_id="bay-A4",
+            task_kind="restock_from_backroom",
+            **base,
         )
     assert exc.value.code is McpErrorCode.CONFLICT
 
@@ -259,9 +276,11 @@ def test_commit_task_dispatch_rejects_invalid_task_order() -> None:
         commit_task_dispatch(
             dispatch_id="DSP-OOB",
             associate_id="tok-emp-A",
-            task_order=0,   # < 1 invalid
+            task_order=0,  # < 1 invalid
             operator_principal="jamie.oconnor@labtenant.onmicrosoft.com",
-            sku_key="x", bay_id="x", task_kind="restock_from_backroom",
+            sku_key="x",
+            bay_id="x",
+            task_kind="restock_from_backroom",
         )
     assert exc.value.code is McpErrorCode.INVALID_INPUT
 
@@ -273,7 +292,9 @@ def test_commit_task_dispatch_rejects_missing_operator() -> None:
             associate_id="tok-emp-A",
             task_order=1,
             operator_principal="",
-            sku_key="x", bay_id="x", task_kind="restock_from_backroom",
+            sku_key="x",
+            bay_id="x",
+            task_kind="restock_from_backroom",
         )
     assert exc.value.code is McpErrorCode.INVALID_INPUT
 

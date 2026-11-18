@@ -17,7 +17,8 @@ class TestPersonnel:
     def test_person_with_class(self) -> None:
         cls = Isa95PersonnelClass(id="pc-operator", name="Operator")
         p = Isa95Person(
-            id="op1", name="Alice",
+            id="op1",
+            name="Alice",
             personnelClassId=cls.id,
             qualifications=["fork-lift", "confined-space"],
         )
@@ -32,14 +33,16 @@ class TestPersonnel:
 class TestEquipment:
     def test_equipment_class_capabilities(self) -> None:
         ec = Isa95EquipmentClass(
-            id="ec-conveyor", name="Conveyor",
+            id="ec-conveyor",
+            name="Conveyor",
             capabilities=["transport", "queue"],
         )
         assert len(ec.capabilities) == 2
 
     def test_equipment_binds_to_work_unit(self) -> None:
         eq = Isa95Equipment(
-            id="eq1", name="Conveyor 001",
+            id="eq1",
+            name="Conveyor 001",
             equipment_class_id="ec-conveyor",
             work_unit_id="u1",
             serial_number="SN-12345",
@@ -52,7 +55,8 @@ class TestMaterial:
     def test_raw_material(self) -> None:
         mc = Isa95MaterialClass(id="mc-steel", name="Steel")
         m = Isa95Material(
-            id="mat1", name="A36 Steel Plate",
+            id="mat1",
+            name="A36 Steel Plate",
             material_class_id=mc.id,
             material_type=MaterialType.RAW,
             unit_of_measure="kg",

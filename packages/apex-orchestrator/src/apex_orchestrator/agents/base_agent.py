@@ -85,11 +85,13 @@ class BaseAgent:
         try:
             level_raw = self.redis.get_cancel_token(self.run_id)
             self._redis_failure_count = 0
-            level = CancelLevel(level_raw) if level_raw in CancelLevel._value2member_map_ else CancelLevel.NONE
+            level = (
+                CancelLevel(level_raw)
+                if level_raw in CancelLevel._value2member_map_
+                else CancelLevel.NONE
+            )
             if level != CancelLevel.NONE:
-                raise CancelRequested(
-                    f"cancel level {level.value} on run {self.run_id}"
-                )
+                raise CancelRequested(f"cancel level {level.value} on run {self.run_id}")
             return
         except RedisUnavailable:
             pass  # Fall through to Cosmos
@@ -105,7 +107,7 @@ class BaseAgent:
         self._redis_failure_count += 1
         backoff = min(
             self.backoff_max_s,
-            0.1 * (2 ** self._redis_failure_count),
+            0.1 * (2**self._redis_failure_count),
         )
         time.sleep(backoff)
         if self.cosmos_fallback is not None:
@@ -141,12 +143,13 @@ class BaseAgent:
             return  # No cap configured for this metric
         try:
             new_value = self.redis.increment_budget_counter(
-                self.run_id, self.child_id, metric, amount,
+                self.run_id,
+                self.child_id,
+                metric,
+                amount,
             )
             if new_value > cap:
-                raise BudgetExceeded(
-                    f"{metric}={new_value} exceeds envelope cap {cap}"
-                )
+                raise BudgetExceeded(f"{metric}={new_value} exceeds envelope cap {cap}")
             return
         except RedisUnavailable:
             pass

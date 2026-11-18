@@ -178,9 +178,9 @@ def reservation_from_ota_air(ota: OtaAirReservation) -> Reservation:
         additional_traveler_keys=[
             f"traveler:{t.surname}:{t.given_name}" for t in ota.travelers[1:]
         ],
-        status=ReservationStatus(ota.status) if ota.status in {
-            s.value for s in ReservationStatus
-        } else ReservationStatus.BOOKED,
+        status=ReservationStatus(ota.status)
+        if ota.status in {s.value for s in ReservationStatus}
+        else ReservationStatus.BOOKED,
         booked_at=ota.booking_datetime,
     )  # type: ignore[arg-type]
 

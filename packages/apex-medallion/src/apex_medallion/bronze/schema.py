@@ -50,15 +50,13 @@ def generate_bronze_ddl(
 
     user_column_lines = ""
     if user_columns:
-        user_column_lines = "\n".join(
-            f"  {name:<24} {dtype}," for name, dtype in user_columns.items()
-        ) + "\n"
+        user_column_lines = (
+            "\n".join(f"  {name:<24} {dtype}," for name, dtype in user_columns.items()) + "\n"
+        )
 
     partition_clause = ""
     if config.partition_columns:
-        partition_clause = (
-            f"\nPARTITIONED BY ({', '.join(config.partition_columns)})"
-        )
+        partition_clause = f"\nPARTITIONED BY ({', '.join(config.partition_columns)})"
 
     return f"""CREATE TABLE {qualified} (
 {_ENVELOPE_COLUMNS}

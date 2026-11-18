@@ -148,7 +148,9 @@ EDI_X12_FIXTURES: dict[str, str] = {
     "850": _X12_850,
     "856": _X12_856,
     "810": _X12_810,
-    "820": _X12_810.replace("*BIG*", "*BPR*").replace("ST*810*", "ST*820*").replace("GS*IN*", "GS*RA*"),
+    "820": _X12_810.replace("*BIG*", "*BPR*")
+    .replace("ST*810*", "ST*820*")
+    .replace("GS*IN*", "GS*RA*"),
     "837": _X12_837,
     "835": _X12_835,
     "270": _X12_270,

@@ -15,9 +15,7 @@ from apex_scenarios.models import (
 
 
 def test_compact_required_fields() -> None:
-    s = ScenarioCompact(
-        t="Title", s="RC-E2E-03", b="Brief", k="+2pp GM", kk="up"
-    )
+    s = ScenarioCompact(t="Title", s="RC-E2E-03", b="Brief", k="+2pp GM", kk="up")
     assert s.t == "Title"
     assert s.kk == "up"
 
@@ -33,32 +31,46 @@ def test_compact_rejects_unknown_direction() -> None:
 
 
 def test_extended_default_wave_fields_empty() -> None:
-    s = Scenario(
-        title="t", service_code="RC-E2E-03", brief="b", kpi="k", kpi_direction="up"
-    )
+    s = Scenario(title="t", service_code="RC-E2E-03", brief="b", kpi="k", kpi_direction="up")
     assert s.w1 == s.w2 == s.w3 == ""
     assert not s.has_full_wave_data()
 
 
 def test_extended_has_full_wave_data() -> None:
     s = Scenario(
-        title="t", service_code="RC-E2E-03", brief="b", kpi="k", kpi_direction="up",
-        w1="W1 narrative", w2="W2 narrative", w3="W3 narrative",
+        title="t",
+        service_code="RC-E2E-03",
+        brief="b",
+        kpi="k",
+        kpi_direction="up",
+        w1="W1 narrative",
+        w2="W2 narrative",
+        w3="W3 narrative",
     )
     assert s.has_full_wave_data()
 
 
 def test_extended_partial_wave_data_returns_false() -> None:
     s = Scenario(
-        title="t", service_code="s", brief="b", kpi="k", kpi_direction="up",
-        w1="x", w2="", w3="z",
+        title="t",
+        service_code="s",
+        brief="b",
+        kpi="k",
+        kpi_direction="up",
+        w1="x",
+        w2="",
+        w3="z",
     )
     assert not s.has_full_wave_data()
 
 
 def test_extended_practice_normalizes_to_uppercase() -> None:
     s = Scenario(
-        title="t", service_code="s", brief="b", kpi="k", kpi_direction="up",
+        title="t",
+        service_code="s",
+        brief="b",
+        kpi="k",
+        kpi_direction="up",
         practice="rc",
     )
     assert s.practice == "RC"
@@ -67,15 +79,17 @@ def test_extended_practice_normalizes_to_uppercase() -> None:
 def test_extended_practice_rejects_unknown() -> None:
     with pytest.raises(ValidationError):
         Scenario(
-            title="t", service_code="s", brief="b", kpi="k", kpi_direction="up",
+            title="t",
+            service_code="s",
+            brief="b",
+            kpi="k",
+            kpi_direction="up",
             practice="marketing",
         )
 
 
 def test_compact_to_extended_round_trip() -> None:
-    c = ScenarioCompact(
-        t="Cold-chain", s="RC-E2E-06", b="Real-time", k="+18% margin", kk="up"
-    )
+    c = ScenarioCompact(t="Cold-chain", s="RC-E2E-06", b="Real-time", k="+18% margin", kk="up")
     e = compact_to_extended(c, practice="RC")
     assert e.title == "Cold-chain"
     assert e.service_code == "RC-E2E-06"

@@ -12,6 +12,7 @@ Adapters that bring data from a client's existing data plane:
 - saas.snowflake (Snowflake Gold consumer)
 - saas.databricks (Unity Catalog interop)
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -22,9 +23,10 @@ from typing import Any, Iterator, Protocol, runtime_checkable
 class DataLakeQuery:
     """Read intent against a tier. Engine-neutral; concrete impl picks
     SQL / KQL / Spark / Bedrock SQL based on tier and provider."""
-    tier: str           # "bronze" | "silver" | "gold"
-    schema: str         # APEX-Core canonical schema family (SCML, MERML, etc.)
-    entity: str         # e.g., "Inventory", "Markdown", "Lot"
+
+    tier: str  # "bronze" | "silver" | "gold"
+    schema: str  # APEX-Core canonical schema family (SCML, MERML, etc.)
+    entity: str  # e.g., "Inventory", "Markdown", "Lot"
     filters: dict[str, Any] = field(default_factory=dict)
     columns: list[str] | None = None
     limit: int | None = None
@@ -34,6 +36,7 @@ class DataLakeQuery:
 @dataclass(frozen=True)
 class DataLakeWrite:
     """Write intent, only valid against Bronze landing or Silver-from-source."""
+
     tier: str
     schema: str
     entity: str
@@ -47,7 +50,7 @@ class DataLake(Protocol):
     """Read and write the canonical Bronze/Silver/Gold tiers."""
 
     variant: str
-    primary_workspace: str   # e.g., "rc-canonical" — primary workspace pattern
+    primary_workspace: str  # e.g., "rc-canonical" — primary workspace pattern
 
     def query(self, q: DataLakeQuery, *, operator_scope: str) -> Iterator[dict[str, Any]]:
         """Read with operator scope enforced via the variant's identity model

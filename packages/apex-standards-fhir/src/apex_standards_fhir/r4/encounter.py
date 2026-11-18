@@ -25,8 +25,15 @@ class FhirEncounter(BaseModel):
     id: str | None = None
     identifier: list[FhirIdentifier] = Field(default_factory=list)
     status: Literal[
-        "planned", "arrived", "triaged", "in-progress", "onleave",
-        "finished", "cancelled", "entered-in-error", "unknown",
+        "planned",
+        "arrived",
+        "triaged",
+        "in-progress",
+        "onleave",
+        "finished",
+        "cancelled",
+        "entered-in-error",
+        "unknown",
     ]
     encounter_class: FhirCoding | None = Field(None, alias="class")
     subject: FhirReference | None = None

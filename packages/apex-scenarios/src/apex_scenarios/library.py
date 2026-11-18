@@ -50,9 +50,7 @@ def load_scenario_library(path: str | Path = DEFAULT_LIBRARY_PATH) -> list[Scena
         raw = json.load(fh)
 
     if not isinstance(raw, dict):
-        raise ValueError(
-            f"{path}: expected mapping keyed by practice, got {type(raw).__name__}"
-        )
+        raise ValueError(f"{path}: expected mapping keyed by practice, got {type(raw).__name__}")
 
     scenarios: list[Scenario] = []
     for practice, rows in raw.items():
@@ -73,9 +71,7 @@ def load_scenario_library(path: str | Path = DEFAULT_LIBRARY_PATH) -> list[Scena
                 else:
                     scenarios.append(Scenario(practice=practice, **row))
             except Exception as exc:  # noqa: BLE001
-                raise ValueError(
-                    f"{path}: practice {practice!r} row #{i}: {exc}"
-                ) from exc
+                raise ValueError(f"{path}: practice {practice!r} row #{i}: {exc}") from exc
 
     return scenarios
 
@@ -86,9 +82,7 @@ def load_featured_chains(path: str | Path = DEFAULT_FEATURED_PATH) -> list[Featu
     with p.open("r", encoding="utf-8") as fh:
         raw = json.load(fh)
     if not isinstance(raw, list):
-        raise ValueError(
-            f"{path}: expected JSON array, got {type(raw).__name__}"
-        )
+        raise ValueError(f"{path}: expected JSON array, got {type(raw).__name__}")
     return [FeaturedChain.model_validate(row) for row in raw]
 
 

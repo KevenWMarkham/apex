@@ -125,8 +125,7 @@ def register_all_cmd(
         None,
         "--output",
         "-o",
-        help="Directory where per-schema payloads are written. "
-        "Omit for validate-only mode.",
+        help="Directory where per-schema payloads are written. Omit for validate-only mode.",
     ),
     strict: bool = typer.Option(
         False,

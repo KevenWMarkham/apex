@@ -67,7 +67,8 @@ def detokenize_under_scope(
 
 CONTRACTS: list[ToolContract] = [
     ToolContract(
-        name=f"{SERVER_NAME}.detokenize_under_scope", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.detokenize_under_scope",
+        version=TOOL_VERSION,
         description="Resolve a token to cleartext if the caller's scope permits.",
         classification_propagation=[
             Classification.PII,

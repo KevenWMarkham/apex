@@ -81,9 +81,9 @@ class FhirHumanName(BaseModel):
 
     model_config = _FHIR_BASE_CONFIG
 
-    use: Literal[
-        "usual", "official", "temp", "nickname", "anonymous", "old", "maiden"
-    ] | None = None
+    use: Literal["usual", "official", "temp", "nickname", "anonymous", "old", "maiden"] | None = (
+        None
+    )
     text: str | None = None
     family: str | None = None
     given: list[str] = Field(default_factory=list)

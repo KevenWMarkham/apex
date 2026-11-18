@@ -268,8 +268,18 @@ def emit_relationship_typedefs() -> dict[str, Any]:
                     "cardinality": "SINGLE",
                 },
                 "attributeDefs": [
-                    {"name": "cardinality", "typeName": "string", "isOptional": False, "cardinality": "SINGLE"},
-                    {"name": "label", "typeName": "string", "isOptional": True, "cardinality": "SINGLE"},
+                    {
+                        "name": "cardinality",
+                        "typeName": "string",
+                        "isOptional": False,
+                        "cardinality": "SINGLE",
+                    },
+                    {
+                        "name": "label",
+                        "typeName": "string",
+                        "isOptional": True,
+                        "cardinality": "SINGLE",
+                    },
                 ],
             },
             {
@@ -291,8 +301,18 @@ def emit_relationship_typedefs() -> dict[str, Any]:
                     "cardinality": "SINGLE",
                 },
                 "attributeDefs": [
-                    {"name": "cardinality", "typeName": "string", "isOptional": False, "cardinality": "SINGLE"},
-                    {"name": "label", "typeName": "string", "isOptional": True, "cardinality": "SINGLE"},
+                    {
+                        "name": "cardinality",
+                        "typeName": "string",
+                        "isOptional": False,
+                        "cardinality": "SINGLE",
+                    },
+                    {
+                        "name": "label",
+                        "typeName": "string",
+                        "isOptional": True,
+                        "cardinality": "SINGLE",
+                    },
                 ],
             },
         ],

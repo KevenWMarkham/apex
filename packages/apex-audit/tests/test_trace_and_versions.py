@@ -57,15 +57,15 @@ class TestVersions:
 
     def test_stamp_versions_returns_resolver_output(self) -> None:
         resolver = StaticVersionResolver(self._stamps())
-        out = stamp_versions(
-            resolver, orchestration_name="cold-chain", tenant_id="t1"
-        )
+        out = stamp_versions(resolver, orchestration_name="cold-chain", tenant_id="t1")
         assert out.manifest_version == "m-sha"
         assert out.model_version == "gpt-4.1-2025-01"
 
     def test_empty_sha_rejected(self) -> None:
         with pytest.raises(Exception):
             VersionStamps(
-                manifest_version="", policy_version="p",
-                prompt_version="pr", model_version="m",
+                manifest_version="",
+                policy_version="p",
+                prompt_version="pr",
+                model_version="m",
             )

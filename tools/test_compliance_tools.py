@@ -30,13 +30,20 @@ def test_typography_var_reference_is_allowed() -> None:
     assert is_var_reference("var(--apex-font-body)")
     assert is_var_reference("var(--apex-font-display)")
     assert not is_var_reference("Helvetica, sans-serif")
-    assert not is_var_reference("\"IBM Plex Sans\"")
+    assert not is_var_reference('"IBM Plex Sans"')
 
 
 def test_typography_approved_families_list_complete() -> None:
     """The three APEX core families plus the system fallback chain."""
-    for family in ("fraunces", "ibm plex sans", "jetbrains mono",
-                   "system-ui", "sans-serif", "serif", "monospace"):
+    for family in (
+        "fraunces",
+        "ibm plex sans",
+        "jetbrains mono",
+        "system-ui",
+        "sans-serif",
+        "serif",
+        "monospace",
+    ):
         assert family in APPROVED_FAMILIES
 
 
@@ -110,7 +117,8 @@ def test_typography_main_sprint29_deliverables_pass(tmp_path: Path) -> None:
         target = src / name
         if target.exists():
             (sprint29 / name).write_text(
-                target.read_text(encoding="utf-8"), encoding="utf-8",
+                target.read_text(encoding="utf-8"),
+                encoding="utf-8",
             )
     rc = typography_main([str(sprint29)])
     assert rc == 0
@@ -197,7 +205,8 @@ def test_color_main_sprint29_deliverables_pass(tmp_path: Path) -> None:
         target = src / name
         if target.exists():
             (sprint29 / name).write_text(
-                target.read_text(encoding="utf-8"), encoding="utf-8",
+                target.read_text(encoding="utf-8"),
+                encoding="utf-8",
             )
     rc = color_main([str(sprint29)])
     assert rc == 0

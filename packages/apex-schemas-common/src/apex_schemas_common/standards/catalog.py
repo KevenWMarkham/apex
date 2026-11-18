@@ -49,8 +49,7 @@ def standard_to_dict(spec: StandardSpec) -> dict[str, Any]:
     data = spec.model_dump(mode="python")
     # Practice enum -> string value
     data["practices"] = sorted(
-        p.value if hasattr(p, "value") else str(p)
-        for p in data.get("practices", [])
+        p.value if hasattr(p, "value") else str(p) for p in data.get("practices", [])
     )
     # StandardType enum -> string
     if hasattr(data.get("type"), "value"):
@@ -102,9 +101,7 @@ def write_catalog(path: Path | None = None) -> Path:
         fh.write("# auto-generated — apex_schemas_common.standards.catalog.write_catalog()\n")
         fh.write("# Source of truth at runtime: STANDARDS dict in registry.py\n")
         fh.write("# This file is reviewable diff-bait; CI fails on drift.\n")
-        yaml.safe_dump(
-            payload, fh, sort_keys=False, default_flow_style=False, allow_unicode=True
-        )
+        yaml.safe_dump(payload, fh, sort_keys=False, default_flow_style=False, allow_unicode=True)
     return target
 
 

@@ -18,10 +18,19 @@ class Scd2Config:
     hashable_columns: tuple[str, ...]
     """Columns whose values participate in ``row_hash``."""
 
-    ignore_columns: frozenset[str] = frozenset({
-        "event_id", "event_ts", "ingest_ts", "ingest_date", "run_id",
-        "scd2_valid_from", "scd2_valid_to", "scd2_is_current", "row_hash",
-    })
+    ignore_columns: frozenset[str] = frozenset(
+        {
+            "event_id",
+            "event_ts",
+            "ingest_ts",
+            "ingest_date",
+            "run_id",
+            "scd2_valid_from",
+            "scd2_valid_to",
+            "scd2_is_current",
+            "row_hash",
+        }
+    )
     """Columns explicitly excluded from ``row_hash`` even if named in ``hashable_columns``."""
 
 
@@ -32,12 +41,9 @@ def compute_row_hash(record: dict[str, Any], config: Scd2Config) -> str:
     named hashable columns (minus ignored ones). ``None`` serialises as the
     literal string ``__NONE__``; values are ``str()`` cast for stability.
     """
-    effective_cols = tuple(
-        c for c in config.hashable_columns if c not in config.ignore_columns
-    )
+    effective_cols = tuple(c for c in config.hashable_columns if c not in config.ignore_columns)
     payload = "|".join(
-        "__NONE__" if record.get(col) is None else str(record.get(col))
-        for col in effective_cols
+        "__NONE__" if record.get(col) is None else str(record.get(col)) for col in effective_cols
     )
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 

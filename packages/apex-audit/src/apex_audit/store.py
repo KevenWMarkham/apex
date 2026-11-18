@@ -54,16 +54,12 @@ class AuditStore:
         self._by_trace.setdefault(row.trace_id, []).append(row.decision_id)
         return sealed
 
-    def append_composite(
-        self, composite: OrchestrationCompositeRow
-    ) -> dict[str, Any]:
+    def append_composite(self, composite: OrchestrationCompositeRow) -> dict[str, Any]:
         """Seal + append an orchestration composite row."""
         require_trace_id(composite.trace_id)
         key = composite.orchestration_id
         if key in self._rows:
-            raise AppendOnlyViolationError(
-                f"orchestration_id {key!r} already sealed"
-            )
+            raise AppendOnlyViolationError(f"orchestration_id {key!r} already sealed")
         sealed = composite.to_dict()
         sealed["sealed_at"] = utc_now().isoformat()
         sealed["signature"] = sign_row(sealed, key=self._signing_key)

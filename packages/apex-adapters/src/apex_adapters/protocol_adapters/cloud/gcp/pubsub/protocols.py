@@ -8,5 +8,5 @@ client_approved_architecture block references this adapter.
 ADAPTER_NAME = "cloud.gcp.pubsub"
 PROVIDER_LABEL = "Google Pub/Sub"
 SATISFIES = [
-    'MessageBus',
+    "MessageBus",
 ]

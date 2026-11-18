@@ -51,14 +51,16 @@ DEFAULT_CACHE_SIZE_BYTES = 100 * 1024  # 100 KB per build instructions §3.3.4
 DEFAULT_HEARTBEAT_TTL_S = 60
 
 # Cache classifications that are NEVER cacheable (Sprint 26 governance).
-NEVER_CACHEABLE_CLASSIFICATIONS = frozenset({
-    "Restricted-PII",
-    "Restricted-PCI",
-    "Confidential",
-    "phi",
-    "pii",
-    "payment-card",
-})
+NEVER_CACHEABLE_CLASSIFICATIONS = frozenset(
+    {
+        "Restricted-PII",
+        "Restricted-PCI",
+        "Confidential",
+        "phi",
+        "pii",
+        "payment-card",
+    }
+)
 
 
 class CancelLevel(StrEnum):
@@ -103,9 +105,7 @@ class RedisProtocol(Protocol):
     def hset(self, key: str, mapping: dict[str, str]) -> int: ...
     def hgetall(self, key: str) -> dict[bytes, bytes]: ...
     def zadd(self, key: str, mapping: dict[str, float]) -> int: ...
-    def zrangebyscore(
-        self, key: str, min: float, max: float, withscores: bool = False
-    ) -> list: ...
+    def zrangebyscore(self, key: str, min: float, max: float, withscores: bool = False) -> list: ...
     def zrem(self, key: str, *members: str) -> int: ...
 
 
@@ -213,9 +213,7 @@ class StubRedis:
         self._check_fail()
         target = self._hsets.setdefault(key, {})
         for k, v in mapping.items():
-            target[k.encode("utf-8")] = (
-                v.encode("utf-8") if isinstance(v, str) else v
-            )
+            target[k.encode("utf-8")] = v.encode("utf-8") if isinstance(v, str) else v
         return len(mapping)
 
     def hgetall(self, key: str) -> dict[bytes, bytes]:
@@ -234,9 +232,7 @@ class StubRedis:
             z[m] = s
         return added
 
-    def zrangebyscore(
-        self, key: str, min: float, max: float, withscores: bool = False
-    ) -> list:
+    def zrangebyscore(self, key: str, min: float, max: float, withscores: bool = False) -> list:
         self._check_fail()
         z = self._zsets.get(key, {})
         items = sorted(
@@ -409,15 +405,15 @@ class RedisControlPlane:
         means the caller treats failure as exhausted, not as zero.)
         """
         try:
-            return self._r.incrby(
-                self._key_budget(run_id, child_id, field), amount
-            )
+            return self._r.incrby(self._key_budget(run_id, child_id, field), amount)
         except Exception as exc:
             log.error(
                 "control_plane.increment_budget_counter_failed",
                 extra={
-                    "run_id": run_id, "child_id": child_id,
-                    "field": field, "error": str(exc),
+                    "run_id": run_id,
+                    "child_id": child_id,
+                    "field": field,
+                    "error": str(exc),
                 },
             )
             raise RedisUnavailable(str(exc)) from exc
@@ -442,16 +438,17 @@ class RedisControlPlane:
                 extra={"run_id": run_id, "child_id": child_id, "error": str(exc)},
             )
             import sys
+
             return BudgetCounters(
-                tool_calls=sys.maxsize, tokens=sys.maxsize,
-                cost_cents=sys.maxsize, wall_s=sys.maxsize,
+                tool_calls=sys.maxsize,
+                tokens=sys.maxsize,
+                cost_cents=sys.maxsize,
+                wall_s=sys.maxsize,
             )
 
     # ---- 3. heartbeat / liveness ----
 
-    def heartbeat(
-        self, run_id: str, child_id: str, ttl_s: int = DEFAULT_HEARTBEAT_TTL_S
-    ) -> None:
+    def heartbeat(self, run_id: str, child_id: str, ttl_s: int = DEFAULT_HEARTBEAT_TTL_S) -> None:
         """Emit one heartbeat. Caller emits every 30s; TTL 60s. SETEX
         idempotent."""
         try:
@@ -482,9 +479,7 @@ class RedisControlPlane:
 
     # ---- 4. HITL deadline queue ----
 
-    def enqueue_hitl(
-        self, hitl_id: str, deadline_unix: int, payload: dict
-    ) -> None:
+    def enqueue_hitl(self, hitl_id: str, deadline_unix: int, payload: dict) -> None:
         """Enqueue a HITL deadline. Deadline is Unix timestamp; payload
         held alongside as a hash."""
         try:
@@ -513,13 +508,8 @@ class RedisControlPlane:
         ZREM removes them from the queue; the caller emits the
         deadline-missed events."""
         try:
-            members = self._r.zrangebyscore(
-                self._key_hitl_zset(), 0, float(now_unix)
-            )
-            ids = [
-                m.decode("utf-8") if isinstance(m, bytes) else str(m)
-                for m in members
-            ]
+            members = self._r.zrangebyscore(self._key_hitl_zset(), 0, float(now_unix))
+            ids = [m.decode("utf-8") if isinstance(m, bytes) else str(m) for m in members]
             if ids:
                 self._r.zrem(self._key_hitl_zset(), *ids)
             return ids
@@ -561,7 +551,8 @@ class RedisControlPlane:
             log.info(
                 "control_plane.cache_skip_classification",
                 extra={
-                    "tool": tool, "entra_scope": entra_scope,
+                    "tool": tool,
+                    "entra_scope": entra_scope,
                     "classification": classification,
                 },
             )
@@ -578,7 +569,8 @@ class RedisControlPlane:
             log.info(
                 "control_plane.cache_skip_oversize",
                 extra={
-                    "tool": tool, "entra_scope": entra_scope,
+                    "tool": tool,
+                    "entra_scope": entra_scope,
                     "size_bytes": len(payload),
                     "limit": self._cache_size_limit,
                 },
@@ -593,8 +585,10 @@ class RedisControlPlane:
             log.info(
                 "control_plane.cache_write",
                 extra={
-                    "tool": tool, "entra_scope": entra_scope,
-                    "ttl_s": ttl_s, "size_bytes": len(payload),
+                    "tool": tool,
+                    "entra_scope": entra_scope,
+                    "ttl_s": ttl_s,
+                    "size_bytes": len(payload),
                 },
             )
             return True
@@ -605,9 +599,7 @@ class RedisControlPlane:
             )
             return False
 
-    def get_cached_mcp_response(
-        self, tool: str, arg_hash: str, entra_scope: str
-    ) -> Optional[Any]:
+    def get_cached_mcp_response(self, tool: str, arg_hash: str, entra_scope: str) -> Optional[Any]:
         """Lookup a cached MCP tool response. **Fail-closed** to ``None``
         (cache miss) — Redis unreachable → caller hits the real tool.
 

@@ -43,9 +43,7 @@ class SignalThrottle:
         ts_ms = int(signal.timestamp.timestamp() * 1000)
         key = (signal.pgn, signal.source_address)
         last_ms = self._last_emit_ms.get(key)
-        min_interval = self.per_pgn_min_interval_ms.get(
-            signal.pgn, self.default_min_interval_ms
-        )
+        min_interval = self.per_pgn_min_interval_ms.get(signal.pgn, self.default_min_interval_ms)
         if last_ms is None or (ts_ms - last_ms) >= min_interval:
             self._last_emit_ms[key] = ts_ms
             return True

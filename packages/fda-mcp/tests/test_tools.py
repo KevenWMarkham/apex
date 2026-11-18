@@ -17,21 +17,42 @@ from mcp_common import McpError, McpErrorCode
 
 @pytest.fixture(autouse=True)
 def _seed() -> None:
-    set_fda_backend(InMemoryFdaBackend(
-        recalls=[
-            {"recall_id": "F-2026-001", "event_date": "2026-04-01", "product": "Romaine lettuce",
-             "reason": "Listeria monocytogenes", "status": "Ongoing"},
-            {"recall_id": "F-2026-002", "event_date": "2026-04-15", "product": "Frozen spinach",
-             "reason": "Undeclared allergen", "status": "Completed"},
-            {"recall_id": "F-2025-099", "event_date": "2025-12-10", "product": "Beef tenderloin",
-             "reason": "E. coli O157:H7", "status": "Completed"},
-        ],
-        adverse_events=[
-            {"event_id": "AE-1", "product": "Acetaminophen 500mg", "reaction": "Hepatotoxicity"},
-            {"event_id": "AE-2", "product": "Acetaminophen 325mg", "reaction": "Rash"},
-            {"event_id": "AE-3", "product": "Ibuprofen 200mg", "reaction": "GI bleed"},
-        ],
-    ))
+    set_fda_backend(
+        InMemoryFdaBackend(
+            recalls=[
+                {
+                    "recall_id": "F-2026-001",
+                    "event_date": "2026-04-01",
+                    "product": "Romaine lettuce",
+                    "reason": "Listeria monocytogenes",
+                    "status": "Ongoing",
+                },
+                {
+                    "recall_id": "F-2026-002",
+                    "event_date": "2026-04-15",
+                    "product": "Frozen spinach",
+                    "reason": "Undeclared allergen",
+                    "status": "Completed",
+                },
+                {
+                    "recall_id": "F-2025-099",
+                    "event_date": "2025-12-10",
+                    "product": "Beef tenderloin",
+                    "reason": "E. coli O157:H7",
+                    "status": "Completed",
+                },
+            ],
+            adverse_events=[
+                {
+                    "event_id": "AE-1",
+                    "product": "Acetaminophen 500mg",
+                    "reaction": "Hepatotoxicity",
+                },
+                {"event_id": "AE-2", "product": "Acetaminophen 325mg", "reaction": "Rash"},
+                {"event_id": "AE-3", "product": "Ibuprofen 200mg", "reaction": "GI bleed"},
+            ],
+        )
+    )
 
 
 def test_list_recalls_since() -> None:

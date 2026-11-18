@@ -25,6 +25,7 @@ Layout:
             bicep/
               scenario.bicep
 """
+
 from __future__ import annotations
 
 import json
@@ -115,12 +116,14 @@ def agent_roles_for(service_code: str, extras: dict) -> list[dict]:
     the canonical roles."""
     out: list[dict] = []
     for role in DEFAULT_AGENT_ROLES:
-        out.append({
-            "role": role,
-            "label": role.title(),
-            "description": "",
-            "hitl_gate": role in ("decide", "act"),
-        })
+        out.append(
+            {
+                "role": role,
+                "label": role.title(),
+                "description": "",
+                "hitl_gate": role in ("decide", "act"),
+            }
+        )
     svc = extras.get(service_code, {}) or {}
     for extra in svc.get("extra_agents", []) or []:
         if not isinstance(extra, dict):
@@ -131,12 +134,14 @@ def agent_roles_for(service_code: str, extras: dict) -> list[dict]:
         # Don't double-add if user re-listed a default role.
         if any(a["role"] == role for a in out):
             continue
-        out.append({
-            "role": role,
-            "label": str(extra.get("label", role.title())),
-            "description": str(extra.get("description", "")),
-            "hitl_gate": bool(extra.get("hitl_gate", False)),
-        })
+        out.append(
+            {
+                "role": role,
+                "label": str(extra.get("label", role.title())),
+                "description": str(extra.get("description", "")),
+                "hitl_gate": bool(extra.get("hitl_gate", False)),
+            }
+        )
     return out
 
 
@@ -154,15 +159,17 @@ def main() -> None:
     chain_kpi_by_id = {row["Scenario ID"]: row for _, row in chain_kpi.iterrows()}
     chain_24_by_id: dict[str, list[dict]] = defaultdict(list)
     for _, row in chain_24.iterrows():
-        chain_24_by_id[row["Scenario ID"]].append({
-            "step": int(row["Step #"]),
-            "key": row["Step Key"],
-            "title": row["Step Title"],
-            "layer": row["Layer"],
-            "kind": row["Kind"],
-            "purpose": row["Purpose"],
-            "what_apex_does": row["What APEX Does"],
-        })
+        chain_24_by_id[row["Scenario ID"]].append(
+            {
+                "step": int(row["Step #"]),
+                "key": row["Step Key"],
+                "title": row["Step Title"],
+                "layer": row["Layer"],
+                "kind": row["Kind"],
+                "purpose": row["Purpose"],
+                "what_apex_does": row["What APEX Does"],
+            }
+        )
 
     services_index: dict[str, dict] = {}
     registry_scenarios: list[dict] = []
@@ -190,29 +197,33 @@ def main() -> None:
             }
         svc = services_index[scode]
         svc["domains"].add(domain)
-        svc["scenarios"].append({
-            "scenario_id": sid,
-            "title": title,
-            "domain": domain,
-            "brief": brief,
-            "kpi": kpi,
-            "featured": is_featured,
-        })
+        svc["scenarios"].append(
+            {
+                "scenario_id": sid,
+                "title": title,
+                "domain": domain,
+                "brief": brief,
+                "kpi": kpi,
+                "featured": is_featured,
+            }
+        )
         if is_featured:
             svc["featured_count"] += 1
         else:
             svc["catalog_count"] += 1
 
-        registry_scenarios.append({
-            "scenario_id": sid,
-            "title": title,
-            "service_code": scode,
-            "industry_slug": ind_slug,
-            "domain": domain,
-            "brief": brief,
-            "kpi": kpi,
-            "featured": is_featured,
-        })
+        registry_scenarios.append(
+            {
+                "scenario_id": sid,
+                "title": title,
+                "service_code": scode,
+                "industry_slug": ind_slug,
+                "domain": domain,
+                "brief": brief,
+                "kpi": kpi,
+                "featured": is_featured,
+            }
+        )
 
     # ---- Top-level _registry.json ----
     registry = {
@@ -227,17 +238,20 @@ def main() -> None:
         "industries": [
             {"slug": slug, "label": label} for slug, label in sorted(INDUSTRY_PREFIX.values())
         ],
-        "service_codes": sorted([
-            {
-                "code": svc["service_code"],
-                "industry": svc["industry_slug"],
-                "domains": sorted(svc["domains"]),
-                "featured_count": svc["featured_count"],
-                "catalog_count": svc["catalog_count"],
-                "total": svc["featured_count"] + svc["catalog_count"],
-            }
-            for svc in services_index.values()
-        ], key=lambda x: x["code"]),
+        "service_codes": sorted(
+            [
+                {
+                    "code": svc["service_code"],
+                    "industry": svc["industry_slug"],
+                    "domains": sorted(svc["domains"]),
+                    "featured_count": svc["featured_count"],
+                    "catalog_count": svc["catalog_count"],
+                    "total": svc["featured_count"] + svc["catalog_count"],
+                }
+                for svc in services_index.values()
+            ],
+            key=lambda x: x["code"],
+        ),
         "scenarios": sorted(registry_scenarios, key=lambda x: x["scenario_id"]),
     }
     write(SERVICES_ROOT / "_registry.json", json.dumps(registry, indent=2, ensure_ascii=False))
@@ -308,7 +322,9 @@ appear only in `services/_registry.json` (zero scaffolding) until promoted.
         write(svc_dir / "service.yaml", yaml_dump(service_yaml))
 
         # Service-level Bicep
-        write(svc_dir / "bicep" / "main.bicep", f"""// services/{ind_slug}/{scode}/bicep/main.bicep
+        write(
+            svc_dir / "bicep" / "main.bicep",
+            f"""// services/{ind_slug}/{scode}/bicep/main.bicep
 // Service-level deployment for {scode}. Composes the canonical agent-fleet
 // module with service-specific schemas, personas, and HITL policy.
 
@@ -348,9 +364,12 @@ module fleet '../../../../apex-m/infra/bicep/modules/agent-fleet.bicep' = [
 
 output serviceCode string = serviceCode
 output deployedScenarios array = featuredScenarios
-""")
+""",
+        )
 
-        write(svc_dir / "bicep" / "agents.bicep", f"""// services/{ind_slug}/{scode}/bicep/agents.bicep
+        write(
+            svc_dir / "bicep" / "agents.bicep",
+            f"""// services/{ind_slug}/{scode}/bicep/agents.bicep
 // Override hook for service-specific agent configuration.
 // Default agent-fleet behavior is in apex-m/infra/bicep/modules/agent-fleet.bicep.
 // Add only the deltas (custom tools, custom prompts, custom HITL gates) here.
@@ -364,7 +383,8 @@ param tenant string
 param scenarioId string
 
 // Add scenario-specific overrides below. Empty by default.
-""")
+""",
+        )
 
     # ---- Featured-scenario full scaffolds ----
     for _, frow in featured.iterrows():
@@ -384,7 +404,9 @@ param scenarioId string
             "featured": True,
             "moment": str(frow["Scenario (the moment)"]).strip(),
             "solution": str(frow["Solution (architectural approach)"]).strip(),
-            "use_case": str(frow["Use Cases (decomposed)"]).strip() if "Use Cases (decomposed)" in frow else str(frow.get("Use Case (Wave 2 delivery)", "")).strip(),
+            "use_case": str(frow["Use Cases (decomposed)"]).strip()
+            if "Use Cases (decomposed)" in frow
+            else str(frow.get("Use Case (Wave 2 delivery)", "")).strip(),
             "service_productized": str(frow.get("Service (productized)", "")).strip(),
             "personas": str(frow.get("Persona (operator · HITL approver)", "")).strip(),
             "kpi": str(frow.get("KPI / Outcome", "")).strip(),
@@ -434,7 +456,9 @@ param scenarioId string
             write_if_missing(scen_dir / "agents" / role / "prompts" / f"{role}.md", prompt_body)
 
         # Scenario-level Bicep overlay (mostly empty; service-level handles core)
-        write(scen_dir / "bicep" / "scenario.bicep", f"""// services/{ind_slug}/{scode}/scenarios/{sid}/bicep/scenario.bicep
+        write(
+            scen_dir / "bicep" / "scenario.bicep",
+            f"""// services/{ind_slug}/{scode}/scenarios/{sid}/bicep/scenario.bicep
 // Scenario-level overlay — only define if the scenario needs more than the
 // service-default agent fleet (e.g., custom MCP server, custom data fusion).
 
@@ -444,7 +468,8 @@ targetScope = 'resourceGroup'
 param tenant string
 
 // Scenario-specific resources go here. Empty by default.
-""")
+""",
+        )
 
     # ---- Top-level services/README.md ----
     total_industries = len(INDUSTRY_PREFIX)
@@ -452,7 +477,8 @@ param tenant string
     total_scenarios = len(registry_scenarios)
     total_featured = sum(1 for s in registry_scenarios if s["featured"])
 
-    readme = f"""# APEX Service Catalog
+    readme = (
+        f"""# APEX Service Catalog
 
 Source-of-truth folder structure for all APEX services and scenarios. Generated
 from [`docs/reference/APEX-Scenario-Chains.xlsx`](../docs/reference/APEX-Scenario-Chains.xlsx)
@@ -497,10 +523,12 @@ adding their scenario folder + agent fleet here).
 
 | Slug | Label | Service codes |
 |---|---|---:|
-""" + "\n".join(
-        f"| `{slug}/` | {label} | {sum(1 for s in services_index.values() if s['industry_slug'] == slug)} |"
-        for slug, label in sorted(INDUSTRY_PREFIX.values())
-    ) + """
+"""
+        + "\n".join(
+            f"| `{slug}/` | {label} | {sum(1 for s in services_index.values() if s['industry_slug'] == slug)} |"
+            for slug, label in sorted(INDUSTRY_PREFIX.values())
+        )
+        + """
 
 ## Adding a service
 
@@ -526,9 +554,12 @@ under `apex-m/infra/bicep/` and the per-service Bicep here layer on top — they
 *services and agent fleets* into resource groups already provisioned by
 Terraform. The `apps/deploy-wizard/` control plane orchestrates both.
 """
+    )
     write(SERVICES_ROOT / "README.md", readme)
 
-    print(f"OK  industries={total_industries}  services={total_services}  scenarios={total_scenarios}  featured={total_featured}")
+    print(
+        f"OK  industries={total_industries}  services={total_services}  scenarios={total_scenarios}  featured={total_featured}"
+    )
 
 
 if __name__ == "__main__":

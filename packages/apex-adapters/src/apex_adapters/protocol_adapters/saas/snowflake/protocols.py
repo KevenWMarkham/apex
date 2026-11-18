@@ -8,5 +8,5 @@ client_approved_architecture block references this adapter.
 ADAPTER_NAME = "saas.snowflake"
 PROVIDER_LABEL = "Snowflake"
 SATISFIES = [
-    'DataLake',
+    "DataLake",
 ]

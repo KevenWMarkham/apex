@@ -102,15 +102,18 @@ def classify_bump(
 
 CONTRACTS: list[ToolContract] = [
     ToolContract(
-        name=f"{SERVER_NAME}.evaluate_policy", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.evaluate_policy",
+        version=TOOL_VERSION,
         description="Evaluate a named policy against a context (allow / deny / reason).",
     ),
     ToolContract(
-        name=f"{SERVER_NAME}.check_compliance", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.check_compliance",
+        version=TOOL_VERSION,
         description="Resolve gate kind for a bump class per tenant policy.",
     ),
     ToolContract(
-        name=f"{SERVER_NAME}.classify_bump", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.classify_bump",
+        version=TOOL_VERSION,
         description="Classify SemVer bump PATCH / MINOR / MAJOR.",
     ),
 ]

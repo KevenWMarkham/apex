@@ -62,9 +62,11 @@ def add_scd2_fields_to_instance(
     if existing_row_hash is not None and existing_row_hash == new_hash:
         return instance
 
-    return instance.model_copy(update={
-        "scd2_valid_from": ts,
-        "scd2_valid_to": None,
-        "scd2_is_current": True,
-        "row_hash": new_hash,
-    })
+    return instance.model_copy(
+        update={
+            "scd2_valid_from": ts,
+            "scd2_valid_to": None,
+            "scd2_is_current": True,
+            "row_hash": new_hash,
+        }
+    )

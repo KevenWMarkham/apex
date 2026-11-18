@@ -57,14 +57,16 @@ def build_cold_chain_response(
     prompt_sha: str = "9c8b7a6d",
 ) -> Orchestrator:
     """Assemble the reference Cold Chain Response orchestrator."""
-    stamped: StampedManifest = load_manifest_with_stamps({
-        "name": "rc-cold-chain-response",
-        "stamps": {
-            "manifest_version": manifest_sha,
-            "policy_version": policy_sha,
-            "prompt_version": prompt_sha,
-        },
-    })
+    stamped: StampedManifest = load_manifest_with_stamps(
+        {
+            "name": "rc-cold-chain-response",
+            "stamps": {
+                "manifest_version": manifest_sha,
+                "policy_version": policy_sha,
+                "prompt_version": prompt_sha,
+            },
+        }
+    )
 
     orch = Orchestrator(stamped, approvals=approvals)
     orch.add_step(
@@ -72,14 +74,14 @@ def build_cold_chain_response(
         agent_name="cold-chain-detection-agent",
         agent_version="1.0.0",
         fn=_detect_step,
-        bump_class=BumpClass.PATCH,   # detect is observational → ZERO_TOUCH
+        bump_class=BumpClass.PATCH,  # detect is observational → ZERO_TOUCH
     )
     orch.add_step(
         step_id="dispose",
         agent_name="cold-chain-disposition-agent",
         agent_version="1.0.0",
         fn=_dispose_step,
-        bump_class=BumpClass.MAJOR,   # writes batch disposition → HITL
+        bump_class=BumpClass.MAJOR,  # writes batch disposition → HITL
         approver_group="rc-store-ops-approvers",
     )
     orch.add_step(
@@ -87,6 +89,6 @@ def build_cold_chain_response(
         agent_name="store-notification-agent",
         agent_version="1.0.0",
         fn=_notify_step,
-        bump_class=BumpClass.MINOR,   # ACK_ONLY — notify + continue
+        bump_class=BumpClass.MINOR,  # ACK_ONLY — notify + continue
     )
     return orch

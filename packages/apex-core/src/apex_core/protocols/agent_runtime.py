@@ -8,6 +8,7 @@ Adapters do NOT satisfy this protocol — agents always run on a primary
 variant's runtime. Adapters provide other protocols (DataLake, SIEM, etc.)
 that the agent calls into.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -16,7 +17,7 @@ from typing import Any, Protocol, runtime_checkable
 
 @dataclass(frozen=True)
 class AgentInvocation:
-    agent_id: str           # variant-scoped (e.g., "apex-m:rc-e2e-03:pricing")
+    agent_id: str  # variant-scoped (e.g., "apex-m:rc-e2e-03:pricing")
     scenario_id: str
     inputs: dict[str, Any]
     trace_id: str

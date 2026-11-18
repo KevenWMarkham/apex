@@ -63,7 +63,8 @@ class TestPatient:
             name_family_token="tok_smith",
             gender="female",
             birth_date=date(1980, 1, 1),
-            **_envelope(), **_scd2(),
+            **_envelope(),
+            **_scd2(),
         )  # type: ignore[arg-type]
         assert p.mrn_token == "tok_mrn_123"
         assert p.gender == "female"
@@ -71,8 +72,10 @@ class TestPatient:
     def test_rejects_invalid_gender(self) -> None:
         with pytest.raises(ValidationError):
             Patient(
-                fhir_id="bad", gender="invalid",  # type: ignore[arg-type]
-                **_envelope(), **_scd2(),
+                fhir_id="bad",
+                gender="invalid",  # type: ignore[arg-type]
+                **_envelope(),
+                **_scd2(),
             )
 
 
@@ -83,8 +86,10 @@ class TestPractitioner:
 
     def test_with_qualification(self) -> None:
         p = Practitioner(
-            fhir_id="dr2", qualifications=["MD", "BoardCertified"],
-            **_envelope(), **_scd2(),
+            fhir_id="dr2",
+            qualifications=["MD", "BoardCertified"],
+            **_envelope(),
+            **_scd2(),
         )  # type: ignore[arg-type]
         assert "MD" in p.qualifications
 
@@ -92,8 +97,10 @@ class TestPractitioner:
 class TestEncounter:
     def test_ambulatory(self) -> None:
         enc = Encounter(
-            fhir_id="enc1", status=EncounterStatus.FINISHED,
-            encounter_class="AMB", patient_key="patient:ex1",
+            fhir_id="enc1",
+            status=EncounterStatus.FINISHED,
+            encounter_class="AMB",
+            patient_key="patient:ex1",
             start_ts=datetime.now(UTC),
             **_envelope(),
         )  # type: ignore[arg-type]
@@ -103,11 +110,14 @@ class TestEncounter:
 class TestObservation:
     def test_with_loinc(self) -> None:
         obs = Observation(
-            fhir_id="obs1", status=ObservationStatus.FINAL,
-            loinc_code="85354-9", code_display="Blood pressure",
+            fhir_id="obs1",
+            status=ObservationStatus.FINAL,
+            loinc_code="85354-9",
+            code_display="Blood pressure",
             patient_key="patient:ex1",
             effective_ts=datetime.now(UTC),
-            value_numeric=Decimal("120"), value_unit="mmHg",
+            value_numeric=Decimal("120"),
+            value_unit="mmHg",
             **_envelope(),
         )  # type: ignore[arg-type]
         assert obs.loinc_code == "85354-9"
@@ -115,9 +125,11 @@ class TestObservation:
     def test_rejects_invalid_loinc(self) -> None:
         with pytest.raises(ValidationError):
             Observation(
-                fhir_id="obs-bad", status=ObservationStatus.FINAL,
+                fhir_id="obs-bad",
+                status=ObservationStatus.FINAL,
                 loinc_code="not-a-code",
-                code_display="x", patient_key="patient:ex1",
+                code_display="x",
+                patient_key="patient:ex1",
                 effective_ts=datetime.now(UTC),
                 **_envelope(),
             )  # type: ignore[arg-type]
@@ -126,7 +138,8 @@ class TestObservation:
 class TestDiagnosticReport:
     def test_with_observations(self) -> None:
         dr = DiagnosticReport(
-            fhir_id="dr1", status=DiagnosticReportStatus.FINAL,
+            fhir_id="dr1",
+            status=DiagnosticReportStatus.FINAL,
             patient_key="patient:ex1",
             observation_keys=["obs1", "obs2"],
             conclusion="No abnormalities detected.",
@@ -179,7 +192,8 @@ class TestStudyAndEnrollment:
             study_oid="ODM.STUDY-42",
             protocol_name="APX-042",
             phase=StudyPhase.PHASE_2,
-            **_envelope(), **_scd2(),
+            **_envelope(),
+            **_scd2(),
         )  # type: ignore[arg-type]
         assert s.phase is StudyPhase.PHASE_2
 
@@ -187,14 +201,16 @@ class TestStudyAndEnrollment:
         with pytest.raises(ValidationError):
             StudyEnrollment(
                 study_key="study:42",
-                **_envelope(), **_scd2(),
+                **_envelope(),
+                **_scd2(),
             )  # type: ignore[call-arg,arg-type]
 
     def test_enrollment(self) -> None:
         e = StudyEnrollment(
             subject_key_token="tok_subj_001",
             study_key="study:42",
-            **_envelope(), **_scd2(),
+            **_envelope(),
+            **_scd2(),
         )  # type: ignore[arg-type]
         assert e.subject_key_token == "tok_subj_001"
 

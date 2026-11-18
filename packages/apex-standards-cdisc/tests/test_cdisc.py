@@ -49,24 +49,36 @@ class TestSdtm:
 
     def test_ae_severity_controlled(self) -> None:
         ae = SdtmAdverseEvent(
-            studyid="S-001", usubjid="S-001-0001", aeseq=1,
-            aeterm="Headache", aesev=SdtmAeSeverity.MILD,
+            studyid="S-001",
+            usubjid="S-001-0001",
+            aeseq=1,
+            aeterm="Headache",
+            aesev=SdtmAeSeverity.MILD,
         )
         assert ae.aesev is SdtmAeSeverity.MILD
 
     def test_lab_result_numeric(self) -> None:
         lb = SdtmLabResult(
-            studyid="S-001", usubjid="S-001-0001", lbseq=1,
-            lbtestcd="GLUC", lbtest="Glucose",
-            lborres="105", lborresu="mg/dL",
-            lbstresn=105.0, lbstresu="mg/dL",
+            studyid="S-001",
+            usubjid="S-001-0001",
+            lbseq=1,
+            lbtestcd="GLUC",
+            lbtest="Glucose",
+            lborres="105",
+            lborresu="mg/dL",
+            lbstresn=105.0,
+            lbstresu="mg/dL",
         )
         assert lb.lbstresn == 105.0
 
     def test_ae_sequence_must_be_positive(self) -> None:
         import pytest
         from pydantic import ValidationError
+
         with pytest.raises(ValidationError):
             SdtmAdverseEvent(
-                studyid="S-001", usubjid="S-001-0001", aeseq=0, aeterm="x",
+                studyid="S-001",
+                usubjid="S-001-0001",
+                aeseq=0,
+                aeterm="x",
             )

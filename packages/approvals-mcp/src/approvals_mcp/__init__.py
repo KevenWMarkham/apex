@@ -10,7 +10,10 @@ from approvals_mcp.tools import (
 )
 
 __all__ = [
-    "ApprovalStatus", "CONTRACTS",
-    "get_approval_status", "record_decision", "request_approval",
+    "ApprovalStatus",
+    "CONTRACTS",
+    "get_approval_status",
+    "record_decision",
+    "request_approval",
     "reset_approvals",
 ]

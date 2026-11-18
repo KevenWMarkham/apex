@@ -31,7 +31,5 @@ class WorkOrder(CanonicalEntity):
     asset_key: str | None = Field(
         None, description="FK → ERCML Asset.entity_id (the asset worked on)."
     )
-    assigned_to: str | None = Field(
-        None, description="Crew / technician identifier."
-    )
+    assigned_to: str | None = Field(None, description="Crew / technician identifier.")
     description: str = ""

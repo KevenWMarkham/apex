@@ -54,7 +54,8 @@ def test_traveler_pii_tokenised() -> None:
         phone_token="tok_phone",
         passport_country="USA",
         date_of_birth=date(1985, 1, 1),
-        **_envelope(), **_scd2(),
+        **_envelope(),
+        **_scd2(),
     )  # type: ignore[arg-type]
     assert t.full_name_token == "tok_jane_doe"
 
@@ -74,19 +75,24 @@ def test_reservation_with_travelers() -> None:
 
 def test_itinerary_kinds() -> None:
     it = Itinerary(
-        reservation_key="res:1", kind=ItineraryKind.AIR,
-        sequence=1, **_envelope(),
+        reservation_key="res:1",
+        kind=ItineraryKind.AIR,
+        sequence=1,
+        **_envelope(),
     )  # type: ignore[arg-type]
     assert it.kind is ItineraryKind.AIR
 
 
 def test_segment_for_flight() -> None:
     seg = Segment(
-        itinerary_key="itin:1", sequence=1,
-        origin="SFO", destination="JFK",
+        itinerary_key="itin:1",
+        sequence=1,
+        origin="SFO",
+        destination="JFK",
         scheduled_start=datetime(2026, 5, 1, 8, 0, tzinfo=UTC),
         scheduled_end=datetime(2026, 5, 1, 16, 30, tzinfo=UTC),
-        carrier_code="UA", flight_number="UA123",
+        carrier_code="UA",
+        flight_number="UA123",
         cabin_class="economy",
         **_envelope(),
     )  # type: ignore[arg-type]
@@ -101,7 +107,8 @@ def test_loyalty_account_member_token() -> None:
         member_number_token="tok_mem_999",
         tier=LoyaltyTier.GOLD,
         points_balance=42500,
-        **_envelope(), **_scd2(),
+        **_envelope(),
+        **_scd2(),
     )  # type: ignore[arg-type]
     assert la.tier is LoyaltyTier.GOLD
     assert la.points_balance == 42500
@@ -124,8 +131,10 @@ def test_disruption_with_rebook() -> None:
 @pytest.mark.conformance
 def test_reservation_from_ota_air() -> None:
     seg = OtaAirSegment(
-        flight_number="UA123", airline_code="UA",
-        departure_airport="SFO", arrival_airport="JFK",
+        flight_number="UA123",
+        airline_code="UA",
+        departure_airport="SFO",
+        arrival_airport="JFK",
         departure_datetime=datetime(2026, 5, 1, 8, 0),
         arrival_datetime=datetime(2026, 5, 1, 16, 30),
     )

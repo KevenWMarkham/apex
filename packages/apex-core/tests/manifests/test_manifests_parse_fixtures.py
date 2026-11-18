@@ -48,9 +48,7 @@ def test_agent_scope_defaults() -> None:
 
 
 def test_orchestration_stamps_required() -> None:
-    raw = yaml.safe_load(
-        (FIXTURES / "orchestration_cold_chain_response.yaml").read_text()
-    )
+    raw = yaml.safe_load((FIXTURES / "orchestration_cold_chain_response.yaml").read_text())
     orch = OrchestrationManifest.model_validate(raw)
     assert orch.stamps.manifest_version
     assert orch.stamps.policy_version

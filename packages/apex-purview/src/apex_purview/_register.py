@@ -111,7 +111,11 @@ def discover_schemas(root: Path) -> list[Path]:
                 doc = yaml.safe_load(fh)
         except Exception:
             continue
-        if isinstance(doc, dict) and doc.get("kind") == "schema" and not _is_registry_descriptor(doc):
+        if (
+            isinstance(doc, dict)
+            and doc.get("kind") == "schema"
+            and not _is_registry_descriptor(doc)
+        ):
             candidates.append(path)
 
     for path in root.rglob("*.yml"):
@@ -122,7 +126,11 @@ def discover_schemas(root: Path) -> list[Path]:
                 doc = yaml.safe_load(fh)
         except Exception:
             continue
-        if isinstance(doc, dict) and doc.get("kind") == "schema" and not _is_registry_descriptor(doc):
+        if (
+            isinstance(doc, dict)
+            and doc.get("kind") == "schema"
+            and not _is_registry_descriptor(doc)
+        ):
             candidates.append(path)
 
     return sorted(candidates)

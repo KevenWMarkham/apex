@@ -135,8 +135,10 @@ def tokenize(
 ) -> str:
     """Convenience — delegate to the default service."""
     return get_default_service().tokenize(
-        value, classification,
-        source_system=source_system, created_by=created_by,
+        value,
+        classification,
+        source_system=source_system,
+        created_by=created_by,
     )
 
 

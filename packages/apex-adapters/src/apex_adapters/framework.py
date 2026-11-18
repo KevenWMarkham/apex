@@ -45,13 +45,13 @@ from pydantic import BaseModel, ConfigDict, Field
 class ConnectionMethod(str, Enum):
     """Bronze-landing connection patterns from Sellers Guide §5.2 / Sprint 4."""
 
-    MIRRORED_DB = "mirrored_db"          # Fabric Mirroring (CDC) over a SQL source
-    EVENTSTREAM = "eventstream"          # Eventhouse / Event Hub real-time
-    DATA_PIPELINE = "data_pipeline"      # Fabric Data Pipeline (Copy + Notebook)
-    DATAFLOW_GEN2 = "dataflow_gen2"      # Power Query (REST / SaaS)
+    MIRRORED_DB = "mirrored_db"  # Fabric Mirroring (CDC) over a SQL source
+    EVENTSTREAM = "eventstream"  # Eventhouse / Event Hub real-time
+    DATA_PIPELINE = "data_pipeline"  # Fabric Data Pipeline (Copy + Notebook)
+    DATAFLOW_GEN2 = "dataflow_gen2"  # Power Query (REST / SaaS)
     CUSTOM_ENDPOINT = "custom_endpoint"  # Azure Function HTTP webhook
-    ODBC = "odbc"                        # ODBC / JDBC pull (legacy)
-    FILE_DROP = "file_drop"              # Periodic file drop (SFTP, ADLS landing zone)
+    ODBC = "odbc"  # ODBC / JDBC pull (legacy)
+    FILE_DROP = "file_drop"  # Periodic file drop (SFTP, ADLS landing zone)
 
 
 # ---------------------------------------------------------------------------
@@ -67,8 +67,17 @@ class FieldMapping(BaseModel):
     source_field: str
     bronze_column: str
     bronze_type: Literal[
-        "string", "int", "long", "double", "decimal", "boolean",
-        "timestamp", "date", "binary", "struct", "array",
+        "string",
+        "int",
+        "long",
+        "double",
+        "decimal",
+        "boolean",
+        "timestamp",
+        "date",
+        "binary",
+        "struct",
+        "array",
     ]
     nullable: bool = True
     description: str = ""
@@ -189,9 +198,7 @@ def load_adapter_spec(path: str | Path) -> AdapterSpec:
     with Path(path).open("r", encoding="utf-8") as fh:
         data = yaml.safe_load(fh)
     if not isinstance(data, dict):
-        raise ValueError(
-            f"Adapter spec {path} must parse to a mapping; got {type(data).__name__}"
-        )
+        raise ValueError(f"Adapter spec {path} must parse to a mapping; got {type(data).__name__}")
     return AdapterSpec.model_validate(data)
 
 
@@ -244,9 +251,7 @@ class Adapter(ABC):
         """Return source-table names visible to the adapter's credentials."""
 
     @abstractmethod
-    def ingest(
-        self, mapping: SchemaMapping, *, limit: int | None = None
-    ) -> int:
+    def ingest(self, mapping: SchemaMapping, *, limit: int | None = None) -> int:
         """Read source rows per ``mapping`` and write to Bronze. Return rows written."""
 
     def smoke_test(
@@ -302,9 +307,7 @@ def register_adapter(name: str):
 def get_adapter(name: str) -> type[Adapter]:
     """Return the registered adapter class for ``name``."""
     if name not in _ADAPTERS:
-        raise KeyError(
-            f"Unknown adapter {name!r}. Registered: {sorted(_ADAPTERS.keys())}"
-        )
+        raise KeyError(f"Unknown adapter {name!r}. Registered: {sorted(_ADAPTERS.keys())}")
     return _ADAPTERS[name]
 
 

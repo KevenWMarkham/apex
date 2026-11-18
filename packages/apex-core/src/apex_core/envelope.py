@@ -72,8 +72,14 @@ As of Sprint 22 Task 22.6, includes ``quality`` alongside the original
 five (event_id / event_ts / entity_id / source_system / source_system_ts).
 """
 
-CORE_ENVELOPE_FIELDS: frozenset[str] = frozenset({
-    "event_id", "event_ts", "entity_id", "source_system", "source_system_ts",
-})
+CORE_ENVELOPE_FIELDS: frozenset[str] = frozenset(
+    {
+        "event_id",
+        "event_ts",
+        "entity_id",
+        "source_system",
+        "source_system_ts",
+    }
+)
 """The pre-Sprint-22 five core fields. Used where downstream code wants to
 distinguish provenance fields from the quality block."""

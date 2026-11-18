@@ -16,21 +16,21 @@ from apex_adapters.framework import AdapterSpec, load_adapter_spec
 #: Canonical filename → declared subtask mapping. Keyed by
 #: ``adapter_name`` (matches the ``name`` field in each YAML).
 ADAPTER_REGISTRY: dict[str, dict[str, str]] = {
-    "epic-clarity":              {"subtask": "15.1.1", "track": "HLS"},
-    "hl7-fhir":                  {"subtask": "15.1.2", "track": "HLS"},
-    "sap-s4hana":                {"subtask": "15.2.1", "track": "ERP"},
-    "oracle-ebs-fusion":         {"subtask": "15.2.2", "track": "ERP"},
-    "salesforce":                {"subtask": "15.3.1", "track": "CRM"},
-    "workday-hcm":               {"subtask": "15.3.2", "track": "HCM"},
-    "servicenow":                {"subtask": "15.3.3", "track": "ITSM"},
+    "epic-clarity": {"subtask": "15.1.1", "track": "HLS"},
+    "hl7-fhir": {"subtask": "15.1.2", "track": "HLS"},
+    "sap-s4hana": {"subtask": "15.2.1", "track": "ERP"},
+    "oracle-ebs-fusion": {"subtask": "15.2.2", "track": "ERP"},
+    "salesforce": {"subtask": "15.3.1", "track": "CRM"},
+    "workday-hcm": {"subtask": "15.3.2", "track": "HCM"},
+    "servicenow": {"subtask": "15.3.3", "track": "ITSM"},
     "salesforce-marketing-cloud": {"subtask": "15.3.4", "track": "MarTech"},
-    "manhattan-wms":             {"subtask": "15.4.1", "track": "Supply"},
-    "sap-ariba-coupa":           {"subtask": "15.4.2", "track": "Supply"},
-    "osi-pi":                    {"subtask": "15.5.1", "track": "Historian"},
-    "ge-proficy":                {"subtask": "15.5.2", "track": "Historian"},
-    "as400-db2":                 {"subtask": "15.6.1", "track": "Legacy"},
-    "analytics-platforms":       {"subtask": "15.6.2", "track": "Analytics"},
-    "snowflake-databricks":      {"subtask": "15.6.3", "track": "Interop"},
+    "manhattan-wms": {"subtask": "15.4.1", "track": "Supply"},
+    "sap-ariba-coupa": {"subtask": "15.4.2", "track": "Supply"},
+    "osi-pi": {"subtask": "15.5.1", "track": "Historian"},
+    "ge-proficy": {"subtask": "15.5.2", "track": "Historian"},
+    "as400-db2": {"subtask": "15.6.1", "track": "Legacy"},
+    "analytics-platforms": {"subtask": "15.6.2", "track": "Analytics"},
+    "snowflake-databricks": {"subtask": "15.6.3", "track": "Interop"},
 }
 
 

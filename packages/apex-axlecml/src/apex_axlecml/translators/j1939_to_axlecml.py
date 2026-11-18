@@ -16,7 +16,9 @@ from apex_standards_j1939 import (
 from apex_axlecml.entities import J1939Signal
 
 
-def _envelope(*, entity_id: str, event_ts: datetime, source_system: str = "j1939") -> dict[str, Any]:
+def _envelope(
+    *, entity_id: str, event_ts: datetime, source_system: str = "j1939"
+) -> dict[str, Any]:
     return {
         "event_id": uuid4(),
         "event_ts": event_ts,

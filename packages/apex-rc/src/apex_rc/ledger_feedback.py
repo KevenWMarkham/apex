@@ -43,15 +43,19 @@ from typing import Literal
 # ---------------------------------------------------------------------------
 
 ServiceCode = Literal[
-    "RC-E2E-03",   # Pricing & Revenue Decision (cold-chain + dynamic markdown)
-    "RC-E2E-04",   # Loyalty Churn Prediction & Winback
-    "RC-E2E-05",   # On-Shelf Availability
-    "RC-E2E-07",   # Returns & Refund Integrity
-    "RC-E2E-09",   # Product Tracking (FSMA 204)
+    "RC-E2E-03",  # Pricing & Revenue Decision (cold-chain + dynamic markdown)
+    "RC-E2E-04",  # Loyalty Churn Prediction & Winback
+    "RC-E2E-05",  # On-Shelf Availability
+    "RC-E2E-07",  # Returns & Refund Integrity
+    "RC-E2E-09",  # Product Tracking (FSMA 204)
 ]
 
 ALL_SERVICES: tuple[ServiceCode, ...] = (
-    "RC-E2E-03", "RC-E2E-04", "RC-E2E-05", "RC-E2E-07", "RC-E2E-09",
+    "RC-E2E-03",
+    "RC-E2E-04",
+    "RC-E2E-05",
+    "RC-E2E-07",
+    "RC-E2E-09",
 )
 
 
@@ -74,10 +78,10 @@ class FusionBucket:
     relevant precedents without memory blowup.
     """
 
-    category: str          # e.g., "dairy", "produce", "grocery", "apparel"
-    season_quarter: str    # "2026-Q2"
-    loyalty_tier_distribution: str   # "platinum_dominant" | "mixed" | "non_loyalty"
-    risk_class_canonical: str        # "low" | "medium" | "high" — service-mapped
+    category: str  # e.g., "dairy", "produce", "grocery", "apparel"
+    season_quarter: str  # "2026-Q2"
+    loyalty_tier_distribution: str  # "platinum_dominant" | "mixed" | "non_loyalty"
+    risk_class_canonical: str  # "low" | "medium" | "high" — service-mapped
 
     def composite_key(self) -> str:
         """Return the canonical Redis key for this bucket (deterministic)."""
@@ -93,33 +97,33 @@ class FusionBucket:
 # RC-E2E-07 all land in the same `risk_class_canonical: high` bucket.
 _RISK_CLASS_CANONICAL_MAP: dict[ServiceCode, dict[str, str]] = {
     "RC-E2E-03": {
-        "critical":      "high",
-        "severe":        "medium",
-        "moderate":      "medium",
-        "monitor_only":  "low",
+        "critical": "high",
+        "severe": "medium",
+        "moderate": "medium",
+        "monitor_only": "low",
     },
     "RC-E2E-04": {
-        "high":   "high",
+        "high": "high",
         "medium": "medium",
-        "low":    "low",
+        "low": "low",
     },
     "RC-E2E-05": {
         "P0_critical": "high",
-        "P1_high":     "high",
-        "P2_medium":   "medium",
-        "P3_low":      "low",
-        "deferred":    "low",
+        "P1_high": "high",
+        "P2_medium": "medium",
+        "P3_low": "low",
+        "deferred": "low",
     },
     "RC-E2E-07": {
-        "high":   "high",     # fraud_score >= 0.7
-        "medium": "medium",   # 0.4 <= fraud_score < 0.7
-        "low":    "low",      # fraud_score < 0.4
+        "high": "high",  # fraud_score >= 0.7
+        "medium": "medium",  # 0.4 <= fraud_score < 0.7
+        "low": "low",  # fraud_score < 0.4
     },
     "RC-E2E-09": {
-        "I":          "high",
-        "II":         "medium",
-        "III":        "low",
-        "no_recall":  "low",
+        "I": "high",
+        "II": "medium",
+        "III": "low",
+        "no_recall": "low",
     },
 }
 
@@ -156,7 +160,8 @@ def compute_fusion_bucket(
         season_quarter=f"{decision_at.year}-Q{q}",
         loyalty_tier_distribution=loyalty_tier_distribution,
         risk_class_canonical=canonicalise_risk_class(
-            service_code, service_local_risk_class,
+            service_code,
+            service_local_risk_class,
         ),
     )
 
@@ -184,7 +189,7 @@ class LedgerRow:
     decision_id: str
     trace_id: str
     service_code: ServiceCode
-    decision_kind: str           # service-local: markdown_proposal / winback_offer / task_dispatch / hold_decision / lot_event
+    decision_kind: str  # service-local: markdown_proposal / winback_offer / task_dispatch / hold_decision / lot_event
     decision_at: datetime
 
     # Service-local outcome (for legacy per-service search)
@@ -255,7 +260,7 @@ class SimilarityQuery:
     requesting_service: ServiceCode
     requesting_decision_kind: str
     max_results: int = 30
-    only_realised: bool = False    # True = only rows with realised outcomes
+    only_realised: bool = False  # True = only rows with realised outcomes
 
 
 @dataclass(frozen=True)
@@ -263,8 +268,8 @@ class SimilarityResult:
     """One precedent returned to the requester."""
 
     row: LedgerRow
-    similarity_score: float       # 0..1; higher = more similar
-    similarity_rationale: str     # Short human-readable explanation
+    similarity_score: float  # 0..1; higher = more similar
+    similarity_rationale: str  # Short human-readable explanation
 
 
 def compute_similarity_score(query: SimilarityQuery, row: LedgerRow) -> float:
@@ -312,17 +317,21 @@ def retrieve_similar(
     for c in candidates:
         score = compute_similarity_score(query, c)
         if score > 0.0:
-            scored.append(SimilarityResult(
-                row=c,
-                similarity_score=score,
-                similarity_rationale=_explain_similarity(query, c, score),
-            ))
+            scored.append(
+                SimilarityResult(
+                    row=c,
+                    similarity_score=score,
+                    similarity_rationale=_explain_similarity(query, c, score),
+                )
+            )
     scored.sort(key=lambda r: r.similarity_score, reverse=True)
     return scored[: query.max_results]
 
 
 def _explain_similarity(
-    query: SimilarityQuery, row: LedgerRow, score: float,
+    query: SimilarityQuery,
+    row: LedgerRow,
+    score: float,
 ) -> str:
     """Short human-readable explanation of why a row scored as it did.
 
@@ -362,6 +371,7 @@ def attribute_realised_outcome(
     """
     # Frozen dataclass — replace via dataclasses.replace
     from dataclasses import replace
+
     return replace(
         row,
         realised_outcome_value_usd=realised_value_usd,

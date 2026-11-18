@@ -23,34 +23,36 @@ from pathlib import Path
 
 
 # Approved family names from Appendix N §1
-APPROVED_FAMILIES: frozenset[str] = frozenset({
-    # Display / body / mono
-    "fraunces",
-    "ibm plex sans",
-    "jetbrains mono",
-    # System-fallback chain (always allowed)
-    "system-ui",
-    "-apple-system",
-    "blinkmacsystemfont",
-    "segoe ui fallback",
-    "sans-serif",
-    "serif",
-    "monospace",
-    "system",
-    "ui-sans-serif",
-    "ui-serif",
-    "ui-monospace",
-    # Stack fallbacks listed in apex-design-tokens.css for Mono / Display
-    "consolas",
-    "courier new",
-    "courier",
-    "times new roman",
-    "times",
-    "inherit",
-    "initial",
-    "unset",
-    "revert",
-})
+APPROVED_FAMILIES: frozenset[str] = frozenset(
+    {
+        # Display / body / mono
+        "fraunces",
+        "ibm plex sans",
+        "jetbrains mono",
+        # System-fallback chain (always allowed)
+        "system-ui",
+        "-apple-system",
+        "blinkmacsystemfont",
+        "segoe ui fallback",
+        "sans-serif",
+        "serif",
+        "monospace",
+        "system",
+        "ui-sans-serif",
+        "ui-serif",
+        "ui-monospace",
+        # Stack fallbacks listed in apex-design-tokens.css for Mono / Display
+        "consolas",
+        "courier new",
+        "courier",
+        "times new roman",
+        "times",
+        "inherit",
+        "initial",
+        "unset",
+        "revert",
+    }
+)
 
 
 # Match `font-family:` declarations across CSS + inline style attrs
@@ -65,15 +67,23 @@ SCAN_EXTENSIONS: frozenset[str] = frozenset({".css", ".html", ".htm"})
 
 # Skip noise dirs
 SKIP_FRAGMENTS: tuple[str, ...] = (
-    "__pycache__", ".git", ".venv", "node_modules", "dist", "build",
-    ".pytest_cache", "site-packages",
+    "__pycache__",
+    ".git",
+    ".venv",
+    "node_modules",
+    "dist",
+    "build",
+    ".pytest_cache",
+    "site-packages",
 )
 
 # Allowlist: tokens file is the only place inline strings are expected
 # (it ships the CSS custom properties referenced by every other artifact).
-ALLOWLIST_BASENAMES: frozenset[str] = frozenset({
-    "apex-design-tokens.css",
-})
+ALLOWLIST_BASENAMES: frozenset[str] = frozenset(
+    {
+        "apex-design-tokens.css",
+    }
+)
 
 
 @dataclass
@@ -105,7 +115,7 @@ def _split_family_list(declaration: str) -> list[str]:
             j = i + 1
             while j < n and declaration[j] != quote:
                 j += 1
-            out.append(declaration[i + 1:j].strip())
+            out.append(declaration[i + 1 : j].strip())
             i = j + 1
         else:
             j = i
@@ -134,16 +144,17 @@ def scan_file(path: Path) -> list[Finding]:
         if is_var_reference(declaration):
             continue
         families = _split_family_list(declaration)
-        unapproved = tuple(
-            f for f in families
-            if f.lower() not in APPROVED_FAMILIES
-        )
+        unapproved = tuple(f for f in families if f.lower() not in APPROVED_FAMILIES)
         if unapproved:
             line_no = text.count("\n", 0, match.start()) + 1
-            findings.append(Finding(
-                path=path, line=line_no,
-                declaration=declaration, unapproved=unapproved,
-            ))
+            findings.append(
+                Finding(
+                    path=path,
+                    line=line_no,
+                    declaration=declaration,
+                    unapproved=unapproved,
+                )
+            )
     return findings
 
 
@@ -169,7 +180,9 @@ def main(argv: list[str] | None = None) -> int:
         )
     )
     parser.add_argument(
-        "path", nargs="?", default=".",
+        "path",
+        nargs="?",
+        default=".",
         help="Root path to scan (default: current directory).",
     )
     args = parser.parse_args(argv)

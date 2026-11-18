@@ -67,7 +67,9 @@ class HeartbeatScheduler:
     routines: list[HeartbeatRoutine]
     parent: ParentOrchestrator
     spawn_run_id_factory: Callable[[str], str] = field(
-        default=lambda routine_name: f"hb-{routine_name}-{int(datetime.now(timezone.utc).timestamp())}"
+        default=lambda routine_name: (
+            f"hb-{routine_name}-{int(datetime.now(timezone.utc).timestamp())}"
+        )
     )
     """Factory for run ids — production injects a UUID-based factory."""
 
@@ -93,12 +95,15 @@ class HeartbeatScheduler:
             trigger_source=spawn.trigger_source,
             spawned_run_id=run_id,
         )
-        self.emit_event("heartbeat_fired", {
-            "routine": routine_name,
-            "run_id": run_id,
-            "fired_at_utc": evt.fired_at.isoformat(),
-            "trigger_source": spawn.trigger_source,
-        })
+        self.emit_event(
+            "heartbeat_fired",
+            {
+                "routine": routine_name,
+                "run_id": run_id,
+                "fired_at_utc": evt.fired_at.isoformat(),
+                "trigger_source": spawn.trigger_source,
+            },
+        )
         log.info(
             "heartbeat.fired",
             extra={
@@ -109,9 +114,7 @@ class HeartbeatScheduler:
         )
         return evt
 
-    def emit_missed(
-        self, routine_name: str, reason: str
-    ) -> HeartbeatMissedEvent:
+    def emit_missed(self, routine_name: str, reason: str) -> HeartbeatMissedEvent:
         """Emit a missed-trigger event (Task 26.9.4) — no auto-catch-up."""
         # Confirm routine is real — emit-missed for an unknown routine is
         # a programming error
@@ -121,11 +124,14 @@ class HeartbeatScheduler:
             missed_at=datetime.now(timezone.utc),
             reason=reason,
         )
-        self.emit_event("heartbeat_missed", {
-            "routine": routine_name,
-            "missed_at_utc": evt.missed_at.isoformat(),
-            "reason": reason,
-        })
+        self.emit_event(
+            "heartbeat_missed",
+            {
+                "routine": routine_name,
+                "missed_at_utc": evt.missed_at.isoformat(),
+                "reason": reason,
+            },
+        )
         log.warning(
             "heartbeat.missed",
             extra={"routine": routine_name, "reason": reason},

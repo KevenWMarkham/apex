@@ -88,7 +88,7 @@ def get_loyalty_churn_cohort(
             "cohort_window": {"start": window_start, "end": window_end},
             "tier_filter": tier_filter,
             "cohort_size": len(rows),
-            "members": rows,    # each row's PII fields are tokenised
+            "members": rows,  # each row's PII fields are tokenised
         }
         ctx["result"] = result
         return result

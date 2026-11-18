@@ -59,9 +59,7 @@ class StudyEnrollment(CanonicalEntity, ScdType2Fields):
         ..., description="Tokenised CDISC SubjectKey / USUBJID."
     )
     study_key: str = Field(..., description="FK → HLSCML Study.entity_id.")
-    investigator_key: str | None = Field(
-        None, description="FK → HLSCML Practitioner.entity_id."
-    )
+    investigator_key: str | None = Field(None, description="FK → HLSCML Practitioner.entity_id.")
     site_id: str | None = None
     enrolled_date: date | None = None
     status: EnrollmentStatus = EnrollmentStatus.SCREENING

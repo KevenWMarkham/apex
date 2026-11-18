@@ -70,9 +70,7 @@ def audit_model(model_cls: type[BaseModel]) -> list[AuditEntry]:
                 field=field,
                 ref=ref,
                 registered=spec is not None,
-                version_matches=(
-                    spec is not None and spec.apex_pinned_version == ref.version
-                ),
+                version_matches=(spec is not None and spec.apex_pinned_version == ref.version),
             )
         )
     return entries

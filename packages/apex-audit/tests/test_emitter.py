@@ -22,8 +22,10 @@ def _make_emitter() -> AuditEmitter:
     return AuditEmitter(
         version_resolver=StaticVersionResolver(
             VersionStamps(
-                manifest_version="m-sha", policy_version="p-sha",
-                prompt_version="pr-sha", model_version="gpt-4.1-2025-01",
+                manifest_version="m-sha",
+                policy_version="p-sha",
+                prompt_version="pr-sha",
+                model_version="gpt-4.1-2025-01",
             ),
         ),
         content_store=ContentAddressedStore(),
@@ -58,8 +60,7 @@ class TestEmitter:
             ),
             raw_reasoning="free-form CoT with SSN 111-22-3333",
             decision_output={"action": "salvage", "units": 412},
-            hitl=HitlRecord(status=HitlStatus.APPROVED,
-                            approver_identity="qa@ex.com"),
+            hitl=HitlRecord(status=HitlStatus.APPROVED, approver_identity="qa@ex.com"),
             downstream_effect_ref="action:markdown-run-7",
             sensitivity_labels=("Confidential",),
             confidence_score=0.88,
@@ -77,9 +78,13 @@ class TestEmitter:
         emitter = _make_emitter()
         with pytest.raises(TraceMissingError):
             emitter.emit(
-                trace_id="", agent_id="a", invoking_identity="u",
-                orchestration_name="x", tenant_id="t",
-                inputs={}, decision_output={"ok": True},
+                trace_id="",
+                agent_id="a",
+                invoking_identity="u",
+                orchestration_name="x",
+                tenant_id="t",
+                inputs={},
+                decision_output={"ok": True},
             )
 
     def test_raw_trace_lands_in_restricted_store_not_main_row(self) -> None:
@@ -87,8 +92,10 @@ class TestEmitter:
         trace_id = new_trace_id()
         sealed = emitter.emit(
             trace_id=trace_id,
-            agent_id="a", invoking_identity="u",
-            orchestration_name="x", tenant_id="t",
+            agent_id="a",
+            invoking_identity="u",
+            orchestration_name="x",
+            tenant_id="t",
             inputs={"v": 1},
             raw_reasoning="raw CoT with SSN 123-45-6789",
             decision_output={"ok": True},
@@ -105,9 +112,13 @@ class TestEmitter:
         emitter = _make_emitter()
         trace_id = new_trace_id()
         sealed = emitter.emit(
-            trace_id=trace_id, agent_id="a", invoking_identity="u",
-            orchestration_name="x", tenant_id="t",
-            inputs={"k": "v"}, decision_output={"ok": True},
+            trace_id=trace_id,
+            agent_id="a",
+            invoking_identity="u",
+            orchestration_name="x",
+            tenant_id="t",
+            inputs={"k": "v"},
+            decision_output={"ok": True},
         )
         resolved = emitter.resolve_decision(sealed["decision_id"])
         assert resolved["manifest_version"] == "m-sha"
@@ -119,8 +130,11 @@ class TestEmitter:
         emitter = _make_emitter()
         trace_id = new_trace_id()
         sealed = emitter.emit(
-            trace_id=trace_id, agent_id="a", invoking_identity="u",
-            orchestration_name="x", tenant_id="t",
+            trace_id=trace_id,
+            agent_id="a",
+            invoking_identity="u",
+            orchestration_name="x",
+            tenant_id="t",
             inputs={"k": "v"},
             structured_reasoning=StructuredReasoning(
                 decision_justification="contact alice@co.com",
@@ -136,8 +150,11 @@ class TestEmitter:
         emitter = _make_emitter()
         trace_id = new_trace_id()
         sealed = emitter.emit(
-            trace_id=trace_id, agent_id="a", invoking_identity="u",
-            orchestration_name="x", tenant_id="t",
+            trace_id=trace_id,
+            agent_id="a",
+            invoking_identity="u",
+            orchestration_name="x",
+            tenant_id="t",
             inputs={},
             tool_calls=[
                 {

@@ -67,7 +67,9 @@ class TestWarehouseView:
 
     def test_sha_is_stable(self) -> None:
         ddl = generate_warehouse_view(
-            _Widget, view_name="v_widget", silver_table="silver_rc.widget",
+            _Widget,
+            view_name="v_widget",
+            silver_table="silver_rc.widget",
         )
         a = view_definition_sha(ddl)
         b = view_definition_sha(ddl)

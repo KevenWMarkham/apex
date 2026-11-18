@@ -66,7 +66,8 @@ def list_pharma_recalls(
     with traced_call(
         tool_name=f"{SERVER_NAME}.list_pharma_recalls",
         tool_version=TOOL_VERSION,
-        agent_id=agent_id, caller_identity=caller_identity,
+        agent_id=agent_id,
+        caller_identity=caller_identity,
         parameters={"since_iso": since_iso, "limit": limit},
         classification_applied=[Classification.PUBLIC],
     ) as ctx:
@@ -91,7 +92,8 @@ def search_recalls_by_ndc(
     with traced_call(
         tool_name=f"{SERVER_NAME}.search_recalls_by_ndc",
         tool_version=TOOL_VERSION,
-        agent_id=agent_id, caller_identity=caller_identity,
+        agent_id=agent_id,
+        caller_identity=caller_identity,
         parameters={"ndc": ndc, "limit": limit},
         classification_applied=[Classification.PUBLIC],
     ) as ctx:
@@ -110,7 +112,8 @@ def get_recall_detail(
     with traced_call(
         tool_name=f"{SERVER_NAME}.get_recall_detail",
         tool_version=TOOL_VERSION,
-        agent_id=agent_id, caller_identity=caller_identity,
+        agent_id=agent_id,
+        caller_identity=caller_identity,
         parameters={"recall_id": recall_id},
         classification_applied=[Classification.PUBLIC],
     ) as ctx:
@@ -126,17 +129,20 @@ def get_recall_detail(
 
 CONTRACTS: list[ToolContract] = [
     ToolContract(
-        name=f"{SERVER_NAME}.list_pharma_recalls", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.list_pharma_recalls",
+        version=TOOL_VERSION,
         description="List pharmaceutical recalls since a date.",
         classification_propagation=[Classification.PUBLIC],
     ),
     ToolContract(
-        name=f"{SERVER_NAME}.search_recalls_by_ndc", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.search_recalls_by_ndc",
+        version=TOOL_VERSION,
         description="Find recalls that reference a specific NDC.",
         classification_propagation=[Classification.PUBLIC],
     ),
     ToolContract(
-        name=f"{SERVER_NAME}.get_recall_detail", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.get_recall_detail",
+        version=TOOL_VERSION,
         description="Return the full pharmaceutical-recall record by id.",
         classification_propagation=[Classification.PUBLIC],
     ),

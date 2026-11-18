@@ -36,7 +36,9 @@ _CIM_TO_MAP_EVENT_TYPE = {
 
 
 def _envelope(
-    *, entity_id: str, source_system: str = "cim",
+    *,
+    entity_id: str,
+    source_system: str = "cim",
     event_ts: datetime | None = None,
     event_id: UUID | None = None,
 ) -> dict[str, Any]:
@@ -74,7 +76,10 @@ def meter_from_cim(cim: CimMeter, *, source_system: str = "cim") -> Meter:
 
 
 def meter_reading_from_cim(
-    cim: CimReading, *, meter_key: str, source_system: str = "cim",
+    cim: CimReading,
+    *,
+    meter_key: str,
+    source_system: str = "cim",
 ) -> MeterReading:
     """Translate a CIM Reading into an APEX ERCML MeterReading."""
     quality = ReadingQuality.MEASURED
@@ -98,12 +103,12 @@ def meter_reading_from_cim(
 
 
 def grid_event_from_cim(
-    cim: CimEnergyEvent, *, source_system: str = "cim",
+    cim: CimEnergyEvent,
+    *,
+    source_system: str = "cim",
 ) -> GridEvent:
     """Translate a CIM EnergyEvent into an APEX ERCML GridEvent."""
-    event_type = _CIM_TO_MAP_EVENT_TYPE.get(
-        cim.event_type.lower(), GridEventType.OTHER
-    )
+    event_type = _CIM_TO_MAP_EVENT_TYPE.get(cim.event_type.lower(), GridEventType.OTHER)
     return GridEvent(
         **_envelope(
             entity_id=f"grid_event:{cim.m_rid}",
@@ -141,7 +146,9 @@ def asset_from_cim(cim: CimAsset, *, source_system: str = "cim") -> Asset:
 
 
 def work_order_from_cim(
-    cim: CimWorkOrder, *, source_system: str = "cim",
+    cim: CimWorkOrder,
+    *,
+    source_system: str = "cim",
 ) -> WorkOrder:
     """Translate a CIM WorkOrder into an APEX ERCML WorkOrder."""
     status = WorkOrderStatus.OPEN

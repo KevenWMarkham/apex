@@ -30,9 +30,7 @@ class AdverseEvent(CanonicalEntity):
     ae_decoded: str | None = Field(
         None, description="Dictionary-derived term (AEDECOD, typically MedDRA)."
     )
-    ae_body_system: str | None = Field(
-        None, description="MedDRA System Organ Class (AEBODSYS)."
-    )
+    ae_body_system: str | None = Field(None, description="MedDRA System Organ Class (AEBODSYS).")
     severity: AeSeverity | None = None
     serious: bool = Field(
         False,
@@ -40,9 +38,9 @@ class AdverseEvent(CanonicalEntity):
     )
     start_date: date | None = None
     end_date: date | None = None
-    relationship_to_treatment: Literal[
-        "related", "possibly_related", "unlikely_related", "not_related", "unknown"
-    ] | None = None
+    relationship_to_treatment: (
+        Literal["related", "possibly_related", "unlikely_related", "not_related", "unknown"] | None
+    ) = None
     outcome: str | None = Field(
         None, description="e.g. 'recovered', 'ongoing', 'fatal', 'unknown'."
     )

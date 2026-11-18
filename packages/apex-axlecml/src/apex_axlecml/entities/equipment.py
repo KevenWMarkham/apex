@@ -28,9 +28,7 @@ class Equipment(CanonicalEntity, ScdType2Fields):
     work_unit_id: str | None = Field(
         None, description="ISA-95 WorkUnit this Equipment is hosted in."
     )
-    work_center_key: str | None = Field(
-        None, description="FK → AXLECML WorkCenter.entity_id."
-    )
+    work_center_key: str | None = Field(None, description="FK → AXLECML WorkCenter.entity_id.")
     serial_number: str | None = None
     manufacturer: str | None = None
     model: str | None = None

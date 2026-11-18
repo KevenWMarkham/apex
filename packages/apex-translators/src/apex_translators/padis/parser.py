@@ -41,9 +41,7 @@ PADIS_MESSAGE_TYPES: tuple[str, ...] = (
 
 
 # Flight key regex: DL0123/30JUN/JFKLHR/Y or AA1234/15DEC/SFOORD
-_FLIGHT_KEY_RE = re.compile(
-    r"^([A-Z]{2,3})(\d{1,4})/(\d{1,2}[A-Z]{3})/([A-Z]{6,9})(?:/([A-Z]))?$"
-)
+_FLIGHT_KEY_RE = re.compile(r"^([A-Z]{2,3})(\d{1,4})/(\d{1,2}[A-Z]{3})/([A-Z]{6,9})(?:/([A-Z]))?$")
 
 
 # Traveler record: leading numeric count followed by SURNAME/FIRSTNAME [TITLE]
@@ -64,8 +62,7 @@ class PADISParser:
         header = lines[0].upper()
         if header not in PADIS_MESSAGE_TYPES:
             raise ParseError(
-                f"PADIS message header {header!r} not in supported set "
-                f"{PADIS_MESSAGE_TYPES}"
+                f"PADIS message header {header!r} not in supported set {PADIS_MESSAGE_TYPES}"
             )
 
         msg = ParsedMessage(format=FORMAT_PADIS, raw=raw)
@@ -126,9 +123,7 @@ class PADISParser:
                 continue
 
             # Other unstructured line — capture
-            msg.segments.append(
-                Segment(name="UNSTRUCTURED", elements=[line], raw=line)
-            )
+            msg.segments.append(Segment(name="UNSTRUCTURED", elements=[line], raw=line))
             current_pax = None
 
         return msg

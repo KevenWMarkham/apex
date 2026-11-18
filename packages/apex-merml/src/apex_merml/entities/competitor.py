@@ -29,10 +29,10 @@ class CompetitorChannel(StrEnum):
 class CompetitorMatchKind(StrEnum):
     """How the competitor SKU was matched to ours."""
 
-    GTIN = "GTIN"                # Exact GS1 GTIN match
-    MPN = "MPN"                  # Manufacturer part number
-    HEURISTIC = "HEURISTIC"      # Title + attribute fuzzy match
-    MANUAL = "MANUAL"            # Buyer-curated mapping
+    GTIN = "GTIN"  # Exact GS1 GTIN match
+    MPN = "MPN"  # Manufacturer part number
+    HEURISTIC = "HEURISTIC"  # Title + attribute fuzzy match
+    MANUAL = "MANUAL"  # Buyer-curated mapping
 
 
 class Competitor(CanonicalEntity, ScdType2Fields):
@@ -45,7 +45,9 @@ class Competitor(CanonicalEntity, ScdType2Fields):
     """
 
     sku_key: str = Field(..., description="FK → our SCML SKU.")
-    competitor_name: str = Field(..., description="Free-form competitor identifier (e.g., 'Target').")
+    competitor_name: str = Field(
+        ..., description="Free-form competitor identifier (e.g., 'Target')."
+    )
     competitor_sku_natural: str | None = Field(
         None, description="The competitor's own SKU id, when known."
     )

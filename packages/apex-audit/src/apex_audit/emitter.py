@@ -68,9 +68,7 @@ class AuditEmitter:
     version_resolver: VersionResolver
     content_store: ContentAddressedStore
     audit_store: AuditStore
-    restricted_store: RestrictedTraceStore = field(
-        default_factory=RestrictedTraceStore
-    )
+    restricted_store: RestrictedTraceStore = field(default_factory=RestrictedTraceStore)
 
     def emit(
         self,
@@ -165,9 +163,7 @@ class AuditEmitter:
     # ------------------------------------------------------------------
     # Auditor tool (Section 11, Task 12.3.2)
 
-    def resolve_decision(
-        self, decision_id: str
-    ) -> dict[str, Any]:
+    def resolve_decision(self, decision_id: str) -> dict[str, Any]:
         """Given a decision_id, resolve the three SHAs + effective rule-set.
 
         Returns a dict with the three Git SHAs, inputs payload, structured
@@ -181,9 +177,7 @@ class AuditEmitter:
             "prompt_version": sealed["prompt_version"],
             "model_version": sealed["model_version"],
             "inputs": self.content_store.get(sealed["inputs_ref"]),
-            "structured_reasoning": self.content_store.get(
-                sealed["reasoning_trace_ref"]
-            ),
+            "structured_reasoning": self.content_store.get(sealed["reasoning_trace_ref"]),
             "row": sealed,
         }
 

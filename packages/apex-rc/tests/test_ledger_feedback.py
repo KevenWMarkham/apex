@@ -64,7 +64,8 @@ def test_canonicalise_risk_class_unknown_service_raises() -> None:
 
 def test_fusion_bucket_composite_key_is_deterministic() -> None:
     bucket = FusionBucket(
-        category="dairy", season_quarter="2026-Q2",
+        category="dairy",
+        season_quarter="2026-Q2",
         loyalty_tier_distribution="platinum_dominant",
         risk_class_canonical="high",
     )
@@ -90,7 +91,9 @@ def test_compute_fusion_bucket_q1_q3_q4() -> None:
     for month, q in [(1, 1), (3, 1), (4, 2), (7, 3), (10, 4), (12, 4)]:
         ts = datetime(2026, month, 15, tzinfo=UTC)
         bucket = compute_fusion_bucket(
-            "RC-E2E-03", category="dairy", decision_at=ts,
+            "RC-E2E-03",
+            category="dairy",
+            decision_at=ts,
             loyalty_tier_distribution="mixed",
             service_local_risk_class="severe",
         )
@@ -199,10 +202,10 @@ def test_similarity_score_realised_row_gets_extra_weight() -> None:
 def test_similarity_score_partial_match_lower() -> None:
     row = _make_row(risk_class="critical")
     different_bucket = FusionBucket(
-        category="produce",                    # different
-        season_quarter="2026-Q2",              # same
-        loyalty_tier_distribution="mixed",     # different
-        risk_class_canonical="high",           # same
+        category="produce",  # different
+        season_quarter="2026-Q2",  # same
+        loyalty_tier_distribution="mixed",  # different
+        risk_class_canonical="high",  # same
     )
     query = _query_for(different_bucket)
     score = compute_similarity_score(query, row)
@@ -213,13 +216,14 @@ def test_similarity_score_partial_match_lower() -> None:
 def test_retrieve_similar_returns_sorted_top_n() -> None:
     """retrieve_similar sorts by score descending and respects max_results."""
     base_bucket = FusionBucket(
-        category="dairy", season_quarter="2026-Q2",
+        category="dairy",
+        season_quarter="2026-Q2",
         loyalty_tier_distribution="platinum_dominant",
         risk_class_canonical="medium",
     )
     candidates = [
-        _make_row(service_code="RC-E2E-03"),                      # exact match
-        _make_row(service_code="RC-E2E-04"),                      # exact match
+        _make_row(service_code="RC-E2E-03"),  # exact match
+        _make_row(service_code="RC-E2E-04"),  # exact match
         _make_row(service_code="RC-E2E-09", category="produce"),  # partial
     ]
     results = retrieve_similar(_query_for(base_bucket), candidates)
@@ -266,7 +270,8 @@ def test_attribute_realised_outcome_returns_new_immutable_row() -> None:
     row = _make_row()
     assert row.realised_outcome_value_usd is None
     updated = attribute_realised_outcome(
-        row, realised_value_usd=128.0,
+        row,
+        realised_value_usd=128.0,
         realised_at=datetime(2026, 8, 10, tzinfo=UTC),
     )
     assert updated.realised_outcome_value_usd == 128.0
@@ -311,7 +316,8 @@ def test_realisation_delta_pct_returns_none_on_zero_expected() -> None:
         expected_outcome_value_usd=0.0,
     )
     realised = attribute_realised_outcome(
-        row, realised_value_usd=10.0,
+        row,
+        realised_value_usd=10.0,
         realised_at=datetime(2026, 8, 10, tzinfo=UTC),
     )
     assert realisation_delta_pct(realised) is None
@@ -355,7 +361,8 @@ def test_all_services_can_create_ledger_rows() -> None:
 def test_fusion_bucket_redis_key_helper() -> None:
     """fusion_bucket_redis_key matches FusionBucket.composite_key."""
     bucket = FusionBucket(
-        category="produce", season_quarter="2026-Q3",
+        category="produce",
+        season_quarter="2026-Q3",
         loyalty_tier_distribution="non_loyalty",
         risk_class_canonical="low",
     )

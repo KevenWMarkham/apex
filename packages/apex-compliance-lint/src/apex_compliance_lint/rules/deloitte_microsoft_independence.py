@@ -99,7 +99,10 @@ DELOITTE_MICROSOFT_INDEPENDENCE = RulePack(
                 "the provider",
             ),
             allowed_contexts=(
-                _AWARD_PARTNER, _DOMAIN_PARTNER, _QUOTED_TERM, _NEGATED_TERM,
+                _AWARD_PARTNER,
+                _DOMAIN_PARTNER,
+                _QUOTED_TERM,
+                _NEGATED_TERM,
             ),
         ),
         Rule(
@@ -147,7 +150,10 @@ DELOITTE_MICROSOFT_INDEPENDENCE = RulePack(
         Rule(
             rule_id="deloitte_microsoft_independence.recommended_by",
             description="Forbidden: 'recommended by Microsoft' / 'recommended by SAP' etc.",
-            pattern=re.compile(r"\brecommended\s+by\s+(microsoft|sap|oracle|salesforce|epic|workday|ibm|amazon|google|aws)\b", re.IGNORECASE),
+            pattern=re.compile(
+                r"\brecommended\s+by\s+(microsoft|sap|oracle|salesforce|epic|workday|ibm|amazon|google|aws)\b",
+                re.IGNORECASE,
+            ),
             severity=Severity.ERROR,
             guidance=(
                 "Vendor-recommendation language implies a commercial relationship "

@@ -21,7 +21,9 @@ class ReliabilityRecord(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    equipment_id: str = Field(..., description="FK → consuming Practice's Equipment canonical entity.")
+    equipment_id: str = Field(
+        ..., description="FK → consuming Practice's Equipment canonical entity."
+    )
     equipment_class: Iso14224EquipmentClass
     equipment_subclass: Iso14224EquipmentSubclass | None = None
 

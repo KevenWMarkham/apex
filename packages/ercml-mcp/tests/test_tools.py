@@ -15,22 +15,24 @@ from fabric_mcp import InMemoryFabricBackend, set_fabric_backend
 
 @pytest.fixture(autouse=True)
 def _seed() -> None:
-    set_fabric_backend(InMemoryFabricBackend(
-        entities={
-            ("meter", "m-1"): {"serial_number": "AMI-1"},
-        },
-        views={
-            "gold_ercml.meter_reading": [
-                {"meter_key": "m-1", "value": 10.0},
-                {"meter_key": "m-1", "value": 11.0},
-            ],
-            "gold_ercml.grid_event": [
-                {"event_type": "outage", "severity": 1},
-                {"event_type": "outage", "severity": 2},
-                {"event_type": "fault", "severity": 3},
-            ],
-        },
-    ))
+    set_fabric_backend(
+        InMemoryFabricBackend(
+            entities={
+                ("meter", "m-1"): {"serial_number": "AMI-1"},
+            },
+            views={
+                "gold_ercml.meter_reading": [
+                    {"meter_key": "m-1", "value": 10.0},
+                    {"meter_key": "m-1", "value": 11.0},
+                ],
+                "gold_ercml.grid_event": [
+                    {"event_type": "outage", "severity": 1},
+                    {"event_type": "outage", "severity": 2},
+                    {"event_type": "fault", "severity": 3},
+                ],
+            },
+        )
+    )
 
 
 def test_get_meter() -> None:

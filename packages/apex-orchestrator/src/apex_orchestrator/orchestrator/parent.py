@@ -98,11 +98,15 @@ class ParentOrchestrator:
                 self._r.increment_budget_counter(spawn.run_id, spawn.child_id, metric, 0)
             except RedisUnavailable:
                 pass
-        self._emit("child_spawn", {
-            "run_id": spawn.run_id, "child_id": spawn.child_id,
-            "archetype": spawn.archetype,
-            "trigger_source": spawn.trigger_source,
-        })
+        self._emit(
+            "child_spawn",
+            {
+                "run_id": spawn.run_id,
+                "child_id": spawn.child_id,
+                "archetype": spawn.archetype,
+                "trigger_source": spawn.trigger_source,
+            },
+        )
 
     # -- cancel-level change -----------------------------------------
 
@@ -117,9 +121,13 @@ class ParentOrchestrator:
                 "orchestrator.cancel.redis_unavailable",
                 extra={"run_id": run_id, "level": level.value, "error": str(exc)},
             )
-        self._emit("cancel_level_change", {
-            "run_id": run_id, "level": level.value,
-        })
+        self._emit(
+            "cancel_level_change",
+            {
+                "run_id": run_id,
+                "level": level.value,
+            },
+        )
 
     # -- complete -----------------------------------------------------
 
@@ -130,6 +138,10 @@ class ParentOrchestrator:
             {"status": "complete"},
         )
         self._r.expire_run_keys(run_id, ttl_s)
-        self._emit("child_complete", {
-            "run_id": run_id, "child_id": child_id,
-        })
+        self._emit(
+            "child_complete",
+            {
+                "run_id": run_id,
+                "child_id": child_id,
+            },
+        )

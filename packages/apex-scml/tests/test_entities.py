@@ -186,6 +186,5 @@ def test_standards_audit_all_registered() -> None:
                 f"unregistered standard {entry.ref.standard_id}"
             )
             assert entry.version_matches, (
-                f"{entity_cls.__name__}.{entry.field}: "
-                f"version drift {entry.ref.version}"
+                f"{entity_cls.__name__}.{entry.field}: version drift {entry.ref.version}"
             )

@@ -25,9 +25,12 @@ def test_in_memory_implements_protocol() -> None:
 def test_store_and_resolve() -> None:
     backend = InMemoryVaultBackend()
     entry = new_vault_entry(
-        token="tok_abc", cleartext="hello",
+        token="tok_abc",
+        cleartext="hello",
         classification=Classification.PHI,
-        tenant_id="t1", source_system="epic", created_by="svc",
+        tenant_id="t1",
+        source_system="epic",
+        created_by="svc",
     )
     backend.store(entry)
     assert backend.has("tok_abc")
@@ -38,14 +41,24 @@ def test_store_and_resolve() -> None:
 
 def test_store_is_idempotent_on_token() -> None:
     backend = InMemoryVaultBackend()
-    e1 = VaultEntry(token="tok_x", cleartext="first",
-                    classification=Classification.PII,
-                    tenant_id="t", source_system=None,
-                    created_ts=datetime.now(UTC), created_by="svc")
-    e2 = VaultEntry(token="tok_x", cleartext="second",
-                    classification=Classification.PII,
-                    tenant_id="t", source_system=None,
-                    created_ts=datetime.now(UTC), created_by="svc")
+    e1 = VaultEntry(
+        token="tok_x",
+        cleartext="first",
+        classification=Classification.PII,
+        tenant_id="t",
+        source_system=None,
+        created_ts=datetime.now(UTC),
+        created_by="svc",
+    )
+    e2 = VaultEntry(
+        token="tok_x",
+        cleartext="second",
+        classification=Classification.PII,
+        tenant_id="t",
+        source_system=None,
+        created_ts=datetime.now(UTC),
+        created_by="svc",
+    )
     backend.store(e1)
     backend.store(e2)
     resolved = backend.resolve("tok_x")
@@ -62,10 +75,16 @@ def test_resolve_unknown_returns_none() -> None:
 def test_delta_backend_methods_not_yet_wired() -> None:
     delta = DeltaVaultBackend(table_name="silver_vault_tokens")
     with pytest.raises(NotImplementedError):
-        delta.store(new_vault_entry(
-            token="tok_x", cleartext="v", classification=Classification.PII,
-            tenant_id="t", source_system=None, created_by="svc",
-        ))
+        delta.store(
+            new_vault_entry(
+                token="tok_x",
+                cleartext="v",
+                classification=Classification.PII,
+                tenant_id="t",
+                source_system=None,
+                created_by="svc",
+            )
+        )
 
 
 def test_vault_ddl_structure() -> None:

@@ -32,7 +32,11 @@ class ToolContract(BaseModel):
 
     model_config = ConfigDict(extra="forbid", frozen=True)
 
-    name: str = Field(..., min_length=1, description="Fully qualified tool name, e.g. 'fabric-mcp.get_entity_by_key'.")
+    name: str = Field(
+        ...,
+        min_length=1,
+        description="Fully qualified tool name, e.g. 'fabric-mcp.get_entity_by_key'.",
+    )
     version: str = Field("1.0.0", description="Tool SemVer; new behaviour = new version.")
     description: str
     input_schema: dict = Field(

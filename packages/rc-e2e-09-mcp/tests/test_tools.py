@@ -51,7 +51,7 @@ def _seed_fabric() -> InMemoryFabricBackend:
                     "lot_key": "L-2026W18-DAIRY-B07",
                     "sku_key": "SKU-YOGURT-32OZ-PLAIN",
                     "is_covered_food": True,
-                    "received_with_temp_log": False,    # gap
+                    "received_with_temp_log": False,  # gap
                     "cold_chain_compliant_pre_event": True,
                     "has_critical_tracking_event_log": True,
                     "cte_count": 3,
@@ -60,8 +60,9 @@ def _seed_fabric() -> InMemoryFabricBackend:
                     "latest_cte_ts": "2026-05-09T13:00:00Z",
                     "supplier_key": "SUP-DAIRY-7",
                     "downstream_distribution_locations_count": 3,
-                    "trace_gaps": [{"cte_kind": "RECEIVING", "missing_kde": "temp_log",
-                                    "severity": "high"}],
+                    "trace_gaps": [
+                        {"cte_kind": "RECEIVING", "missing_kde": "temp_log", "severity": "high"}
+                    ],
                 },
             ],
             "rc_gold.g_lot_provenance": [
@@ -107,10 +108,7 @@ def test_get_recall_panel_aggregates_lots() -> None:
     assert panel["regulatory"]["jurisdiction"] == "US-Federal"
     assert len(panel["affected_lots"]) == 2
     # Trace gaps preserved per FSMA-204 audit requirements
-    yogurt = next(
-        l for l in panel["affected_lots"]
-        if l["lot_key"] == "L-2026W18-DAIRY-B07"
-    )
+    yogurt = next(l for l in panel["affected_lots"] if l["lot_key"] == "L-2026W18-DAIRY-B07")
     assert yogurt["received_with_temp_log"] is False
     assert len(yogurt["trace_gaps"]) == 1
 
@@ -171,9 +169,7 @@ def test_commit_lot_event_trace_audit_pass() -> None:
     assert out["lot_event_id"].startswith("scml-lot-DEC-AUD-001-")
     assert out["outcome"] == "ok"
     # Downstream invalidation keys for RC-E2E-03 + RC-E2E-07 emitted
-    invalidation_services = {
-        k.split("/")[0] for k in out["downstream_invalidation_keys"]
-    }
+    invalidation_services = {k.split("/")[0] for k in out["downstream_invalidation_keys"]}
     assert "rc-e2e-03" in invalidation_services
     assert "rc-e2e-07" in invalidation_services
 
@@ -221,7 +217,7 @@ def test_commit_lot_event_unknown_kind_rejected() -> None:
         commit_lot_event(
             decision_id="DEC-X",
             lot_key="L-X",
-            event_kind="recall_class_omega",   # not a valid kind
+            event_kind="recall_class_omega",  # not a valid kind
             operator_principal="agent-system",
         )
     assert exc.value.code is McpErrorCode.INVALID_INPUT
@@ -248,11 +244,15 @@ def test_commit_lot_event_conflict_on_param_mismatch() -> None:
         event_kind="trace_audit_pass",
     )
     commit_lot_event(  # type: ignore[arg-type]
-        operator_principal="agent-A", sku_key="SKU-X", **base,
+        operator_principal="agent-A",
+        sku_key="SKU-X",
+        **base,
     )
     with pytest.raises(McpError) as exc:
         commit_lot_event(  # type: ignore[arg-type]
-            operator_principal="agent-A", sku_key="SKU-Y", **base,
+            operator_principal="agent-A",
+            sku_key="SKU-Y",
+            **base,
         )
     assert exc.value.code is McpErrorCode.CONFLICT
 
@@ -284,17 +284,13 @@ def test_commit_lot_event_requires_decision_id_and_lot_key() -> None:
 
 def test_write_contract_requires_rc_e2e_09_scope() -> None:
     """SCML.Lot ownership boundary — only RC-E2E-09 can write."""
-    write_contract = next(
-        c for c in CONTRACTS if c.name.endswith("commit_lot_event")
-    )
+    write_contract = next(c for c in CONTRACTS if c.name.endswith("commit_lot_event"))
     assert "service:rc-e2e-09" in write_contract.required_scopes
 
 
 def test_lot_provenance_contract_accepts_cross_service_scope() -> None:
     """Cross-service read — service:rc-e2e-09 NOT required."""
-    lot_prov_contract = next(
-        c for c in CONTRACTS if c.name.endswith("get_lot_provenance")
-    )
+    lot_prov_contract = next(c for c in CONTRACTS if c.name.endswith("get_lot_provenance"))
     # Must have practice:rc but NOT require service:rc-e2e-09 specifically
     assert "practice:rc" in lot_prov_contract.required_scopes
     assert "service:rc-e2e-09" not in lot_prov_contract.required_scopes
@@ -302,9 +298,7 @@ def test_lot_provenance_contract_accepts_cross_service_scope() -> None:
 
 def test_recall_panel_contract_requires_rc_e2e_09_scope() -> None:
     """get_recall_panel is internal-RC-E2E-09 only — Analyst + Compliance."""
-    recall_contract = next(
-        c for c in CONTRACTS if c.name.endswith("get_recall_panel")
-    )
+    recall_contract = next(c for c in CONTRACTS if c.name.endswith("get_recall_panel"))
     assert "service:rc-e2e-09" in recall_contract.required_scopes
 
 

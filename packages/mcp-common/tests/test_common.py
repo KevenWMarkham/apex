@@ -22,6 +22,7 @@ from mcp_common.trace import set_trace_sink
 class TestContract:
     def test_contract_is_frozen(self) -> None:
         from pydantic import ValidationError
+
         c = ToolContract(name="x.y", description="d")
         with __import__("pytest").raises(ValidationError):
             c.name = "other"  # type: ignore[misc]
@@ -62,7 +63,9 @@ class TestScope:
             )
         )
         assert scope_allows(
-            ctx, required_scopes=[], data_classifications=[Classification.PHI],
+            ctx,
+            required_scopes=[],
+            data_classifications=[Classification.PHI],
         )
 
     def test_unknown_dimension_fails_closed(self) -> None:
@@ -72,6 +75,7 @@ class TestScope:
 class TestAuth:
     def test_require_rejects_none(self) -> None:
         import pytest
+
         with pytest.raises(McpError) as exc:
             require_agent_identity(None)
         assert exc.value.code is McpErrorCode.UNAUTHENTICATED
@@ -100,6 +104,7 @@ class TestTrace:
 
     def test_traced_call_captures_exception_class(self) -> None:
         import pytest
+
         captured: list = []
         set_trace_sink(captured.append)
         with pytest.raises(ValueError):

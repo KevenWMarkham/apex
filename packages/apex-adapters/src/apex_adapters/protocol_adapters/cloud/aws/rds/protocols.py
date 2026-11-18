@@ -8,5 +8,5 @@ client_approved_architecture block references this adapter.
 ADAPTER_NAME = "cloud.aws.rds"
 PROVIDER_LABEL = "AWS RDS"
 SATISFIES = [
-    'DataLake',
+    "DataLake",
 ]

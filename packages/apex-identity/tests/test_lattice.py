@@ -32,7 +32,8 @@ def _row() -> dict:
 
 
 def _scope(
-    *, classifications: set[Classification] | None = None,
+    *,
+    classifications: set[Classification] | None = None,
     row_filters: dict[str, str] | None = None,
 ) -> ScopeContext:
     return ScopeContext(
@@ -58,8 +59,15 @@ def test_classification_without_scope_masked() -> None:
 
 def test_classification_in_scope_visible() -> None:
     d = evaluate_visibility(
-        _Widget, _row(),
-        _scope(classifications={Classification.TRADE_SECRET, Classification.PII, Classification.INTERNAL}),
+        _Widget,
+        _row(),
+        _scope(
+            classifications={
+                Classification.TRADE_SECRET,
+                Classification.PII,
+                Classification.INTERNAL,
+            }
+        ),
     )
     assert d.masked_fields == frozenset()
     assert "unit_cost" in d.visible_fields
@@ -68,7 +76,9 @@ def test_classification_in_scope_visible() -> None:
 
 def test_row_filter_match() -> None:
     d = evaluate_visibility(
-        _Widget, _row(), _scope(row_filters={"region": "US-WEST"}),
+        _Widget,
+        _row(),
+        _scope(row_filters={"region": "US-WEST"}),
     )
     assert d.row_visible
     assert d.row_filter_reason is None
@@ -76,7 +86,9 @@ def test_row_filter_match() -> None:
 
 def test_row_filter_mismatch() -> None:
     d = evaluate_visibility(
-        _Widget, _row(), _scope(row_filters={"region": "EU-EAST"}),
+        _Widget,
+        _row(),
+        _scope(row_filters={"region": "EU-EAST"}),
     )
     assert not d.row_visible
     assert d.row_filter_reason is not None
@@ -85,6 +97,8 @@ def test_row_filter_mismatch() -> None:
 
 def test_row_filter_missing_column_fails_closed() -> None:
     d = evaluate_visibility(
-        _Widget, _row(), _scope(row_filters={"missing_column": "X"}),
+        _Widget,
+        _row(),
+        _scope(row_filters={"missing_column": "X"}),
     )
     assert not d.row_visible

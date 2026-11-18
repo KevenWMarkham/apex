@@ -26,9 +26,7 @@ def _base_secret() -> bytes:
 def _derive_key(agent_id: str, tenant_id: str) -> bytes:
     """Derive a per-(agent, tenant) HMAC key from the base secret."""
     base = _base_secret()
-    return hmac.new(
-        base, f"{tenant_id}|{agent_id}".encode("utf-8"), hashlib.sha256
-    ).digest()
+    return hmac.new(base, f"{tenant_id}|{agent_id}".encode("utf-8"), hashlib.sha256).digest()
 
 
 def sign_response(

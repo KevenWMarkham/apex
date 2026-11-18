@@ -60,9 +60,7 @@ class Isa95WorkUnit(BaseModel):
     id: str
     name: str
     work_center_id: str = Field(..., description="FK → Isa95WorkCenter.id.")
-    equipment_class_id: str | None = Field(
-        None, description="Optional link to an EquipmentClass."
-    )
+    equipment_class_id: str | None = Field(None, description="Optional link to an EquipmentClass.")
 
 
 @dataclass(frozen=True, slots=True)
@@ -95,21 +93,15 @@ def validate_hierarchy(
 
     for s in sites or []:
         if s.enterprise_id not in ent_ids:
-            errors.append(
-                f"Site {s.id!r} references unknown enterprise {s.enterprise_id!r}"
-            )
+            errors.append(f"Site {s.id!r} references unknown enterprise {s.enterprise_id!r}")
     for a in areas or []:
         if a.site_id not in site_ids:
             errors.append(f"Area {a.id!r} references unknown site {a.site_id!r}")
     for w in work_centers or []:
         if w.area_id not in area_ids:
-            errors.append(
-                f"WorkCenter {w.id!r} references unknown area {w.area_id!r}"
-            )
+            errors.append(f"WorkCenter {w.id!r} references unknown area {w.area_id!r}")
     for u in work_units or []:
         if u.work_center_id not in wc_ids:
-            errors.append(
-                f"WorkUnit {u.id!r} references unknown work center {u.work_center_id!r}"
-            )
+            errors.append(f"WorkUnit {u.id!r} references unknown work center {u.work_center_id!r}")
 
     return HierarchyValidation(ok=not errors, errors=errors)

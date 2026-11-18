@@ -66,7 +66,4 @@ class TestClassifyBump:
 
     def test_minor_beats_patch(self) -> None:
         # Even if both minor AND patch changed, the classification is MINOR.
-        assert (
-            classify_bump(SemVer.parse("1.2.3"), SemVer.parse("1.3.5"))
-            == BumpClass.MINOR
-        )
+        assert classify_bump(SemVer.parse("1.2.3"), SemVer.parse("1.3.5")) == BumpClass.MINOR

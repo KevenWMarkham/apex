@@ -8,5 +8,5 @@ client_approved_architecture block references this adapter.
 ADAPTER_NAME = "cloud.aws.s3"
 PROVIDER_LABEL = "AWS S3"
 SATISFIES = [
-    'DataLake',
+    "DataLake",
 ]

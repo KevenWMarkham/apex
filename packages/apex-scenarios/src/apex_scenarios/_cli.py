@@ -195,11 +195,14 @@ def bump_cmd(
 @scenarios_app.command("foundation-list")
 def foundation_list_cmd(
     cls: str | None = typer.Option(
-        None, "--class", "-c",
+        None,
+        "--class",
+        "-c",
         help=f"Filter to one class. Allowed: {', '.join(FOUNDATION_CLASSES)}.",
     ),
     unblocks: str | None = typer.Option(
-        None, "--unblocks",
+        None,
+        "--unblocks",
         help="Filter to blocks that unblock the named Wave-2 service code.",
     ),
 ) -> None:
@@ -222,7 +225,8 @@ def foundation_list_cmd(
 @scenarios_app.command("foundation-rollup")
 def foundation_rollup_cmd(
     names: list[str] = typer.Argument(
-        ..., help="Block names to roll up (whitespace-separated).",
+        ...,
+        help="Block names to roll up (whitespace-separated).",
     ),
 ) -> None:
     """SoW-quotable effort roll-up across selected W1 blocks (Sprint 28 §28.2.5)."""
@@ -262,7 +266,9 @@ def foundation_prereqs_cmd(
 @scenarios_app.command("fusion-list")
 def fusion_list_cmd(
     practice: str | None = typer.Option(
-        None, "--practice", "-p",
+        None,
+        "--practice",
+        "-p",
         help="Filter to one Practice (rc / hls / er / axle / tmt / th / ice).",
     ),
 ) -> None:

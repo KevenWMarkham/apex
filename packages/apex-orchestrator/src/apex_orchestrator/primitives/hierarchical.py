@@ -68,11 +68,13 @@ class HierarchicalRunner:
                 raise KeyError(f"Planner selected unknown specialist {sid!r}")
             spec = self._specialists[sid]
             spec_result = spec.fn(context)
-            results.append(StepResult(
-                step_id=spec.step_id,
-                agent_name=spec.agent_name,
-                agent_version=spec.agent_version,
-                result=spec_result,
-            ))
+            results.append(
+                StepResult(
+                    step_id=spec.step_id,
+                    agent_name=spec.agent_name,
+                    agent_version=spec.agent_version,
+                    result=spec_result,
+                )
+            )
             context.update(spec_result)
         return context, results

@@ -8,5 +8,5 @@ client_approved_architecture block references this adapter.
 ADAPTER_NAME = "cloud.gcp.bigquery"
 PROVIDER_LABEL = "Google BigQuery"
 SATISFIES = [
-    'DataLake',
+    "DataLake",
 ]

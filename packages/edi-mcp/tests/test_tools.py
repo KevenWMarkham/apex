@@ -35,14 +35,7 @@ def test_parse_850_missing_beg() -> None:
 
 
 def test_parse_856() -> None:
-    payload = (
-        "ST*856*0001~"
-        "BSN*00*ASN-42*20260420*0830~"
-        "HL*1**S~"
-        "HL*2*1*O~"
-        "HL*3*2*P~"
-        "SE*5*0001~"
-    )
+    payload = "ST*856*0001~BSN*00*ASN-42*20260420*0830~HL*1**S~HL*2*1*O~HL*3*2*P~SE*5*0001~"
     result = parse_856(payload)
     assert result["asn_number"] == "ASN-42"
     assert result["hl_segment_count"] == 3
@@ -54,11 +47,13 @@ def test_parse_856_missing_bsn() -> None:
 
 
 def test_emit_810() -> None:
-    result = emit_810({
-        "invoice_number": "INV-42",
-        "invoice_date": "2026-04-20",
-        "total_amount": "99.00",
-    })
+    result = emit_810(
+        {
+            "invoice_number": "INV-42",
+            "invoice_date": "2026-04-20",
+            "total_amount": "99.00",
+        }
+    )
     assert "BIG*20260420*INV-42" in result
     assert "TDS*9900" in result
 

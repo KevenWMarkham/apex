@@ -25,7 +25,13 @@ def test_scml_entities_present() -> None:
     bundle = rc_bundle()
     # Sprint 30.3 added Inventory.
     assert set(bundle.entities["scml"]) == {
-        "SKU", "Inventory", "Location", "Lot", "Shipment", "Supplier", "Item",
+        "SKU",
+        "Inventory",
+        "Location",
+        "Lot",
+        "Shipment",
+        "Supplier",
+        "Item",
     }
 
 
@@ -33,14 +39,22 @@ def test_merml_entities_present() -> None:
     bundle = rc_bundle()
     # Sprint 30.3 added Elasticity + Competitor.
     assert set(bundle.entities["merml"]) == {
-        "Category", "Price", "Promotion", "Markdown", "Elasticity", "Competitor",
+        "Category",
+        "Price",
+        "Promotion",
+        "Markdown",
+        "Elasticity",
+        "Competitor",
     }
 
 
 def test_cxml_entities_present() -> None:
     bundle = rc_bundle()
     assert set(bundle.entities["cxml"]) == {
-        "Customer", "Loyalty", "Interaction", "Order",
+        "Customer",
+        "Loyalty",
+        "Interaction",
+        "Order",
     }
 
 
@@ -61,7 +75,10 @@ def test_crmml_aliases_resolve_to_cxml() -> None:
 
     # Alias map covers the three RC build-status calls out + Order.
     assert set(CRMML_ALIASES) == {
-        "CRMML.Customer", "CRMML.Loyalty", "CRMML.Interaction", "CRMML.Order",
+        "CRMML.Customer",
+        "CRMML.Loyalty",
+        "CRMML.Interaction",
+        "CRMML.Order",
     }
     assert CRMML_ALIASES["CRMML.Customer"] is CxmlCustomer
 
@@ -76,6 +93,7 @@ def test_bundle_is_frozen() -> None:
     bundle = rc_bundle()
     import pytest
     from pydantic import ValidationError
+
     with pytest.raises(ValidationError):
         bundle.name = "something-else"  # type: ignore[misc]
 
@@ -83,8 +101,7 @@ def test_bundle_is_frozen() -> None:
 def test_declarative_yaml_manifest_validates() -> None:
     """The data/schemas.manifest.yaml parses as a valid SchemaManifest."""
     manifest_path = (
-        Path(__file__).parent.parent
-        / "src" / "apex_rc" / "data" / "schemas.manifest.yaml"
+        Path(__file__).parent.parent / "src" / "apex_rc" / "data" / "schemas.manifest.yaml"
     )
     report = validate_manifest(manifest_path)
     assert report.valid, f"Errors: {report.errors}"

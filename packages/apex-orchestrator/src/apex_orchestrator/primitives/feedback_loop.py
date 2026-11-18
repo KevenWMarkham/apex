@@ -38,12 +38,14 @@ class FeedbackLoopRunner:
         results: list[StepResult] = []
         for iteration in range(1, self._max_iterations + 1):
             result = self._producer(context)
-            results.append(StepResult(
-                step_id=f"{self._producer_step_id}_{iteration}",
-                agent_name=self._producer_agent_name,
-                agent_version=self._producer_agent_version,
-                result=result,
-            ))
+            results.append(
+                StepResult(
+                    step_id=f"{self._producer_step_id}_{iteration}",
+                    agent_name=self._producer_agent_name,
+                    agent_version=self._producer_agent_version,
+                    result=result,
+                )
+            )
             if self._evaluator(result, context):
                 context["_feedback_iterations"] = iteration
                 context.update(result)

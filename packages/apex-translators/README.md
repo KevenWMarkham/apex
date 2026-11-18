@@ -20,18 +20,26 @@ to APEX canonical Silver without bespoke per-engagement parsing.
 
 ```python
 from apex_translators import (
-    parse_x12, emit_x12,
-    parse_hl7v2, emit_hl7v2, wrap_mllp, strip_mllp,
+    parse_x12,
+    emit_x12,
+    parse_hl7v2,
+    emit_hl7v2,
+    wrap_mllp,
+    strip_mllp,
     parse_cda,
-    parse_epcis, emit_epcis_json,
-    parse_oagis, emit_oagis,
+    parse_epcis,
+    emit_epcis_json,
+    parse_oagis,
+    emit_oagis,
     parse_padis,
-    ParsedMessage, ParseError, EmitError,
+    ParsedMessage,
+    ParseError,
+    EmitError,
 )
 
 msg = parse_x12(raw_x12_text)
-print(msg.message_type)          # "850"
-print(msg.first("BEG").elements) # ["00", "SA", "PO12345", "", "20250630"]
+print(msg.message_type)  # "850"
+print(msg.first("BEG").elements)  # ["00", "SA", "PO12345", "", "20250630"]
 
 re_rendered = emit_x12(msg)
 assert msg.segments == parse_x12(re_rendered).segments

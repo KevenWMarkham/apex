@@ -60,7 +60,8 @@ class PPTXAdapter(FileAdapter):
         try:
             with zipfile.ZipFile(path) as zf:
                 slide_names = sorted(
-                    n for n in zf.namelist()
+                    n
+                    for n in zf.namelist()
                     if n.startswith("ppt/slides/slide") and n.endswith(".xml")
                 )
                 line_no = 1

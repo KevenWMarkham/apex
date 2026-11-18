@@ -79,48 +79,132 @@ class SPNLayout:
 SPN_LAYOUTS: dict[int, list[SPNLayout]] = {
     # Engine Hours, Revolutions (PGN 65253 / 0xFEE5)
     65253: [
-        SPNLayout(spn=247, start_byte=0, length_bytes=4, scale=0.05, offset=0.0, units="h",
-                  description="Engine Total Hours of Operation"),
-        SPNLayout(spn=249, start_byte=4, length_bytes=4, scale=1000.0, offset=0.0, units="rev",
-                  description="Engine Total Revolutions"),
+        SPNLayout(
+            spn=247,
+            start_byte=0,
+            length_bytes=4,
+            scale=0.05,
+            offset=0.0,
+            units="h",
+            description="Engine Total Hours of Operation",
+        ),
+        SPNLayout(
+            spn=249,
+            start_byte=4,
+            length_bytes=4,
+            scale=1000.0,
+            offset=0.0,
+            units="rev",
+            description="Engine Total Revolutions",
+        ),
     ],
     # Electronic Engine Controller 1 (PGN 61444 / 0xF004)
     61444: [
-        SPNLayout(spn=190, start_byte=3, length_bytes=2, scale=0.125, offset=0.0, units="rpm",
-                  description="Engine Speed"),
-        SPNLayout(spn=512, start_byte=5, length_bytes=1, scale=1.0, offset=-125.0, units="%",
-                  description="Driver's Demand Engine Percent Torque"),
+        SPNLayout(
+            spn=190,
+            start_byte=3,
+            length_bytes=2,
+            scale=0.125,
+            offset=0.0,
+            units="rpm",
+            description="Engine Speed",
+        ),
+        SPNLayout(
+            spn=512,
+            start_byte=5,
+            length_bytes=1,
+            scale=1.0,
+            offset=-125.0,
+            units="%",
+            description="Driver's Demand Engine Percent Torque",
+        ),
     ],
     # Electronic Engine Controller 2 (PGN 61443 / 0xF003)
     61443: [
-        SPNLayout(spn=92, start_byte=2, length_bytes=1, scale=1.0, offset=0.0, units="%",
-                  description="Engine Percent Load at Current Speed"),
+        SPNLayout(
+            spn=92,
+            start_byte=2,
+            length_bytes=1,
+            scale=1.0,
+            offset=0.0,
+            units="%",
+            description="Engine Percent Load at Current Speed",
+        ),
     ],
     # Dash Display 1 — Fuel Level (PGN 65276 / 0xFEFC)
     65276: [
-        SPNLayout(spn=96, start_byte=1, length_bytes=1, scale=0.4, offset=0.0, units="%",
-                  description="Fuel Level"),
+        SPNLayout(
+            spn=96,
+            start_byte=1,
+            length_bytes=1,
+            scale=0.4,
+            offset=0.0,
+            units="%",
+            description="Fuel Level",
+        ),
     ],
     # Vehicle Distance (PGN 65248 / 0xFEE0)
     65248: [
-        SPNLayout(spn=245, start_byte=0, length_bytes=4, scale=0.005, offset=0.0, units="km",
-                  description="Trip Distance"),
-        SPNLayout(spn=244, start_byte=4, length_bytes=4, scale=0.005, offset=0.0, units="km",
-                  description="Total Vehicle Distance"),
+        SPNLayout(
+            spn=245,
+            start_byte=0,
+            length_bytes=4,
+            scale=0.005,
+            offset=0.0,
+            units="km",
+            description="Trip Distance",
+        ),
+        SPNLayout(
+            spn=244,
+            start_byte=4,
+            length_bytes=4,
+            scale=0.005,
+            offset=0.0,
+            units="km",
+            description="Total Vehicle Distance",
+        ),
     ],
     # Fuel Consumption (PGN 65257 / 0xFEE9)
     65257: [
-        SPNLayout(spn=250, start_byte=4, length_bytes=4, scale=0.5, offset=0.0, units="L",
-                  description="Engine Total Fuel Used"),
-        SPNLayout(spn=182, start_byte=0, length_bytes=4, scale=0.5, offset=0.0, units="L",
-                  description="Engine Trip Fuel"),
+        SPNLayout(
+            spn=250,
+            start_byte=4,
+            length_bytes=4,
+            scale=0.5,
+            offset=0.0,
+            units="L",
+            description="Engine Total Fuel Used",
+        ),
+        SPNLayout(
+            spn=182,
+            start_byte=0,
+            length_bytes=4,
+            scale=0.5,
+            offset=0.0,
+            units="L",
+            description="Engine Trip Fuel",
+        ),
     ],
     # Fuel Economy (PGN 65266 / 0xFEF2)
     65266: [
-        SPNLayout(spn=183, start_byte=0, length_bytes=2, scale=0.05, offset=0.0, units="L/h",
-                  description="Engine Fuel Rate"),
-        SPNLayout(spn=184, start_byte=2, length_bytes=2, scale=1.0/256.0, offset=0.0, units="km/L",
-                  description="Engine Instantaneous Fuel Economy"),
+        SPNLayout(
+            spn=183,
+            start_byte=0,
+            length_bytes=2,
+            scale=0.05,
+            offset=0.0,
+            units="L/h",
+            description="Engine Fuel Rate",
+        ),
+        SPNLayout(
+            spn=184,
+            start_byte=2,
+            length_bytes=2,
+            scale=1.0 / 256.0,
+            offset=0.0,
+            units="km/L",
+            description="Engine Instantaneous Fuel Economy",
+        ),
     ],
 }
 
@@ -163,7 +247,7 @@ def decode_frame(frame: CANFrame) -> list[DecodedSignal]:
         end = layout.start_byte + layout.length_bytes
         if end > len(frame.data):
             continue  # Frame too short for this SPN
-        raw = frame.data[layout.start_byte:end]
+        raw = frame.data[layout.start_byte : end]
         # J1939 multi-byte values are little-endian
         raw_int = int.from_bytes(raw, byteorder="little", signed=False)
         # All-bits-set means "not available"; skip

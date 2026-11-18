@@ -29,11 +29,7 @@ class GridEvent(CanonicalEntity):
     event_type: GridEventType
     occurred_start: datetime
     occurred_end: datetime | None = None
-    equipment_key: str | None = Field(
-        None, description="FK → ERCML Asset.entity_id."
-    )
-    severity: int | None = Field(
-        None, ge=1, le=5, description="1 = critical, 5 = informational."
-    )
+    equipment_key: str | None = Field(None, description="FK → ERCML Asset.entity_id.")
+    severity: int | None = Field(None, ge=1, le=5, description="1 = critical, 5 = informational.")
     description: str = ""
     customers_affected: int | None = Field(None, ge=0)

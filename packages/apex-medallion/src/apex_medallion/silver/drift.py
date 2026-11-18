@@ -30,8 +30,7 @@ class DriftReport:
     @property
     def clean(self) -> bool:
         return not (
-            self.added or self.removed
-            or self.type_mismatches or self.nullability_mismatches
+            self.added or self.removed or self.type_mismatches or self.nullability_mismatches
         )
 
     def summary(self) -> str:

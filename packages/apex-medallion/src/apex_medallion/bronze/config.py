@@ -34,7 +34,8 @@ class BronzeLandingConfig(BaseModel):
     source_system: str = Field(..., description="Stable identifier of the SOR.")
     source_pattern: SourcePattern
     source_connection_name: str = Field(
-        ..., description="Fabric / Azure connection reference used by the template.",
+        ...,
+        description="Fabric / Azure connection reference used by the template.",
     )
 
     # --- Target identity ----------------------------------------------------

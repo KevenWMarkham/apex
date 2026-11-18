@@ -33,8 +33,10 @@ class EDIX12Emitter:
             elements = [seg.name, *seg.elements]
             lines.append(delims.element.join(elements))
 
-        return delims.segment.join(lines) + delims.segment + (
-            self.line_separator if self.line_separator else ""
+        return (
+            delims.segment.join(lines)
+            + delims.segment
+            + (self.line_separator if self.line_separator else "")
         )
 
     @staticmethod

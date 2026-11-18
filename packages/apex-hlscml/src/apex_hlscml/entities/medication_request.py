@@ -40,12 +40,8 @@ class MedicationRequest(CanonicalEntity):
     rxnorm_code: RxNormConceptId | None = Field(
         None, description="RxNorm concept ID for the medication."
     )
-    ndc_code: NdcCode | None = Field(
-        None, description="National Drug Code for the product."
-    )
-    medication_display: str = Field(
-        "", description="Human-readable medication name."
-    )
+    ndc_code: NdcCode | None = Field(None, description="National Drug Code for the product.")
+    medication_display: str = Field("", description="Human-readable medication name.")
     patient_key: str = Field(..., description="FK → HLSCML Patient.entity_id.")
     encounter_key: str | None = None
     practitioner_key: str | None = Field(

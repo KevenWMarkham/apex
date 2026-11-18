@@ -49,9 +49,12 @@ class TestEquipment:
             vin17="1HGCM82633A004352",
             serial_number="SN-00001",
             kind=IceEquipmentKind.TRUCK,
-            make="Freightliner", model="Cascadia", model_year=2024,
+            make="Freightliner",
+            model="Cascadia",
+            model_year=2024,
             in_service_date=date(2024, 6, 1),
-            **_envelope(), **_scd2(),
+            **_envelope(),
+            **_scd2(),
         )  # type: ignore[arg-type]
         assert eq.vin17 == "1HGCM82633A004352"
 
@@ -61,7 +64,8 @@ class TestEquipment:
                 aemp_equipment_id="EQ-002",
                 vin17="TOO_SHORT",
                 serial_number="SN-2",
-                **_envelope(), **_scd2(),
+                **_envelope(),
+                **_scd2(),
             )  # type: ignore[arg-type]
 
 
@@ -70,7 +74,8 @@ class TestTelemetry:
         tr = TelemetryReading(
             equipment_key="equipment:EQ-001",
             captured_at=datetime.now(UTC),
-            latitude=37.7749, longitude=-122.4194,
+            latitude=37.7749,
+            longitude=-122.4194,
             engine_hours=Decimal("1234.5"),
             odometer_km=Decimal("187500"),
             fuel_level_pct=Decimal("45.0"),
@@ -136,7 +141,8 @@ class TestAempTranslator:
         aemp = AempSnapshotInput(
             equipment_id="EQ-001",
             timestamp=datetime(2026, 4, 20, 10, 0, tzinfo=UTC),
-            latitude=37.77, longitude=-122.42,
+            latitude=37.77,
+            longitude=-122.42,
             engine_hours=Decimal("1234.5"),
             odometer_km=Decimal("187500"),
             fuel_level_pct=Decimal("45"),

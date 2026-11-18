@@ -23,8 +23,10 @@ def _traveler() -> OtaTraveler:
 
 def test_air_reservation_pnr_exactly_six_chars() -> None:
     seg = OtaAirSegment(
-        flight_number="UA123", airline_code="UA",
-        departure_airport="SFO", arrival_airport="JFK",
+        flight_number="UA123",
+        airline_code="UA",
+        departure_airport="SFO",
+        arrival_airport="JFK",
         departure_datetime=datetime(2026, 5, 1, 8, 0),
         arrival_datetime=datetime(2026, 5, 1, 16, 30),
     )
@@ -40,8 +42,10 @@ def test_air_reservation_pnr_exactly_six_chars() -> None:
 
 def test_air_reservation_rejects_bad_pnr_length() -> None:
     seg = OtaAirSegment(
-        flight_number="UA1", airline_code="UA",
-        departure_airport="SFO", arrival_airport="JFK",
+        flight_number="UA1",
+        airline_code="UA",
+        departure_airport="SFO",
+        arrival_airport="JFK",
         departure_datetime=datetime(2026, 5, 1),
         arrival_datetime=datetime(2026, 5, 1),
     )
@@ -57,12 +61,16 @@ def test_air_reservation_rejects_bad_pnr_length() -> None:
 def test_hotel_reservation_multi_stay() -> None:
     stays = [
         OtaHotelStay(
-            property_code="HIL-SFO", check_in=date(2026, 5, 1),
-            check_out=date(2026, 5, 3), guests=1,
+            property_code="HIL-SFO",
+            check_in=date(2026, 5, 1),
+            check_out=date(2026, 5, 3),
+            guests=1,
         ),
         OtaHotelStay(
-            property_code="HIL-NYC", check_in=date(2026, 5, 3),
-            check_out=date(2026, 5, 5), guests=1,
+            property_code="HIL-NYC",
+            check_in=date(2026, 5, 3),
+            check_out=date(2026, 5, 5),
+            guests=1,
         ),
     ]
     res = OtaHotelReservation(
@@ -91,7 +99,8 @@ def test_car_reservation_with_acriss_code() -> None:
 def test_airport_code_validation() -> None:
     with pytest.raises(ValidationError):
         OtaAirSegment(
-            flight_number="UA1", airline_code="UA",
+            flight_number="UA1",
+            airline_code="UA",
             departure_airport="TOO_LONG",  # > 3 chars
             arrival_airport="JFK",
             departure_datetime=datetime.now(),
@@ -102,6 +111,8 @@ def test_airport_code_validation() -> None:
 def test_guests_must_be_at_least_one() -> None:
     with pytest.raises(ValidationError):
         OtaHotelStay(
-            property_code="HIL-SFO", check_in=date(2026, 5, 1),
-            check_out=date(2026, 5, 3), guests=0,
+            property_code="HIL-SFO",
+            check_in=date(2026, 5, 1),
+            check_out=date(2026, 5, 3),
+            guests=0,
         )

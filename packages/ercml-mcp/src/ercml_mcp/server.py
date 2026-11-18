@@ -7,7 +7,9 @@ def main() -> None:  # pragma: no cover
     from mcp.server.fastmcp import FastMCP  # type: ignore[import-not-found]
 
     from ercml_mcp.tools import (
-        get_meter_by_key, list_grid_events_by_type, list_recent_readings,
+        get_meter_by_key,
+        list_grid_events_by_type,
+        list_recent_readings,
     )
 
     mcp = FastMCP("ercml-mcp")

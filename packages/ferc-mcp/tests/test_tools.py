@@ -17,20 +17,22 @@ from mcp_common import McpError, McpErrorCode
 
 @pytest.fixture(autouse=True)
 def _seed() -> None:
-    set_ferc_backend(InMemoryFercBackend(
-        enforcement=[
-            {"docket": "IN-25-1", "date": "2025-09-15", "party": "Acme Utility"},
-            {"docket": "IN-26-3", "date": "2026-02-01", "party": "Beta Power"},
-        ],
-        interconnection={
-            "Q-1001": {"queue_id": "Q-1001", "capacity_mw": 150, "status": "study"},
-        },
-        filings=[
-            {"filer": "utility-A", "filed_date": "2026-03-01", "doc_id": "F-1"},
-            {"filer": "utility-A", "filed_date": "2026-01-15", "doc_id": "F-2"},
-            {"filer": "utility-B", "filed_date": "2026-03-15", "doc_id": "F-3"},
-        ],
-    ))
+    set_ferc_backend(
+        InMemoryFercBackend(
+            enforcement=[
+                {"docket": "IN-25-1", "date": "2025-09-15", "party": "Acme Utility"},
+                {"docket": "IN-26-3", "date": "2026-02-01", "party": "Beta Power"},
+            ],
+            interconnection={
+                "Q-1001": {"queue_id": "Q-1001", "capacity_mw": 150, "status": "study"},
+            },
+            filings=[
+                {"filer": "utility-A", "filed_date": "2026-03-01", "doc_id": "F-1"},
+                {"filer": "utility-A", "filed_date": "2026-01-15", "doc_id": "F-2"},
+                {"filer": "utility-B", "filed_date": "2026-03-15", "doc_id": "F-3"},
+            ],
+        )
+    )
 
 
 def test_list_enforcement() -> None:

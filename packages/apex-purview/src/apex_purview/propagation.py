@@ -174,9 +174,7 @@ def validate_propagation(
             )
         for inp in n.inputs:
             if inp not in by_name:
-                raise ValueError(
-                    f"Node {n.name!r} references unknown input {inp!r}."
-                )
+                raise ValueError(f"Node {n.name!r} references unknown input {inp!r}.")
 
     report = PropagationReport()
     for n in nodes:
@@ -286,12 +284,8 @@ def build_propagation_graph(
                     existing_names.add(s)
 
             # Gold node inherits most-restrictive of its silver inputs
-            silver_classes = [
-                _find_classification(nodes, s) for s in silver_qnames
-            ]
-            gold_class = (
-                most_restrictive(silver_classes) if silver_classes else "internal"
-            )
+            silver_classes = [_find_classification(nodes, s) for s in silver_qnames]
+            gold_class = most_restrictive(silver_classes) if silver_classes else "internal"
             nodes.append(
                 PropagationNode(
                     name=gold_qname,

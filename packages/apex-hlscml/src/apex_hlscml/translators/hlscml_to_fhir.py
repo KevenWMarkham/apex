@@ -110,8 +110,7 @@ def observation_to_fhir(obs: Observation) -> FhirObservation:
         code=code,
         subject=FhirReference(reference=f"Patient/{obs.patient_key}"),
         encounter=(
-            FhirReference(reference=f"Encounter/{obs.encounter_key}")
-            if obs.encounter_key else None
+            FhirReference(reference=f"Encounter/{obs.encounter_key}") if obs.encounter_key else None
         ),
         effectiveDateTime=obs.effective_ts,  # type: ignore[call-arg]
         valueQuantity=value_quantity,  # type: ignore[call-arg]

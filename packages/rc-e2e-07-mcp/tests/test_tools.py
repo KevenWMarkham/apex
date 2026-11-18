@@ -137,7 +137,9 @@ def test_get_fraud_score_basis_default_strips_loss_economics() -> None:
 def test_get_fraud_score_basis_with_loss_economics_returns_trade_secret() -> None:
     """include_loss_economics=True returns the TRADE_SECRET blocks."""
     basis = get_fraud_score_basis(
-        event_id="RET-001", depth=2, include_loss_economics=True,
+        event_id="RET-001",
+        depth=2,
+        include_loss_economics=True,
     )
     assert "loss_economics" in basis
     assert basis["loss_economics"]["_classification"] == "trade_secret"
@@ -278,7 +280,8 @@ def test_commit_hold_decision_conflict_on_param_mismatch() -> None:
     commit_hold_decision(decision_class="auto_clear", **base)  # type: ignore[arg-type]
     with pytest.raises(McpError) as exc:
         commit_hold_decision(  # type: ignore[arg-type]
-            decision_class="approve_at_hitl", **base,
+            decision_class="approve_at_hitl",
+            **base,
         )
     assert exc.value.code is McpErrorCode.CONFLICT
 
@@ -290,7 +293,7 @@ def test_commit_hold_decision_rejects_out_of_bound_fraud_score() -> None:
             return_event_id="RET-001",
             decision_class="auto_clear",
             operator_principal="agent-system",
-            fraud_score=1.5,    # > 1.0 invalid
+            fraud_score=1.5,  # > 1.0 invalid
         )
     assert exc.value.code is McpErrorCode.INVALID_INPUT
 
@@ -317,17 +320,13 @@ def test_contracts_declare_required_scopes() -> None:
 
 
 def test_fraud_basis_contract_propagates_pii_and_trade_secret() -> None:
-    basis_contract = next(
-        c for c in CONTRACTS if c.name.endswith("get_fraud_score_basis")
-    )
+    basis_contract = next(c for c in CONTRACTS if c.name.endswith("get_fraud_score_basis"))
     assert Classification.PII in basis_contract.classification_propagation
     assert Classification.TRADE_SECRET in basis_contract.classification_propagation
 
 
 def test_return_event_contract_propagates_pii_only() -> None:
-    return_contract = next(
-        c for c in CONTRACTS if c.name.endswith("get_return_event")
-    )
+    return_contract = next(c for c in CONTRACTS if c.name.endswith("get_return_event"))
     assert Classification.PII in return_contract.classification_propagation
     # TRADE_SECRET fields require the include_loss_economics path on basis tool only
     assert Classification.TRADE_SECRET not in return_contract.classification_propagation

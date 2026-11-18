@@ -55,10 +55,12 @@ class TestMeterRoundTrip:
 
     def test_round_trip(self) -> None:
         cim = CimMeter(
-            m_rid=_mrid(), serial_number="GAS-99",
+            m_rid=_mrid(),
+            serial_number="GAS-99",
             kind=CimMeterKind.GAS,
             install_date=datetime(2026, 1, 1, tzinfo=UTC),
-            customer_mrid=_mrid(), location_mrid=_mrid(),
+            customer_mrid=_mrid(),
+            location_mrid=_mrid(),
         )
         meter = meter_from_cim(cim)
         back = meter_to_cim(meter)
@@ -85,8 +87,10 @@ class TestReading:
 
     def test_unknown_quality_falls_back_to_measured(self) -> None:
         cim = CimReading(
-            meter_mrid=_mrid(), timestamp=datetime.now(UTC),
-            value=Decimal("1"), unit=UnitSymbol.KWH,
+            meter_mrid=_mrid(),
+            timestamp=datetime.now(UTC),
+            value=Decimal("1"),
+            unit=UnitSymbol.KWH,
             quality_flag="something-weird",
         )
         r = meter_reading_from_cim(cim, meter_key="meter:1")
@@ -118,7 +122,8 @@ class TestGridEvent:
 class TestAssetRoundTrip:
     def test_round_trip(self) -> None:
         cim = CimAsset(
-            m_rid=_mrid(), name="Transformer T1",
+            m_rid=_mrid(),
+            name="Transformer T1",
             asset_type="PowerTransformer",
             in_service_date=datetime(2020, 6, 15, tzinfo=UTC),
             lifecycle_state="in_service",
@@ -146,8 +151,10 @@ class TestWorkOrder:
 
     def test_unknown_status_falls_back(self) -> None:
         cim = CimWorkOrder(
-            m_rid=_mrid(), work_order_number="WO-2",
-            status="mysterious", created=datetime.now(UTC),
+            m_rid=_mrid(),
+            work_order_number="WO-2",
+            status="mysterious",
+            created=datetime.now(UTC),
         )
         wo = work_order_from_cim(cim)
         assert wo.status is WorkOrderStatus.OPEN

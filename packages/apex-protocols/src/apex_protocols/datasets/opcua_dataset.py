@@ -79,10 +79,10 @@ OPCUA_NODESET_XML = """<?xml version="1.0" encoding="utf-8"?>
 # Synthetic snapshot for the OPCUAStubClient — paired with the NodeSet above.
 OPCUA_SNAPSHOT: dict[str, object] = {
     "ns=2;s=Line7.Press4.ServoMotor.VibrationRMS": 4.21,
-    "ns=2;s=Line7.Press4.ServoMotor.CurrentDraw":  18.6,
-    "ns=2;s=Line7.Press4.ServoMotor.Temperature":  62.3,
-    "ns=2;s=Line7.Press4.CycleCounter":            142_318,
-    "ns=2;s=Line7.QualityCell.RejectCount":        7,
-    "ns=2;s=Line7.MES.JobId":                      "JOB-2025-Q3-08812",
-    "ns=2;s=Line7.OperatorId":                     "OP-31415",
+    "ns=2;s=Line7.Press4.ServoMotor.CurrentDraw": 18.6,
+    "ns=2;s=Line7.Press4.ServoMotor.Temperature": 62.3,
+    "ns=2;s=Line7.Press4.CycleCounter": 142_318,
+    "ns=2;s=Line7.QualityCell.RejectCount": 7,
+    "ns=2;s=Line7.MES.JobId": "JOB-2025-Q3-08812",
+    "ns=2;s=Line7.OperatorId": "OP-31415",
 }

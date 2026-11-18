@@ -8,6 +8,8 @@ from merml_mcp.tools import (
 )
 
 __all__ = [
-    "CONTRACTS", "get_current_price",
-    "list_active_promotions", "list_recent_markdowns",
+    "CONTRACTS",
+    "get_current_price",
+    "list_active_promotions",
+    "list_recent_markdowns",
 ]

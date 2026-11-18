@@ -22,9 +22,7 @@ class OAGISEmitter:
 
     def emit(self, message: ParsedMessage) -> str:
         if message.format != "oagis":
-            raise EmitError(
-                f"OAGIS emitter requires format='oagis', got {message.format!r}"
-            )
+            raise EmitError(f"OAGIS emitter requires format='oagis', got {message.format!r}")
         verb = message.metadata.get("verb", "Sync")
         if not message.message_type:
             raise EmitError("OAGIS message_type is required (e.g., 'SyncItem')")
@@ -35,9 +33,7 @@ class OAGISEmitter:
         app = ET.SubElement(root, "ApplicationArea")
         sender = ET.SubElement(app, "Sender")
         ET.SubElement(sender, "LogicalID").text = message.sender or ""
-        ET.SubElement(app, "CreationDateTime").text = message.metadata.get(
-            "creation_datetime", ""
-        )
+        ET.SubElement(app, "CreationDateTime").text = message.metadata.get("creation_datetime", "")
         ET.SubElement(app, "BODID").text = message.control_number or ""
 
         # DataArea

@@ -48,9 +48,7 @@ class OPCUAStubClient:
         if not self._connected:
             raise ProtocolConnectionError("OPCUAStubClient is not connected")
         if node_id not in self._snapshot:
-            raise ProtocolConnectionError(
-                f"NodeId {node_id!r} not in stub snapshot"
-            )
+            raise ProtocolConnectionError(f"NodeId {node_id!r} not in stub snapshot")
         return Sample(
             node_id=node_id,
             value=self._snapshot[node_id],

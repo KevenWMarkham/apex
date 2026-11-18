@@ -49,9 +49,7 @@ class EPCISParser:
             return self._parse_json(raw)
         if stripped.startswith("<"):
             return self._parse_xml(raw)
-        raise ParseError(
-            "EPCIS payload first non-whitespace character must be '{', '[', or '<'"
-        )
+        raise ParseError("EPCIS payload first non-whitespace character must be '{', '[', or '<'")
 
     # -------------------------- JSON -----------------------------------
 
@@ -68,9 +66,7 @@ class EPCISParser:
         msg.version = doc.get("schemaVersion", "2.0")
 
         # Document creation date
-        msg.metadata["creation_date"] = doc.get(
-            "creationDate", doc.get("epcis:creationDate", "")
-        )
+        msg.metadata["creation_date"] = doc.get("creationDate", doc.get("epcis:creationDate", ""))
         msg.metadata["context"] = doc.get("@context", "")
 
         # Events live in epcisBody.eventList
@@ -83,9 +79,7 @@ class EPCISParser:
             if not isinstance(event, dict):
                 continue
             event_type = event.get("type") or event.get("@type") or "ObjectEvent"
-            msg.segments.append(
-                Segment(name=event_type, data=dict(event))
-            )
+            msg.segments.append(Segment(name=event_type, data=dict(event)))
 
         return msg
 

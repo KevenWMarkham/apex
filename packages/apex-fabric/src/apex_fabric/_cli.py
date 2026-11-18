@@ -45,9 +45,7 @@ def validate_name_cmd(name: str = typer.Argument(...)) -> None:
     """
     if not validate_workspace_name(name):
         typer.echo(f"FAIL: {name} does not match canonical pattern.")
-        typer.echo(
-            "Expected: apex-{practice}-{environment}-{role}[-{suffix}]"
-        )
+        typer.echo("Expected: apex-{practice}-{environment}-{role}[-{suffix}]")
         typer.echo(f"  Practices:    {', '.join(PRACTICES)}")
         typer.echo(f"  Environments: {', '.join(ENVIRONMENTS)}")
         typer.echo(f"  Roles:        {', '.join(ROLES)}")

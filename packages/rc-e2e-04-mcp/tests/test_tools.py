@@ -50,8 +50,14 @@ def _seed_fabric() -> InMemoryFabricBackend:
                     "customer_token": "tok-cust-A",
                     "predicted_ltv_decline_24m_usd": 1820.00,
                     "response_elasticity_curve": {
-                        "5": 4.2, "10": 7.5, "15": 11.0, "20": 14.5,
-                        "25": 18.5, "30": 22.0, "40": 27.0, "50": 30.5,
+                        "5": 4.2,
+                        "10": 7.5,
+                        "15": 11.0,
+                        "20": 14.5,
+                        "25": 18.5,
+                        "30": 22.0,
+                        "40": 27.0,
+                        "50": 30.5,
                     },
                     "matched_offer_rules": [
                         {
@@ -157,10 +163,18 @@ def test_get_winback_offer_basis_requires_token() -> None:
 
 def _make_offers() -> list[dict]:
     return [
-        {"customer_token": "tok-cust-A", "offer_kind": "percent_off",
-         "offer_depth_pct": 25.0, "offer_amount_usd": None},
-        {"customer_token": "tok-cust-B", "offer_kind": "bonus_points",
-         "offer_depth_pct": None, "offer_amount_usd": 5.0},
+        {
+            "customer_token": "tok-cust-A",
+            "offer_kind": "percent_off",
+            "offer_depth_pct": 25.0,
+            "offer_amount_usd": None,
+        },
+        {
+            "customer_token": "tok-cust-B",
+            "offer_kind": "bonus_points",
+            "offer_depth_pct": None,
+            "offer_amount_usd": 5.0,
+        },
     ]
 
 
@@ -282,16 +296,12 @@ def test_contracts_declare_required_scopes() -> None:
 
 
 def test_pricing_basis_contract_propagates_trade_secret_and_pii() -> None:
-    basis_contract = next(
-        c for c in CONTRACTS if c.name.endswith("get_winback_offer_basis")
-    )
+    basis_contract = next(c for c in CONTRACTS if c.name.endswith("get_winback_offer_basis"))
     assert Classification.TRADE_SECRET in basis_contract.classification_propagation
     assert Classification.PII in basis_contract.classification_propagation
 
 
 def test_cohort_contract_propagates_pii_only() -> None:
-    cohort_contract = next(
-        c for c in CONTRACTS if c.name.endswith("get_loyalty_churn_cohort")
-    )
+    cohort_contract = next(c for c in CONTRACTS if c.name.endswith("get_loyalty_churn_cohort"))
     assert Classification.PII in cohort_contract.classification_propagation
     assert Classification.TRADE_SECRET not in cohort_contract.classification_propagation

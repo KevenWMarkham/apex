@@ -56,7 +56,8 @@ class TestPurviewPayload:
     def test_minimal(self) -> None:
         policy = RetentionPolicy()
         payload = build_purview_retention_payload(
-            policy, asset_path="OneLake/bronze/scml/sku",
+            policy,
+            asset_path="OneLake/bronze/scml/sku",
         )
         assert payload["asset_path"] == "OneLake/bronze/scml/sku"
         assert payload["retention"]["duration_days"] == 7 * 365

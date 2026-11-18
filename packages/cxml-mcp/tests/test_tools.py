@@ -17,20 +17,22 @@ from mcp_common import McpError, McpErrorCode
 
 @pytest.fixture(autouse=True)
 def _seed() -> None:
-    set_fabric_backend(InMemoryFabricBackend(
-        entities={
-            ("customer", "cust-1"): {"customer_natural": "cust-1", "email_token": "tok_xyz"},
-        },
-        views={
-            "gold_cxml.order": [
-                {"order_natural": "O-1", "customer_key": "cust-1"},
-                {"order_natural": "O-2", "customer_key": "cust-1"},
-            ],
-            "gold_cxml.interaction": [
-                {"event_id": "i-1", "customer_key": "cust-1", "channel": "WEB"},
-            ],
-        },
-    ))
+    set_fabric_backend(
+        InMemoryFabricBackend(
+            entities={
+                ("customer", "cust-1"): {"customer_natural": "cust-1", "email_token": "tok_xyz"},
+            },
+            views={
+                "gold_cxml.order": [
+                    {"order_natural": "O-1", "customer_key": "cust-1"},
+                    {"order_natural": "O-2", "customer_key": "cust-1"},
+                ],
+                "gold_cxml.interaction": [
+                    {"event_id": "i-1", "customer_key": "cust-1", "channel": "WEB"},
+                ],
+            },
+        )
+    )
 
 
 def test_get_customer() -> None:

@@ -36,7 +36,9 @@ def test_render_practice_handles_pipe_in_title() -> None:
     idx = ScenarioIndex(scenarios)
     md = render_practice_markdown(idx, "RC")
     # Markdown table doesn't break: every row has 4 pipes plus newline
-    body_lines = [line for line in md.splitlines() if line.startswith("|") and not line.startswith("|---")]
+    body_lines = [
+        line for line in md.splitlines() if line.startswith("|") and not line.startswith("|---")
+    ]
     for line in body_lines:
         # 5 pipes per row (start, between 4 columns, end)
         assert line.count("|") == 5

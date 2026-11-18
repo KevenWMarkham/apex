@@ -16,9 +16,7 @@ class EPCISEmitter:
 
     def emit(self, message: ParsedMessage) -> str:
         if message.format != "epcis":
-            raise EmitError(
-                f"EPCIS emitter requires format='epcis', got {message.format!r}"
-            )
+            raise EmitError(f"EPCIS emitter requires format='epcis', got {message.format!r}")
         events = []
         for seg in message.segments:
             event = dict(seg.data)

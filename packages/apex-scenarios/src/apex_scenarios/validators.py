@@ -209,9 +209,29 @@ _AGENT_NAME_RE = re.compile(
 #: stripped from the leading edge of a captured agent-name phrase.
 #: A real agent name does not start with any of these.
 _LEADING_NONNAME = {
-    "the", "a", "an", "this", "that", "these", "those",
-    "and", "or", "but", "for", "with", "by", "of", "from", "to", "into",
-    "on", "at", "as", "via", "through", "across",
+    "the",
+    "a",
+    "an",
+    "this",
+    "that",
+    "these",
+    "those",
+    "and",
+    "or",
+    "but",
+    "for",
+    "with",
+    "by",
+    "of",
+    "from",
+    "to",
+    "into",
+    "on",
+    "at",
+    "as",
+    "via",
+    "through",
+    "across",
 }
 
 #: Maximum noun-phrase length (in words) to retain. Empirically a
@@ -305,9 +325,7 @@ def validate_agent_references(
             continue
 
         if agent_catalog_names is not None:
-            unresolved = [
-                r for r in refs if not _agent_resolves(r, agent_catalog_names)
-            ]
+            unresolved = [r for r in refs if not _agent_resolves(r, agent_catalog_names)]
             for u in unresolved:
                 report.issues.append(
                     ValidationIssue(
@@ -337,9 +355,7 @@ _VALUE_PCT = r"\d+(?:\.\d+)?(?:[\-\u2013]\d+(?:\.\d+)?)?"
 _UNIT_PCT = r"(?:%|pp|pts?|bps|x)?"
 _KPI_NAME = r"[A-Za-z][A-Za-z0-9 \-/&]*?"
 
-_KPI_DELTA_PCT_RE = re.compile(
-    rf"^[+\-\u2212]?\s*{_VALUE_PCT}\s*{_UNIT_PCT}\s+({_KPI_NAME})\s*$"
-)
+_KPI_DELTA_PCT_RE = re.compile(rf"^[+\-\u2212]?\s*{_VALUE_PCT}\s*{_UNIT_PCT}\s+({_KPI_NAME})\s*$")
 _KPI_DELTA_MONEY_RE = re.compile(
     rf"^[+\-\u2212]?\s*\$\s*{_VALUE_PCT}\s*[KMB]?(?:/yr)?\s+({_KPI_NAME})\s*$"
 )
@@ -442,6 +458,7 @@ def classify_library_bump(
     - **MAJOR** — at least one field-schema change (a key added or
       removed from the :class:`Scenario` model on at least one row).
     """
+
     def _key(s: Scenario) -> str:
         return f"{s.practice or '?'}::{s.service_code}::{s.title}"
 

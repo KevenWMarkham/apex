@@ -21,8 +21,16 @@ from apex_translators.base import (
 
 
 OAGIS_VERBS: tuple[str, ...] = (
-    "Get", "Show", "Process", "Acknowledge",
-    "Sync", "Confirm", "Notify", "Cancel", "Update", "Change",
+    "Get",
+    "Show",
+    "Process",
+    "Acknowledge",
+    "Sync",
+    "Confirm",
+    "Notify",
+    "Cancel",
+    "Update",
+    "Change",
 )
 
 
@@ -73,9 +81,7 @@ class OAGISParser:
         # DataArea — Verb element + 1..N Noun elements
         data_area = _find_local(root, "DataArea")
         if data_area is None:
-            raise ParseError(
-                f"OAGIS BOD {local_root!r} missing DataArea"
-            )
+            raise ParseError(f"OAGIS BOD {local_root!r} missing DataArea")
 
         for child in list(data_area):
             local = child.tag.split("}")[-1]

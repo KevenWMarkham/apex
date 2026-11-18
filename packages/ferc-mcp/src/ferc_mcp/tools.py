@@ -34,7 +34,8 @@ class InMemoryFercBackend:
 
     def list_filings(self, filer: str, since: date, limit: int) -> list[dict]:
         return [
-            f for f in self.filings
+            f
+            for f in self.filings
             if f["filer"] == filer and date.fromisoformat(f["filed_date"]) >= since
         ][:limit]
 
@@ -69,7 +70,8 @@ def list_enforcement_actions(
     with traced_call(
         tool_name=f"{SERVER_NAME}.list_enforcement_actions",
         tool_version=TOOL_VERSION,
-        agent_id=agent_id, caller_identity=caller_identity,
+        agent_id=agent_id,
+        caller_identity=caller_identity,
         parameters={"since_iso": since_iso, "limit": limit},
         classification_applied=[Classification.PUBLIC],
     ) as ctx:
@@ -88,7 +90,8 @@ def get_interconnection_queue_status(
     with traced_call(
         tool_name=f"{SERVER_NAME}.get_interconnection_queue_status",
         tool_version=TOOL_VERSION,
-        agent_id=agent_id, caller_identity=caller_identity,
+        agent_id=agent_id,
+        caller_identity=caller_identity,
         parameters={"queue_id": queue_id},
         classification_applied=[Classification.PUBLIC],
     ) as ctx:
@@ -115,7 +118,8 @@ def list_compliance_filings(
     with traced_call(
         tool_name=f"{SERVER_NAME}.list_compliance_filings",
         tool_version=TOOL_VERSION,
-        agent_id=agent_id, caller_identity=caller_identity,
+        agent_id=agent_id,
+        caller_identity=caller_identity,
         parameters={"filer": filer, "since_iso": since_iso, "limit": limit},
         classification_applied=[Classification.PUBLIC],
     ) as ctx:
@@ -126,17 +130,20 @@ def list_compliance_filings(
 
 CONTRACTS: list[ToolContract] = [
     ToolContract(
-        name=f"{SERVER_NAME}.list_enforcement_actions", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.list_enforcement_actions",
+        version=TOOL_VERSION,
         description="List FERC enforcement actions since a date.",
         classification_propagation=[Classification.PUBLIC],
     ),
     ToolContract(
-        name=f"{SERVER_NAME}.get_interconnection_queue_status", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.get_interconnection_queue_status",
+        version=TOOL_VERSION,
         description="Return an interconnection queue's current status.",
         classification_propagation=[Classification.PUBLIC],
     ),
     ToolContract(
-        name=f"{SERVER_NAME}.list_compliance_filings", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.list_compliance_filings",
+        version=TOOL_VERSION,
         description="List compliance filings by a filer since a date.",
         classification_propagation=[Classification.PUBLIC],
     ),

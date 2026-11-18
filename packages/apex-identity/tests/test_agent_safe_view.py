@@ -21,11 +21,13 @@ class _Patient(BaseModel):
 
 
 def _scope(
-    *, classifications: set[Classification] | None = None,
+    *,
+    classifications: set[Classification] | None = None,
     row_filters: dict[str, str] | None = None,
 ) -> ScopeContext:
     return ScopeContext(
-        tenant_id="t", practice=Practice.HLS,
+        tenant_id="t",
+        practice=Practice.HLS,
         classification_visibility=frozenset(classifications or set()),
         row_filters=row_filters or {},
     )
@@ -33,8 +35,11 @@ def _scope(
 
 def test_masks_phi_when_not_in_scope() -> None:
     p = _Patient(
-        fhir_id="ex", mrn_token="tok_mrn",
-        name_family_token="tok_fam", birth_year=1990, gender="female",
+        fhir_id="ex",
+        mrn_token="tok_mrn",
+        name_family_token="tok_fam",
+        birth_year=1990,
+        gender="female",
     )
     masked = apply_agent_safe_view(p, _scope())
     assert masked is not None
@@ -53,7 +58,8 @@ def test_preserves_phi_when_in_scope() -> None:
 def test_row_filter_mismatch_returns_none() -> None:
     p = _Patient(fhir_id="ex", region="EU-EAST")
     result = apply_agent_safe_view(
-        p, _scope(row_filters={"region": "US-WEST"}),
+        p,
+        _scope(row_filters={"region": "US-WEST"}),
     )
     assert result is None
 
@@ -61,7 +67,8 @@ def test_row_filter_mismatch_returns_none() -> None:
 def test_row_filter_match_with_masking() -> None:
     p = _Patient(fhir_id="ex", mrn_token="tok_x", region="US-WEST")
     result = apply_agent_safe_view(
-        p, _scope(row_filters={"region": "US-WEST"}),
+        p,
+        _scope(row_filters={"region": "US-WEST"}),
     )
     assert result is not None
     assert result.mrn_token is None  # still masked — no PHI scope

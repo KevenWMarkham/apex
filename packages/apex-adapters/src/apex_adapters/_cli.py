@@ -88,11 +88,13 @@ def validate_all_cmd() -> None:
 def smoke_test_cmd(
     adapter_name: str = typer.Argument(..., help="Registered adapter name."),
     manifest: Path | None = typer.Option(
-        None, "--manifest",
+        None,
+        "--manifest",
         help="Override the shipped manifest with an external YAML.",
     ),
     golden: Path | None = typer.Option(
-        None, "--golden",
+        None,
+        "--golden",
         help="Optional golden-dataset JSON for fixture replay.",
     ),
     limit: int = typer.Option(100, "--limit", help="Max rows per mapping."),

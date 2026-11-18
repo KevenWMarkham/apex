@@ -74,7 +74,9 @@ def inspect_cmd(
                 typer.echo(f"service_code:        {spec.service_code}")
                 typer.echo(f"display_name:        {spec.display_name}")
                 typer.echo(f"practice:            {spec.practice}")
-                typer.echo(f"primary_persona:     {spec.primary_persona().name if spec.primary_persona() else '(none)'}")
+                typer.echo(
+                    f"primary_persona:     {spec.primary_persona().name if spec.primary_persona() else '(none)'}"
+                )
                 typer.echo(f"commercial_model:    {spec.commercial_model.value}")
                 typer.echo(f"value_share_elig:    {spec.value_share_eligible}")
                 typer.echo(f"linked_agents:       {len(spec.linked_agents)}")
@@ -96,7 +98,9 @@ def inspect_cmd(
                 for wave in (Wave.WAVE_1, Wave.WAVE_2, Wave.WAVE_3):
                     we = spec.wave_envelope(wave)
                     if we:
-                        typer.echo(f"  {wave.value}  ${we.fee_band_low_usd:,}-${we.fee_band_high_usd:,}  ({we.duration})")
+                        typer.echo(
+                            f"  {wave.value}  ${we.fee_band_low_usd:,}-${we.fee_band_high_usd:,}  ({we.duration})"
+                        )
                 return
     typer.echo(f"Service {service_code!r} not found.")
     raise typer.Exit(code=1)
@@ -108,6 +112,7 @@ def validate_cmd() -> None:
     # Try to cross-reference against the agent catalog
     try:
         from apex_agents.framework import scan_all_catalogs as agent_scan
+
         agents = set()
         for entries in agent_scan().values():
             for e in entries:

@@ -8,5 +8,5 @@ client_approved_architecture block references this adapter.
 ADAPTER_NAME = "saas.salesforce"
 PROVIDER_LABEL = "Salesforce"
 SATISFIES = [
-    'DataLake',
+    "DataLake",
 ]

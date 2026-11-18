@@ -23,7 +23,9 @@ class ParallelRunner:
         self._steps: list[_Step] = []
         self._max_workers = max_workers
 
-    def add(self, *, step_id: str, agent_name: str, agent_version: str, fn: StepFn) -> "ParallelRunner":
+    def add(
+        self, *, step_id: str, agent_name: str, agent_version: str, fn: StepFn
+    ) -> "ParallelRunner":
         self._steps.append(_Step(step_id, agent_name, agent_version, fn))
         return self
 
@@ -38,12 +40,14 @@ class ParallelRunner:
             futures = {pool.submit(s.fn, context): s for s in self._steps}
             for fut, step in futures.items():
                 result = fut.result()
-                results.append(StepResult(
-                    step_id=step.step_id,
-                    agent_name=step.agent_name,
-                    agent_version=step.agent_version,
-                    result=result,
-                ))
+                results.append(
+                    StepResult(
+                        step_id=step.step_id,
+                        agent_name=step.agent_name,
+                        agent_version=step.agent_version,
+                        result=result,
+                    )
+                )
                 context.update(result)
 
         # Keep results in declaration order for determinism

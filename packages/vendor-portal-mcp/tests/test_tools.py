@@ -17,20 +17,22 @@ from vendor_portal_mcp import (
 
 @pytest.fixture(autouse=True)
 def _seed() -> None:
-    set_vendor_backend(InMemoryVendorBackend(
-        statuses={
-            "v-001": {"vendor_id": "v-001", "active": True, "tier": "primary"},
-        },
-        orders_by_vendor={
-            "v-001": [
-                {"order_id": "O-1", "total": 5000},
-                {"order_id": "O-2", "total": 2500},
-            ],
-        },
-        compliance={
-            "v-001": {"vendor_id": "v-001", "score": 92, "last_audit": "2026-03-01"},
-        },
-    ))
+    set_vendor_backend(
+        InMemoryVendorBackend(
+            statuses={
+                "v-001": {"vendor_id": "v-001", "active": True, "tier": "primary"},
+            },
+            orders_by_vendor={
+                "v-001": [
+                    {"order_id": "O-1", "total": 5000},
+                    {"order_id": "O-2", "total": 2500},
+                ],
+            },
+            compliance={
+                "v-001": {"vendor_id": "v-001", "score": 92, "last_audit": "2026-03-01"},
+            },
+        )
+    )
 
 
 def test_get_status() -> None:
@@ -61,6 +63,7 @@ def test_compliance_score() -> None:
 
 def test_compliance_carries_trade_secret_classification() -> None:
     from apex_core.types import Classification
+
     contract = next(c for c in CONTRACTS if "compliance" in c.name)
     assert Classification.TRADE_SECRET in contract.classification_propagation
 

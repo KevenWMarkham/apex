@@ -102,10 +102,15 @@ def find_cache_call_sites(root: Path) -> list[CacheCallSite]:
         #   necessarily passes variable tool names through
         # - lint module + tests for these modules call the helpers intentionally
         rel = path.as_posix()
-        if any(hint in rel for hint in (
-            "redis_client", "lint_cache_governance",
-            "mcp/dispatcher", "mcp\\dispatcher",
-        )):
+        if any(
+            hint in rel
+            for hint in (
+                "redis_client",
+                "lint_cache_governance",
+                "mcp/dispatcher",
+                "mcp\\dispatcher",
+            )
+        ):
             continue
         if path.name.startswith("test_") and any(
             hint in path.name for hint in ("redis_client", "mcp_dispatcher")
@@ -123,8 +128,7 @@ def find_cache_call_sites(root: Path) -> list[CacheCallSite]:
                 continue
             tool_name = _first_string_arg(node)
             has_entra = any(
-                kw.arg == "entra_scope"
-                and isinstance(kw.value, (ast.Constant, ast.Name))
+                kw.arg == "entra_scope" and isinstance(kw.value, (ast.Constant, ast.Name))
                 for kw in node.keywords
             ) or _positional_entra_scope_present(node, func_name)
             sites.append(
@@ -176,15 +180,18 @@ def main(argv: list[str] | None = None) -> int:
         )
     )
     parser.add_argument(
-        "--root", default=".",
+        "--root",
+        default=".",
         help="Repo root (default: current directory).",
     )
     parser.add_argument(
-        "--charter", default=str(CHARTER_PATH),
+        "--charter",
+        default=str(CHARTER_PATH),
         help="Path to CHARTER.md (default: apex-workspace/CHARTER.md).",
     )
     parser.add_argument(
-        "--scan", default="packages",
+        "--scan",
+        default="packages",
         help="Directory to scan for cache calls (default: packages).",
     )
     args = parser.parse_args(argv)

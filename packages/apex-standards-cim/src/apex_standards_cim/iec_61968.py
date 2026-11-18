@@ -41,7 +41,9 @@ class CimReading(BaseModel):
     timestamp: datetime
     value: Decimal
     unit: UnitSymbol = UnitSymbol.KWH
-    quality_flag: str | None = Field(None, description="e.g. 'estimated', 'substituted', 'measured'.")
+    quality_flag: str | None = Field(
+        None, description="e.g. 'estimated', 'substituted', 'measured'."
+    )
 
 
 class CimCustomer(BaseModel):

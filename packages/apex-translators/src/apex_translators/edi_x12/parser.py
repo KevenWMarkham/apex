@@ -20,9 +20,16 @@ from apex_translators.base import (
 )
 
 # X12 envelope segment names
-ENVELOPE_SEGMENTS: frozenset[str] = frozenset({
-    "ISA", "GS", "ST", "SE", "GE", "IEA",
-})
+ENVELOPE_SEGMENTS: frozenset[str] = frozenset(
+    {
+        "ISA",
+        "GS",
+        "ST",
+        "SE",
+        "GE",
+        "IEA",
+    }
+)
 
 # Supported transaction-set ids (§23.1.1, §23.1.2)
 RETAIL_TRANSACTIONS: frozenset[str] = frozenset({"850", "856", "810", "820"})
@@ -55,9 +62,7 @@ class EDIX12Delimiters:
 def _detect_delimiters(raw: str) -> EDIX12Delimiters:
     """Auto-detect EDI X12 delimiters from a raw payload."""
     if not raw.startswith("ISA"):
-        raise ParseError(
-            "EDI X12 payload must start with 'ISA' segment header"
-        )
+        raise ParseError("EDI X12 payload must start with 'ISA' segment header")
     if len(raw) < 106:
         raise ParseError("ISA header too short — need ≥ 106 characters")
 
@@ -112,9 +117,7 @@ class EDIX12Parser:
             name = elements[0]
             if not name:
                 continue
-            segments.append(
-                Segment(name=name, elements=elements[1:], raw=raw_seg)
-            )
+            segments.append(Segment(name=name, elements=elements[1:], raw=raw_seg))
 
         # Pull envelope-level metadata from ISA / GS / ST
         msg = ParsedMessage(

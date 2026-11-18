@@ -46,9 +46,7 @@ def list_cmd(
         if practice is not None and entry.spec.practice != practice.lower():
             continue
         spec = entry.spec
-        typer.echo(
-            f"  {spec.name:18} [{spec.practice:5}] {spec.display_name}"
-        )
+        typer.echo(f"  {spec.name:18} [{spec.practice:5}] {spec.display_name}")
 
 
 @references_app.command("inspect")
@@ -101,12 +99,8 @@ def inspect_cmd(
     typer.echo("")
     ws = spec.wave1_scope
     typer.echo("wave1_scope:")
-    typer.echo(
-        f"  duration:  {ws.duration_weeks_low}-{ws.duration_weeks_high} weeks"
-    )
-    typer.echo(
-        f"  fee band:  ${ws.fee_band_usd_low:,}-${ws.fee_band_usd_high:,}"
-    )
+    typer.echo(f"  duration:  {ws.duration_weeks_low}-{ws.duration_weeks_high} weeks")
+    typer.echo(f"  fee band:  ${ws.fee_band_usd_low:,}-${ws.fee_band_usd_high:,}")
     typer.echo(f"  deliverables: {len(ws.deliverables)}")
     typer.echo(f"  success_criteria: {len(ws.success_criteria)}")
 
@@ -132,20 +126,19 @@ def validate_cmd() -> None:
     adapter_catalog: set[str] | None = None
     try:
         from apex_services import all_service_codes
+
         service_codes = all_service_codes()
     except Exception:
         pass
     try:
         from apex_agents import scan_all_catalogs as agents_scan
-        agent_catalog = {
-            entry.spec.name
-            for entries in agents_scan().values()
-            for entry in entries
-        }
+
+        agent_catalog = {entry.spec.name for entries in agents_scan().values() for entry in entries}
     except Exception:
         pass
     try:
         from apex_adapters.catalog import load_all_shipped_manifests
+
         adapter_catalog = set(load_all_shipped_manifests().keys())
     except Exception:
         pass

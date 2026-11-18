@@ -28,12 +28,11 @@ class RetentionPolicy(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     duration_days: int = Field(
-        DEFAULT_RETENTION_DAYS, ge=1,
+        DEFAULT_RETENTION_DAYS,
+        ge=1,
         description="How long to retain rows (days). Default: 7 years.",
     )
-    legal_hold: bool = Field(
-        False, description="When True, retention is suspended indefinitely."
-    )
+    legal_hold: bool = Field(False, description="When True, retention is suspended indefinitely.")
     legal_hold_expires: datetime | None = Field(
         None, description="When the legal hold lapses (null = indefinite)."
     )
@@ -50,9 +49,7 @@ class RetentionPolicy(BaseModel):
     @model_validator(mode="after")
     def _validate_legal_hold_expiry(self) -> "RetentionPolicy":
         if self.legal_hold_expires is not None and not self.legal_hold:
-            raise ValueError(
-                "legal_hold_expires is only valid when legal_hold=True."
-            )
+            raise ValueError("legal_hold_expires is only valid when legal_hold=True.")
         return self
 
     def effective_duration_days(self, classification: Classification) -> int:

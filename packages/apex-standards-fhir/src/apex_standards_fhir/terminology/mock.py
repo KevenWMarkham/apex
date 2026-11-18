@@ -47,17 +47,24 @@ class MockTerminologyService:
 
     _SEED: dict[tuple[str, str], TerminologyLookupResult] = {
         ("http://loinc.org", "1234-5"): TerminologyLookupResult(
-            "http://loinc.org", "1234-5", "Mock LOINC concept (dev)",
+            "http://loinc.org",
+            "1234-5",
+            "Mock LOINC concept (dev)",
         ),
         ("http://loinc.org", "85354-9"): TerminologyLookupResult(
-            "http://loinc.org", "85354-9", "Blood pressure panel (dev)",
+            "http://loinc.org",
+            "85354-9",
+            "Blood pressure panel (dev)",
         ),
         ("http://snomed.info/sct", "386661006"): TerminologyLookupResult(
-            "http://snomed.info/sct", "386661006", "Fever (finding) (dev)",
+            "http://snomed.info/sct",
+            "386661006",
+            "Fever (finding) (dev)",
         ),
         ("http://www.nlm.nih.gov/research/umls/rxnorm", "1049630"): TerminologyLookupResult(
             "http://www.nlm.nih.gov/research/umls/rxnorm",
-            "1049630", "acetaminophen 325 MG Oral Tablet (dev)",
+            "1049630",
+            "acetaminophen 325 MG Oral Tablet (dev)",
         ),
     }
 

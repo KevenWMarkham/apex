@@ -74,6 +74,7 @@ class TestReliabilityRecord:
 
     def test_negative_downtime_rejected(self) -> None:
         from pydantic import ValidationError
+
         with pytest.raises(ValidationError):
             ReliabilityRecord(
                 equipment_id="eq-1",

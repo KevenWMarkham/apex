@@ -217,9 +217,7 @@ def emit_silver_to_gold(
     if view_definition_url is not None:
         attrs["view_definition_url"] = view_definition_url
 
-    inputs = tuple(
-        EntityRef("apex_silver_table", qn) for qn in silver_qualified_names
-    )
+    inputs = tuple(EntityRef("apex_silver_table", qn) for qn in silver_qualified_names)
 
     return LineageProcess(
         type_name=PROCESS_TYPES["silver_to_gold"],
@@ -467,9 +465,7 @@ def emit_from_spec(spec: dict[str, Any]) -> list[LineageProcess]:
     corresponding ``emit_*`` function.
     """
     if spec.get("kind") != "lineage":
-        raise ValueError(
-            f"Expected kind='lineage', got kind={spec.get('kind')!r}."
-        )
+        raise ValueError(f"Expected kind='lineage', got kind={spec.get('kind')!r}.")
 
     edges_raw = spec.get("edges")
     if not isinstance(edges_raw, list):
@@ -482,8 +478,7 @@ def emit_from_spec(spec: dict[str, Any]) -> list[LineageProcess]:
         hop = edge.get("hop")
         if hop not in _HOP_DISPATCH:
             raise ValueError(
-                f"Edge #{i}: unknown hop={hop!r}. "
-                f"Allowed: {sorted(_HOP_DISPATCH.keys())}"
+                f"Edge #{i}: unknown hop={hop!r}. Allowed: {sorted(_HOP_DISPATCH.keys())}"
             )
         emitter = _HOP_DISPATCH[hop]
         kwargs = {k: v for k, v in edge.items() if k != "hop"}
@@ -491,8 +486,7 @@ def emit_from_spec(spec: dict[str, Any]) -> list[LineageProcess]:
             results.append(emitter(**kwargs))
         except TypeError as exc:
             raise ValueError(
-                f"Edge #{i} (hop={hop}): {exc}. "
-                f"Keys provided: {sorted(kwargs.keys())}"
+                f"Edge #{i} (hop={hop}): {exc}. Keys provided: {sorted(kwargs.keys())}"
             ) from exc
 
     return results

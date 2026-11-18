@@ -52,7 +52,9 @@ def context():
 def test_on_child_spawn_writes_cosmos_first_then_redis(context) -> None:
     stub, redis, parent, cosmos, events = context
     spawn = ChildSpawn(
-        run_id="r1", child_id="c1", archetype="arch.recovery.001",
+        run_id="r1",
+        child_id="c1",
+        archetype="arch.recovery.001",
         envelope=BudgetEnvelope(tool_calls=50, tokens=10000, cost_cents=200, wall_s=900),
     )
     parent.on_child_spawn(spawn)
@@ -116,7 +118,10 @@ def test_base_agent_check_cancel_failclosed_when_redis_dead_and_no_cosmos(contex
     stub, redis, _, _, _ = context
     stub.fail_all = True
     agent = BaseAgent(
-        run_id="r1", child_id="c1", redis=redis, envelope={},
+        run_id="r1",
+        child_id="c1",
+        redis=redis,
+        envelope={},
         backoff_max_s=0.01,
     )
     with pytest.raises(CancelRequested):
@@ -131,8 +136,12 @@ def test_base_agent_falls_back_to_cosmos_when_redis_dead(context) -> None:
         return {"level": "hard"}
 
     agent = BaseAgent(
-        run_id="r1", child_id="c1", redis=redis, envelope={},
-        cosmos_fallback=cosmos_read, backoff_max_s=0.01,
+        run_id="r1",
+        child_id="c1",
+        redis=redis,
+        envelope={},
+        cosmos_fallback=cosmos_read,
+        backoff_max_s=0.01,
     )
     with pytest.raises(CancelRequested, match="hard"):
         agent.check_cancel()
@@ -146,7 +155,9 @@ def test_base_agent_falls_back_to_cosmos_when_redis_dead(context) -> None:
 def test_base_agent_increment_budget_within_envelope(context) -> None:
     _, redis, _, _, _ = context
     agent = BaseAgent(
-        run_id="r1", child_id="c1", redis=redis,
+        run_id="r1",
+        child_id="c1",
+        redis=redis,
         envelope={"tool_calls": 100},
     )
     agent.increment_and_check_budget("tool_calls", 1)
@@ -158,7 +169,9 @@ def test_base_agent_increment_budget_within_envelope(context) -> None:
 def test_base_agent_budget_exceeded_raises(context) -> None:
     _, redis, _, _, _ = context
     agent = BaseAgent(
-        run_id="r1", child_id="c1", redis=redis,
+        run_id="r1",
+        child_id="c1",
+        redis=redis,
         envelope={"tool_calls": 5},
     )
     agent.increment_and_check_budget("tool_calls", 5)  # at cap, ok
@@ -182,7 +195,9 @@ def test_base_agent_no_envelope_means_no_check(context) -> None:
 def test_base_agent_heartbeat_emits_on_first_call(context) -> None:
     _, redis, _, _, _ = context
     agent = BaseAgent(
-        run_id="r1", child_id="c1", redis=redis,
+        run_id="r1",
+        child_id="c1",
+        redis=redis,
         heartbeat_interval_s=30,
     )
     assert agent.maybe_heartbeat() is True
@@ -192,7 +207,9 @@ def test_base_agent_heartbeat_emits_on_first_call(context) -> None:
 def test_base_agent_heartbeat_throttles_within_interval(context) -> None:
     _, redis, _, _, _ = context
     agent = BaseAgent(
-        run_id="r1", child_id="c1", redis=redis,
+        run_id="r1",
+        child_id="c1",
+        redis=redis,
         heartbeat_interval_s=30,
     )
     now = time.time()
@@ -222,7 +239,10 @@ def test_conformance_base_agent_self_cancels_on_dual_failure(context) -> None:
     stub, redis, _, _, _ = context
     stub.fail_all = True
     agent = BaseAgent(
-        run_id="r1", child_id="c1", redis=redis, envelope={},
+        run_id="r1",
+        child_id="c1",
+        redis=redis,
+        envelope={},
         backoff_max_s=0.01,
     )
     with pytest.raises(CancelRequested):

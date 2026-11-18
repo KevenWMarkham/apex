@@ -137,15 +137,18 @@ def record_decision(
 
 CONTRACTS: list[ToolContract] = [
     ToolContract(
-        name=f"{SERVER_NAME}.request_approval", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.request_approval",
+        version=TOOL_VERSION,
         description="Open a pending HITL approval; returns pending_id.",
     ),
     ToolContract(
-        name=f"{SERVER_NAME}.get_approval_status", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.get_approval_status",
+        version=TOOL_VERSION,
         description="Fetch the current state of a pending approval.",
     ),
     ToolContract(
-        name=f"{SERVER_NAME}.record_decision", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.record_decision",
+        version=TOOL_VERSION,
         description="Finalise an approval with approve / reject / modify / overridden / expired.",
     ),
 ]

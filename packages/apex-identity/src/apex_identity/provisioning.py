@@ -39,8 +39,12 @@ class AgentRole:
 class EntraProvisioningProvider(Protocol):
     """Protocol for Entra app-registration automation."""
 
-    def register(self, agent_id: str, tenant_id: str, scopes: tuple[str, ...] = (),
-                 ) -> AgentIdentity: ...
+    def register(
+        self,
+        agent_id: str,
+        tenant_id: str,
+        scopes: tuple[str, ...] = (),
+    ) -> AgentIdentity: ...
     def lookup(self, agent_id: str) -> AgentIdentity | None: ...
     def revoke(self, agent_id: str) -> None: ...
 
@@ -60,10 +64,7 @@ class MockEntraProvisioningProvider:
     @staticmethod
     def _derive_oid(agent_id: str, tenant_id: str) -> str:
         digest = hashlib.sha256(f"{tenant_id}|{agent_id}".encode()).hexdigest()
-        return (
-            f"{digest[:8]}-{digest[8:12]}-{digest[12:16]}-"
-            f"{digest[16:20]}-{digest[20:32]}"
-        )
+        return f"{digest[:8]}-{digest[8:12]}-{digest[12:16]}-{digest[16:20]}-{digest[20:32]}"
 
     def register(
         self,

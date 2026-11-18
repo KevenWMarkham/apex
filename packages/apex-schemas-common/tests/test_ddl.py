@@ -55,4 +55,3 @@ def test_optional_fields_are_nullable() -> None:
     # Optional → not NOT NULL
     gtin_line = [line for line in ddl.splitlines() if "gtin" in line and "STRING" in line][0]
     assert "NOT NULL" not in gtin_line
-

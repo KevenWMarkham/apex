@@ -31,14 +31,22 @@ _HEX_RE = re.compile(
 SCAN_EXTENSIONS: frozenset[str] = frozenset({".css", ".html", ".htm"})
 
 SKIP_FRAGMENTS: tuple[str, ...] = (
-    "__pycache__", ".git", ".venv", "node_modules", "dist", "build",
-    ".pytest_cache", "site-packages",
+    "__pycache__",
+    ".git",
+    ".venv",
+    "node_modules",
+    "dist",
+    "build",
+    ".pytest_cache",
+    "site-packages",
 )
 
 # Tokens file is the canonical home for all hex literals.
-ALLOWLIST_BASENAMES: frozenset[str] = frozenset({
-    "apex-design-tokens.css",
-})
+ALLOWLIST_BASENAMES: frozenset[str] = frozenset(
+    {
+        "apex-design-tokens.css",
+    }
+)
 
 # Documentation files that *describe* the token registry are allowed
 # to mention hex literals in their prose. Identified by name suffix.
@@ -80,10 +88,14 @@ def scan_file(path: Path) -> list[Finding]:
         if line_end == -1:
             line_end = len(text)
         surrounding = text[line_start:line_end].strip()[:140]
-        findings.append(Finding(
-            path=path, line=line_no, hex_value=hex_value,
-            surrounding=surrounding,
-        ))
+        findings.append(
+            Finding(
+                path=path,
+                line=line_no,
+                hex_value=hex_value,
+                surrounding=surrounding,
+            )
+        )
     return findings
 
 
@@ -109,7 +121,9 @@ def main(argv: list[str] | None = None) -> int:
         )
     )
     parser.add_argument(
-        "path", nargs="?", default=".",
+        "path",
+        nargs="?",
+        default=".",
         help="Root path to scan (default: current directory).",
     )
     args = parser.parse_args(argv)
@@ -130,8 +144,7 @@ def main(argv: list[str] | None = None) -> int:
             file=sys.stderr,
         )
     print(
-        f"FAIL — {len(findings)} inline-hex violation(s); "
-        "use var(--apex-...) per Appendix N",
+        f"FAIL — {len(findings)} inline-hex violation(s); use var(--apex-...) per Appendix N",
         file=sys.stderr,
     )
     return 1

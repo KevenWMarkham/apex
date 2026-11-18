@@ -10,8 +10,8 @@ from apex_schemas_common import CanonicalEntity
 
 
 class GenealogyDirection(StrEnum):
-    FORWARD = "forward"      # parent (raw) → child (processed)
-    REVERSE = "reverse"      # child (finished) → parent (raw input)
+    FORWARD = "forward"  # parent (raw) → child (processed)
+    REVERSE = "reverse"  # child (finished) → parent (raw input)
 
 
 class Genealogy(CanonicalEntity):

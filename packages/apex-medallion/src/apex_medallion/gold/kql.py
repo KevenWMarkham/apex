@@ -44,8 +44,4 @@ def generate_kql_function(
     if extend_clauses:
         body += "\n    | extend " + ",\n              ".join(extend_clauses)
 
-    return (
-        f".create-or-alter function {function_name}() {{\n"
-        f"{body}\n"
-        f"}}"
-    )
+    return f".create-or-alter function {function_name}() {{\n{body}\n}}"

@@ -48,7 +48,8 @@ class MeasureDefinition(BaseModel):
     description: str = ""
     classification: Classification = Classification.INTERNAL
     formula: str = Field(
-        ..., min_length=1,
+        ...,
+        min_length=1,
         description="Language-specific expression. See language-specific generators.",
     )
     depends_on: list[str] = Field(

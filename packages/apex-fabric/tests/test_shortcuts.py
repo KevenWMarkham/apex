@@ -92,7 +92,10 @@ def test_onelake_target_shape() -> None:
 
 def test_spec_to_create_body_minimal() -> None:
     spec = ShortcutSpec(
-        workspace_id="ws", item_id="lh", name="sku", path="Tables",
+        workspace_id="ws",
+        item_id="lh",
+        name="sku",
+        path="Tables",
         target=OneLakeTarget(workspace_id="src-ws", item_id="src-lh", path="Tables/sku"),
     )
     body = spec.to_create_body()
@@ -104,7 +107,10 @@ def test_spec_to_create_body_minimal() -> None:
 
 def test_spec_to_create_body_with_description() -> None:
     spec = ShortcutSpec(
-        workspace_id="ws", item_id="lh", name="sku", path="Tables",
+        workspace_id="ws",
+        item_id="lh",
+        name="sku",
+        path="Tables",
         target=OneLakeTarget(workspace_id="x", item_id="y", path="z"),
         description="canonical SKU shortcut",
     )
@@ -143,7 +149,9 @@ class _StubClient:
         self.calls.append(("GET", url, None))
         return self.responses.get(("GET", url), _StubResponse(200, {"value": []}))
 
-    def post(self, url: str, json: dict | None = None, headers: dict | None = None) -> _StubResponse:
+    def post(
+        self, url: str, json: dict | None = None, headers: dict | None = None
+    ) -> _StubResponse:
         self.calls.append(("POST", url, json))
         return self.responses.get(
             ("POST", url),
@@ -260,7 +268,8 @@ def test_practice_reference_shortcuts_creates_one_per_table() -> None:
 def test_practice_reference_shortcuts_apply_via_client() -> None:
     """End-to-end smoke: plan.apply() invokes ShortcutClient idempotently."""
     plan = practice_reference_shortcuts(
-        tenant_workspace_id="ws", tenant_lakehouse_id="lh",
+        tenant_workspace_id="ws",
+        tenant_lakehouse_id="lh",
         practice_reference_workspace_id="src-ws",
         practice_reference_lakehouse_id="src-lh",
         silver_table_names=["scml_sku"],
@@ -280,6 +289,7 @@ def test_practice_reference_shortcuts_apply_via_client() -> None:
 @pytest.mark.conformance
 def test_every_target_round_trips_through_json() -> None:
     import json
+
     targets = [
         AdlsGen2Target("https://x", "/y", "c"),
         S3Target("https://x", "/y", "c"),

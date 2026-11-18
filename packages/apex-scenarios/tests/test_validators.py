@@ -36,9 +36,15 @@ def test_wave_data_presence_fails_on_empty_fixture() -> None:
 def test_wave_data_presence_passes_when_complete() -> None:
     scenarios = [
         Scenario(
-            title="t", service_code="RC-E2E-03", brief="b", kpi="+2pp GM",
-            kpi_direction="up", practice="RC",
-            w1="W1", w2="W2", w3="W3",
+            title="t",
+            service_code="RC-E2E-03",
+            brief="b",
+            kpi="+2pp GM",
+            kpi_direction="up",
+            practice="RC",
+            w1="W1",
+            w2="W2",
+            w3="W3",
         )
     ]
     assert validate_wave_data_presence(scenarios).ok
@@ -47,8 +53,14 @@ def test_wave_data_presence_passes_when_complete() -> None:
 def test_wave_data_presence_partial_missing_one_wave() -> None:
     scenarios = [
         Scenario(
-            title="t", service_code="s", brief="b", kpi="k", kpi_direction="up",
-            w1="W1", w2="", w3="W3",
+            title="t",
+            service_code="s",
+            brief="b",
+            kpi="k",
+            kpi_direction="up",
+            w1="W1",
+            w2="",
+            w3="W3",
         )
     ]
     report = validate_wave_data_presence(scenarios)
@@ -71,8 +83,11 @@ def test_service_codes_structural_passes_on_canonical() -> None:
 def test_service_codes_structural_rejects_malformed() -> None:
     scenarios = [
         Scenario(
-            title="t", service_code="not-canonical", brief="b",
-            kpi="+2pp GM", kpi_direction="up",
+            title="t",
+            service_code="not-canonical",
+            brief="b",
+            kpi="+2pp GM",
+            kpi_direction="up",
         )
     ]
     report = validate_service_codes(scenarios)
@@ -140,7 +155,8 @@ def test_validate_agent_references_warns_when_no_phrase() -> None:
 
 def test_validate_agent_references_fails_unresolved() -> None:
     chain = FeaturedChain(
-        title="t", Scenario="x",
+        title="t",
+        Scenario="x",
         Solution="The recall response agent triggers downstream.",
         **{"Use Case": "u"},
     )
@@ -152,7 +168,8 @@ def test_validate_agent_references_fails_unresolved() -> None:
 
 def test_validate_agent_references_passes_resolved() -> None:
     chain = FeaturedChain(
-        title="t", Scenario="x",
+        title="t",
+        Scenario="x",
         Solution="The perishables-integrity agent runs.",
         **{"Use Case": "u"},
     )
@@ -209,8 +226,11 @@ def test_validate_kpis_with_registry_misses() -> None:
 def test_validate_kpis_unparseable() -> None:
     bad = [
         Scenario(
-            title="t", service_code="RC-E2E-03", brief="b",
-            kpi="vague aspirational", kpi_direction="up",
+            title="t",
+            service_code="RC-E2E-03",
+            brief="b",
+            kpi="vague aspirational",
+            kpi_direction="up",
         )
     ]
     report = validate_kpis(bad)
@@ -225,9 +245,12 @@ def test_validate_kpis_unparseable() -> None:
 
 def _row(title: str, **extra) -> Scenario:
     return Scenario(
-        title=title, service_code=extra.get("service_code", "RC-E2E-03"),
-        brief="b", kpi=extra.get("kpi", "+2pp GM"),
-        kpi_direction="up", practice=extra.get("practice", "RC"),
+        title=title,
+        service_code=extra.get("service_code", "RC-E2E-03"),
+        brief="b",
+        kpi=extra.get("kpi", "+2pp GM"),
+        kpi_direction="up",
+        practice=extra.get("practice", "RC"),
         **{k: v for k, v in extra.items() if k not in ("service_code", "kpi", "practice")},
     )
 

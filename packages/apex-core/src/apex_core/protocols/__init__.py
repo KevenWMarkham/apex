@@ -22,6 +22,7 @@ deployment touches:
 
 See `docs/apex-core/Protocols-Reference.md` for the canonical reference.
 """
+
 from .agent_identity import AgentIdentityProvider, AgentIdentity, AgentBlueprint
 from .agent_runtime import AgentRuntime, AgentInvocation, AgentResponse
 from .audit_ledger import AuditLedger, AuditRow
@@ -39,15 +40,36 @@ from .sensitivity_classifier import SensitivityClassifier, SensitivityTier, Prov
 from .threat_protection import ThreatProtection, ThreatVerdict, PromptShieldResult
 
 __all__ = [
-    "AgentIdentityProvider", "AgentIdentity", "AgentBlueprint",
-    "AgentRuntime", "AgentInvocation", "AgentResponse",
-    "AuditLedger", "AuditRow",
-    "BindingMode", "PersonaPrincipalBinding", "UseCasePersonaBindings",
-    "DataLake", "DataLakeQuery", "DataLakeWrite",
-    "EmbeddingService", "Embedding", "SimilarityResult",
-    "MessageBus", "Message", "Subscription",
-    "Observability", "TraceContext", "Metric",
-    "SecretStore", "Secret", "SecretReference",
-    "SensitivityClassifier", "SensitivityTier", "ProviderLabel",
-    "ThreatProtection", "ThreatVerdict", "PromptShieldResult",
+    "AgentIdentityProvider",
+    "AgentIdentity",
+    "AgentBlueprint",
+    "AgentRuntime",
+    "AgentInvocation",
+    "AgentResponse",
+    "AuditLedger",
+    "AuditRow",
+    "BindingMode",
+    "PersonaPrincipalBinding",
+    "UseCasePersonaBindings",
+    "DataLake",
+    "DataLakeQuery",
+    "DataLakeWrite",
+    "EmbeddingService",
+    "Embedding",
+    "SimilarityResult",
+    "MessageBus",
+    "Message",
+    "Subscription",
+    "Observability",
+    "TraceContext",
+    "Metric",
+    "SecretStore",
+    "Secret",
+    "SecretReference",
+    "SensitivityClassifier",
+    "SensitivityTier",
+    "ProviderLabel",
+    "ThreatProtection",
+    "ThreatVerdict",
+    "PromptShieldResult",
 ]

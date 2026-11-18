@@ -67,7 +67,9 @@ class TestRunners:
         approvals = InMemoryApprovalsClient()
         r = resolve_gate_kind(bump_class=BumpClass.MAJOR)
         runner = resolve_gate_runner(
-            r, approvals=approvals, approver_group="qa",
+            r,
+            approvals=approvals,
+            approver_group="qa",
         )
         assert isinstance(runner, HitlGate)
 

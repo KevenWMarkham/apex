@@ -14,7 +14,7 @@ from apex_schemas_common import CanonicalEntity
 class PromotionType(StrEnum):
     PERCENT_OFF = "PERCENT_OFF"
     AMOUNT_OFF = "AMOUNT_OFF"
-    BOGO = "BOGO"           # Buy One Get One
+    BOGO = "BOGO"  # Buy One Get One
     BUNDLE = "BUNDLE"
     MEMBER_ONLY = "MEMBER_ONLY"
 
