@@ -5,6 +5,19 @@ extend-exclude = [
     ".venv",
     "archive",
     "notebooks",
+    # CI lints packages/ and tools/ (plus the root conftest.py). The trees
+    # below hold one-off generator scripts, doc-embedded code and app/
+    # infra prototypes that are not held to the package lint bar.
+    "scripts",
+    "docs",
+    "apex-a",
+    "apex-g",
+    "apex-m",
+    "apex-workspace",
+    "apps",
+    "services",
+    "apex.py",
+    "build-solution-stack.py",
 ]
 
 [lint]
@@ -31,6 +44,15 @@ ignore = [
     "D203",  # 1 blank line before class docstring (conflicts with D211)
     "D213",  # multi-line docstring summary should start on second line (conflicts with D212)
 ]
+
+# Deliberate typographic characters used in labels and docs: EN DASH,
+# MINUS SIGN and MULTIPLICATION SIGN.
+allowed-confusables = ["–", "−", "×"]
+
+[lint.flake8-bugbear]
+# Typer declares CLI parameters via default-value calls; they are evaluated
+# once by design and never mutated.
+extend-immutable-calls = ["typer.Option", "typer.Argument"]
 
 [lint.pydocstyle]
 convention = "google"
