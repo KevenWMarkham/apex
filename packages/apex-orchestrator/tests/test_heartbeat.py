@@ -179,7 +179,7 @@ def test_conformance_heartbeat_trigger_source_format() -> None:
 @pytest.mark.conformance
 def test_conformance_missed_trigger_does_not_auto_catchup() -> None:
     """Sprint 26 Task 26.9.4 — missed-trigger handling is announce-only."""
-    sched, _, _, events, cosmos = _make_scheduler()
+    sched, _, _, events, _cosmos = _make_scheduler()
     sched.emit_missed("test-routine", reason="test")
     # No child_spawn events
     assert not any(t == "child_spawn" for t, _ in events)

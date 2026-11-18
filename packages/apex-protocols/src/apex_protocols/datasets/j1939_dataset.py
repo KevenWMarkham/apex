@@ -12,16 +12,15 @@ Source address 0x00 = Engine #1; data bytes are little-endian per J1939.
 
 from __future__ import annotations
 
+from collections.abc import Iterator
 from datetime import UTC, datetime, timedelta
 
 
 def _arb(priority: int, pgn: int, sa: int) -> int:
     """Build a 29-bit arbitration ID."""
     pf = (pgn >> 8) & 0xFF
-    if pf >= 240:
-        ps = pgn & 0xFF
-    else:
-        ps = 0  # destination 0 (broadcast); real busses set this
+    # PDU1 (PF < 240): PS is destination 0 (broadcast); real busses set this
+    ps = pgn & 0xFF if pf >= 240 else 0
     dp = (pgn >> 16) & 0x01
     return ((priority & 0x07) << 26) | (dp << 24) | (pf << 16) | (ps << 8) | (sa & 0xFF)
 
@@ -57,7 +56,7 @@ J1939_FRAME_CAPTURE: list[tuple[int, bytes, float]] = [
 ]
 
 
-def frames_with_timestamps():
+def frames_with_timestamps() -> Iterator[tuple[int, bytes, datetime]]:
     """Yield (arbitration_id, data, timestamp) tuples for the dataset."""
     for arb_id, data, offset in J1939_FRAME_CAPTURE:
         yield arb_id, data, _BASE_TS + timedelta(seconds=offset)

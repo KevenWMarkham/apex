@@ -52,7 +52,7 @@ def test_emit_catalog_keys_sorted() -> None:
 
 def test_standard_round_trips_through_dict() -> None:
     """Every shipped StandardSpec round-trips dict <-> StandardSpec cleanly."""
-    for sid, spec in STANDARDS.items():
+    for spec in STANDARDS.values():
         as_dict = standard_to_dict(spec)
         back = dict_to_standard(as_dict)
         assert back.id == spec.id

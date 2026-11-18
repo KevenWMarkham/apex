@@ -71,7 +71,6 @@ def runbooks_cmd() -> None:
 
     runbooks_dir = Path(__file__).resolve().parent / "runbooks"
     for proto in SUPPORTED_PROTOCOLS:
-        suffix = "" if proto != "j1939" else ""
         candidates = list(runbooks_dir.glob(f"{proto}*"))
         for c in candidates:
             typer.echo(f"  {proto:12} {c.relative_to(runbooks_dir.parent.parent)}")

@@ -28,7 +28,7 @@ class GOOSEControlBlock:
     name: str
     app_id: str
     multicast_mac: str = ""
-    confRev: int = 1
+    confRev: int = 1  # noqa: N815  # mirrors the SCL confRev attribute name
     dataset: str = ""
 
 
@@ -42,7 +42,7 @@ class SVControlBlock:
     smp_rate: int = 0
     """Samples per second."""
 
-    confRev: int = 1
+    confRev: int = 1  # noqa: N815  # mirrors the SCL confRev attribute name
     dataset: str = ""
 
 
@@ -95,6 +95,7 @@ class SCDDocument:
     ieds: list[IED] = field(default_factory=list)
 
     def all_logical_nodes(self) -> list[LogicalNode]:
+        """Return every logical node across all IEDs and logical devices."""
         out: list[LogicalNode] = []
         for ied in self.ieds:
             for ld in ied.logical_devices:
@@ -102,6 +103,7 @@ class SCDDocument:
         return out
 
     def all_goose_blocks(self) -> list[GOOSEControlBlock]:
+        """Return every GOOSE control block across all IEDs and logical devices."""
         out: list[GOOSEControlBlock] = []
         for ied in self.ieds:
             for ld in ied.logical_devices:
@@ -109,6 +111,7 @@ class SCDDocument:
         return out
 
     def all_sv_blocks(self) -> list[SVControlBlock]:
+        """Return every Sampled-Value control block across all IEDs and logical devices."""
         out: list[SVControlBlock] = []
         for ied in self.ieds:
             for ld in ied.logical_devices:

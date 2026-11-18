@@ -22,7 +22,7 @@ class ElasticityModelKind(StrEnum):
     """Model class that produced the coefficient."""
 
     LOG_LOG = "LOG_LOG"  # Constant-elasticity log-log regression
-    SEMI_LOG = "SEMI_LOG"  # log(Q) = α + β·P
+    SEMI_LOG = "SEMI_LOG"  # log(Q) = alpha + beta * P
     PIECEWISE = "PIECEWISE"  # Piecewise linear over price segments
     BAYESIAN = "BAYESIAN"  # Bayesian hierarchical model
 

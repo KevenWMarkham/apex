@@ -23,7 +23,7 @@ from datetime import UTC, datetime
 from typing import Any
 from uuid import uuid4
 
-from apex_translators.base import ParsedMessage
+from apex_translators.base import ParsedMessage, Segment
 
 # ---------------------------------------------------------------------------
 # Common helpers
@@ -110,7 +110,7 @@ def hl7v2_to_fhir(message: ParsedMessage) -> dict[str, Any]:
             _add_entry(bundle, obs)
         if diag is not None:
             _add_entry(bundle, diag)
-    elif msg_type.startswith("ORM") or msg_type.startswith("OMP"):
+    elif msg_type.startswith(("ORM", "OMP")):
         med_req = _medication_request_from_rxe_orc(message, patient)
         if med_req is not None:
             _add_entry(bundle, med_req)
@@ -442,7 +442,7 @@ def _patient_from_cda_metadata(message: ParsedMessage) -> dict[str, Any] | None:
 
 
 def _allergy_intolerances_from_cda_section(
-    section, patient: dict[str, Any] | None
+    section: Segment, patient: dict[str, Any] | None
 ) -> list[dict[str, Any]]:
     out: list[dict[str, Any]] = []
     entries = section.data.get("entries", [])
@@ -469,7 +469,7 @@ def _allergy_intolerances_from_cda_section(
 
 
 def _medication_statements_from_cda_section(
-    section, patient: dict[str, Any] | None
+    section: Segment, patient: dict[str, Any] | None
 ) -> list[dict[str, Any]]:
     out: list[dict[str, Any]] = []
     entries = section.data.get("entries", [])
@@ -496,7 +496,7 @@ def _medication_statements_from_cda_section(
     return out
 
 
-def _conditions_from_cda_section(section, patient: dict[str, Any] | None) -> list[dict[str, Any]]:
+def _conditions_from_cda_section(section: Segment, patient: dict[str, Any] | None) -> list[dict[str, Any]]:
     out: list[dict[str, Any]] = []
     entries = section.data.get("entries", [])
     for entry in entries:
@@ -520,7 +520,7 @@ def _conditions_from_cda_section(section, patient: dict[str, Any] | None) -> lis
     return out
 
 
-def _observations_from_cda_section(section, patient: dict[str, Any] | None) -> list[dict[str, Any]]:
+def _observations_from_cda_section(section: Segment, patient: dict[str, Any] | None) -> list[dict[str, Any]]:
     out: list[dict[str, Any]] = []
     entries = section.data.get("entries", [])
     for entry in entries:

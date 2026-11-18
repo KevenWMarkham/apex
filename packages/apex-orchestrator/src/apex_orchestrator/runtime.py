@@ -24,6 +24,8 @@ from apex_orchestrator.types import StepFn, StepResult
 
 
 class OrchestrationStatus(StrEnum):
+    """Lifecycle state of an orchestration run."""
+
     RUNNING = "running"
     PAUSED = "paused"
     COMPLETED = "completed"
@@ -33,6 +35,8 @@ class OrchestrationStatus(StrEnum):
 
 @dataclass
 class OrchestrationResult:
+    """Snapshot returned by ``run``/``resume``: status, context, step and gate history."""
+
     status: OrchestrationStatus
     context: dict[str, Any] = field(default_factory=dict)
     steps: list[StepResult] = field(default_factory=list)
@@ -65,6 +69,7 @@ class Orchestrator:
         approvals: ApprovalsClient | None = None,
         tenant_gate_override: dict[BumpClass, GateKind] | None = None,
     ) -> None:
+        """Bind the stamped manifest, approvals client and per-tenant gate overrides."""
         self.manifest = manifest
         self.approvals = approvals
         self.tenant_gate_override = tenant_gate_override or {}
@@ -87,6 +92,10 @@ class Orchestrator:
         bump_class: BumpClass | None = None,
         approver_group: str | None = None,
     ) -> Orchestrator:
+        """Append a step; a ``bump_class`` puts it behind the resolved gate.
+
+        Returns self for chaining.
+        """
         self._steps.append(
             _OrchestrationStep(
                 step_id=step_id,
@@ -163,16 +172,22 @@ class Orchestrator:
             self._state["context"].update(step_result)
 
             if step.bump_class is not None:
-                outcome = self._run_gate(step, step_result)
+                outcome = self._run_gate(step, step.bump_class, step_result)
                 self._state["gate_outcomes"].append(outcome)
                 if outcome.status in {"pending", "escalated"}:
-                    self._pending_pid_to_step_idx[outcome.pending_id] = idx
+                    pending_id = outcome.pending_id
+                    if pending_id is None:
+                        raise RuntimeError(
+                            f"Gate {outcome.kind} returned status {outcome.status!r} "
+                            "without a pending_id"
+                        )
+                    self._pending_pid_to_step_idx[pending_id] = idx
                     return OrchestrationResult(
                         status=OrchestrationStatus.PAUSED,
                         context=dict(self._state["context"]),
                         steps=list(self._state["results"]),
                         gate_outcomes=list(self._state["gate_outcomes"]),
-                        pending_approvals=[outcome.pending_id],
+                        pending_approvals=[pending_id],
                     )
 
             self._state["step_idx"] += 1
@@ -184,10 +199,12 @@ class Orchestrator:
             gate_outcomes=list(self._state["gate_outcomes"]),
         )
 
-    def _run_gate(self, step: _OrchestrationStep, proposal: dict[str, Any]) -> GateOutcome:
+    def _run_gate(
+        self, step: _OrchestrationStep, bump_class: BumpClass, proposal: dict[str, Any]
+    ) -> GateOutcome:
         resolution: GateResolution = resolve_gate_kind(
-            bump_class=step.bump_class,  # type: ignore[arg-type]
-            tenant_override=self.tenant_gate_override.get(step.bump_class),
+            bump_class=bump_class,
+            tenant_override=self.tenant_gate_override.get(bump_class),
         )
         runner = resolve_gate_runner(
             resolution,

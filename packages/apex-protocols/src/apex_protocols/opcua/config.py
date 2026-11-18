@@ -53,6 +53,7 @@ class OPCUAConfig:
     queue_size: int = 10
 
     def __post_init__(self) -> None:
+        """Default ``namespace_uris`` to an empty list and validate the config."""
         if self.namespace_uris is None:
             self.namespace_uris = []
         self._validate()

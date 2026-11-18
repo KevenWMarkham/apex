@@ -13,6 +13,7 @@ from apex_audit import (
     require_trace_id,
     stamp_versions,
 )
+from pydantic import ValidationError
 
 
 class TestTrace:
@@ -51,7 +52,7 @@ class TestVersions:
 
     def test_version_stamps_are_frozen(self) -> None:
         s = self._stamps()
-        with pytest.raises(Exception):  # pydantic ValidationError / FrozenInstanceError
+        with pytest.raises(ValidationError):
             s.manifest_version = "x"  # type: ignore[misc]
 
     def test_stamp_versions_returns_resolver_output(self) -> None:
@@ -61,7 +62,7 @@ class TestVersions:
         assert out.model_version == "gpt-4.1-2025-01"
 
     def test_empty_sha_rejected(self) -> None:
-        with pytest.raises(Exception):
+        with pytest.raises(ValidationError):
             VersionStamps(
                 manifest_version="",
                 policy_version="p",

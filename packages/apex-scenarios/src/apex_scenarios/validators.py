@@ -424,8 +424,7 @@ def validate_kpis(
                     code="KPI_UNRESOLVED",
                     scope=f"{s.practice or '?'}::{s.service_code} '{s.title}'",
                     message=(
-                        f"KPI {name!r} is not registered in the KPI "
-                        "Registry (BL.P.122 Appendix C)."
+                        f"KPI {name!r} is not registered in the KPI Registry (BL.P.122 Appendix C)."
                     ),
                 )
             )

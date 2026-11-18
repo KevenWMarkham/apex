@@ -8,6 +8,7 @@ Subcommands: ``list`` · ``show`` · ``audit`` · ``bump``.
 
 from __future__ import annotations
 
+import contextlib
 import importlib
 import pkgutil
 
@@ -56,10 +57,8 @@ def _import_all_apex_packages() -> None:
             continue
         if hasattr(pkg, "__path__"):
             for submod in pkgutil.walk_packages(pkg.__path__, prefix=pkg.__name__ + "."):
-                try:
+                with contextlib.suppress(ImportError):
                     importlib.import_module(submod.name)
-                except ImportError:
-                    pass
 
 
 def _collect_subclasses(root: type[BaseModel]) -> set[type[BaseModel]]:

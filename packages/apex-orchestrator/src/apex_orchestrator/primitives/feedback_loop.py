@@ -3,10 +3,11 @@
 from __future__ import annotations
 
 from collections.abc import Callable
+from typing import Any
 
 from apex_orchestrator.types import StepFn, StepResult
 
-Evaluator = Callable[[dict, dict], bool]
+Evaluator = Callable[[dict[str, Any], dict[str, Any]], bool]
 """Given (current_result, context), return True if acceptable."""
 
 
@@ -23,6 +24,11 @@ class FeedbackLoopRunner:
         producer_agent_version: str = "1.0.0",
         max_iterations: int = 3,
     ) -> None:
+        """Store the producer, evaluator and producer step metadata.
+
+        Raises:
+            ValueError: If ``max_iterations`` is less than 1.
+        """
         if max_iterations < 1:
             raise ValueError("max_iterations must be >= 1")
         self._producer = producer
@@ -32,7 +38,7 @@ class FeedbackLoopRunner:
         self._producer_agent_version = producer_agent_version
         self._max_iterations = max_iterations
 
-    def run(self, initial_context: dict) -> tuple[dict, list[StepResult]]:
+    def run(self, initial_context: dict[str, Any]) -> tuple[dict[str, Any], list[StepResult]]:
         """Run the loop. Returns final context + per-iteration step results."""
         context = dict(initial_context)
         results: list[StepResult] = []

@@ -52,5 +52,5 @@ def test_optional_fields_are_nullable() -> None:
     # Required → NOT NULL
     assert _match(r"sku_natural\s+STRING NOT NULL", ddl)
     # Optional → not NOT NULL
-    gtin_line = [line for line in ddl.splitlines() if "gtin" in line and "STRING" in line][0]
+    gtin_line = next(line for line in ddl.splitlines() if "gtin" in line and "STRING" in line)
     assert "NOT NULL" not in gtin_line

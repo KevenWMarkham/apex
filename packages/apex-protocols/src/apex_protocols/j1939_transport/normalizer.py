@@ -223,10 +223,7 @@ def _arb_id_to_pgn_sa(arb_id: int) -> tuple[int, int]:
     ps = (arb_id >> 8) & 0xFF
     pf = (arb_id >> 16) & 0xFF
     dp = (arb_id >> 24) & 0x01
-    if pf < 240:
-        pgn = (dp << 16) | (pf << 8) | 0x00
-    else:
-        pgn = (dp << 16) | (pf << 8) | ps
+    pgn = (dp << 16) | (pf << 8) | (0x00 if pf < 240 else ps)
     return pgn, sa
 
 
@@ -273,10 +270,12 @@ class J1939Normalizer:
     """
 
     def __init__(self) -> None:
+        """Initialise the frame and signal counters to zero."""
         self._frame_count = 0
         self._signal_count = 0
 
     def normalize(self, frames: Iterable[CANFrame]) -> Iterable[DecodedSignal]:
+        """Lazily yield every decoded signal from ``frames``, updating the counters."""
         for frame in frames:
             self._frame_count += 1
             for sig in decode_frame(frame):
@@ -285,11 +284,14 @@ class J1939Normalizer:
 
     @property
     def frames_processed(self) -> int:
+        """Return the number of frames consumed by :meth:`normalize` so far."""
         return self._frame_count
 
     @property
     def signals_emitted(self) -> int:
+        """Return the number of signals yielded by :meth:`normalize` so far."""
         return self._signal_count
 
     def known_pgns(self) -> set[int]:
+        """Return the PGNs that have SPN layouts defined."""
         return set(SPN_LAYOUTS)

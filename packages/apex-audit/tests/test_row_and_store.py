@@ -17,20 +17,21 @@ from apex_audit import (
     ToolCallRecord,
     TraceMissingError,
 )
+from pydantic import ValidationError
 
 
 def _row(**overrides) -> AuditRow:
-    defaults = dict(
-        trace_id="t-1",
-        decision_id="d-1",
-        agent_id="a1",
-        invoking_identity="user:qa",
-        manifest_version="m",
-        policy_version="p",
-        model_version="gpt-4.1",
-        prompt_version="pr",
-        inputs_ref="sha256:aaa",
-        tools_called=(
+    defaults = {
+        "trace_id": "t-1",
+        "decision_id": "d-1",
+        "agent_id": "a1",
+        "invoking_identity": "user:qa",
+        "manifest_version": "m",
+        "policy_version": "p",
+        "model_version": "gpt-4.1",
+        "prompt_version": "pr",
+        "inputs_ref": "sha256:aaa",
+        "tools_called": (
             ToolCallRecord(
                 mcp_tool_id="fabric-mcp.query",
                 tool_version="1.0.0",
@@ -38,11 +39,11 @@ def _row(**overrides) -> AuditRow:
                 result_hash="sha256:rr",
             ),
         ),
-        reasoning_trace_ref="sha256:rz",
-        decision_output={"action": "markdown", "pct": -30},
-        hitl_status=HitlRecord(status=HitlStatus.APPROVED, approver_identity="qa@ex.com"),
-        downstream_effect_ref=None,
-    )
+        "reasoning_trace_ref": "sha256:rz",
+        "decision_output": {"action": "markdown", "pct": -30},
+        "hitl_status": HitlRecord(status=HitlStatus.APPROVED, approver_identity="qa@ex.com"),
+        "downstream_effect_ref": None,
+    }
     defaults.update(overrides)
     return AuditRow(**defaults)
 
@@ -71,11 +72,11 @@ class TestAuditRow:
 
     def test_row_is_frozen(self) -> None:
         row = _row()
-        with pytest.raises(Exception):
+        with pytest.raises(ValidationError):
             row.trace_id = "x"  # type: ignore[misc]
 
     def test_missing_required_field_rejected(self) -> None:
-        with pytest.raises(Exception):
+        with pytest.raises(ValidationError):
             _row(trace_id="")  # min_length=1
 
 

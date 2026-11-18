@@ -17,6 +17,7 @@ import logging
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
+from typing import Any
 
 from apex_orchestrator.heartbeat.parser import HeartbeatRoutine
 from apex_orchestrator.orchestrator.parent import (
@@ -70,7 +71,7 @@ class HeartbeatScheduler:
     )
     """Factory for run ids — production injects a UUID-based factory."""
 
-    emit_event: Callable[[str, dict], None] = field(default=lambda _t, _p: None)
+    emit_event: Callable[[str, dict[str, Any]], None] = field(default=lambda _t, _p: None)
     """Status-channel emitter — typically ``telemetry-mcp.emit``."""
 
     def fire_trigger(self, routine_name: str) -> TriggerFire:
@@ -147,7 +148,7 @@ class HeartbeatScheduler:
         )
 
     @staticmethod
-    def _envelope_from_budget(budget: dict) -> BudgetEnvelope:
+    def _envelope_from_budget(budget: dict[str, Any]) -> BudgetEnvelope:
         return BudgetEnvelope(
             tool_calls=int(budget.get("tool_calls", 100)),
             tokens=int(budget.get("tokens", 50_000)),

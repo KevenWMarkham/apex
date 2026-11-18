@@ -46,7 +46,7 @@ def context():
 
 
 def test_on_child_spawn_writes_cosmos_first_then_redis(context) -> None:
-    stub, redis, parent, cosmos, events = context
+    _stub, redis, parent, cosmos, events = context
     spawn = ChildSpawn(
         run_id="r1",
         child_id="c1",
@@ -74,7 +74,7 @@ def test_on_cancel_level_change_writes_both_paths(context) -> None:
 
 
 def test_on_child_complete_expires_run_keys(context) -> None:
-    _, redis, parent, cosmos, events = context
+    _, _redis, parent, cosmos, events = context
     parent.on_child_spawn(ChildSpawn(run_id="r1", child_id="c1", archetype="x"))
     parent.on_child_complete("r1", "c1", ttl_s=300)
     assert any("status" in k for k, _ in cosmos)
