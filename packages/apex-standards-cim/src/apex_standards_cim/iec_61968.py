@@ -14,6 +14,8 @@ _CIM_CONFIG = ConfigDict(extra="forbid")
 
 
 class CimMeterKind(StrEnum):
+    """Commodity measured by a :class:`CimMeter`."""
+
     ELECTRICITY = "electricity"
     GAS = "gas"
     WATER = "water"

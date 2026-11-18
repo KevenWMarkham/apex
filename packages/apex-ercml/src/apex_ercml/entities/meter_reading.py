@@ -11,6 +11,8 @@ from pydantic import Field
 
 
 class ReadingQuality(StrEnum):
+    """Validation status of a :class:`MeterReading` value (measured, estimated, ...)."""
+
     MEASURED = "measured"
     ESTIMATED = "estimated"
     SUBSTITUTED = "substituted"

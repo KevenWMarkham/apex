@@ -29,6 +29,7 @@ part of every audit row's evidence package.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from typing import Any
 
 from apex_purview.classifications import _normalize_key
 
@@ -123,13 +124,16 @@ class PropagationReport:
 
     @property
     def ok(self) -> bool:
+        """Return True when no violations were recorded."""
         return len(self.violations) == 0
 
     @property
     def exit_code(self) -> int:
+        """Return the CLI exit code: 0 when clean, 1 when any violation was found."""
         return 0 if self.ok else 1
 
     def summary(self) -> str:
+        """Return a one-line summary of nodes checked and violations found."""
         return (
             f"Classification propagation: {self.nodes_checked} nodes checked, "
             f"{len(self.violations)} violation(s)."
@@ -209,8 +213,8 @@ def validate_propagation(
 
 
 def build_propagation_graph(
-    schemas: list[dict],
-    lineage_spec: dict | None = None,
+    schemas: list[dict[str, Any]],
+    lineage_spec: dict[str, Any] | None = None,
 ) -> list[PropagationNode]:
     """Build a propagation graph from schema YAMLs and an optional lineage spec.
 

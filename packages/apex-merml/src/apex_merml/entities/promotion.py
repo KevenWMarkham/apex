@@ -11,6 +11,8 @@ from pydantic import Field
 
 
 class PromotionType(StrEnum):
+    """Mechanic of a :class:`Promotion` (percent off, amount off, BOGO, ...)."""
+
     PERCENT_OFF = "PERCENT_OFF"
     AMOUNT_OFF = "AMOUNT_OFF"
     BOGO = "BOGO"  # Buy One Get One

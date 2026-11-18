@@ -11,6 +11,8 @@ from pydantic import Field
 
 
 class PriceKind(StrEnum):
+    """Kind of :class:`Price` (list, regular, promotional, clearance, member)."""
+
     LIST = "LIST"
     REGULAR = "REGULAR"
     PROMOTIONAL = "PROMOTIONAL"

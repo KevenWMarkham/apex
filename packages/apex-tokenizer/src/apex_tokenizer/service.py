@@ -48,6 +48,11 @@ class TokenService:
         tenant_id: str = _DEFAULT_TENANT,
         secret: bytes | None = None,
     ) -> None:
+        """Bind the vault backend and tenant, and resolve the HMAC secret.
+
+        The secret comes from ``secret`` if given, else the ``APEX_TOKENIZER_SECRET``
+        environment variable, else a dev-only placeholder.
+        """
         self.backend = backend
         self.tenant_id = tenant_id
         self._secret = _resolve_secret(secret)

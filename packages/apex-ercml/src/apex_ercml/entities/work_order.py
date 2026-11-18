@@ -10,6 +10,8 @@ from pydantic import Field
 
 
 class WorkOrderStatus(StrEnum):
+    """Progress status of a utility :class:`WorkOrder`."""
+
     OPEN = "open"
     ASSIGNED = "assigned"
     IN_PROGRESS = "in_progress"

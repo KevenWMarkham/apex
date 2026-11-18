@@ -26,6 +26,7 @@ class ScopeResolver:
         provider: EntraProvisioningProvider,
         roles: TenantRoleStore,
     ) -> None:
+        """Keep the identity provider and role store used for resolution."""
         self.provider = provider
         self.roles = roles
 

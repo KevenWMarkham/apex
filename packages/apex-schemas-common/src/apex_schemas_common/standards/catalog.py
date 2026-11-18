@@ -129,6 +129,8 @@ def load_catalog(path: Path | None = None) -> dict[str, StandardSpec]:
 
 @dataclass
 class CatalogIssue:
+    """One discrepancy between the standards catalog YAML and the code registry."""
+
     standard_id: str
     code: str
     severity: str = "error"
@@ -137,20 +139,25 @@ class CatalogIssue:
 
 @dataclass
 class CatalogDriftReport:
+    """Result of :func:`check_catalog_drift`: issues found plus registry/catalog counts."""
+
     issues: list[CatalogIssue] = field(default_factory=list)
     standards_in_code: int = 0
     standards_in_catalog: int = 0
 
     @property
     def errors(self) -> list[CatalogIssue]:
+        """Return only the issues with severity ``"error"``."""
         return [i for i in self.issues if i.severity == "error"]
 
     @property
     def ok(self) -> bool:
+        """Return True when no error-severity issues were found."""
         return len(self.errors) == 0
 
     @property
     def exit_code(self) -> int:
+        """Return the process exit code: 0 when :attr:`ok`, otherwise 1."""
         return 0 if self.ok else 1
 
 

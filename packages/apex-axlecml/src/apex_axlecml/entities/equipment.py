@@ -9,6 +9,8 @@ from pydantic import Field
 
 
 class EquipmentStatus(StrEnum):
+    """Operational state of a plant-floor :class:`Equipment` unit."""
+
     IN_SERVICE = "in_service"
     IDLE = "idle"
     SETUP = "setup"

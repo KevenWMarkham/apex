@@ -10,6 +10,8 @@ from pydantic import Field
 
 
 class GridEventType(StrEnum):
+    """Category of an operational :class:`GridEvent` on the power network."""
+
     OUTAGE = "outage"
     FAULT = "fault"
     VOLTAGE_SAG = "voltage_sag"

@@ -12,6 +12,8 @@ from pydantic import Field
 
 
 class LoyaltyTier(StrEnum):
+    """Membership tier of a :class:`Loyalty` program enrolment."""
+
     BRONZE = "BRONZE"
     SILVER = "SILVER"
     GOLD = "GOLD"

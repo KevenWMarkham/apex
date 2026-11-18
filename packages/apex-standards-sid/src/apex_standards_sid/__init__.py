@@ -10,6 +10,8 @@ _SID_CONFIG = ConfigDict(extra="forbid")
 
 
 class SidLifecycleStatus(StrEnum):
+    """TM Forum SID lifecycle status shared by parties, offerings and products."""
+
     IN_STUDY = "in_study"
     IN_DESIGN = "in_design"
     IN_TEST = "in_test"

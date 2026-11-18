@@ -11,6 +11,8 @@ from pydantic import Field
 
 
 class ProductionEventType(StrEnum):
+    """Kind of plant-floor :class:`ProductionEvent` (batch, setup, scrap, OEE, ...)."""
+
     BATCH_START = "batch_start"
     BATCH_END = "batch_end"
     PHASE_TRANSITION = "phase_transition"

@@ -12,6 +12,8 @@ from pydantic import Field
 
 
 class ClaimStatus(StrEnum):
+    """FHIR R4 ``Claim.status`` value set."""
+
     ACTIVE = "active"
     CANCELLED = "cancelled"
     DRAFT = "draft"
@@ -19,6 +21,8 @@ class ClaimStatus(StrEnum):
 
 
 class ClaimType(StrEnum):
+    """FHIR R4 ``Claim.type`` category (institutional, professional, pharmacy, ...)."""
+
     INSTITUTIONAL = "institutional"
     PROFESSIONAL = "professional"
     ORAL = "oral"

@@ -46,12 +46,15 @@ class InMemoryVaultBackend:
     _store: dict[str, VaultEntry] = field(default_factory=dict)
 
     def store(self, entry: VaultEntry) -> None:
+        """Store ``entry`` unless its token is already present (first write wins)."""
         self._store.setdefault(entry.token, entry)
 
     def resolve(self, token: str) -> VaultEntry | None:
+        """Return the entry for ``token``, or None if not found."""
         return self._store.get(token)
 
     def has(self, token: str) -> bool:
+        """Return True iff ``token`` has an entry."""
         return token in self._store
 
     def size(self) -> int:
@@ -69,20 +72,24 @@ class DeltaVaultBackend:
     """
 
     def __init__(self, table_name: str, spark: Any = None) -> None:
+        """Record the target Delta table name and optional SparkSession."""
         self.table_name = table_name
         self.spark = spark
 
     def store(self, entry: VaultEntry) -> None:  # pragma: no cover - Spark-only
+        """Persist ``entry`` to the Delta vault table (stub: raises ``NotImplementedError``)."""
         raise NotImplementedError(
             "DeltaVaultBackend.store is wired by the Silver-transform notebook."
         )
 
     def resolve(self, token: str) -> VaultEntry | None:  # pragma: no cover
+        """Look up ``token`` in the Delta vault table (stub: raises ``NotImplementedError``)."""
         raise NotImplementedError(
             "DeltaVaultBackend.resolve is wired by the Silver-transform notebook."
         )
 
     def has(self, token: str) -> bool:  # pragma: no cover
+        """Check ``token`` exists in the Delta vault table (stub: raises ``NotImplementedError``)."""
         raise NotImplementedError(
             "DeltaVaultBackend.has is wired by the Silver-transform notebook."
         )

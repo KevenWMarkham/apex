@@ -11,6 +11,8 @@ from pydantic import Field
 
 
 class SupplierTier(StrEnum):
+    """Sourcing tier of a :class:`Supplier`."""
+
     PRIMARY = "PRIMARY"
     SECONDARY = "SECONDARY"
     TERTIARY = "TERTIARY"

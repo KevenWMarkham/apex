@@ -197,6 +197,7 @@ class DLPRule:
     action: str
 
     def __post_init__(self) -> None:
+        """Validate classification, surface and action against the known vocabularies."""
         if self.classification not in APEX_CLASSIFICATIONS:
             raise ValueError(
                 f"Unknown classification: {self.classification!r}. "
@@ -222,6 +223,7 @@ class DLPViolationAlert:
     """Whether to stamp the violation on the originating decision's audit row."""
 
     def to_atlas(self) -> dict[str, Any]:
+        """Serialise the alerting config as its Atlas payload."""
         return {
             "webhookUrl": self.webhook_url,
             "severityThreshold": self.severity_threshold,
@@ -249,6 +251,7 @@ class DLPPolicyBundle:
         self.rules.append(DLPRule(classification, surface, action))
 
     def to_atlas(self) -> dict[str, Any]:
+        """Serialise the bundle, mapping classifications to Atlas type names and adding alerting if set."""
         rules_payload = [
             {
                 "classification": APEX_CLASSIFICATIONS[r.classification]["type_name"],

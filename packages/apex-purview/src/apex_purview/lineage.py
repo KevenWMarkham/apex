@@ -34,6 +34,7 @@ construction), §9.11.4 (Bronze → Silver → Gold → MCP → Agent path).
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -58,6 +59,7 @@ class EntityRef:
     qualified_name: str
 
     def to_atlas(self) -> dict[str, Any]:
+        """Serialise as an Atlas ``uniqueAttributes`` entity reference."""
         return {
             "typeName": self.type_name,
             "uniqueAttributes": {"qualifiedName": self.qualified_name},
@@ -426,7 +428,7 @@ def emit_process_typedefs() -> dict[str, Any]:
 # ---------------------------------------------------------------------------
 
 
-_HOP_DISPATCH = {
+_HOP_DISPATCH: dict[str, Callable[..., LineageProcess]] = {
     "sor_to_bronze": emit_sor_to_bronze,
     "bronze_to_silver": emit_bronze_to_silver,
     "silver_to_gold": emit_silver_to_gold,

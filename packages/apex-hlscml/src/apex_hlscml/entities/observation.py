@@ -12,6 +12,8 @@ from pydantic import Field
 
 
 class ObservationStatus(StrEnum):
+    """FHIR R4 ``Observation.status`` value set (subset)."""
+
     REGISTERED = "registered"
     PRELIMINARY = "preliminary"
     FINAL = "final"

@@ -41,15 +41,21 @@ class RestrictedTraceStore:
     _traces: dict[str, str] = field(default_factory=dict)
 
     def put(self, decision_id: str, raw_trace: str) -> str:
+        """Store a raw trace for ``decision_id`` and return its ``restricted://`` ref.
+
+        An empty ``raw_trace`` is not stored and yields an empty ref.
+        """
         if not raw_trace:
             return ""
         self._traces[decision_id] = raw_trace
         return f"restricted://{decision_id}"
 
     def get(self, decision_id: str) -> str:
+        """Return the raw trace for ``decision_id``; raises ``KeyError`` if absent."""
         return self._traces[decision_id]
 
     def __contains__(self, decision_id: str) -> bool:
+        """Return True if a raw trace is stored for ``decision_id``."""
         return decision_id in self._traces
 
 

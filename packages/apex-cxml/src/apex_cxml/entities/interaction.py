@@ -10,6 +10,8 @@ from pydantic import Field
 
 
 class InteractionChannel(StrEnum):
+    """Channel through which a customer :class:`Interaction` took place."""
+
     IN_STORE = "IN_STORE"
     WEB = "WEB"
     MOBILE = "MOBILE"

@@ -10,6 +10,8 @@ from pydantic import Field
 
 
 class EncounterStatus(StrEnum):
+    """FHIR R4 ``Encounter.status`` value set."""
+
     PLANNED = "planned"
     ARRIVED = "arrived"
     TRIAGED = "triaged"

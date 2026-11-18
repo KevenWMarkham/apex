@@ -12,6 +12,8 @@ from pydantic import Field
 
 
 class LocationType(StrEnum):
+    """Role of a supply-chain :class:`Location` (store, DC, warehouse, ...)."""
+
     STORE = "STORE"
     DC = "DC"
     WAREHOUSE = "WAREHOUSE"

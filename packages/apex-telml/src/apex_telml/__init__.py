@@ -16,6 +16,8 @@ from pydantic import Field
 
 
 class CustomerSegment(StrEnum):
+    """Market segment of a :class:`TelcoCustomer`."""
+
     RESIDENTIAL = "residential"
     SMB = "small_business"
     ENTERPRISE = "enterprise"
@@ -55,6 +57,8 @@ class Product(CanonicalEntity):
 
 
 class ServiceKind(StrEnum):
+    """Kind of provisioned telco :class:`Service`."""
+
     MOBILE_VOICE = "mobile_voice"
     MOBILE_DATA = "mobile_data"
     FIXED_BROADBAND = "fixed_broadband"
@@ -77,6 +81,8 @@ class Service(CanonicalEntity):
 
 
 class ResourceKind(StrEnum):
+    """Whether a :class:`NetworkResource` is physical, logical or virtual."""
+
     PHYSICAL = "physical"
     LOGICAL = "logical"
     VIRTUAL = "virtual"

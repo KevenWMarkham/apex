@@ -10,6 +10,8 @@ from pydantic import Field
 
 
 class AssetLifecycleState(StrEnum):
+    """Lifecycle state of a utility network :class:`Asset`."""
+
     PLANNED = "planned"
     IN_SERVICE = "in_service"
     OUT_OF_SERVICE = "out_of_service"

@@ -11,6 +11,8 @@ from pydantic import Field
 
 
 class MedicationRequestStatus(StrEnum):
+    """FHIR R4 ``MedicationRequest.status`` value set."""
+
     ACTIVE = "active"
     ON_HOLD = "on-hold"
     CANCELLED = "cancelled"
@@ -21,6 +23,8 @@ class MedicationRequestStatus(StrEnum):
 
 
 class MedicationRequestIntent(StrEnum):
+    """FHIR R4 ``MedicationRequest.intent`` value set."""
+
     PROPOSAL = "proposal"
     PLAN = "plan"
     ORDER = "order"

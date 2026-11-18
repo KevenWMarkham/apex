@@ -11,6 +11,8 @@ from pydantic import Field
 
 
 class MarkdownReason(StrEnum):
+    """Business reason a :class:`Markdown` was applied."""
+
     SEASONAL = "SEASONAL"
     OVERSTOCK = "OVERSTOCK"
     DAMAGED = "DAMAGED"

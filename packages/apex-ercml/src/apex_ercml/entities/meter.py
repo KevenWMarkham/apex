@@ -10,6 +10,8 @@ from pydantic import Field
 
 
 class MeterKind(StrEnum):
+    """Commodity measured by a utility :class:`Meter`."""
+
     ELECTRICITY = "electricity"
     GAS = "gas"
     WATER = "water"

@@ -29,6 +29,8 @@ class Traveler(CanonicalEntity, ScdType2Fields):
 
 
 class ReservationStatus(StrEnum):
+    """Lifecycle status of a :class:`Reservation`."""
+
     BOOKED = "booked"
     TICKETED = "ticketed"
     CONFIRMED = "confirmed"
@@ -54,6 +56,8 @@ class Reservation(CanonicalEntity):
 
 
 class ItineraryKind(StrEnum):
+    """Travel mode of an :class:`Itinerary` (air, hotel, car, rail, cruise)."""
+
     AIR = "air"
     HOTEL = "hotel"
     CAR = "car"
@@ -72,6 +76,8 @@ class Itinerary(CanonicalEntity):
 
 
 class SegmentStatus(StrEnum):
+    """Operational status of a travel :class:`Segment`."""
+
     SCHEDULED = "scheduled"
     BOARDED = "boarded"
     DEPARTED = "departed"
@@ -102,6 +108,8 @@ class Segment(CanonicalEntity):
 
 
 class LoyaltyTier(StrEnum):
+    """Tier of a travel :class:`LoyaltyAccount`."""
+
     BASE = "base"
     SILVER = "silver"
     GOLD = "gold"
@@ -123,6 +131,8 @@ class LoyaltyAccount(CanonicalEntity, ScdType2Fields):
 
 
 class DisruptionKind(StrEnum):
+    """Category of an irregular-operations :class:`Disruption`."""
+
     CANCELLATION = "cancellation"
     DELAY = "delay"
     EQUIPMENT_SWAP = "equipment_swap"

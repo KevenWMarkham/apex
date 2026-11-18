@@ -26,6 +26,8 @@ Vin17 = Annotated[
 
 
 class IceEquipmentKind(StrEnum):
+    """Category of an :class:`IceEquipment` unit."""
+
     TRUCK = "truck"
     TRACTOR = "tractor"
     EXCAVATOR = "excavator"
@@ -52,6 +54,8 @@ class IceEquipment(CanonicalEntity, ScdType2Fields):
 
 
 class TelemetryQuality(StrEnum):
+    """Processing level of a :class:`TelemetryReading` (raw, decoded or derived)."""
+
     RAW = "raw"
     DECODED = "decoded"
     DERIVED = "derived"
@@ -76,6 +80,8 @@ class TelemetryReading(CanonicalEntity):
 
 
 class ServiceEventSeverity(StrEnum):
+    """Severity of a :class:`ServiceEvent`."""
+
     INFO = "info"
     WARNING = "warning"
     ERROR = "error"
@@ -96,6 +102,8 @@ class ServiceEvent(CanonicalEntity):
 
 
 class MaintenanceKind(StrEnum):
+    """Reason a :class:`MaintenanceRecord` was performed."""
+
     SCHEDULED = "scheduled"
     UNPLANNED = "unplanned"
     PREDICTIVE = "predictive"
@@ -152,9 +160,7 @@ class AempSnapshotInput(BaseModel):
     fuel_level_pct: Decimal | None = None
 
 
-def _envelope(
-    *, entity_id: str, event_ts: datetime, source_system: str = "aemp"
-) -> dict[str, Any]:
+def _envelope(*, entity_id: str, event_ts: datetime, source_system: str = "aemp") -> dict[str, Any]:
     return {
         "event_id": uuid4(),
         "event_ts": event_ts,

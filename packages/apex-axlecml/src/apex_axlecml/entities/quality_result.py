@@ -11,6 +11,8 @@ from pydantic import Field
 
 
 class QualityStatus(StrEnum):
+    """Disposition of a :class:`QualityResult` measurement."""
+
     PASS = "pass"
     FAIL = "fail"
     CONDITIONAL_PASS = "conditional_pass"

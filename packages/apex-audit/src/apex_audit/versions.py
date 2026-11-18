@@ -30,7 +30,9 @@ class VersionStamps(BaseModel):
 class VersionResolver(Protocol):
     """Looks up the effective SHAs for an orchestration at invocation time."""
 
-    def resolve(self, *, orchestration_name: str, tenant_id: str) -> VersionStamps: ...
+    def resolve(self, *, orchestration_name: str, tenant_id: str) -> VersionStamps:
+        """Return the version stamps in effect for ``orchestration_name`` in ``tenant_id``."""
+        ...
 
 
 class StaticVersionResolver:
@@ -41,9 +43,11 @@ class StaticVersionResolver:
     """
 
     def __init__(self, stamps: VersionStamps) -> None:
+        """Keep the fixed ``stamps`` returned for every resolution."""
         self._stamps = stamps
 
     def resolve(self, *, orchestration_name: str, tenant_id: str) -> VersionStamps:
+        """Return the fixed stamps, ignoring the orchestration and tenant."""
         del orchestration_name, tenant_id
         return self._stamps
 

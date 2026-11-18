@@ -10,6 +10,8 @@ from pydantic import Field
 
 
 class DiagnosticReportStatus(StrEnum):
+    """FHIR R4 ``DiagnosticReport.status`` value set."""
+
     REGISTERED = "registered"
     PARTIAL = "partial"
     PRELIMINARY = "preliminary"

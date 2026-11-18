@@ -9,6 +9,8 @@ from pydantic import Field
 
 
 class GenealogyDirection(StrEnum):
+    """Direction in which a genealogy edge is traversed (raw-to-finished or back)."""
+
     FORWARD = "forward"  # parent (raw) → child (processed)
     REVERSE = "reverse"  # child (finished) → parent (raw input)
 

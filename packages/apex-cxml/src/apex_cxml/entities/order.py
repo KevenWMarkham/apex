@@ -13,6 +13,8 @@ from pydantic import Field
 
 
 class OrderStatus(StrEnum):
+    """Fulfilment status of an :class:`Order`, from draft through delivery or return."""
+
     DRAFT = "DRAFT"
     PLACED = "PLACED"
     PICKED = "PICKED"

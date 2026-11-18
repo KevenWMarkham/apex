@@ -12,6 +12,8 @@ from pydantic import Field
 
 
 class AeSeverity(StrEnum):
+    """CDISC SDTM AESEV severity grade of an :class:`AdverseEvent`."""
+
     MILD = "MILD"
     MODERATE = "MODERATE"
     SEVERE = "SEVERE"

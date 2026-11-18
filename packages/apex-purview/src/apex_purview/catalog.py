@@ -47,6 +47,7 @@ class GlossaryTerm:
     glossary_qname: str = "APEX@apex-glossary"
 
     def to_atlas(self) -> dict[str, Any]:
+        """Serialise as an Atlas glossary-term payload, assigning any related entities."""
         body: dict[str, Any] = {
             "name": self.name,
             "qualifiedName": self.qualified_name,
@@ -80,6 +81,7 @@ class GlossaryDef:
     usage: str = "Production"
 
     def to_atlas(self) -> dict[str, Any]:
+        """Serialise as an Atlas glossary payload."""
         return {
             "qualifiedName": self.qualified_name,
             "name": self.name,
@@ -107,6 +109,7 @@ class EntityRelationship:
     label: str = ""
 
     def to_atlas(self) -> dict[str, Any]:
+        """Serialise as an Atlas relationship payload between the two qualified-name ends."""
         return {
             "typeName": self.relationship_type,
             "end1": {
