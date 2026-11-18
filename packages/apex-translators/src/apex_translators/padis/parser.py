@@ -52,6 +52,11 @@ class PADISParser:
     """IATA PADIS one-way parser."""
 
     def parse(self, raw: str) -> ParsedMessage:
+        """Parse a PADIS teletype message (header line, optional flight key, traveler records).
+
+        Raises:
+            ParseError: If the payload is blank or the header is not a supported type.
+        """
         if not raw or not raw.strip():
             raise ParseError("PADIS payload is empty")
         lines = [ln.strip() for ln in raw.splitlines() if ln.strip()]

@@ -17,6 +17,14 @@ class HL7v2Emitter:
     """HL7 v2 emitter — segment-level."""
 
     def emit(self, message: ParsedMessage) -> str:
+        r"""Render ``message`` back to HL7 v2 text.
+
+        Uses the delimiters recorded in ``metadata["delimiters"]``, defaulting
+        to the standard ``|^~\&`` set with CR segment terminators.
+
+        Raises:
+            EmitError: If the message has no segments or its MSH has no elements.
+        """
         if not message.segments:
             raise EmitError("Cannot emit HL7 v2 from a message with no segments")
         delims = self._delims_from(message)

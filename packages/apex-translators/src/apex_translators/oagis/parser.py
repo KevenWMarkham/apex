@@ -38,6 +38,15 @@ class OAGISParser:
     """OAGIS BOD parser."""
 
     def parse(self, raw: str) -> ParsedMessage:
+        """Parse an OAGIS BOD into its verb/noun, ApplicationArea envelope and noun segments.
+
+        Each noun element under ``DataArea`` becomes a :class:`Segment`; the
+        inner verb element is skipped.
+
+        Raises:
+            ParseError: If the payload is empty, not XML, has an unrecognised
+                verb, or lacks a ``DataArea``.
+        """
         if not raw or not raw.strip():
             raise ParseError("OAGIS payload is empty")
         try:
@@ -125,6 +134,7 @@ def _xml_to_dict(el: ET.Element) -> dict[str, Any]:
     out: dict[str, Any] = {}
     for child in el:
         local = child.tag.split("}")[-1]
+        sub: dict[str, Any] | str
         if list(child):
             sub = _xml_to_dict(child)
         elif child.text and child.text.strip():

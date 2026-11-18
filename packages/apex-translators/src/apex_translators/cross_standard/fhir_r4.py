@@ -496,7 +496,9 @@ def _medication_statements_from_cda_section(
     return out
 
 
-def _conditions_from_cda_section(section: Segment, patient: dict[str, Any] | None) -> list[dict[str, Any]]:
+def _conditions_from_cda_section(
+    section: Segment, patient: dict[str, Any] | None
+) -> list[dict[str, Any]]:
     out: list[dict[str, Any]] = []
     entries = section.data.get("entries", [])
     for entry in entries:
@@ -520,7 +522,9 @@ def _conditions_from_cda_section(section: Segment, patient: dict[str, Any] | Non
     return out
 
 
-def _observations_from_cda_section(section: Segment, patient: dict[str, Any] | None) -> list[dict[str, Any]]:
+def _observations_from_cda_section(
+    section: Segment, patient: dict[str, Any] | None
+) -> list[dict[str, Any]]:
     out: list[dict[str, Any]] = []
     entries = section.data.get("entries", [])
     for entry in entries:

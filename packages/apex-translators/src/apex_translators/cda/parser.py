@@ -59,6 +59,15 @@ class CDAParser:
     """C-CDA section extractor."""
 
     def parse(self, raw: str) -> ParsedMessage:
+        """Parse a C-CDA document into header metadata plus one segment per section.
+
+        Patient demographics and effective time go into ``metadata``; each
+        structured-body section becomes a :class:`Segment`.
+
+        Raises:
+            ParseError: If the payload is empty, over the size limit, not XML,
+                or not rooted at ``ClinicalDocument``.
+        """
         if not raw:
             raise ParseError("CDA payload is empty")
         if len(raw.encode("utf-8")) > MAX_PAYLOAD_BYTES:

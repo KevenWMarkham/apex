@@ -21,6 +21,11 @@ class OAGISEmitter:
     encoding: str = "utf-8"
 
     def emit(self, message: ParsedMessage) -> str:
+        """Render ``message`` as an OAGIS BOD XML string.
+
+        Raises:
+            EmitError: If the format is not ``oagis`` or ``message_type`` is empty.
+        """
         if message.format != "oagis":
             raise EmitError(f"OAGIS emitter requires format='oagis', got {message.format!r}")
         verb = message.metadata.get("verb", "Sync")
