@@ -4,6 +4,7 @@ from __future__ import annotations
 
 
 def main() -> None:  # pragma: no cover
+    """Register the ferc-mcp tools on a FastMCP server and run it."""
     from mcp.server.fastmcp import FastMCP  # type: ignore[import-not-found]
 
     from ferc_mcp.tools import (

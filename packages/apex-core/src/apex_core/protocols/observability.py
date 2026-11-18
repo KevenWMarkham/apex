@@ -17,6 +17,8 @@ from typing import Any, Protocol, runtime_checkable
 
 @dataclass(frozen=True)
 class TraceContext:
+    """Identifies a trace span and its parent, with span attributes."""
+
     trace_id: str
     span_id: str
     parent_span_id: str | None = None
@@ -25,6 +27,8 @@ class TraceContext:
 
 @dataclass(frozen=True)
 class Metric:
+    """A single named metric data point with tags."""
+
     name: str  # e.g., "apex.agent.invocation.duration_ms"
     value: float
     tags: dict[str, str] = field(default_factory=dict)

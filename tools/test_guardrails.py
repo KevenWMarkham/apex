@@ -28,6 +28,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 
 
 def test_find_standards_packages_returns_all_eight() -> None:
+    """All eight known apex-standards-* packages are discovered."""
     pkgs = find_standards_packages(REPO_ROOT)
     names = {p.name for p in pkgs}
     expected = {
@@ -44,6 +45,7 @@ def test_find_standards_packages_returns_all_eight() -> None:
 
 
 def test_every_standards_package_has_licence_attribution() -> None:
+    """No apex-standards-* package is missing a required licence file."""
     pkgs = find_standards_packages(REPO_ROOT)
     for pkg in pkgs:
         issues = check_package(pkg)
@@ -51,10 +53,12 @@ def test_every_standards_package_has_licence_attribution() -> None:
 
 
 def test_workspace_root_licence_attribution_exists() -> None:
+    """The workspace root ships its own LICENSE-ATTRIBUTION.md."""
     assert (REPO_ROOT / "LICENSE-ATTRIBUTION.md").exists()
 
 
 def test_check_package_detects_missing_file(tmp_path: Path) -> None:
+    """An empty package directory is reported as missing its licence file."""
     fake = tmp_path / "apex-standards-fake"
     fake.mkdir()
     issues = check_package(fake)
@@ -63,6 +67,7 @@ def test_check_package_detects_missing_file(tmp_path: Path) -> None:
 
 
 def test_licences_main_passes_on_real_repo() -> None:
+    """The licence CLI exits 0 against the real repository."""
     rc = licences_main([str(REPO_ROOT)])
     assert rc == 0
 
@@ -73,12 +78,14 @@ def test_licences_main_passes_on_real_repo() -> None:
 
 
 def test_scan_clean_packages_finds_nothing() -> None:
+    """The real packages/ tree contains no restricted content."""
     findings = scan_path(REPO_ROOT / "packages")
     # Expect exactly zero findings on a clean tree
     assert findings == [], [f"{f.path}: {f.code}" for f in findings]
 
 
 def test_scan_detects_restricted_filename(tmp_path: Path) -> None:
+    """A file named like a vocabulary dump is flagged by filename."""
     bad = tmp_path / "loinc.csv"
     bad.write_text("LOINC_NUM,COMPONENT,PROPERTY\n1234-5,foo,bar\n", encoding="utf-8")
     findings = scan_path(tmp_path)
@@ -87,6 +94,7 @@ def test_scan_detects_restricted_filename(tmp_path: Path) -> None:
 
 
 def test_scan_detects_loinc_table_dump_in_text_file(tmp_path: Path) -> None:
+    """A LOINC table header is flagged by content even under a harmless name."""
     bad = tmp_path / "harmless_name.txt"
     bad.write_text(
         "LOINC_NUM, COMPONENT, PROPERTY, TIME_ASPCT, SYSTEM\n718-7, Hemoglobin, MCnc, Pt, Bld\n",
@@ -119,6 +127,7 @@ def test_scan_skips_dotted_directories(tmp_path: Path) -> None:
 
 
 def test_restricted_main_passes_on_real_packages_dir() -> None:
+    """The restricted-terminology CLI exits 0 against the real packages/ tree."""
     rc = restricted_main([str(REPO_ROOT / "packages")])
     assert rc == 0
 
@@ -130,6 +139,7 @@ def test_restricted_main_passes_on_real_packages_dir() -> None:
 
 @pytest.mark.conformance
 def test_conformance_all_standards_packages_have_licences() -> None:
+    """Conformance: every apex-standards-* package has its licence files."""
     pkgs = find_standards_packages(REPO_ROOT)
     for pkg in pkgs:
         assert not check_package(pkg)
@@ -137,10 +147,12 @@ def test_conformance_all_standards_packages_have_licences() -> None:
 
 @pytest.mark.conformance
 def test_conformance_workspace_root_attribution_present() -> None:
+    """Conformance: the workspace-root LICENSE-ATTRIBUTION.md is present."""
     assert (REPO_ROOT / "LICENSE-ATTRIBUTION.md").exists()
 
 
 @pytest.mark.conformance
 def test_conformance_no_restricted_content_in_packages() -> None:
+    """Conformance: packages/ contains no restricted-terminology content."""
     findings = scan_path(REPO_ROOT / "packages")
     assert findings == [], [f"{f.path}: {f.code}" for f in findings]

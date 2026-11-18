@@ -460,18 +460,18 @@ SCHEMAS = [
 
 count = 0
 for code, name, practices, entities, standards, classification, pkg in SCHEMAS:
-    data = dict(
-        kind="schema",
-        schema_code=code,
-        name=name,
-        description=f"{name} canonical schema family. Bronze to Silver to Gold pipeline scope; consumed by APEX agents/services across {', '.join(p.upper() for p in practices)}.",
-        practices=practices,
-        primary_entities=entities,
-        standards_alignment=standards,
-        governance_classification=classification,
-        appendix_a_section=f"Appendix A — Schema family {code}",
-        package_implementation=pkg,
-    )
+    data = {
+        "kind": "schema",
+        "schema_code": code,
+        "name": name,
+        "description": f"{name} canonical schema family. Bronze to Silver to Gold pipeline scope; consumed by APEX agents/services across {', '.join(p.upper() for p in practices)}.",
+        "practices": practices,
+        "primary_entities": entities,
+        "standards_alignment": standards,
+        "governance_classification": classification,
+        "appendix_a_section": f"Appendix A — Schema family {code}",
+        "package_implementation": pkg,
+    }
     fname = f"{code.lower().replace('-', '_')}.yaml"
     path = OUT / fname
     with path.open("w", encoding="utf-8") as fh:

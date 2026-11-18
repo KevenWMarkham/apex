@@ -180,7 +180,7 @@ def reservation_from_ota_air(ota: OtaAirReservation) -> Reservation:
         if ota.status in {s.value for s in ReservationStatus}
         else ReservationStatus.BOOKED,
         booked_at=ota.booking_datetime,
-    )  # type: ignore[arg-type]
+    )
 
 
 __all__ = [

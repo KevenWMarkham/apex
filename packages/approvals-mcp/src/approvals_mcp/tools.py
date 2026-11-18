@@ -14,6 +14,8 @@ TOOL_VERSION = "1.0.0"
 
 
 class ApprovalStatus(StrEnum):
+    """Lifecycle state of an approval request."""
+
     PENDING = "pending"
     APPROVED = "approved"
     REJECTED = "rejected"

@@ -30,9 +30,11 @@ class FleetReport:
 
     @property
     def valid(self) -> bool:
+        """Return True when every tenant is valid and no cross-tenant errors exist."""
         return all(r.valid for r in self.tenant_reports) and not self.cross_tenant_errors
 
     def summary(self) -> str:
+        """Return a one-line status with valid-tenant and cross-tenant error counts."""
         n = len(self.tenant_reports)
         bad = sum(1 for r in self.tenant_reports if not r.valid)
         extra = len(self.cross_tenant_errors)

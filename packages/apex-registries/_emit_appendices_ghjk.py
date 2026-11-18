@@ -1,13 +1,14 @@
 """Emit Appendices G (products), H (partners), K (competitive), J (exercises)."""
 
 from pathlib import Path
+from typing import Any
 
 import yaml
 
 ROOT = Path(__file__).parent / "src" / "apex_registries"
 
 
-def write(folder: str, fname: str, data: dict) -> None:
+def write(folder: str, fname: str, data: dict[str, Any]) -> None:
     p = ROOT / folder / fname
     p.parent.mkdir(parents=True, exist_ok=True)
     with p.open("w", encoding="utf-8") as fh:
@@ -302,18 +303,18 @@ PRODUCTS = [
     ),
 ]
 for pid, family, display, sku, desc, basis, use, role in PRODUCTS:
-    data = dict(
-        kind="product",
-        product_id=pid,
-        family=family,
-        display_name=display,
-        sku_or_tier=sku,
-        description=desc,
-        list_price_basis=basis,
-        typical_use=use,
-        apex_role=role,
-        appendix_g_section=f"Appendix G — {family}",
-    )
+    data: dict[str, Any] = {
+        "kind": "product",
+        "product_id": pid,
+        "family": family,
+        "display_name": display,
+        "sku_or_tier": sku,
+        "description": desc,
+        "list_price_basis": basis,
+        "typical_use": use,
+        "apex_role": role,
+        "appendix_g_section": f"Appendix G — {family}",
+    }
     write("products", f"{pid.replace('.', '-')}.yaml", data)
 
 # Appendix H — Partners
@@ -500,17 +501,17 @@ PARTNERS = [
     ),
 ]
 for pid, name, category, practices, desc, pattern, contracts in PARTNERS:
-    data = dict(
-        kind="partner",
-        partner_id=pid,
-        name=name,
-        category=category,
-        practices=practices,
-        description=desc,
-        apex_integration_pattern=pattern,
-        contracts_in_place=contracts,
-        appendix_h_section=f"Appendix H — {category}",
-    )
+    data = {
+        "kind": "partner",
+        "partner_id": pid,
+        "name": name,
+        "category": category,
+        "practices": practices,
+        "description": desc,
+        "apex_integration_pattern": pattern,
+        "contracts_in_place": contracts,
+        "appendix_h_section": f"Appendix H — {category}",
+    }
     write("partners", f"{pid.replace('.', '-')}.yaml", data)
 
 # Appendix K — Competitive posture
@@ -636,16 +637,16 @@ COMPETITIVE = [
     ),
 ]
 for cid, competitor, offering, diffs, indep, themes in COMPETITIVE:
-    data = dict(
-        kind="competitive",
-        entry_id=cid,
-        competitor=competitor,
-        competitor_offering=offering,
-        apex_differentiators=diffs,
-        independence_concerns=indep,
-        win_themes=themes,
-        appendix_k_section="Appendix K — Independence and Competitive Posture",
-    )
+    data = {
+        "kind": "competitive",
+        "entry_id": cid,
+        "competitor": competitor,
+        "competitor_offering": offering,
+        "apex_differentiators": diffs,
+        "independence_concerns": indep,
+        "win_themes": themes,
+        "appendix_k_section": "Appendix K — Independence and Competitive Posture",
+    }
     write("competitive", f"{cid.replace('.', '-')}.yaml", data)
 
 # Appendix J — Exercise solutions (10 exemplars)
@@ -767,17 +768,17 @@ EXERCISES = [
     ),
 ]
 for eid, section, chapter, prompt, solution, points, kpis, archs in EXERCISES:
-    data = dict(
-        kind="exercise",
-        exercise_id=eid,
-        sellers_guide_section=section,
-        chapter=chapter,
-        prompt=prompt,
-        canonical_solution=solution,
-        teaching_points=points,
-        related_kpi_ids=kpis,
-        related_archetype_ids=archs,
-    )
+    data = {
+        "kind": "exercise",
+        "exercise_id": eid,
+        "sellers_guide_section": section,
+        "chapter": chapter,
+        "prompt": prompt,
+        "canonical_solution": solution,
+        "teaching_points": points,
+        "related_kpi_ids": kpis,
+        "related_archetype_ids": archs,
+    }
     write("exercises", f"{eid.replace('.', '-')}.yaml", data)
 
 print("Products:", len(PRODUCTS))

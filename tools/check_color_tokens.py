@@ -57,6 +57,8 @@ DOC_NAME_PATTERNS: tuple[re.Pattern[str], ...] = (
 
 @dataclass
 class Finding:
+    """One inline hex colour literal found in a scanned file."""
+
     path: Path
     line: int
     hex_value: str
@@ -69,6 +71,11 @@ def _is_doc_file(path: Path) -> bool:
 
 
 def scan_file(path: Path) -> list[Finding]:
+    """Return every inline hex literal in ``path``.
+
+    Allowlisted files and token-registry documentation files are skipped, as
+    are files that cannot be read.
+    """
     if path.name in ALLOWLIST_BASENAMES:
         return []
     if _is_doc_file(path):
@@ -99,6 +106,7 @@ def scan_file(path: Path) -> list[Finding]:
 
 
 def scan_root(root: Path) -> list[Finding]:
+    """Scan every file under ``root`` with a scanned extension, skipping excluded dirs."""
     findings: list[Finding] = []
     for path in root.rglob("*"):
         if not path.is_file():
@@ -112,6 +120,11 @@ def scan_root(root: Path) -> list[Finding]:
 
 
 def main(argv: list[str] | None = None) -> int:
+    """Run the colour-token check from the command line.
+
+    Returns:
+        Process exit code: 0 when no violations are found, non-zero otherwise.
+    """
     parser = argparse.ArgumentParser(
         description=(
             "Color-token compliance — fails the build if any inline hex "

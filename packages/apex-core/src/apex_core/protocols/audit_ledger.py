@@ -67,7 +67,8 @@ class AuditLedger(Protocol):
         ...
 
     def verify(self, row_id: str) -> bool:
-        """Verify a row's signature against the WORM store. Returns False
-        on tamper or missing.
+        """Verify a row's signature against the WORM store.
+
+        Returns False on tamper or missing.
         """
         ...

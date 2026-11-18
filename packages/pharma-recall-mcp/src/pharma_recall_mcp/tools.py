@@ -5,7 +5,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, field
 from datetime import date
-from typing import Protocol, runtime_checkable
+from typing import Any, Protocol, runtime_checkable
 
 from apex_core.types import Classification
 from mcp_common import McpError, McpErrorCode, ToolContract, traced_call
@@ -19,24 +19,24 @@ _NDC_PATTERN = re.compile(r"^\d{4,5}-\d{3,4}-\d{1,2}$")
 
 @runtime_checkable
 class PharmaRecallBackend(Protocol):
-    def list_recalls(self, since: date, limit: int) -> list[dict]: ...
-    def search_by_ndc(self, ndc: str, limit: int) -> list[dict]: ...
-    def get_recall(self, recall_id: str) -> dict | None: ...
+    def list_recalls(self, since: date, limit: int) -> list[dict[str, Any]]: ...
+    def search_by_ndc(self, ndc: str, limit: int) -> list[dict[str, Any]]: ...
+    def get_recall(self, recall_id: str) -> dict[str, Any] | None: ...
 
 
 @dataclass
 class InMemoryPharmaRecallBackend:
-    recalls: list[dict] = field(default_factory=list)
+    recalls: list[dict[str, Any]] = field(default_factory=list)
 
-    def list_recalls(self, since: date, limit: int) -> list[dict]:
+    def list_recalls(self, since: date, limit: int) -> list[dict[str, Any]]:
         out = [r for r in self.recalls if date.fromisoformat(r["recall_date"]) >= since]
         return out[:limit]
 
-    def search_by_ndc(self, ndc: str, limit: int) -> list[dict]:
+    def search_by_ndc(self, ndc: str, limit: int) -> list[dict[str, Any]]:
         out = [r for r in self.recalls if ndc in r.get("ndc_codes", [])]
         return out[:limit]
 
-    def get_recall(self, recall_id: str) -> dict | None:
+    def get_recall(self, recall_id: str) -> dict[str, Any] | None:
         return next((r for r in self.recalls if r["recall_id"] == recall_id), None)
 
 
@@ -54,7 +54,7 @@ def list_pharma_recalls(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> list[dict]:
+) -> list[dict[str, Any]]:
     """List pharmaceutical recalls since a date (YYYY-MM-DD)."""
     try:
         since = date.fromisoformat(since_iso)
@@ -82,7 +82,7 @@ def search_recalls_by_ndc(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> list[dict]:
+) -> list[dict[str, Any]]:
     """Find recalls affecting an NDC code."""
     if not _NDC_PATTERN.match(ndc):
         raise McpError(
@@ -107,7 +107,7 @@ def get_recall_detail(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> dict:
+) -> dict[str, Any]:
     """Return the full pharmaceutical-recall record."""
     with traced_call(
         tool_name=f"{SERVER_NAME}.get_recall_detail",

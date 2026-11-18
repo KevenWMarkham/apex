@@ -63,4 +63,4 @@ def j1939_signal_from_frame(
         equipment_key=equipment_key,
         captured_at=captured_at,
         raw_can_frame=frame.data.hex() if frame.data else None,
-    )  # type: ignore[arg-type]
+    )

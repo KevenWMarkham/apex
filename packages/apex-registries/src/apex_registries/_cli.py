@@ -57,14 +57,18 @@ def list_cmd(
     entries = scan_registry(registry)
     for entry in entries:
         spec = entry.spec
-        if practice and getattr(spec, "practice", None) and spec.practice != practice.lower():
+        # Registry models differ in shape, so filter fields are read dynamically.
+        spec_practice = getattr(spec, "practice", None)
+        spec_practices = getattr(spec, "practices", None)
+        spec_family = getattr(spec, "family", None)
+        spec_category = getattr(spec, "category", None)
+        if practice and spec_practice and spec_practice != practice.lower():
             continue
-        if practice and getattr(spec, "practices", None):
-            if practice.lower() not in spec.practices:
-                continue
-        if family and getattr(spec, "family", None) and spec.family != family.lower():
+        if practice and spec_practices and practice.lower() not in spec_practices:
             continue
-        if family and getattr(spec, "category", None) and spec.category != family.lower():
+        if family and spec_family and spec_family != family.lower():
+            continue
+        if family and spec_category and spec_category != family.lower():
             continue
         # Resolve a sensible label
         label_keys = ("name", "display_name", "schema_code", "tool_id", "competitor")
@@ -193,12 +197,12 @@ def validate_cmd() -> None:
 
         s_kpi = set()
         s_per = set()
-        for entries in services_scan().values():
-            for entry in entries:
-                for k in entry.spec.kpis:
-                    s_kpi.add(k.name)
-                for p in entry.spec.personas:
-                    s_per.add(p.name)
+        for svc_entries in services_scan().values():
+            for svc_entry in svc_entries:
+                for commitment in svc_entry.spec.kpis:
+                    s_kpi.add(commitment.name)
+                for persona in svc_entry.spec.personas:
+                    s_per.add(persona.name)
     except Exception:
         pass
     report = validate_registries(

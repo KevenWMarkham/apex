@@ -29,13 +29,16 @@ class PracticeReport:
 
     @property
     def valid(self) -> bool:
+        """Return True when every manifest in the bundle validated."""
         return all(r.valid for r in self.reports)
 
     @property
     def failures(self) -> list[ValidationReport]:
+        """Return the reports for manifests that failed validation."""
         return [r for r in self.reports if not r.valid]
 
     def summary(self) -> str:
+        """Return a one-line status with the count of valid manifests."""
         total = len(self.reports)
         failed = len(self.failures)
         status = "OK" if self.valid else "FAIL"

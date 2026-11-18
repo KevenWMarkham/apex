@@ -18,6 +18,8 @@ from typing import Protocol, runtime_checkable
 
 @dataclass(frozen=True)
 class Embedding:
+    """An embedding vector plus the model and input hash that produced it."""
+
     vector: list[float]
     dim: int
     model: str  # e.g., "ai_embeddings:slm-v1" or "text-embedding-005"
@@ -26,6 +28,8 @@ class Embedding:
 
 @dataclass(frozen=True)
 class SimilarityResult:
+    """One similarity-search hit: the matched text hash, score, and metadata."""
+
     text_hash: str  # the hit
     score: float  # cosine similarity, 0..1
     metadata: dict[str, str]
@@ -52,7 +56,7 @@ class EmbeddingService(Protocol):
         query: str | Embedding,
         index: str,
         top_k: int = 10,
-        filter: dict[str, str] | None = None,
+        filter: dict[str, str] | None = None,  # noqa: A002  # public protocol keyword
     ) -> list[SimilarityResult]:
         """Top-K similar items from the named index."""
         ...

@@ -142,7 +142,7 @@ def telco_customer_from_sid(sid: SidCustomer) -> TelcoCustomer:
         customer_segment=segment,
         status=sid.status,
         billing_account_keys=list(sid.billing_account_ids),
-    )  # type: ignore[arg-type]
+    )
 
 
 __all__ = [

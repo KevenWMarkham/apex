@@ -16,25 +16,39 @@ SERVER_NAME = "fabric-mcp"
 class FabricBackend(Protocol):
     """Minimal protocol for OneLake / Warehouse read paths."""
 
-    def get_entity(self, entity_type: str, key: str) -> dict | None: ...
-    def query_view(self, view_name: str, filters: dict, limit: int) -> list[dict]: ...
-    def classifications(self, entity_type: str) -> dict[str, Classification]: ...
+    def get_entity(self, entity_type: str, key: str) -> dict[str, Any] | None:
+        """Return the entity row for ``(entity_type, key)``, or None when absent."""
+
+    def query_view(
+        self, view_name: str, filters: dict[str, Any], limit: int
+    ) -> list[dict[str, Any]]:
+        """Return up to ``limit`` rows of ``view_name`` whose columns equal every filter value."""
+
+    def classifications(self, entity_type: str) -> dict[str, Classification]:
+        """Return the attribute-name to classification map for ``entity_type``."""
 
 
 @dataclass
 class InMemoryFabricBackend:
     """Dev / test backend. Production swaps for Fabric SDK-backed impl."""
 
-    entities: dict[tuple[str, str], dict] = field(default_factory=dict)
-    views: dict[str, list[dict]] = field(default_factory=dict)
+    entities: dict[tuple[str, str], dict[str, Any]] = field(default_factory=dict)
+    views: dict[str, list[dict[str, Any]]] = field(default_factory=dict)
     field_classifications: dict[str, dict[str, Classification]] = field(default_factory=dict)
 
-    def get_entity(self, entity_type: str, key: str) -> dict | None:
+    def get_entity(self, entity_type: str, key: str) -> dict[str, Any] | None:
+        """Return the stored entity row for ``(entity_type, key)``, or None."""
         return self.entities.get((entity_type, key))
 
-    def query_view(self, view_name: str, filters: dict, limit: int) -> list[dict]:
+    def query_view(
+        self, view_name: str, filters: dict[str, Any], limit: int
+    ) -> list[dict[str, Any]]:
+        """Return the first ``limit`` rows of ``view_name`` matching all ``filters`` exactly.
+
+        An unknown view yields an empty list.
+        """
         rows = self.views.get(view_name, [])
-        out: list[dict] = []
+        out: list[dict[str, Any]] = []
         for row in rows:
             if all(row.get(k) == v for k, v in filters.items()):
                 out.append(row)
@@ -43,6 +57,7 @@ class InMemoryFabricBackend:
         return out
 
     def classifications(self, entity_type: str) -> dict[str, Classification]:
+        """Return the configured classifications for ``entity_type`` (empty if none)."""
         return self.field_classifications.get(entity_type, {})
 
 
@@ -64,7 +79,7 @@ def get_entity_by_key(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> dict:
+) -> dict[str, Any]:
     """Look up a canonical entity by its surrogate or natural key."""
     with traced_call(
         tool_name=f"{SERVER_NAME}.get_entity_by_key",
@@ -90,7 +105,7 @@ def query_gold_view(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> list[dict]:
+) -> list[dict[str, Any]]:
     """Query a Gold view with optional filters."""
     if limit <= 0 or limit > 10_000:
         raise McpError(

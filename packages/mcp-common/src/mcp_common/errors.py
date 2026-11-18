@@ -6,6 +6,8 @@ from enum import StrEnum
 
 
 class McpErrorCode(StrEnum):
+    """Machine-readable error codes carried by :class:`McpError`."""
+
     UNAUTHENTICATED = "unauthenticated"
     SCOPE_DENIED = "scope_denied"
     CLASSIFICATION_DENIED = "classification_denied"
@@ -20,6 +22,7 @@ class McpError(Exception):
     """Raised from an MCP tool to signal a structured failure."""
 
     def __init__(self, *, code: McpErrorCode, message: str) -> None:
+        """Store the error code and message; the exception text is ``[code] message``."""
         super().__init__(f"[{code.value}] {message}")
         self.code = code
         self.message = message

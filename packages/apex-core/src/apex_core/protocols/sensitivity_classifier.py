@@ -15,11 +15,13 @@ back to APEX tier so policy stays consistent.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from enum import Enum
+from enum import StrEnum
 from typing import Protocol, runtime_checkable
 
 
-class SensitivityTier(str, Enum):
+class SensitivityTier(StrEnum):
+    """APEX data sensitivity tiers T1 (public) through T4 (highly confidential)."""
+
     T1_PUBLIC = "T1"  # public
     T2_INTERNAL = "T2"  # internal — most operational data
     T3_CONFIDENTIAL = "T3"  # PII, PCI
@@ -52,9 +54,10 @@ class SensitivityClassifier(Protocol):
         ...
 
     def classify_text(self, text: str) -> SensitivityTier:
-        """Run the provider's classification engine on text. Used for
-        agent prompt + response classification per Purview AI Activity
-        Explorer.
+        """Run the provider's classification engine on text.
+
+        Used for agent prompt + response classification per Purview AI
+        Activity Explorer.
         """
         ...
 

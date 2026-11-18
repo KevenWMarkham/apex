@@ -15,6 +15,7 @@ REQUIRED_FILES: tuple[str, ...] = ("LICENSE-ATTRIBUTION.md",)
 
 
 def find_standards_packages(root: Path) -> list[Path]:
+    """Return the sorted ``packages/apex-standards-*`` directories under ``root``."""
     packages_dir = root / "packages"
     if not packages_dir.is_dir():
         return []
@@ -24,6 +25,7 @@ def find_standards_packages(root: Path) -> list[Path]:
 
 
 def check_package(package_dir: Path) -> list[str]:
+    """Return one issue message per required licence file missing from ``package_dir``."""
     issues: list[str] = []
     for required in REQUIRED_FILES:
         if not (package_dir / required).exists():
@@ -32,6 +34,11 @@ def check_package(package_dir: Path) -> list[str]:
 
 
 def main(argv: list[str] | None = None) -> int:
+    """Run the licence-file check from the command line.
+
+    Returns:
+        0 when every package has its licence files (or none exist), 1 otherwise.
+    """
     parser = argparse.ArgumentParser(
         description="Verify every apex-standards-* package has its licence files."
     )

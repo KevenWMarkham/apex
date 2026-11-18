@@ -17,6 +17,8 @@ from typing import Any, Protocol, runtime_checkable
 
 @dataclass(frozen=True)
 class Message:
+    """A message published to a topic, with payload, correlation id, and headers."""
+
     topic: str
     payload: dict[str, Any]
     correlation_id: str
@@ -26,6 +28,8 @@ class Message:
 
 @dataclass(frozen=True)
 class Subscription:
+    """A registered topic subscription bound to a runtime handler."""
+
     subscription_id: str
     topic: str
     handler_ref: str  # e.g., "apex-m:rc-e2e-03:cold-chain-trigger"
@@ -47,7 +51,7 @@ class MessageBus(Protocol):
         *,
         topic: str,
         handler_ref: str,
-        filter: str | None = None,
+        filter: str | None = None,  # noqa: A002  # public protocol keyword
     ) -> Subscription:
         """Register a subscription. Handler is invoked by the runtime."""
         ...
@@ -59,8 +63,9 @@ class MessageBus(Protocol):
         rule: str,
         action: dict[str, Any],
     ) -> str:
-        """Attach an activator-style rule (Eventstream Activator on
-        APEX-M) that fires `action` when `rule` matches an inbound message.
-        Returns the activator id.
+        """Attach an activator-style rule and return the activator id.
+
+        The rule (Eventstream Activator on APEX-M) fires `action` when `rule`
+        matches an inbound message.
         """
         ...

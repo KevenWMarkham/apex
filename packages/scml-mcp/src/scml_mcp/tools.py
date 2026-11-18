@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 from apex_core.types import Classification
 from fabric_mcp import get_entity_by_key as _fabric_get_entity
 from fabric_mcp import query_gold_view as _fabric_query_view
@@ -17,7 +19,7 @@ def get_sku_by_key(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> dict:
+) -> dict[str, Any]:
     """Look up an SCML SKU by its natural key."""
     with traced_call(
         tool_name=f"{SERVER_NAME}.get_sku_by_key",
@@ -43,7 +45,7 @@ def list_skus_by_supplier(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> list[dict]:
+) -> list[dict[str, Any]]:
     """List SKUs sourced from a given supplier."""
     with traced_call(
         tool_name=f"{SERVER_NAME}.list_skus_by_supplier",
@@ -70,7 +72,7 @@ def list_shipments_by_destination(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> list[dict]:
+) -> list[dict[str, Any]]:
     """List shipments headed to a given destination location."""
     with traced_call(
         tool_name=f"{SERVER_NAME}.list_shipments_by_destination",

@@ -47,6 +47,8 @@ _CHARTER_TOOL_ROW_RE = re.compile(
 
 @dataclass
 class CharterAnnotation:
+    """A tool's ``cacheable`` flag as declared in a CHARTER.md table row."""
+
     tool: str
     cacheable: bool
     source_line: int
@@ -83,6 +85,11 @@ CACHE_FUNCTION_NAMES = {"cache_mcp_response", "get_cached_mcp_response"}
 
 @dataclass
 class CacheCallSite:
+    """A call to a cache helper found in source.
+
+    ``tool_name`` is ``None`` when the tool-name argument is not a string literal.
+    """
+
     path: Path
     lineno: int
     func: str
@@ -172,6 +179,14 @@ def _positional_entra_scope_present(call: ast.Call, func: str) -> bool:
 
 
 def main(argv: list[str] | None = None) -> int:
+    """Run the cache-governance lint from the command line.
+
+    Every cache call site must name a literal tool that CHARTER.md marks
+    ``cacheable: true`` and must pass an Entra scope.
+
+    Returns:
+        0 when clean (or the scan root is missing), 1 when violations are found.
+    """
     parser = argparse.ArgumentParser(
         description=(
             "Cache-governance lint — fails the build if any code path caches "

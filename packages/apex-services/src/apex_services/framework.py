@@ -25,7 +25,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 from typing import Literal
 
@@ -46,7 +46,7 @@ SERVICE_CODE_RE = re.compile(
 )
 
 
-class CommercialModel(str, Enum):
+class CommercialModel(StrEnum):
     """How a service is sold."""
 
     FIXED_FEE = "fixed_fee"
@@ -59,7 +59,7 @@ class CommercialModel(str, Enum):
     """Fixed fee for foundation services + value-share on attribution-clean services."""
 
 
-class Wave(str, Enum):
+class Wave(StrEnum):
     WAVE_1 = "wave_1"  # Envision & Land
     WAVE_2 = "wave_2"  # Enable & Scale
     WAVE_3 = "wave_3"  # Sustain & Transform

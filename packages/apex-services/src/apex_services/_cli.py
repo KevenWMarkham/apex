@@ -73,9 +73,8 @@ def inspect_cmd(
                 typer.echo(f"service_code:        {spec.service_code}")
                 typer.echo(f"display_name:        {spec.display_name}")
                 typer.echo(f"practice:            {spec.practice}")
-                typer.echo(
-                    f"primary_persona:     {spec.primary_persona().name if spec.primary_persona() else '(none)'}"
-                )
+                primary = spec.primary_persona()
+                typer.echo(f"primary_persona:     {primary.name if primary else '(none)'}")
                 typer.echo(f"commercial_model:    {spec.commercial_model.value}")
                 typer.echo(f"value_share_elig:    {spec.value_share_eligible}")
                 typer.echo(f"linked_agents:       {len(spec.linked_agents)}")

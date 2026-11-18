@@ -71,14 +71,14 @@ def patient_to_fhir(patient: Patient, *, detokenise: bool = True) -> FhirPatient
         addresses.append(FhirAddress(text=addr))
 
     return FhirPatient(
-        resourceType="Patient",  # type: ignore[call-arg]
+        resourceType="Patient",
         id=patient.fhir_id or None,
         identifier=identifiers,
         name=names,
         telecom=telecom,
         gender=patient.gender,
-        birthDate=patient.birth_date,  # type: ignore[call-arg]
-        deceasedBoolean=patient.deceased,  # type: ignore[call-arg]
+        birthDate=patient.birth_date,
+        deceasedBoolean=patient.deceased,
         address=addresses,
     )
 
@@ -104,7 +104,7 @@ def observation_to_fhir(obs: Observation) -> FhirObservation:
         )
 
     return FhirObservation(
-        resourceType="Observation",  # type: ignore[call-arg]
+        resourceType="Observation",
         id=obs.fhir_id or None,
         status=obs.status.value,
         code=code,
@@ -112,7 +112,7 @@ def observation_to_fhir(obs: Observation) -> FhirObservation:
         encounter=(
             FhirReference(reference=f"Encounter/{obs.encounter_key}") if obs.encounter_key else None
         ),
-        effectiveDateTime=obs.effective_ts,  # type: ignore[call-arg]
-        valueQuantity=value_quantity,  # type: ignore[call-arg]
-        valueString=obs.value_string,  # type: ignore[call-arg]
+        effectiveDateTime=obs.effective_ts,
+        valueQuantity=value_quantity,
+        valueString=obs.value_string,
     )

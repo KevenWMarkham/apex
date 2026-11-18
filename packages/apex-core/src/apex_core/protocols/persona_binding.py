@@ -162,9 +162,12 @@ class PersonaPrincipalBinding(BaseModel):
 
     @model_validator(mode="after")
     def _validate_lifecycle(self) -> PersonaPrincipalBinding:
-        if self.valid_from is not None and self.valid_to is not None:
-            if self.valid_to <= self.valid_from:
-                raise ValueError("valid_to must be after valid_from")
+        if (
+            self.valid_from is not None
+            and self.valid_to is not None
+            and self.valid_to <= self.valid_from
+        ):
+            raise ValueError("valid_to must be after valid_from")
         return self
 
     @model_validator(mode="after")

@@ -30,14 +30,14 @@ runner = CliRunner()
 
 
 def _minimal_spec(**overrides) -> AgentSpec:
-    base = dict(
-        name="apex.rc.agents.test",
-        practice="rc",
-        persona="Test Persona",
-        service_codes=["RC-E2E-99"],
-        model_tier=ModelTier.STANDARD,
-        model_pin="gpt-4o-2024-11-20",
-    )
+    base = {
+        "name": "apex.rc.agents.test",
+        "practice": "rc",
+        "persona": "Test Persona",
+        "service_codes": ["RC-E2E-99"],
+        "model_tier": ModelTier.STANDARD,
+        "model_pin": "gpt-4o-2024-11-20",
+    }
     base.update(overrides)
     return AgentSpec(**base)
 

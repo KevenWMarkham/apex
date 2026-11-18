@@ -87,6 +87,8 @@ ALLOWLIST_BASENAMES: frozenset[str] = frozenset(
 
 @dataclass
 class Finding:
+    """One ``font-family`` declaration that names unapproved families."""
+
     path: Path
     line: int
     declaration: str
@@ -131,6 +133,11 @@ def is_var_reference(declaration: str) -> bool:
 
 
 def scan_file(path: Path) -> list[Finding]:
+    """Return every ``font-family`` declaration in ``path`` using unapproved families.
+
+    Declarations that are a bare ``var(--...)`` reference are accepted, the
+    token stylesheet itself is allowlisted, and unreadable files are skipped.
+    """
     if path.name in ALLOWLIST_BASENAMES:
         return []
     findings: list[Finding] = []
@@ -158,6 +165,7 @@ def scan_file(path: Path) -> list[Finding]:
 
 
 def scan_root(root: Path) -> list[Finding]:
+    """Scan every file under ``root`` with a scanned extension, skipping excluded dirs."""
     findings: list[Finding] = []
     for path in root.rglob("*"):
         if not path.is_file():
@@ -171,6 +179,11 @@ def scan_root(root: Path) -> list[Finding]:
 
 
 def main(argv: list[str] | None = None) -> int:
+    """Run the typography-token check from the command line.
+
+    Returns:
+        0 when clean, 1 when violations are found, 2 when the path does not exist.
+    """
     parser = argparse.ArgumentParser(
         description=(
             "Typography-token compliance check — fails the build if any "

@@ -22,8 +22,10 @@ from typing import Any, Protocol, runtime_checkable
 
 @dataclass(frozen=True)
 class DataLakeQuery:
-    """Read intent against a tier. Engine-neutral; concrete impl picks
-    SQL / KQL / Spark / Bedrock SQL based on tier and provider.
+    """Read intent against a tier.
+
+    Engine-neutral; concrete impl picks SQL / KQL / Spark / Bedrock SQL based
+    on tier and provider.
     """
 
     tier: str  # "bronze" | "silver" | "gold"
@@ -55,20 +57,24 @@ class DataLake(Protocol):
     primary_workspace: str  # e.g., "rc-canonical" — primary workspace pattern
 
     def query(self, q: DataLakeQuery, *, operator_scope: str) -> Iterator[dict[str, Any]]:
-        """Read with operator scope enforced via the variant's identity model
-        (OneLake user identity mode for APEX-M, etc.).
+        """Read with operator scope enforced via the variant's identity model.
+
+        Scope enforcement uses e.g. OneLake user identity mode for APEX-M.
         """
         ...
 
     def write(self, w: DataLakeWrite) -> int:
-        """Append rows. Returns count written. Bronze accepts append-only
-        with ingest metadata; Silver writes are CDC-driven.
+        """Append rows and return the count written.
+
+        Bronze accepts append-only with ingest metadata; Silver writes are
+        CDC-driven.
         """
         ...
 
     def get_security_policy(self, *, schema: str, entity: str) -> dict[str, Any]:
-        """Returns the OneLake/equivalent policy enforced on this entity:
-        RLS predicates, column masks, classification.
+        """Return the OneLake/equivalent policy enforced on this entity.
+
+        The policy covers RLS predicates, column masks, and classification.
         """
         ...
 

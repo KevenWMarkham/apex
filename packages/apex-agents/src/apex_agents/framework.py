@@ -22,7 +22,7 @@ orchestrator types), §9.11–§15.9 (per-Practice deep-dives).
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 from typing import Literal
 
@@ -36,7 +36,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 PRACTICE_CODES: tuple[str, ...] = ("rc", "hls", "er", "axle", "tmt", "th", "ice")
 
 
-class ModelTier(str, Enum):
+class ModelTier(StrEnum):
     """Three-tier APEX model strategy from Sellers Guide §6.2.
 
     Choosing the right tier is the single largest cost lever per service.
@@ -48,7 +48,7 @@ class ModelTier(str, Enum):
     REASONING = "reasoning"  # o-series / Claude Opus, multi-step planning + elasticity
 
 
-class OversightMode(str, Enum):
+class OversightMode(StrEnum):
     """Sellers Guide §2.2C oversight spectrum."""
 
     HITL = "HITL"  # Human-in-the-Loop — checkpoint per consequential decision

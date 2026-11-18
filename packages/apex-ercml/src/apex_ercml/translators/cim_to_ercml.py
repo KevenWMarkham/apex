@@ -72,7 +72,7 @@ def meter_from_cim(cim: CimMeter, *, source_system: str = "cim") -> Meter:
         location_key=cim.location_mrid,
         install_date=cim.install_date,
         remove_date=cim.remove_date,
-    )  # type: ignore[arg-type]
+    )
 
 
 def meter_reading_from_cim(
@@ -99,7 +99,7 @@ def meter_reading_from_cim(
         value=cim.value,
         unit=cim.unit.value,
         quality=quality,
-    )  # type: ignore[arg-type]
+    )
 
 
 def grid_event_from_cim(
@@ -122,7 +122,7 @@ def grid_event_from_cim(
         equipment_key=cim.equipment_mrid,
         severity=cim.severity,
         description=cim.description,
-    )  # type: ignore[arg-type]
+    )
 
 
 def asset_from_cim(cim: CimAsset, *, source_system: str = "cim") -> Asset:
@@ -142,7 +142,7 @@ def asset_from_cim(cim: CimAsset, *, source_system: str = "cim") -> Asset:
         location_key=cim.location_mrid,
         in_service_date=cim.in_service_date,
         lifecycle_state=state,
-    )  # type: ignore[arg-type]
+    )
 
 
 def work_order_from_cim(
@@ -170,4 +170,4 @@ def work_order_from_cim(
         scheduled=cim.scheduled,
         asset_key=cim.asset_mrid,
         description=cim.description,
-    )  # type: ignore[arg-type]
+    )

@@ -12,6 +12,7 @@ from apex_adapters.catalog import (
     load_shipped_manifest,
 )
 from apex_adapters.framework import (
+    Adapter,
     list_adapters,
     load_adapter_spec,
 )
@@ -131,7 +132,7 @@ def smoke_test_cmd(
         raise typer.Exit(code=1)
 
 
-def list_adapters_to_class(name: str):
+def list_adapters_to_class(name: str) -> type[Adapter] | None:
     """Return the registered adapter class for ``name`` (or None)."""
     from apex_adapters.framework import get_adapter
 

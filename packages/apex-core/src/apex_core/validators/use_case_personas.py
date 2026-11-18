@@ -40,6 +40,8 @@ from apex_core.protocols.persona_binding import (
 
 
 class Substrate(StrEnum):
+    """Deployment substrate a tenant runs on, from laptop through prod."""
+
     LAPTOP = "laptop"
     LAB = "lab"
     DEV = "dev"

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 from apex_core.types import Classification
 from fabric_mcp import get_entity_by_key as _fabric_get_entity
 from fabric_mcp import query_gold_view as _fabric_query_view
@@ -17,7 +19,7 @@ def get_equipment_by_key(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> dict:
+) -> dict[str, Any]:
     """Return the canonical Equipment row."""
     with traced_call(
         tool_name=f"{SERVER_NAME}.get_equipment_by_key",
@@ -43,7 +45,7 @@ def list_production_events(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> list[dict]:
+) -> list[dict[str, Any]]:
     """List production events for a specific equipment."""
     with traced_call(
         tool_name=f"{SERVER_NAME}.list_production_events",
@@ -70,7 +72,7 @@ def list_recent_quality_results(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> list[dict]:
+) -> list[dict[str, Any]]:
     """List recent quality results on a specific equipment."""
     with traced_call(
         tool_name=f"{SERVER_NAME}.list_recent_quality_results",

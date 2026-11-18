@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 from apex_core.types import Classification
 from fabric_mcp import get_entity_by_key as _fabric_get_entity
 from fabric_mcp import query_gold_view as _fabric_query_view
@@ -17,7 +19,7 @@ def get_patient_by_key(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> dict:
+) -> dict[str, Any]:
     """Return the tokenised Patient canonical row."""
     with traced_call(
         tool_name=f"{SERVER_NAME}.get_patient_by_key",
@@ -44,7 +46,7 @@ def list_observations_for_patient(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> list[dict]:
+) -> list[dict[str, Any]]:
     """List observations for a patient; optionally filter by LOINC code."""
     filters: dict[str, object] = {"patient_key": patient_key}
     if loinc_code is not None:
@@ -74,7 +76,7 @@ def list_medications_for_patient(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> list[dict]:
+) -> list[dict[str, Any]]:
     """List medication requests for a patient."""
     with traced_call(
         tool_name=f"{SERVER_NAME}.list_medications_for_patient",

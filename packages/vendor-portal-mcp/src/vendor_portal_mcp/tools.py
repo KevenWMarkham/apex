@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Protocol, runtime_checkable
+from typing import Any, Protocol, runtime_checkable
 
 from apex_core.types import Classification
 from mcp_common import McpError, McpErrorCode, ToolContract, traced_call
@@ -14,24 +14,24 @@ TOOL_VERSION = "1.0.0"
 
 @runtime_checkable
 class VendorBackend(Protocol):
-    def status(self, vendor_id: str) -> dict | None: ...
-    def orders(self, vendor_id: str, limit: int) -> list[dict]: ...
-    def compliance_score(self, vendor_id: str) -> dict | None: ...
+    def status(self, vendor_id: str) -> dict[str, Any] | None: ...
+    def orders(self, vendor_id: str, limit: int) -> list[dict[str, Any]]: ...
+    def compliance_score(self, vendor_id: str) -> dict[str, Any] | None: ...
 
 
 @dataclass
 class InMemoryVendorBackend:
-    statuses: dict[str, dict] = field(default_factory=dict)
-    orders_by_vendor: dict[str, list[dict]] = field(default_factory=dict)
-    compliance: dict[str, dict] = field(default_factory=dict)
+    statuses: dict[str, dict[str, Any]] = field(default_factory=dict)
+    orders_by_vendor: dict[str, list[dict[str, Any]]] = field(default_factory=dict)
+    compliance: dict[str, dict[str, Any]] = field(default_factory=dict)
 
-    def status(self, vendor_id: str) -> dict | None:
+    def status(self, vendor_id: str) -> dict[str, Any] | None:
         return self.statuses.get(vendor_id)
 
-    def orders(self, vendor_id: str, limit: int) -> list[dict]:
+    def orders(self, vendor_id: str, limit: int) -> list[dict[str, Any]]:
         return self.orders_by_vendor.get(vendor_id, [])[:limit]
 
-    def compliance_score(self, vendor_id: str) -> dict | None:
+    def compliance_score(self, vendor_id: str) -> dict[str, Any] | None:
         return self.compliance.get(vendor_id)
 
 
@@ -48,7 +48,7 @@ def get_vendor_status(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> dict:
+) -> dict[str, Any]:
     with traced_call(
         tool_name=f"{SERVER_NAME}.get_vendor_status",
         tool_version=TOOL_VERSION,
@@ -73,7 +73,7 @@ def list_vendor_orders(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> list[dict]:
+) -> list[dict[str, Any]]:
     with traced_call(
         tool_name=f"{SERVER_NAME}.list_vendor_orders",
         tool_version=TOOL_VERSION,
@@ -92,7 +92,7 @@ def get_vendor_compliance_score(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> dict:
+) -> dict[str, Any]:
     with traced_call(
         tool_name=f"{SERVER_NAME}.get_vendor_compliance_score",
         tool_version=TOOL_VERSION,

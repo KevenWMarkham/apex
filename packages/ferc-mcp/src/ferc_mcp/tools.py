@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import date
-from typing import Protocol, runtime_checkable
+from typing import Any, Protocol, runtime_checkable
 
 from apex_core.types import Classification
 from mcp_common import McpError, McpErrorCode, ToolContract, traced_call
@@ -15,24 +15,24 @@ TOOL_VERSION = "1.0.0"
 
 @runtime_checkable
 class FercBackend(Protocol):
-    def list_enforcement(self, since: date, limit: int) -> list[dict]: ...
-    def get_interconnection(self, queue_id: str) -> dict | None: ...
-    def list_filings(self, filer: str, since: date, limit: int) -> list[dict]: ...
+    def list_enforcement(self, since: date, limit: int) -> list[dict[str, Any]]: ...
+    def get_interconnection(self, queue_id: str) -> dict[str, Any] | None: ...
+    def list_filings(self, filer: str, since: date, limit: int) -> list[dict[str, Any]]: ...
 
 
 @dataclass
 class InMemoryFercBackend:
-    enforcement: list[dict] = field(default_factory=list)
-    interconnection: dict[str, dict] = field(default_factory=dict)
-    filings: list[dict] = field(default_factory=list)
+    enforcement: list[dict[str, Any]] = field(default_factory=list)
+    interconnection: dict[str, dict[str, Any]] = field(default_factory=dict)
+    filings: list[dict[str, Any]] = field(default_factory=list)
 
-    def list_enforcement(self, since: date, limit: int) -> list[dict]:
+    def list_enforcement(self, since: date, limit: int) -> list[dict[str, Any]]:
         return [r for r in self.enforcement if date.fromisoformat(r["date"]) >= since][:limit]
 
-    def get_interconnection(self, queue_id: str) -> dict | None:
+    def get_interconnection(self, queue_id: str) -> dict[str, Any] | None:
         return self.interconnection.get(queue_id)
 
-    def list_filings(self, filer: str, since: date, limit: int) -> list[dict]:
+    def list_filings(self, filer: str, since: date, limit: int) -> list[dict[str, Any]]:
         return [
             f
             for f in self.filings
@@ -64,7 +64,7 @@ def list_enforcement_actions(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> list[dict]:
+) -> list[dict[str, Any]]:
     """List FERC enforcement actions since a date."""
     since = _parse_date(since_iso, "since_iso")
     with traced_call(
@@ -85,7 +85,7 @@ def get_interconnection_queue_status(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> dict:
+) -> dict[str, Any]:
     """Return the current queue status for an interconnection request."""
     with traced_call(
         tool_name=f"{SERVER_NAME}.get_interconnection_queue_status",
@@ -112,7 +112,7 @@ def list_compliance_filings(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> list[dict]:
+) -> list[dict[str, Any]]:
     """List compliance filings by a specific filer since a date."""
     since = _parse_date(since_iso, "since_iso")
     with traced_call(

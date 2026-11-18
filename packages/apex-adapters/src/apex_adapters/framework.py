@@ -28,8 +28,9 @@ ingest workflow this framework targets.
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from collections.abc import Callable
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 from typing import Literal
 
@@ -41,7 +42,7 @@ from pydantic import BaseModel, ConfigDict, Field
 # ---------------------------------------------------------------------------
 
 
-class ConnectionMethod(str, Enum):
+class ConnectionMethod(StrEnum):
     """Bronze-landing connection patterns from Sellers Guide §5.2 / Sprint 4."""
 
     MIRRORED_DB = "mirrored_db"  # Fabric Mirroring (CDC) over a SQL source
@@ -291,7 +292,7 @@ class Adapter(ABC):
 _ADAPTERS: dict[str, type[Adapter]] = {}
 
 
-def register_adapter(name: str):
+def register_adapter(name: str) -> Callable[[type[Adapter]], type[Adapter]]:
     """Decorator that registers a concrete adapter class by name."""
 
     def _wrap(cls: type[Adapter]) -> type[Adapter]:

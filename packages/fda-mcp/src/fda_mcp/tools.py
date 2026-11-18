@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import date
-from typing import Protocol, runtime_checkable
+from typing import Any, Protocol, runtime_checkable
 
 from apex_core.types import Classification
 from mcp_common import McpError, McpErrorCode, ToolContract, traced_call
@@ -15,26 +15,36 @@ TOOL_VERSION = "1.0.0"
 
 @runtime_checkable
 class FdaBackend(Protocol):
-    def list_recalls(self, since: date, limit: int) -> list[dict]: ...
-    def get_recall(self, recall_id: str) -> dict | None: ...
-    def search_adverse_events(self, product: str, limit: int) -> list[dict]: ...
+    """Read interface over FDA recall and adverse-event data (in-memory or openFDA)."""
+
+    def list_recalls(self, since: date, limit: int) -> list[dict[str, Any]]:
+        """Return up to ``limit`` recall events dated on or after ``since``."""
+
+    def get_recall(self, recall_id: str) -> dict[str, Any] | None:
+        """Return the recall record for ``recall_id``, or None when unknown."""
+
+    def search_adverse_events(self, product: str, limit: int) -> list[dict[str, Any]]:
+        """Return up to ``limit`` adverse-event reports whose product matches ``product``."""
 
 
 @dataclass
 class InMemoryFdaBackend:
     """Dev / test backend. Production swaps for openFDA REST client."""
 
-    recalls: list[dict] = field(default_factory=list)
-    adverse_events: list[dict] = field(default_factory=list)
+    recalls: list[dict[str, Any]] = field(default_factory=list)
+    adverse_events: list[dict[str, Any]] = field(default_factory=list)
 
-    def list_recalls(self, since: date, limit: int) -> list[dict]:
+    def list_recalls(self, since: date, limit: int) -> list[dict[str, Any]]:
+        """Return the first ``limit`` recalls whose ``event_date`` is on or after ``since``."""
         out = [r for r in self.recalls if date.fromisoformat(r["event_date"]) >= since]
         return out[:limit]
 
-    def get_recall(self, recall_id: str) -> dict | None:
+    def get_recall(self, recall_id: str) -> dict[str, Any] | None:
+        """Return the first recall whose ``recall_id`` matches, or None."""
         return next((r for r in self.recalls if r["recall_id"] == recall_id), None)
 
-    def search_adverse_events(self, product: str, limit: int) -> list[dict]:
+    def search_adverse_events(self, product: str, limit: int) -> list[dict[str, Any]]:
+        """Return the first ``limit`` events whose product contains ``product`` (case-insensitive)."""
         out = [e for e in self.adverse_events if product.lower() in e.get("product", "").lower()]
         return out[:limit]
 
@@ -43,6 +53,7 @@ FDA_BACKEND: FdaBackend = InMemoryFdaBackend()
 
 
 def set_fda_backend(backend: FdaBackend) -> None:
+    """Replace the module-level backend (production swap, test fixture)."""
     global FDA_BACKEND
     FDA_BACKEND = backend
 
@@ -53,7 +64,7 @@ def list_recalls_by_date(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> list[dict]:
+) -> list[dict[str, Any]]:
     """List FDA recall events on or after ``since_iso`` (YYYY-MM-DD)."""
     try:
         since = date.fromisoformat(since_iso)
@@ -80,7 +91,7 @@ def get_recall_detail(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> dict:
+) -> dict[str, Any]:
     """Return the full recall record for ``recall_id``."""
     with traced_call(
         tool_name=f"{SERVER_NAME}.get_recall_detail",
@@ -106,7 +117,7 @@ def search_adverse_events(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> list[dict]:
+) -> list[dict[str, Any]]:
     """Search adverse-event reports by product name (case-insensitive substring)."""
     with traced_call(
         tool_name=f"{SERVER_NAME}.search_adverse_events",

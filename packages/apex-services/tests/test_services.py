@@ -32,14 +32,14 @@ runner = CliRunner()
 
 
 def _minimal(**overrides) -> ServiceSpec:
-    base = dict(
-        service_code="RC-E2E-99",
-        practice="rc",
-        display_name="Test Service",
-        brief="A test service.",
-        personas=[Persona(name="Tester")],
-        kpis=[KpiCommitment(name="test", direction="up")],
-        waves=[
+    base = {
+        "service_code": "RC-E2E-99",
+        "practice": "rc",
+        "display_name": "Test Service",
+        "brief": "A test service.",
+        "personas": [Persona(name="Tester")],
+        "kpis": [KpiCommitment(name="test", direction="up")],
+        "waves": [
             WaveEnvelope(
                 wave=Wave.WAVE_1,
                 duration="4 weeks",
@@ -47,7 +47,7 @@ def _minimal(**overrides) -> ServiceSpec:
                 fee_band_high_usd=500_000,
             )
         ],
-    )
+    }
     base.update(overrides)
     return ServiceSpec(**base)
 

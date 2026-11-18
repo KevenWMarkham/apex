@@ -136,12 +136,12 @@ __all__ = [
     "CONTRACTS",
     "_get_store",
     "append_audit_row",
-    "fetch_row_by_trace",
-    "reset_ledger",
-    "verify_row_signature",
     # Exposed so callers can construct canonical rows without importing
     # apex_audit directly (reduces coupling in the MCP layer).
     "audit_verify_row",
+    "fetch_row_by_trace",
+    "reset_ledger",
+    "verify_row_signature",
 ]
 
 

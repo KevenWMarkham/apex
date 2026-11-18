@@ -58,32 +58,41 @@ DEFAULT_AGENT_ROLES = ["assess", "classify", "quantify", "decide", "act", "learn
 
 
 def industry_of(service_code: str) -> tuple[str, str]:
+    """Return ``(industry_slug, industry_label)`` for a service code's prefix.
+
+    Raises:
+        KeyError: If the prefix before the first ``-`` is not a known industry.
+    """
     prefix = service_code.split("-")[0]
     return INDUSTRY_PREFIX[prefix]
 
 
 def slugify(text: str) -> str:
+    """Lower-case ``text`` and collapse non-alphanumeric runs to ``-`` (``untitled`` if empty)."""
     s = re.sub(r"[^a-z0-9]+", "-", str(text).lower()).strip("-")
     return s or "untitled"
 
 
 def yaml_dump(data: dict) -> str:
+    """Serialise ``data`` as block-style YAML, preserving key order and unicode."""
     return yaml.safe_dump(data, sort_keys=False, default_flow_style=False, allow_unicode=True)
 
 
 def write(path: Path, content: str) -> None:
-    """Always write — overwrites existing content. Use for canonical files
-    that must reflect the latest registry / xlsx (READMEs, scenario.yaml,
-    service.yaml, Bicep templates, _registry.json).
+    """Always write — overwrites existing content.
+
+    Use for canonical files that must reflect the latest registry / xlsx
+    (READMEs, scenario.yaml, service.yaml, Bicep templates, _registry.json).
     """
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(content, encoding="utf-8")
 
 
 def write_if_missing(path: Path, content: str) -> bool:
-    """Only write if the file doesn't exist. Use for stubs the user is
-    expected to hand-edit (agent.yaml, prompts/*.md). Returns True if
-    written, False if skipped.
+    """Only write if the file doesn't exist.
+
+    Use for stubs the user is expected to hand-edit (agent.yaml,
+    prompts/*.md). Returns True if written, False if skipped.
     """
     if path.exists():
         return False
@@ -112,9 +121,10 @@ def load_extras() -> dict[str, dict]:
 
 
 def agent_roles_for(service_code: str, extras: dict) -> list[dict]:
-    """Merge default 6 roles with any per-service extras. Each entry is a
-    dict {role, label, description, hitl_gate} — defaults are filled in for
-    the canonical roles.
+    """Merge default 6 roles with any per-service extras.
+
+    Each entry is a dict {role, label, description, hitl_gate} — defaults are
+    filled in for the canonical roles.
     """
     out: list[dict] = []
     for role in DEFAULT_AGENT_ROLES:
@@ -148,17 +158,15 @@ def agent_roles_for(service_code: str, extras: dict) -> list[dict]:
 
 
 def main() -> None:
+    """Regenerate the ``services/`` tree and ``_registry.json`` from the scenario workbook."""
     SERVICES_ROOT.mkdir(parents=True, exist_ok=True)
     extras = load_extras()
 
     lib = pd.read_excel(XLSX, sheet_name="Scenario Library")
     featured = pd.read_excel(XLSX, sheet_name="Featured Chains")
-    chain_kpi = pd.read_excel(XLSX, sheet_name="Scenario→KPI Chain")
     chain_24 = pd.read_excel(XLSX, sheet_name="24-Step Chain")
 
     featured_ids = set(featured["Scenario ID"].astype(str))
-    featured_by_id = {row["Scenario ID"]: row for _, row in featured.iterrows()}
-    chain_kpi_by_id = {row["Scenario ID"]: row for _, row in chain_kpi.iterrows()}
     chain_24_by_id: dict[str, list[dict]] = defaultdict(list)
     for _, row in chain_24.iterrows():
         chain_24_by_id[row["Scenario ID"]].append(

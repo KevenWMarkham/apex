@@ -49,16 +49,16 @@ def _minimal_wave1() -> Wave1Scope:
 
 
 def _minimal_spec(**overrides) -> ReferenceSpec:
-    base = dict(
-        name="test",
-        practice="rc",
-        display_name="Test Reference",
-        description="Test reference deployment.",
-        architecture=_minimal_arch(),
-        wave1_scope=_minimal_wave1(),
-        use_cases=[UseCase(name="uc", description="d")],
-        kpi_targets=[KpiTarget(name="k", direction="up", wave2_target="x")],
-    )
+    base = {
+        "name": "test",
+        "practice": "rc",
+        "display_name": "Test Reference",
+        "description": "Test reference deployment.",
+        "architecture": _minimal_arch(),
+        "wave1_scope": _minimal_wave1(),
+        "use_cases": [UseCase(name="uc", description="d")],
+        "kpi_targets": [KpiTarget(name="k", direction="up", wave2_target="x")],
+    }
     base.update(overrides)
     return ReferenceSpec(**base)
 

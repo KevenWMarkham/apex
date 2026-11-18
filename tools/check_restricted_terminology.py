@@ -119,12 +119,20 @@ ALLOWLIST_FILENAMES: set[str] = {
 
 @dataclass
 class Finding:
+    """One restricted-content issue: the offending file, a check code and a message."""
+
     path: Path
     code: str
     message: str
 
 
 def scan_path(root: Path) -> list[Finding]:
+    """Scan every file under ``root`` for restricted filenames and content fingerprints.
+
+    Filename patterns are checked on any file; content fingerprints only on
+    files with a scanned text extension. Allowlisted filenames and noise
+    directories are skipped.
+    """
     findings: list[Finding] = []
     for path in root.rglob("*"):
         if not path.is_file():
@@ -180,6 +188,12 @@ def scan_path(root: Path) -> list[Finding]:
 
 
 def main(argv: list[str] | None = None) -> int:
+    """Run the restricted-terminology scan from the command line.
+
+    Returns:
+        0 when nothing is found, 1 when restricted content is detected, 2 when
+        the path does not exist.
+    """
     parser = argparse.ArgumentParser(
         description=(
             "Scan the APEX monorepo for redistributed restricted-terminology "

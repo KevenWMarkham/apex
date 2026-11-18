@@ -607,20 +607,20 @@ for (
     tier,
     examples,
 ) in ARCHETYPES:
-    data = dict(
-        kind="archetype",
-        archetype_id=f"arch.{arch_id}",
-        family=family,
-        name=name,
-        description=description,
-        canonical_inputs=inputs,
-        canonical_outputs=outputs,
-        typical_hitl_gate=gate,
-        typical_oversight=oversight,
-        typical_model_tier=tier,
-        example_agents=examples,
-        appendix_d_section=f"Appendix D — Archetype family {family}",
-    )
+    data = {
+        "kind": "archetype",
+        "archetype_id": f"arch.{arch_id}",
+        "family": family,
+        "name": name,
+        "description": description,
+        "canonical_inputs": inputs,
+        "canonical_outputs": outputs,
+        "typical_hitl_gate": gate,
+        "typical_oversight": oversight,
+        "typical_model_tier": tier,
+        "example_agents": examples,
+        "appendix_d_section": f"Appendix D — Archetype family {family}",
+    }
     fname = f"{arch_id.replace('.', '-')}.yaml"
     path = OUT / fname
     with path.open("w", encoding="utf-8") as fh:

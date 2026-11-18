@@ -185,7 +185,7 @@ def telemetry_reading_from_aemp(
         odometer_km=aemp.odometer_km,
         fuel_level_pct=aemp.fuel_level_pct,
         quality=TelemetryQuality.DECODED,
-    )  # type: ignore[arg-type]
+    )
 
 
 __all__ = [

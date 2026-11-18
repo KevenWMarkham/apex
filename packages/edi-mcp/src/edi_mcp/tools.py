@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 from apex_core.types import Classification
 from mcp_common import McpError, McpErrorCode, ToolContract, traced_call
 
@@ -25,7 +27,7 @@ def parse_850(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> dict:
+) -> dict[str, Any]:
     """Parse an X12 850 Purchase Order — extracts BEG + PO1 line items."""
     if "BEG" not in payload:
         raise McpError(
@@ -43,7 +45,7 @@ def parse_850(
         segs = _parse_segments(payload)
         po_number: str | None = None
         order_date: str | None = None
-        lines: list[dict] = []
+        lines: list[dict[str, str]] = []
         for seg in segs:
             if seg[0] == "BEG" and len(seg) >= 5:
                 po_number = seg[3]
@@ -67,7 +69,7 @@ def parse_856(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> dict:
+) -> dict[str, Any]:
     """Parse an X12 856 Advance Ship Notice — extracts BSN + HL hierarchy roots."""
     if "BSN" not in payload:
         raise McpError(
@@ -102,7 +104,7 @@ def parse_856(
 
 
 def emit_810(
-    invoice: dict,
+    invoice: dict[str, Any],
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",

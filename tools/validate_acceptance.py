@@ -380,6 +380,11 @@ def validate_wizard_end_to_end() -> bool:
 
 
 def main() -> int:
+    """Run the four acceptance validations (A1-A4) in mock mode and print a summary.
+
+    Returns:
+        0 when every criterion passes, 1 otherwise.
+    """
     print("APEX user-acceptance criteria validation")
     print("=========================================")
     print("Mode: mock (APEX_FORCE_MOCK=true)")

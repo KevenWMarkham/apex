@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 from apex_core.types import Classification
 from fabric_mcp import query_gold_view as _fabric_query_view
 from mcp_common import McpError, McpErrorCode, ToolContract, traced_call
@@ -17,7 +19,7 @@ def get_current_price(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> dict:
+) -> dict[str, Any]:
     """Return the most-recent active Price row for (sku, location)."""
     filters: dict[str, object] = {"sku_key": sku_key, "kind": "REGULAR"}
     if location_key is not None:
@@ -51,7 +53,7 @@ def list_active_promotions(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> list[dict]:
+) -> list[dict[str, Any]]:
     """List currently-active promotions."""
     with traced_call(
         tool_name=f"{SERVER_NAME}.list_active_promotions",
@@ -78,7 +80,7 @@ def list_recent_markdowns(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> list[dict]:
+) -> list[dict[str, Any]]:
     """List recent markdown events on a specific SKU."""
     with traced_call(
         tool_name=f"{SERVER_NAME}.list_recent_markdowns",

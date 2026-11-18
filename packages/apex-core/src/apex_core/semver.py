@@ -58,6 +58,7 @@ class SemVer:
         )
 
     def __str__(self) -> str:
+        """Render as ``MAJOR.MINOR.PATCH[-prerelease][+build]``."""
         result = f"{self.major}.{self.minor}.{self.patch}"
         if self.prerelease:
             result += f"-{self.prerelease}"
