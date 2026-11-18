@@ -69,7 +69,8 @@ class EPCISParser:
             raise ParseError("EPCIS JSON root must be an object")
 
         msg = ParsedMessage(format=FORMAT_EPCIS, raw=raw)
-        msg.message_type = str(doc.get("type", doc.get("@type", "EPCISDocument")))
+        doc_type = doc.get("type", doc.get("@type"))
+        msg.message_type = "EPCISDocument" if doc_type is None else str(doc_type)
         msg.version = doc.get("schemaVersion", "2.0")
 
         # Document creation date
