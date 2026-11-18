@@ -30,7 +30,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from collections.abc import Callable
 from dataclasses import dataclass, field
-from enum import Enum, StrEnum
+from enum import StrEnum
 from pathlib import Path
 from typing import Literal
 
@@ -106,9 +106,11 @@ class SchemaMapping(BaseModel):
     """Bronze partition columns. Default: ``ingest_date``."""
 
     def field_count(self) -> int:
+        """Return the number of field mappings in this schema mapping."""
         return len(self.fields)
 
     def classified_fields(self, classification: str) -> list[FieldMapping]:
+        """Return the field mappings tagged with the given Purview ``classification``."""
         return [f for f in self.fields if f.classification == classification]
 
 
@@ -190,6 +192,7 @@ class AdapterSpec(BaseModel):
     """Industry standards referenced (e.g., HL7 FHIR R4, EDI X12, ISA-95)."""
 
     def total_fields(self) -> int:
+        """Return the total number of field mappings across every schema mapping."""
         return sum(m.field_count() for m in self.schema_mappings)
 
 
@@ -219,10 +222,12 @@ class SmokeTestResult:
 
     @property
     def ok(self) -> bool:
+        """Return True when the smoke test recorded no errors."""
         return not self.errors
 
     @property
     def exit_code(self) -> int:
+        """Return the CLI exit code: 0 on success, 1 when any error was recorded."""
         return 0 if self.ok else 1
 
 
@@ -240,6 +245,7 @@ class Adapter(ABC):
     """
 
     def __init__(self, spec: AdapterSpec) -> None:
+        """Store the validated adapter manifest on the instance."""
         self.spec = spec
 
     @abstractmethod

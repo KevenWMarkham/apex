@@ -19,24 +19,36 @@ _NDC_PATTERN = re.compile(r"^\d{4,5}-\d{3,4}-\d{1,2}$")
 
 @runtime_checkable
 class PharmaRecallBackend(Protocol):
-    def list_recalls(self, since: date, limit: int) -> list[dict[str, Any]]: ...
-    def search_by_ndc(self, ndc: str, limit: int) -> list[dict[str, Any]]: ...
-    def get_recall(self, recall_id: str) -> dict[str, Any] | None: ...
+    """Read interface over pharmaceutical recall records."""
+
+    def list_recalls(self, since: date, limit: int) -> list[dict[str, Any]]:
+        """Return up to ``limit`` recalls dated on or after ``since``."""
+
+    def search_by_ndc(self, ndc: str, limit: int) -> list[dict[str, Any]]:
+        """Return up to ``limit`` recalls that list ``ndc`` among their NDC codes."""
+
+    def get_recall(self, recall_id: str) -> dict[str, Any] | None:
+        """Return the recall record for ``recall_id``, or None when unknown."""
 
 
 @dataclass
 class InMemoryPharmaRecallBackend:
+    """Dev / test backend holding recall records in memory."""
+
     recalls: list[dict[str, Any]] = field(default_factory=list)
 
     def list_recalls(self, since: date, limit: int) -> list[dict[str, Any]]:
+        """Return the first ``limit`` recalls whose ``recall_date`` is on or after ``since``."""
         out = [r for r in self.recalls if date.fromisoformat(r["recall_date"]) >= since]
         return out[:limit]
 
     def search_by_ndc(self, ndc: str, limit: int) -> list[dict[str, Any]]:
+        """Return the first ``limit`` recalls whose ``ndc_codes`` contain ``ndc`` exactly."""
         out = [r for r in self.recalls if ndc in r.get("ndc_codes", [])]
         return out[:limit]
 
     def get_recall(self, recall_id: str) -> dict[str, Any] | None:
+        """Return the first recall whose ``recall_id`` matches, or None."""
         return next((r for r in self.recalls if r["recall_id"] == recall_id), None)
 
 
@@ -44,6 +56,7 @@ PHARMA_BACKEND: PharmaRecallBackend = InMemoryPharmaRecallBackend()
 
 
 def set_pharma_backend(backend: PharmaRecallBackend) -> None:
+    """Replace the module-level backend (production swap, test fixture)."""
     global PHARMA_BACKEND
     PHARMA_BACKEND = backend
 

@@ -40,9 +40,10 @@ _DOMAIN_PARTNER = re.compile(
 # Quoted / metalinguistic — prose where the rule itself is being
 # explained tends to wrap the forbidden term in quotes or backticks.
 # We allow when the match appears inside any pair of "...", '...',
-# `...`, curly “...”, ‘...’, etc., within the context window.
+# `...`, curly (typographic) double or single quotes, etc., within the
+# context window.
 _QUOTED_TERM = re.compile(
-    r"""["'`“‘][^"'`”’\n]{0,120}\b(partner|partnership|alliance|partnered|allied|endorse)[^"'`”’\n]{0,120}["'`”’]""",
+    r"""["'`\u201c\u2018][^"'`\u201d\u2019\n]{0,120}\b(partner|partnership|alliance|partnered|allied|endorse)[^"'`\u201d\u2019\n]{0,120}["'`\u201d\u2019]""",
     re.IGNORECASE,
 )
 

@@ -5,7 +5,7 @@ from __future__ import annotations
 from datetime import UTC, date, datetime
 from decimal import Decimal
 from enum import StrEnum
-from typing import Annotated
+from typing import Annotated, Any
 from uuid import uuid4
 
 from apex_core.types import Classification
@@ -68,7 +68,7 @@ class TelemetryReading(CanonicalEntity):
     odometer_km: Decimal | None = None
     fuel_level_pct: Decimal | None = Field(None, ge=Decimal("0"), le=Decimal("100"))
     def_level_pct: Decimal | None = Field(None, ge=Decimal("0"), le=Decimal("100"))
-    quality: TelemetryQuality = TelemetryQuality.DECODED
+    quality: TelemetryQuality = TelemetryQuality.DECODED  # type: ignore[assignment]  # shadows the envelope DataQualityMetadata block; renaming is a schema change (needs product decision)
     j1939_signal_keys: list[str] = Field(
         default_factory=list,
         description="FKs to per-SPN signal rows backing this snapshot.",
@@ -154,7 +154,7 @@ class AempSnapshotInput(BaseModel):
 
 def _envelope(
     *, entity_id: str, event_ts: datetime, source_system: str = "aemp"
-) -> dict[str, object]:
+) -> dict[str, Any]:
     return {
         "event_id": uuid4(),
         "event_ts": event_ts,

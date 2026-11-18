@@ -12,11 +12,12 @@ from apex_compliance_lint.adapters.docx_adapter import DOCXAdapter
 from apex_compliance_lint.adapters.html_adapter import HTMLAdapter
 from apex_compliance_lint.adapters.markdown_adapter import MarkdownAdapter
 from apex_compliance_lint.adapters.pptx_adapter import PPTXAdapter
+from apex_compliance_lint.types import FileAdapter
 
 __all__ = ["DOCXAdapter", "HTMLAdapter", "MarkdownAdapter", "PPTXAdapter"]
 
 
-def default_registry() -> dict:
+def default_registry() -> dict[str, FileAdapter]:
     """Default extension → adapter mapping."""
     html = HTMLAdapter()
     md = MarkdownAdapter()

@@ -284,10 +284,7 @@ def fusion_list_cmd(
     ),
 ) -> None:
     """List W3 Fusion meshes (Sprint 28 Task 28.3)."""
-    if practice is not None:
-        meshes = fusion_meshes_by_practice(practice)
-    else:
-        meshes = all_fusion_meshes()
+    meshes = fusion_meshes_by_practice(practice) if practice is not None else all_fusion_meshes()
     typer.echo(f"Fusion meshes: {len(meshes)}")
     counts = fusion_per_practice_counts()
     for p in ("rc", "hls", "er", "axle", "tmt", "th", "ice"):

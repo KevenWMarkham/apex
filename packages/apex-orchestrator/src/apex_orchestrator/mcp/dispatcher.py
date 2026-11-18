@@ -64,9 +64,15 @@ class CharterCatalog:
     tools: dict[str, CharterTool] = field(default_factory=dict)
 
     def get(self, tool: str) -> CharterTool | None:
+        """Return the catalog entry for ``tool``, or None if it is not listed."""
         return self.tools.get(tool)
 
     def must_get(self, tool: str) -> CharterTool:
+        """Return the catalog entry for ``tool``.
+
+        Raises:
+            KeyError: If ``tool`` is not in the catalog.
+        """
         ct = self.tools.get(tool)
         if ct is None:
             raise KeyError(f"Tool {tool!r} not in CHARTER catalog")

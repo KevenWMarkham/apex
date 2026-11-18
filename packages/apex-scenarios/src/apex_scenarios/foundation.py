@@ -469,8 +469,9 @@ def blocks_unblocking_scenario(service_code: str) -> tuple[FoundationBlock, ...]
 
 
 def transitive_prerequisites(name: str) -> tuple[FoundationBlock, ...]:
-    """Return ``name`` itself plus every ancestor block in the prerequisite
-    DAG. Topologically sorted so consumers can iterate directly.
+    """Return ``name`` itself plus every ancestor block in the prerequisite DAG.
+
+    Topologically sorted so consumers can iterate directly.
     """
     target = get_block(name)
     if target is None:

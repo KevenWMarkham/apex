@@ -57,21 +57,26 @@ class ValidationReport:
 
     @property
     def errors(self) -> list[ValidationIssue]:
+        """Return only the issues with ``error`` severity."""
         return [i for i in self.issues if i.severity == "error"]
 
     @property
     def warnings(self) -> list[ValidationIssue]:
+        """Return only the issues with ``warning`` severity."""
         return [i for i in self.issues if i.severity == "warning"]
 
     @property
     def ok(self) -> bool:
+        """Return True when no errors were recorded."""
         return len(self.errors) == 0
 
     @property
     def exit_code(self) -> int:
+        """Return the CLI exit code: 0 when ok, 1 otherwise."""
         return 0 if self.ok else 1
 
     def summary(self) -> str:
+        """Return a one-line summary of nodes checked and error/warning counts."""
         return (
             f"[{self.name}] {self.nodes_checked} checked, "
             f"{len(self.errors)} error(s), {len(self.warnings)} warning(s)."
@@ -411,18 +416,19 @@ def validate_kpis(
             )
             continue
 
-        if kpi_registry_names is not None:
-            if name.lower() not in {n.lower() for n in kpi_registry_names}:
-                report.issues.append(
-                    ValidationIssue(
-                        code="KPI_UNRESOLVED",
-                        scope=f"{s.practice or '?'}::{s.service_code} '{s.title}'",
-                        message=(
-                            f"KPI {name!r} is not registered in the KPI "
-                            "Registry (BL.P.122 Appendix C)."
-                        ),
-                    )
+        if kpi_registry_names is not None and name.lower() not in {
+            n.lower() for n in kpi_registry_names
+        }:
+            report.issues.append(
+                ValidationIssue(
+                    code="KPI_UNRESOLVED",
+                    scope=f"{s.practice or '?'}::{s.service_code} '{s.title}'",
+                    message=(
+                        f"KPI {name!r} is not registered in the KPI "
+                        "Registry (BL.P.122 Appendix C)."
+                    ),
                 )
+            )
     return report
 
 

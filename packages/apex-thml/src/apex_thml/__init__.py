@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from datetime import UTC, date, datetime
 from enum import StrEnum
-from typing import Annotated, Literal
+from typing import Annotated, Any, Literal
 from uuid import uuid4
 
 from apex_core.types import Classification
@@ -149,7 +149,7 @@ class Disruption(CanonicalEntity):
 # --- Translator ------------------------------------------------------------
 
 
-def _envelope(*, entity_id: str, source_system: str = "ota") -> dict[str, object]:
+def _envelope(*, entity_id: str, source_system: str = "ota") -> dict[str, Any]:
     now = datetime.now(UTC)
     return {
         "event_id": uuid4(),

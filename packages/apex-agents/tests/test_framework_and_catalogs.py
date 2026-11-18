@@ -19,6 +19,7 @@ from apex_agents import (
     validate_catalogs,
 )
 from apex_agents._cli import agents_app
+from pydantic import ValidationError
 from typer.testing import CliRunner
 
 runner = CliRunner()
@@ -48,7 +49,7 @@ def test_agent_spec_practice_normalizes_to_lower() -> None:
 
 
 def test_agent_spec_rejects_unknown_practice() -> None:
-    with pytest.raises(Exception):
+    with pytest.raises(ValidationError):
         _minimal_spec(practice="marketing")
 
 

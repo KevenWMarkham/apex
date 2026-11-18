@@ -19,6 +19,7 @@ from apex_adapters.framework import (
     load_adapter_spec,
     register_adapter,
 )
+from pydantic import ValidationError
 
 # ---------------------------------------------------------------------------
 # FieldMapping + SchemaMapping
@@ -32,7 +33,7 @@ def test_field_mapping_required_fields() -> None:
 
 
 def test_field_mapping_rejects_unknown_type() -> None:
-    with pytest.raises(Exception):  # pydantic ValidationError
+    with pytest.raises(ValidationError):
         FieldMapping(source_field="A", bronze_column="a", bronze_type="quantum")
 
 

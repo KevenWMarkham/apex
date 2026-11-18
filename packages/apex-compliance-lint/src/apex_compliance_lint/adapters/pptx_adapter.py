@@ -23,6 +23,11 @@ class PPTXAdapter(FileAdapter):
     file_extensions = (".pptx",)
 
     def extract(self, path: Path) -> list[tuple[int, str]]:
+        """Return non-empty slide text, numbered in slide order.
+
+        Uses ``python-pptx`` when installed, else parses the slide XML parts
+        from the zip directly.
+        """
         try:
             return self._extract_via_python_pptx(path)
         except ImportError:

@@ -15,11 +15,19 @@ class ApprovalsClient(Protocol):
     :class:`InMemoryApprovalsClient`.
     """
 
-    def request(self, decision_id: str, approver_group: str, proposal: dict) -> str: ...
-    def poll(self, pending_id: str) -> dict: ...
+    def request(self, decision_id: str, approver_group: str, proposal: dict[str, Any]) -> str:
+        """Open an approval request for ``proposal`` and return its pending id."""
+        ...
+
+    def poll(self, pending_id: str) -> dict[str, Any]:
+        """Return the current approval record for ``pending_id``."""
+        ...
+
     def finalise(
         self, pending_id: str, decision: str, approver_id: str, rationale: str
-    ) -> dict: ...
+    ) -> dict[str, Any]:
+        """Record the approver's decision and return the updated record."""
+        ...
 
 
 @dataclass
@@ -28,7 +36,8 @@ class InMemoryApprovalsClient:
 
     _pending: dict[str, dict[str, Any]] = field(default_factory=dict)
 
-    def request(self, decision_id: str, approver_group: str, proposal: dict) -> str:
+    def request(self, decision_id: str, approver_group: str, proposal: dict[str, Any]) -> str:
+        """Store a new pending approval record and return its generated id."""
         pid = str(uuid4())
         self._pending[pid] = {
             "pending_id": pid,
@@ -41,7 +50,12 @@ class InMemoryApprovalsClient:
         }
         return pid
 
-    def poll(self, pending_id: str) -> dict:
+    def poll(self, pending_id: str) -> dict[str, Any]:
+        """Return a copy of the approval record.
+
+        Raises:
+            KeyError: If ``pending_id`` is unknown.
+        """
         if pending_id not in self._pending:
             raise KeyError(f"No pending approval {pending_id!r}")
         return dict(self._pending[pending_id])
@@ -52,7 +66,13 @@ class InMemoryApprovalsClient:
         decision: str,
         approver_id: str,
         rationale: str = "",
-    ) -> dict:
+    ) -> dict[str, Any]:
+        """Set the decision, approver and rationale on a pending record and return a copy.
+
+        Raises:
+            KeyError: If ``pending_id`` is unknown.
+            ValueError: If the approval was already finalised.
+        """
         if pending_id not in self._pending:
             raise KeyError(f"No pending approval {pending_id!r}")
         rec = self._pending[pending_id]

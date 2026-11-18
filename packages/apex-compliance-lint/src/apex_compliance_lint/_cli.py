@@ -86,7 +86,7 @@ def main(
                 f"error: unknown rule pack {exc.args[0]!r}. Known: {sorted(PACK_REGISTRY)}",
                 err=True,
             )
-            raise typer.Exit(code=2)
+            raise typer.Exit(code=2) from None
     else:
         packs = list(DEFAULT_PACKS)
 

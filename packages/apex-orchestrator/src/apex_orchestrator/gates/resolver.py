@@ -24,6 +24,8 @@ _DEFAULT_MAPPING: dict[BumpClass, GateKind] = {
 
 @dataclass(frozen=True, slots=True)
 class GateResolution:
+    """Effective gate kind and variant for a bump, and any override that set it."""
+
     bump_class: BumpClass
     gate_kind: GateKind
     variant: GateVariant

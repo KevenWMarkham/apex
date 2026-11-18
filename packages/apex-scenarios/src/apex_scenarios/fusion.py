@@ -574,10 +574,12 @@ assert 35 <= len(CATALOG) <= 56, (
 
 
 def all_meshes() -> tuple[FusionMesh, ...]:
+    """Return every Wave-3 fusion mesh in the catalog."""
     return CATALOG
 
 
 def get_mesh(mesh_id: str) -> FusionMesh | None:
+    """Return the fusion mesh with the given ``mesh_id``, or None if absent."""
     for m in CATALOG:
         if m.mesh_id == mesh_id:
             return m
@@ -585,6 +587,7 @@ def get_mesh(mesh_id: str) -> FusionMesh | None:
 
 
 def meshes_by_practice(practice: str) -> tuple[FusionMesh, ...]:
+    """Return the fusion meshes owned by ``practice`` (case-insensitive)."""
     return tuple(m for m in CATALOG if m.practice == practice.lower())
 
 

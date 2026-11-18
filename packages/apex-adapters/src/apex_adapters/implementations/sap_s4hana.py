@@ -59,6 +59,11 @@ class SapS4HanaAdapter(Adapter):
     """SAP S/4HANA mirrored-db adapter for ERP Bronze ingestion."""
 
     def __init__(self, spec: AdapterSpec) -> None:
+        """Initialise the adapter and reject manifests that are not mirrored-db.
+
+        Raises:
+            ValueError: If ``spec.connection_method`` is not ``ConnectionMethod.MIRRORED_DB``.
+        """
         super().__init__(spec)
         if spec.connection_method != ConnectionMethod.MIRRORED_DB:
             raise ValueError(
@@ -72,6 +77,7 @@ class SapS4HanaAdapter(Adapter):
     # ------------------------------------------------------------------
 
     def use_golden_dataset(self, path: Path) -> None:
+        """Load source rows for smoke tests from a golden JSON file keyed by table name."""
         with path.open("r", encoding="utf-8") as fh:
             self._golden_data = json.load(fh)
 
@@ -80,8 +86,9 @@ class SapS4HanaAdapter(Adapter):
     # ------------------------------------------------------------------
 
     def probe(self) -> bool:
-        """Probe the mirrored DB. In production: `SELECT 1` against the
-        Fabric Mirror endpoint.
+        """Probe the mirrored DB.
+
+        In production: `SELECT 1` against the Fabric Mirror endpoint.
         """
         return self._golden_data is not None or True
 

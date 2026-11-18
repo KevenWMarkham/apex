@@ -209,15 +209,15 @@ def test_commit_task_dispatch_completion_phase() -> None:
 
 
 def test_commit_task_dispatch_idempotent_on_triple_key() -> None:
-    args = dict(
-        dispatch_id="DSP-IDEM-001",
-        associate_id="tok-emp-A",
-        task_order=1,
-        operator_principal="jamie.oconnor@labtenant.onmicrosoft.com",
-        sku_key="SKU-X",
-        bay_id="bay-X1",
-        task_kind="restock_from_backroom",
-    )
+    args = {
+        "dispatch_id": "DSP-IDEM-001",
+        "associate_id": "tok-emp-A",
+        "task_order": 1,
+        "operator_principal": "jamie.oconnor@labtenant.onmicrosoft.com",
+        "sku_key": "SKU-X",
+        "bay_id": "bay-X1",
+        "task_kind": "restock_from_backroom",
+    }
     first = commit_task_dispatch(**args)  # type: ignore[arg-type]
     second = commit_task_dispatch(**args)  # type: ignore[arg-type]
     assert first["cxml_associate_task_id"] == second["cxml_associate_task_id"]
@@ -225,12 +225,12 @@ def test_commit_task_dispatch_idempotent_on_triple_key() -> None:
 
 
 def test_commit_task_dispatch_conflict_on_param_mismatch() -> None:
-    base = dict(
-        dispatch_id="DSP-CFL-001",
-        associate_id="tok-emp-A",
-        task_order=1,
-        operator_principal="jamie.oconnor@labtenant.onmicrosoft.com",
-    )
+    base = {
+        "dispatch_id": "DSP-CFL-001",
+        "associate_id": "tok-emp-A",
+        "task_order": 1,
+        "operator_principal": "jamie.oconnor@labtenant.onmicrosoft.com",
+    }
     commit_task_dispatch(  # type: ignore[arg-type]
         sku_key="SKU-MILK",
         bay_id="bay-A4",

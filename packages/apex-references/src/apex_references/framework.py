@@ -197,6 +197,11 @@ class ReferenceSpec(BaseModel):
 
 
 def load_reference_spec(path: str | Path) -> ReferenceSpec:
+    """Parse and validate a reference-deployment manifest YAML from disk.
+
+    Raises:
+        ValueError: If the YAML does not parse to a mapping.
+    """
     with Path(path).open("r", encoding="utf-8") as fh:
         data = yaml.safe_load(fh)
     if not isinstance(data, dict):
@@ -206,11 +211,14 @@ def load_reference_spec(path: str | Path) -> ReferenceSpec:
 
 @dataclass
 class CatalogEntry:
+    """One reference catalog entry: the parsed manifest and its filesystem path."""
+
     path: Path
     spec: ReferenceSpec
 
 
 def catalogs_root() -> Path:
+    """Return the directory holding the shipped reference-deployment manifests."""
     return Path(__file__).parent / "catalogs"
 
 
@@ -227,10 +235,12 @@ def scan_all_references() -> list[CatalogEntry]:
 
 
 def total_references() -> int:
+    """Return the number of shipped reference-deployment manifests."""
     return len(scan_all_references())
 
 
 def get_reference(name: str) -> ReferenceSpec | None:
+    """Return the reference spec whose ``name`` matches, or None if none does."""
     for entry in scan_all_references():
         if entry.spec.name == name:
             return entry.spec
@@ -243,6 +253,7 @@ def get_reference(name: str) -> ReferenceSpec | None:
 
 
 def demo_scripts_root() -> Path:
+    """Return the directory holding the per-reference markdown demo scripts."""
     return Path(__file__).parent / "demo_scripts"
 
 
@@ -261,6 +272,8 @@ def load_demo_script(reference_name: str) -> str:
 
 @dataclass
 class CatalogIssue:
+    """One problem found while validating the reference catalog."""
+
     reference: str
     code: str
     severity: str = "error"
@@ -269,19 +282,24 @@ class CatalogIssue:
 
 @dataclass
 class CatalogReport:
+    """Aggregate result of validating the reference catalog."""
+
     issues: list[CatalogIssue] = field(default_factory=list)
     references_checked: int = 0
 
     @property
     def errors(self) -> list[CatalogIssue]:
+        """Return only the issues with ``error`` severity."""
         return [i for i in self.issues if i.severity == "error"]
 
     @property
     def ok(self) -> bool:
+        """Return True when no errors were recorded."""
         return len(self.errors) == 0
 
     @property
     def exit_code(self) -> int:
+        """Return the CLI exit code: 0 when ok, 1 otherwise."""
         return 0 if self.ok else 1
 
 

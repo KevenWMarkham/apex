@@ -456,16 +456,27 @@ REGISTRY_MODELS: dict[str, type[BaseModel]] = {
 
 
 def package_root() -> Path:
+    """Return the installed ``apex_registries`` package directory."""
     return Path(__file__).parent
 
 
 def registry_root(registry: str) -> Path:
+    """Return the directory holding the YAML manifests for ``registry``.
+
+    Raises:
+        ValueError: If ``registry`` is not a known registry name.
+    """
     if registry not in REGISTRY_DIRS:
         raise ValueError(f"Unknown registry {registry!r}. Allowed: {list(REGISTRY_DIRS)}")
     return package_root() / REGISTRY_DIRS[registry]
 
 
 def load_entry(registry: str, path: str | Path) -> BaseModel:
+    """Parse one registry manifest and validate it against that registry's model.
+
+    Raises:
+        ValueError: If the YAML does not parse to a mapping.
+    """
     model = REGISTRY_MODELS[registry]
     with Path(path).open("r", encoding="utf-8") as fh:
         data = yaml.safe_load(fh)
@@ -476,6 +487,8 @@ def load_entry(registry: str, path: str | Path) -> BaseModel:
 
 @dataclass
 class RegistryEntry:
+    """One registry entry: the validated model and the manifest path it came from."""
+
     path: Path
     spec: BaseModel
 
@@ -492,10 +505,12 @@ def scan_registry(registry: str) -> list[RegistryEntry]:
 
 
 def scan_all_registries() -> dict[str, list[RegistryEntry]]:
+    """Load every registry, keyed by registry name."""
     return {name: scan_registry(name) for name in REGISTRY_DIRS}
 
 
 def total_entries() -> dict[str, int]:
+    """Return the number of shipped entries in each registry."""
     return {n: len(v) for n, v in scan_all_registries().items()}
 
 
@@ -505,30 +520,36 @@ def total_entries() -> dict[str, int]:
 
 
 def playbooks_root() -> Path:
+    """Return the directory holding the Wave playbook markdown files."""
     return package_root() / "playbooks"
 
 
 def discovery_root() -> Path:
+    """Return the directory holding the discovery-prompt markdown files."""
     return package_root() / "discovery"
 
 
 def preclearance_root() -> Path:
+    """Return the directory holding the pre-clearance checklist markdown files."""
     return package_root() / "preclearance"
 
 
 def list_playbooks() -> list[Path]:
+    """Return the sorted Wave playbook markdown paths (empty if the directory is missing)."""
     if not playbooks_root().exists():
         return []
     return sorted(playbooks_root().glob("*.md"))
 
 
 def list_discovery() -> list[Path]:
+    """Return the sorted discovery-prompt markdown paths (empty if the directory is missing)."""
     if not discovery_root().exists():
         return []
     return sorted(discovery_root().glob("*.md"))
 
 
 def list_preclearance() -> list[Path]:
+    """Return the sorted pre-clearance markdown paths (empty if the directory is missing)."""
     if not preclearance_root().exists():
         return []
     return sorted(preclearance_root().glob("*.md"))
@@ -549,6 +570,8 @@ def load_playbook(name: str) -> str:
 
 @dataclass
 class RegistryIssue:
+    """One problem found while validating the registries."""
+
     registry: str
     entry: str
     code: str
@@ -558,19 +581,24 @@ class RegistryIssue:
 
 @dataclass
 class RegistryReport:
+    """Aggregate result of validating the registries."""
+
     issues: list[RegistryIssue] = field(default_factory=list)
     entries_checked: int = 0
 
     @property
     def errors(self) -> list[RegistryIssue]:
+        """Return only the issues with ``error`` severity."""
         return [i for i in self.issues if i.severity == "error"]
 
     @property
     def ok(self) -> bool:
+        """Return True when no errors were recorded."""
         return len(self.errors) == 0
 
     @property
     def exit_code(self) -> int:
+        """Return the CLI exit code: 0 when ok, 1 otherwise."""
         return 0 if self.ok else 1
 
 

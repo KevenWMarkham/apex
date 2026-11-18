@@ -107,7 +107,7 @@ def test_get_recall_panel_aggregates_lots() -> None:
     assert panel["regulatory"]["jurisdiction"] == "US-Federal"
     assert len(panel["affected_lots"]) == 2
     # Trace gaps preserved per FSMA-204 audit requirements
-    yogurt = next(l for l in panel["affected_lots"] if l["lot_key"] == "L-2026W18-DAIRY-B07")
+    yogurt = next(lot for lot in panel["affected_lots"] if lot["lot_key"] == "L-2026W18-DAIRY-B07")
     assert yogurt["received_with_temp_log"] is False
     assert len(yogurt["trace_gaps"]) == 1
 
@@ -173,7 +173,7 @@ def test_commit_lot_event_trace_audit_pass() -> None:
     assert "rc-e2e-07" in invalidation_services
 
 
-def test_commit_lot_event_class_I_requires_attestation_id() -> None:
+def test_commit_lot_event_class_i_requires_attestation_id() -> None:
     """FSMA-204 / 21 CFR 7.3 chain-of-custody — Class I requires attestation."""
     with pytest.raises(McpError) as exc:
         commit_lot_event(
@@ -187,7 +187,7 @@ def test_commit_lot_event_class_I_requires_attestation_id() -> None:
     assert "compliance_attestation_id" in str(exc.value)
 
 
-def test_commit_lot_event_class_I_with_attestation_accepted() -> None:
+def test_commit_lot_event_class_i_with_attestation_accepted() -> None:
     out = commit_lot_event(
         decision_id="DEC-CLASS1-001",
         lot_key="L-2026W18-DAIRY-A12",
@@ -199,7 +199,7 @@ def test_commit_lot_event_class_I_with_attestation_accepted() -> None:
     assert out["compliance_attestation_id"] == "attest-fsma-001"
 
 
-def test_commit_lot_event_class_II_does_not_require_attestation() -> None:
+def test_commit_lot_event_class_ii_does_not_require_attestation() -> None:
     """Class II auto-clears with audit row only — no attestation required."""
     out = commit_lot_event(
         decision_id="DEC-CLASS2-001",
@@ -223,13 +223,13 @@ def test_commit_lot_event_unknown_kind_rejected() -> None:
 
 
 def test_commit_lot_event_idempotent_on_triple_key() -> None:
-    args = dict(
-        decision_id="DEC-IDEM-001",
-        lot_key="L-IDEM-A",
-        event_kind="trace_audit_pass",
-        operator_principal="agent-system",
-        sku_key="SKU-X",
-    )
+    args = {
+        "decision_id": "DEC-IDEM-001",
+        "lot_key": "L-IDEM-A",
+        "event_kind": "trace_audit_pass",
+        "operator_principal": "agent-system",
+        "sku_key": "SKU-X",
+    }
     first = commit_lot_event(**args)  # type: ignore[arg-type]
     second = commit_lot_event(**args)  # type: ignore[arg-type]
     assert first["lot_event_id"] == second["lot_event_id"]
@@ -237,11 +237,11 @@ def test_commit_lot_event_idempotent_on_triple_key() -> None:
 
 
 def test_commit_lot_event_conflict_on_param_mismatch() -> None:
-    base = dict(
-        decision_id="DEC-CFL-001",
-        lot_key="L-CFL-A",
-        event_kind="trace_audit_pass",
-    )
+    base = {
+        "decision_id": "DEC-CFL-001",
+        "lot_key": "L-CFL-A",
+        "event_kind": "trace_audit_pass",
+    }
     commit_lot_event(  # type: ignore[arg-type]
         operator_principal="agent-A",
         sku_key="SKU-X",

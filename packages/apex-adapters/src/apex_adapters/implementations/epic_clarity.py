@@ -43,6 +43,11 @@ class EpicClarityAdapter(Adapter):
     """Epic Clarity ODBC adapter for HLS Bronze ingestion."""
 
     def __init__(self, spec: AdapterSpec) -> None:
+        """Initialise the adapter and reject manifests whose connection method is not ODBC.
+
+        Raises:
+            ValueError: If ``spec.connection_method`` is not ``ConnectionMethod.ODBC``.
+        """
         super().__init__(spec)
         if spec.connection_method != ConnectionMethod.ODBC:
             raise ValueError(

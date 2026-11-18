@@ -256,26 +256,26 @@ def test_commit_hold_decision_unknown_class_rejected() -> None:
 
 
 def test_commit_hold_decision_idempotent_on_decision_id() -> None:
-    args = dict(
-        decision_id="DEC-IDEM-001",
-        return_event_id="RET-001",
-        decision_class="auto_clear",
-        operator_principal="agent-system",
-        fraud_score=0.18,
-        refund_value_usd=49.99,
-    )
+    args = {
+        "decision_id": "DEC-IDEM-001",
+        "return_event_id": "RET-001",
+        "decision_class": "auto_clear",
+        "operator_principal": "agent-system",
+        "fraud_score": 0.18,
+        "refund_value_usd": 49.99,
+    }
     first = commit_hold_decision(**args)  # type: ignore[arg-type]
     second = commit_hold_decision(**args)  # type: ignore[arg-type]
     assert first["applied_at"] == second["applied_at"]
 
 
 def test_commit_hold_decision_conflict_on_param_mismatch() -> None:
-    base = dict(
-        decision_id="DEC-CFL-001",
-        return_event_id="RET-001",
-        operator_principal="rebecca.hall@labtenant.onmicrosoft.com",
-        fraud_score=0.18,
-    )
+    base = {
+        "decision_id": "DEC-CFL-001",
+        "return_event_id": "RET-001",
+        "operator_principal": "rebecca.hall@labtenant.onmicrosoft.com",
+        "fraud_score": 0.18,
+    }
     commit_hold_decision(decision_class="auto_clear", **base)  # type: ignore[arg-type]
     with pytest.raises(McpError) as exc:
         commit_hold_decision(  # type: ignore[arg-type]

@@ -15,24 +15,36 @@ TOOL_VERSION = "1.0.0"
 
 @runtime_checkable
 class FercBackend(Protocol):
-    def list_enforcement(self, since: date, limit: int) -> list[dict[str, Any]]: ...
-    def get_interconnection(self, queue_id: str) -> dict[str, Any] | None: ...
-    def list_filings(self, filer: str, since: date, limit: int) -> list[dict[str, Any]]: ...
+    """Read interface over FERC enforcement, interconnection-queue and filing data."""
+
+    def list_enforcement(self, since: date, limit: int) -> list[dict[str, Any]]:
+        """Return up to ``limit`` enforcement actions dated on or after ``since``."""
+
+    def get_interconnection(self, queue_id: str) -> dict[str, Any] | None:
+        """Return the interconnection-queue entry for ``queue_id``, or None when unknown."""
+
+    def list_filings(self, filer: str, since: date, limit: int) -> list[dict[str, Any]]:
+        """Return up to ``limit`` filings by ``filer`` filed on or after ``since``."""
 
 
 @dataclass
 class InMemoryFercBackend:
+    """Dev / test backend holding FERC records in memory."""
+
     enforcement: list[dict[str, Any]] = field(default_factory=list)
     interconnection: dict[str, dict[str, Any]] = field(default_factory=dict)
     filings: list[dict[str, Any]] = field(default_factory=list)
 
     def list_enforcement(self, since: date, limit: int) -> list[dict[str, Any]]:
+        """Return the first ``limit`` enforcement rows whose ``date`` is on or after ``since``."""
         return [r for r in self.enforcement if date.fromisoformat(r["date"]) >= since][:limit]
 
     def get_interconnection(self, queue_id: str) -> dict[str, Any] | None:
+        """Return the stored queue entry for ``queue_id``, or None."""
         return self.interconnection.get(queue_id)
 
     def list_filings(self, filer: str, since: date, limit: int) -> list[dict[str, Any]]:
+        """Return the first ``limit`` filings by ``filer`` with ``filed_date`` on or after ``since``."""
         return [
             f
             for f in self.filings
@@ -44,6 +56,7 @@ FERC_BACKEND: FercBackend = InMemoryFercBackend()
 
 
 def set_ferc_backend(backend: FercBackend) -> None:
+    """Replace the module-level backend (production swap, test fixture)."""
     global FERC_BACKEND
     FERC_BACKEND = backend
 

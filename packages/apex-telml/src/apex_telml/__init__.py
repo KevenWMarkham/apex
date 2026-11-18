@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from datetime import UTC, datetime
 from enum import StrEnum
-from typing import Annotated
+from typing import Annotated, Any
 from uuid import uuid4
 
 from apex_core.types import Classification
@@ -107,7 +107,7 @@ class BillingAccount(CanonicalEntity, ScdType2Fields):
 # --- Translators ------------------------------------------------------------
 
 
-def _envelope(*, entity_id: str, source_system: str = "sid") -> dict[str, object]:
+def _envelope(*, entity_id: str, source_system: str = "sid") -> dict[str, Any]:
     now = datetime.now(UTC)
     return {
         "event_id": uuid4(),
@@ -118,7 +118,7 @@ def _envelope(*, entity_id: str, source_system: str = "sid") -> dict[str, object
     }
 
 
-def _scd2() -> dict[str, object]:
+def _scd2() -> dict[str, Any]:
     return {
         "scd2_valid_from": datetime.now(UTC),
         "scd2_is_current": True,

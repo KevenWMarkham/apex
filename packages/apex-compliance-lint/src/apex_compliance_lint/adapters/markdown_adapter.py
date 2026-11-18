@@ -25,11 +25,15 @@ class MarkdownAdapter(FileAdapter):
     file_extensions = (".md", ".markdown")
 
     def extract(self, path: Path) -> list[tuple[int, str]]:
+        """Return prose lines with frontmatter, fenced code, inline code and URLs removed.
+
+        Link and image markup is reduced to its visible text and heading
+        hashes are stripped; line numbers refer to the source file.
+        """
         raw = path.read_text(encoding="utf-8", errors="replace")
         lines: list[tuple[int, str]] = []
         in_fence = False
         in_frontmatter = False
-        frontmatter_consumed = False
 
         for i, line in enumerate(raw.splitlines(), 1):
             # YAML frontmatter — skip the entire `---` block at the top
@@ -39,7 +43,6 @@ class MarkdownAdapter(FileAdapter):
             if in_frontmatter:
                 if line.strip() == "---":
                     in_frontmatter = False
-                    frontmatter_consumed = True
                 continue
 
             # Fenced code blocks

@@ -118,23 +118,28 @@ class LintReport:
 
     @property
     def errors(self) -> list[Violation]:
+        """Return the violations with ERROR severity."""
         return [v for v in self.violations if v.severity == Severity.ERROR]
 
     @property
     def warnings(self) -> list[Violation]:
+        """Return the violations with WARNING severity."""
         return [v for v in self.violations if v.severity == Severity.WARNING]
 
     @property
     def infos(self) -> list[Violation]:
+        """Return the violations with INFO severity."""
         return [v for v in self.violations if v.severity == Severity.INFO]
 
     @property
     def ok(self) -> bool:
+        """Return True when no ERROR-severity violations were recorded."""
         return len(self.errors) == 0
 
     @property
     def exit_code(self) -> int:
-        """0 = clean (no errors); 1 = at least one error.
+        """Return the CLI exit code: 0 = clean (no errors); 1 = at least one error.
+
         Config errors get exit code 2 — those don't flow through here.
         """
         return 0 if self.ok else 1
@@ -167,9 +172,9 @@ class FileAdapter:
 
 
 def make_pattern(literal_or_regex: str, *, word_boundary: bool = True) -> Pattern[str]:
-    """Build a case-insensitive regex from a literal phrase or pre-formed pattern.
+    r"""Build a case-insensitive regex from a literal phrase or pre-formed pattern.
 
-    If ``word_boundary`` is True (default), wraps with ``\\b`` so we don't
+    If ``word_boundary`` is True (default), wraps with ``\b`` so we don't
     flag ``"partnership"`` as a match for ``"partner"`` unless the rule
     explicitly intends to. Pass an existing escape-aware pattern if more
     control is needed.

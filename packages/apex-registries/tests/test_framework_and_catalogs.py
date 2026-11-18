@@ -21,6 +21,7 @@ from apex_registries import (
     validate_registries,
 )
 from apex_registries._cli import registries_app
+from pydantic import ValidationError
 from typer.testing import CliRunner
 
 runner = CliRunner()
@@ -43,7 +44,7 @@ def test_kpi_entry_practice_normalizes() -> None:
 
 
 def test_kpi_entry_rejects_unknown_practice() -> None:
-    with pytest.raises(Exception):
+    with pytest.raises(ValidationError):
         KpiEntry(kpi_id="x", name="x", practice="marketing", direction="up", description="x")
 
 

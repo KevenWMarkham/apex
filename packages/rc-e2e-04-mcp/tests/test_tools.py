@@ -196,14 +196,14 @@ def test_commit_winback_offer_returns_canonical_envelope() -> None:
 
 
 def test_commit_winback_offer_idempotent_on_campaign_natural() -> None:
-    args = dict(
-        campaign_natural="WB-IDEM-001",
-        cohort_window_start="2026-05-04T00:00:00Z",
-        cohort_window_end="2026-05-11T00:00:00Z",
-        approved_member_offers=_make_offers(),
-        operator_principal="maya.patel@labtenant.onmicrosoft.com",
-        tier3_pii_unlock_request_id="unlock-req-idem-001",
-    )
+    args = {
+        "campaign_natural": "WB-IDEM-001",
+        "cohort_window_start": "2026-05-04T00:00:00Z",
+        "cohort_window_end": "2026-05-11T00:00:00Z",
+        "approved_member_offers": _make_offers(),
+        "operator_principal": "maya.patel@labtenant.onmicrosoft.com",
+        "tier3_pii_unlock_request_id": "unlock-req-idem-001",
+    }
     first = commit_winback_offer(**args)  # type: ignore[arg-type]
     second = commit_winback_offer(**args)  # type: ignore[arg-type]
     assert first["cxml_campaign_id"] == second["cxml_campaign_id"]
@@ -211,12 +211,12 @@ def test_commit_winback_offer_idempotent_on_campaign_natural() -> None:
 
 
 def test_commit_winback_offer_conflict_on_cohort_mismatch() -> None:
-    base = dict(
-        campaign_natural="WB-CFL-001",
-        approved_member_offers=_make_offers(),
-        operator_principal="maya.patel@labtenant.onmicrosoft.com",
-        tier3_pii_unlock_request_id="unlock-req-cfl-001",
-    )
+    base = {
+        "campaign_natural": "WB-CFL-001",
+        "approved_member_offers": _make_offers(),
+        "operator_principal": "maya.patel@labtenant.onmicrosoft.com",
+        "tier3_pii_unlock_request_id": "unlock-req-cfl-001",
+    }
     commit_winback_offer(  # type: ignore[arg-type]
         cohort_window_start="2026-05-04T00:00:00Z",
         cohort_window_end="2026-05-11T00:00:00Z",

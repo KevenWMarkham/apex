@@ -13,6 +13,7 @@ import logging
 import time
 from collections.abc import Callable
 from dataclasses import dataclass, field
+from typing import Any
 
 from apex_orchestrator.control_plane.redis_client import (
     CONTROL_PLANE_UNREACHABLE,
@@ -29,11 +30,11 @@ log = logging.getLogger("apex.orchestrator.agents.base_agent")
 # ---------------------------------------------------------------------------
 
 
-class CancelRequested(RuntimeError):
+class CancelRequested(RuntimeError):  # noqa: N818  # public name re-exported from apex_orchestrator
     """Raised when the cancel token has crossed into pause/soft/hard/abort."""
 
 
-class BudgetExceeded(RuntimeError):
+class BudgetExceeded(RuntimeError):  # noqa: N818  # public name re-exported from apex_orchestrator
     """Raised when a budget counter has crossed its envelope."""
 
 
@@ -58,7 +59,7 @@ class BaseAgent:
     """Budget envelope from spawn config — keys: tool_calls, tokens,
     cost_cents, wall_s."""
 
-    cosmos_fallback: Callable[[str, str], dict] | None = None
+    cosmos_fallback: Callable[[str, str], dict[str, Any]] | None = None
     """Cosmos fallback reader for cancel/budget when Redis is down.
     Production injects a Cosmos client; tests inject a stub."""
 

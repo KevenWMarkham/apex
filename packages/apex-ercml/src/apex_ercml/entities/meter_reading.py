@@ -26,5 +26,5 @@ class MeterReading(CanonicalEntity):
     timestamp: datetime
     value: Decimal
     unit: str = Field("kWh", description="UCUM / IEC 61970 unit symbol.")
-    quality: ReadingQuality = ReadingQuality.MEASURED
+    quality: ReadingQuality = ReadingQuality.MEASURED  # type: ignore[assignment]  # shadows the envelope DataQualityMetadata block; renaming is a schema change (needs product decision)
     channel: str | None = Field(None, description="Meter channel (e.g. 'real_energy', 'demand').")

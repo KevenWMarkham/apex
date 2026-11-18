@@ -25,7 +25,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass, field
-from enum import Enum, StrEnum
+from enum import StrEnum
 from pathlib import Path
 from typing import Literal
 
@@ -60,6 +60,8 @@ class CommercialModel(StrEnum):
 
 
 class Wave(StrEnum):
+    """APEX delivery Wave a service envelope applies to."""
+
     WAVE_1 = "wave_1"  # Envision & Land
     WAVE_2 = "wave_2"  # Enable & Scale
     WAVE_3 = "wave_3"  # Sustain & Transform
@@ -71,6 +73,8 @@ class Wave(StrEnum):
 
 
 class Persona(BaseModel):
+    """A persona a service serves, marked primary or secondary."""
+
     model_config = ConfigDict(populate_by_name=True, str_strip_whitespace=True)
 
     name: str
@@ -196,18 +200,21 @@ class ServiceSpec(BaseModel):
         return v
 
     def primary_persona(self) -> Persona | None:
+        """Return the first persona marked primary, else the first persona, else None."""
         for p in self.personas:
             if p.role == "primary":
                 return p
         return self.personas[0] if self.personas else None
 
     def has_value_share(self) -> bool:
+        """Return True when the service is value-share eligible or sold value-share/hybrid."""
         return self.value_share_eligible or self.commercial_model in (
             CommercialModel.VALUE_SHARE,
             CommercialModel.HYBRID,
         )
 
     def wave_envelope(self, wave: Wave) -> WaveEnvelope | None:
+        """Return the commercial envelope declared for ``wave``, or None if absent."""
         for w in self.waves:
             if w.wave == wave:
                 return w
@@ -230,15 +237,23 @@ def load_service_spec(path: str | Path) -> ServiceSpec:
 
 @dataclass
 class CatalogEntry:
+    """One service catalog entry: the parsed manifest and its filesystem path."""
+
     path: Path
     spec: ServiceSpec
 
 
 def catalogs_root() -> Path:
+    """Return the directory holding the shipped per-Practice service catalogs."""
     return Path(__file__).parent / "catalogs"
 
 
 def scan_practice_catalog(practice: str) -> list[CatalogEntry]:
+    """Load every service manifest in one Practice's catalog.
+
+    Raises:
+        ValueError: If ``practice`` is not a known Practice code.
+    """
     if practice.lower() not in PRACTICE_CODES:
         raise ValueError(f"Unknown practice {practice!r}.")
     practice_dir = catalogs_root() / practice.lower()
@@ -252,10 +267,12 @@ def scan_practice_catalog(practice: str) -> list[CatalogEntry]:
 
 
 def scan_all_catalogs() -> dict[str, list[CatalogEntry]]:
+    """Load every service catalog, keyed by Practice code."""
     return {p: scan_practice_catalog(p) for p in PRACTICE_CODES}
 
 
 def total_services() -> int:
+    """Return the total number of services shipped across all Practices."""
     return sum(len(v) for v in scan_all_catalogs().values())
 
 
@@ -275,6 +292,8 @@ def all_service_codes() -> set[str]:
 
 @dataclass
 class CatalogIssue:
+    """One problem found while validating the service catalogs."""
+
     practice: str
     service_code: str
     code: str
@@ -284,19 +303,24 @@ class CatalogIssue:
 
 @dataclass
 class CatalogReport:
+    """Aggregate result of validating the service catalogs."""
+
     issues: list[CatalogIssue] = field(default_factory=list)
     services_checked: int = 0
 
     @property
     def errors(self) -> list[CatalogIssue]:
+        """Return only the issues with ``error`` severity."""
         return [i for i in self.issues if i.severity == "error"]
 
     @property
     def ok(self) -> bool:
+        """Return True when no errors were recorded."""
         return len(self.errors) == 0
 
     @property
     def exit_code(self) -> int:
+        """Return the CLI exit code: 0 when ok, 1 otherwise."""
         return 0 if self.ok else 1
 
 

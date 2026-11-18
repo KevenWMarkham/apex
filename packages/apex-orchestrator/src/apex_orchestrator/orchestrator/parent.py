@@ -16,6 +16,7 @@ Lifecycle hooks (Task 26.7.1-3):
 
 from __future__ import annotations
 
+import contextlib
 import logging
 from collections.abc import Callable
 from dataclasses import dataclass, field
@@ -64,6 +65,7 @@ class ParentOrchestrator:
         emit_event: Callable[[str, dict[str, Any]], None] = lambda _t, _p: None,
         cosmos_writer: Callable[[str, dict[str, Any]], None] = lambda _k, _p: None,
     ) -> None:
+        """Wire the Redis control plane plus the event emitter and Cosmos writer callbacks."""
         self._r = redis
         self._emit = emit_event
         self._cosmos = cosmos_writer
@@ -93,11 +95,9 @@ class ParentOrchestrator:
             )
         # Pre-seed budget counters at zero
         for metric in ("tool_calls", "tokens", "cost_cents", "wall_s"):
-            try:
-                # incrby 0 is a no-op write that creates the key at zero
+            # incrby 0 is a no-op write that creates the key at zero
+            with contextlib.suppress(RedisUnavailable):
                 self._r.increment_budget_counter(spawn.run_id, spawn.child_id, metric, 0)
-            except RedisUnavailable:
-                pass
         self._emit(
             "child_spawn",
             {

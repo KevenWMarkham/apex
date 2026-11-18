@@ -156,14 +156,14 @@ def test_commit_markdown_decision_returns_canonical_envelope() -> None:
 
 
 def test_commit_markdown_decision_idempotent_on_decision_id() -> None:
-    args = dict(
-        decision_id="DEC-IDEM-001",
-        sku_natural="SKU-MILK-2PCT-1G",
-        location_key="store-100",
-        proposed_markdown_pct=30.0,
-        proposed_price=2.79,
-        operator_principal="marisol.reyes@labtenant.onmicrosoft.com",
-    )
+    args = {
+        "decision_id": "DEC-IDEM-001",
+        "sku_natural": "SKU-MILK-2PCT-1G",
+        "location_key": "store-100",
+        "proposed_markdown_pct": 30.0,
+        "proposed_price": 2.79,
+        "operator_principal": "marisol.reyes@labtenant.onmicrosoft.com",
+    }
     first = commit_markdown_decision(**args)  # type: ignore[arg-type]
     second = commit_markdown_decision(**args)  # type: ignore[arg-type]
     # Same merml_markdown_id, same applied_at — proves no second write.
@@ -172,12 +172,12 @@ def test_commit_markdown_decision_idempotent_on_decision_id() -> None:
 
 
 def test_commit_markdown_decision_conflict_on_parameter_mismatch() -> None:
-    base = dict(
-        decision_id="DEC-CFL-001",
-        sku_natural="SKU-MILK-2PCT-1G",
-        location_key="store-100",
-        operator_principal="marisol.reyes@labtenant.onmicrosoft.com",
-    )
+    base = {
+        "decision_id": "DEC-CFL-001",
+        "sku_natural": "SKU-MILK-2PCT-1G",
+        "location_key": "store-100",
+        "operator_principal": "marisol.reyes@labtenant.onmicrosoft.com",
+    }
     commit_markdown_decision(  # type: ignore[arg-type]
         proposed_markdown_pct=30.0,
         proposed_price=2.79,

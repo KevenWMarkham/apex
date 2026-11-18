@@ -22,6 +22,7 @@ from apex_references import (
     validate_references,
 )
 from apex_references._cli import references_app
+from pydantic import ValidationError
 from typer.testing import CliRunner
 
 runner = CliRunner()
@@ -69,7 +70,7 @@ def test_reference_spec_practice_normalizes_to_lower() -> None:
 
 
 def test_reference_spec_rejects_unknown_practice() -> None:
-    with pytest.raises(Exception):
+    with pytest.raises(ValidationError):
         _minimal_spec(practice="marketing")
 
 

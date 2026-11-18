@@ -16,6 +16,8 @@ from apex_core.types import OrchestrationPattern
 
 @dataclass(frozen=True, slots=True)
 class Archetype:
+    """One catalogued orchestration archetype and its implementation status."""
+
     archetype_id: str
     name: str
     pattern: OrchestrationPattern

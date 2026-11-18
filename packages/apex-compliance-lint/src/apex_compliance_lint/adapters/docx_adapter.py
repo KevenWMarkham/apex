@@ -22,6 +22,11 @@ class DOCXAdapter(FileAdapter):
     file_extensions = (".docx",)
 
     def extract(self, path: Path) -> list[tuple[int, str]]:
+        """Return non-empty paragraph and table-cell text, numbered in document order.
+
+        Uses ``python-docx`` when installed, else parses ``word/document.xml``
+        directly.
+        """
         try:
             return self._extract_via_python_docx(path)
         except ImportError:

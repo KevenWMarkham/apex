@@ -7,6 +7,7 @@ numbers so the linter can report accurate line/column positions.
 
 from __future__ import annotations
 
+import contextlib
 from html.parser import HTMLParser
 from pathlib import Path
 
@@ -23,7 +24,7 @@ class _TextExtractor(HTMLParser):
         self._skip_depth = 0
         self._lines: dict[int, list[str]] = {}
 
-    def handle_starttag(self, tag: str, attrs: list) -> None:
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         if tag.lower() in _SKIP_TAGS:
             self._skip_depth += 1
 
@@ -44,6 +45,7 @@ class _TextExtractor(HTMLParser):
             self._lines.setdefault(line + offset, []).append(stripped)
 
     def into_lines(self) -> list[tuple[int, str]]:
+        """Return collected text as ``(line, text)`` pairs, joining fragments on each line."""
         return [(ln, " ".join(parts)) for ln, parts in sorted(self._lines.items())]
 
 
@@ -53,13 +55,15 @@ class HTMLAdapter(FileAdapter):
     file_extensions = (".html", ".htm")
 
     def extract(self, path: Path) -> list[tuple[int, str]]:
+        """Return visible text per source line, skipping script/style/noscript/template.
+
+        Falls back to the raw non-blank lines when parsing yields no text.
+        """
         raw = path.read_text(encoding="utf-8", errors="replace")
         parser = _TextExtractor()
-        try:
+        # Malformed HTML — keep whatever was parsed; plain-text fallback below
+        with contextlib.suppress(Exception):
             parser.feed(raw)
-        except Exception:
-            # Malformed HTML — return whatever we got plus a single-line fallback
-            pass
         lines = parser.into_lines()
         if lines:
             return lines

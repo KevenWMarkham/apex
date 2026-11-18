@@ -193,7 +193,9 @@ class TokenProvider(Protocol):
     or a managed-identity-backed credential. Tests inject a stub.
     """
 
-    def __call__(self) -> str: ...
+    def __call__(self) -> str:
+        """Return a current Entra access token for the Fabric API."""
+        ...
 
 
 # ---------------------------------------------------------------------------
@@ -235,8 +237,9 @@ class WorkspaceClient:
         client = self._client()
         resp = client.get(f"{self.base_url}/workspaces", headers=self._headers())
         resp.raise_for_status()
-        body = resp.json()
-        return body.get("value", [])
+        body: dict[str, Any] = resp.json()
+        workspaces: list[dict[str, Any]] = body.get("value", [])
+        return workspaces
 
     def get_workspace_by_name(self, name: str) -> dict[str, Any] | None:
         """Return the workspace dict matching ``name``, or None."""
@@ -264,7 +267,8 @@ class WorkspaceClient:
             headers=self._headers(),
         )
         resp.raise_for_status()
-        return resp.json()
+        created: dict[str, Any] = resp.json()
+        return created
 
     def delete_workspace(self, workspace_id: str) -> None:
         """``DELETE /v1/workspaces/{workspaceId}``."""
