@@ -12,7 +12,7 @@ description: >
   Refill due-date triggers chain-with-errand-chain. Walmart Health PMPM
   share for chronic conditions where the household opts in.
 archetype_id: F1-continuous-monitor-hitl-alert
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.home.read_prescription_state

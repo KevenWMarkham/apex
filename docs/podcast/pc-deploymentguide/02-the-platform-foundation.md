@@ -140,7 +140,7 @@ Three — *the developer experience.* This is the one most teams miss. The whole
 
 **SAM:** And the auditor's role —
 
-**KEVEN:** The auditor walks up to Purview with their *own* Entra credentials, queries the audit data, sees the chain. They don't trust Deloitte's word for it. They don't trust a custom export. They read the data with their own access to the client's tenant. *That* is what makes the audit posture credible.
+**KEVEN:** The auditor walks up to Purview with their *own* Entra credentials, queries the audit data, sees the chain. They don't trust the firm's word for it. They don't trust a custom export. They read the data with their own access to the client's tenant. *That* is what makes the audit posture credible.
 
 **SAM:** And the engineering rule that flows from this —
 

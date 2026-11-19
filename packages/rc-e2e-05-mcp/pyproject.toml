@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "APEX rc-e2e-05-mcp — RC-E2E-05 Store Operations / On-Shelf Availability service-specific MCP tools (Sprint 35)."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "Proprietary — Deloitte Internal" }
+license = { text = "Proprietary — Internal" }
 dependencies = [
     "apex-core",
     "fabric-mcp",

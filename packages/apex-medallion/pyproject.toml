@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "APEX medallion helpers — Bronze landing config, retention policy, dead-letter schema, partitioning strategies. Imported by Fabric PySpark notebooks."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "Proprietary — Deloitte Internal" }
+license = { text = "Proprietary — Internal" }
 dependencies = [
     "apex-core",
     "apex-schemas-common",

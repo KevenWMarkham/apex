@@ -1,9 +1,9 @@
 # PARS — The Retailer's Counter-Move Against Amazon (v0.2)
 
-**Private Auto-Replenishment Service · A Joint Retailer + Telco + Deloitte Offensive**
+**Private Auto-Replenishment Service · A Joint Retailer + Telco + the firm's Offensive**
 
 **Status**: Draft for DMTSP review — sharpened competitive positioning
-**Owner**: Keven Markham, VP — Deloitte's Microsoft Practice
+**Owner**: Keven Markham, VP — the firm's Microsoft Practice
 **Date**: 2026-05-23
 **Version history**:
 - **v0.2** (2026-05-23): Re-anchored as anti-Amazon retailer counter-strategy. Adds market-sizing, retailer-by-retailer + telco-by-telco playbooks, the counter-flywheel, and the defensible moat.
@@ -113,7 +113,7 @@ Three parties bring three assets Amazon cannot replicate. **Each alone is outmat
    │                          │                                        │
    │                          ▼                                        │
    │              ┌────────────────────────┐                           │
-   │              │   DELOITTE / APEX      │                           │
+   │              │   THE FIRM / APEX      │                           │
    │              │                        │                           │
    │              │   • Delivery framework │                           │
    │              │   • Agentic-AI engine  │                           │
@@ -342,7 +342,7 @@ Combined with the CHC v0.2 rules (raw frames never leave home, no off-list infer
 | **CVS / Walgreens** | ~75M / ~85M | Variant A only (Sensitive class) | OTC + Rx auto-refill — defensive against PillPack |
 | **Wholesalers/specialty** (Aldi, H-E-B, Publix, Whole Foods alternates) | Regional | Variant B Premium tier | Regional banner defense |
 
-Each engagement is a separate Deloitte sale. **No retailer needs the others' buy-in to start** — the coalition forms over time as retailers join. First-mover at any retailer captures privacy-conscious segment irreversibly.
+Each engagement is a separate the firm sale. **No retailer needs the others' buy-in to start** — the coalition forms over time as retailers join. First-mover at any retailer captures privacy-conscious segment irreversibly.
 
 ---
 
@@ -370,7 +370,7 @@ Household pays Telco $25-40/mo for "Home Concierge" tier
 Telco bundles: hardware + PARS subscription + multi-merchant catalog
 Telco revenue-shares with each enrolled retailer
 Retailer captures the basket they would otherwise lose to Amazon
-Deloitte engages both Telco (TCP build) and Retailer (CFMP/PARS build)
+The firm engages both Telco (TCP build) and Retailer (CFMP/PARS build)
 ```
 
 ### Variant B — B2C (Retailer direct)
@@ -382,7 +382,7 @@ Household pays Retailer $15-25/mo for "Premium" tier (e.g., Kroger Plus Premium)
 Retailer bundles: hardware kit ($149-199 at-cost) + PARS subscription
 Retailer is the privacy custodian (loyalty fiduciary + LEDGER attestation)
 Single-merchant catalog (acceptable for tightly-loyal segments — Costco, Wegmans)
-Deloitte engages only the Retailer
+The firm engages only the Retailer
 ```
 
 **Coalition recommendation**: pursue Variant B with Kroger Plus (or Costco, or Target Circle 360) in 6-8 weeks; use that as the proof rig for the Variant A telco pitch. Land both within a 12-month arc. Joint TCV = $20-30M per pairing.
@@ -403,9 +403,9 @@ Deloitte engages only the Retailer
 **3-year TCV targets:**
 - Variant A pairing (one telco + one retailer): **$8-15M build + $0.5-1M/yr Operate**
 - Variant B per retailer: **$4-8M build + $0.3-0.6M/yr Operate**
-- Combined coalition (both variants at one DMA): **$20-30M total Deloitte revenue**
+- Combined coalition (both variants at one DMA): **$20-30M total the firm revenue**
 
-Microsoft money via **ISV Marketplace burndown + SI Teaming**. Deloitte never receives ECIF directly from Microsoft. APEX-M cloud profile; -G / -A available per the 14-interface contract.
+Microsoft money via **ISV Marketplace burndown + SI Teaming**. The firm never receives ECIF directly from Microsoft. APEX-M cloud profile; -G / -A available per the 14-interface contract.
 
 ---
 
@@ -420,7 +420,7 @@ Microsoft money via **ISV Marketplace burndown + SI Teaming**. Deloitte never re
 | **Coalition telcos** | 1 | 2-3 | All Tier-1 |
 | **Total households enrolled** | 6-10K | 200-400K | 5-10M |
 | **Amazon basket recapture** | $30-50M | $1-2B | $6-10B (across coalition) |
-| **Deloitte cumulative engagement** | $1-3M | $15-25M | $50-80M |
+| **The firm cumulative engagement** | $1-3M | $15-25M | $50-80M |
 
 By end of Year 3, **the coalition has structurally taken back the privacy-conscious segment of US household consumption** from Amazon. The agentic consumption layer is contested for the first time since Subscribe & Save launched.
 
@@ -443,7 +443,7 @@ Amazon's only credible counter is **lowering Subscribe & Save price** (a margin-
 
 ---
 
-## 16. Why Deloitte is the right integrator
+## 16. Why the firm is the right integrator
 
 | | Why it matters |
 |---|---|
@@ -453,7 +453,7 @@ Amazon's only credible counter is **lowering Subscribe & Save price** (a margin-
 | **APEX framework** | Only cloud-neutral, audit-defensible, 14-interface agentic-AI delivery framework in market |
 | **Working demo today** | Vision Kit + Sonos + tablet + LEDGER + Constitution all running at `ca-visionkit-portal.gentlestone-9b49b099.eastus2.azurecontainerapps.io` — buyers see proof, not slides |
 | **Independence-safe by construction** | Microsoft money rides ISV Marketplace + SI Teaming, never direct ECIF |
-| **Long-game posture** | Run-rate Operate fees compound across the install base — Deloitte's incentive aligns with coalition durability |
+| **Long-game posture** | Run-rate Operate fees compound across the install base — the firm's incentive aligns with coalition durability |
 
 ---
 
@@ -466,8 +466,8 @@ Amazon's only credible counter is **lowering Subscribe & Save price** (a margin-
 | Amazon basket captured via S&S + Alexa Reorder, per HH/yr | ~$3,200 | Amazon shareholder reports + market research |
 | **Total annual basket Amazon currently captures via agentic auto-replenish** | **~$92B** | $3,200 × 22% × 130M (segment) extrapolated to share-of-wallet |
 | Coalition target recapture (3-year, privacy + value-conscious segments) | **8-15% = $7-14B** | Land-and-expand assumption |
-| Deloitte engagement value capture | 0.5-1.0% | Build + Operate fee on recaptured basket |
-| **Cumulative Deloitte opportunity** | **$35-140M over 3 years** | Across coalition retailers + telcos |
+| firm engagement value capture | 0.5-1.0% | Build + Operate fee on recaptured basket |
+| **Cumulative the firm opportunity** | **$35-140M over 3 years** | Across coalition retailers + telcos |
 
 The BVA workshop frames the conversation: **how much of this is at your client's retailer / telco specifically, and how fast can the coalition assemble?**
 
@@ -528,7 +528,7 @@ Total: **~5 calendar weeks of build**. One service live in a household pilot wit
 > "We didn't add privacy to a commerce service. We built a commerce service that *only works* with privacy in force. Every auto-buy lands a hash-chained ledger row with the consent state captured at decision moment. apex-replay reproduces decisions byte-identical for regulators. The Constitution blocks at the runtime layer — not as policy, as code."
 
 ### To a board / CEO of any coalition member
-> "Amazon's home-commerce dominance flywheel is the most important asymmetric threat in retail in twenty years. No single retailer can fight it. A coalition — your company, a Tier-1 telco, Deloitte as integrator — can. We're convening the coalition. We'd like to start with your loyalty base."
+> "Amazon's home-commerce dominance flywheel is the most important asymmetric threat in retail in twenty years. No single retailer can fight it. A coalition — your company, a Tier-1 telco, the firm as integrator — can. We're convening the coalition. We'd like to start with your loyalty base."
 
 ---
 
@@ -545,4 +545,4 @@ Total: **~5 calendar weeks of build**. One service live in a household pilot wit
 
 ---
 
-*Internal · Deloitte's Microsoft Technology & Services Practice · Prepared by Keven Markham, VP · 2026-05-23*
+*Internal · Microsoft Technology & Services Practice · Prepared by Keven Markham, VP · 2026-05-23*

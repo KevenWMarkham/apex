@@ -1,5 +1,5 @@
 {
-  "$schema": "https://apex.deloitte.com/schemas/smoke-test-fixture-v1.json",
+  "$schema": "https://apex.example.com/schemas/smoke-test-fixture-v1.json",
   "fixture_id": "rc-perishable-waste-reduction--canonical-1",
   "description": "Canonical synthetic FSMA-204 recall event per Services Guide §18.7. Three lots from one supplier; one Class I (life-threatening — Listeria signal), one Class II (cold-chain breach with no pathogen signal), one trace_audit_pass (clean). Drives the 3-agent Handoff chain (Analyst → Compliance Specialist → Briefer) end-to-end via mocks. Exercises cross-service reads from RC-E2E-03 (excursion linkage) and validates downstream cache invalidation signals to RC-E2E-03 + RC-E2E-07.",
 

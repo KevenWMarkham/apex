@@ -720,7 +720,7 @@ def build_workbook() -> Workbook:
         "Global Disney Independence framing - two-contract model, no co-sell with Microsoft, careful coordination with global Independence office.",
         "Studios creative-authorship boundary - operational and analytical augmentation, never creative replacement. WGA / SAG-AFTRA / DGA AI provisions binding for all Studios plays.",
         "Financial-reporting-adjacent scope avoidance - plays touching box office, residual calculations, talent compensation, or financial-reporting metrics require Independence review before scope finalisation.",
-        "Rights and licensing scope discipline - Deloitte recommends what the client should build; the client makes substantive rights-and-licensing decisions.",
+        "Rights and licensing scope discipline - the firm recommends what the client should build; the client makes substantive rights-and-licensing decisions.",
         "AI Consumption Cost play - Microsoft EA license-data and Azure cost telemetry are Disney's data; agent reads, composes, and recommends, but never makes purchase or termination decisions.",
     ]
     for j, text in enumerate(callouts, start=1):
@@ -805,7 +805,7 @@ def build_workbook() -> Workbook:
         ("Use the segment-specific files for focused working sessions on one segment. Use this combined file for cross-segment account planning, leadership briefings, and the company-wide narrative.", "p"),
         ("", ""),
         ("Sheet 1 - Plays", "h2"),
-        ("The full 39-play list. 14 columns. Filter by Segment, Wave, Priority, or Sub-domain. The Wave 1 Range column gives indicative Deloitte services range; precise envelope is set during BVA.", "p"),
+        ("The full 39-play list. 14 columns. Filter by Segment, Wave, Priority, or Sub-domain. The Wave 1 Range column gives indicative firm services range; precise envelope is set during BVA.", "p"),
         ("", ""),
         ("Sheet 2 - Summary", "h2"),
         ("Aggregated counts by segment and by priority, recommended Wave 1 entry picks (including per-studio for Studios), and Disney-wide Independence considerations callout.", "p"),
@@ -828,7 +828,7 @@ def build_workbook() -> Workbook:
         ("- Microsoft attach modelling - Microsoft Attach column drives SKU mix for Microsoft consumption forecasting.", "p"),
         ("", ""),
         ("Independence-clean usage", "h2"),
-        ("This file lists Deloitte services plays. The dollar ranges are Deloitte services revenue ranges. Microsoft platforms are licensed directly by Disney from Microsoft; this file does not include Microsoft software margin. Refer to Sellers Podcast Ep 2 and Independence Cheat Sheet for full posture.", "p"),
+        ("This file lists firm services plays. The dollar ranges are firm services revenue ranges. Microsoft platforms are licensed directly by Disney from Microsoft; this file does not include Microsoft software margin. Refer to Sellers Podcast Ep 2 and Independence Cheat Sheet for full posture.", "p"),
         ("", ""),
         ("Notes on KPI signals", "h2"),
         ("KPI signals are reference-scenario estimates from the APEX framework - not Disney-specific commitments. Disney-specific numbers are produced during BVA, with Disney's own baseline measurement.", "p"),

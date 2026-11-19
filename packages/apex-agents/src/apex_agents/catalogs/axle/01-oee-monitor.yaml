@@ -11,7 +11,7 @@ description: >
   Real-time Overall Equipment Effectiveness monitoring with bottleneck
   identification + downtime classification.
 archetype_id: F1-continuous-monitor-hitl-alert
-primary_contact: axle-practice-lead@deloitte.com
+primary_contact: axle-practice-lead@example.com
 
 tools:
   - tool_id: apex.axle.mcp.aaml.get_station_state

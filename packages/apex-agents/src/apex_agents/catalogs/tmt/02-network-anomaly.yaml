@@ -10,7 +10,7 @@ prompt_sha: ""
 description: >
   5G/RAN telemetry anomaly detection. Identifies emerging cell-degradation patterns before customer-impact threshold.
 archetype_id: F1-continuous-monitor-hitl-alert
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.networkml.get_kpi_stream

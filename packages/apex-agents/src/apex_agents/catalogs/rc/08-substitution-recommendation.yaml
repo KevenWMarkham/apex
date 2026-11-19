@@ -12,7 +12,7 @@ description: >
   shopper personalization, and margin-impact signals to recommend
   alternates at the shelf.
 archetype_id: F1-continuous-monitor-hitl-alert
-primary_contact: rc-practice-lead@deloitte.com
+primary_contact: rc-practice-lead@example.com
 
 tools:
   - tool_id: apex.rc.mcp.scml.get_inventory_position

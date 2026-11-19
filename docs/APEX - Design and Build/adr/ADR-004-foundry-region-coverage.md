@@ -6,7 +6,7 @@
 
 ## Context
 
-Microsoft Foundry Agent Service has documented region constraints, particularly for features like "Grounding with Bing Search" which is only supported in a defined list of regions. Some Deloitte client tenants will require deployment in regions outside that list — typically EU regulated (Switzerland, France, Germany), Middle East, India, or specific Australia regions for data-residency reasons.
+Microsoft Foundry Agent Service has documented region constraints, particularly for features like "Grounding with Bing Search" which is only supported in a defined list of regions. Some firm client tenants will require deployment in regions outside that list — typically EU regulated (Switzerland, France, Germany), Middle East, India, or specific Australia regions for data-residency reasons.
 
 Question: How does APEX-M handle clients whose target region isn't in Foundry's supported list?
 

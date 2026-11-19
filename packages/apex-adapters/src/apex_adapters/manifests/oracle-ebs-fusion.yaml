@@ -28,5 +28,5 @@ schema_mappings:
       - { source_field: ORGANIZATION_ID,   bronze_column: organization_id, bronze_type: long,   nullable: false }
       - { source_field: SEGMENT1,          bronze_column: item_code,       bronze_type: string }
 runbook:
-  primary_contact: rc-data-platform@deloitte.com
+  primary_contact: rc-data-platform@example.com
   sla_recovery_minutes: 60

@@ -13,7 +13,7 @@ description: >
   optimal channel based on vehicle condition, age, household-effort
   tolerance, and expected proceeds.
 archetype_id: F3-predictive-trigger-workflow-aware
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.kbb.instant_cash_offer

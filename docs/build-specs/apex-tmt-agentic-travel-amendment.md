@@ -4,7 +4,7 @@
 **Amended document:** `docs/build-specs/apex-tmt-build-spec.md`
 **Prior amendment:** [`apex-tmt-agentic-home-amendment.md`](./apex-tmt-agentic-home-amendment.md) (TMT-AMD-001)
 **Status:** Draft
-**Author:** tmt-practice-lead@deloitte.com / th-practice-lead@deloitte.com
+**Author:** tmt-practice-lead@example.com / th-practice-lead@example.com
 **Date:** Draft
 
 ---

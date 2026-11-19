@@ -2,7 +2,7 @@
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** Produce a complete 8-episode scripted podcast series on the Customer Focused Merchandise Pack (CFMP) — covering Mobile, Portal, and Sonos surfaces of CFMP on APEX-M — to onboard the project team and equip Deloitte Account Teams.
+**Goal:** Produce a complete 8-episode scripted podcast series on the Customer Focused Merchandise Pack (CFMP) — covering Mobile, Portal, and Sonos surfaces of CFMP on APEX-M — to onboard the project team and equip firm Account Teams.
 
 **Architecture:** One show-bible markdown file defining the recurring format, hosts, and content discipline; then 8 episode-script `.md` files of ~5,000–6,500 words each (approx. 38–42 min spoken). All output to `C:\Stage\Clients\Industries\APEX\docs\podcast\pc-cfmp\`, mirroring the structure of the sibling `pc-cross-cloud-agentic` series.
 
@@ -33,7 +33,7 @@
 
 The show bible defines the recurring patterns every episode follows. It must cover:
 
-- **Series identity** — name ("The CFMP Podcast"), audience (CFMP project team + Deloitte Account Teams), one-line pitch.
+- **Series identity** — name ("The CFMP Podcast"), audience (CFMP project team + firm Account Teams), one-line pitch.
 - **Hosts** — Keven and Reid character sheets (background, voice, vocabulary patterns, what they push on, the honesty-enforcer dynamic).
 - **Episode format** — section structure, expected word count, cadence rules (no dogpiling, single disagreement per episode resolved or named, every episode ends on carry-forward).
 - **Cold-open style** — every episode opens with a moment-in-the-day vignette drawn from the design docs (the personas: Sarah's day, Robert's evening, Diana's drop-in, Marcus's cabin trip, or an operator's morning), then the architectural payoff.

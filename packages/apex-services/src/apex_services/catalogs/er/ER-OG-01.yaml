@@ -43,4 +43,4 @@ linked_archetypes:
 
 schemas_touched: [UOGML]
 standards: ['WITSML', 'PRODML', 'OPC UA']
-primary_contact: er-practice-lead@deloitte.com
+primary_contact: er-practice-lead@example.com

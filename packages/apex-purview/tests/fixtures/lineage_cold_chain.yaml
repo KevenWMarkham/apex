@@ -30,7 +30,7 @@ edges:
       - apex.rc.silver.scml.lot
     gold_qualified_name: apex.rc.gold.vw_agent_cold_chain_status
     sql_sha: 5e6f7a8b9c1d2e3f4a5b6c7d8e9f0a1b
-    view_definition_url: github://deloitte/apex/views/cold-chain-status.sql
+    view_definition_url: github://firm/apex/views/cold-chain-status.sql
     gold_type: direct_lake_view
 
   # 13.2.4 — Gold → MCP tool

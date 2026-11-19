@@ -39,4 +39,4 @@ linked_archetypes:
 
 schemas_touched: [TELML, NetworkML]
 standards: ['3GPP', 'MEF']
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com

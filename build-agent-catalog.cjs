@@ -728,7 +728,7 @@ children.push(
 // Part 0
 children.push(
   h1("Part 0 — Compliance & Language Constraints (Inherited)"),
-  p("This document inherits Part 0 of APEX Core unchanged. All Deloitte–Microsoft terminology rules apply. All agent references are synthetic, consistent with the RC edition's published roster. No client-identifiable names appear."),
+  p("This document inherits Part 0 of APEX Core unchanged. All the firm–Microsoft terminology rules apply. All agent references are synthetic, consistent with the RC edition's published roster. No client-identifiable names appear."),
   p("Gate-type references use the Core Part 8.3 taxonomy unchanged: HITL, ACK_ONLY, ZERO_TOUCH, ESCALATION. Wave references use the Core Part 12 convention: W1 Foundation, W2 Expansion, W3 Platform, W4 Adaptive.")
 );
 
@@ -805,7 +805,7 @@ children.push(
 // --- Assemble document ----------------------------------------------------
 
 const doc = new Document({
-  creator: "Deloitte Microsoft Practice",
+  creator: "The firm's Microsoft Practice",
   title: "APEX RC Agent Catalog",
   description: "Deep-dive reference for all 34 RC-edition agents",
   styles: {

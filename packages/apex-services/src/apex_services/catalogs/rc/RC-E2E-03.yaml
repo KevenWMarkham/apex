@@ -66,4 +66,4 @@ linked_archetypes:
 
 schemas_touched: [MERML, SCML]
 standards: ['GS1', 'Schema.org']
-primary_contact: rc-practice-lead@deloitte.com
+primary_contact: rc-practice-lead@example.com

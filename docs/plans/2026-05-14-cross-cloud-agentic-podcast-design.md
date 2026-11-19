@@ -1,7 +1,7 @@
 # The Cross-Cloud Agentic Podcast — Design
 
 **Date:** 2026-05-14
-**Author:** Keven Markham (kmarkham@deloitte.com) · Deloitte's Microsoft Technology & Services Practice
+**Author:** Keven Markham (kmarkham@example.com) · Microsoft Technology & Services Practice
 **Status:** Design approved · ready for writing-plans handoff
 **Folder target:** `C:\Stage\Clients\Industries\APEX\docs\podcast\pc-cross-cloud-agentic\`
 
@@ -15,11 +15,11 @@ The series teaches sellers an **architectural framework** (five principles) that
 
 ## Audience
 
-**Primary:** Microsoft Target Platform Sellers (DMTSP — Deloitte's Microsoft Technology & Services Practice). They sell Microsoft Fabric, Foundry, Agent Framework, Purview, Entra, Power Platform. They face clients with mixed cloud realities and a Deloitte AI team that is properly cloud-agnostic.
+**Primary:** Microsoft Target Platform Sellers (DMTSP — Microsoft Technology & Services Practice). They sell Microsoft Fabric, Foundry, Agent Framework, Purview, Entra, Power Platform. They face clients with mixed cloud realities and an AI team that is properly cloud-agnostic.
 
-**Secondary (safe-to-listen):** Deloitte AI team members. The series does not pretend Microsoft is universally superior; it honestly identifies where AWS / GCP have parity or advantage. A Deloitte AI team listener should find the analysis defensible.
+**Secondary (safe-to-listen):** The firm's AI team members. The series does not pretend Microsoft is universally superior; it honestly identifies where AWS / GCP have parity or advantage. An AI team listener should find the analysis defensible.
 
-**Not the audience:** Clients. The seller's-playbook framing is internal Deloitte preparation, not client-facing content. Generic enough to be safe if shared externally, but not designed for client consumption.
+**Not the audience:** Clients. The seller's-playbook framing is internal the firm preparation, not client-facing content. Generic enough to be safe if shared externally, but not designed for client consumption.
 
 ## Architecture — The Five Principles
 
@@ -63,7 +63,7 @@ These five principles are named explicitly in Episode 1 and threaded through eve
 7. Toyota Zero Day Warranty: Andrew + Michelle
 8. **Cross-Cloud Agentic (this): Andrew + Davis**
 
-The Keven-vs-Reid disagreement is **structural**, not performative. Reid pushes back when Microsoft really isn't differentiated, so sellers don't get caught overclaiming in front of a Deloitte AI-team member or client architecture office. Every episode has at least one substantive disagreement-and-convergence moment.
+The Keven-vs-Reid disagreement is **structural**, not performative. Reid pushes back when Microsoft really isn't differentiated, so sellers don't get caught overclaiming in front of an AI-team member or client architecture office. Every episode has at least one substantive disagreement-and-convergence moment.
 
 ## Episode breakdown
 
@@ -163,7 +163,7 @@ The Acceleration Framework + the Five Principles as the architectural pitch — 
 **Six pushback-handling talking points**:
 1. "We're AWS-primary"
 2. "We're GCP-primary"
-3. "Deloitte should be cloud-agnostic"
+3. "The firm should be cloud-agnostic"
 4. "Microsoft compensation is influencing the recommendation"
 5. "We want portability later" (model and cloud)
 6. "We don't want our data replicated into a new lake" (the No-Replication objection — now answerable on the merits)
@@ -180,7 +180,7 @@ The Acceleration Framework + the Five Principles as the architectural pitch — 
 
 **Wave sizing / 90-day pilot path:** what makes a good Wave 1 (operational, contained, measurable). What kills agentic projects.
 
-**Funding programs** (Independence-clean handling): Microsoft BVA / ECIF / Azure Credits; AWS ProServe credits / MAP; GCP Cloud Innovation Credits. Frame as discovery-funding for the client's benefit — never as compensation flowing to Deloitte for influencing client cloud choice.
+**Funding programs** (Independence-clean handling): Microsoft BVA / ECIF / Azure Credits; AWS ProServe credits / MAP; GCP Cloud Innovation Credits. Frame as discovery-funding for the client's benefit — never as compensation flowing to the firm for influencing client cloud choice.
 
 **Closing posture:** the Microsoft platform earns the recommendation on merits. The Acceleration Framework + the Five Principles is what makes that recommendation defensible across any cloud reality.
 

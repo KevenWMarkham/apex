@@ -11,7 +11,7 @@ description: >
   Production-schedule optimization across mixed-model lines balancing
   takt time, sequence constraints, and material availability.
 archetype_id: F3-predictive-trigger-workflow-aware
-primary_contact: axle-practice-lead@deloitte.com
+primary_contact: axle-practice-lead@example.com
 
 tools:
   - tool_id: apex.axle.mcp.mscml.get_schedule_horizon

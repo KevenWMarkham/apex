@@ -31,7 +31,7 @@ The wizard's **render endpoint** refuses to emit Bicep parameters when any requi
 | `pilot` | **all 14** | none |
 | `ga` | **all 14** | none |
 
-A waiver requires sign-off from the engagement's tenant SRE + the Deloitte Independence Office (per gate #14).
+A waiver requires sign-off from the engagement's tenant SRE + the Independence Office (per gate #14).
 
 ---
 
@@ -120,7 +120,7 @@ A waiver requires sign-off from the engagement's tenant SRE + the Deloitte Indep
 - **Remediate**: redeploy `apex-m/infra/bicep/platform/foundry.bicep` with private-networking params populated.
 
 ### Gate 14 · Independence consultation per adapter
-- **Microsoft control**: Deloitte Independence Office
+- **Microsoft control**: Independence Office
 - **Verify**: every adapter in `client_approved_architecture` has an Independence consultation record in the engagement's audit trail.
 - **Remediate**: schedule Independence consultation; record sign-off; re-run the gate.
 

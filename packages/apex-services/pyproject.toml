@@ -4,8 +4,8 @@ version = "0.1.0"
 description = "APEX Service Catalog — productized agent + orchestration bundles per Practice with personas, KPIs, SLOs, and commercial envelopes. Sprint 17."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "Proprietary — Deloitte Internal" }
-authors = [{ name = "Deloitte DMTSP — Consumer Industry" }]
+license = { text = "Proprietary — Internal" }
+authors = [{ name = "DMTSP — Consumer Industry" }]
 dependencies = [
     "apex-core>=0.1.0",
     "apex-agents>=0.1.0",

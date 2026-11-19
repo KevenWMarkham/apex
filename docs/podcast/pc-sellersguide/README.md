@@ -9,7 +9,7 @@ A seven-episode audio companion to **Volume I of the APEX Trilogy** — the *Pro
 ## The hosts
 
 **Keven** *(the practitioner)*
-Deloitte VP, Microsoft Technology & Services Practice. 22+ years on the Microsoft platform. Has been in the room for the deals being described. Plays the *Ben Gilbert* role — the operator who walks the listener through what actually happens when the framework meets the customer.
+The firm's VP, Microsoft Technology & Services Practice. 22+ years on the Microsoft platform. Has been in the room for the deals being described. Plays the *Ben Gilbert* role — the operator who walks the listener through what actually happens when the framework meets the customer.
 
 **Jordan** *(the strategist · skeptic)*
 Strategy partner, Industrial Products & Services. Plays the *David Rosenthal* role — the wide-angle thinker who pushes back, asks the obvious-but-essential question, and reframes from the buyer's seat ("but the CFO is going to ask…"). Jordan keeps the show honest: when the framework over-promises, Jordan calls it.

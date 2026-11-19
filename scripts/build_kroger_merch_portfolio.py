@@ -786,7 +786,7 @@ def build():
               tier_col=2)
 
     add_body(doc,
-             "Independence posture preserved across this portfolio document: 'Deloitte's "
+             "Independence posture preserved across this portfolio document: 'The firm's "
              "Microsoft practice,' 'DMTSP,' 'Microsoft platform capabilities,' "
              "'Microsoft-native deployment.' The terms 'partner,' 'alliance,' and 'strategic "
              "alliance' do not appear.",

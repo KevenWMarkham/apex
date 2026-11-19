@@ -15,7 +15,7 @@ from copy import deepcopy
 
 OUT = r"C:\Stage\Clients\Industries\APEX\docs\reference\BVA-Workshop-Facilitator-Deck.pptx"
 
-# Deloitte palette
+# The firm palette
 GREEN = RGBColor(0x86, 0xBC, 0x25)
 NAVY  = RGBColor(0x1A, 0x1F, 0x2E)
 DEEP  = RGBColor(0x0E, 0x14, 0x23)
@@ -114,7 +114,7 @@ tb(s, 0.7, 4.0, W-1.4, 0.6, "Outcome of this session:", size=12, color=GREY)
 tb(s, 0.7, 4.35, W-1.4, 1.1,
    "Shortlisted 3-5 in-scope scenarios  ·  Populated ROI calculator  ·  Pack Lite SOW skeleton ready for redline",
    size=14, bold=True, color=WHITE)
-tb(s, 0.7, 6.0, 6.0, 0.30, "Deloitte's Microsoft Technology & Services Practice", size=10, color=GREY)
+tb(s, 0.7, 6.0, 6.0, 0.30, "Microsoft Technology & Services Practice", size=10, color=GREY)
 tb(s, 0.7, 6.30, 6.0, 0.30, "Facilitator: [LCSP_NAME]  ·  Client: [CLIENT_NAME]  ·  [DATE]", size=10, color=GREY)
 
 # ============================================================
@@ -225,7 +225,7 @@ y0 = 2.25
 box(s, x0, y0, col_w, 0.45, fill=ORANGE)
 tb(s, x0+0.20, y0+0.07, col_w-0.4, 0.32, "ALEXA  (Amazon)", size=14, bold=True, color=WHITE)
 box(s, x0+col_w+gap, y0, col_w, 0.45, fill=GREEN)
-tb(s, x0+col_w+gap+0.20, y0+0.07, col_w-0.4, 0.32, "APEX  (Deloitte framework)", size=14, bold=True, color=WHITE)
+tb(s, x0+col_w+gap+0.20, y0+0.07, col_w-0.4, 0.32, "APEX  (the firm framework)", size=14, bold=True, color=WHITE)
 
 contrast = [
     ("Privacy custodian",       "Amazon (commercial ToS)",                "Telco (CPNI statutory) or Merch (LEDGER)"),
@@ -257,7 +257,7 @@ y0 = 1.7
 rounded(s, 0.5, y0, 6.1, 5.0, fill=LITE, line=GREEN, line_w=2)
 tb(s, 0.7, y0+0.15, 5.7, 0.35, "WHAT APEX IS", size=14, bold=True, color=GREEN)
 is_items = [
-    "A Deloitte agentic-AI delivery framework",
+    "An agentic-AI delivery framework",
     "Cloud-neutral: APEX-M / APEX-G / APEX-A (14 interfaces)",
     "10-asset Industry Solution Pack bundle (CFMP, MERML, etc.)",
     "Same 6-Agent Fleet across every Pack",
@@ -624,11 +624,11 @@ s = slide()
 header(s, "03:25 – 03:35  (10 minutes)", "Funding paths — independence-safe by construction")
 
 vehicles = [
-    ("BVA (client-funded)",       "Workshop fee — sometimes Deloitte-absorbed", "T1, T2",  GREEN),
-    ("DCIF (Deloitte co-invest)", "Deloitte commits balance sheet against milestones", "T1, T2, T3", GREEN),
+    ("BVA (client-funded)",       "Workshop fee — sometimes firm-absorbed", "T1, T2",  GREEN),
+    ("DCIF (the firm co-invest)", "the firm commits balance sheet against milestones", "T1, T2, T3", GREEN),
     ("ISV Marketplace burndown",  "Client's Azure commitment burned down via Marketplace", "T2, T3, T4", GREEN),
-    ("SI Teaming POC",            "Non-competing SI receives MSFT funding; Deloitte sub-delivers", "T2, T3",  ACCENT),
-    ("Client direct",             "Standard Deloitte-on-Deloitte-paper engagement",  "All tiers",  NAVY),
+    ("SI Teaming POC",            "Non-competing SI receives MSFT funding; the firm sub-delivers", "T2, T3",  ACCENT),
+    ("Client direct",             "Standard firm-on-firm-paper engagement",  "All tiers",  NAVY),
     ("T&M",                       "For custom build (T4) or extensions",             "T2, T3, T4", NAVY),
 ]
 for i,(k, v, tiers_, color) in enumerate(vehicles):
@@ -642,7 +642,7 @@ for i,(k, v, tiers_, color) in enumerate(vehicles):
 box(s, 0.5, 6.40, 12.3, 0.70, fill=DEEP)
 tb(s, 0.7, 6.48, 12.0, 0.30, "INDEPENDENCE RULE", size=11, bold=True, color=GREEN)
 tb(s, 0.7, 6.74, 12.0, 0.30,
-   "Deloitte is Microsoft's auditor. We never receive ECIF directly. Microsoft money flows via Marketplace or SI Teaming.",
+   "The firm is Microsoft's auditor. We never receive ECIF directly. Microsoft money flows via Marketplace or SI Teaming.",
    size=10, color=WHITE)
 
 footer(s, 18, TOTAL, "Funding")
@@ -698,7 +698,7 @@ for i,(n, name_, desc, color) in enumerate(artifacts):
 box(s, 0.5, 6.40, 12.3, 0.65, fill=DEEP)
 tb(s, 0.7, 6.50, 12.0, 0.30, "THE COMMITMENT", size=11, bold=True, color=GREEN)
 tb(s, 0.7, 6.75, 12.0, 0.30,
-   "By [target date]: SOW countersigned · BVA artifacts archived in Client + Deloitte SharePoint · engagement team named.",
+   "By [target date]: SOW countersigned · BVA artifacts archived in Client + the firm's SharePoint · engagement team named.",
    size=10, color=WHITE)
 
 footer(s, 20, TOTAL, "Close")
@@ -753,14 +753,14 @@ footer(s, 22, TOTAL, "Reference")
 s = slide()
 header(s, "Backup", "Independence language discipline")
 tb(s, 0.5, 1.6, 6.0, 0.4, "NEVER SAY", size=14, bold=True, color=ORANGE)
-never = ["Microsoft partner / alliance / co-sell", "Microsoft funds Deloitte / pays Deloitte",
+never = ["Microsoft partner / alliance / co-sell", "Microsoft funds the firm / pays the firm",
          "ECIF (client-facing)", "Joint Microsoft commercial", "Microsoft GTM"]
 for i,t in enumerate(never):
     tb(s, 0.7, 2.10 + i*0.42, 5.8, 0.40, "✗  " + t, size=11.5, color=INK)
 
 tb(s, 7.0, 1.6, 6.0, 0.4, "ALWAYS SAY", size=14, bold=True, color=GREEN)
-always = ["Deloitte's Microsoft practice / DMTSP", "Microsoft technology / cloud profile",
-          "Microsoft money via ISV Marketplace burndown", "Independent of Microsoft (Deloitte's role)",
+always = ["the firm's Microsoft practice / DMTSP", "Microsoft technology / cloud profile",
+          "Microsoft money via ISV Marketplace burndown", "Independent of Microsoft (the firm's role)",
           "Cloud profile: Microsoft / APEX-M"]
 for i,t in enumerate(always):
     tb(s, 7.2, 2.10 + i*0.42, 5.8, 0.40, "✓  " + t, size=11.5, color=INK)
@@ -768,9 +768,9 @@ for i,t in enumerate(always):
 box(s, 0.5, 5.0, 12.3, 1.8, fill=DEEP)
 tb(s, 0.7, 5.20, 12.0, 0.40, "THE INDEPENDENCE SENTENCE (always ready)", size=11, bold=True, color=GREEN)
 tb(s, 0.7, 5.65, 12.0, 1.0,
-   ("\"Deloitte is Microsoft's auditor. SEC rules forbid us receiving ECIF directly from Microsoft. We've "
+   ("\"the firm is Microsoft's auditor. SEC rules forbid us receiving ECIF directly from Microsoft. We've "
     "engineered the funding paths around that constraint — Microsoft money flows via Marketplace burndown "
-    "or SI Teaming, never directly to Deloitte. Our language discipline reflects the rule.\""),
+    "or SI Teaming, never directly to the firm. Our language discipline reflects the rule.\""),
    size=11, color=WHITE, line_spacing=1.3)
 footer(s, 23, TOTAL, "Reference")
 
@@ -934,7 +934,7 @@ tb(s, 0.5, 3.9, W-1.0, 0.6,
    "Three artifacts. One commitment. SOW countersignature by [TARGET_DATE].",
    size=18, color=WHITE, align=PP_ALIGN.CENTER)
 tb(s, 0.5, 4.7, W-1.0, 0.5,
-   "[LCSP_NAME] · Deloitte's Microsoft Technology & Services Practice",
+   "[LCSP_NAME] · Microsoft Technology & Services Practice",
    size=14, color=GREY, align=PP_ALIGN.CENTER)
 tb(s, 0.5, 6.8, W-1.0, 0.3, f"30 / {TOTAL}", size=9, color=GREY, align=PP_ALIGN.CENTER)
 

@@ -1,6 +1,6 @@
 # The Daimler Trucks North America Account Podcast · `pc-dtna-account`
 
-A **five-episode** internal Account Team podcast for the Deloitte team working **Daimler Trucks North America (DTNA).** Built on top of the APEX Trilogy podcasts (`pc-sellersguide/` · `pc-servicesguide/` · `pc-deploymentguide/`) — assumes the listener has at least skim-heard the Sellers Podcast and is familiar with the AXLE Practice.
+A **five-episode** internal Account Team podcast for the team working **Daimler Trucks North America (DTNA).** Built on top of the APEX Trilogy podcasts (`pc-sellersguide/` · `pc-servicesguide/` · `pc-deploymentguide/`) — assumes the listener has at least skim-heard the Sellers Podcast and is familiar with the AXLE Practice.
 
 > **Internal use.** This podcast names the client directly because it's internal Account Team preparation. The Trilogy podcasts reference DTNA-shaped scenarios anonymously through the AXLE Practice; this podcast names the company and its brands explicitly.
 
@@ -25,7 +25,7 @@ These five episodes deliver all four.
 
 **Keven** *(the practitioner)* — `en-US-AndrewNeural` · Same Trilogy continuity host across all four account-and-framework podcasts.
 
-**Marcus** *(the senior account partner)* — `en-US-BrianMultilingualNeural` · A senior Deloitte account partner with 10+ years on Class 8 truck OEM accounts. Has walked the Mt. Holly and Cleveland and Portland plants. Knows the dealer network, the major fleet customer relationships, the engineering and manufacturing leadership. Plays the role of *"OK but what the VP of Manufacturing will actually say to that is…"* Marcus keeps the conversation grounded in *who at DTNA decides what.*
+**Marcus** *(the senior account partner)* — `en-US-BrianMultilingualNeural` · A senior the firm account partner with 10+ years on Class 8 truck OEM accounts. Has walked the Mt. Holly and Cleveland and Portland plants. Knows the dealer network, the major fleet customer relationships, the engineering and manufacturing leadership. Plays the role of *"OK but what the VP of Manufacturing will actually say to that is…"* Marcus keeps the conversation grounded in *who at DTNA decides what.*
 
 The Trilogy podcasts had Jordan (strategist), Morgan (delivery architect), Sam (platform engineer); the Disney podcast had Riley (media account partner). Marcus is the *industrial-automotive account-relationship* lens — different from all four.
 
@@ -103,4 +103,4 @@ After audio generation, an `audio/` subfolder appears with the five MP3s and a f
 
 ---
 
-*The implied listener: a member of the Deloitte Account Team for DTNA — partner, senior manager, manager, senior consultant — who is preparing for an upcoming DTNA conversation and wants the* account-specific *application of APEX and the AXLE Practice without re-listening to the entire Trilogy.*
+*The implied listener: a member of the Account Team for DTNA — partner, senior manager, manager, senior consultant — who is preparing for an upcoming DTNA conversation and wants the* account-specific *application of APEX and the AXLE Practice without re-listening to the entire Trilogy.*

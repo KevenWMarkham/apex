@@ -2,7 +2,7 @@
 
 Beyond Independence-language, APEX content has positional rules:
 
-- The agent never claims to "deliver" client outcomes — Deloitte
+- The agent never claims to "deliver" client outcomes — the firm
   delivers outcomes; APEX is the framework.
 - The agent never claims to be "AI-powered" or "AI-driven" — those
   are marketing-shorthand terms that gloss the HITL governance.

@@ -10,7 +10,7 @@
 
 [Sound: a Microsoft seller's home office. Friday afternoon. The light is long and amber through a single window. A laptop closed on one corner of the desk. A coffee cup. Three pieces of paper laid out side by side across the working surface — printed, annotated by hand, slightly creased at the corners from being carried in a portfolio for a week. The faint hum of an HVAC fan in the background and the quiet of a house at the end of a working week.]
 
-**KEVEN:** I want to start tonight in a Microsoft seller's home office. Friday afternoon. Late. The seller has a meeting Monday morning with a new prospect — a global enterprise the seller has never sat with before. The CIO will be in the room. Two direct reports. An outside advisor the CIO trusts. Forty-five minutes on the calendar. The agenda is one line — *agentic AI architecture, cloud strategy, and Deloitte's point of view.*
+**KEVEN:** I want to start tonight in a Microsoft seller's home office. Friday afternoon. Late. The seller has a meeting Monday morning with a new prospect — a global enterprise the seller has never sat with before. The CIO will be in the room. Two direct reports. An outside advisor the CIO trusts. Forty-five minutes on the calendar. The agenda is one line — *agentic AI architecture, cloud strategy, and the firm's point of view.*
 
 **REID:** And what's on the desk.
 
@@ -38,7 +38,7 @@
 
 **REID:** And the contrast with the partner-channel motion.
 
-**KEVEN:** Sharp. The partner-channel motion is *Microsoft is the right answer because Microsoft is the right answer.* Circular. Works in rooms where the CIO has already decided. Fails in rooms where the CIO is genuinely choosing. The architectural motion survives a sophisticated architect's scrutiny — and the Deloitte AI team architect who has shipped on Bedrock and Vertex respects it. The partner-channel motion is the one the AI team quietly routes around.
+**KEVEN:** Sharp. The partner-channel motion is *Microsoft is the right answer because Microsoft is the right answer.* Circular. Works in rooms where the CIO has already decided. Fails in rooms where the CIO is genuinely choosing. The architectural motion survives a sophisticated architect's scrutiny — and the AI team architect who has shipped on Bedrock and Vertex respects it. The partner-channel motion is the one the AI team quietly routes around.
 
 **REID:** Said exactly that way. The framework is the spine. Microsoft earns the recommendation on top of the framework, not in place of it.
 
@@ -76,11 +76,11 @@
 
 **REID:** The commercial layer. The architecture is the architecture, but the seller operates under a specific commercial discipline that protects the architecture from drifting into vendor-loyalty pitching.
 
-**KEVEN:** The operating model. *Deloitte recommends on technical and economic merits.* *The two-contract model — three contracts when NVIDIA is in scope.* Client contracts with the platform vendor on platform paper. Client contracts with Deloitte on Deloitte paper. Separate contracts. No reseller margin. No partner-channel motion. No compensation flows from platform vendors to Deloitte for influencing client choices.
+**KEVEN:** The operating model. *The firm recommends on technical and economic merits.* *The two-contract model — three contracts when NVIDIA is in scope.* Client contracts with the platform vendor on platform paper. Client contracts with the firm on firm paper. Separate contracts. No reseller margin. No partner-channel motion. No compensation flows from platform vendors to the firm for influencing client choices.
 
 **REID:** And the verbatim cheat-sheet language.
 
-**KEVEN:** Five lines. *One — the recommendation is on merits, not on compensation.* *Two — the client contracts with the platform vendor on platform paper.* Microsoft on Microsoft paper. AWS on AWS paper. GCP on GCP paper. NVIDIA on NVIDIA paper. *Three — the client contracts with Deloitte on Deloitte paper.* Separately. *Four — no reseller margin.* Deloitte does not mark up Microsoft licensing. *Five — no partner-channel motion.* The seller operates as an independent advisor — no commercial constructs that tie Deloitte's recommendation to platform-vendor compensation. The seller's language reflects that discipline; the vocabulary of vendor-aligned selling is absent. Five lines. The seller memorizes them.
+**KEVEN:** Five lines. *One — the recommendation is on merits, not on compensation.* *Two — the client contracts with the platform vendor on platform paper.* Microsoft on Microsoft paper. AWS on AWS paper. GCP on GCP paper. NVIDIA on NVIDIA paper. *Three — the client contracts with the firm on firm paper.* Separately. *Four — no reseller margin.* The firm does not mark up Microsoft licensing. *Five — no partner-channel motion.* The seller operates as an independent advisor — no commercial constructs that tie the firm's recommendation to platform-vendor compensation. The seller's language reflects that discipline; the vocabulary of vendor-aligned selling is absent. Five lines. The seller memorizes them.
 
 **REID:** Let me push there. *This is the discipline that earns long-term client trust — short-term it can lose deals against sellers who don't operate this way; long-term it wins the relationship.* The short-term picture is uncomfortable. A seller competing against partner-channel sellers who can underprice through reseller economics is at a price disadvantage on the line item. *Short term, Independence is a competitive disadvantage on price.* The seller has to know it going in.
 
@@ -92,7 +92,7 @@
 
 ### Five honest claims sellers can defend
 
-**KEVEN:** Five claims. The credibility substrate. Each defendable in front of a sophisticated client architect and the Deloitte AI team listening in the back.
+**KEVEN:** Five claims. The credibility substrate. Each defendable in front of a sophisticated client architect and the AI team listening in the back.
 
 **REID:** Walk them.
 
@@ -106,7 +106,7 @@
 
 *Claim Four — Microsoft Fabric Mirroring is the broadest productized source-mirroring story for the No-Replication pattern.* Snowflake, Databricks, Cosmos DB, Azure SQL, Postgres, Oracle — the catalog covers the dominant operational and analytical source types and is broadening on a quarterly cadence. AWS Athena Federated Query has more federated-query connectors — that is federated query, not mirroring. GCP BigQuery Omni is cross-cloud federation, not source mirroring. *Across source types for the mirroring use case specifically, Microsoft is broadest.* Defendable.
 
-*Claim Five — Deloitte operates Independence-clean.* Microsoft licensing and Deloitte services are separate contracts on separate paper, no margin stacking, no reseller motion, no compensation flowing from Microsoft to Deloitte for influencing the client's cloud choice. *The claim is verifiable.* The client can request the contract structure. The client can verify that Deloitte's revenue from the engagement comes from the client's contract with Deloitte, not from Microsoft's contract with the client. Operating discipline; verifiable; defensible.
+*Claim Five — the firm operates Independence-clean.* Microsoft licensing and firm services are separate contracts on separate paper, no margin stacking, no reseller motion, no compensation flowing from Microsoft to the firm for influencing the client's cloud choice. *The claim is verifiable.* The client can request the contract structure. The client can verify that the firm's revenue from the engagement comes from the client's contract with the firm, not from Microsoft's contract with the client. Operating discipline; verifiable; defensible.
 
 **REID:** Five claims. All defendable. All honest. All survive scrutiny.
 
@@ -124,7 +124,7 @@
 
 *Overclaim Four — Microsoft is the only one with audit trails.* FALSE. *All three clouds can build the ledger pattern.* AWS has CloudTrail plus QLDB or DynamoDB. GCP has Cloud Audit Logs plus BigQuery-backed ledger. Microsoft has the pattern productized as reference architecture; AWS and GCP require engineering. *The pattern is buildable on all three. Don't pitch this.*
 
-**REID:** *Pitching any of these four loses credibility with the Deloitte AI team AND with sophisticated client architects.* The seller who says any of them in front of a Deloitte AI architect earns a polite redirect at best and a quiet routing-around at worst. The seller who says any of them in front of a client architect who has built on AWS or GCP loses architectural credibility for the rest of the engagement. *Sellers who learn to NOT say these four lines protect the long-term relationship.*
+**REID:** *Pitching any of these four loses credibility with the AI team AND with sophisticated client architects.* The seller who says any of them in front of an AI architect earns a polite redirect at best and a quiet routing-around at worst. The seller who says any of them in front of a client architect who has built on AWS or GCP loses architectural credibility for the rest of the engagement. *Sellers who learn to NOT say these four lines protect the long-term relationship.*
 
 **KEVEN:** The four overclaims are the four shortest paths to losing the room. The discipline is to not say them. The discipline pays off every time the seller does not say them.
 
@@ -144,7 +144,7 @@
 
 **REID:** Pushback Three.
 
-**KEVEN:** *Pushback Three — Deloitte should be cloud-agnostic.* The response.
+**KEVEN:** *Pushback Three — the firm should be cloud-agnostic.* The response.
 
 *"At the architecture layer, we are. The Acceleration Framework is vendor-neutral by design. At the implementation layer, we recommend on technical and economic merits per client per workload. We're agnostic about which cloud you should use; we're not agnostic about which architecture works."*
 
@@ -152,7 +152,7 @@
 
 **KEVEN:** *Pushback Four — Microsoft compensation is influencing the recommendation.* The response.
 
-*"Our Independence model is the two-contract operating model. Client contracts with Microsoft directly on Microsoft paper. Client contracts with Deloitte directly on Deloitte paper. No reseller margin. No partner-channel compensation flowing to Deloitte for influencing your choice. The recommendation is on merits; you can verify by checking that Deloitte's revenue from this engagement comes from your contract with us, not from Microsoft's contract with you."*
+*"Our Independence model is the two-contract operating model. Client contracts with Microsoft directly on Microsoft paper. Client contracts with the firm directly on firm paper. No reseller margin. No partner-channel compensation flowing to the firm for influencing your choice. The recommendation is on merits; you can verify by checking that the firm's revenue from this engagement comes from your contract with us, not from Microsoft's contract with you."*
 
 **REID:** And the seller has to be able to say that without flinching, because the question is asked by every serious CIO who has been in the chair more than a few years.
 
@@ -242,7 +242,7 @@
 
 **REID:** And the Independence-clean framing.
 
-**KEVEN:** *Cloud-vendor funding flows to the client.* Funding subsidizes the client's discovery, POC, early production. *Funding does not flow to Deloitte for influencing the cloud choice.* The client may apply for funding from whichever cloud vendor the client is considering — that is the client's commercial relationship, not the seller's commercial motion. Deloitte's services are still billed to the client on Deloitte paper. *The two-contract model holds.* The funding sits inside the client-vendor contract, not inside the client-Deloitte contract.
+**KEVEN:** *Cloud-vendor funding flows to the client.* Funding subsidizes the client's discovery, POC, early production. *Funding does not flow to the firm for influencing the cloud choice.* The client may apply for funding from whichever cloud vendor the client is considering — that is the client's commercial relationship, not the seller's commercial motion. The firm's services are still billed to the client on firm paper. *The two-contract model holds.* The funding sits inside the client-vendor contract, not inside the client-the firm contract.
 
 **REID:** And the seller's role.
 
@@ -262,7 +262,7 @@
 
 **KEVEN:** *The Microsoft seller who carries this into client conversations doesn't pitch Microsoft. They pitch the right way to build agentic AI.* The cloud recommendation follows on merits. The architectural pitch earns the room. The honest comparison matrix survives the architect's scrutiny. The Independence framing earns the long-term relationship. *That is the operating model that wins both the deal and the long-term relationship.*
 
-**REID:** Let me close with the long-game framing. *The sellers who get this right are the ones the Deloitte AI team will defend. The sellers who don't are the ones the AI team will quietly route around.* The AI architect who has built on Bedrock and Vertex respects the seller who acknowledges Bedrock's multi-vendor lead and Vertex's cross-cloud federation strength. The architect routes around the seller who pitches *Microsoft is better* without architectural substance. *Independence-minded selling is the long game.*
+**REID:** Let me close with the long-game framing. *The sellers who get this right are the ones the AI team will defend. The sellers who don't are the ones the AI team will quietly route around.* The AI architect who has built on Bedrock and Vertex respects the seller who acknowledges Bedrock's multi-vendor lead and Vertex's cross-cloud federation strength. The architect routes around the seller who pitches *Microsoft is better* without architectural substance. *Independence-minded selling is the long game.*
 
 **KEVEN:** Eight episodes. The Acceleration Framework. The Five Principles. The Six Discovery Openers. The five honest claims. The four overclaims to avoid. The six pushback-handling talking points. The Independence operating model. The wave-sizing discipline. The funding programs handled Independence-clean. *This is the seller's working substrate.* Three pages on the desk by Friday afternoon. Monday morning, the seller walks into the room and the framework holds. See you in the field.
 
@@ -290,7 +290,7 @@
 
 **REID:** And the other constituency.
 
-**KEVEN:** *The Deloitte AI team.* The AI architect who has shipped on Bedrock and Vertex listens to the Microsoft seller's pitch and decides — *do I bring this seller into my client conversations or do I route around them.* The Microsoft-loyalty pitch fails the architect's scrutiny in the first sentence. The architectural-honesty pitch passes and earns the AI architect's defense in the room. *The partner-channel motion loses the AI team. The Independence-minded motion wins the AI team.*
+**KEVEN:** *The AI team.* The AI architect who has shipped on Bedrock and Vertex listens to the Microsoft seller's pitch and decides — *do I bring this seller into my client conversations or do I route around them.* The Microsoft-loyalty pitch fails the architect's scrutiny in the first sentence. The architectural-honesty pitch passes and earns the AI architect's defense in the room. *The partner-channel motion loses the AI team. The Independence-minded motion wins the AI team.*
 
 **REID:** Convergence. *The discipline is hard but compounding.* The sellers who maintain it win disproportionately at the relationship-renewal moments — which is where Microsoft Account Team economics actually live. *The Independence-minded seller plays to the renewal. The partner-channel seller plays to the close.* The Independence-minded motion retires more quota over five years than the partner-channel motion does.
 
@@ -318,7 +318,7 @@
 
 **REID:** I'm Reid. Cross-cloud principal architect. Twenty years across Microsoft, AWS, and GCP buildouts. *The honest comparison is the long-term seller's edge.*
 
-**KEVEN:** I'm Keven. Vice President, Deloitte's Microsoft Technology and Services Practice. See you in the field.
+**KEVEN:** I'm Keven. Vice President, Microsoft Technology and Services Practice. See you in the field.
 
 [outro music · long]
 
@@ -376,7 +376,7 @@
 - **OWASP Top 10 for LLM Applications** — LLM and agentic-AI vulnerabilities
 
 ### Cloud-vendor funding programs (Independence-clean)
-- **Microsoft BVA / ECIF / Azure Credits** — Microsoft customer investment funds (client-facing; not a Deloitte revenue stream)
+- **Microsoft BVA / ECIF / Azure Credits** — Microsoft customer investment funds (client-facing; not a revenue stream)
 - **AWS ProServe credits / MAP (Migration Acceleration Program)** — AWS equivalent
 - **GCP Cloud Innovation Credits** — GCP equivalent
 

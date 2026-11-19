@@ -180,13 +180,13 @@ If you skip this — the technology ships and the organisation doesn't adopt. We
 
 **MORGAN:** Bull / Bear, last time. I'll go Bull.
 
-**Bull case.** The Services Guide ships an *operating architecture* for enterprise agentic AI that's three years ahead of what any other framework has. Medallion plus canonical plus MCP plus LEDGER plus Foundry plus Purview — composed coherently — is not something anyone else has assembled. The team that masters this guide is two years ahead of the engineering market. If Deloitte invests in *practitioner enablement* — bringing engineers up the steep on-ramp — the framework compounds enormously.
+**Bull case.** The Services Guide ships an *operating architecture* for enterprise agentic AI that's three years ahead of what any other framework has. Medallion plus canonical plus MCP plus LEDGER plus Foundry plus Purview — composed coherently — is not something anyone else has assembled. The team that masters this guide is two years ahead of the engineering market. If the firm invests in *practitioner enablement* — bringing engineers up the steep on-ramp — the framework compounds enormously.
 
 **Bear case.** Two real risks.
 
 Risk one — *the Microsoft platform is moving fast.* Agent Framework changed naming twice in the past eighteen months. Foundry's safety planes are still maturing. Fabric IQ is emerging as a new layer. Some details in the guide will be stale within two quarters. The bear case is *living-document maintenance debt.*
 
-Risk two — *the framework is more complex than the median client engineering team can absorb.* Some clients will need Deloitte to operate the Services era for them — they will not be self-sufficient. That's actually fine commercially, but it's a different positioning than the framework's *"you can run this internally after Wave Three"* aspiration.
+Risk two — *the framework is more complex than the median client engineering team can absorb.* Some clients will need the firm to operate the Services era for them — they will not be self-sufficient. That's actually fine commercially, but it's a different positioning than the framework's *"you can run this internally after Wave Three"* aspiration.
 
 **KEVEN:** Synthesis?
 

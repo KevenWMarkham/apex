@@ -11,7 +11,7 @@ description: >
   Rank remaining outages by critical-customer status (hospital, life-support
   residential), crew proximity, and repair-complexity estimates.
 archetype_id: F3-predictive-trigger-workflow-aware
-primary_contact: er-pu-practice-lead@deloitte.com
+primary_contact: er-pu-practice-lead@example.com
 
 tools:
   - tool_id: apex.er.mcp.gridml.get_open_outages

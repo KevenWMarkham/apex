@@ -10,7 +10,7 @@ prompt_sha: ""
 description: >
   Predictive-service recommendation for connected equipment. Recommends service intervention based on cycle + DTC + emergent fault patterns.
 archetype_id: F3-predictive-trigger-workflow-aware
-primary_contact: ice-practice-lead@deloitte.com
+primary_contact: ice-practice-lead@example.com
 
 tools:
   - tool_id: apex.ice.mcp.connectedml.get_machine_health

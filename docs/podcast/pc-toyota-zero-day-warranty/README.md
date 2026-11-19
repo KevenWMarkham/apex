@@ -1,6 +1,6 @@
 # The Zero Day Warranty Podcast — Toyota's Path from 8-12 Weeks to Minutes · `pc-toyota-zero-day-warranty`
 
-A **five-episode** podcast on the Zero Day Warranty agentic scenario for **Toyota Motor North America** — built for the Deloitte Account Team and **client-shareable as a single artefact** when the moment calls for it. Builds on the APEX Trilogy and runs parallel to the DTNA Account Podcast.
+A **five-episode** podcast on the Zero Day Warranty agentic scenario for **Toyota Motor North America** — built for the Account Team and **client-shareable as a single artefact** when the moment calls for it. Builds on the APEX Trilogy and runs parallel to the DTNA Account Podcast.
 
 > **Dual-audience artefact.** Unlike the DTNA podcast (internal-only) or the Trilogy (framework-only), the *spoken content* is safe for a Toyota listener. Internal codenames, Practice abbreviations, and scenario IDs are absent from the audio. The internal-language mapping lives in this README — not in the show bible, not in the episodes.
 
@@ -8,7 +8,7 @@ A **five-episode** podcast on the Zero Day Warranty agentic scenario for **Toyot
 
 ## Why this podcast exists
 
-In May 2026 the Deloitte Account Team opened a Zero Day Warranty conversation with Chris Crotts at Toyota — joining connected-vehicle warranty claims back to factory build history per VIN, in minutes rather than the **8 to 12 weeks across six teams** the current process consumes. Reference scenario: **$4.2M in warranty cost identified, $2.8M in chargeback recovery, 340% improvement**.
+In May 2026 the Account Team opened a Zero Day Warranty conversation with Chris Crotts at Toyota — joining connected-vehicle warranty claims back to factory build history per VIN, in minutes rather than the **8 to 12 weeks across six teams** the current process consumes. Reference scenario: **$4.2M in warranty cost identified, $2.8M in chargeback recovery, 340% improvement**.
 
 The Account Team needs:
 
@@ -23,7 +23,7 @@ The Account Team needs:
 
 **Keven** *(the practitioner)* — `en-US-AndrewNeural` · Trilogy continuity host. 22+ years on the Microsoft platform. Warm, confident, practitioner register. Lives in Allen, TX — fifteen minutes from TMNA HQ in Plano.
 
-**Mia** *(the automotive engineering partner)* — `en-US-MichelleNeural` · Senior Deloitte specialist with 18 years on automotive accounts. Manufacturing-IT and quality-leadership background — has sat in plant quality reviews, read andon-cord data, watched warranty clusters triaged across six teams in real time. Speaks fluent TPS — Jidoka, Andon, Kaizen, Genchi Genbutsu, Hansei — accurately, never as decoration. The *shop-floor reality and operator-dignity* lens.
+**Mia** *(the automotive engineering partner)* — `en-US-MichelleNeural` · Senior the firm specialist with 18 years on automotive accounts. Manufacturing-IT and quality-leadership background — has sat in plant quality reviews, read andon-cord data, watched warranty clusters triaged across six teams in real time. Speaks fluent TPS — Jidoka, Andon, Kaizen, Genchi Genbutsu, Hansei — accurately, never as decoration. The *shop-floor reality and operator-dignity* lens.
 
 Mia is the **seventh distinct voice pairing** in the APEX podcast family.
 
@@ -45,13 +45,13 @@ Run time: ~2.5 hours · 28-32 minutes per episode.
 
 ## Independence from Microsoft · the two-contract model
 
-This podcast operates inside Deloitte's Independence posture. The audio reflects it precisely:
+This podcast operates inside the firm's Independence posture. The audio reflects it precisely:
 
-- **Deloitte recommends.** When the hosts say Microsoft Fabric or Agent Framework or Purview is the right platform, that recommendation is on the technical and economic merits — not on partner-channel compensation.
-- **Toyota contracts directly with Microsoft.** Microsoft licensing flows on Microsoft paper between Microsoft and Toyota. Deloitte does not resell, mark up, or take margin on Microsoft licensing.
-- **Toyota contracts directly with Deloitte.** A separate Deloitte SOW governs the services scope.
+- **The firm recommends.** When the hosts say Microsoft Fabric or Agent Framework or Purview is the right platform, that recommendation is on the technical and economic merits — not on partner-channel compensation.
+- **Toyota contracts directly with Microsoft.** Microsoft licensing flows on Microsoft paper between Microsoft and Toyota. The firm does not resell, mark up, or take margin on Microsoft licensing.
+- **Toyota contracts directly with the firm.** A separate firm SOW governs the services scope.
 - **Two contracts. No co-sell. No alliance. No strategic-partnership construct.** Those words are absent from this podcast on purpose.
-- **No compensation flows from Microsoft to Deloitte** for influencing Toyota's platform choice. The recommendation stands on its own.
+- **No compensation flows from Microsoft to the firm** for influencing Toyota's platform choice. The recommendation stands on its own.
 
 Episode 5 names this posture explicitly so a client listener hears the model stated, not implied.
 
@@ -114,4 +114,4 @@ pc-toyota-zero-day-warranty/
 
 ---
 
-*The implied listener: a Deloitte Account Team member preparing for the next Crotts conversation — or, when the moment is right, a Toyota Quality, Toyota Connected, or Manufacturing IT leader walked through Zero Day Warranty on their own terms.*
+*The implied listener: an Account Team member preparing for the next Crotts conversation — or, when the moment is right, a Toyota Quality, Toyota Connected, or Manufacturing IT leader walked through Zero Day Warranty on their own terms.*

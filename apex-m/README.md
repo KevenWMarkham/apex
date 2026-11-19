@@ -36,7 +36,7 @@ apex-m/
 
 ## Microsoft platform coverage
 
-APEX-M targets the entire Microsoft stack a Deloitte client has typically
+APEX-M targets the entire Microsoft stack a client has typically
 already invested in:
 
 | Layer | Microsoft service |
@@ -71,7 +71,7 @@ and APEX-A live alongside.
 
 Microsoft is the **first shipped** variant — not the **preferred** one.
 APEX-G and APEX-A exist as sibling products on equal footing. Per
-[Independence Posture](../docs/apex-core/Independence-Posture.md), Deloitte
+[Independence Posture](../docs/apex-core/Independence-Posture.md), the firm
 ships the variant matching the client's existing cloud investment; we do
 not have an alliance posture with any cloud.
 

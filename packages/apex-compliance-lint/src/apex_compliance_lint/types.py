@@ -6,14 +6,14 @@ Three layers:
   guidance. Rules are independent of the file format; they operate on
   extracted plain text.
 - :class:`RulePack` — a named bundle of rules (e.g.,
-  ``deloitte_microsoft_independence``, ``apex_typography``,
+  ``apex_typography``, ``apex_brand``,
   ``custom_engagement_overrides``).
 - :class:`FileAdapter` — extracts plain text from one file format
   (HTML / DOCX / Markdown / PPTX) so the rule engine can scan
   uniformly.
 
 The configurability boundary is the ``RulePack``. Tenants extending the
-framework beyond Deloitte-Microsoft override or add packs without
+framework override or add packs without
 touching the core engine.
 """
 
@@ -53,7 +53,7 @@ class Rule:
     """
 
     rule_id: str
-    """Stable id, e.g., ``deloitte_microsoft_independence.partner``."""
+    """Stable id, e.g., ``apex_brand.black_box``."""
 
     description: str
     pattern: Pattern[str]

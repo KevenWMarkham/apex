@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "APEX SAE J1939 binding — SPN / PGN registry + CAN frame shape (shared by AXLE, ICE)."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "Proprietary — Deloitte Internal. J1939 content is SAE-copyrighted; this package ships binding layer only." }
+license = { text = "Proprietary — Internal. J1939 content is SAE-copyrighted; this package ships binding layer only." }
 dependencies = [
     "apex-core",
     "apex-schemas-common",

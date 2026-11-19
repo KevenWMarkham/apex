@@ -266,7 +266,7 @@ So Sprint 41 can start immediately, in parallel with Sprint 30, with different S
 
 ## What "starting Sprint 30" actually entails
 
-1. **Provision a Lab Azure subscription** (Deloitte's internal Lab pool)
+1. **Provision a Lab Azure subscription** (the firm's internal Lab pool)
 2. **Run `az deployment group create`** against `apex-m/infra/bicep/blueprints/w1-foundation.bicep` (already authored in Phase I.4)
 3. **Provision Fabric capacity** — F-SKU (per Roadmap.md BL.P.91) via Terraform `infra/terraform/modules/fabric_capacity/`
 4. **Stand up the primary workspace** `rc-canonical` per Services Guide §1.6 — owns canonical Silver entities (SCML / MERML / PROML / CRMML)

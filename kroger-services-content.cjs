@@ -5,9 +5,9 @@
 // into the 5-part engagement-arc book described in
 // docs/plans/2026-04-27-professional-kroger-services-book-design.md.
 //
-// Independence note: The book is internal Deloitte sellers' material. APEX is
+// Independence note: The book is internal firm sellers' material. APEX is
 // the internal accelerator name; client-facing narrative blocks (Ch 19) frame
-// the work as "Deloitte-delivered agents on Kroger's Microsoft platform" and
+// the work as "firm-delivered agents on Kroger's Microsoft platform" and
 // do not name APEX.
 
 const chapters = [];
@@ -34,11 +34,11 @@ The book covers the FY27 Kroger pipeline scope as it stands at the design date: 
 
 ## How the chapters are organised
 
-The book has five parts. Part I is the *why* — Kroger's strategic posture, where margin moves in grocery, and how APEX wedges into an estate that already has 84.51° and Ocado in it. Part II is the *what* — the two anchor services in depth, the high-attach catalog, and the cross-grocer differentiation table. Part III is the *how* — five technology planes Deloitte assembles. Part IV is the *pursuit* — executive engagement, the pitch, risk and stakeholder management, the demo, and the Kroger Store 412 day-in-the-shift narrative. Part V is the *at-scale* — operations, roadmap, cross-grocer expansion, and the closing seller compact.
+The book has five parts. Part I is the *why* — Kroger's strategic posture, where margin moves in grocery, and how APEX wedges into an estate that already has 84.51° and Ocado in it. Part II is the *what* — the two anchor services in depth, the high-attach catalog, and the cross-grocer differentiation table. Part III is the *how* — five technology planes the firm assembles. Part IV is the *pursuit* — executive engagement, the pitch, risk and stakeholder management, the demo, and the Kroger Store 412 day-in-the-shift narrative. Part V is the *at-scale* — operations, roadmap, cross-grocer expansion, and the closing seller compact.
 
 ## The Kroger Store 412 narrative
 
-Chapter 18 is different from the rest of the book. It is written to be lifted unchanged into a client conversation. APEX is not named in it. The voice is that of a Kroger Marketplace store operations lead living through one shift with a fleet of agents quietly handling the operational friction of the day. Sellers can present Chapter 18 to a Kroger executive and say "this is what your store looks like with the program in production." The book frames Chapter 18 with internal Deloitte context before and after; the chapter body itself stays client-clean.
+Chapter 18 is different from the rest of the book. It is written to be lifted unchanged into a client conversation. APEX is not named in it. The voice is that of a Kroger Marketplace store operations lead living through one shift with a fleet of agents quietly handling the operational friction of the day. Sellers can present Chapter 18 to a Kroger executive and say "this is what your store looks like with the program in production." The book frames Chapter 18 with internal the firm context before and after; the chapter body itself stays client-clean.
 
 ## The seventeen deliverables this book wraps
 
@@ -55,7 +55,7 @@ Chapter 18 is different from the rest of the book. It is written to be lifted un
 
 ## Independence posture
 
-Every public claim about Kroger in this book is sourced from publicly-available signals and is to be treated as a hypothesis to validate in discovery. Deloitte's audit relationship with Kroger (if any) governs the pursuit; sellers must confirm pre-clearance before any outbound activity. The Independence Reminder callouts in this book mark passages where this discipline is most exposed.
+Every public claim about Kroger in this book is sourced from publicly-available signals and is to be treated as a hypothesis to validate in discovery. The firm's audit relationship with Kroger (if any) governs the pursuit; sellers must confirm pre-clearance before any outbound activity. The Independence Reminder callouts in this book mark passages where this discipline is most exposed.
 `,
   summary: [
     'Five parts: why → what → how → pursuit → at scale',
@@ -376,7 +376,7 @@ chapters.push({
     'Know when to lead with one vs the other based on the prospect\'s most-pressured executive',
   ],
   body: `
-The two anchors share a substrate. RC-E2E-03 Assortment & Pricing Intelligence and RC-E2E-09 Product Tracking & FSMA 204 Traceability look like two different services on the surface — one is about merchant decisions, the other is about regulatory compliance — but underneath they sit on the same Bronze→Silver SOR, the same Fabric semantic model, the same Foundry agent fleet, and the same Purview governance plane. Together they define the Kroger entry: a Wave-1 envelope that earns the right to expand, an architecture story that survives CIO review, and a stakeholder coverage pattern that puts a Deloitte signature in front of every margin-relevant executive at Kroger inside the first nine months.
+The two anchors share a substrate. RC-E2E-03 Assortment & Pricing Intelligence and RC-E2E-09 Product Tracking & FSMA 204 Traceability look like two different services on the surface — one is about merchant decisions, the other is about regulatory compliance — but underneath they sit on the same Bronze→Silver SOR, the same Fabric semantic model, the same Foundry agent fleet, and the same Purview governance plane. Together they define the Kroger entry: a Wave-1 envelope that earns the right to expand, an architecture story that survives CIO review, and a stakeholder coverage pattern that puts a signature in front of every margin-relevant executive at Kroger inside the first nine months.
 
 ## 4.1 RC-E2E-03 in one sentence
 
@@ -426,7 +426,7 @@ Part III treats the architecture in depth across five chapters. As a preview, th
 - **MCP.** The tool-server tier that exposes Fabric data, 84.51° features, ServiceNow tickets, and Copilot surfaces to the agents through a single typed contract. The integration plane.
 - **Purview.** The classification, lineage, and access-control plane. Field-level data governance, row-level filters by agent identity, automated lineage capture for FSMA 204 audit. The governance plane.
 
-Each plane gets its own chapter in Part III, with the architecture, the runbook references, and the decisions Deloitte makes on Kroger's behalf at each layer. For now, the headline is that the same five planes serve both anchors — which is exactly what makes the co-anchor model work.
+Each plane gets its own chapter in Part III, with the architecture, the runbook references, and the decisions the firm makes on Kroger's behalf at each layer. For now, the headline is that the same five planes serve both anchors — which is exactly what makes the co-anchor model work.
 
 > **Companion Artifacts**
 > - [Solution Architecture Document](Services/Shared-Both-Services/Tier0-Foundation/APEX-RC-E2E-03-09-Solution-Architecture-Document.docx) — the full architecture treatment for both anchors, end-to-end
@@ -792,7 +792,7 @@ chapters.push({
   ],
   body: `
 > **Independence Reminder**
-> This chapter compares publicly-disclosed postures of multiple US grocers — Kroger, Albertsons, Publix, HEB, and Ahold Delhaize USA. All assertions derive from publicly-available signals (earnings calls, public job postings, vendor announcements, press coverage) as of 2026 Q1. Where a posture is not publicly inferable, the table reads "discovery territory." Sellers must not infer specifics from internal Deloitte engagement information into client-facing comparisons; the cross-grocer narrative is positioning, not intelligence-sharing, and the discipline is mandatory.
+> This chapter compares publicly-disclosed postures of multiple US grocers — Kroger, Albertsons, Publix, HEB, and Ahold Delhaize USA. All assertions derive from publicly-available signals (earnings calls, public job postings, vendor announcements, press coverage) as of 2026 Q1. Where a posture is not publicly inferable, the table reads "discovery territory." Sellers must not infer specifics from internal firm engagement information into client-facing comparisons; the cross-grocer narrative is positioning, not intelligence-sharing, and the discipline is mandatory.
 
 The cross-grocer comparison is two tools in one. As a Kroger pitch tool it is positioning differentiation — what only Kroger gets, why Kroger's posture makes APEX a programmatic fit. As an expansion-strategy tool it is sequencing — which grocer comes after Kroger, where the platform pattern translates, and where the pursuit motion has to adapt. Sellers should know both uses; the chapter is structured to support both.
 
@@ -1333,7 +1333,7 @@ The Privacy and Data Governance Specification artifact lays out the controls in 
 - **Exit obligations** — what happens to data, audit rows, and lineage records when the program ends or when a banner is divested; the obligations that survive any commercial change.
 - **Incident-response playbooks** — the structured response to a classification breach, a DLP failure, a lineage-chain gap, or an audit-row write failure.
 
-The spec is **co-authored with Kroger's GRC team during Wave 1** — not delivered by Deloitte and reviewed by Kroger, but co-authored with shared accountability. This is the discipline that makes the spec land; specs delivered for review get edited by GRC and become political artifacts; specs co-authored from the start carry shared ownership and survive the operating cadence.
+The spec is **co-authored with Kroger's GRC team during Wave 1** — not delivered by the firm and reviewed by Kroger, but co-authored with shared accountability. This is the discipline that makes the spec land; specs delivered for review get edited by GRC and become political artifacts; specs co-authored from the start carry shared ownership and survive the operating cadence.
 
 > **Companion Artifacts**
 > - [Privacy & Data Governance Spec](Services/Shared-Both-Services/Tier4-Strategic/APEX-RC-E2E-03-09-Privacy-Data-Governance-Spec.docx) — the full controls document
@@ -1493,7 +1493,7 @@ The deck splits into five movements: strategic context (slides 1-3), the two anc
 | 10 | The audit-row spine | The defensibility property that closes the General Counsel | 2 min |
 | 11 | Wave 1 / 2 / 3 envelopes | The commercial framing that lets the executive say yes to a small commitment | 2 min |
 | 12 | Top-five risks | The risks named, the mitigations costed, the owners identified | 2 min |
-| 13 | Independence and procurement | The two-contract structure (Microsoft for platform, Deloitte for services) | 1 min |
+| 13 | Independence and procurement | The two-contract structure (Microsoft for platform, the firm for services) | 1 min |
 | 14 | The ask | Wave-1 envisioning go-ahead and a named sponsor | 2 min |
 | 15 | Next-step calendar | Discovery sessions, workshops, SOW timeline | 2 min |
 | 16 | Sponsor-ladder | Named decision-makers across CFO/CIO/CMO/QA — the coverage map | 1 min |
@@ -1534,7 +1534,7 @@ The transition out of slide 3 is the structural one of the deck. *"Of these five
 
 **Slide 12 — Top-five risks.** The risk table from Chapter 16 — Independence pre-clearance, 84.51° governance gate, CFO basis-point credibility, Ocado-seam confusion, Microsoft account-team alignment. Each named, each costed for mitigation, each with a named owner. Two minutes. Naming the risks before the executive does is itself a credibility move; sellers who duck the risks lose the meeting at slide 12.
 
-**Slide 13 — Independence and procurement.** The two-contract structure: Kroger's contract with Microsoft for the platform, Kroger's separate contract with Deloitte for the services. One minute. This is the slide that aligns the procurement conversation upfront and prevents the late-stage surprise where procurement asks "wait, is this a single vendor commitment" and the deal slips into a longer sourcing cycle.
+**Slide 13 — Independence and procurement.** The two-contract structure: Kroger's contract with Microsoft for the platform, Kroger's separate contract with the firm for the services. One minute. This is the slide that aligns the procurement conversation upfront and prevents the late-stage surprise where procurement asks "wait, is this a single vendor commitment" and the deal slips into a longer sourcing cycle.
 
 ## 15.6 Slides 14-16: the close (asks, next steps, sponsorship)
 
@@ -1608,7 +1608,7 @@ The register's structure makes it usable as both a working tool and a leadership
 
 Five risks deserve permanent residency at the top of the register for any Kroger pursuit. Each is high-impact for Kroger specifically, each has a named mitigation owner, and each is the kind of risk that, un-mitigated, kills the pursuit before Wave 1 closes.
 
-1. **Independence pre-clearance.** Deloitte's audit relationship with Kroger (where applicable, and where relevant audit independence rules apply) gates outbound activity. Any conversation that touches Kroger before pre-clearance is a violation of Deloitte's Independence policy and creates serious downstream exposure. Mitigation owner: **Independence Office**. The mitigation pattern is mandatory and procedural — pre-clearance request, status confirmation, documented approval before any outbound communication. The risk is permanent because Independence status can change with audit-engagement transitions.
+1. **Independence pre-clearance.** The firm's audit relationship with Kroger (where applicable, and where relevant audit independence rules apply) gates outbound activity. Any conversation that touches Kroger before pre-clearance is a violation of the firm's Independence policy and creates serious downstream exposure. Mitigation owner: **Independence Office**. The mitigation pattern is mandatory and procedural — pre-clearance request, status confirmation, documented approval before any outbound communication. The risk is permanent because Independence status can change with audit-engagement transitions.
 
 2. **84.51° governance gate.** Any agent that uses customer data must pass 84.51° data-stewardship review before production deployment. The review is rigorous and the cycle time is non-trivial; pursuits that under-budget the 84.51° engagement timeline lose Wave 1 to Wave 2 slip. Mitigation owner: **Lead Partner with the 84.51° relationship**. The mitigation pattern is early engagement — surface the data-stewardship gate in week 2 of Wave 1, not in month 4 of Wave 2 when production deployment is being planned.
 
@@ -1794,7 +1794,7 @@ chapters.push({
 > Store 412, the named operations lead persona, every event in this narrative, and every dollar figure cited are illustrative. This chapter is not a description of any actual Kroger store deployment. The operational events, the financial-impact figures, and the timing details are constructed to illustrate what an agentic-AI program looks like in production at a Kroger Marketplace store; they are not claims about The Kroger Co. Any resemblance to specific actual incidents at specific actual stores is coincidental.
 
 > **Note**
-> Lift this chapter unchanged into client-facing materials. APEX is not named below by design. When presenting this narrative to Kroger executives, frame the work as "Deloitte-delivered agents on Kroger's Microsoft platform." The accelerator name stays internal to Deloitte teams; the chapter body is engineered to be client-clean as written.
+> Lift this chapter unchanged into client-facing materials. APEX is not named below by design. When presenting this narrative to Kroger executives, frame the work as "firm-delivered agents on Kroger's Microsoft platform." The accelerator name stays internal to firm teams; the chapter body is engineered to be client-clean as written.
 
 ## 18.1 The shift at a glance
 
@@ -1836,7 +1836,7 @@ One shift. Eight events. Roughly one hour of total manager touch across the eigh
 
 **Outcome.** 73% of the affected inventory saved through the targeted disposition. $4,180 in write-off avoided against a $6,020 total exposure. Doors opened at 6:30 AM with the dairy walk-in re-stocked from the save-viable pool. Time-from-temperature-recovery to disposition-brief: 14 minutes. Manager touch on the decision: 90 seconds. Audit trail: complete, with the four-hour temperature curve, the lot-level inventory at exposure, the per-SKU disposition decision, and Marisol's approval all attributed to a single audit row defensible to the FDA inspector and to the Kroger food-safety team.
 
-**How Deloitte delivered this.** Microsoft Fabric Eventstream and Eventhouse ingested the cold-chain telemetry continuously through the night; agents running on Azure AI Foundry performed the correlation between the temperature excursion and the lot-level inventory, applied the food-safety threshold logic, and composed the disposition brief; Microsoft Teams Copilot rendered the HITL approval card with the telemetry chart in-card; Microsoft Purview classified the inventory-loss evidence chain and stamped the lineage; the audit row attributes the $4,180 saved write-off to this specific decision at this specific store on this specific morning.
+**How the firm delivered this.** Microsoft Fabric Eventstream and Eventhouse ingested the cold-chain telemetry continuously through the night; agents running on Azure AI Foundry performed the correlation between the temperature excursion and the lot-level inventory, applied the food-safety threshold logic, and composed the disposition brief; Microsoft Teams Copilot rendered the HITL approval card with the telemetry chart in-card; Microsoft Purview classified the inventory-loss evidence chain and stamped the lineage; the audit row attributes the $4,180 saved write-off to this specific decision at this specific store on this specific morning.
 
 ## 18.3 Event 02 — Fresh-produce shrink anomaly on bagged salads (7:15 AM, Shrink/Fresh)
 
@@ -1908,7 +1908,7 @@ One shift. Eight events. Roughly one hour of total manager touch across the eigh
 
 **Outcome.** Mr. Patel left the store at 3:05 PM with refund, gift card, written apology, and the receipt for his preserved package. Full case file assembled in 7 minutes — the manual lot-trace and cross-store correlation that this event would have required pre-program would have consumed 45-60 minutes of Marisol's time and would not have caught the cross-store pattern at all (the prior two complaints would have remained one-store incidents). More substantively: pattern detection enabled the proactive pull at 12 other stores starting at 4:00 PM that afternoon, before any of those stores had logged additional customer complaints. What presented as a single-store customer incident converted into a regional-scale quality signal with proactive containment. Legal posture: evidence preserved with chain-of-custody documentation; coordinated regional response on the record.
 
-**How Deloitte delivered this.** The OCR extraction, the lot-master resolution, the cross-store complaint correlation, the proactive-pull recommendation, and the multi-stakeholder notification orchestration all run on the agent fleet that Deloitte delivered onto Kroger's Microsoft platform. The cross-store pattern detection compounds across the network — every store's customer-incident events feed back into the regional pattern recognition, and every recognized pattern triggers proactive containment before customer complaints scale.
+**How the firm delivered this.** The OCR extraction, the lot-master resolution, the cross-store complaint correlation, the proactive-pull recommendation, and the multi-stakeholder notification orchestration all run on the agent fleet that the firm delivered onto Kroger's Microsoft platform. The cross-store pattern detection compounds across the network — every store's customer-incident events feed back into the regional pattern recognition, and every recognized pattern triggers proactive containment before customer complaints scale.
 
 ## 18.10 Shift summary
 
@@ -1945,7 +1945,7 @@ The narrative flexes for the audience. Use it whole when the conversation has th
 
 - **With Chief Compliance Officers and General Counsels.** The FSMA 204 recall execution in Event 05, the loss-prevention due-process preservation in Event 07, and the cross-store pattern detection on the bakery lot in Event 08 all demonstrate regulator-ready and litigation-defensible decision attribution. The audit row is the spine; the General Counsel sees what the litigation-defense posture looks like in the operational moment.
 
-- **With procurement.** The services that produced these outcomes are the services on offer. The commercial structure is two contracts: Kroger's contract with Microsoft for the platform (Fabric, Foundry, Copilot, Purview, identity, networking) and Kroger's separate contract with Deloitte for the services that delivered the agents onto the platform. The two-contract structure is what makes the procurement conversation clean.
+- **With procurement.** The services that produced these outcomes are the services on offer. The commercial structure is two contracts: Kroger's contract with Microsoft for the platform (Fabric, Foundry, Copilot, Purview, identity, networking) and Kroger's separate contract with the firm for the services that delivered the agents onto the platform. The two-contract structure is what makes the procurement conversation clean.
 
 - **With QA leadership.** Events 01 (cold-chain), 05 (FSMA 204 recall), and 08 (cross-store quality pattern) are the QA-relevant trio. Walk all three; the operational texture makes the regulatory story more concrete than a checklist walk-through, and the FSMA 204 evidence package in Event 05 demonstrates the 24-hour-FDA-response capability in operational form.
 
@@ -1953,7 +1953,7 @@ The narrative flexes for the audience. Use it whole when the conversation has th
 > Store 412, Marisol Reyes, the eight events, the financial figures, the timing details, and every operational specific in this chapter are illustrative. This chapter is not a description of any actual Kroger store deployment, of any actual Kroger Marketplace store, of any actual Kroger associate, or of any actual customer. The narrative is constructed to illustrate what an agentic-AI program looks like in production at a Kroger Marketplace store; it is not a claim about The Kroger Co. Sellers must not represent this chapter as a description of an actual deployment in any client conversation.
 
 > **Note**
-> When presenting this narrative to Kroger executives, describe the work as "Deloitte-delivered agents on Kroger's Microsoft platform." Never name the internal accelerator in front of the client. The accelerator name stays internal to Deloitte teams; the chapter body has been engineered to be client-clean so it can be lifted into client-facing materials unchanged. The framing — "Deloitte-delivered agents on Kroger's Microsoft platform" — is the consistent positioning across every executive surface, every artifact, and every conversation.
+> When presenting this narrative to Kroger executives, describe the work as "firm-delivered agents on Kroger's Microsoft platform." Never name the internal accelerator in front of the client. The accelerator name stays internal to firm teams; the chapter body has been engineered to be client-clean so it can be lifted into client-facing materials unchanged. The framing — "firm-delivered agents on Kroger's Microsoft platform" — is the consistent positioning across every executive surface, every artifact, and every conversation.
 
 > **Companion Artifacts**
 > - [Pitch Deck](Services/RC-E2E-03_Assortment-and-Pricing/Tier3-Governance/APEX-RC-E2E-03-Kroger-Pitch-Deck.html) — the 16-slide deck this narrative supports
@@ -1992,7 +1992,7 @@ Wave-1 closes with a pilot in production and a standing organization to run it. 
 
 **Operations lead — full-time, embedded.** The operations lead is the single throat-to-choke for the running program. The role is full-time, embedded with the client's IT operations and platform-engineering teams, and accountable for the SLOs that gate program credibility. The operations lead runs the daily stand-up during incidents, owns the weekly stakeholder digest, and is the named escalation point for the Tier-1 sponsor. Without a named operations lead the program runs on the engagement-lead's residual attention, which is a known anti-pattern — engagement leads have other pursuits in flight, and the post-close attention that operations needs does not survive the next pursuit's discovery cycle.
 
-**Data engineering team — Bronze/Silver maintenance, transformation contracts.** The data engineering team owns the Bronze→Silver transformations from Chapter 9. Their post-Wave-1 work is steady-state: monitor freshness SLOs, respond to source-system schema changes, refactor transformations as data shape evolves, replay Bronze for any Silver regression caught downstream. Team size scales with source-system count and transformation complexity — typically two to four engineers at Wave-1 close, growing as Wave-2 expansion adds new source systems. The team reports through the data-platform organization on the client side and through the engagement structure on the Deloitte side, with a named lead on each.
+**Data engineering team — Bronze/Silver maintenance, transformation contracts.** The data engineering team owns the Bronze→Silver transformations from Chapter 9. Their post-Wave-1 work is steady-state: monitor freshness SLOs, respond to source-system schema changes, refactor transformations as data shape evolves, replay Bronze for any Silver regression caught downstream. Team size scales with source-system count and transformation complexity — typically two to four engineers at Wave-1 close, growing as Wave-2 expansion adds new source systems. The team reports through the data-platform organization on the client side and through the engagement structure on the side, with a named lead on each.
 
 **Agent operations team — model swaps, eval runs, prompt updates.** The agent operations team owns the Foundry plane from Chapter 11. Their post-Wave-1 work is the maturation cadence: model swaps as new releases land, prompt updates as merchant feedback surfaces patterns, eval runs against golden sets on every change, distillation candidates surfaced when a heavy model has been carrying a steady decision class for long enough to justify a small-model replacement. The team owns the evaluation harness (section 19.3) end-to-end and is the surface that catches reasoning regressions before they reach merchants.
 
@@ -2025,7 +2025,7 @@ Test discipline at this scale is layered. Each layer catches a different failure
 
 The evaluation harness is the artifact that makes agent quality measurable. The pattern is consistent across the agent fleet, with per-agent variations as decision-class shape demands.
 
-**Golden sets per agent.** Each agent has a golden set of 200-500 cases at production maturity. Each case carries the input shape (the merchant query, the prior context, the current state), the expected output shape (the recommended decision, the confidence band, the materiality classification, the supporting rationale), and an annotation explaining why the expected output is the right answer. Golden sets are curated by the joint Deloitte-and-client team; they grow as new patterns surface in production and as merchant feedback identifies cases the original set did not cover.
+**Golden sets per agent.** Each agent has a golden set of 200-500 cases at production maturity. Each case carries the input shape (the merchant query, the prior context, the current state), the expected output shape (the recommended decision, the confidence band, the materiality classification, the supporting rationale), and an annotation explaining why the expected output is the right answer. Golden sets are curated by the joint firm-and-client team; they grow as new patterns surface in production and as merchant feedback identifies cases the original set did not cover.
 
 **Regression run on every change.** Every model swap, every prompt change, every tool-contract update triggers a regression run against the full golden set. The harness reports a quality score, a per-case diff, and a sign-off threshold. A regression below the threshold blocks the change from production deployment until it is investigated and either resolved or explicitly accepted with documented rationale. The discipline is non-negotiable — a model swap that ships without an eval pass is the source of the silent regression that destroys merchant trust six weeks later.
 
@@ -2191,7 +2191,7 @@ chapters.push({
   ],
   body: `
 > **Independence Reminder**
-> This chapter compares publicly-disclosed postures of multiple US grocers — Kroger, Albertsons, Ahold Delhaize USA, HEB, and Publix. All assertions derive from publicly-available signals as of 2026 Q1. Sellers must not infer specifics from internal Deloitte engagement information into client-facing materials; the cross-grocer narrative is positioning, not intelligence-sharing, and the discipline is mandatory at every grocer conversation.
+> This chapter compares publicly-disclosed postures of multiple US grocers — Kroger, Albertsons, Ahold Delhaize USA, HEB, and Publix. All assertions derive from publicly-available signals as of 2026 Q1. Sellers must not infer specifics from internal firm engagement information into client-facing materials; the cross-grocer narrative is positioning, not intelligence-sharing, and the discipline is mandatory at every grocer conversation.
 
 Kroger is not the destination; Kroger is the proof point. The cross-grocer expansion pattern is what turns a single anchor program into a Consumer Industry practice — the structural argument for the practice's compounding economics, and the operational guide for how to translate the Kroger investment into the next grocer's first conversation. The chapter teaches the seller to articulate what transfers, what does not, the pursuit-order rationale post-Kroger, and the commercial leverage that Kroger creates for the practice.
 
@@ -2293,7 +2293,7 @@ These five sentences are the compact. The rest of the chapter is the unpacking.
 
 ## 22.2 Independence as the non-negotiable
 
-Deloitte's audit relationship with Kroger (where applicable, and where the relevant audit independence rules apply) gates the entire pursuit. Pre-clearance is the gate, not a checkbox — it is the formal Independence Office determination that the pursuit may proceed against this client at this time under the current rules and the current audit posture. A conversation with Kroger that happens before pre-clearance is, at best, a procedural violation that the engagement team will have to remediate; at worst, it is a substantive Independence breach that creates material exposure for the firm.
+The firm's audit relationship with Kroger (where applicable, and where the relevant audit independence rules apply) gates the entire pursuit. Pre-clearance is the gate, not a checkbox — it is the formal Independence Office determination that the pursuit may proceed against this client at this time under the current rules and the current audit posture. A conversation with Kroger that happens before pre-clearance is, at best, a procedural violation that the engagement team will have to remediate; at worst, it is a substantive Independence breach that creates material exposure for the firm.
 
 The Independence Office is your partner here, not a hurdle. Sellers who treat the Office as a clearance bureaucracy lose time and lose patience; sellers who treat the Office as a partner — engaging early, providing the right context, asking the substantive questions — clear the gate cleanly and build a working relationship that supports every subsequent Kroger interaction. The pre-clearance request is not a single event; it is a refresh cadence, because Independence status can change with audit-engagement transitions, and the discipline is to confirm status at each meaningful pursuit milestone rather than to assume that yesterday's clearance still applies today.
 

@@ -22,7 +22,7 @@ schema_mappings:
       - { source_field: ITEMDS,  bronze_column: description, bronze_type: string }
       - { source_field: UMOFM,   bronze_column: unit_of_measure, bronze_type: string }
 runbook:
-  primary_contact: rc-data-platform@deloitte.com
+  primary_contact: rc-data-platform@example.com
   sla_recovery_minutes: 240
   failure_modes:
     - code: AS400_CONNECTION_REJECTED

@@ -10,7 +10,7 @@ prompt_sha: ""
 description: >
   Multi-tenant SaaS product SLA monitoring. Identifies emerging tenant-impact issues before SLA-breach threshold.
 archetype_id: F1-continuous-monitor-hitl-alert
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.productml.get_tenant_metrics

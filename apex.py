@@ -9,7 +9,7 @@ descriptions + available commands. Run with a subcommand to do the thing:
     python apex.py validate            # run user-acceptance validation
     python apex.py status              # show sprint + backlog snapshot
 
-APEX (Agentic Platform for Enterprise eXecution) is Deloitte's delivery
+APEX (Agentic Platform for Enterprise eXecution) is the firm's delivery
 accelerator for agentic AI on the Microsoft platform. APEX-M is the
 Microsoft variant; APEX-G + APEX-A are sibling variants for Google Cloud
 and AWS (Independence-compliant stubs until commissioned).
@@ -36,7 +36,7 @@ ACCEPTANCE_SCRIPT = REPO_ROOT / "tools" / "validate_acceptance.py"
 OVERVIEW = r"""
 ==============================================================================
                     APEX -- Agentic Platform for Enterprise eXecution
-                       Deloitte's delivery accelerator for AI on Microsoft
+                       The firm's delivery accelerator for AI on Microsoft
 ==============================================================================
 
 WHAT APEX IS
@@ -102,9 +102,9 @@ same use cases -- different cloud surface + security posture per substrate.
   Wizard mode       APEX_FORCE_MOCK=true (the default)
 
 ------------------------------------------------------------------------------
-[2] DEV  (Lab tenant)                                   internal Deloitte
+[2] DEV  (Lab tenant)                                   internal the firm
 ------------------------------------------------------------------------------
-  What it is        Deloitte Lab Azure subscription -- internal pre-pilot
+  What it is        the firm's Lab Azure subscription -- internal pre-pilot
                     validation environment
   How it deploys    `az deployment group create` against the Lab RG
   Backend           Real Microsoft SDKs against a real (but Lab) tenant
@@ -118,7 +118,7 @@ same use cases -- different cloud surface + security posture per substrate.
                      are WAIVABLE on Lab)
   Identity          Real Entra Agent ID in the Lab tenant
   Data              Synthetic + sandbox-graded
-  Client data?      Never. Lab tenants run synthetic and Deloitte-internal
+  Client data?      Never. Lab tenants run synthetic and internal
                     data only.
   Wizard mode       APEX_FORCE_MOCK=false  -- substrate=dev
 

@@ -291,7 +291,7 @@ def build_runbook():
               ["LEDGER PostgreSQL lag","Failover to Lakehouse-only mode · reindex · plan PG restore"]],
              col_widths=[2.1,4.4])
 
-    addbody(doc, "Independence posture preserved across this document: 'Deloitte's Microsoft practice,' "
+    addbody(doc, "Independence posture preserved across this document: 'The firm's Microsoft practice,' "
                  "'DMTSP,' 'Microsoft platform capabilities,' 'Microsoft-native deployment.' The terms "
                  "'partner,' 'alliance,' and 'strategic alliance' do not appear.",
             italic=True, color=MUTE, size=9)
@@ -319,7 +319,7 @@ def build_manifests():
 # Coordinates the 5-agent fleet for cold-chain excursion handling
 # Reference scenario: RC-SUPCHN-01-cold-chain-excursion-store-cooler
 
-apiVersion: apex.deloitte.com/v1
+apiVersion: apex.example.com/v1
 kind: Orchestrator
 metadata:
   name: rc-e2e-03-cold-chain-orchestrator
@@ -402,7 +402,7 @@ spec:
         "assess-agent.yaml": """# APEX RC-E2E-03 · Assess Agent Manifest
 # Characterizes the cold-chain excursion event
 
-apiVersion: apex.deloitte.com/v1
+apiVersion: apex.example.com/v1
 kind: Agent
 metadata:
   name: rc-e2e-03-assess-agent
@@ -473,7 +473,7 @@ spec:
         "classify-agent.yaml": """# APEX RC-E2E-03 · Classify Agent Manifest
 # Per-SKU disposition classification per FSMA 204 policy
 
-apiVersion: apex.deloitte.com/v1
+apiVersion: apex.example.com/v1
 kind: Agent
 metadata:
   name: rc-e2e-03-classify-agent
@@ -544,7 +544,7 @@ spec:
         "quantify-agent.yaml": """# APEX RC-E2E-03 · Quantify Agent Manifest
 # Computes dollar impact of disposition decisions
 
-apiVersion: apex.deloitte.com/v1
+apiVersion: apex.example.com/v1
 kind: Agent
 metadata:
   name: rc-e2e-03-quantify-agent
@@ -611,7 +611,7 @@ spec:
         "approve-agent.yaml": """# APEX RC-E2E-03 · Approve / HITL Agent Manifest
 # Routes material decisions to named persona via Adaptive Card
 
-apiVersion: apex.deloitte.com/v1
+apiVersion: apex.example.com/v1
 kind: Agent
 metadata:
   name: rc-e2e-03-approve-agent
@@ -690,7 +690,7 @@ spec:
         "act-agent.yaml": """# APEX RC-E2E-03 · Act Agent Manifest
 # Orchestrates downstream actions post-approval
 
-apiVersion: apex.deloitte.com/v1
+apiVersion: apex.example.com/v1
 kind: Agent
 metadata:
   name: rc-e2e-03-act-agent
@@ -750,7 +750,7 @@ spec:
         "materiality-policy.yaml": """# APEX RC-E2E-03 · Materiality Policy Manifest
 # Commercial envelope tier thresholds for HITL routing
 
-apiVersion: apex.deloitte.com/v1
+apiVersion: apex.example.com/v1
 kind: Policy
 metadata:
   name: rc-e2e-03-materiality-policy

@@ -12,7 +12,7 @@ description: >
   coordinates with Travel Channel for out-of-state experiences (e.g.,
   Sazerac House in NOLA, Buffalo Trace in Frankfort).
 archetype_id: F2-event-cluster-pattern-match
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.home.read_upcoming_tastings

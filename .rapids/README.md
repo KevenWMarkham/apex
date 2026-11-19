@@ -58,7 +58,7 @@ gate that must pass before proceeding (see `governance/phase-gates.yaml`):
 | `.rapids/` content                    | APEX Core team |
 | `.claude/agents/apex-*`               | APEX Core team |
 | `.claude/commands/apex-*`             | APEX Core team |
-| RAPIDS Core plugin compatibility      | RAPIDS Core team (Deloitte central practice) |
+| RAPIDS Core plugin compatibility      | RAPIDS Core team (the firm central practice) |
 | Phase-gate governance                  | APEX Architecture Council |
 | Independence allowlist                 | Independence / Legal counsel |
 

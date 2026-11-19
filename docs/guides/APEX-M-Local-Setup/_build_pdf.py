@@ -30,7 +30,7 @@ HERE = Path(__file__).parent
 SRC = HERE / "README.md"
 OUT = HERE.parent / "APEX-M-Local-Setup.pdf"
 
-# --- Deloitte-flavored color palette ---
+# --- Firm-flavored color palette ---
 NAVY = colors.HexColor("#1A2339")
 GOLD = colors.HexColor("#C89D3A")
 DIM = colors.HexColor("#5A6478")
@@ -266,7 +266,7 @@ def render(md_path: Path, pdf_path: Path) -> None:
         str(pdf_path), pagesize=LETTER,
         leftMargin=0.75 * inch, rightMargin=0.75 * inch,
         topMargin=0.75 * inch, bottomMargin=0.75 * inch,
-        title="APEX-M Local Setup", author="Deloitte APEX Team",
+        title="APEX-M Local Setup", author="the firm's APEX Team",
     )
 
     def footer(canvas, doc):

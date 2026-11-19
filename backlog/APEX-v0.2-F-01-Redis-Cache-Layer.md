@@ -63,7 +63,7 @@ Scope is strictly limited to control-plane use cases. Data-plane caching (canoni
 
 ## Dependencies
 
-- Azure Cache for Redis capacity provisioning (coordinate with Microsoft relationship lead on Deloitte side — Shalini Chandrashekar — for any ECIF or capacity planning)
+- Azure Cache for Redis capacity provisioning (coordinate with Microsoft relationship lead on the firm side — Shalini Chandrashekar — for any ECIF or capacity planning)
 - Entra security group creation for Redis read and write scopes
 - Purview classification tags applied to the Redis instance (Internal class declaration; higher classes never cached)
 - Update to the Azure landing zone bicep templates to include the Redis resource

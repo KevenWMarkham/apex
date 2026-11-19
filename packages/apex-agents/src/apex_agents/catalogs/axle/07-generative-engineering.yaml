@@ -12,7 +12,7 @@ description: >
   topology + material variations against engineering constraints with
   citation chain to simulation outputs.
 archetype_id: F7-magentic-reasoning-multi-source
-primary_contact: axle-practice-lead@deloitte.com
+primary_contact: axle-practice-lead@example.com
 
 tools:
   - tool_id: apex.axle.mcp.engml.get_part_specification

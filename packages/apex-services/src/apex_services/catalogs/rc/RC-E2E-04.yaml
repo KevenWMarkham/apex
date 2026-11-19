@@ -35,4 +35,4 @@ linked_agents:
   - apex.rc.agents.promotion-effectiveness
 
 schemas_touched: [CXML]
-primary_contact: rc-practice-lead@deloitte.com
+primary_contact: rc-practice-lead@example.com

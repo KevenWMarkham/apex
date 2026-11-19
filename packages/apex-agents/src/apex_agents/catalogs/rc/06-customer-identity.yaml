@@ -12,7 +12,7 @@ description: >
   with deterministic + probabilistic matching. Produces customer 360
   views with consent enforcement.
 archetype_id: F5-identity-resolution-confidence-merge
-primary_contact: rc-practice-lead@deloitte.com
+primary_contact: rc-practice-lead@example.com
 
 tools:
   - tool_id: apex.rc.mcp.cxml.get_customer_360

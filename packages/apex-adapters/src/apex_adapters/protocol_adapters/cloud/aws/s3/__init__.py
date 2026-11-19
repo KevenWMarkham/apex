@@ -3,7 +3,7 @@
 Bronze ingestion from client S3 buckets into APEX-M Fabric (or APEX-G/A primaries).
 
 Status: stub. Concrete implementation builds per-engagement when a
-Deloitte client's CAB has approved the integration. See README.md
+firm client's CAB has approved the integration. See README.md
 and sec_independence.md.
 """
 

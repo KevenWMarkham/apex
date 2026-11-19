@@ -391,10 +391,10 @@ Some fields are read-only when consent is absent. E.g., `loyalty_state.consent_c
 - `silver_decision_audit` table — **append-only** (no UPDATE, no DELETE), ACL write-once, **customer-managed keys** (Fabric CMK), retention per practice compliance policy (7 years for HLS/ER, 5 years for RC/AXLE unless regulation requires longer).
 - Monthly Purview audit reports are auto-generated and delivered to compliance officers.
 
-### 6.4 Independence (Deloitte) notes
+### 6.4 Independence (the firm) notes
 
-- Deloitte personnel deploying/operating APEX on client tenants use **client-issued identities**, not Deloitte SPs.
-- Code artifacts owned by Deloitte (apex-core, apex-<practice> source) are Deloitte IP; the deployed manifests and tenant data are client-owned.
+- firm personnel deploying/operating APEX on client tenants use **client-issued identities**, not the firm's SPs.
+- Code artifacts owned by the firm (apex-core, apex-<practice> source) are firm IP; the deployed manifests and tenant data are client-owned.
 - `validate-practice.js` rule `PRACTICE-ACCOUNT-ID` enforces opaque account IDs to keep client identity out of code artifacts and logs.
 
 ---

@@ -3,7 +3,7 @@
 Read BigQuery datasets as Silver source for analytics-on-GCP clients.
 
 Status: stub. Concrete implementation builds per-engagement when a
-Deloitte client's CAB has approved the integration. See README.md
+firm client's CAB has approved the integration. See README.md
 and sec_independence.md.
 """
 

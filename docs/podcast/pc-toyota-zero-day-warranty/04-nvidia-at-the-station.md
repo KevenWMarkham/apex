@@ -252,7 +252,7 @@ The vehicle is still on the line. The operator is still at the station. The next
 
 **KEVEN:** And the careful framing.
 
-**MIA:** *NVIDIA is named in this conversation as a capability that fits the architecture, not as a Deloitte recommendation the same way Microsoft is.* Toyota already runs an NVIDIA estate. *The conversation is — here is how to extend what you already use into the factory-to-field workflow. Same supplier. Same chip family. Different workload.* That posture is honest, and it lands.
+**MIA:** *NVIDIA is named in this conversation as a capability that fits the architecture, not as a recommendation the same way Microsoft is.* Toyota already runs an NVIDIA estate. *The conversation is — here is how to extend what you already use into the factory-to-field workflow. Same supplier. Same chip family. Different workload.* That posture is honest, and it lands.
 
 **KEVEN:** *Honest, and it lands.* And the Account Team should know — if Toyota raises NVIDIA, lean into it. If Toyota does not raise NVIDIA, the Day-0 prevention story still works. *The architecture composes whether the listener leads with Microsoft or with NVIDIA. We are not advocating for the NVIDIA spend; we are naming where the NVIDIA stack fits when Toyota chooses to use it.*
 

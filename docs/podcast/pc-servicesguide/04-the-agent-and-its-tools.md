@@ -150,7 +150,7 @@ With the hash chain, the auditor can verify integrity *independently.* Read the 
 
 **MORGAN:** And the auditor accesses this through —
 
-**KEVEN:** Through Purview. Native. The auditor — or the auditor's delegate — gets a Purview audit-reader role bound to their *own* Entra credentials. They query Purview directly. They see the chain. *Their access is not mediated by Deloitte.* They use their own credentials. They read the data themselves. The framework's posture is — Purview is the audit interface; we don't build a custom export.
+**KEVEN:** Through Purview. Native. The auditor — or the auditor's delegate — gets a Purview audit-reader role bound to their *own* Entra credentials. They query Purview directly. They see the chain. *Their access is not mediated by the firm.* They use their own credentials. They read the data themselves. The framework's posture is — Purview is the audit interface; we don't build a custom export.
 
 That's why the board chair could see the chain in five minutes in the cold open. Because the chain existed natively, and the screen the engagement partner showed was *Purview*, not a custom report.
 

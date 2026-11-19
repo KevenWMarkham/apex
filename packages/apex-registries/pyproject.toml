@@ -4,8 +4,8 @@ version = "0.1.0"
 description = "APEX Master Registries — KPI, Persona, MCP-tool, Schema, Archetype, Product, Partner, Competitive, Exercise, Playbook, Discovery, Pre-clearance. Sprint 19, Appendices A-K."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "Proprietary — Deloitte Internal" }
-authors = [{ name = "Deloitte DMTSP — Consumer Industry" }]
+license = { text = "Proprietary — Internal" }
+authors = [{ name = "DMTSP — Consumer Industry" }]
 dependencies = [
     "apex-core>=0.1.0",
     "apex-agents>=0.1.0",

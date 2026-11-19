@@ -13,7 +13,7 @@ description: >
   — under warranty routes to OEM dealer; out of warranty routes by cost
   and convenience.
 archetype_id: F3-predictive-trigger-workflow-aware
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.home.read_service_due

@@ -839,7 +839,7 @@ const chapters = [
               '\n\n' + extractSection(SRC.ref, 'Chapter 16: Governance Model') +
               '\n\n' + extractSection(SRC.ref, 'Chapter 17B: Entity Priority & Build Sequencing'),
     summary: [
-      'Typical Wave 1 team: 5.5 FTE Deloitte-side, led by delivery principal + platform architect',
+      'Typical Wave 1 team: 5.5 FTE firm-side, led by delivery principal + platform architect',
       'Three bodies: Steering (monthly), ARB (weekly), DAR (monthly)',
       'Entity priority is a mechanical framework: score on six dimensions, assign to Wave',
     ],
@@ -1542,7 +1542,7 @@ const FRONT_MATTER = `
   <p class="tagline">A comprehensive guide to the APEX framework — from first principles through enterprise delivery, written for architects and developers building the next generation of agentic enterprise platforms.</p>
   <div class="wrox-label">WROX-STYLE EDITION</div>
   <div class="byline">
-    by the APEX Core team · Deloitte Microsoft Technology &amp; Services Practice<br>
+    by the APEX Core team · Microsoft Technology &amp; Services Practice<br>
     April 2026 · Version 1.0
   </div>
 </section>

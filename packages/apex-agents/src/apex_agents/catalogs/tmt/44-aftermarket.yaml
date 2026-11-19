@@ -12,7 +12,7 @@ description: >
   Advance Auto, O'Reilly, NAPA, RockAuto, Amazon Auto. Cross-retailer
   price comparison; routes to nearest in-stock + cheapest combination.
 archetype_id: F2-event-cluster-pattern-match
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.autozone.parts_search

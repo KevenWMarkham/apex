@@ -2,7 +2,7 @@
 
 **Date:** 2026-05-25
 **Status:** Design approved · ready for writing-plans handoff
-**Owner:** kmarkham@deloitte.com · Deloitte MS Technology & Services Practice
+**Owner:** kmarkham@example.com · the firm's MS Technology & Services Practice
 
 **Output artifacts:**
 1. `pc-cfmp/CFMP-Capabilities-Map.html` — single self-contained HTML capability map.

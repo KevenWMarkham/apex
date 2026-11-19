@@ -358,11 +358,11 @@ def build():
 
     add_callout(doc, "Independence note",
                 "RC-E2E-03's agent manifests, policy manifests, and LEDGER are Kroger artifacts; "
-                "Deloitte's role is advisory and implementation enablement. The SOW is structured "
-                "so that the engagement meets Deloitte independence requirements regardless of "
+                "The firm's role is advisory and implementation enablement. The SOW is structured "
+                "so that the engagement meets the firm independence requirements regardless of "
                 "Kroger's external-audit firm relationship. The underlying APEX pattern is "
                 "independence-safe by design; the specific engagement structure is designed in "
-                "concert with Deloitte's Independence office.")
+                "concert with the firm's Independence office.")
 
     # ============ SECTION 2 · Why ============
     add_h(doc, "Section 2 · Why Assortment & Pricing, Why Kroger, Why Now", level=1)
@@ -396,7 +396,7 @@ def build():
     ])
     add_body(doc,
              "If RC-E2E-03's orchestration pattern handles Kroger's grocery assortment-and-pricing "
-             "operations, it ports across the Deloitte DMTSP retail portfolio to Albertsons-Safeway, "
+             "operations, it ports across the DMTSP retail portfolio to Albertsons-Safeway, "
              "Ahold Delhaize (Stop & Shop, Food Lion, Giant), Walmart Supercenter grocery, Costco "
              "Wholesale, and Target. The architectural substrate is constant; manifest layer and "
              "persona binding shift per client.")
@@ -1079,7 +1079,7 @@ def build():
     add_h(doc, "10.1 · What the envelope buys", level=2)
     add_body(doc,
              "The commercial envelope is not a project-labor-hours calculation. It reflects the "
-             "total value-delivery bundle: Deloitte-delivered solutioning and Practice expertise; "
+             "total value-delivery bundle: Firm-delivered solutioning and Practice expertise; "
              "Microsoft platform licensing and consumption (Fabric F-SKU, Foundry, Azure OpenAI, "
              "Teams, Entra, Power BI); CAF-substrate consumption and any Converge-tier costs that "
              "ride with it; ISV co-sell where applicable; client-side enablement and change "
@@ -1097,14 +1097,14 @@ def build():
 
     add_h(doc, "10.3 · Independence posture in Kroger commercial conversations", level=2)
     add_callout(doc, "Independence",
-                "The seller and delivery team use Deloitte-appropriate language throughout: "
-                "'Deloitte's Microsoft practice,' 'DMTSP,' 'Microsoft platform capabilities,' "
+                "The seller and delivery team use firm-appropriate language throughout: "
+                "'The firm's Microsoft practice,' 'DMTSP,' 'Microsoft platform capabilities,' "
                 "'Microsoft-native deployment.' The terms 'partner,' 'alliance,' and 'strategic "
                 "alliance' do not appear in RC-E2E-03 commercial materials. The engagement is "
                 "structured so that manifests, policies, and LEDGER are Kroger artifacts; "
-                "Deloitte's role is advisory and implementation enablement. Before any contract "
+                "The firm's role is advisory and implementation enablement. Before any contract "
                 "drafting, confirm Kroger's external-audit firm relationship and route the SOW "
-                "through Deloitte's Independence office.")
+                "through the firm's Independence office.")
 
     pagebreak(doc)
 
@@ -1243,7 +1243,7 @@ def build():
                   ["Agent",
                    "A bounded unit of intent + tool-use that emits typed output and writes an audit row per decision."],
                   ["APEX",
-                   "Agentic Platform for Enterprise eXecution — Deloitte's reference architecture for industry scenarios on Microsoft-native deployment."],
+                   "Agentic Platform for Enterprise eXecution — the firm's reference architecture for industry scenarios on Microsoft-native deployment."],
                   ["Audit row",
                    "14-field structured record emitted by every agent decision; primary substrate of FSMA evidence and KPI attribution."],
                   ["Banner",
@@ -1347,7 +1347,7 @@ def build():
               col_widths=[2.3, 2.0, 2.0])
 
     add_body(doc,
-             "Independence posture preserved across every APEX RC-E2E-03 artifact: 'Deloitte's "
+             "Independence posture preserved across every APEX RC-E2E-03 artifact: 'The firm's "
              "Microsoft practice,' 'DMTSP,' 'Microsoft platform capabilities,' 'Microsoft-native "
              "deployment.' The terms 'partner,' 'alliance,' and 'strategic alliance' do not "
              "appear in any artifact.",

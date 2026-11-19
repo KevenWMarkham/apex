@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "APEX HL7 FHIR R4 Pattern-B mirror — typed Pydantic models for the FHIR resource subset APEX HLS agents consume."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "Proprietary — Deloitte Internal. FHIR content license: HL7 FHIR (royalty-free, see LICENSE-ATTRIBUTION.md)." }
+license = { text = "Proprietary — Internal. FHIR content license: HL7 FHIR (royalty-free, see LICENSE-ATTRIBUTION.md)." }
 dependencies = [
     "apex-core",
     "apex-schemas-common",

@@ -82,7 +82,7 @@ def callout(doc, t):
 
 def cover(doc, tier_name, price_range, timeline):
     h1(doc, f"STATEMENT OF WORK — APEX {tier_name}")
-    para(doc, f"Engagement: {tier_name} on Deloitte's APEX delivery framework", italic=True)
+    para(doc, f"Engagement: {tier_name} on the firm's APEX delivery framework", italic=True)
     para(doc, "")
     t = doc.add_table(rows=6, cols=2)
     t.alignment = WD_ALIGN_PARAGRAPH.LEFT
@@ -103,19 +103,19 @@ def cover(doc, tier_name, price_range, timeline):
     para(doc, "")
     callout(doc,
         "This Statement of Work is issued under the Master Services Agreement between [CLIENT_NAME] and "
-        "Deloitte Consulting LLP dated [MSA_DATE]. All terms of the MSA apply. This SOW supersedes any prior "
+        "The firm dated [MSA_DATE]. All terms of the MSA apply. This SOW supersedes any prior "
         "estimates, proposals, or correspondence between the parties relating to the services described herein.")
     para(doc, "")
-    para(doc, "Prepared by: [LCSP_NAME], Deloitte's Microsoft Practice (DMTSP)", italic=True)
-    para(doc, "Internal · Deloitte's Microsoft Technology & Services Practice", italic=True)
+    para(doc, "Prepared by: [LCSP_NAME], the firm's Microsoft Practice (DMTSP)", italic=True)
+    para(doc, "Internal · Microsoft Technology & Services Practice", italic=True)
 
 def section_background(doc, tier_name):
     h2(doc, "1. Background and engagement context")
-    para(doc, ("[CLIENT_NAME] (\"Client\") has engaged Deloitte Consulting LLP (\"Deloitte\") to deliver a scoped "
+    para(doc, ("[CLIENT_NAME] (\"Client\") has engaged the firm (\"the firm\") to deliver a scoped "
                f"agentic-AI engagement on the APEX framework. This SOW describes the {tier_name} engagement, "
                "the first of a potential multi-wave program of work that may grow into a full Pack rollout and "
                "ongoing Operate services."))
-    para(doc, ("Deloitte's APEX framework is a cloud-neutral delivery framework comprising: a 14-interface "
+    para(doc, ("the firm's APEX framework is a cloud-neutral delivery framework comprising: a 14-interface "
                "Cloud Profile contract; a 6-Agent Fleet pattern; a 14-field WORM hash-chain audit ledger "
                "(\"LEDGER\"); Industry Solution Packs (10-asset bundles) including the Customer-Focused "
                "Merchandise Pack (\"CFMP\"); and standard Service Envelope tiers under which engagements are "
@@ -125,15 +125,15 @@ def section_background(doc, tier_name):
 def section_independence(doc):
     h2(doc, "Independence and funding")
     callout(doc,
-        "Deloitte serves as Microsoft Corporation's independent auditor. Per SEC and PCAOB rules, Deloitte "
+        "The firm serves as Microsoft Corporation's independent auditor. Per SEC and PCAOB rules, the firm "
         "does not accept Enterprise Customer Investment Funds (ECIF) or similar payments directly from "
         "Microsoft. Any Microsoft-sourced funding contemplated under this engagement flows via (i) Azure "
         "Marketplace burndown against [CLIENT_NAME]'s existing Microsoft commitments, or (ii) a "
-        "non-competing Systems Integrator (SI) partner under separate Teaming Agreement. Deloitte's "
+        "non-competing Systems Integrator (SI) partner under separate Teaming Agreement. The firm's "
         "engagement fee is paid by [CLIENT_NAME].")
     para(doc, "")
-    para(doc, ("[CLIENT_NAME] acknowledges that Deloitte's role under this SOW is independent of Microsoft. "
-               "Deloitte makes no representations on behalf of Microsoft and shall not be characterized as "
+    para(doc, ("[CLIENT_NAME] acknowledges that the firm's role under this SOW is independent of Microsoft. "
+               "The firm makes no representations on behalf of Microsoft and shall not be characterized as "
                "Microsoft's partner, agent, alliance member, or joint-commercial party. Microsoft is referred "
                "to throughout this engagement solely as the 'cloud profile' or 'platform'."))
 
@@ -143,11 +143,11 @@ def section_assumptions(doc, extra_assumptions=None):
         "Client provides timely access to subject-matter experts, business stakeholders, and decision-makers as agreed in the engagement governance plan.",
         "Client provides access to systems, data, and credentials required for in-scope work; production-system access is requested at least two business days in advance.",
         "Client provides one or more Microsoft Azure subscriptions sufficient for the APEX-M cloud profile, including but not limited to: Foundry, Azure OpenAI, OneLake / Fabric, Entra ID, Purview, Key Vault, and Container Apps capacity.",
-        "Client owns and operates all source systems referenced by the deployed Pack manifests; Deloitte develops adapters but does not assume operational responsibility for source systems.",
+        "Client owns and operates all source systems referenced by the deployed Pack manifests; the firm develops adapters but does not assume operational responsibility for source systems.",
         "Client's existing identity infrastructure (Entra) is operational and capable of supporting the persona model deployed by the Pack.",
         "Client is responsible for legal review of the deployed Constitution.yaml (privacy hard rules), the Adaptive Card library, and customer-facing surfaces prior to production go-live.",
         "Client is responsible for any data-protection-impact assessments (DPIA), regulator notifications, or consumer-disclosure obligations triggered by the deployed services.",
-        "Deloitte's services are advisory and engineering; Deloitte does not assume any role of 'data controller' under GDPR/CCPA or analogous regulations.",
+        "The firm's services are advisory and engineering; the firm does not assume any role of 'data controller' under GDPR/CCPA or analogous regulations.",
         "Pricing in this SOW does not include third-party software, Azure consumption, Sonos hardware, edge devices, or other infrastructure costs.",
         "Schedule shown in §5 assumes no more than two-week aggregate delay from Client-side dependencies; greater delays require change control.",
     ]
@@ -169,8 +169,8 @@ def section_ip(doc):
     para(doc, ("APEX, including the APEX framework code, the 14-interface Cloud Profile contract specification, "
                "the 6-Agent Fleet pattern, the LEDGER schema, the Industry Solution Pack catalog (including "
                "CFMP and any CHC overlays), the apex-replay tooling, and all related methodology and pre-existing "
-               "Deloitte intellectual property (collectively the \"APEX IP\") remain the sole property of "
-               "Deloitte and its affiliates. Client receives a non-exclusive, royalty-free, perpetual license "
+               "The firm intellectual property (collectively the \"APEX IP\") remain the sole property of "
+               "The firm and its affiliates. Client receives a non-exclusive, royalty-free, perpetual license "
                "to use the deployed Pack manifests, Constitution overlay, and configuration artifacts solely "
                "for Client's internal business purposes."))
     para(doc, ("Client overlays — including Client's CAD-derived Azure Maps Creator datasets, Client's planogram "
@@ -178,7 +178,7 @@ def section_ip(doc):
                "manifests authored under this SOW — are owned by Client."))
     para(doc, ("Pre-existing IP retains its prior ownership; nothing in this SOW transfers ownership of pre-existing "
                "IP between the parties. Newly developed work product is owned per the IP allocation above; ambiguity "
-               "in any single artifact's classification is resolved in Deloitte's favor for general framework "
+               "in any single artifact's classification is resolved in the firm's favor for general framework "
                "components and in Client's favor for Client-specific configuration."))
 
 def section_acceptance(doc, criteria):
@@ -197,7 +197,7 @@ def section_signatures(doc):
         for j in range(2):
             t.cell(i,j).width = Inches(3.0)
     t.cell(0,0).text = "For [CLIENT_NAME]:"
-    t.cell(0,1).text = "For Deloitte Consulting LLP:"
+    t.cell(0,1).text = "For the firm:"
     t.cell(0,0).paragraphs[0].runs[0].bold = True
     t.cell(0,1).paragraphs[0].runs[0].bold = True
     t.cell(1,0).text = "By: _________________________"
@@ -234,11 +234,11 @@ def appendix_funding(doc):
     h1(doc, "Appendix B — Funding paths and independence")
     para(doc, "Engagement fees may be sourced from any of the following independence-safe funding vehicles:")
     vehicles = [
-        ("Client direct",            "Standard Deloitte-on-Deloitte-paper engagement; no special funding routing required."),
+        ("Client direct",            "Standard firm-on-firm-paper engagement; no special funding routing required."),
         ("BVA (client-funded)",      "Workshop fee absorbed into Client's marketing or innovation budget; produces the scenario shortlist and SOW skeleton that initiates Lite tier."),
-        ("DCIF (Deloitte co-invest)","Deloitte commits its own balance sheet against a defined client commitment milestone; reduces Client's upfront cost."),
-        ("Azure Marketplace burndown","Client's existing Microsoft Azure commitment is burned down against the engagement fee via an Azure Marketplace transaction; Microsoft pays the Marketplace, Marketplace pays Deloitte. Deloitte does not receive ECIF directly from Microsoft."),
-        ("SI Teaming (POC funding)", "Non-competing SI partner under separate Teaming Agreement receives Microsoft POC funding; Deloitte delivers under SI sub-agreement. Used selectively for early-stage proof-of-concept engagements where Client's Azure commitment is insufficient."),
+        ("DCIF (the firm co-invest)","the firm commits its own balance sheet against a defined client commitment milestone; reduces Client's upfront cost."),
+        ("Azure Marketplace burndown","Client's existing Microsoft Azure commitment is burned down against the engagement fee via an Azure Marketplace transaction; Microsoft pays the Marketplace, Marketplace pays the firm. The firm does not receive ECIF directly from Microsoft."),
+        ("SI Teaming (POC funding)", "Non-competing SI partner under separate Teaming Agreement receives Microsoft POC funding; the firm delivers under SI sub-agreement. Used selectively for early-stage proof-of-concept engagements where Client's Azure commitment is insufficient."),
         ("Time & Materials (T&M)",   "For custom build (T4) tiers or scope extensions beyond Lite/Standard/Enterprise."),
     ]
     for k,v in vehicles:
@@ -314,7 +314,7 @@ def build_lite():
     section_background(doc, "Pack Lite")
 
     h2(doc, "2. Scope of services")
-    para(doc, ("Deloitte will deliver the APEX CFMP Pack Lite engagement, comprising three live scenarios on "
+    para(doc, ("the firm will deliver the APEX CFMP Pack Lite engagement, comprising three live scenarios on "
                "Client's stores or — if Variant B (CHC) is elected — on a pilot household cohort. The engagement "
                "produces a working production-grade scenario set on Client data, a Pack-Lite SOW for follow-on "
                "Standard tier, and an operate-readiness assessment."))
@@ -357,7 +357,7 @@ def build_lite():
     h3(doc, "3.1 Phases")
     phases_lite = [
         ("Phase 1 — BVA Workshop (Week 0, 4 hours on-site)", "Scenario shortlisting, baseline-metric capture, ROI calculator population, SOW addendum."),
-        ("Phase 2 — Manifest Authoring (Weeks 1-2)",         "Deloitte authors VV, scenario, persona, and card manifests; Client provides data samples and source-system access."),
+        ("Phase 2 — Manifest Authoring (Weeks 1-2)",         "the firm authors VV, scenario, persona, and card manifests; Client provides data samples and source-system access."),
         ("Phase 3 — Adapter Build (Weeks 2-4)",              "Production-grade adapter for primary source system; stubs for secondaries."),
         ("Phase 4 — Constitution Review (Week 4)",           "Constitution.yaml drafted; Client privacy team reviews and signs."),
         ("Phase 5 — Integration + Test (Weeks 4-5)",         "End-to-end scenarios deployed to APEX-M runtime; CI suite turned green."),
@@ -369,7 +369,7 @@ def build_lite():
         p.add_run(v)
 
     h2(doc, "4. Engagement team")
-    para(doc, "Deloitte delivery team (typical Lite composition):")
+    para(doc, "firm delivery team (typical Lite composition):")
     for r in [
         "Engagement Manager (50%) — overall delivery accountability and Client communications.",
         "APEX Solution Architect (75%) — framework deployment and integration design.",
@@ -425,7 +425,7 @@ def build_standard():
     section_background(doc, "Pack Standard")
 
     h2(doc, "2. Scope of services")
-    para(doc, ("Deloitte will deliver the APEX CFMP Pack Standard engagement, comprising one complete CFMP "
+    para(doc, ("the firm will deliver the APEX CFMP Pack Standard engagement, comprising one complete CFMP "
                "sub-domain in production plus 5-7 additional scenarios beyond the Lite-tier shortlist. The "
                "engagement targets production deployment at a single banner or business unit, with operate-"
                "readiness handoff at conclusion."))
@@ -484,7 +484,7 @@ def build_standard():
         p.add_run(v)
 
     h2(doc, "4. Engagement team")
-    para(doc, "Deloitte delivery team (typical Standard composition):")
+    para(doc, "firm delivery team (typical Standard composition):")
     for r in [
         "Engagement Manager (75%)",
         "APEX Solution Architect (100%)",
@@ -542,7 +542,7 @@ def build_enterprise():
     section_background(doc, "Pack Enterprise")
 
     h2(doc, "2. Scope of services")
-    para(doc, ("Deloitte will deliver the APEX CFMP Pack Enterprise engagement, comprising the full CFMP "
+    para(doc, ("the firm will deliver the APEX CFMP Pack Enterprise engagement, comprising the full CFMP "
                "catalog (all 18 scenarios from CFMP v0.2 §3, optionally extended with CHC overlay scenarios) "
                "in production across Client's multi-banner footprint, with full Operate-tier handoff and "
                "optional cross-pack scenario chains (Variant A only)."))
@@ -600,7 +600,7 @@ def build_enterprise():
         p.add_run(v)
 
     h2(doc, "4. Engagement team")
-    para(doc, "Deloitte delivery team (typical Enterprise composition):")
+    para(doc, "firm delivery team (typical Enterprise composition):")
     for r in [
         "Engagement Partner (25%) — executive sponsorship and Client C-suite engagement",
         "Engagement Manager (100%)",
@@ -611,7 +611,7 @@ def build_enterprise():
         "DataOps Engineer (100%)",
         "Operate Lead (75%) — embedded throughout; transitions to Operate tier",
         "Change Management Lead (75%) — Client-facing rollout and training",
-        "Independence Compliance Reviewer (10%) — Deloitte-internal Independence checkpoint at each phase gate",
+        "Independence Compliance Reviewer (10%) — internal Independence checkpoint at each phase gate",
     ]:
         bullet(doc, r)
 
@@ -643,7 +643,7 @@ def build_enterprise():
         "Enterprise tier includes the full CFMP catalog (18 scenarios); CHC overlay scenarios are optional and priced as an addendum to this SOW.",
         "Cross-pack scenario chains (Variant A) require a separate engagement with the Telco partner; this SOW covers only the CFMP side.",
         "Multi-banner production rollout assumes that each banner has functional store-side IT infrastructure (network, edge compute, vision hardware where applicable) ready prior to that banner's Phase-6 cutover slot.",
-        "Operate-tier handoff assumes Client's operations team is staffed and trained per §3.1 Phase 7; if Client elects to outsource Operate to Deloitte permanently, that arrangement is governed by a separate Operate Master Services Agreement.",
+        "Operate-tier handoff assumes Client's operations team is staffed and trained per §3.1 Phase 7; if Client elects to outsource Operate to the firm permanently, that arrangement is governed by a separate Operate Master Services Agreement.",
     ])
     section_change_control(doc)
     section_ip(doc)

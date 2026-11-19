@@ -13,7 +13,7 @@ description: >
   cost-of-ownership rollup. B2B handoff to Element Fleet / Wheels Donlen
   for true small-business fleets.
 archetype_id: F1-continuous-monitor-hitl-alert
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.home.read_household_fleet_360

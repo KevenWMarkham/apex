@@ -10,7 +10,7 @@ prompt_sha: ""
 description: >
   Captive-finance delinquency-risk prediction. Detects customers approaching delinquency thresholds and recommends pre-emptive contact.
 archetype_id: F3-predictive-trigger-workflow-aware
-primary_contact: ice-practice-lead@deloitte.com
+primary_contact: ice-practice-lead@example.com
 
 tools:
   - tool_id: apex.ice.mcp.captivefinml.get_account_state

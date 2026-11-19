@@ -10,7 +10,7 @@ prompt_sha: ""
 description: >
   Supply-shortage early warning for parts and components. Detects emerging shortages from supplier signals and historical patterns.
 archetype_id: F1-continuous-monitor-hitl-alert
-primary_contact: ice-practice-lead@deloitte.com
+primary_contact: ice-practice-lead@example.com
 
 tools:
   - tool_id: apex.ice.mcp.supplyml.get_supplier_performance

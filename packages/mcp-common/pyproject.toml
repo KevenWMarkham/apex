@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "APEX MCP shared scaffolding — tool-contract model, trace record, scope stubs, auth stubs."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "Proprietary — Deloitte Internal" }
+license = { text = "Proprietary — Internal" }
 dependencies = [
     "apex-core",
     "pydantic>=2.9.0",

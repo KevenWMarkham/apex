@@ -10,7 +10,7 @@
 
 [Sound: phone call, slight ambient road noise — Keven is driving]
 
-**KEVEN:** OK, I'm going to tell you the moment that taught me what the procurement defense script actually does. Two years ago. I'd been working a pursuit at a Fortune-100 retailer for fourteen weeks. Beautiful relationship with the CIO. Beautiful business case. ROI math signed off by their CFO's chief of staff. We're at the goal line. Statement of work in legal. And on a Wednesday morning, the head of procurement calls me. He says, *"Keven, we love what Deloitte is proposing. We just need you to compete this against three of your peers."*
+**KEVEN:** OK, I'm going to tell you the moment that taught me what the procurement defense script actually does. Two years ago. I'd been working a pursuit at a Fortune-100 retailer for fourteen weeks. Beautiful relationship with the CIO. Beautiful business case. ROI math signed off by their CFO's chief of staff. We're at the goal line. Statement of work in legal. And on a Wednesday morning, the head of procurement calls me. He says, *"Keven, we love what the firm is proposing. We just need you to compete this against three of your peers."*
 
 [pause]
 
@@ -48,19 +48,19 @@
 
 **JORDAN:** Section two point one — the two-contract model. Why does this exist?
 
-**KEVEN:** Because the single biggest commercial confusion in agentic AI is: *who pays whom for what.* A client gets one slide deck from us and one from Microsoft, and they don't understand whether they're buying Deloitte services or Microsoft software or both or how it works.
+**KEVEN:** Because the single biggest commercial confusion in agentic AI is: *who pays whom for what.* A client gets one slide deck from us and one from Microsoft, and they don't understand whether they're buying firm services or Microsoft software or both or how it works.
 
 The Sellers Guide makes this explicit. Two contracts. Always.
 
-**Contract One — the Microsoft enterprise agreement.** The client signs this directly with Microsoft. It covers Fabric capacity, Foundry consumption, Purview SKUs, Entra ID P2 licenses, Copilot if relevant. This is *software*. Deloitte does not sit in the middle of this transaction.
+**Contract One — the Microsoft enterprise agreement.** The client signs this directly with Microsoft. It covers Fabric capacity, Foundry consumption, Purview SKUs, Entra ID P2 licenses, Copilot if relevant. This is *software*. The firm does not sit in the middle of this transaction.
 
-**Contract Two — the Deloitte services contract.** The client signs this with us. It covers discovery, design, build, deploy, run, and adopt. This is *services and IP application*.
+**Contract Two — the services contract.** The client signs this with us. It covers discovery, design, build, deploy, run, and adopt. This is *services and IP application*.
 
 **JORDAN:** And why is that structure important — beyond just being clear?
 
 **KEVEN:** Three reasons.
 
-One — *Independence*. Deloitte cannot resell Microsoft software at margin to clients we audit. The two-contract structure makes the boundary clean.
+One — *Independence*. The firm cannot resell Microsoft software at margin to clients we audit. The two-contract structure makes the boundary clean.
 
 Two — *transparency*. The client sees exactly what they're paying for from each party. No hidden margin in software.
 
@@ -78,7 +78,7 @@ Three — *scalability*. When the client wants to expand Microsoft consumption �
 
 **Wave Two — nine to fifteen months. The Expansion Wave.** Deliverable: three to five additional Services live, the agent portfolio composing into cross-Service orchestrations, the data foundation extended to cover the second and third business units. The point of Wave Two is *prove the framework scales horizontally inside the enterprise.*
 
-**Wave Three — eighteen-plus months. The Run Wave.** Deliverable: APEX is the operational AI fabric of the business. New agents are deployed by client teams, with Deloitte as advisor. The framework is part of the run-state. New industry Practices may be activated.
+**Wave Three — eighteen-plus months. The Run Wave.** Deliverable: APEX is the operational AI fabric of the business. New agents are deployed by client teams, with the firm as advisor. The framework is part of the run-state. New industry Practices may be activated.
 
 **JORDAN:** I want to push on the time-boxes. Six to nine months for Wave One — how does that actually break down?
 
@@ -179,7 +179,7 @@ Rule three — *if the workload is high-volume and reversible, HOTL is the right
 
 **JORDAN:** And the volume curve?
 
-**KEVEN:** Volume discounting kicks in at the Microsoft consumption layer through their volume agreements, not through Deloitte services pricing. We don't discount services on volume — we add scope.
+**KEVEN:** Volume discounting kicks in at the Microsoft consumption layer through their volume agreements, not through firm services pricing. We don't discount services on volume — we add scope.
 
 ### The ROI math
 
@@ -187,10 +187,10 @@ Rule three — *if the workload is high-volume and reversible, HOTL is the right
 
 **RC client. Four hundred stores. Wave One.**
 
-- *Investment:* Deloitte Wave One services — call it 2.8 million dollars. Microsoft consumption Wave One — about 600K dollars annualised. Total Wave One outlay — approximately 3.4 million dollars.
+- *Investment:* The firm's Wave One services — call it 2.8 million dollars. Microsoft consumption Wave One — about 600K dollars annualised. Total Wave One outlay — approximately 3.4 million dollars.
 - *Returns, Year One:* Shrinkage reduction at three percent across four hundred stores — that varies widely but the conservative model in the Sellers Guide is 4.2 million dollars. Labour redeployment from analytics workflow automation — 1.1 million dollars. Markdown optimisation — 1.8 million dollars. Total Year One returns — approximately 7.1 million dollars.
 - *Net Year One return:* 3.7 million dollars over investment. That's a 109% Year One ROI.
-- *Three-year cumulative:* About 21 million dollars in value against approximately 6.5 million in total Deloitte plus Microsoft cost.
+- *Three-year cumulative:* About 21 million dollars in value against approximately 6.5 million in total the firm plus Microsoft cost.
 
 **JORDAN:** Let me push. Those numbers feel high to a sceptical CFO.
 
@@ -210,9 +210,9 @@ Rule three — *if the workload is high-volume and reversible, HOTL is the right
 
 **KEVEN:** Two valid funding paths, one forbidden one. And the structure here is *Independence by design.*
 
-**Valid path one — direct client funding.** The client pays Deloitte directly for services from their own budget. Cleanest. The default. The way ninety percent of APEX engagements get funded.
+**Valid path one — direct client funding.** The client pays the firm directly for services from their own budget. Cleanest. The default. The way ninety percent of APEX engagements get funded.
 
-**Valid path two — DCIF, the Digital Cloud Investment Fund.** Microsoft has a program where strategic accounts can get co-investment for cloud-adoption transformations. DCIF funds the *client's* costs — Microsoft consumption, sometimes training. It does *not* fund Deloitte services. That's a feature, not a bug — keeps Independence clean.
+**Valid path two — DCIF, the Digital Cloud Investment Fund.** Microsoft has a program where strategic accounts can get co-investment for cloud-adoption transformations. DCIF funds the *client's* costs — Microsoft consumption, sometimes training. It does *not* fund firm services. That's a feature, not a bug — keeps Independence clean.
 
 **JORDAN:** And the forbidden path?
 
@@ -220,11 +220,11 @@ Rule three — *if the workload is high-volume and reversible, HOTL is the right
 
 **JORDAN:** What is ECIF?
 
-**KEVEN:** Enterprise Commitment Investment Fund. It's a Microsoft fund that pays *partners* to deliver services to clients. Sounds great, right? Microsoft pays Deloitte to do client work. Independence problem — if Deloitte is being paid by Microsoft to deliver services that Deloitte then audits the outcomes of — *we are conflicted.* So Deloitte's Independence Office has bright-line prohibited ECIF for services delivered to clients we audit, which is most of our enterprise client base.
+**KEVEN:** Enterprise Commitment Investment Fund. It's a Microsoft fund that pays *partners* to deliver services to clients. Sounds great, right? Microsoft pays the firm to do client work. Independence problem — if the firm is being paid by Microsoft to deliver services that the firm then audits the outcomes of — *we are conflicted.* So the firm's Independence Office has bright-line prohibited ECIF for services delivered to clients we audit, which is most of our enterprise client base.
 
 **JORDAN:** And what do you do if a Microsoft AE offers ECIF on a deal?
 
-**KEVEN:** You say, *"We can't take ECIF. Let's talk about DCIF for the client side, and we'll find direct client funding for the Deloitte side."* And then you call your Independence partner that afternoon.
+**KEVEN:** You say, *"We can't take ECIF. Let's talk about DCIF for the client side, and we'll find direct client funding for the side."* And then you call your Independence partner that afternoon.
 
 **JORDAN:** Never use ECIF as a positive funding path. Never mention it in client proposals.
 
@@ -252,7 +252,7 @@ The script is one paragraph. Here it is, almost verbatim — and you should know
 
 [reading]
 
-*"We appreciate procurement's role in compressing cost. The compression you're seeking already lives in the structure of this deal. The Microsoft software is contracted directly with Microsoft at their best volume pricing — Deloitte is not in that margin. The Deloitte services are scoped tightly to a Wave One that ends with a measured KPI — meaning the value you are buying is measurable before Wave Two. If you would prefer to compete this services scope, we'll cooperate fully. We would simply ask that the competing bids be required to demonstrate (a) pre-existing canonical schema for your industry, (b) production-ready Purview governance templates, and (c) the named agent reference architecture for this Use Case — none of which can be assembled in a competitive-bid window. The compression target is not Deloitte's services price — it's the Wave One time-to-value, which is already 50% compressed against industry-standard custom builds."*
+*"We appreciate procurement's role in compressing cost. The compression you're seeking already lives in the structure of this deal. The Microsoft software is contracted directly with Microsoft at their best volume pricing — the firm is not in that margin. The services are scoped tightly to a Wave One that ends with a measured KPI — meaning the value you are buying is measurable before Wave Two. If you would prefer to compete this services scope, we'll cooperate fully. We would simply ask that the competing bids be required to demonstrate (a) pre-existing canonical schema for your industry, (b) production-ready Purview governance templates, and (c) the named agent reference architecture for this Use Case — none of which can be assembled in a competitive-bid window. The compression target is not the firm's services price — it's the Wave One time-to-value, which is already 50% compressed against industry-standard custom builds."*
 
 [pause]
 
@@ -268,11 +268,11 @@ The script is one paragraph. Here it is, almost verbatim — and you should know
 
 **JORDAN:** Section three point seven, which is technically Chapter Three but it lives here commercially. Two minutes on Independence.
 
-**KEVEN:** Right. And this is the part of the commercial arc that distinguishes Deloitte from every system integrator and partner-channel firm operating in the Microsoft ecosystem. *We do not co-sell with Microsoft.* We do not take partner-channel compensation. We do not flow Microsoft licensing through our contracts. We do not participate in revenue-sharing or partner-incentive economics on client engagements.
+**KEVEN:** Right. And this is the part of the commercial arc that distinguishes the firm from every system integrator and partner-channel firm operating in the Microsoft ecosystem. *We do not co-sell with Microsoft.* We do not take partner-channel compensation. We do not flow Microsoft licensing through our contracts. We do not participate in revenue-sharing or partner-incentive economics on client engagements.
 
 **JORDAN:** Let me push on that. Why so strict?
 
-**KEVEN:** Two reasons. The first is Independence proper — most of our enterprise clients are also audit clients, and a financial flow from Microsoft to Deloitte tied to a client engagement creates a conflict the Independence Office will not accept. The second is *positioning credibility.* When we recommend the Microsoft stack to a CIO, the recommendation has to be defensible as a *technical and business* choice — not a *compensated* choice. The moment compensation enters the recommendation, the recommendation loses authority. Sellers who understand this win deals; sellers who don't, struggle in the room.
+**KEVEN:** Two reasons. The first is Independence proper — most of our enterprise clients are also audit clients, and a financial flow from Microsoft to the firm tied to a client engagement creates a conflict the Independence Office will not accept. The second is *positioning credibility.* When we recommend the Microsoft stack to a CIO, the recommendation has to be defensible as a *technical and business* choice — not a *compensated* choice. The moment compensation enters the recommendation, the recommendation loses authority. Sellers who understand this win deals; sellers who don't, struggle in the room.
 
 **JORDAN:** So what *does* the relationship with Microsoft look like, in practice?
 
@@ -280,17 +280,17 @@ The script is one paragraph. Here it is, almost verbatim — and you should know
 
 One — *we recommend Microsoft technology because, for agentic AI at enterprise scale, the composed stack is the right answer.* We make that case on the technical and commercial merits. Sellers Guide Chapter Four — competitive positioning — is the script for *why Microsoft*. We use it because we believe it.
 
-Two — *operational coordination with Microsoft field teams is appropriate and expected.* When a client needs Microsoft technical resources, capacity sizing input, or roadmap visibility, we help them get it. That coordination is client-benefiting and entirely separate from any commercial relationship between Deloitte and Microsoft.
+Two — *operational coordination with Microsoft field teams is appropriate and expected.* When a client needs Microsoft technical resources, capacity sizing input, or roadmap visibility, we help them get it. That coordination is client-benefiting and entirely separate from any commercial relationship between the firm and Microsoft.
 
-Three — *the client's Microsoft licensing relationship is the client's relationship to manage with Microsoft directly.* Deloitte does not sit in the licensing transaction. We covered this in the two-contract model at the start of the episode — *Microsoft contracts directly with the client; Deloitte contracts directly with the client.* Two parallel, independent commercial threads.
+Three — *the client's Microsoft licensing relationship is the client's relationship to manage with Microsoft directly.* The firm does not sit in the licensing transaction. We covered this in the two-contract model at the start of the episode — *Microsoft contracts directly with the client; the firm contracts directly with the client.* Two parallel, independent commercial threads.
 
 **JORDAN:** And what does this mean operationally for a seller in a pursuit?
 
-**KEVEN:** It means — *you walk into client meetings as Deloitte. Not as a Microsoft partner. Not as a co-seller. As Deloitte.* The Microsoft stack is the platform we deploy on. Microsoft is the client's other vendor relationship, not your team. The pursuit motion, the SOW, the value case, the engagement plan — all originate from Deloitte and stand on their own merits. Microsoft's involvement happens through the client, not through us.
+**KEVEN:** It means — *you walk into client meetings as the firm. Not as a Microsoft partner. Not as a co-seller. As the firm.* The Microsoft stack is the platform we deploy on. Microsoft is the client's other vendor relationship, not your team. The pursuit motion, the SOW, the value case, the engagement plan — all originate from the firm and stand on their own merits. Microsoft's involvement happens through the client, not through us.
 
 **JORDAN:** And the failure mode if a seller forgets this?
 
-**KEVEN:** Two failure modes. *One — proposing joint commercial motion in conversations with Microsoft AEs.* That triggers Independence review, often kills the deal. *Two — letting the client perceive that Deloitte and Microsoft are commercially aligned.* That destroys our advisory authority and turns us into resellers in the buyer's mind. Both avoidable by remembering — we are platform-aligned, not partnership-compensated. Section three point seven of the Sellers Guide is the bright-line reference.
+**KEVEN:** Two failure modes. *One — proposing joint commercial motion in conversations with Microsoft AEs.* That triggers Independence review, often kills the deal. *Two — letting the client perceive that the firm and Microsoft are commercially aligned.* That destroys our advisory authority and turns us into resellers in the buyer's mind. Both avoidable by remembering — we are platform-aligned, not partnership-compensated. Section three point seven of the Sellers Guide is the bright-line reference.
 
 ---
 
@@ -300,7 +300,7 @@ Three — *the client's Microsoft licensing relationship is the client's relatio
 
 **KEVEN:** Fact One — number of contracts in an APEX deal?
 
-**JORDAN:** Two. Microsoft EA and Deloitte SOW.
+**JORDAN:** Two. Microsoft EA and firm SOW.
 
 **KEVEN:** Fact Two — three Wave envelopes?
 
@@ -328,7 +328,7 @@ Three — *the client's Microsoft licensing relationship is the client's relatio
 
 **KEVEN:** Fact Eight — the procurement defense compression target?
 
-**JORDAN:** *"Not Deloitte's services price — Wave One time-to-value, already 50 percent compressed."*
+**JORDAN:** *"Not the firm's services price — Wave One time-to-value, already 50 percent compressed."*
 
 **KEVEN:** Time.
 
@@ -370,7 +370,7 @@ Three — **never offer a contractual KPI commitment in Wave One.** If a client 
 
 Four — **if a Microsoft AE offers ECIF, say no, and call Independence the same day.** No exceptions.
 
-Five — **rehearse the Independence-from-Microsoft language until it's second nature.** *"Deloitte recommends the Microsoft stack on the merits. Deloitte does not take partner compensation. Two contracts — one with Microsoft, one with us — independent of each other."* That paragraph belongs in your first CIO conversation, your first procurement conversation, and your first conversation with anyone from Microsoft's account team.
+Five — **rehearse the Independence-from-Microsoft language until it's second nature.** *"The firm recommends the Microsoft stack on the merits. The firm does not take partner compensation. Two contracts — one with Microsoft, one with us — independent of each other."* That paragraph belongs in your first CIO conversation, your first procurement conversation, and your first conversation with anyone from Microsoft's account team.
 
 ---
 

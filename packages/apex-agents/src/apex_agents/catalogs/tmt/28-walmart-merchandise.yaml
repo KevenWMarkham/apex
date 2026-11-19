@@ -13,7 +13,7 @@ description: >
   Home Depot, Lowes when those retailers fit better. Composes optimized
   errand chains across the household's preferred shopping route.
 archetype_id: F2-event-cluster-pattern-match
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.home.read_errand_chain_proposal

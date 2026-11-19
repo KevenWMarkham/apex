@@ -12,7 +12,7 @@ description: >
   data with FSMA 204 lot provenance. Produces sell-through, markdown,
   or destroy recommendations with full audit row.
 archetype_id: F1-continuous-monitor-hitl-alert
-primary_contact: rc-practice-lead@deloitte.com
+primary_contact: rc-practice-lead@example.com
 
 tools:
   - tool_id: apex.rc.mcp.scml.get_lot_trace

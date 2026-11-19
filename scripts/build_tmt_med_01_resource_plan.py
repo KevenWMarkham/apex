@@ -1,7 +1,7 @@
 """Build the TMT-MED-01 Resource Plan workbook (Disney+ reference engagement).
 
 Mirrors Nike-R2R-NOAH-Resource-Plan.xlsx. Eight sheets:
-  README · Deloitte Staffing · Disney Staffing · Microsoft Platform ·
+  README · the firm's Staffing · Disney Staffing · Microsoft Platform ·
   Third-Party & Other · Commercial Envelope · Durable Value · ROI · Payback
 
 Output: Disney 02_projects/FY27_Pipeline/subscriber-lifecycle-agentic/deliverables/TMT-MED-01-Resource-Plan.xlsx
@@ -87,11 +87,11 @@ def sheet_readme(wb):
          "Approach + Wave 1 Foundation + Wave 2 Pilot + Wave 3 Scale & Fuse. Loaded by role / FTE / wave / dollar."),
         ("", ""),
         ("How to read this workbook", ""),
-        ("Deloitte Staffing",       "DMTSP team model. Roles, daily rates, FTE per wave, dollar load per wave."),
+        ("The firm's Staffing",       "DMTSP team model. Roles, daily rates, FTE per wave, dollar load per wave."),
         ("Disney Staffing",          "Disney persona allocation. Implied value (informational — not billed)."),
         ("Microsoft Platform",       "Per-month consumption across Azure AI Foundry, Azure OpenAI, Fabric, storage, Teams, Power BI, Entra. Wave totals."),
         ("Third-Party & Other",      "Specialist services, integration vendors, change management, training, audit/privacy coordination."),
-        ("Commercial Envelope",      "Low / Mid / High range per wave (Mid = sum of Deloitte + Microsoft + Third-Party; Low = 0.75×Mid; High = 1.35×Mid)."),
+        ("Commercial Envelope",      "Low / Mid / High range per wave (Mid = sum of the firm + Microsoft + Third-Party; Low = 0.75×Mid; High = 1.35×Mid)."),
         ("Durable Value",            "Annualized W3 run-rate value: retention NPV + audit/privacy fee avoidance + non-monetized close-cycle compression."),
         ("ROI · Payback",            "Time-phased cumulative investment vs. realized return. Anchors the ROI conversation with the Streaming COO."),
         ("", ""),
@@ -104,7 +104,7 @@ def sheet_readme(wb):
         ("Daily rate basis",         "DMTSP standard daily rate card; rate × FTE × business days = role-wave dollar."),
         ("", ""),
         ("Independence posture",
-         "All TMT-MED-01 commercial materials use 'Deloitte's Microsoft practice,' 'DMTSP,' 'Microsoft platform capabilities,' 'Microsoft-native deployment.' The terms 'partner,' 'alliance,' and 'strategic alliance' do not appear. Before contracting, confirm Disney's external-audit firm relationship and route the SOW through Deloitte's Independence office."),
+         "All TMT-MED-01 commercial materials use 'the firm's Microsoft practice,' 'DMTSP,' 'Microsoft platform capabilities,' 'Microsoft-native deployment.' The terms 'partner,' 'alliance,' and 'strategic alliance' do not appear. Before contracting, confirm Disney's external-audit firm relationship and route the SOW through the firm's Independence office."),
         ("", ""),
         ("Companion artifacts", ""),
         ("APEX-TMT-MED-01-Walkthrough.docx",
@@ -134,13 +134,13 @@ def sheet_readme(wb):
 
 
 # ----------------------------------------------------------------------------
-# Deloitte Staffing
+# The firm's Staffing
 # ----------------------------------------------------------------------------
 
 # Business days per wave
 BD = {"Approach": 20, "W1": 125, "W2": 187.5, "W3": 312.5}
 
-DELOITTE_ROLES = [
+FIRM_ROLES = [
     # (Role, Daily Rate, Approach FTE, W1 FTE, W2 FTE, W3 FTE, role notes)
     ("Partner — DMTSP TMT lead",                    1600, 0.20, 0.10, 0.15, 0.15),
     ("Principal / LBP — Pursuit lead",              1400, 0.40, 0.20, 0.25, 0.25),
@@ -165,8 +165,8 @@ DELOITTE_ROLES = [
 ]
 
 
-def sheet_deloitte_staffing(wb):
-    ws = wb.create_sheet("Deloitte Staffing")
+def sheet_firm_staffing(wb):
+    ws = wb.create_sheet("the firm's Staffing")
     ws.cell(row=1, column=1, value="DMTSP delivery team model").font = TITLE_FONT
     ws.cell(row=2, column=1, value="Daily rate × FTE × business days per wave").font = SUB_FONT
 
@@ -178,7 +178,7 @@ def sheet_deloitte_staffing(wb):
 
     totals = [0, 0, 0, 0]
     r = 5
-    for role, rate, fa, fw1, fw2, fw3 in DELOITTE_ROLES:
+    for role, rate, fa, fw1, fw2, fw3 in FIRM_ROLES:
         a_dollar = round(rate * fa  * BD["Approach"])
         w1_dollar = round(rate * fw1 * BD["W1"])
         w2_dollar = round(rate * fw2 * BD["W2"])
@@ -205,7 +205,7 @@ def sheet_deloitte_staffing(wb):
 
     # Totals row
     grand = sum(totals)
-    cell(ws, r, 1, "TOTAL Deloitte Labor", font=TOTAL_FONT, fill=GOLD_BG)
+    cell(ws, r, 1, "TOTAL the firm's Labor", font=TOTAL_FONT, fill=GOLD_BG)
     cell(ws, r, 2, "", fill=GOLD_BG)
     for j in (3, 4, 5, 6):
         cell(ws, r, j, "", fill=GOLD_BG)
@@ -214,12 +214,12 @@ def sheet_deloitte_staffing(wb):
     money(ws, r, 9,  totals[2], font=TOTAL_FONT, fill=GOLD_BG)
     money(ws, r, 10, totals[3], font=TOTAL_FONT, fill=GOLD_BG)
     money(ws, r, 11, grand,     font=TOTAL_FONT, fill=GOLD_BG)
-    print(f"  Deloitte Staffing · {len(DELOITTE_ROLES)} roles · ${grand:,} total · sub-totals: {totals}")
+    print(f"  the firm's Staffing · {len(FIRM_ROLES)} roles · ${grand:,} total · sub-totals: {totals}")
     return totals
 
 
 # ----------------------------------------------------------------------------
-# Disney Staffing (informational / implied value, not billed by Deloitte)
+# Disney Staffing (informational / implied value, not billed by the firm)
 # ----------------------------------------------------------------------------
 
 DISNEY_ROLES = [
@@ -242,7 +242,7 @@ DISNEY_ROLES = [
 def sheet_disney_staffing(wb):
     ws = wb.create_sheet("Disney Staffing")
     ws.cell(row=1, column=1, value="Disney persona allocation (informational)").font = TITLE_FONT
-    ws.cell(row=2, column=1, value="% FTE allocation per wave — Disney-side shadow cost (NOT billed by Deloitte)").font = SUB_FONT
+    ws.cell(row=2, column=1, value="% FTE allocation per wave — Disney-side shadow cost (NOT billed by the firm)").font = SUB_FONT
 
     headers = ["Persona / Role", "Description",
                "Approach %", "W1 %", "W2 %", "W3 %",
@@ -400,12 +400,12 @@ def sheet_thirdparty(wb):
 # Commercial Envelope
 # ----------------------------------------------------------------------------
 
-def sheet_commercial_envelope(wb, deloitte_totals, ms_totals, tp_totals):
+def sheet_commercial_envelope(wb, firm_totals, ms_totals, tp_totals):
     ws = wb.create_sheet("Commercial Envelope")
     ws.cell(row=1, column=1, value="Commercial Envelope — Low / Mid / High range").font = TITLE_FONT
     ws.cell(row=2, column=1, value="Low = 0.75 × Mid · High = 1.35 × Mid (allows for scope variability)").font = SUB_FONT
 
-    headers = ["Tier", "Deloitte Labor", "Microsoft Platform",
+    headers = ["Tier", "the firm's Labor", "Microsoft Platform",
                "Third-Party & Other", "Mid Total", "Low Estimate", "High Estimate"]
     widths = [16, 16, 18, 18, 16, 16, 16]
     write_hdrs(ws, headers, widths, row=4)
@@ -413,7 +413,7 @@ def sheet_commercial_envelope(wb, deloitte_totals, ms_totals, tp_totals):
     waves = ["Approach", "Wave 1", "Wave 2", "Wave 3"]
     rows = []
     for i, w in enumerate(waves):
-        d  = deloitte_totals[i]
+        d  = firm_totals[i]
         m  = ms_totals[i]
         tp = tp_totals[i]
         mid = d + m + tp
@@ -584,11 +584,11 @@ def build():
     print("Building TMT-MED-01 Resource Plan...")
     wb = Workbook()
     sheet_readme(wb)
-    deloitte_totals = sheet_deloitte_staffing(wb)
+    firm_totals = sheet_firm_staffing(wb)
     sheet_disney_staffing(wb)
     ms_totals = sheet_microsoft_platform(wb)
     tp_totals = sheet_thirdparty(wb)
-    envelope_rows = sheet_commercial_envelope(wb, deloitte_totals, ms_totals, tp_totals)
+    envelope_rows = sheet_commercial_envelope(wb, firm_totals, ms_totals, tp_totals)
     durable = sheet_durable_value(wb)
     sheet_roi_payback(wb, envelope_rows, durable)
 

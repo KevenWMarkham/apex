@@ -12,7 +12,7 @@ description: >
   Tracks benefits-used vs annual-fee; recommends keep / cancel / downgrade
   / upgrade based on actual household-usage pattern.
 archetype_id: F2-event-cluster-pattern-match
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.home.read_membership_payback

@@ -12,7 +12,7 @@ description: >
   owned, and earned channels. Produces ROI per promotion and cannibalization
   flags.
 archetype_id: F2-event-cluster-pattern-match
-primary_contact: rc-practice-lead@deloitte.com
+primary_contact: rc-practice-lead@example.com
 
 tools:
   - tool_id: apex.rc.mcp.cxml.get_engagement_history

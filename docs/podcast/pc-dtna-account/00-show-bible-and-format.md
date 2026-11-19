@@ -1,6 +1,6 @@
 # Show Bible · The DTNA Account Podcast
 
-Internal Deloitte Account Team content specifically about Daimler Trucks North America. The design rules below add to (don't replace) the Trilogy and Disney show bibles.
+Internal firm Account Team content specifically about Daimler Trucks North America. The design rules below add to (don't replace) the Trilogy and Disney show bibles.
 
 ---
 
@@ -53,10 +53,10 @@ Every episode references at least one of the three.
 
 ### Rule 4 · The DTNA Independence considerations
 
-Daimler Truck Holding AG is a publicly listed German company; the audit relationship is in Germany. Deloitte's services posture for DTNA in North America requires careful coordination with Deloitte global structure. The Account Team should:
+Daimler Truck Holding AG is a publicly listed German company; the audit relationship is in Germany. The firm's services posture for DTNA in North America requires careful coordination with the firm global structure. The Account Team should:
 
 - Treat DTNA as Independence-managed — coordinate with the global Independence office for the Daimler Truck audit relationship
-- Apply the standard two-contract model — Microsoft licensing directly with DTNA; Deloitte services SOW directly with DTNA
+- Apply the standard two-contract model — Microsoft licensing directly with DTNA; firm services SOW directly with DTNA
 - *No co-sell with Microsoft.* The recommendation of Microsoft is on the merits, not on partner-channel compensation
 - The DTNA-Torc-Daimler-Truck-Holding tripartite structure requires precise scope discipline — engagement scope is DTNA-specific or Torc-specific or parent-level
 

@@ -63,8 +63,8 @@ schema_mappings:
         classification: internal
 
 runbook:
-  primary_contact: hls-data-platform@deloitte.com
-  secondary_contact: hls-on-call@deloitte.com
+  primary_contact: hls-data-platform@example.com
+  secondary_contact: hls-on-call@example.com
   sla_recovery_minutes: 30
   failure_modes:
     - code: CONN_TIMEOUT

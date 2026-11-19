@@ -67,7 +67,7 @@ version = "0.1.0"
 description = "APEX schema validation harness — pytest + Testcontainers + synthetic Postgres-backed data."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "Proprietary - Deloitte Internal" }
+license = { text = "Proprietary - Internal" }
 dependencies = [
     "apex-core",
     "apex-schemas-common",

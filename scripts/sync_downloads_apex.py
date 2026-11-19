@@ -71,10 +71,10 @@ FILES = [
     "APEX-M-GSSC-Lab-Infrastructure-Deployment.pdf",
 
     # === APEX Agentic Merch cost / BOM ===
-    "APEX-Agentic-Merch-Azure-Calculator-Estimate-Deloitte.xlsx",
+    "APEX-Agentic-Merch-Azure-Calculator-Estimate-the firm.xlsx",
     "APEX-Agentic-Merch-Azure-Calculator-Estimate.md",
     "APEX-Agentic-Merch-Azure-Calculator-Estimate.xlsx",
-    "APEX-Agentic-Merch-Azure-Cost-Deloitte-Discounted.md",
+    "APEX-Agentic-Merch-Azure-Cost-firm-Discounted.md",
     "APEX-Agentic-Merch-BOM.md",
     "APEX-Agentic-Merch-BOM.xlsx",
     "APEX-Agentic-Merch-MVP-Azure-Cost.md",

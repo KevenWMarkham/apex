@@ -482,7 +482,7 @@
   <div class="edition">From Lab to Multi-Tenant Production</div>
   <p class="tagline">A field manual for deploying Services and Agents on the Microsoft Platform via the APEX framework, across multiple Azure tenants — anchored on the MVP as a reusable framework asset for accelerating RC-E2E-03 delivery and expanding to the broader 38-Service catalog. APEX is the framework that accelerates Service delivery; what's deployed in client tenants are Services with KPI envelopes. The closing volume of the <a href="Professional-APEX-M-Library.html" style="color:var(--gold);">APEX Trilogy</a> — paired with the <a href="Professional-APEX-M-Sellers-Guide.html" style="color:var(--gold);">Sellers Guide</a> (Volume I · positioning APEX-accelerated Services) and the <a href="Professional-APEX-M-Services-Guide.html" style="color:var(--gold);">Services Guide</a> (Volume II · building Services on the APEX framework).</p>
   <div class="wrox-label">WROX-STYLE EDITION · DEPLOYMENT VOLUME</div>
-  <div class="byline">Keven Markham · VP Enterprise Transformation · Deloitte's Microsoft Technology &amp; Services Practice · May 2026</div>
+  <div class="byline">Keven Markham · VP Enterprise Transformation · the firm's Microsoft Technology &amp; Services Practice · May 2026</div>
 </section>
 
 <!-- ============================================================
@@ -493,8 +493,8 @@
 
   <aside class="callout note" style="margin-bottom: 28px;">
     <div class="callout-label">What APEX Is — read this first</div>
-    <p><strong>APEX is a framework that accelerates the building of services and agents on the Microsoft Platform.</strong> It is the architectural substrate Deloitte's Microsoft practice uses internally to deliver Services faster, more consistently, and with more rigorous governance. <strong>APEX is not a product and is not sold to clients.</strong> What clients buy are <em>Services</em> — productized envelopes from the 38-Service catalog (RC-E2E-03 · HLS-E2E-04 · TMT-TEL-RAA-04 · etc.), each with a KPI commitment and a two-contract Independence-compliant commercial structure (client ↔ Microsoft for platform · client ↔ Deloitte for the Service-delivery engagement).</p>
-    <p style="margin-top: 6px;"><strong>What this means for deployment leads:</strong> the three-layer cake (Platform · Service · Agent) — the organizing idea below — is the framework's deployment topology. The <em>Platform</em> layer is the per-tenant Microsoft platform substrate Deloitte stands up under the framework's Bicep templates. The <em>Service</em> layer is the productized envelope the client contracted for; this is what gets deployed into the client tenant. The <em>Agent</em> layer is the reusable image set the framework promotes through the two-Container-Registry mirror. <strong>What's deployed in client tenants are Services and the agents that compose them, on the Microsoft Platform, accelerated by the APEX framework.</strong> When this book talks about "deploying APEX," read "deploying a Service that the framework built." The framework is the means; the Service is what's contracted for and what runs in the tenant.</p>
+    <p><strong>APEX is a framework that accelerates the building of services and agents on the Microsoft Platform.</strong> It is the architectural substrate the firm's Microsoft practice uses internally to deliver Services faster, more consistently, and with more rigorous governance. <strong>APEX is not a product and is not sold to clients.</strong> What clients buy are <em>Services</em> — productized envelopes from the 38-Service catalog (RC-E2E-03 · HLS-E2E-04 · TMT-TEL-RAA-04 · etc.), each with a KPI commitment and a two-contract Independence-compliant commercial structure (client ↔ Microsoft for platform · client ↔ the firm for the Service-delivery engagement).</p>
+    <p style="margin-top: 6px;"><strong>What this means for deployment leads:</strong> the three-layer cake (Platform · Service · Agent) — the organizing idea below — is the framework's deployment topology. The <em>Platform</em> layer is the per-tenant Microsoft platform substrate the firm stands up under the framework's Bicep templates. The <em>Service</em> layer is the productized envelope the client contracted for; this is what gets deployed into the client tenant. The <em>Agent</em> layer is the reusable image set the framework promotes through the two-Container-Registry mirror. <strong>What's deployed in client tenants are Services and the agents that compose them, on the Microsoft Platform, accelerated by the APEX framework.</strong> When this book talks about "deploying APEX," read "deploying a Service that the framework built." The framework is the means; the Service is what's contracted for and what runs in the tenant.</p>
   </aside>
 
   <p>This is the operator's companion to the <em>Professional APEX Sellers Guide</em>. Where the Sellers Guide answers <em>how to position APEX-accelerated Services</em>, this volume answers <em>how to deploy them on the Microsoft Platform</em>. It exists because, between a working laptop demo and a multi-tenant production rollout, there is a long list of questions that sellers, architects, and delivery leads keep asking — and a stable set of answers we have been refining since the MVP shipped.</p>
@@ -506,7 +506,7 @@
     <li><strong>Delivery leads</strong> sequencing client onboardings — read Part I and Part V end-to-end, skim Parts II–IV.</li>
     <li><strong>Platform architects</strong> standing up Layer 1 in a new Azure tenant — Part II is the core; Appendix A is your Bicep reference.</li>
     <li><strong>Service owners</strong> for any of the 38 cataloged services (RC-E2E-03 through TMT-TEL-RAA-04) — Part III, plus Appendix C and Appendix E.</li>
-    <li><strong>Agent maintainers</strong> shipping container images that traverse from Deloitte authoring registry to client-tenant runtime — Part IV and Appendix D.</li>
+    <li><strong>Agent maintainers</strong> shipping container images that traverse from firm authoring registry to client-tenant runtime — Part IV and Appendix D.</li>
     <li><strong>Sellers</strong> who need to answer "is this productionizable?" — Chapters 1, 7, 13, and 16, plus the Independence callouts throughout.</li>
   </ul>
 
@@ -518,7 +518,7 @@
   <p><strong>Part V — The Deployment Motion.</strong> The four motions you will run, in this order: stand up the Platform in a new Azure tenant; add a Service; upgrade an agent across multiple Services or tenants; recover from a bad upgrade.</p>
 
   <aside class="callout independence"><div class="callout-label">Independence — read this first</div>
-  <p>This guide assumes the two-contract commercial model: client contracts Microsoft for the platform; client contracts Deloitte separately for services. ECIF flows direct from Microsoft to the client (not through Deloitte). Throughout the book, the relationship is described as <strong>"Deloitte's Microsoft practice," "DMTSP," "Microsoft platform capabilities,"</strong> or <strong>"Microsoft-native deployment."</strong> The terms <em>partner, alliance, strategic alliance</em> do not appear and must not appear in any client-facing artifact derived from this material. If you are about to write one of those words in a deployment runbook, statement of work, or onboarding email — stop and reread Chapter 3.</p>
+  <p>This guide assumes the two-contract commercial model: client contracts Microsoft for the platform; client contracts the firm separately for services. ECIF flows direct from Microsoft to the client (not through the firm). Throughout the book, the relationship is described as <strong>"The firm's Microsoft practice," "DMTSP," "Microsoft platform capabilities,"</strong> or <strong>"Microsoft-native deployment."</strong> The terms <em>partner, alliance, strategic alliance</em> do not appear and must not appear in any client-facing artifact derived from this material. If you are about to write one of those words in a deployment runbook, statement of work, or onboarding email — stop and reread Chapter 3.</p>
   </aside>
 
   <h2>Conventions</h2>
@@ -558,9 +558,9 @@
 <section class="part-opener" id="part-1">
   <div class="part-label">Part I</div>
   <h1 class="part-title">Foundations of Deployment</h1>
-  <p class="part-intro">It's Day 0. Priya — lead deployment engineer at Deloitte — has just been handed her next engagement. The SOW is signed. The client is a Pacific Northwest grocery chain that already runs Microsoft Dynamics 365 and Microsoft Fabric in their own Azure tenant. The deliverable on the Wave-1 schedule: <em>first Marisol-equivalent operator approves a real cold-chain markdown card in their own tenant within 90 days</em>. Priya has read the Services Guide. She knows what Marisol will eventually see. Now her job is to build the platform that makes that card possible.</p>
+  <p class="part-intro">It's Day 0. Priya — lead deployment engineer at the firm — has just been handed her next engagement. The SOW is signed. The client is a Pacific Northwest grocery chain that already runs Microsoft Dynamics 365 and Microsoft Fabric in their own Azure tenant. The deliverable on the Wave-1 schedule: <em>first Marisol-equivalent operator approves a real cold-chain markdown card in their own tenant within 90 days</em>. Priya has read the Services Guide. She knows what Marisol will eventually see. Now her job is to build the platform that makes that card possible.</p>
   <p class="part-intro">Before any Bicep module runs and before any container image is signed, there is a mental model to settle. <strong>APEX deploys in three layers</strong>: the Platform layer (Layer 1) is the long-lived Microsoft Azure foundation — the resource group, the Container Registry, the managed environment, Microsoft Entra ID identities, Key Vault, Log Analytics. The Service layer (Layer 2) is the per-Service Bicep that sits on top — KPI envelope, scope, MCP host, Gold marts, the orchestration substrate. The Agent layer (Layer 3) is the container images themselves — built once, signed with Microsoft Notation, pulled by SHA digest. Each layer has its own lifecycle. None of them re-deploys when another one changes.</p>
-  <p class="part-intro">The Deployment Guide is Priya's playbook from blank-subscription to first-card. <strong>Chapter 0</strong> sets the demo-to-deployable mindset. <strong>Chapter 1</strong> walks the three-layer cake — how the layers nest, why they're separable, what each owns. <strong>Chapter 2</strong> covers substrate-aware architecture: the same container image runs on Priya's Docker Desktop laptop and on Microsoft.App managed environments in Azure without rebuilding. <strong>Chapter 3</strong> nails the Independence posture — two contracts (client↔Microsoft for the platform; client↔Deloitte for the engagement), no shared ECIF, no co-mingled marketing. Once those four foundations are settled, the rest of the book has somewhere stable to stand.</p>
+  <p class="part-intro">The Deployment Guide is Priya's playbook from blank-subscription to first-card. <strong>Chapter 0</strong> sets the demo-to-deployable mindset. <strong>Chapter 1</strong> walks the three-layer cake — how the layers nest, why they're separable, what each owns. <strong>Chapter 2</strong> covers substrate-aware architecture: the same container image runs on Priya's Docker Desktop laptop and on Microsoft.App managed environments in Azure without rebuilding. <strong>Chapter 3</strong> nails the Independence posture — two contracts (client↔Microsoft for the platform; client↔the firm for the engagement), no shared ECIF, no co-mingled marketing. Once those four foundations are settled, the rest of the book has somewhere stable to stand.</p>
   <div class="part-chapters">
     <h2>Chapters in this Part</h2>
     <ul>
@@ -674,7 +674,7 @@
     <div class="callout-label"><svg viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" style="width:20px;height:20px;vertical-align:-5px;margin-right:8px;display:inline-block;"><circle cx="12" cy="12" r="11" fill="#C89D3A"/><path d="M13 3 L5 13 L11 13 L9 21 L19 11 L13 11 Z" fill="#1A2339"/></svg>60-second read</div>
     <ul>
       <li>Three layers · three lifecycles: <strong>Platform</strong> (per tenant · quarterly) · <strong>Service</strong> (per envelope · per upgrade window) · <strong>Agent</strong> (continuous · per merge to main).</li>
-      <li>Two container registries: Deloitte authoring registry for build &amp; sign · per-tenant client registry for runtime pull. Images cross by mirror + cosign verify.</li>
+      <li>Two container registries: firm authoring registry for build &amp; sign · per-tenant client registry for runtime pull. Images cross by mirror + cosign verify.</li>
       <li>Service Bicep references agent images by SHA digest · Layer 1 outputs feed Layer 2 parameters. The cake works when the layers stay separated.</li>
     </ul>
   </aside>
@@ -684,7 +684,7 @@
   <p>APEX deploys in three layers. Read top-down they look like a stack; read bottom-up they look like a cake. Either visual works as long as you keep them separate.</p>
 
   <div class="cake">
-    <div class="layer l3"><div class="lab">Layer 3 — Agent</div>The reusable container images that implement individual agents (<em>The Analyst, The Demand Checker, The Finance Lead, The Operations Lead, The Briefer</em>). Built and signed in the Deloitte authoring registry; mirrored to a client registry; pulled by SHA digest at runtime. Versioned independently. Reused across many Services.<div class="desc">apex-acr.azurecr.io/agent-the-analyst:1.4.0 → mirrored → client-tenant registry</div></div>
+    <div class="layer l3"><div class="lab">Layer 3 — Agent</div>The reusable container images that implement individual agents (<em>The Analyst, The Demand Checker, The Finance Lead, The Operations Lead, The Briefer</em>). Built and signed in the authoring registry; mirrored to a client registry; pulled by SHA digest at runtime. Versioned independently. Reused across many Services.<div class="desc">apex-acr.azurecr.io/agent-the-analyst:1.4.0 → mirrored → client-tenant registry</div></div>
     <div class="layer l2"><div class="lab">Layer 2 — Service</div>A productized envelope that composes one or more Agents over the Platform — KPI envelope, scope, persona, audit-row pattern, two-contract commercial. RC-E2E-03 is one Service. There are 38 in the catalog. Each Service has its own Bicep module set and its own version line; many Services can co-exist in the same tenant on the same Platform.<div class="desc">rc-e2e-03 v1.2.0 :: composes [the-analyst, the-demand-checker, the-finance-lead, the-operations-lead, the-briefer]</div></div>
     <div class="layer l1"><div class="lab">Layer 1 — APEX Platform</div>The shared substrate, deployed once per tenant: Container Apps Environment, Premium Azure Container Registry with Notary trust, four user-assigned managed identities, Premium HSM Key Vault with CMK, Log Analytics + App Insights, Networking, Purview catalog hooks. Every Service in the tenant runs on this substrate.<div class="desc">apex-platform v0.1.0 :: per-tenant deployment of foundation Bicep</div></div>
   </div>
@@ -791,12 +791,12 @@ app = build_agent_app(runner=AnalystRunner(), agent_id="the-analyst")</code></pr
   <h2 id="ch-1-4">1.4 Two Container Registries, One Path</h2>
   <p>Layer 3 images flow through two <strong>Azure Container Registry</strong> instances (Microsoft's <code class="inline-code">Microsoft.ContainerRegistry/registries</code> resource — see the note in <a href="#front-matter">How to Use This Book</a> for the abbreviation collision):</p>
   <ol>
-    <li><strong>Deloitte authoring registry</strong> — <code class="inline-code">apex-acr.azurecr.io</code>, owned by the Deloitte engineering team. Builds, scans, and signs all agent images. Premium tier with Notary content trust and cosign verification on push. Source of truth for Layer 3 versions.</li>
-    <li><strong>Client tenant registry</strong> — per client Azure tenant, deployed by Layer 1's <code class="inline-code">acr.bicep</code>. Geo-replicated; receives images mirrored from the Deloitte authoring registry by the client's CI subscription. Cosign signature is verified on pull; an unsigned image cannot start.</li>
+    <li><strong>firm authoring registry</strong> — <code class="inline-code">apex-acr.azurecr.io</code>, owned by the engineering team. Builds, scans, and signs all agent images. Premium tier with Notary content trust and cosign verification on push. Source of truth for Layer 3 versions.</li>
+    <li><strong>Client tenant registry</strong> — per client Azure tenant, deployed by Layer 1's <code class="inline-code">acr.bicep</code>. Geo-replicated; receives images mirrored from the authoring registry by the client's CI subscription. Cosign signature is verified on pull; an unsigned image cannot start.</li>
   </ol>
-  <p>The Service's Bicep references the <em>client</em> container registry. The Service never reaches into the Deloitte authoring registry at runtime; that boundary is one of the structural enforcements of the two-contract commercial model. Chapter 11 walks the promotion pipeline.</p>
+  <p>The Service's Bicep references the <em>client</em> container registry. The Service never reaches into the authoring registry at runtime; that boundary is one of the structural enforcements of the two-contract commercial model. Chapter 11 walks the promotion pipeline.</p>
 
-  <aside class="callout warning"><div class="callout-label">Warning</div><p>Do not let a delivery team pull agent images directly from the Deloitte authoring registry into a client tenant. It works on day one and breaks every audit on day ninety. The mirror is not a convenience layer; it is the boundary between Deloitte-built artifacts and client-deployed runtime.</p></aside>
+  <aside class="callout warning"><div class="callout-label">Warning</div><p>Do not let a delivery team pull agent images directly from the authoring registry into a client tenant. It works on day one and breaks every audit on day ninety. The mirror is not a convenience layer; it is the boundary between firm-built artifacts and client-deployed runtime.</p></aside>
 
   <figure class="arch-diagram">
   <svg viewBox="0 0 880 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Two container registries with the Independence boundary">
@@ -814,9 +814,9 @@ app = build_agent_app(runner=AnalystRunner(), agent_id="the-analyst")</code></pr
     <line x1="440" y1="20" x2="440" y2="360" stroke="#C89D3A" stroke-width="2" stroke-dasharray="6 4"/>
     <text x="440" y="14" font-family="Aptos, sans-serif" font-size="10" font-weight="700" letter-spacing="0.15em" fill="#C89D3A" text-anchor="middle">INDEPENDENCE BOUNDARY</text>
 
-    <!-- LEFT: Deloitte Authoring Zone -->
+    <!-- LEFT: The firm's Authoring Zone -->
     <rect x="20" y="30" width="400" height="320" rx="6" fill="rgba(200,157,58,0.04)" stroke="#C89D3A" stroke-width="1.4" stroke-dasharray="6 3"/>
-    <text x="40" y="55" font-family="Aptos, sans-serif" font-size="11" font-weight="700" letter-spacing="0.15em" fill="#C89D3A">DELOITTE AUTHORING SUBSCRIPTION</text>
+    <text x="40" y="55" font-family="Aptos, sans-serif" font-size="11" font-weight="700" letter-spacing="0.15em" fill="#C89D3A">THE FIRM AUTHORING SUBSCRIPTION</text>
     <text x="40" y="76" font-family="Aptos, sans-serif" font-size="14" font-weight="700" fill="#1A2339">Build · Scan · Sign</text>
 
     <!-- Authoring registry box -->
@@ -878,13 +878,13 @@ app = build_agent_app(runner=AnalystRunner(), agent_id="the-analyst")</code></pr
 
     <!-- Forbidden direct access -->
     <line x1="540" y1="280" x2="380" y2="280" stroke="#B8232F" stroke-width="1.5" stroke-dasharray="3 3" marker-start="url(#d2-block)"/>
-    <text x="460" y="295" text-anchor="middle" font-family="Aptos, sans-serif" font-size="10" font-style="italic" fill="#B8232F">runtime never reaches Deloitte authoring registry</text>
+    <text x="460" y="295" text-anchor="middle" font-family="Aptos, sans-serif" font-size="10" font-style="italic" fill="#B8232F">runtime never reaches firm authoring registry</text>
   </svg>
-  <figcaption class="arch-caption">Figure 1.4 — Two container registries divided by the Independence boundary. Image bytes flow Deloitte → Client by <code>az acr import</code> + Microsoft Notation verify. Direct runtime access from the client tenant to the authoring registry is forbidden by construction.</figcaption>
+  <figcaption class="arch-caption">Figure 1.4 — Two container registries divided by the Independence boundary. Image bytes flow the firm → Client by <code>az acr import</code> + Microsoft Notation verify. Direct runtime access from the client tenant to the authoring registry is forbidden by construction.</figcaption>
   </figure>
 
   <div class="arch-legend">
-    <span><span class="lb" style="background:rgba(200,157,58,0.10); border-color:#C89D3A;"></span>Deloitte authoring (synthetic fixtures only)</span>
+    <span><span class="lb" style="background:rgba(200,157,58,0.10); border-color:#C89D3A;"></span>The firm authoring (synthetic fixtures only)</span>
     <span><span class="lb" style="background:rgba(45,212,191,0.10); border-color:#2DD4BF;"></span>Client Azure tenant (per client)</span>
     <span><span class="ll" style="border-color:#C89D3A; border-style:dashed;"></span>Mirror crossing (the only path)</span>
     <span><span class="ll" style="border-color:#B8232F; border-style:dashed;"></span>Forbidden — direct runtime access</span>
@@ -896,8 +896,8 @@ app = build_agent_app(runner=AnalystRunner(), agent_id="the-analyst")</code></pr
     <tr><td>Cadence</td><td>Quarterly · per tenant</td><td>Per Service onboarding · per upgrade</td><td>Continuous · per merge to main</td></tr>
     <tr><td>Versioning</td><td>apex-platform vX.Y.Z</td><td>rc-e2e-03 vX.Y.Z (etc.)</td><td>agent-the-analyst vX.Y.Z (etc.)</td></tr>
     <tr><td>Owns</td><td>ACA Env · container registry · Key Vault · MIs · Log Analytics</td><td>Container Apps · per-Service config · audit schema · KPI envelope</td><td>Image · prompts · MCP tool bindings · runner code</td></tr>
-    <tr><td>Owned by</td><td>Platform engineering (Deloitte) → handed to client ops</td><td>Service owner (Deloitte delivery)</td><td>Agent maintainer (Deloitte engineering)</td></tr>
-    <tr><td>Container registry location</td><td>Per-tenant container registry (Layer 1 outputs login server)</td><td>References Layer 1 container registry</td><td>Built in Deloitte authoring registry · mirrored to Layer 1 container registry</td></tr>
+    <tr><td>Owned by</td><td>Platform engineering (the firm) → handed to client ops</td><td>Service owner (firm delivery)</td><td>Agent maintainer (the firm engineering)</td></tr>
+    <tr><td>Container registry location</td><td>Per-tenant container registry (Layer 1 outputs login server)</td><td>References Layer 1 container registry</td><td>Built in firm authoring registry · mirrored to Layer 1 container registry</td></tr>
     <tr><td>Image references</td><td>n/a (does not host images)</td><td>By SHA digest</td><td>Tagged + signed at build; consumed by digest</td></tr>
   </tbody></table></div>
 
@@ -909,7 +909,7 @@ app = build_agent_app(runner=AnalystRunner(), agent_id="the-analyst")</code></pr
     <h2>Key Takeaways</h2>
     <ul>
       <li>APEX deploys in three layers — Platform (per tenant), Service (per productized envelope), Agent (per container image) — each with its own version, container registry location, and cadence.</li>
-      <li>Two container registries: a Deloitte authoring registry for build &amp; sign, a per-tenant client container registry for runtime pull. Images cross the boundary by mirror + cosign verify.</li>
+      <li>Two container registries: an authoring registry for build &amp; sign, a per-tenant client container registry for runtime pull. Images cross the boundary by mirror + cosign verify.</li>
       <li>Service modules consume Platform outputs and reference Agent images by SHA digest, locking each Service deployment to immutable image content.</li>
     </ul>
   </aside>
@@ -1073,7 +1073,7 @@ app = build_agent_app(runner=AnalystRunner(), agent_id="the-analyst")</code></pr
   </tbody></table></div>
   <p>The point of the four-tier ladder is that each tier is a <em>strict superset</em> of the one below. Components added at DEV are not subtracted at STAGE; they are joined by additional components (Purview catalog hooks, more aggressive observability, real SOR connectors). This is the W1→W2→W3 commitment expressed at deployment: the component graph extends but does not redraw.</p>
 
-  <aside class="callout independence"><div class="callout-label">Independence — Substrate Tiers</div><p>The Lab tier (DEV) lives in a Deloitte-administered Azure subscription with synthetic fixtures only. STAGE and PROD live in <strong>client</strong> subscriptions; Deloitte deploys into client tenants under the Microsoft-platform contract for that client. Lab artifacts never see client data. Client artifacts never run in the Deloitte authoring tenant. This separation is structural, not operational; it is enforced by the container registry boundary in Chapter 1.</p></aside>
+  <aside class="callout independence"><div class="callout-label">Independence — Substrate Tiers</div><p>The Lab tier (DEV) lives in a firm-administered Azure subscription with synthetic fixtures only. STAGE and PROD live in <strong>client</strong> subscriptions; the firm deploys into client tenants under the Microsoft-platform contract for that client. Lab artifacts never see client data. Client artifacts never run in the authoring tenant. This separation is structural, not operational; it is enforced by the container registry boundary in Chapter 1.</p></aside>
 
   <h2 id="ch-2-3">2.3 What Changes Between Substrates</h2>
   <p>Three things change as you move from laptop to Azure:</p>
@@ -1335,53 +1335,53 @@ env: [
     <div class="callout-label"><svg viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" style="width:20px;height:20px;vertical-align:-5px;margin-right:8px;display:inline-block;"><circle cx="12" cy="12" r="11" fill="#C89D3A"/><path d="M13 3 L5 13 L11 13 L9 21 L19 11 L13 11 Z" fill="#1A2339"/></svg>60-second read</div>
     <ul>
       <li>Independence is enforced architecturally — by the container-registry boundary, the subscription boundary, and the ECIF flow path — not just stylistically.</li>
-      <li>Two contracts: client ↔ Microsoft for the platform · client ↔ Deloitte for Service-delivery engagement. ECIF flows direct from Microsoft.</li>
+      <li>Two contracts: client ↔ Microsoft for the platform · client ↔ the firm for Service-delivery engagement. ECIF flows direct from Microsoft.</li>
       <li>Use "DMTSP" · "Microsoft platform capabilities" · "Microsoft-native deployment." Never <em>partner</em> · <em>alliance</em> · <em>strategic alliance</em> in any artifact that survives the engagement.</li>
     </ul>
   </aside>
   <div class="chapter-body">
 
   <h2 id="ch-3-1">3.1 The Two-Contract Model</h2>
-  <p>Independence is the rule that Deloitte's audit relationships with certain clients constrain the way Deloitte and Microsoft can co-sell and co-deliver to those clients. The operational consequence — the only one a deployment architect needs to internalize — is the <strong>two-contract model</strong>:</p>
+  <p>Independence is the rule that the firm's audit relationships with certain clients constrain the way the firm and Microsoft can co-sell and co-deliver to those clients. The operational consequence — the only one a deployment architect needs to internalize — is the <strong>two-contract model</strong>:</p>
   <ul>
     <li><strong>Contract 1.</strong> Client ↔ Microsoft, for the platform. Azure subscription, container registry consumption, Container Apps, Key Vault HSM. ECIF (if any) flows under this contract, direct from Microsoft to the client.</li>
-    <li><strong>Contract 2.</strong> Client ↔ Deloitte, for services. Agent images, Service envelope, runbook delivery, support. Paid for by client out of separately negotiated SOWs.</li>
+    <li><strong>Contract 2.</strong> Client ↔ the firm, for services. Agent images, Service envelope, runbook delivery, support. Paid for by client out of separately negotiated SOWs.</li>
   </ul>
-  <p>The two contracts must not become one. ECIF must not flow through Deloitte. Co-marketing must not present Deloitte as a Microsoft "partner" or "alliance." This chapter covers what that looks like in Bicep, container registry, and runbooks.</p>
+  <p>The two contracts must not become one. ECIF must not flow through the firm. Co-marketing must not present the firm as a Microsoft "partner" or "alliance." This chapter covers what that looks like in Bicep, container registry, and runbooks.</p>
 
   <h2 id="ch-3-2">3.2 Language: What to Say, What Not to Say</h2>
   <div class="table-wrap"><table class="md-table"><thead><tr><th>Use</th><th>Do not use</th></tr></thead><tbody>
-    <tr><td>Deloitte's Microsoft practice</td><td>Deloitte–Microsoft alliance</td></tr>
-    <tr><td>DMTSP (Deloitte Microsoft Technology &amp; Services Practice)</td><td>Strategic alliance</td></tr>
-    <tr><td>Microsoft platform capabilities</td><td>Deloitte–Microsoft partner solution</td></tr>
+    <tr><td>The firm's Microsoft practice</td><td>The firm–Microsoft alliance</td></tr>
+    <tr><td>DMTSP (Microsoft Technology &amp; Services Practice)</td><td>Strategic alliance</td></tr>
+    <tr><td>Microsoft platform capabilities</td><td>The firm–Microsoft partner solution</td></tr>
     <tr><td>Microsoft-native deployment</td><td>Joint go-to-market offering</td></tr>
   </tbody></table></div>
   <p>These distinctions matter in deployment artifacts because runbooks, README files, and Bicep parameter descriptions outlive the person who wrote them. A README that says "Deployed in partnership with Microsoft" will be quoted back at a procurement review three years later.</p>
-  <aside class="callout warning"><div class="callout-label">Warning</div><p>Search every <code class="inline-code">.md</code> and <code class="inline-code">.bicep</code> file in your delivery repo for the substrings <code class="inline-code">partner</code>, <code class="inline-code">alliance</code>, and <code class="inline-code">strategic alliance</code> before any artifact leaves Deloitte. CI hooks for this check are described in Appendix B.</p></aside>
+  <aside class="callout warning"><div class="callout-label">Warning</div><p>Search every <code class="inline-code">.md</code> and <code class="inline-code">.bicep</code> file in your delivery repo for the substrings <code class="inline-code">partner</code>, <code class="inline-code">alliance</code>, and <code class="inline-code">strategic alliance</code> before any artifact leaves the firm. CI hooks for this check are described in Appendix B.</p></aside>
 
   <h2 id="ch-3-3">3.3 Architectural Enforcement of the Two Contracts</h2>
   <p>Independence is not enforced by intent; it is enforced by where artifacts live and whose subscription pays for what.</p>
 
   <h3 id="ch-3-3-1">3.3.1 Container registry boundary</h3>
-  <p>The Deloitte authoring registry is in a Deloitte subscription. The client tenant registry is in the client subscription. Image bytes flow Deloitte → client by mirror + cosign verify. Client deployments pull only from the client registry. There is no path at runtime from a client Container App to the Deloitte authoring registry.</p>
+  <p>The authoring registry is in a subscription. The client tenant registry is in the client subscription. Image bytes flow the firm → client by mirror + cosign verify. Client deployments pull only from the client registry. There is no path at runtime from a client Container App to the authoring registry.</p>
 
   <h3 id="ch-3-3-2">3.3.2 Subscription boundary</h3>
-  <p>Layer 1 Bicep deploys into a <em>client</em> subscription. The Deloitte authoring tenant only ever holds reference deployments (Lab v0.1) with synthetic fixtures. Lab tenants and client tenants share zero data plane; they share only the agent image bytes that flow through the container registry boundary.</p>
+  <p>Layer 1 Bicep deploys into a <em>client</em> subscription. The authoring tenant only ever holds reference deployments (Lab v0.1) with synthetic fixtures. Lab tenants and client tenants share zero data plane; they share only the agent image bytes that flow through the container registry boundary.</p>
 
   <h3 id="ch-3-3-3">3.3.3 ECIF flow</h3>
-  <p>If ECIF (Microsoft's Enterprise Customer Investment Funds) is in play, it flows directly from Microsoft to the client. Deloitte does not invoice the client for Microsoft platform consumption; Microsoft does. Deloitte SOWs are for services only. Bicep has no role in ECIF, but ECIF affects which subscription owns which resource — and that affects which managed identity owns which artifact.</p>
+  <p>If ECIF (Microsoft's Enterprise Customer Investment Funds) is in play, it flows directly from Microsoft to the client. The firm does not invoice the client for Microsoft platform consumption; Microsoft does. firm SOWs are for services only. Bicep has no role in ECIF, but ECIF affects which subscription owns which resource — and that affects which managed identity owns which artifact.</p>
 
-  <aside class="callout independence"><div class="callout-label">Independence — Bicep parameter naming</div><p>When parameterizing tenant-specific Bicep, use names that reflect the boundary: <code class="inline-code">clientTenantId</code>, <code class="inline-code">clientSubscriptionId</code>, <code class="inline-code">clientResourceGroup</code>. Do not name parameters <code class="inline-code">deloittePartnerTenant</code> or <code class="inline-code">jointDeploymentSub</code>. The parameter names are part of the artifact's permanent record.</p></aside>
+  <aside class="callout independence"><div class="callout-label">Independence — Bicep parameter naming</div><p>When parameterizing tenant-specific Bicep, use names that reflect the boundary: <code class="inline-code">clientTenantId</code>, <code class="inline-code">clientSubscriptionId</code>, <code class="inline-code">clientResourceGroup</code>. Do not name parameters <code class="inline-code">firmPartnerTenant</code> or <code class="inline-code">jointDeploymentSub</code>. The parameter names are part of the artifact's permanent record.</p></aside>
 
   <h2 id="ch-3-4">3.4 What This Means for Day-Zero Onboarding</h2>
-  <p>The deployment motion in Chapter 13 begins with the client provisioning the Azure subscription and granting Deloitte's deployment principal a scoped role to deploy Bicep. The Deloitte principal does not own the subscription; it has a delegated permission set that lets it run <code class="inline-code">az deployment sub create</code> against the client subscription for the duration of the engagement. That is the Independence-compatible deployment posture.</p>
-  <p>Concretely, Chapter 13's onboarding checklist starts with five client-side actions before any Deloitte action runs. Appendix B has the full list. If you cannot tick those five client-side boxes before running Bicep, the onboarding is not yet structurally Independence-compatible and must not proceed.</p>
+  <p>The deployment motion in Chapter 13 begins with the client provisioning the Azure subscription and granting the firm's deployment principal a scoped role to deploy Bicep. The principal does not own the subscription; it has a delegated permission set that lets it run <code class="inline-code">az deployment sub create</code> against the client subscription for the duration of the engagement. That is the Independence-compatible deployment posture.</p>
+  <p>Concretely, Chapter 13's onboarding checklist starts with five client-side actions before any action runs. Appendix B has the full list. If you cannot tick those five client-side boxes before running Bicep, the onboarding is not yet structurally Independence-compatible and must not proceed.</p>
 
   <h2 id="ch-3-5">3.5 The Five Things to Remember</h2>
   <ol>
-    <li>Two contracts. Microsoft for platform, Deloitte for services. Always two, never one.</li>
-    <li>ECIF direct, never through Deloitte. The Bicep does not see ECIF; the SOW does.</li>
-    <li>Two container registries. Deloitte builds and signs; client pulls verified images.</li>
+    <li>Two contracts. Microsoft for platform, the firm for services. Always two, never one.</li>
+    <li>ECIF direct, never through the firm. The Bicep does not see ECIF; the SOW does.</li>
+    <li>Two container registries. The firm builds and signs; client pulls verified images.</li>
     <li>"DMTSP" / "Microsoft-native deployment" / "Microsoft platform capabilities" — never "partner," "alliance," "strategic alliance."</li>
     <li>Lab and client tenants share images, never data.</li>
   </ol>
@@ -1392,7 +1392,7 @@ env: [
     <h2>Key Takeaways</h2>
     <ul>
       <li>Independence is enforced architecturally — by the container registry boundary, the subscription boundary, and the ECIF flow path — not just stylistically.</li>
-      <li>Two contracts: Microsoft for platform, Deloitte for services. ECIF flows direct.</li>
+      <li>Two contracts: Microsoft for platform, the firm for services. ECIF flows direct.</li>
       <li>Use "DMTSP," "Microsoft platform capabilities," "Microsoft-native deployment." Never "partner," "alliance," or "strategic alliance" in any artifact that survives the engagement.</li>
     </ul>
   </aside>
@@ -1401,7 +1401,7 @@ env: [
     <h2>Deployment Drills</h2>
     <ol>
       <li>Run a regex search across your delivery repo for the four prohibited phrases. Land any clean-up commits before further work.</li>
-      <li>Walk a deployment runbook and mark every step as "Deloitte-action" or "Client-action." If any step crosses the boundary in a way that a regulator could not reconstruct from the document alone, rewrite it.</li>
+      <li>Walk a deployment runbook and mark every step as "firm-action" or "Client-action." If any step crosses the boundary in a way that a regulator could not reconstruct from the document alone, rewrite it.</li>
       <li>Confirm that your Bicep parameter names do not encode the relationship — search for <code class="inline-code">partner</code>, <code class="inline-code">alliance</code>, <code class="inline-code">joint</code> in the parameter blocks.</li>
     </ol>
   </aside>
@@ -1482,7 +1482,7 @@ env: [
   <p>One <code class="inline-code">Microsoft.ContainerRegistry/registries</code> resource per tenant, Premium SKU. Premium is mandatory; the Layer 1 design depends on Premium-only features:</p>
   <ul>
     <li><strong>Geo-replication</strong> — image pulls from any client region without cross-region latency.</li>
-    <li><strong>Content trust (Notation, Microsoft's signing client)</strong> — required for the cosign-verified mirror from the Deloitte authoring registry. The Microsoft Notation specification is the trust path; cosign signatures co-exist for cross-tool compatibility.</li>
+    <li><strong>Content trust (Notation, Microsoft's signing client)</strong> — required for the cosign-verified mirror from the authoring registry. The Microsoft Notation specification is the trust path; cosign signatures co-exist for cross-tool compatibility.</li>
     <li><strong>Zone redundancy</strong> — Premium-only, required for STAGE and PROD.</li>
     <li><strong>Customer-managed key encryption</strong> — the Premium Azure Container Registry encrypts at rest with the Layer 1 CMK from <code class="inline-code">Microsoft.KeyVault/vaults/keys</code>, completing the BYOK chain.</li>
   </ul>
@@ -1598,7 +1598,7 @@ resource cmk 'Microsoft.KeyVault/vaults/keys@2023-07-01' = {
   }
 }</code></pre></div>
 
-  <aside class="callout independence"><div class="callout-label">Independence — Why HSM is non-negotiable</div><p>The two-contract model puts the platform on the <em>client's</em> Azure subscription. The CMK that encrypts container registry images, Key Vault secrets, and (eventually) Cosmos DB / Azure SQL data must be a key the client controls cryptographically, not just administratively. <code class="inline-code">RSA-HSM</code> guarantees the private key has never left a Microsoft-validated HSM. A software-protected key would let a Deloitte deployment principal export key material; HSM forecloses that even theoretically. Premium is the only Key Vault SKU that supports HSM-backed keys.</p></aside>
+  <aside class="callout independence"><div class="callout-label">Independence — Why HSM is non-negotiable</div><p>The two-contract model puts the platform on the <em>client's</em> Azure subscription. The CMK that encrypts container registry images, Key Vault secrets, and (eventually) Cosmos DB / Azure SQL data must be a key the client controls cryptographically, not just administratively. <code class="inline-code">RSA-HSM</code> guarantees the private key has never left a Microsoft-validated HSM. A software-protected key would let a deployment principal export key material; HSM forecloses that even theoretically. Premium is the only Key Vault SKU that supports HSM-backed keys.</p></aside>
 
   <h2 id="ch-4-5">4.5 Microsoft.OperationalInsights and Microsoft.Insights — Azure Monitor Substrate</h2>
   <p>Layer 1 deploys one <code class="inline-code">Microsoft.OperationalInsights/workspaces</code> per tenant and one <code class="inline-code">Microsoft.Insights/components</code> bound to it. This is the <strong>Azure Monitor</strong> substrate; every Container App in every Service in the tenant emits to this workspace by default. Microsoft Sentinel attaches to the workspace as a separate resource if the client tenant licenses it.</p>
@@ -3577,7 +3577,7 @@ sql-&lt;service-code&gt;-&lt;suffix&gt;                      // Microsoft.Sql/se
   'apex:practice':      'RC'
   'apex:domain':        'Pricing &amp; Revenue'
   'apex:tenant-suffix': deploymentSuffix
-  'apex:owner':         'deloitte-mvp-engineering'
+  'apex:owner':         'apex-mvp-engineering'
 }</code></pre></div>
 
   <p>Tagging is Microsoft.Resources-native; Microsoft Cost Management aggregates by tag for per-Service cost attribution, which feeds the W3 outcome-based commercial envelope.</p>
@@ -3730,8 +3730,8 @@ sql-&lt;service-code&gt;-&lt;suffix&gt;                      // Microsoft.Sql/se
 <section class="part-opener" id="part-4">
   <div class="part-label">Part IV</div>
   <h1 class="part-title">Layer 3 — Agent</h1>
-  <p class="part-intro">Day 31. The Service is wired but its container slots are empty. Priya needs to pull <strong>The Pricer</strong>, <strong>The Demand Checker</strong>, <strong>The Finance Lead</strong>, <strong>The Operations Lead</strong>, and <strong>The Analyst</strong> — five published agent images, by SHA digest, from the Deloitte authoring registry, into the client tenant's own Microsoft.ContainerRegistry. The same image bytes serve every Service in the catalog that needs The Pricer; only the runtime configuration changes per Service. Priya doesn't rebuild. She <em>pulls</em>.</p>
-  <p class="part-intro">An Agent is a <strong>Microsoft.ContainerRegistry-hosted container image</strong>. It is built once in the Deloitte authoring registry by the agent-authoring team; signed with Microsoft Notation and cosign; the signature attestation is verified at every pull; the SHA digest is what the Service Bicep references. By the time an image arrives in a client tenant, every byte is provably traceable to the source commit and the build pipeline that produced it. This is the discipline that lets one image run unchanged in Sprint 42 of the engagement, in production for two years, and still cleanly upgrade in Wave 3.</p>
+  <p class="part-intro">Day 31. The Service is wired but its container slots are empty. Priya needs to pull <strong>The Pricer</strong>, <strong>The Demand Checker</strong>, <strong>The Finance Lead</strong>, <strong>The Operations Lead</strong>, and <strong>The Analyst</strong> — five published agent images, by SHA digest, from the authoring registry, into the client tenant's own Microsoft.ContainerRegistry. The same image bytes serve every Service in the catalog that needs The Pricer; only the runtime configuration changes per Service. Priya doesn't rebuild. She <em>pulls</em>.</p>
+  <p class="part-intro">An Agent is a <strong>Microsoft.ContainerRegistry-hosted container image</strong>. It is built once in the authoring registry by the agent-authoring team; signed with Microsoft Notation and cosign; the signature attestation is verified at every pull; the SHA digest is what the Service Bicep references. By the time an image arrives in a client tenant, every byte is provably traceable to the source commit and the build pipeline that produced it. This is the discipline that lets one image run unchanged in Sprint 42 of the engagement, in production for two years, and still cleanly upgrade in Wave 3.</p>
   <p class="part-intro">Six chapters cover the agent layer. <strong>Chapter 10</strong> walks the image pipeline — what the agent author ships, how the image arrives in the client registry. <strong>Chapter 11</strong> covers agent reuse — why the same image serves every Service that lists it in its Bicep. <strong>Chapter 11.5</strong> is the deployment-time integration with Microsoft Agent Framework — how the Loader binds the image's runtime to the Service's MCP tools and HITL config. <strong>Chapter 11.6</strong> deploys the Responsible AI controls (Azure AI Content Safety, eval-gate scripts, model-card publication). <strong>Chapter 12</strong> covers versioning and compatibility — the SemVer per layer, the compatibility matrix that pins a Service version to compatible agent ranges. <strong>Chapter 12A</strong> closes with the networking and observability deep dive that ties everything to Sentinel and Log Analytics.</p>
   <div class="part-chapters">
     <h2>Chapters in this Part</h2>
@@ -3767,7 +3767,7 @@ sql-&lt;service-code&gt;-&lt;suffix&gt;                      // Microsoft.Sql/se
     <ul>
       <li>Agent images expose a uniform <code class="inline-code">/run</code> + <code class="inline-code">/healthz</code> FastAPI surface — the only Layer 2 ↔ Layer 3 coupling.</li>
       <li>Pipeline: Microsoft.ContainerRegistry build → Microsoft Defender for Containers scan → Microsoft Notation + cosign sign → notation verify → ACR import mirror → pull-time verify.</li>
-      <li>Trust policy is "strict" with explicit Deloitte authoring trust store; weaker levels void the audit narrative.</li>
+      <li>Trust policy is "strict" with explicit the firm authoring trust store; weaker levels void the audit narrative.</li>
       <li>The mirror across registries is the structural enforcement of the two-contract Independence boundary at Layer 3.</li>
     </ul>
   </aside>
@@ -3799,7 +3799,7 @@ app: FastAPI = build_agent_app(runner=AnalystRunner(), agent_id="the-analyst")
   <h2 id="ch-10-2">10.2 The Microsoft.ContainerRegistry Pipeline</h2>
   <p>An agent image traverses six stages, each a Microsoft platform action:</p>
   <ol>
-    <li><strong>Build</strong> — <code class="inline-code">az acr build</code> against the Deloitte authoring registry (<code class="inline-code">apex-acr.azurecr.io</code>). The build runs inside Microsoft.ContainerRegistry's task service; no laptop docker daemon required.</li>
+    <li><strong>Build</strong> — <code class="inline-code">az acr build</code> against the authoring registry (<code class="inline-code">apex-acr.azurecr.io</code>). The build runs inside Microsoft.ContainerRegistry's task service; no laptop docker daemon required.</li>
     <li><strong>Scan</strong> — Microsoft Defender for Containers auto-scans on push. Vulnerabilities above policy threshold block the next stage.</li>
     <li><strong>Sign</strong> — Microsoft Notation (<code class="inline-code">notation sign</code>) and cosign (<code class="inline-code">cosign sign</code>) produce two signatures stored as ORAS artifacts alongside the image. Notation is Microsoft-native; cosign is included for cross-tool ecosystem compatibility.</li>
     <li><strong>Verify</strong> — <code class="inline-code">notation verify</code> confirms the signature matches the trust policy. Unsigned images cannot proceed.</li>
@@ -3831,7 +3831,7 @@ az acr import \
 
 # 6. Pull is implicit (Container App revision triggers it)</code></pre></div>
 
-  <aside class="callout independence"><div class="callout-label">Independence — The mirror is the boundary</div><p>The mirror in step 5 is the only artifact that crosses from the Deloitte authoring tenant to a client tenant. It carries image bytes + signatures, never source, never secrets, never client data. Audit reconstructions can show, for any client deployment, exactly which image digest was mirrored and when, signed by whom, scanned by which Microsoft Defender policy version. That paper trail is the structural proof of the two-contract model at the Layer 3 boundary.</p></aside>
+  <aside class="callout independence"><div class="callout-label">Independence — The mirror is the boundary</div><p>The mirror in step 5 is the only artifact that crosses from the authoring tenant to a client tenant. It carries image bytes + signatures, never source, never secrets, never client data. Audit reconstructions can show, for any client deployment, exactly which image digest was mirrored and when, signed by whom, scanned by which Microsoft Defender policy version. That paper trail is the structural proof of the two-contract model at the Layer 3 boundary.</p></aside>
 
   <figure class="arch-diagram">
   <svg viewBox="0 0 880 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Agent image pipeline — six-stage Microsoft platform pipeline">
@@ -3846,7 +3846,7 @@ az acr import \
 
     <!-- Authoring zone -->
     <rect x="20" y="20" width="540" height="180" rx="6" fill="rgba(200,157,58,0.04)" stroke="#C89D3A" stroke-width="1.4" stroke-dasharray="6 3"/>
-    <text x="40" y="42" font-family="Aptos, sans-serif" font-size="11" font-weight="700" letter-spacing="0.15em" fill="#C89D3A">DELOITTE AUTHORING SUBSCRIPTION</text>
+    <text x="40" y="42" font-family="Aptos, sans-serif" font-size="11" font-weight="700" letter-spacing="0.15em" fill="#C89D3A">THE FIRM AUTHORING SUBSCRIPTION</text>
 
     <!-- Stage 1: Build -->
     <rect x="40" y="60" width="100" height="86" rx="5" fill="rgba(59,130,246,0.08)" stroke="#3B82F6"/>
@@ -3945,8 +3945,8 @@ az acr import \
         "level": "strict",
         "override": {}
       },
-      "trustStores": [ "ca:apex-deloitte-authoring" ],
-      "trustedIdentities": [ "x509.subject:CN=APEX Authoring,O=Deloitte" ]
+      "trustStores": [ "ca:apex-firm-authoring" ],
+      "trustedIdentities": [ "x509.subject:CN=APEX Authoring,O=the firm" ]
     }
   ]
 }</code></pre></div>
@@ -3956,7 +3956,7 @@ az acr import \
   <h2 id="ch-10-4">10.4 Microsoft Defender for Containers Scan Gate</h2>
   <p>Microsoft Defender for Containers scans every image on push and on pull and emits assessments to Microsoft Defender for Cloud. The pipeline reads the assessment and gates promotion:</p>
   <div class="table-wrap"><table class="md-table"><thead><tr><th>Severity</th><th>Action</th><th>Rationale</th></tr></thead><tbody>
-    <tr><td>High / Critical</td><td>Block — fail the build</td><td>Vulnerable bytes do not progress beyond Deloitte authoring registry</td></tr>
+    <tr><td>High / Critical</td><td>Block — fail the build</td><td>Vulnerable bytes do not progress beyond firm authoring registry</td></tr>
     <tr><td>Medium</td><td>Block by default; document override required</td><td>Override needs explicit Service-owner signoff with mitigating-control reference</td></tr>
     <tr><td>Low / Informational</td><td>Allow with logging</td><td>Tracked, not blocking</td></tr>
   </tbody></table></div>
@@ -3970,7 +3970,7 @@ az acr import \
     <ul>
       <li>Agent images expose a uniform <code class="inline-code">/run</code> + <code class="inline-code">/healthz</code> FastAPI surface — the only Layer 2 ↔ Layer 3 coupling.</li>
       <li>Pipeline: Microsoft.ContainerRegistry build → Microsoft Defender for Containers scan → Microsoft Notation + cosign sign → notation verify → container registry import mirror → pull-time verify.</li>
-      <li>Trust policy is "strict" with an explicit Deloitte authoring trust store; weaker levels void the audit narrative.</li>
+      <li>Trust policy is "strict" with an explicit the firm authoring trust store; weaker levels void the audit narrative.</li>
       <li>The mirror across registries is the structural enforcement of the two-contract Independence boundary at Layer 3.</li>
     </ul>
   </aside>
@@ -3979,7 +3979,7 @@ az acr import \
     <h2>Deployment Drills</h2>
     <ol>
       <li>Walk the six pipeline stages against your Lab. For each, find the Microsoft tool invocation and the artifact it produces.</li>
-      <li>Inspect the notation trust policy currently in effect for your client-tenant container registry. Confirm it is set to "strict" and the trustedIdentities list matches the Deloitte authoring CA.</li>
+      <li>Inspect the notation trust policy currently in effect for your client-tenant container registry. Confirm it is set to "strict" and the trustedIdentities list matches the authoring CA.</li>
       <li>Run <code class="inline-code">az acr repository show-manifests</code> on your authoring container registry for one agent image; identify the ORAS artifacts holding the Notation and cosign signatures.</li>
     </ol>
   </aside>
@@ -4673,7 +4673,7 @@ verified_combinations:
   <p>The Service Bicep parameter file references specific image SHA digests (Chapter 8); the compatibility matrix records the version <em>range</em> within which those digests are known to interoperate. A new agent minor version that falls within range can be promoted to a Service deployment without changing the Service version. A new agent major version requires a Service minor or major bump.</p>
 
   <h2 id="ch-12-3">12.3 The Attestation Trail</h2>
-  <p>Microsoft Notation signatures and cosign attestations travel with each image as ORAS artifacts. The cosign attestation can carry arbitrary in-toto predicates; the APEX pipeline writes a predicate of type <code class="inline-code">apex.deloitte/agent-attestation</code> with:</p>
+  <p>Microsoft Notation signatures and cosign attestations travel with each image as ORAS artifacts. The cosign attestation can carry arbitrary in-toto predicates; the APEX pipeline writes a predicate of type <code class="inline-code">apex.example/agent-attestation</code> with:</p>
   <ul>
     <li>Image SHA digest</li>
     <li>Agent SemVer + git commit SHA of source</li>
@@ -4721,7 +4721,7 @@ verified_combinations:
   <h1 class="part-title">The Deployment Motion</h1>
   <p class="part-intro">Day 46. Priya's first client tenant is provisioned end-to-end. The image SHAs are pulled. The Service Bicep is deployed. The first synthetic excursion event has flowed all the way from a test trigger to a Microsoft Teams adaptive card and back. Everything she did to get here was a series of choices — but the playbook those choices instantiated is the same playbook that will run for the second client, and the third, and the tenth. <strong>The deployment motion is what makes Priya's engagement reproducible.</strong></p>
   <p class="part-intro">Four motions run in this order across every engagement, plus a fifth that activates only when something has gone wrong: (1) <em>Day-Zero tenant onboarding</em> — stand up Layer 1 in a fresh Azure subscription. (2) <em>Add a Service</em> — Layer 2 module onto an existing Layer 1, idempotently. (3) <em>Agent upgrades</em> — image SHA promotion across the Services that compose an agent, with canary traffic and observability gates. (4) <em>Rollback and disaster recovery</em> — the discipline that turns a bad deploy into 30 minutes of lost time instead of a weekend incident. (5) <em>Failure scenarios and chaos engineering</em> — preemptive testing so that when something fails in production, you've already proven the recovery path.</p>
-  <p class="part-intro">Five chapters: <strong>Ch 13 (Day-Zero)</strong> · <strong>Ch 14 (Add Service)</strong> · <strong>Ch 15 (Agent Upgrades)</strong> · <strong>Ch 16 (Rollback &amp; DR)</strong> · <strong>Ch 16.5 (Failure Scenarios &amp; Chaos)</strong>. Each motion is documented as <em>step · expected outcome · failure mode · recovery</em>. Priya's next engagement — and the engagement after that — will follow the same five tracks. The motions are what convert "Priya knows how" into "Deloitte's Microsoft practice ships."</p>
+  <p class="part-intro">Five chapters: <strong>Ch 13 (Day-Zero)</strong> · <strong>Ch 14 (Add Service)</strong> · <strong>Ch 15 (Agent Upgrades)</strong> · <strong>Ch 16 (Rollback &amp; DR)</strong> · <strong>Ch 16.5 (Failure Scenarios &amp; Chaos)</strong>. Each motion is documented as <em>step · expected outcome · failure mode · recovery</em>. Priya's next engagement — and the engagement after that — will follow the same five tracks. The motions are what convert "Priya knows how" into "the firm's Microsoft practice ships."</p>
   <div class="part-chapters">
     <h2>Chapters in this Part</h2>
     <ul>
@@ -5116,7 +5116,7 @@ ApexLedger_CL
     <div class="objectives-label">What This Chapter Does for You</div>
     <ul>
       <li>Sequences the actions that stand up the APEX Platform in a brand-new client Azure tenant.</li>
-      <li>Splits client-side actions from Deloitte-side actions — the Independence boundary made operational.</li>
+      <li>Splits client-side actions from firm-side actions — the Independence boundary made operational.</li>
       <li>Validates the Platform with a smoke test before any Service is added.</li>
     </ul>
   </aside>
@@ -5124,7 +5124,7 @@ ApexLedger_CL
     <div class="callout-label"><svg viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" style="width:20px;height:20px;vertical-align:-5px;margin-right:8px;display:inline-block;"><circle cx="12" cy="12" r="11" fill="#C89D3A"/><path d="M13 3 L5 13 L11 13 L9 21 L19 11 L13 11 Z" fill="#1A2339"/></svg>60-second read</div>
     <ul>
       <li>Day-Zero is sequenced: client prerequisites → Bicep what-if → Layer 1 deploy → smoke test → handoff.</li>
-      <li>Five client-side prerequisites must tick before Deloitte runs Bicep — they instantiate client ownership of the Microsoft platform.</li>
+      <li>Five client-side prerequisites must tick before the firm runs Bicep — they instantiate client ownership of the Microsoft platform.</li>
       <li>Smoke test confirms all seven Microsoft resource types are live · Defender is scanning · Notation verifies · Container App revisions deploy · Microsoft.KeyVault HSM crypto operates.</li>
       <li>Handoff artifact is the Tenant Profile YAML — every subsequent Service onboarding consumes it.</li>
       <li>Hands-on walkthrough of all of this lives in <a href="#ch-17">Ch 17 — Day-Zero in Practice</a>.</li>
@@ -5143,7 +5143,7 @@ ApexLedger_CL
   <p>The full step-by-step is in Appendix B; this chapter is the narrative.</p>
 
   <figure class="arch-diagram">
-  <svg viewBox="0 0 880 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Day-Zero tenant onboarding sequence — client, Deloitte, Microsoft platform">
+  <svg viewBox="0 0 880 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Day-Zero tenant onboarding sequence — client, the firm, Microsoft platform">
     <defs>
       <marker id="d7-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
         <path d="M0,0 L10,5 L0,10 z" fill="#64748B"/>
@@ -5151,18 +5151,18 @@ ApexLedger_CL
       <marker id="d7-client" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
         <path d="M0,0 L10,5 L0,10 z" fill="#3B82F6"/>
       </marker>
-      <marker id="d7-deloitte" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <marker id="d7-firm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
         <path d="M0,0 L10,5 L0,10 z" fill="#C89D3A"/>
       </marker>
     </defs>
 
-    <!-- Three lifelines: Client, Deloitte, Microsoft Azure -->
+    <!-- Three lifelines: Client, the firm, Microsoft Azure -->
     <!-- Header strips -->
     <rect x="40" y="20" width="240" height="36" rx="4" fill="rgba(59,130,246,0.10)" stroke="#3B82F6"/>
     <text x="160" y="43" text-anchor="middle" font-family="Aptos, sans-serif" font-size="13" font-weight="700" fill="#1A2339">CLIENT</text>
 
     <rect x="320" y="20" width="240" height="36" rx="4" fill="rgba(200,157,58,0.10)" stroke="#C89D3A"/>
-    <text x="440" y="43" text-anchor="middle" font-family="Aptos, sans-serif" font-size="13" font-weight="700" fill="#1A2339">DELOITTE deployment principal</text>
+    <text x="440" y="43" text-anchor="middle" font-family="Aptos, sans-serif" font-size="13" font-weight="700" fill="#1A2339">THE FIRM deployment principal</text>
 
     <rect x="600" y="20" width="240" height="36" rx="4" fill="rgba(45,212,191,0.10)" stroke="#2DD4BF"/>
     <text x="720" y="43" text-anchor="middle" font-family="Aptos, sans-serif" font-size="13" font-weight="700" fill="#1A2339">MICROSOFT AZURE</text>
@@ -5196,12 +5196,12 @@ ApexLedger_CL
     <rect x="20" y="180" width="20" height="80" fill="#C89D3A" opacity="0.7"/>
     <text x="30" y="200" font-family="Aptos, sans-serif" font-size="9" font-weight="700" letter-spacing="0.15em" fill="#fff" transform="rotate(-90 30 200)" text-anchor="end">PHASE 2 · BICEP DRY RUN</text>
 
-    <!-- Step 5: Deloitte authenticates -->
-    <line x1="440" y1="200" x2="710" y2="200" stroke="#C89D3A" stroke-width="1.4" marker-end="url(#d7-deloitte)"/>
+    <!-- Step 5: The firm authenticates -->
+    <line x1="440" y1="200" x2="710" y2="200" stroke="#C89D3A" stroke-width="1.4" marker-end="url(#d7-firm)"/>
     <text x="450" y="194" font-family="Aptos, sans-serif" font-size="10" font-weight="700" fill="#1A2339">5. az login --service-principal --federated-token</text>
 
     <!-- Step 6: what-if -->
-    <line x1="440" y1="225" x2="710" y2="225" stroke="#C89D3A" stroke-width="1.4" marker-end="url(#d7-deloitte)"/>
+    <line x1="440" y1="225" x2="710" y2="225" stroke="#C89D3A" stroke-width="1.4" marker-end="url(#d7-firm)"/>
     <text x="450" y="219" font-family="Aptos, sans-serif" font-size="10" font-weight="700" fill="#1A2339">6. az deployment sub what-if · review with client architect</text>
 
     <!-- Step 7: client architect approval back -->
@@ -5213,7 +5213,7 @@ ApexLedger_CL
     <text x="30" y="288" font-family="Aptos, sans-serif" font-size="9" font-weight="700" letter-spacing="0.15em" fill="#fff" transform="rotate(-90 30 288)" text-anchor="end">PHASE 3 · LAYER 1 DEPLOY</text>
 
     <!-- Step 8: deploy -->
-    <line x1="440" y1="290" x2="710" y2="290" stroke="#C89D3A" stroke-width="1.4" marker-end="url(#d7-deloitte)"/>
+    <line x1="440" y1="290" x2="710" y2="290" stroke="#C89D3A" stroke-width="1.4" marker-end="url(#d7-firm)"/>
     <text x="450" y="284" font-family="Aptos, sans-serif" font-size="10" font-weight="700" fill="#1A2339">8. az deployment sub create · main.bicep</text>
 
     <!-- Step 9: Microsoft provisions -->
@@ -5227,7 +5227,7 @@ ApexLedger_CL
     <text x="30" y="395" font-family="Aptos, sans-serif" font-size="9" font-weight="700" letter-spacing="0.15em" fill="#fff" transform="rotate(-90 30 395)" text-anchor="end">PHASE 4 · SMOKE TEST</text>
 
     <!-- Step 10: import test image -->
-    <line x1="440" y1="395" x2="710" y2="395" stroke="#C89D3A" stroke-width="1.4" marker-end="url(#d7-deloitte)"/>
+    <line x1="440" y1="395" x2="710" y2="395" stroke="#C89D3A" stroke-width="1.4" marker-end="url(#d7-firm)"/>
     <text x="450" y="389" font-family="Aptos, sans-serif" font-size="10" font-weight="700" fill="#1A2339">9. az acr import test image · notation verify · KeyVault sign</text>
 
     <!-- Step 11: emit telemetry -->
@@ -5239,21 +5239,21 @@ ApexLedger_CL
     <text x="30" y="478" font-family="Aptos, sans-serif" font-size="9" font-weight="700" letter-spacing="0.15em" fill="#fff" transform="rotate(-90 30 478)" text-anchor="end">PHASE 5 · HANDOFF</text>
 
     <!-- Step 12: Tenant Profile committed -->
-    <line x1="440" y1="485" x2="170" y2="485" stroke="#C89D3A" stroke-width="1.4" marker-end="url(#d7-deloitte)"/>
+    <line x1="440" y1="485" x2="170" y2="485" stroke="#C89D3A" stroke-width="1.4" marker-end="url(#d7-firm)"/>
     <text x="180" y="479" font-family="Aptos, sans-serif" font-size="10" font-weight="700" fill="#1A2339">11. Tenant Profile YAML committed · catalog registered</text>
     <text x="180" y="503" font-family="Aptos, sans-serif" font-size="10" font-style="italic" fill="#64748B">consumed by every subsequent Service onboarding (§14)</text>
   </svg>
-  <figcaption class="arch-caption">Figure 13.1 — Day-Zero tenant onboarding sequence. Five client-side prerequisites tick before the Deloitte deployment principal authenticates; Layer 1 deploys in 12–18 minutes; smoke test confirms Microsoft platform health; handoff produces the Tenant Profile that anchors every later Service onboarding.</figcaption>
+  <figcaption class="arch-caption">Figure 13.1 — Day-Zero tenant onboarding sequence. Five client-side prerequisites tick before the deployment principal authenticates; Layer 1 deploys in 12–18 minutes; smoke test confirms Microsoft platform health; handoff produces the Tenant Profile that anchors every later Service onboarding.</figcaption>
   </figure>
 
   <div class="arch-legend">
     <span><span class="ll" style="border-color:#3B82F6;"></span>Client action</span>
-    <span><span class="ll" style="border-color:#C89D3A;"></span>Deloitte action</span>
+    <span><span class="ll" style="border-color:#C89D3A;"></span>The firm action</span>
     <span><span class="ll" style="border-color:#2DD4BF; border-style:dashed;"></span>Microsoft platform response</span>
   </div>
 
   <h2 id="ch-13-2">13.2 Client-Side Prerequisites (Five Boxes That Must Tick First)</h2>
-  <p>Before a Deloitte deployment principal touches the client subscription, the client must complete five actions. None of them is technical heavy lifting; all of them are structural prerequisites of the two-contract model.</p>
+  <p>Before a deployment principal touches the client subscription, the client must complete five actions. None of them is technical heavy lifting; all of them are structural prerequisites of the two-contract model.</p>
   <ol>
     <li><strong>Provision the Azure subscription</strong> under the client's Enterprise Agreement. Microsoft platform consumption flows under the client's MS contract.</li>
     <li><strong>Enable Microsoft Defender for Cloud at subscription scope</strong>, including Microsoft Defender for Containers, Microsoft Defender for Key Vault, Microsoft Defender for App Service.</li>
@@ -5262,10 +5262,10 @@ ApexLedger_CL
     <li><strong>(If applicable) Enable Microsoft Sentinel</strong> as a workspace solution — to be attached after Layer 1's Log Analytics workspace exists.</li>
   </ol>
 
-  <aside class="callout independence"><div class="callout-label">Independence — Why these are client-side</div><p>Each of the five prerequisites instantiates client ownership of the platform. The subscription is the client's; the Defender posture is the client's regulatory choice; the deployment principal is the client's gatekeeper for Deloitte access. If Deloitte performs any of these, the structural separation slips. Day-Zero will not begin until all five are confirmed.</p></aside>
+  <aside class="callout independence"><div class="callout-label">Independence — Why these are client-side</div><p>Each of the five prerequisites instantiates client ownership of the platform. The subscription is the client's; the Defender posture is the client's regulatory choice; the deployment principal is the client's gatekeeper for the firm access. If the firm performs any of these, the structural separation slips. Day-Zero will not begin until all five are confirmed.</p></aside>
 
   <h2 id="ch-13-3">13.3 The Bicep Dry Run</h2>
-  <p>With prerequisites green, the Deloitte deployment principal authenticates into the client subscription and runs the what-if. Two shells are equally supported — Azure CLI and Az PowerShell — both call the same Microsoft.Resources REST API.</p>
+  <p>With prerequisites green, the deployment principal authenticates into the client subscription and runs the what-if. Two shells are equally supported — Azure CLI and Az PowerShell — both call the same Microsoft.Resources REST API.</p>
   <div class="code-block"><div class="code-lang">SHELL — what-if before deploy (Azure CLI / bash)</div><pre><code>az login --service-principal \
    -u $DEPLOY_SP_APP_ID \
    --federated-token "$FEDERATED_TOKEN" \
@@ -5338,7 +5338,7 @@ managed_identities:
     <h2>Key Takeaways</h2>
     <ul>
       <li>Day-Zero is sequenced: client prerequisites → Bicep what-if → Layer 1 deploy → smoke test → handoff.</li>
-      <li>Five client-side prerequisites must tick before Deloitte runs Bicep — they instantiate client ownership of the Microsoft platform.</li>
+      <li>Five client-side prerequisites must tick before the firm runs Bicep — they instantiate client ownership of the Microsoft platform.</li>
       <li>Smoke test confirms all seven Microsoft resource types are live, Defender is scanning, Notation verifies, Container App revisions deploy, Microsoft.KeyVault HSM crypto operates.</li>
       <li>Handoff artifact is the Tenant Profile YAML — every subsequent Service onboarding consumes it.</li>
     </ul>
@@ -5348,7 +5348,7 @@ managed_identities:
     <h2>Deployment Drills</h2>
     <ol>
       <li>Run a Day-Zero against your Lab subscription using a fresh deployment suffix. Time each phase. Identify the slowest Microsoft resource and whether it is on the critical path.</li>
-      <li>Walk Appendix B's checklist with the role of "client architect." Note any line item that requires Deloitte authority to confirm — those are Independence-boundary smells.</li>
+      <li>Walk Appendix B's checklist with the role of "client architect." Note any line item that requires the firm authority to confirm — those are Independence-boundary smells.</li>
       <li>Open the Tenant Profile of an existing Lab deployment. Verify every resource ID resolves with <code class="inline-code">az resource show</code>.</li>
     </ol>
   </aside>
@@ -5399,7 +5399,7 @@ managed_identities:
     <tr><td>11</td><td>HITL threshold config provisioned in Key Vault for every <code class="inline-code">decide</code> + <code class="inline-code">act</code> agent</td><td>Azure Key Vault + APEX-M HITL gate config</td><td>DP-3</td></tr>
     <tr><td>12</td><td>The use case's <code class="inline-code">client_approved_architecture</code> block resolves — every adapter ref in scope, every persona id in <code class="inline-code">_personas.yaml</code>, every KPI id in <code class="inline-code">_kpis.yaml</code></td><td>APEX wizard validator</td><td>—</td></tr>
     <tr><td>13</td><td>Foundry project private networking enabled (BYO VNet, delegated subnet) for any tenant in <code class="inline-code">stage</code> or <code class="inline-code">prod</code> substrate</td><td>Foundry Standard Setup with Private Networking (per ch 7)</td><td>NS-1</td></tr>
-    <tr><td>14</td><td>Per-engagement Independence consultation cleared for every adapter in scope (per <code class="inline-code">apex-adapters/.../sec_independence.md</code>)</td><td>Deloitte Independence Office</td><td>—</td></tr>
+    <tr><td>14</td><td>Per-engagement Independence consultation cleared for every adapter in scope (per <code class="inline-code">apex-adapters/.../sec_independence.md</code>)</td><td>Independence Office</td><td>—</td></tr>
   </tbody></table></div>
 
   <h2 id="ch-13-5-3">13.5.3 Operator workflow</h2>
@@ -5409,7 +5409,7 @@ managed_identities:
   <h2 id="ch-13-5-4">13.5.4 What this chapter is NOT</h2>
   <ul>
     <li>It is not a substitute for client information-security review. Client's CISO chain reviews APEX-M deployment posture independently; this gate is the tenant SRE's pre-flight check.</li>
-    <li>It is not a substitute for the Independence consultation per Deloitte's Microsoft Technology &amp; Services Practice. Item #14 is the gate; the consultation is the substance.</li>
+    <li>It is not a substitute for the Independence consultation per the firm's Microsoft Technology &amp; Services Practice. Item #14 is the gate; the consultation is the substance.</li>
     <li>It is not optional for production tenants. Lab and Dev substrates may waive items 7, 8, 13 with documented sign-off. Stage and Prod must satisfy every item.</li>
   </ul>
 
@@ -5420,7 +5420,7 @@ managed_identities:
       <li>14 gate items split between structural (one-time per tenant) and per-deployment (per wave); every Stage/Prod tenant must satisfy all.</li>
       <li>Wizard render refuses to emit Bicep parameters when any gate is red.</li>
       <li>Each gate cites the Microsoft control and the Microsoft Cloud Security Benchmark v2 AI Security baseline control id.</li>
-      <li>Independence consultation is gate #14 — Deloitte Independence Office signs off per adapter in scope.</li>
+      <li>Independence consultation is gate #14 — Independence Office signs off per adapter in scope.</li>
     </ul>
   </aside>
 </article>
@@ -5455,7 +5455,7 @@ managed_identities:
   <p>For any Service from Appendix E being added to a tenant whose Layer 1 is live:</p>
   <ol>
     <li><strong>Confirm the Tenant Profile exists</strong> and Layer 1 version satisfies the Service's <code class="inline-code">platform_compatible</code> range.</li>
-    <li><strong>Mirror agent images</strong> the Service composes from the Deloitte authoring registry to the tenant container registry. Each <code class="inline-code">az acr import</code> brings bytes + Microsoft Notation signatures + cosign attestations.</li>
+    <li><strong>Mirror agent images</strong> the Service composes from the authoring registry to the tenant container registry. Each <code class="inline-code">az acr import</code> brings bytes + Microsoft Notation signatures + cosign attestations.</li>
     <li><strong>Materialize Service-scoped secrets</strong> — Microsoft.KeyVault/vaults/secrets entries with <code class="inline-code">&lt;service-code&gt;-*</code> prefix.</li>
     <li><strong>Run Service Bicep what-if</strong> against the tenant subscription, parameterized by the Tenant Profile + agent SHA digests + Service version.</li>
     <li><strong>Deploy Service Bicep</strong> on approval. Microsoft.App/containerApps come up; Microsoft.Storage / Microsoft.DocumentDB / Microsoft.Sql per-Service stores come up.</li>
@@ -5542,7 +5542,7 @@ managed_identities:
   <div class="chapter-body">
 
   <h2 id="ch-15-1">15.1 What "Agent Upgrade" Means at Each Layer</h2>
-  <p>An agent upgrade is, at the byte level, a new SHA digest in the Deloitte authoring registry. What it triggers depends on whether the bump is patch, minor, or major:</p>
+  <p>An agent upgrade is, at the byte level, a new SHA digest in the authoring registry. What it triggers depends on whether the bump is patch, minor, or major:</p>
   <ul>
     <li><strong>Patch</strong> — prompt tweak, weight retune. Agents within compatible Service version ranges pick up the new digest on next mirror + revision rollover. No Service Bicep change.</li>
     <li><strong>Minor</strong> — new MCP tool dependency, new env var, backward-compatible behavior change. Service Bicep parameter file updates the SHA digest; the Service version may patch-bump.</li>
@@ -5649,7 +5649,7 @@ managed_identities:
     <li><strong>Microsoft.KeyVault HSM key deletion</strong> — Layer 1 enables purge protection; the soft-deleted key recovers within 90 days. Past that, key material is unrecoverable. Operationally this means a CMK rotation must overlap with the prior key for at least 90 days before the prior key is purged.</li>
     <li><strong>LEDGER rows</strong> — WORM. Append only. Rollback produces a new row that supersedes; it does not erase.</li>
     <li><strong>Microsoft.ContainerRegistry image deletion</strong> — once a digest is removed from the registry and from any cached pull, the bytes are gone. Sprint 1's retention policy keeps 30 days of all images, plus indefinitely-retained signed-and-promoted versions.</li>
-    <li><strong>Client-tenant data plane</strong> — STAGE/PROD bronze landing is the client's record; Deloitte does not own the rollback there.</li>
+    <li><strong>Client-tenant data plane</strong> — STAGE/PROD bronze landing is the client's record; the firm does not own the rollback there.</li>
   </ul>
 
   <h2 id="ch-16-3">16.3 DR Posture</h2>
@@ -5679,7 +5679,7 @@ managed_identities:
 
   <p>Each habit is unglamorous. Each habit, kept, makes the fortieth client deploy in a day what the first client took a quarter to deploy. That is the entire commercial story of why APEX is a reusable asset and not a custom build per engagement — and it is also the only durable reason a delivery team gets to use this book as a checklist instead of writing one from scratch.</p>
 
-  <aside class="callout independence"><div class="callout-label">Independence — Closing reminder</div><p>Across all sixteen chapters, the relationship is described as <strong>"Deloitte's Microsoft practice," "DMTSP," "Microsoft platform capabilities,"</strong> or <strong>"Microsoft-native deployment."</strong> Never <em>partner</em>, never <em>alliance</em>, never <em>strategic alliance</em>. The two-contract commercial structure — client ↔ Microsoft for platform, client ↔ Deloitte for services, ECIF direct — is enforced architecturally by the boundaries described in Chapter 1 (two container registries), Chapter 3 (subscription separation), and Chapter 13 (client-side prerequisites). If you find yourself drafting a client-facing artifact that erodes any of those boundaries, the deployment posture has slipped before the words have. Restate the boundaries and rebuild the artifact.</p></aside>
+  <aside class="callout independence"><div class="callout-label">Independence — Closing reminder</div><p>Across all sixteen chapters, the relationship is described as <strong>"The firm's Microsoft practice," "DMTSP," "Microsoft platform capabilities,"</strong> or <strong>"Microsoft-native deployment."</strong> Never <em>partner</em>, never <em>alliance</em>, never <em>strategic alliance</em>. The two-contract commercial structure — client ↔ Microsoft for platform, client ↔ the firm for services, ECIF direct — is enforced architecturally by the boundaries described in Chapter 1 (two container registries), Chapter 3 (subscription separation), and Chapter 13 (client-side prerequisites). If you find yourself drafting a client-facing artifact that erodes any of those boundaries, the deployment posture has slipped before the words have. Restate the boundaries and rebuild the artifact.</p></aside>
 
   </div>
 
@@ -5850,7 +5850,7 @@ resource experiment 'Microsoft.Chaos/experiments@2024-11-01-preview' = {
     <div class="callout-label"><svg viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" style="width:20px;height:20px;vertical-align:-5px;margin-right:8px;display:inline-block;"><circle cx="12" cy="12" r="11" fill="#C89D3A"/><path d="M13 3 L5 13 L11 13 L9 21 L19 11 L13 11 Z" fill="#1A2339"/></svg>60-second read</div>
     <ul>
       <li>One half-day · ~3 hours of wall-clock · ends with a verified Layer 1 Platform deployment in a Lab Azure subscription, ready to receive Service onboardings.</li>
-      <li>Phases 0–3 are client-side prerequisites (subscription · Defender · deployment principal · tags). Phases 4–8 are the Deloitte-side Bicep motion (login · what-if · deploy · smoke test · Tenant Profile handoff).</li>
+      <li>Phases 0–3 are client-side prerequisites (subscription · Defender · deployment principal · tags). Phases 4–8 are the firm-side Bicep motion (login · what-if · deploy · smoke test · Tenant Profile handoff).</li>
       <li>Every command is shown in both Azure CLI (bash) and Az PowerShell so the reader's preferred shell works.</li>
       <li>The chapter mirrors the eight-hour Services Guide §26 walkthrough but at the Layer 1 Platform tier; together they take the reader from empty repo to working RC-E2E-03 in two sittings.</li>
     </ul>
@@ -5859,14 +5859,14 @@ resource experiment 'Microsoft.Chaos/experiments@2024-11-01-preview' = {
 
   <h2 id="ch-17-0">17.0 What You Need Before You Start</h2>
   <ul>
-    <li>A Lab Azure subscription you have rights to · or a sandbox under the Deloitte authoring tenant.</li>
+    <li>A Lab Azure subscription you have rights to · or a sandbox under the authoring tenant.</li>
     <li>Azure CLI (<code class="inline-code">az</code> ≥ 2.60) · Az PowerShell module (<code class="inline-code">Az</code> ≥ 11.0) · Bicep CLI (≥ 0.30) · git · your editor of choice.</li>
     <li>Microsoft Entra ID account with Contributor on the subscription · or the ability to ask the subscription owner to create a deployment service principal.</li>
     <li>The Deployment Guide repo cloned at <code class="inline-code">MVP/agentic-merch/bicep/</code>.</li>
   </ul>
 
   <h2 id="ch-17-1">17.1 Phase 0 — Confirm the Lab Subscription Is Ready</h2>
-  <p>Phase 0 is a five-minute check that the prerequisite client-side actions from §13.2 are in place. In Lab, you may be both the "client" and the "Deloitte deployment principal," so this phase tests both halves of the boundary at once.</p>
+  <p>Phase 0 is a five-minute check that the prerequisite client-side actions from §13.2 are in place. In Lab, you may be both the "client" and the "the firm deployment principal," so this phase tests both halves of the boundary at once.</p>
   <div class="code-block"><div class="code-lang">SHELL — confirm subscription readiness</div><pre><code>az login
 az account set --subscription "$LAB_SUBSCRIPTION_ID"
 
@@ -5905,7 +5905,7 @@ param deploymentSuffix  = 'lab01'
 param tags = {
   'apex:layer'         : 'platform'
   'apex:tenant-suffix' : 'lab01'
-  'apex:owner'         : 'deloitte-mvp-engineering'
+  'apex:owner'         : 'apex-mvp-engineering'
   'apex:environment'   : 'lab'
 }</code></pre></div>
 
@@ -5975,7 +5975,7 @@ az containerapp env list --resource-group "rg-apex-merch-lab01" \
   <div class="code-block"><div class="code-lang">SHELL — emit Tenant Profile</div><pre><code>OUTPUTS=$(az deployment sub show --name "$DEPLOYMENT_NAME" --query "properties.outputs")
 
 cat &gt; "MVP/delivery/tenant-profiles/lab01.yaml" &lt;&lt;EOF
-tenant_code: deloitte-lab
+tenant_code: firm-lab
 client_tenant_id: $(az account show --query tenantId -o tsv)
 client_subscription_id: $LAB_SUBSCRIPTION_ID
 deployment_suffix: lab01
@@ -6449,10 +6449,10 @@ cost_per_decision = sum(cost_per_invocation across all agents that participated)
 
   <aside class="callout antipattern">
     <div class="callout-label">Anti-pattern · "Per-tenant agent build"</div>
-    <p><strong>Symptom:</strong> Agent images are built from source in each client tenant's CI pipeline rather than mirrored from the Deloitte authoring registry.</p>
+    <p><strong>Symptom:</strong> Agent images are built from source in each client tenant's CI pipeline rather than mirrored from the authoring registry.</p>
     <p><strong>Signal:</strong> Tenant ACRs show <code class="inline-code">az acr build</code> task runs. Image SHA digests differ between tenants for the "same" agent version.</p>
     <p><strong>Why it breaks:</strong> The two-registry Independence boundary collapses (§1.4 · §3.3.1). Image bytes are no longer identical across tenants; cosign attestations don't propagate. Audit reproducibility ("what code ran on day X") fragments per tenant.</p>
-    <p><strong>Fix:</strong> Build only in the Deloitte authoring registry. Mirror via <code class="inline-code">az acr import</code>. SHA digests must match across all tenant registries holding the same agent version.</p>
+    <p><strong>Fix:</strong> Build only in the authoring registry. Mirror via <code class="inline-code">az acr import</code>. SHA digests must match across all tenant registries holding the same agent version.</p>
   </aside>
 
   <h2 id="i-2">I.2 Image-Reference Anti-Patterns</h2>
@@ -6540,11 +6540,11 @@ cost_per_decision = sum(cost_per_invocation across all agents that participated)
   <h2 id="i-7">I.7 Independence Anti-Patterns</h2>
 
   <aside class="callout antipattern">
-    <div class="callout-label">Anti-pattern · "Deloitte ACR pulled at runtime by client tenant"</div>
-    <p><strong>Symptom:</strong> A client tenant Container App pulls images from <code class="inline-code">apex-acr.azurecr.io</code> (the Deloitte authoring registry) at runtime instead of from the per-tenant ACR.</p>
+    <div class="callout-label">Anti-pattern · "the firm's ACR pulled at runtime by client tenant"</div>
+    <p><strong>Symptom:</strong> A client tenant Container App pulls images from <code class="inline-code">apex-acr.azurecr.io</code> (the authoring registry) at runtime instead of from the per-tenant ACR.</p>
     <p><strong>Signal:</strong> Container App configuration shows <code class="inline-code">registries: [{server: 'apex-acr.azurecr.io', ...}]</code> in production.</p>
-    <p><strong>Why it breaks:</strong> The structural enforcement of the two-contract model at Layer 3 (§1.4 · §3.3.1) is undone. Client deployments now have a runtime dependency on a Deloitte-owned subscription. Independence is performatively asserted but structurally broken.</p>
-    <p><strong>Fix:</strong> All client Container Apps reference the per-tenant ACR. The Deloitte authoring ACR is reachable only by the mirror import path, never by runtime pull.</p>
+    <p><strong>Why it breaks:</strong> The structural enforcement of the two-contract model at Layer 3 (§1.4 · §3.3.1) is undone. Client deployments now have a runtime dependency on a firm-owned subscription. Independence is performatively asserted but structurally broken.</p>
+    <p><strong>Fix:</strong> All client Container Apps reference the per-tenant ACR. The authoring ACR is reachable only by the mirror import path, never by runtime pull.</p>
   </aside>
 
   <aside class="callout antipattern">
@@ -6607,7 +6607,7 @@ param resourceGroupName string = 'rg-apex-merch-${deploymentSuffix}'
 param tags object = {
   'apex:layer':         'platform'
   'apex:tenant-suffix': deploymentSuffix
-  'apex:owner':         'deloitte-mvp-engineering'
+  'apex:owner':         'apex-mvp-engineering'
 }
 
 resource rg 'Microsoft.Resources/resourceGroups@2023-07-01' = {
@@ -6731,7 +6731,7 @@ output appInsightsConnectionString string = observability.outputs.appInsightsCon
 
   <h2 id="c-2">C.2 Image Mirror</h2>
   <ol>
-    <li>☐ For each agent in Service composition: <code class="inline-code">az acr import</code> from Deloitte authoring registry to client tenant registry.</li>
+    <li>☐ For each agent in Service composition: <code class="inline-code">az acr import</code> from firm authoring registry to client tenant registry.</li>
     <li>☐ Microsoft Notation signatures + cosign attestations verified post-import.</li>
     <li>☐ Microsoft Defender for Containers re-scan completes clean.</li>
   </ol>
@@ -6796,15 +6796,15 @@ output appInsightsConnectionString string = observability.outputs.appInsightsCon
   <h2 id="d-2">D.2 Promotion Cadence</h2>
   <p>An agent promotion follows three windows:</p>
   <ul>
-    <li><strong>Continuous</strong> — every merge to main runs Build + Scan + Sign in the Deloitte authoring registry. The image is available but not yet promoted.</li>
+    <li><strong>Continuous</strong> — every merge to main runs Build + Scan + Sign in the authoring registry. The image is available but not yet promoted.</li>
     <li><strong>Daily</strong> — at end of day, eligible images (passed scan, passed Notation verify) are mirrored to Lab v0.1 client container registry and become canary-eligible.</li>
     <li><strong>Per upgrade window</strong> — on the documented upgrade cadence (Chapter 15), images mirror to STAGE/PROD client container registries.</li>
   </ul>
 
   <h2 id="d-3">D.3 Attestation Predicate</h2>
-  <p>Cosign attestations carry the in-toto predicate <code class="inline-code">apex.deloitte/agent-attestation</code> with these fields (compact form):</p>
+  <p>Cosign attestations carry the in-toto predicate <code class="inline-code">apex.example/agent-attestation</code> with these fields (compact form):</p>
   <div class="code-block"><div class="code-lang">JSON — attestation predicate</div><pre><code>{
-  "predicateType": "apex.deloitte/agent-attestation/v1",
+  "predicateType": "apex.example/agent-attestation/v1",
   "predicate": {
     "image_digest": "sha256:6a4c...",
     "agent_id":     "the-analyst",
@@ -7000,11 +7000,11 @@ output appInsightsConnectionString string = observability.outputs.appInsightsCon
   <p><strong>DAG Orchestrator</strong> — Used in earlier APEX-M drafts to describe a substrate-side multi-agent dispatcher. <strong>Deprecated since Microsoft Agent Framework GA.</strong> The substrate (n8n on laptop · Logic Apps Hybrid on Microsoft platform) is now a <em>trigger + HTTP entry point</em>; multi-agent coordination (Sequential · Concurrent · Handoff · Group Chat · Magentic) is composed inside the agent fleet by Microsoft Agent Framework's per-pattern builder classes. See Services Guide §14.4 / §14B.13.</p>
   <p><strong>Container Apps Environment · Microsoft.App/managedEnvironments</strong> — Layer 1 resource hosting all Container Apps in a tenant. Binds Log Analytics + Application Insights; declares workload profiles (Consumption, Dedicated D4).</p>
   <p><strong>Cosign</strong> — OCI image signing tool. Used alongside Microsoft Notation for cross-tool ecosystem compatibility.</p>
-  <p><strong>DMTSP</strong> — Deloitte Microsoft Technology &amp; Services Practice. The Independence-compliant phrasing for the Deloitte–Microsoft delivery relationship.</p>
-  <p><strong>ECIF</strong> — Microsoft Enterprise Customer Investment Funds. Flows direct from Microsoft to client; never through Deloitte.</p>
+  <p><strong>DMTSP</strong> — Microsoft Technology &amp; Services Practice. The Independence-compliant phrasing for the firm–Microsoft delivery relationship.</p>
+  <p><strong>ECIF</strong> — Microsoft Enterprise Customer Investment Funds. Flows direct from Microsoft to client; never through the firm.</p>
   <p><strong>HITL</strong> — Human-in-the-loop. Operator approval gate within an agent decision flow.</p>
   <p><strong>HSM · Microsoft Hardware Security Module</strong> — Microsoft.KeyVault Premium-backed HSM module. RSA-HSM keys never leave the HSM in cleartext.</p>
-  <p><strong>Independence</strong> — The audit-relationship rule constraining Deloitte–Microsoft co-delivery. Enforced architecturally in APEX via two contracts, two container registries, separated subscriptions, and disciplined language.</p>
+  <p><strong>Independence</strong> — The audit-relationship rule constraining the firm–Microsoft co-delivery. Enforced architecturally in APEX via two contracts, two container registries, separated subscriptions, and disciplined language.</p>
   <p><strong>KEDA</strong> — Kubernetes Event-Driven Autoscaling. Built into Microsoft.App/managedEnvironments runtime; rules declared on Microsoft.App/containerApps.</p>
   <p><strong>KQL</strong> — Kusto Query Language. The query language for Microsoft.OperationalInsights and Application Insights.</p>
   <p><strong>LEDGER</strong> — APEX append-only audit table. Hash-chained (<code class="inline-code">_hash</code>, <code class="inline-code">_prev_hash</code>); checkpoint signing with the Microsoft.KeyVault HSM CMK.</p>
@@ -7022,7 +7022,7 @@ output appInsightsConnectionString string = observability.outputs.appInsightsCon
   <p><strong>Service</strong> — In this book, one of the 38 productized envelopes from Appendix E. The unit of deployment, commercial envelope, and audit attribution.</p>
   <p><strong>Substrate</strong> — The runtime environment for agents. APEX recognizes four substrate tiers: laptop (Docker Desktop), DEV (Lab v0.1 Azure), STAGE, PROD.</p>
   <p><strong>Tenant Profile</strong> — YAML artifact emitted at Day-Zero recording the Microsoft platform resource IDs and identifiers for a client tenant. Consumed by every subsequent Service onboarding.</p>
-  <p><strong>Two-contract model</strong> — Independence-compliant commercial structure: client contracts Microsoft for platform, client contracts Deloitte separately for services. ECIF flows direct.</p>
+  <p><strong>Two-contract model</strong> — Independence-compliant commercial structure: client contracts Microsoft for platform, client contracts the firm separately for services. ECIF flows direct.</p>
   <p><strong>UC · Use Case</strong> — Test harness scenario. Each UC drives a multi-step exercise of a Service through deployed Microsoft.App/containerApps endpoints.</p>
   <p><strong>W1 · W2 · W3</strong> — APEX Wave structure. W1 Foundation (4–8 weeks); W2 Pilot (6–15 months, Lab v0.1 → STAGE → first PROD tenant); W3 Scale &amp; Fuse (multi-year, fortieth-tenant scale-out and cross-Service composition).</p>
   <p><strong>WORM</strong> — Write-once, read-many. The append-only enforcement applied to LEDGER tables in Microsoft.Sql or Microsoft.DBforPostgreSQL.</p>
@@ -7030,7 +7030,7 @@ output appInsightsConnectionString string = observability.outputs.appInsightsCon
   <p><strong>Workload profile</strong> — Microsoft.App/managedEnvironments capacity option. APEX uses Consumption (default, scale-to-zero) and Dedicated D4 (steady-state, higher concurrency).</p>
   <p><strong>Zero-cost development</strong> — The §0.5 design goal: the developer's inner loop runs on a laptop with no Azure consumption. Achieved by free, self-hostable substitutes for every Azure component (Postgres for Azure Database for PostgreSQL, n8n for Azure Logic Apps, docker-compose for Microsoft.App/managedEnvironments, <code class="inline-code">.env</code> for Microsoft.KeyVault, stdout for Azure Monitor, stub for Microsoft Entra ID). The first cost line is the DEV (Lab v0.1) substrate transition.</p>
 
-  <aside class="callout independence"><div class="callout-label">Closing Independence Reminder</div><p>Throughout this guide and the deployment artifacts derived from it, the Deloitte–Microsoft relationship is described as <strong>"Deloitte's Microsoft practice," "DMTSP," "Microsoft platform capabilities,"</strong> or <strong>"Microsoft-native deployment."</strong> Never <em>partner</em>, <em>alliance</em>, or <em>strategic alliance</em>. The two-contract commercial structure — client ↔ Microsoft for platform, client ↔ Deloitte for services, ECIF direct — is enforced architecturally by the boundaries described in Chapters 1, 3, 10, and 13. <strong>End of book.</strong></p></aside>
+  <aside class="callout independence"><div class="callout-label">Closing Independence Reminder</div><p>Throughout this guide and the deployment artifacts derived from it, the firm–Microsoft relationship is described as <strong>"The firm's Microsoft practice," "DMTSP," "Microsoft platform capabilities,"</strong> or <strong>"Microsoft-native deployment."</strong> Never <em>partner</em>, <em>alliance</em>, or <em>strategic alliance</em>. The two-contract commercial structure — client ↔ Microsoft for platform, client ↔ the firm for services, ECIF direct — is enforced architecturally by the boundaries described in Chapters 1, 3, 10, and 13. <strong>End of book.</strong></p></aside>
 
   </div>
 </article>
@@ -7248,7 +7248,7 @@ $serviceDeployment | Format-List ProvisioningState, Timestamp</code></pre></div>
 
   <h2 id="h-5">H.5 Container Registry Operations — Mirror Agent Images</h2>
 
-  <p>The PowerShell counterpart to <code class="inline-code">az acr import</code> is <code class="inline-code">Import-AzContainerRegistryImage</code>. This is the action that crosses the Independence boundary from the Deloitte authoring registry to the client tenant registry.</p>
+  <p>The PowerShell counterpart to <code class="inline-code">az acr import</code> is <code class="inline-code">Import-AzContainerRegistryImage</code>. This is the action that crosses the Independence boundary from the authoring registry to the client tenant registry.</p>
 
   <div class="code-block"><div class="code-lang">POWERSHELL — image mirror</div><pre><code>$ClientRegistryName    = "apexacr$DeploymentSuffix"
 $AuthoringRegistryFqdn = 'apex-acr.azurecr.io'
@@ -7883,7 +7883,7 @@ PROD ── azd provision ──→ F64+ · all CA enforced · DLP enforce · IR
     <li>Agent code (Microsoft Agent Framework or LangGraph) is built and deployed via <code class="inline-code">azd deploy</code> per Deployment Guide §11.5 (Layer 3 Surfacing via Foundry Agent Service).</li>
     <li>Microsoft 365 Agents Toolkit packages the agent as a <strong>Custom Engine Agent</strong> manifest. The manifest references the Foundry-hosted endpoint and the agent's tool surface.</li>
     <li>Deploy the package to the M365 admin center via <strong>Integrated Apps</strong>. Admins approve; the agent appears in M365 Copilot Chat + Teams personal scope.</li>
-    <li>Per-engagement: optionally submit to the Microsoft Commercial Marketplace for multi-tenant agents Deloitte ships across clients.</li>
+    <li>Per-engagement: optionally submit to the Microsoft Commercial Marketplace for multi-tenant agents the firm ships across clients.</li>
   </ol>
   <p>The advantage of Custom Engine over Declarative agents: full control over orchestration, models, deterministic execution, multi-step workflow, HITL gates, and APEX-Core protocol composition. APEX-M's six-agent fleet per scenario relies on this model — declarative agents can't do the multi-agent orchestration the cold-chain or markdown scenarios require.</p>
 
@@ -7906,7 +7906,7 @@ PROD ── azd provision ──→ F64+ · all CA enforced · DLP enforce · IR
   <p>Per Services Guide §1.4, Gold marts are exposed via <strong>Power BI Direct Lake</strong> semantic models. APEX-M dashboards use the native Direct Lake connection — no data movement, no scheduled refresh. The merchandising director's weekly markdown review (RC-E2E-03 Daniel Chen persona) lives in Power BI; agents publish proposed markdowns to a Power BI report tile via the same Direct Lake model.</p>
 
   <h2 id="ch-m365-5">M365.5 Independence + Microsoft 365 surfacing</h2>
-  <p>APEX-M's surfacing in Microsoft 365 + Power Platform is clean from an Independence perspective: the client already holds M365 + Power Platform licensing; APEX-M is integrating with the client's existing investment. Microsoft 365 Agents Toolkit is open-source tooling; Custom Engine Agent packaging is an industry-standard manifest pattern. Per <a href="../apex-core/Independence-Posture.md" class="xref">APEX-Core Independence Posture §Language standards</a>, APEX-M deliverables describe these integrations as honoring the client's existing Microsoft 365 / Power Platform investment — never as Deloitte–Microsoft co-marketing.</p>
+  <p>APEX-M's surfacing in Microsoft 365 + Power Platform is clean from an Independence perspective: the client already holds M365 + Power Platform licensing; APEX-M is integrating with the client's existing investment. Microsoft 365 Agents Toolkit is open-source tooling; Custom Engine Agent packaging is an industry-standard manifest pattern. Per <a href="../apex-core/Independence-Posture.md" class="xref">APEX-Core Independence Posture §Language standards</a>, APEX-M deliverables describe these integrations as honoring the client's existing Microsoft 365 / Power Platform investment — never as the firm–Microsoft co-marketing.</p>
 
   </div>
   <aside class="chapter-summary">
@@ -7942,7 +7942,7 @@ PROD ── azd provision ──→ F64+ · all CA enforced · DLP enforce · IR
       <li>APEX-M is the <strong>primary variant</strong> — it owns where agents run, where identity is rooted, and which IaC dialect (Bicep) deploys the platform.</li>
       <li><strong>Adapters</strong> integrate everything else the client's CAB has approved — AWS RDS for POS data, Snowflake on AWS for analytics, Splunk for SIEM, Okta for federated identity.</li>
       <li>Adapter bindings live in the use-case YAML's <code class="inline-code">client_approved_architecture</code> block. The wizard validates every adapter ref resolves and that each adapter satisfies the protocol the slot expects.</li>
-      <li>SEC Independence: every adapter has a <code class="inline-code">sec_independence.md</code> stating Deloitte does not resell, sublicense, or have an alliance posture with the integrated provider.</li>
+      <li>SEC Independence: every adapter has a <code class="inline-code">sec_independence.md</code> stating the firm does not resell, sublicense, or have an alliance posture with the integrated provider.</li>
     </ul>
   </aside>
   <div class="chapter-body">
@@ -8009,7 +8009,7 @@ client_approved_architecture:
   </tbody></table></div>
 
   <h2 id="ch-adapters-4">A.4 SEC Independence per adapter</h2>
-  <p>Every adapter has a <code class="inline-code">sec_independence.md</code> with Deloitte's verbatim Independence statement. The pre-publish CI lane (per <a href="../APEX%20-%20Design%20and%20Build/Roadmap.md" class="xref">Roadmap.md</a> BL.P.194) blocks any APEX deliverable using disallowed terminology — "preferred cloud," "alliance," "partnership" — across all variants and adapters.</p>
+  <p>Every adapter has a <code class="inline-code">sec_independence.md</code> with the firm's verbatim Independence statement. The pre-publish CI lane (per <a href="../APEX%20-%20Design%20and%20Build/Roadmap.md" class="xref">Roadmap.md</a> BL.P.194) blocks any APEX deliverable using disallowed terminology — "preferred cloud," "alliance," "partnership" — across all variants and adapters.</p>
   <aside class="callout bestpractice"><div class="callout-label">Best Practice — One adapter per CAB approval</div><p>Do not pre-deploy adapters "for future use." An adapter is only ever active when the client's Cloud Architecture Board has formally approved the integrated provider. The use-case YAML records the CAB approval in its commit history; auditors trace from <code class="inline-code">client_approved_architecture</code> back to the approval document.</p></aside>
 
   <h2 id="ch-adapters-5">A.5 Cross-references</h2>

@@ -10,7 +10,7 @@
 
 ## Cold Open
 
-[Sound: a seller's home office on a Friday afternoon in late May. The light is long and amber through a north-facing window. A laptop open on the desk, a coffee cup cold in the saucer, an inbox notification chime in the background — soft, two-tone, the muted variant the seller has learned to leave on for the one inbox folder that actually matters. Outside, a lawnmower three houses over. The desk surface has three pieces of paper on it. The first is the Acceleration Framework's five principles, printed and annotated by hand. The second is a list of six discovery openers, each one written in a single sentence the seller can ask out loud. The third is the architecture stack — Mobile, Portal, Sonos — printed on Deloitte letterhead with the live `/architecture` URL handwritten across the top in blue ballpoint pen, because the seller has learned that URL is the screen-share that does more work than any deck slide ever has.]
+[Sound: a seller's home office on a Friday afternoon in late May. The light is long and amber through a north-facing window. A laptop open on the desk, a coffee cup cold in the saucer, an inbox notification chime in the background — soft, two-tone, the muted variant the seller has learned to leave on for the one inbox folder that actually matters. Outside, a lawnmower three houses over. The desk surface has three pieces of paper on it. The first is the Acceleration Framework's five principles, printed and annotated by hand. The second is a list of six discovery openers, each one written in a single sentence the seller can ask out loud. The third is the architecture stack — Mobile, Portal, Sonos — printed on the firm letterhead with the live `/architecture` URL handwritten across the top in blue ballpoint pen, because the seller has learned that URL is the screen-share that does more work than any deck slide ever has.]
 
 Friday afternoon. The seller — a Microsoft platform specialist on a Consumer-industry account — refreshes her inbox at three-forty-seven in the afternoon, because the kid's soccer game starts at four-thirty and she wants the inbox at zero before the second-half whistle. Six new messages since lunch. Five are noise. The sixth is from the Account Team Partner for the prospect she has been working for three weeks, a global retailer the Account Team has been courting since the prior fiscal year. Subject line — *forward from prospect CIO — please advise*. The body forwards a single-line question from the CIO. *Can CFMP run on AWS?* No preamble. No softening. The CIO is reading the design memo the Account Team sent her on Tuesday and she has asked the question every serious CIO asks by the second read.
 
@@ -44,7 +44,7 @@ The seller stares at the screen. She knows the Acceleration Framework underneath
 
 **KEVEN:** Four layers. The seller draws four boxes on a whiteboard. *Top — what the customer touches.* Sarah's phone, Priya's operator console, Robert's kitchen speaker. *One pack, three surfaces.*
 
-*Second from top — the application pack.* CFMP. The agent fleet from Episode Two. The lot model from Episode Three. The home channel from Episode Four. The retailer multi-tenant scaffold from Episode Five. The cue bus from Episode Six. The fulfillment plug-in tier from Episode Seven. The four-identity chain, consent gradient, HIPAA presence-gating, senior accessibility defaults from Episode Eight. *That's the pack. What Deloitte built. What is licensable, deployable, productizable.*
+*Second from top — the application pack.* CFMP. The agent fleet from Episode Two. The lot model from Episode Three. The home channel from Episode Four. The retailer multi-tenant scaffold from Episode Five. The cue bus from Episode Six. The fulfillment plug-in tier from Episode Seven. The four-identity chain, consent gradient, HIPAA presence-gating, senior accessibility defaults from Episode Eight. *That's the pack. What the firm built. What is licensable, deployable, productizable.*
 
 *Third from top — APEX, the Microsoft productization.* The productized data tier. The productized agent runtime. The productized trust substrate. The productized identity surface. The productized cost management. Four productized capabilities, one bill, one console, one identity story.
 
@@ -156,7 +156,7 @@ The seller stares at the screen. She knows the Acceleration Framework underneath
 
 **REID:** Pushback Three.
 
-**KEVEN:** *Pushback Three — will the retailer sign?* The retailer-procurement timeline question from Episode Five. The response, verbatim — *"The honest read on retailer signatures is eighteen months — gated on the security attestation. The roadmap honors that. V1 ships single-retailer with Deloitte-staffed operations; the multi-tenant scaffold is in the data model from day one but the UI ships in v2 when the first retailer signs. The eighteen-month uncertainty is on the retailer's side; the customer's value is on the customer's side. The two are decoupled by the design."* *The seller names the timeline honestly and shows the roadmap accommodates it.*
+**KEVEN:** *Pushback Three — will the retailer sign?* The retailer-procurement timeline question from Episode Five. The response, verbatim — *"The honest read on retailer signatures is eighteen months — gated on the security attestation. The roadmap honors that. V1 ships single-retailer with firm-staffed operations; the multi-tenant scaffold is in the data model from day one but the UI ships in v2 when the first retailer signs. The eighteen-month uncertainty is on the retailer's side; the customer's value is on the customer's side. The two are decoupled by the design."* *The seller names the timeline honestly and shows the roadmap accommodates it.*
 
 **REID:** Pushback Four.
 
@@ -168,7 +168,7 @@ The seller stares at the screen. She knows the Acceleration Framework underneath
 
 **REID:** Pushback Six.
 
-**KEVEN:** *Pushback Six — "Microsoft compensation is influencing your recommendation. You are a Microsoft seller telling me to buy Microsoft. How do I know the architecture pitch is not a marketing wrapper."* The hardest one. The response, verbatim — *"The two-contract operating model. You contract with Microsoft directly on Microsoft paper for the platform. You contract with Deloitte directly on Deloitte paper for the services. Two contracts. No reseller margin. No compensation flows from Microsoft to Deloitte for influencing your cloud choice. You can verify by checking that Deloitte's revenue from this engagement comes from your contract with us, not from Microsoft's contract with you. The recommendation is on technical and economic merits. If your architecture pointed to AWS, our recommendation would be AWS. The Independence is in the operating model; it is verifiable."* The seller says this without flinching. The two-contract framing is verifiable on paper.
+**KEVEN:** *Pushback Six — "Microsoft compensation is influencing your recommendation. You are a Microsoft seller telling me to buy Microsoft. How do I know the architecture pitch is not a marketing wrapper."* The hardest one. The response, verbatim — *"The two-contract operating model. You contract with Microsoft directly on Microsoft paper for the platform. You contract with the firm directly on firm paper for the services. Two contracts. No reseller margin. No compensation flows from Microsoft to the firm for influencing your cloud choice. You can verify by checking that the firm's revenue from this engagement comes from your contract with us, not from Microsoft's contract with you. The recommendation is on technical and economic merits. If your architecture pointed to AWS, our recommendation would be AWS. The Independence is in the operating model; it is verifiable."* The seller says this without flinching. The two-contract framing is verifiable on paper.
 
 **REID:** Six pushbacks. Six verbatim responses. The seller carries them like a doctor carries differential diagnoses — pattern-match the question, deliver the answer, watch the room.
 
@@ -212,7 +212,7 @@ The seller stares at the screen. She knows the Acceleration Framework underneath
 
 **REID:** And the decision queue.
 
-**KEVEN:** Hundreds of design decisions across the two streams — small ones and strategic ones. *The strategic ones are what the customer decides with Deloitte.* Privacy-impact-assessment timing. Red-team scope. The customer's HIPAA posture — Covered Entity or Business Associate. The audit attestation start date. Multi-region cost ceiling. Where the cloud-side model data resides. *The eight or ten strategic open questions are the eight or ten architectural commitments the seller surfaces inside the first ninety days of the engagement.*
+**KEVEN:** Hundreds of design decisions across the two streams — small ones and strategic ones. *The strategic ones are what the customer decides with the firm.* Privacy-impact-assessment timing. Red-team scope. The customer's HIPAA posture — Covered Entity or Business Associate. The audit attestation start date. Multi-region cost ceiling. Where the cloud-side model data resides. *The eight or ten strategic open questions are the eight or ten architectural commitments the seller surfaces inside the first ninety days of the engagement.*
 
 **KEVEN:** Two roadmaps. Fourteen sprints across both. Two dozen deferred items, named. Two hundred fifty-plus outstanding decisions, tracked. *The roadmap is honest, paced, and demoable every week. The seller walks into the room with a calendar — not a vision deck.*
 
@@ -220,11 +220,11 @@ The seller stares at the screen. She knows the Acceleration Framework underneath
 
 **REID:** The closing. Bring the operating model home. The architecture decides; the cloud follows; the commercial discipline is what makes the recommendation defensible.
 
-**KEVEN:** The Independence-minded operating model. *Deloitte recommends on technical and economic merits.* The two-contract model. *Customer contracts directly with the platform vendor on platform paper.* Microsoft on Microsoft paper for the Azure subscriptions, Fabric capacity, Foundry consumption, Purview licensing, Entra licensing. *Customer contracts directly with Deloitte on Deloitte paper for the services.* Separate paper. *No margin stacking.* Deloitte does not mark up Microsoft licensing. *No partner-channel motion.* The seller operates as an independent advisor.
+**KEVEN:** The Independence-minded operating model. *The firm recommends on technical and economic merits.* The two-contract model. *Customer contracts directly with the platform vendor on platform paper.* Microsoft on Microsoft paper for the Azure subscriptions, Fabric capacity, Foundry consumption, Purview licensing, Entra licensing. *Customer contracts directly with the firm on firm paper for the services.* Separate paper. *No margin stacking.* The firm does not mark up Microsoft licensing. *No partner-channel motion.* The seller operates as an independent advisor.
 
 **REID:** And the verbatim sentence the seller says when the question comes.
 
-**KEVEN:** Five sentences. *One — the recommendation is on merits, not on compensation.* *Two — the customer contracts with the platform vendor on platform paper.* *Three — the customer contracts with Deloitte on Deloitte paper, separately.* *Four — no reseller margin.* *Five — the seller's commercial relationship with the customer is on Deloitte paper only.* Five sentences. The seller memorizes them. The seller can say them on a phone call on a Friday afternoon without flinching.
+**KEVEN:** Five sentences. *One — the recommendation is on merits, not on compensation.* *Two — the customer contracts with the platform vendor on platform paper.* *Three — the customer contracts with the firm on firm paper, separately.* *Four — no reseller margin.* *Five — the seller's commercial relationship with the customer is on firm paper only.* Five sentences. The seller memorizes them. The seller can say them on a phone call on a Friday afternoon without flinching.
 
 **REID:** And the productization window.
 
@@ -296,7 +296,7 @@ The seller stares at the screen. She knows the Acceleration Framework underneath
 
 **REID:** I am Reid. Cross-cloud principal architect. Two decades across Microsoft, AWS, and GCP buildouts. The honest comparison is the long-term seller's edge. Thank you for listening to *The CFMP Podcast*.
 
-**KEVEN:** I am Keven. Vice President, Deloitte's Microsoft Technology and Services Practice. Twenty-two years on the Microsoft platform. The architecture decides; the cloud follows; the seller earns the recommendation on merits. *See you in the field.*
+**KEVEN:** I am Keven. Vice President, Microsoft Technology and Services Practice. Twenty-two years on the Microsoft platform. The architecture decides; the cloud follows; the seller earns the recommendation on merits. *See you in the field.*
 
 [Sound: the closing sting. ~6 seconds. The series ends.]
 

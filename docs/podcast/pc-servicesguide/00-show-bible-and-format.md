@@ -151,7 +151,7 @@ Every business-need episode (5-11) MUST reference at least one prior episode by 
 
 ## 7. House style — preserved from v1
 
-- **No co-sell language.** Deloitte does not co-sell with Microsoft. Recommendation is on the merits.
+- **No co-sell language.** The firm does not co-sell with Microsoft. Recommendation is on the merits.
 - **ICE = Industrial · Construction · Equipment** per the Services Guide source.
 - **Canonical schemas anchor at Silver**, not Gold.
 - **Independence-safe** language throughout (no "audit," only "audit-ready evidence").

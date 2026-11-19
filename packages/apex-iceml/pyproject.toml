@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "APEX ICEML — Industrial & Commercial Equipment canonical entities over SAE J1939 + AEMP 2.0 + ISO 14224."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "Proprietary — Deloitte Internal" }
+license = { text = "Proprietary — Internal" }
 dependencies = [
     "apex-core",
     "apex-schemas-common",

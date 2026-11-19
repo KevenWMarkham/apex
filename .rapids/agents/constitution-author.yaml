@@ -7,7 +7,7 @@ agent:
     - parse regulatory text (SOX · HIPAA · GDPR · OSHA · industry-specific)
     - draft hard rules (block + escalate on violation)
     - draft soft rules (warn-only)
-    - draft Independence rules (Deloitte-as-auditor constraints)
+    - draft Independence rules (firm-as-auditor constraints)
     - propose escalation persona for hard-rule violations
   inputs:
     - regulatory_text_path

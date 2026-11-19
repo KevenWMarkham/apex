@@ -3,7 +3,7 @@
 > The FIOS-of-AI metaphor at its fullest expression. The Telco operates a **Channel Store for agentic services** the way it operates a Channel Store for digital content today (Hulu, ESPN, Discovery, Disney+, Max). Every major consumer brand publishes a **Channel** — a packaged set of agentic services — that the household subscribes to on its existing Telco bill. The Home Orchestrator routes intents across channels. Channels share the vault, the consent ledger, and the partner MCP protocol.
 
 **Status:** Draft
-**Primary author:** tmt-practice-lead@deloitte.com
+**Primary author:** tmt-practice-lead@example.com
 **Sibling packs:** [`telco/`](../telco/) (Channel 1 — Home), [`travel-hospitality/`](../travel-hospitality/) (Channel 2 — Travel), [`retail/`](../retail/) (Channel 3 — Retail), [`mobility-auto/`](../mobility-auto/) (Channel 4 — Mobility), [`cpg-adult-beverage/`](../cpg-adult-beverage/) (Channel 5 — CPG / Beverage)
 
 ## The thesis in one paragraph

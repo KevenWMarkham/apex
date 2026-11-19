@@ -862,7 +862,7 @@ def build():
              col_widths=[3.4, 3.0])
 
     addbody(doc,
-            "Independence posture preserved across this document: 'Deloitte's Microsoft practice,' "
+            "Independence posture preserved across this document: 'The firm's Microsoft practice,' "
             "'DMTSP,' 'Microsoft platform capabilities,' 'Microsoft-native deployment.' The terms "
             "'partner,' 'alliance,' and 'strategic alliance' do not appear.",
             italic=True, color=MUTE, size=9)

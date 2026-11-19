@@ -10,7 +10,7 @@ prompt_sha: ""
 description: >
   Real-time contact-center routing fusing IVR intent + customer-360 + agent-skill signals to minimize handle time and CPNI exposure.
 archetype_id: F3-predictive-trigger-workflow-aware
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.ccml.get_active_call

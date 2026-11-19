@@ -33,10 +33,10 @@
 
 **Design doc:** `docs/plans/2026-05-11-trilogy-fabric-iq-adoption-design.md`
 
-**Author:** Keven Markham, Vice President, Deloitte Microsoft Technology & Services Practice (DMTSP)
+**Author:** Keven Markham, Vice President, Microsoft Technology & Services Practice (DMTSP)
 **Scope:** Cross-check load-bearing Microsoft-platform claims in the APEX Trilogy (Services Guide, Deployment Guide, Sellers Guide) against current Microsoft Learn documentation.
 **Method:** 10 targeted `microsoft_docs_search` passes against Microsoft Agent Framework, Foundry Agent Service, Microsoft Entra Agent ID, Microsoft Fabric, Microsoft Purview (DSPM for AI), Microsoft Sentinel/Defender for AI, `Microsoft.Fabric/capacities` Bicep, Azure AI Content Safety, Azure Logic Apps Hybrid, and Microsoft Notation/AKV image signing.
-**Audience:** Deloitte authors and reviewers editing the trilogy. Not for client release.
+**Audience:** The firm authors and reviewers editing the trilogy. Not for client release.
 **Date:** 2026-05-10
 
 ---

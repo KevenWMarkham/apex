@@ -157,7 +157,7 @@ def test_legal_hold_to_atlas_shape() -> None:
     hold = LegalHoldConfig(
         matter_id="LIT-2026-042",
         classifications=("phi", "pii"),
-        custodian="legal@deloitte.com",
+        custodian="legal@example.com",
         started_iso="2026-04-22T00:00:00Z",
         description="Class action discovery hold.",
     )

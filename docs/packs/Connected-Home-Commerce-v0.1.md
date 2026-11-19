@@ -1,7 +1,7 @@
 # Connected Home Commerce (CHC) — Engagement Design v0.2
 
 **Status**: Draft for DMTSP review — first cross-pack engagement design
-**Owner**: Keven Markham, VP — Deloitte's Microsoft Practice (DMTSP)
+**Owner**: Keven Markham, VP — the firm's Microsoft Practice (DMTSP)
 **Date**: 2026-05-23
 **Version history**:
 - **v0.2** (2026-05-23): Added B2C variant — Kroger-direct go-to-market (§14-17). Same APEX engineering, single-client engagement, different commercial structure.
@@ -77,15 +77,15 @@ The Alexa-replacement narrative is only credible if the *technical* answer is cr
 | Y2 (FY28) | AT&T national rollout (~100K households) + Verizon × Walmart pilot | Kroger national + Walmart+ launch |
 | Y3 (FY29) | All Tier-1 US carriers paired with all Tier-1 merchandisers (~10 pairings) — multi-million household scale | Every Tier-1 merchandiser has a direct variant; the in-store CFMP, in-home Variant B, and Variant-A federation share schemas |
 
-By year 3, **APEX is the de-facto home-commerce agent framework**, and Alexa has competition for the first time in the category's history. Deloitte is the integrator on every major engagement.
+By year 3, **APEX is the de-facto home-commerce agent framework**, and Alexa has competition for the first time in the category's history. The firm is the integrator on every major engagement.
 
 ---
 
 ## 1. The deal in one paragraph
 
-AT&T sells a **Connected Home Commerce** subscription to households: in-home cameras, Sonos speakers, and a kitchen kiosk tablet detect consumption ("we're running low on milk"), suggest replenishment ("want me to add it to Wednesday's Kroger delivery?"), and auto-order against Kroger's catalog with a single voice or touch confirmation. AT&T owns the customer relationship, the home edge, and the network. Kroger owns the catalog, the price, and the fulfillment. Deloitte builds and operates the agentic-AI layer that stitches them together — sold as a **cross-pack APEX engagement** combining a new **Telco-Customer Pack (TCP)** with the existing **CFMP**, bound by a cross-pack scenario chain over the APEX framework.
+AT&T sells a **Connected Home Commerce** subscription to households: in-home cameras, Sonos speakers, and a kitchen kiosk tablet detect consumption ("we're running low on milk"), suggest replenishment ("want me to add it to Wednesday's Kroger delivery?"), and auto-order against Kroger's catalog with a single voice or touch confirmation. AT&T owns the customer relationship, the home edge, and the network. Kroger owns the catalog, the price, and the fulfillment. The firm builds and operates the agentic-AI layer that stitches them together — sold as a **cross-pack APEX engagement** combining a new **Telco-Customer Pack (TCP)** with the existing **CFMP**, bound by a cross-pack scenario chain over the APEX framework.
 
-The pitch to AT&T: ARPU expansion + churn reduction + new commerce revenue share, with Deloitte's CFMP demo already proving the merchandiser side runs today.
+The pitch to AT&T: ARPU expansion + churn reduction + new commerce revenue share, with the firm's CFMP demo already proving the merchandiser side runs today.
 
 ---
 
@@ -93,16 +93,16 @@ The pitch to AT&T: ARPU expansion + churn reduction + new commerce revenue share
 
 | Actor | What they own | What they get | Who they pay |
 |---|---|---|---|
-| **AT&T** (Telco) | Network · home edge devices · household identity · customer relationship | Subscription revenue ($25-40/mo · "Home Concierge" tier) · commerce revenue share with Kroger · 5G/fiber stickiness · churn reduction | Deloitte (build + operate) · Kroger (revenue share split) |
-| **Kroger** (Merchandiser) | Catalog · pricing · fulfillment · loyalty program | Incremental basket from auto-replenishment (+8-15% household frequency) · ~zero cart-abandonment in this channel · loyalty deepening · POS data feedback loop | Deloitte (CFMP-side integration) · revenue share to AT&T |
+| **AT&T** (Telco) | Network · home edge devices · household identity · customer relationship | Subscription revenue ($25-40/mo · "Home Concierge" tier) · commerce revenue share with Kroger · 5G/fiber stickiness · churn reduction | The firm (build + operate) · Kroger (revenue share split) |
+| **Kroger** (Merchandiser) | Catalog · pricing · fulfillment · loyalty program | Incremental basket from auto-replenishment (+8-15% household frequency) · ~zero cart-abandonment in this channel · loyalty deepening · POS data feedback loop | The firm (CFMP-side integration) · revenue share to AT&T |
 | **Household** (Customer) | Their kitchen · their voice · their consent | Don't run out of staples · save 30+ min/week on shopping · privacy mode they actually control | AT&T (subscription) |
 
-Deloitte sells **two engagements** that compose into one solution:
+The firm sells **two engagements** that compose into one solution:
 - **AT&T-side**: TCP Pack Standard ($1-2M, 12-16w) — sold to CIO/Chief Digital Officer of AT&T Mobility
 - **Kroger-side**: CFMP Pack Standard ($750K-$1.5M, 12-16w) — sold to CMO/CX-VP of Kroger Digital
 - **Cross-pack scenario chain bundle** ($250-400K, 4-6w) — the wire-up that makes the two halves actually talk
 
-Total Deloitte engagement: **$2-4M Wave-1**, run-rate Operate (T5) thereafter.
+Total firm engagement: **$2-4M Wave-1**, run-rate Operate (T5) thereafter.
 
 ---
 
@@ -453,10 +453,10 @@ The Sonos device just needs an IP set on the home network. The Beelink already r
                                        │ KROGER   │
                                        └──────────┘
 
-   Deloitte engagement contracts:
+   firm engagement contracts:
    ┌───────────────────────────────────────────────────────┐
-   │  AT&T pays Deloitte for TCP build + operate           │
-   │  Kroger pays Deloitte for CFMP-side integration       │
+   │  AT&T pays the firm for TCP build + operate           │
+   │  Kroger pays the firm for CFMP-side integration       │
    │  Both engagements ride APEX-M (independence: ISV      │
    │  Marketplace burndown + SI Teaming, never direct ECIF │
    │  from Microsoft per S21).                             │
@@ -486,7 +486,7 @@ The Sonos device just needs an IP set on the home network. The Beelink already r
 2. **B2B2C is the architectural pattern of the next decade**. Telcos own the pipe; merchandisers own the catalog; APEX is the only framework that lets them compose without one absorbing the other.
 3. **Cross-pack engagement is the framework's hardest demo**. Selling AT&T × Kroger end-to-end proves APEX scales beyond single-pack pilots — the strategic answer to "but is your framework actually general?"
 4. **Foundation enhancements pay forward**. `household` persona, `sonos_voice`/`home_kiosk` HITL, NEED phase, Interface #16 — all reusable across Verizon × Walmart, T-Mobile × Target, Comcast × Wegmans, and into smart-home insurance plays, healthcare-at-home, etc.
-5. **Independence-safe by construction**. AT&T isn't audited by Deloitte. Kroger isn't audited by Deloitte. Microsoft money rides ISV Marketplace + SI Teaming. The funding paths in S21 line up cleanly.
+5. **Independence-safe by construction**. AT&T isn't audited by the firm. Kroger isn't audited by the firm. Microsoft money rides ISV Marketplace + SI Teaming. The funding paths in S21 line up cleanly.
 
 ---
 
@@ -593,10 +593,10 @@ The scenarios from §6 carry over unchanged. The KPI narrative shifts from "telc
                                                             │ (direct) │
                                                             └────┬─────┘
                                                                  │
-                                                                 │ pays Deloitte
+                                                                 │ pays the firm
                                                                  ▼
                                                             ┌──────────┐
-                                                            │ DELOITTE │
+                                                            │ THE FIRM │
                                                             └──────────┘
 ```
 
@@ -698,4 +698,4 @@ The foundation enhancements pay for themselves whichever variant closes first. T
 
 ---
 
-*Internal · Deloitte Microsoft Technology & Services Practice · Prepared by Keven Markham, VP · 2026-05-23*
+*Internal · Microsoft Technology & Services Practice · Prepared by Keven Markham, VP · 2026-05-23*

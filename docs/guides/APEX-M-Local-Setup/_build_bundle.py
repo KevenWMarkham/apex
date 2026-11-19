@@ -70,7 +70,7 @@ cat docs/guides/APEX-M-Local-Setup/README.md
 - Deploy to a real Azure tenant — requires the full repo + Bicep blueprints
 
 For any of the above, clone the full repo from
-https://github.com/Deloitte-US-Consulting/APEX
+https://github.com/KevenWMarkham/apex
 
 ## Independence posture
 

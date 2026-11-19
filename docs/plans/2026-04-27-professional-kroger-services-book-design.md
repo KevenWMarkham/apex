@@ -22,7 +22,7 @@ sidebar navigation, callouts, mermaid diagrams, search, and dark-mode toggle.
 |---|---|
 | Book scope | **Services-focused** — anchored on the Kroger service portfolio (RC-E2E-03 + RC-E2E-09 + shared) |
 | Structure | **Engagement arc** — 5 parts following Why → Services → Architecture → Pursuit → At Scale |
-| Voice | **Hybrid** — internal Deloitte sellers as primary voice, with embedded client-presentable narrative blocks (Store-100-style "Kroger Store 412") |
+| Voice | **Hybrid** — internal firm sellers as primary voice, with embedded client-presentable narrative blocks (Store-100-style "Kroger Store 412") |
 | Artifact handling | **Hybrid** — narrative is rewritten inline; each chapter ends with a *Companion Artifacts* callout linking the underlying files |
 | Output location | `Consumer/Retail/Kroger/02_projects/FY27_Pipeline/assortment-pricing-agentic/deliverables/Professional-Kroger-Services.html` (sits next to the artifacts so relative links work without rewriting) |
 
@@ -96,7 +96,7 @@ Each chapter follows the Sellers Guide template:
 
 The client-presentable Ch 19 ("Kroger Store 412") additionally carries an
 **Independence Reminder** callout at top and bottom positioning the narrative
-as "Deloitte-delivered agents on Kroger's Microsoft platform" (APEX stays
+as "firm-delivered agents on Kroger's Microsoft platform" (APEX stays
 unmentioned in the narrative itself).
 
 ## Visual system (inherited from Sellers Guide)

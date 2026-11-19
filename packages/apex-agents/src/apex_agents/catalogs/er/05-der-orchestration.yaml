@@ -12,7 +12,7 @@ description: >
   orchestration. Signals enrolled residential battery + solar + EV
   fleet for aggregated grid support during peak.
 archetype_id: F3-predictive-trigger-workflow-aware
-primary_contact: er-pu-practice-lead@deloitte.com
+primary_contact: er-pu-practice-lead@example.com
 
 tools:
   - tool_id: apex.er.mcp.dermml.get_enrolled_assets

@@ -70,7 +70,7 @@ def _diagonal_gradient(size, c0, c1, *, angle_deg=30):
 
 
 def _radial_dots_overlay(size, *, dot_color=(134, 188, 37), spacing=80, radius=2, alpha=70):
-    """Subtle dot grid overlay (Deloitte green accent)."""
+    """Subtle dot grid overlay (the firm green accent)."""
     w, h = size
     img = Image.new("RGBA", size, (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
@@ -259,7 +259,7 @@ def page_footer(slide, slide_no: int, total: int):
     add_rect(slide, Inches(0.5), Inches(7.0), Inches(12.33), Inches(0.02),
              fill=SOFT_LINE)
     add_textbox(slide, Inches(0.5), Inches(7.10), Inches(9), Inches(0.30),
-                "APEX  ·  Deloitte Microsoft Technology & Services Practice",
+                "APEX  ·  Microsoft Technology & Services Practice",
                 size=9, color=MUTED)
     add_textbox(slide, Inches(11.00), Inches(7.10), Inches(2.0), Inches(0.30),
                 f"{slide_no} / {total}", size=9, bold=True, color=GREEN,
@@ -441,7 +441,7 @@ def main() -> None:
     # Green accent bar
     add_rect(s, Inches(0.7), Inches(4.6), Inches(0.6), Inches(0.10), fill=GREEN)
     add_textbox(s, Inches(0.7), Inches(4.8), Inches(11), Inches(0.6),
-                "Deloitte's agentic-AI delivery framework",
+                "The firm's agentic-AI delivery framework",
                 size=28, color=WHITE, font="Calibri")
     add_textbox(s, Inches(0.7), Inches(5.45), Inches(11), Inches(0.4),
                 "Walkthrough for DMTSP  ·  what it is  ·  how to demo  ·  how to make it real",
@@ -486,7 +486,7 @@ def main() -> None:
     add_rect(s, diag_x, diag_y + Inches(1.4), diag_w, Inches(1.5), fill=GREEN,
              corner_radius=0.15)
     add_textbox(s, diag_x, diag_y + Inches(1.4), diag_w, Inches(0.5),
-                "APEX  —  Deloitte's engagement layer",
+                "APEX  —  the firm's engagement layer",
                 size=15, bold=True, color=WHITE,
                 align=PP_ALIGN.CENTER)
     add_textbox(s, diag_x, diag_y + Inches(1.85), diag_w, Inches(1.0),
@@ -913,7 +913,7 @@ def main() -> None:
     s = prs.slides.add_slide(blank)
     add_rect(s, Inches(0), Inches(0), SLIDE_W, SLIDE_H, fill=BG)
     header_minimal(s, "Independence  —  non-negotiable",
-                   "Deloitte audits Microsoft. SEC rules shape funding paths.")
+                   "The firm audits Microsoft. SEC rules shape funding paths.")
 
     # Big shield icon on left
     icon_shield(s, Inches(0.8), Inches(2.5), Inches(3.2), Inches(3.5),
@@ -981,12 +981,12 @@ def main() -> None:
              line=GREEN, corner_radius=0.05)
     icon_check(s, Inches(9.30), Inches(2.30), Inches(1.1), Inches(1.1), color=GREEN)
     add_textbox(s, Inches(6.85), Inches(3.65), Inches(6.0), Inches(0.7),
-                "Deloitte delivery framework",
+                "firm delivery framework",
                 size=24, bold=True, color=GREEN_DK, align=PP_ALIGN.CENTER)
     iss = ["We sell  agentic-AI delivery services",
            "Scoped per Pack  ·  per tier  ·  per SOW",
            "Funded via the standard envelope mix",
-           "Framework is Deloitte IP. Always."]
+           "Framework is firm IP. Always."]
     for i, t in enumerate(iss):
         add_textbox(s, Inches(7.05), Inches(4.6 + i * 0.45),
                     Inches(5.6), Inches(0.4),

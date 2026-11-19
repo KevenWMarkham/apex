@@ -13,7 +13,7 @@ description: >
   reserved-hold mechanics via Sazerac-mediated partnership with licensed
   retailers.
 archetype_id: F2-event-cluster-pattern-match
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.home.read_active_alerts

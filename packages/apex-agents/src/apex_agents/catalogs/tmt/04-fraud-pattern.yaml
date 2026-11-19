@@ -10,7 +10,7 @@ prompt_sha: ""
 description: >
   Telco fraud-pattern detection. Identifies SIM-swap / international-fraud / wangiri patterns from CDR + provisioning streams.
 archetype_id: F2-event-cluster-pattern-match
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.bssml.get_cdr_stream

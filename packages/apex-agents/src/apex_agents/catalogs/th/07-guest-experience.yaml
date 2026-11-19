@@ -10,7 +10,7 @@ prompt_sha: ""
 description: >
   Guest-experience signal aggregation across check-in, room-service, housekeeping, and incident. Triggers proactive recovery.
 archetype_id: F1-continuous-monitor-hitl-alert
-primary_contact: th-practice-lead@deloitte.com
+primary_contact: th-practice-lead@example.com
 
 tools:
   - tool_id: apex.th.mcp.travelerml.get_guest_journey

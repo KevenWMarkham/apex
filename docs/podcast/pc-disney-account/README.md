@@ -1,6 +1,6 @@
 # The Disney Account Podcast · `pc-disney-account`
 
-A **five-episode** internal Account Team podcast for the Deloitte team working **The Walt Disney Company.** Built on top of the APEX Trilogy podcasts (`pc-sellersguide/` · `pc-servicesguide/` · `pc-deploymentguide/`) — assumes the listener has at least skim-heard the Sellers Podcast. Goes deep on Disney as an account.
+A **five-episode** internal Account Team podcast for the team working **The Walt Disney Company.** Built on top of the APEX Trilogy podcasts (`pc-sellersguide/` · `pc-servicesguide/` · `pc-deploymentguide/`) — assumes the listener has at least skim-heard the Sellers Podcast. Goes deep on Disney as an account.
 
 > **Internal use.** This podcast names the client directly because it's internal Account Team preparation. The Trilogy podcasts anonymise Disney as *"a global media and entertainment conglomerate"* per Sellers Guide Chapter 23. This podcast does not.
 
@@ -8,12 +8,12 @@ A **five-episode** internal Account Team podcast for the Deloitte team working *
 
 ## Why this podcast exists
 
-Disney is the largest TMT-MED anchor account in Deloitte's Microsoft practice portfolio. The 2026 opportunity at Disney spans **16 Disney-fit APEX scenarios** curated from the 723-scenario APEX library — concentrated in the TMT practice with cross-pull from RC and TH. The Account Team needs:
+Disney is the largest TMT-MED anchor account in the firm's Microsoft practice portfolio. The 2026 opportunity at Disney spans **16 Disney-fit APEX scenarios** curated from the 723-scenario APEX library — concentrated in the TMT practice with cross-pull from RC and TH. The Account Team needs:
 
 1. **A shared strategic picture of Disney** — segments, pressure points, why APEX is the right pitch *now*.
 2. **A working knowledge of each of the 16 scenarios** — what it does, who at Disney owns the pain, what the KPI is, how it composes with adjacent scenarios.
 3. **A coherent ladder strategy** — how the L1 wedge converts to a Wave 1 SOW converts to a B2B practice-wide motion converts to a B2C transformation at Disney scale.
-4. **An operational playbook** — who to call, what to say, when to involve which Deloitte partner, how to use the GSSC Lab for Disney-specific demos, and where the Independence bright lines are for this specific account.
+4. **An operational playbook** — who to call, what to say, when to involve which firm partner, how to use the GSSC Lab for Disney-specific demos, and where the Independence bright lines are for this specific account.
 
 These five episodes deliver all four.
 
@@ -23,7 +23,7 @@ These five episodes deliver all four.
 
 **Keven** *(the practitioner)* — `en-US-AndrewNeural` · Same Trilogy continuity host. Knows the framework cold. On this podcast, when he says "in the room," he means the conference rooms at Burbank and Lake Buena Vista.
 
-**Riley** *(the account partner)* — `en-US-EmmaMultilingualNeural` · A senior Deloitte account partner with 12+ years on Disney. Has been in every major conference room on Disney's properties. Knows the org chart, the politics, the cadences, the relationships. Plays the role of *"OK but what the COO of Experiences will actually say to that is…"* Riley keeps the conversation grounded in *who at Disney actually decides what.*
+**Riley** *(the account partner)* — `en-US-EmmaMultilingualNeural` · A senior the firm account partner with 12+ years on Disney. Has been in every major conference room on Disney's properties. Knows the org chart, the politics, the cadences, the relationships. Plays the role of *"OK but what the COO of Experiences will actually say to that is…"* Riley keeps the conversation grounded in *who at Disney actually decides what.*
 
 The Trilogy podcasts had Jordan (strategist), Morgan (delivery architect), Sam (platform engineer). Riley is the *account-relationship* lens — different from all three. Same Trilogy continuity through Keven.
 
@@ -139,4 +139,4 @@ pc-disney-account/
 
 ---
 
-*The implied listener: a member of the Deloitte Account Team for Disney — partner, senior manager, manager, senior consultant — who is preparing for an upcoming Disney conversation and wants the* account-specific *application of APEX without re-listening to the entire Trilogy.*
+*The implied listener: a member of the Account Team for Disney — partner, senior manager, manager, senior consultant — who is preparing for an upcoming Disney conversation and wants the* account-specific *application of APEX without re-listening to the entire Trilogy.*

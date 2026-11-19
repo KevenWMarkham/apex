@@ -41,7 +41,7 @@
 
 ### 1.1 What APEX Is
 
-**APEX (Agent-based Platform for EXecution)** is Deloitte's internal delivery accelerator for agentic AI on the Microsoft technology platform. It is deliberately **not** a product that clients license or purchase; it is the engineering substrate that lets Deloitte deliver Agentic AI Delivery Services to clients in **9–12 months** instead of the **18–24 months** a ground-up build would demand.
+**APEX (Agent-based Platform for EXecution)** is the firm's internal delivery accelerator for agentic AI on the Microsoft technology platform. It is deliberately **not** a product that clients license or purchase; it is the engineering substrate that lets the firm deliver Agentic AI Delivery Services to clients in **9–12 months** instead of the **18–24 months** a ground-up build would demand.
 
 APEX is best understood as a **manifest-driven, auditable agentic platform** that turns enterprise events into resolved, auditable decisions. Every APEX deployment answers three questions, by design, for every decision it touches:
 
@@ -1143,7 +1143,7 @@ The established pipeline for these cinematic artifacts:
 - **Register:** documentary narrator — authoritative, paced, no marketing language
 - **Sentence length:** 18–32 words; complete sentences, no bullets spoken aloud
 - **Cadence:** each scene is 3–6 sentences; total tab narration 90–180 seconds
-- **Prohibited words:** "partner", "alliance", "strategic alliance" (Deloitte Independence constraint; see §22.4)
+- **Prohibited words:** "partner", "alliance", "strategic alliance" (Independence constraint; see §22.4)
 
 ---
 
@@ -1229,8 +1229,8 @@ Inter and Roboto are explicitly **not** used as primary typefaces — Fraunces i
 
 These rules apply to **every word** emitted in any APEX artifact or narration, without exception:
 
-- **NEVER** use "partner", "alliance", or "strategic alliance" to describe the Deloitte–Microsoft relationship
-- **Approved substitutes:** "Deloitte's Microsoft practice", "DMTSP", "Microsoft platform capabilities", "Microsoft-native deployment", "Deloitte Microsoft Technology Solutions & Practices"
+- **NEVER** use "partner", "alliance", or "strategic alliance" to describe the firm–Microsoft relationship
+- **Approved substitutes:** "The firm's Microsoft practice", "DMTSP", "Microsoft platform capabilities", "Microsoft-native deployment", "Microsoft Technology Solutions & Practices"
 - Compliance check runs as a pre-publish step for every artifact
 
 ### 22.5 Responsive & Accessibility Baseline
@@ -1250,7 +1250,7 @@ These rules apply to **every word** emitted in any APEX artifact or narration, w
 | **ACK_ONLY** | HITL gate kind meaning "notify + auto-apply" (default for MINOR) |
 | **Agent** | Reasoning component in Azure AI Foundry / Agent Service with system prompt, tool allow-list, model pin, manifest |
 | **Agent-safe view** | Derivative of a Gold view with classification-appropriate masking, scoped to agent tenant / practice / persona |
-| **APEX** | Agent-based Platform for EXecution — Deloitte's internal delivery accelerator for agentic AI on Microsoft platform |
+| **APEX** | Agent-based Platform for EXecution — the firm's internal delivery accelerator for agentic AI on Microsoft platform |
 | **APEX Scenario Library** | Reference catalog of 723 productized scenarios (100+ per Practice × 7 Practices) embedded in the Stacked Architecture Narrated HTML; 35 are featured with full chain detail |
 | **Audit row** | Structured, tamper-evident, signed record of a decision; the unit of work an agent performs |
 | **Bronze** | Medallion layer where SOR data lands in source-native shape; read-only for Silver transforms |
@@ -1261,7 +1261,7 @@ These rules apply to **every word** emitted in any APEX artifact or narration, w
 | **Contract (L1)** | Normative `apex-core` specification |
 | **Decision audit row** | Append-only record capturing inputs, outputs, approver, rationale, rollback pointer |
 | **Direct Lake** | Power BI query path reading OneLake Delta directly; sub-second refresh; Import-speed query |
-| **DMTSP** | Deloitte Microsoft Technology Solutions & Practices — the practice under which APEX is developed and delivered |
+| **DMTSP** | Microsoft Technology Solutions & Practices — the practice under which APEX is developed and delivered |
 | **Edition (L2)** | Versioned, pinned release of L1 Core |
 | **Entra** | Microsoft identity service; issues managed identities for agents and services |
 | **ESCALATION** | HITL gate kind routing to a cross-functional owner |
@@ -1275,7 +1275,7 @@ These rules apply to **every word** emitted in any APEX artifact or narration, w
 | **HIC** | Human-In-Charge; human uses APEX outputs as decision support |
 | **HITL** | Human-In-The-Loop; agent pauses for approval |
 | **HOTL** | Human-On-The-Loop; human supervises autonomous operation |
-| **Independence** | Deloitte audit-independence constraint; governs how the Deloitte-Microsoft relationship is described in all artifacts (no "partner/alliance") |
+| **Independence** | The firm audit-independence constraint; governs how the Microsoft relationship is described in all artifacts (no "partner/alliance") |
 | **L1 / L2 / L3 / L4** | Contract / Edition / Practice / Tenant |
 | **LEDGER** | APEX's decision-provenance store; holds policy corpora, HITL approval surfaces, and audit rows |
 | **Managed identity** | Entra service principal with credential-free auth to Azure resources |
@@ -1320,10 +1320,10 @@ The published APEX documentation set includes the following appendices, each of 
 | **E. Persona Catalog** | Personas (Store Manager, Pharmacist, Grid Operator, QA Engineer, Procurement Manager, …) with permissions, workflows, required KPIs |
 | **F. MCP Tool Catalog** | Complete tool catalog by server class (domain / utility / external) with schemas, SLOs, classification propagation rules |
 | **G. Microsoft Product & SKU Reference** | Azure AI products, Fabric workloads, licensing models, capacity-sizing guidance |
-| **H. Partner Ecosystem** | Deloitte practices, Azure architecture patterns, Microsoft partner solutions |
+| **H. Partner Ecosystem** | firm practices, Azure architecture patterns, Microsoft partner solutions |
 | **I. Glossary** | 65+ canonical terms (see §23) |
 | **J. Exercise Solutions** | Solutions to Wrox-style exercises in each chapter |
-| **K. Independence, Tech-Stack Posture & Competitive Differentiation** | How APEX's manifest-driven, auditable design positions Deloitte vs. competing consulting practices |
+| **K. Independence, Tech-Stack Posture & Competitive Differentiation** | How APEX's manifest-driven, auditable design positions the firm vs. competing consulting practices |
 | **L. Scenario Library Master Catalog** | All 723 scenarios across 7 Practices; featured-scenario chain details + Wave ribbons for the 35 anchor scenarios; JSON dump of `APEX_SCENARIO_LIBRARY` constant |
 | **M. Narration Script Catalog** | All 11-tab narration decks from Stacked Architecture Narrated HTML; per-scene text, scene anchors, voiceover timing guidance |
 | **N. Design-System Reference** | Typography, color tokens, per-practice banner colors, theme tokens, Independence linguistic rules; CSS variable reference |

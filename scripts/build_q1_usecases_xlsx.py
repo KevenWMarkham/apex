@@ -1,6 +1,6 @@
 """Build Q1 MVP Use Case workbook from the scope + journey map sources.
 
-Output: C:\\Users\\kmarkham\\OneDrive - Deloitte (O365D)\\Documents\\mvp-scope-q1-usecases.xlsx
+Output: C:\\Users\\kmarkham\\OneDrive - the firm (O365D)\\Documents\\mvp-scope-q1-usecases.xlsx
 
 Sheets
 ------
@@ -20,10 +20,10 @@ from openpyxl.worksheet.table import Table, TableStyleInfo
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
-OUT = r"C:\Users\kmarkham\OneDrive - Deloitte (O365D)\Documents\mvp-scope-q1-usecases.xlsx"
+OUT = r"C:\Users\kmarkham\OneDrive - the firm (O365D)\Documents\mvp-scope-q1-usecases.xlsx"
 
 # ---------- styling helpers ----------
-DELOITTE_GREEN = "86BC25"
+FIRM_GREEN = "86BC25"
 INK_DARK = "0D2818"
 INK_AMBER = "F0A839"
 INK_BLUE = "4DA6FF"
@@ -117,7 +117,7 @@ def build_cover(wb: Workbook):
         ("WBR Timeline",          "Friday-to-Monday chapter-by-chapter event log with the agent and human owners"),
     ]
     for i, (name, desc) in enumerate(contents):
-        ws.cell(row=21 + i, column=2, value=name).font = Font(name="Calibri", size=10, bold=True, color=DELOITTE_GREEN)
+        ws.cell(row=21 + i, column=2, value=name).font = Font(name="Calibri", size=10, bold=True, color=FIRM_GREEN)
         ws.cell(row=21 + i, column=3, value=desc).font = Font(name="Calibri", size=10)
         ws.row_dimensions[21 + i].height = 18
 

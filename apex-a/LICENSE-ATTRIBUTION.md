@@ -26,7 +26,7 @@ client's existing AWS investment using:
 
 ## Independence posture
 
-Per Deloitte's Microsoft Technology & Services Practice, this
+Per Microsoft Technology & Services Practice, this
 attribution records that APEX-A:
 
 - **Will not** be a redistribution of any AWS product

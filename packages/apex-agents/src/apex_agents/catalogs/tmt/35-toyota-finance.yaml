@@ -12,7 +12,7 @@ description: >
   Management Solutions (UBI). Cross-OEM bench includes Ford Credit,
   GM Financial. Insurance side may hand off to future Finance Channel.
 archetype_id: F3-predictive-trigger-workflow-aware
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.home.read_insurance_renewal_horizon

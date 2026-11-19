@@ -40,4 +40,4 @@ linked_archetypes:
   - F2-event-cluster-pattern-match
 
 schemas_touched: [AftermarketML, QMSML, ConnectedProductML]
-primary_contact: axle-practice-lead@deloitte.com
+primary_contact: axle-practice-lead@example.com

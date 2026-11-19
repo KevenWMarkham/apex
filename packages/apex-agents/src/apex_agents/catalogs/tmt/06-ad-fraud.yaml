@@ -10,7 +10,7 @@ prompt_sha: ""
 description: >
   Ad-fraud detection across DSP/SSP impression and click streams. Identifies bot patterns and IVT signatures.
 archetype_id: F2-event-cluster-pattern-match
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.audienceml.get_impression_stream

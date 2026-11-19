@@ -68,7 +68,7 @@ apex adapters smoke-test epic-clarity --golden tests/fixtures/golden-epic.json
 cd infra/terraform/blueprints/adapter-workspace
 terraform init
 terraform apply -var practice=rc -var adapter_name=sap-s4hana \
-  -var capacity_admins='["apex-rc-admins@deloitte.com"]' \
+  -var capacity_admins='["apex-rc-admins@example.com"]' \
   -var cost_center=RC-ENG-001
 
 # Then create the canonical-named Bronze workspace via apex-fabric:

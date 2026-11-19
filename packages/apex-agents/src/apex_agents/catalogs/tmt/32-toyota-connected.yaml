@@ -12,7 +12,7 @@ description: >
   OnStar + Tesla + Honda HondaLink + Hyundai Bluelink + Stellantis
   Uconnect under one household-fleet view. Extends HOM-07 (vehicle).
 archetype_id: F1-continuous-monitor-hitl-alert
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.home.read_household_fleet_360

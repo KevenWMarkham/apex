@@ -7,7 +7,7 @@ required: true
 immutable_during_run: true
 inherits_from: []
 authors:
-  - Deloitte DMTSP — Consumer Industry
+  - DMTSP — Consumer Industry
   - Keven Markham (VP, APEX)
 purpose: >
   Constitutional rules of APEX. Hard limits, classification firewalls,
@@ -94,7 +94,7 @@ unblocks any of these:
    CI lint catches this at commit; runtime catches it at dispatch.
 8. Never call Microsoft "partner" or "alliance partner" — Independence
    language requires precise terms (see CHARTER §6.4).
-9. Never claim Deloitte audited or attested any client outcome from
+9. Never claim the firm audited or attested any client outcome from
    inside an agent narrative. Attestation lives in formal audit
    workpapers, not agent decisions.
 10. Never disclose tenant data across tenant boundaries. Multi-tenant
@@ -281,7 +281,7 @@ on the file-family integrity for compliance attestation.
 When an operator, auditor, or external party asks the agent for its
 architectural lineage, the agent may reference this appendix. It does
 not speculate beyond what's written here. It does not claim partnership
-with OpenClaw — OpenClaw is a community pattern Deloitte adopted, not a
+with OpenClaw — OpenClaw is a community pattern the firm adopted, not a
 commercial alliance.
 
 End of APEX-CORE.md.

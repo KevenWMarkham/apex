@@ -138,7 +138,7 @@ def build():
     doc.add_paragraph()
     addkv(doc, [
         ("Document type",     "Documentation Response Packet · India Build Team Onboarding"),
-        ("From",              "Markham, Keven · Deloitte Microsoft Technology Solutions & Practices"),
+        ("From",              "Markham, Keven · Microsoft Technology Solutions & Practices"),
         ("To",                "Qazi, Nabeel · Limaye, Apurva"),
         ("Cc",                "Veera, Sree Narendranath Reddy · Krishnaswamy, Anand"),
         ("Subject",           "Response to scope/timeline-evaluation request · APEX framework build"),
@@ -151,7 +151,7 @@ def build():
     # ============ EXECUTIVE SUMMARY ============
     addh(doc, "1 · Executive summary", level=1)
     addbody(doc,
-            "The APEX framework — Agentic Platform for Enterprise eXecution — is Deloitte's reference "
+            "The APEX framework — Agentic Platform for Enterprise eXecution — is the firm's reference "
             "architecture for industry-scenario agent orchestration on Microsoft-native deployment. "
             "It is documented across roughly 60 deliverables today, organized into a 5-tier model "
             "(Foundation · Executive · Build · Governance · Strategic) with specific reference "
@@ -366,7 +366,7 @@ def build():
     addh(doc, "5.2 · Resource plan structure (8 sheets)", level=2)
     addtable(doc, ["Sheet","What it contains"],
              [["README",                "Workbook map · scope assumptions · independence posture"],
-              ["Deloitte Staffing",     "20 roles × 4 waves · daily rate · FTE · dollar load per wave"],
+              ["The firm's Staffing",     "20 roles × 4 waves · daily rate · FTE · dollar load per wave"],
               ["Client Staffing",       "12 client personas · % FTE allocation per wave · implied $ value (informational)"],
               ["Microsoft Platform",    "12 lines (Foundry · Azure OpenAI · Fabric · Storage · Entra · Teams · Power BI · Purview · App Insights · Defender · APIM · Marketplace credit)"],
               ["Third-Party & Other",   "12 lines · vendor specialists · change management · contingency"],
@@ -766,11 +766,11 @@ def build():
     addh(doc, "12 · Independence posture and contacts", level=1)
     addh(doc, "12.1 · Independence-safe by construction", level=2)
     addcallout(doc, "All APEX deliverables preserve the same independence posture",
-               "All APEX commercial materials use 'Deloitte's Microsoft practice,' 'DMTSP,' 'Microsoft "
+               "All APEX commercial materials use 'the firm's Microsoft practice,' 'DMTSP,' 'Microsoft "
                "platform capabilities,' 'Microsoft-native deployment.' The terms 'partner,' 'alliance,' "
                "and 'strategic alliance' do not appear. Engagement structure preserves audit independence: "
-               "manifests, policies, and LEDGER are client artifacts; Deloitte's role is advisory and "
-               "implementation enablement. Before contracting, the SOW is routed through Deloitte's "
+               "manifests, policies, and LEDGER are client artifacts; the firm's role is advisory and "
+               "implementation enablement. Before contracting, the SOW is routed through the firm's "
                "Independence office.",
                accent=GOLD)
 
@@ -788,7 +788,7 @@ def build():
         "Questions about specific artifacts → Keven (this packet's author) · 24-hr response target",
         "Questions about engagement scope or commercial framing → Keven + Apurva",
         "Questions about Microsoft platform alignment (Foundry · Fabric · Doc Intelligence specifics) → Keven loops in DMTSP technical leads",
-        "Questions about Independence-office requirements → Keven loops in Deloitte Independence office",
+        "Questions about Independence-office requirements → Keven loops in Independence office",
         "Working session requests · joint scope assessment · daily standup integration → Keven calendar-direct",
     ])
 
@@ -815,7 +815,7 @@ def build():
                  "feel comfortable asking for what's not yet documented; the framework is designed to evolve "
                  "and the documentation evolves with it.")
 
-    addbody(doc, "Independence posture preserved across this packet: 'Deloitte's Microsoft practice,' "
+    addbody(doc, "Independence posture preserved across this packet: 'The firm's Microsoft practice,' "
                  "'DMTSP,' 'Microsoft platform capabilities,' 'Microsoft-native deployment.' The terms "
                  "'partner,' 'alliance,' and 'strategic alliance' do not appear.",
             italic=True, color=MUTE, size=9)

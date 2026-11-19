@@ -13,7 +13,7 @@ description: >
   to Total Wine / BevMo / Binny's / Costco wine / Walmart liquor / direct
   distillery per state-rules engine.
 archetype_id: F3-predictive-trigger-workflow-aware
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.home.read_household_cellar

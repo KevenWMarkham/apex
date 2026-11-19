@@ -12,7 +12,7 @@ description: >
   response across cameras, locks, motion sensors, and alarm panels.
   P&C insurance carriers fund a premium discount the Telco shares.
 archetype_id: F1-continuous-monitor-hitl-alert
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.home.read_presence_state

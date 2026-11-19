@@ -1,6 +1,6 @@
 # Show Bible · The Disney Studios Account Podcast
 
-Internal Deloitte Account Team content specifically about The Walt Disney Studios business and its six component studios. Design rules below add to (don't replace) the Trilogy and Disney Account show bibles.
+Internal firm Account Team content specifically about The Walt Disney Studios business and its six component studios. Design rules below add to (don't replace) the Trilogy and Disney Account show bibles.
 
 ---
 
@@ -59,7 +59,7 @@ This is the most sensitive Independence-and-positioning dimension at this accoun
 
 Disney is Independence-managed at the global level. Disney Studios specifically:
 
-- Apply the two-contract model — Microsoft directly with Disney Studios; Deloitte services SOW directly
+- Apply the two-contract model — Microsoft directly with Disney Studios; firm services SOW directly
 - No co-sell with Microsoft
 - Coordinate with Disney audit-Independence structure
 - Avoid scope that touches Disney's external financial reporting (10-K, earnings, investor communications) — that's audit-adjacent

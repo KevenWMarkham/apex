@@ -1,6 +1,6 @@
 # APEX Fleet
 
-Deloitte-side operational registry for the APEX client fleet. Records which client accounts are pinned to which schema versions, per edition.
+Firm-side operational registry for the APEX client fleet. Records which client accounts are pinned to which schema versions, per edition.
 
 ## Independence posture
 

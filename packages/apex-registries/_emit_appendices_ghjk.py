@@ -490,15 +490,6 @@ PARTNERS = [
         "Bridge-only",
         [],
     ),
-    (
-        "ptr.deloitte-iv",
-        "Deloitte In-Vehicle Practice",
-        "delivery-partner",
-        ["axle", "ice"],
-        "Sister Deloitte practice for vehicle / aftermarket plays.",
-        "Co-staffing",
-        ["Practice MoU"],
-    ),
 ]
 for pid, name, category, practices, desc, pattern, contracts in PARTNERS:
     data = {
@@ -526,7 +517,7 @@ COMPETITIVE = [
             "Sprint 16 catalog + Sprint 18 references give pre-engagement evidence",
         ],
         [
-            "AICPA / SEC independence rules limit which client populations APEX can serve where Deloitte audits"
+            "AICPA / SEC independence rules limit which client populations APEX can serve where the firm audits"
         ],
         [
             "Faster time-to-value",
@@ -556,7 +547,7 @@ COMPETITIVE = [
             "APEX has named anchor agents per Practice with HITL gates baked in",
             "Sprint 17 service catalog provides commercially-priced productized services",
         ],
-        ["Capgemini is independence-clean for clients where Deloitte cannot serve"],
+        ["Capgemini is independence-clean for clients where the firm cannot serve"],
         ["Catalog depth", "Auditable HITL posture", "Microsoft strategic alignment"],
     ),
     (
@@ -567,7 +558,7 @@ COMPETITIVE = [
             "BCG plays consulting-led; APEX is package-led (shippable Python + Fabric infra + agents)",
             "APEX Sprint 18 references collapse 6-month BCG engagements into 8-12 week Wave-1 fixed-fee",
         ],
-        ["BCG independence-clean for Deloitte-audit clients"],
+        ["BCG independence-clean for audit clients"],
         ["Time-to-value", "Fixed-fee predictability", "Audit-grade artifacts"],
     ),
     (
@@ -578,7 +569,7 @@ COMPETITIVE = [
             "McKinsey/QB plays bespoke; APEX is repeatable-blueprint",
             "APEX cross-Practice catalog covers more sector breadth than QB sector-by-sector consult",
         ],
-        ["McKinsey independence-clean for Deloitte-audit clients"],
+        ["McKinsey independence-clean for audit clients"],
         ["Repeatability", "Catalog breadth", "Microsoft licensing alignment"],
     ),
     (
@@ -751,7 +742,7 @@ EXERCISES = [
         "§2.6",
         "2. APEX Foundations",
         "When does a service ship as value-share vs. fixed-fee?",
-        "Value-share when (a) the KPI is money-direction, (b) attribution is contractually clean, (c) Deloitte-independence rules permit. Fixed-fee otherwise.",
+        "Value-share when (a) the KPI is money-direction, (b) attribution is contractually clean, (c) independence rules permit. Fixed-fee otherwise.",
         ["Three conditions must all hold for value-share", "Independence is gate, not preference"],
         [],
         [],

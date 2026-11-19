@@ -150,7 +150,7 @@ When a retailer signs, *more shows up.* The store speakers can address customers
 
 **REID:** And the contracting model.
 
-**KEVEN:** Two contracts. The customer contracts directly with Microsoft for the cloud consumption — one bill, one tenant, one identity surface. The customer contracts directly with Deloitte for the CFMP delivery and the Portal Priya works from. *No third-party margin stacking.* When the retailer signs — eighteen months, thirty months, whenever — the retailer signs a separate, additive third contract for its own tenant consumption and its own integration. The customer's contract isn't affected. The customer can choose whether to onboard a newly-signed retailer or not. *The customer's experience is determined by the customer's choices, not by which retailers have signed up.*
+**KEVEN:** Two contracts. The customer contracts directly with Microsoft for the cloud consumption — one bill, one tenant, one identity surface. The customer contracts directly with the firm for the CFMP delivery and the Portal Priya works from. *No third-party margin stacking.* When the retailer signs — eighteen months, thirty months, whenever — the retailer signs a separate, additive third contract for its own tenant consumption and its own integration. The customer's contract isn't affected. The customer can choose whether to onboard a newly-signed retailer or not. *The customer's experience is determined by the customer's choices, not by which retailers have signed up.*
 
 **REID:** And the seller's argument.
 

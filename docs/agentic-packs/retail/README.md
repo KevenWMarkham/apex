@@ -8,7 +8,7 @@
 **Companion build-spec amendment:** [`docs/build-specs/apex-tmt-agentic-retail-amendment.md`](../../build-specs/apex-tmt-agentic-retail-amendment.md)
 **Marketplace meta-pack:** [`../_marketplace/`](../_marketplace/)
 **Status:** Draft
-**Primary author:** tmt-practice-lead@deloitte.com / rc-practice-lead@deloitte.com
+**Primary author:** tmt-practice-lead@example.com / rc-practice-lead@example.com
 
 ## The thesis in one paragraph
 

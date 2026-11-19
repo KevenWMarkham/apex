@@ -96,11 +96,11 @@ git commit -m "feat: voice audition script for Cross-Cloud Agentic podcast"
 
 Match the structure of `pc-toyota-zero-day-warranty/README.md` and `pc-dtna-account/README.md`. Sections:
 1. Series title — *"The Cross-Cloud Agentic Podcast — A Microsoft Seller's Honest Guide"*
-2. One-line description + audience disclosure (Microsoft Target Platform Sellers; safe for Deloitte AI team listeners; generic, no client specified)
+2. One-line description + audience disclosure (Microsoft Target Platform Sellers; safe for the firm's AI team listeners; generic, no client specified)
 3. The hosts — Keven (Andrew) + Reid (audited voice). 8th distinct pairing.
 4. The Five Architectural Principles named with one-line definitions
 5. The eight episodes — table with titles and one-line "centered on" descriptions
-6. Independence framing — Deloitte recommends on technical and economic merits; no co-sell; two-contract model; no compensation flows from Microsoft to Deloitte for influencing client cloud choices
+6. Independence framing — the firm recommends on technical and economic merits; no co-sell; two-contract model; no compensation flows from Microsoft to the firm for influencing client cloud choices
 7. Forbidden vocabulary list — "co-sell," "alliance," "partner," "strategic partnership," "channel partner" — explicit "absent from this podcast on purpose"
 8. Music sting disclosure — royalty-free C-major boardroom register, ffmpeg-synthesised
 9. Companion podcasts — Sellers / Services / Deployment Trilogy + 4 account podcasts
@@ -117,7 +117,7 @@ Match the structure of `pc-toyota-zero-day-warranty/00-show-bible-and-format.md`
 4. Cross-cloud-honesty discipline — explicit "Reid is the cross-cloud honesty enforcer; Keven defers when Reid pushes correctly"
 5. Independence rules — locked posture, forbidden vocabulary, two-contract framing
 6. Production rules — cold-open scenes, stair-step pedagogy, real disagreement per episode, quote-and-react, what-to-carry-forward closer, Further Reading per episode
-7. What NOT to do — name specific clients, name internal codenames (APEX, ORCH-01, BRML, AAML, etc. — they NEVER appear on tape; the podcast teaches the Acceleration Framework generically), use forbidden vocabulary, overclaim Microsoft, dismiss AWS/GCP capabilities, dismiss Deloitte AI team pushback
+7. What NOT to do — name specific clients, name internal codenames (APEX, ORCH-01, BRML, AAML, etc. — they NEVER appear on tape; the podcast teaches the Acceleration Framework generically), use forbidden vocabulary, overclaim Microsoft, dismiss AWS/GCP capabilities, dismiss the firm's AI team pushback
 8. Numbers discipline — no fabricated metrics; reference industry sources (Gartner, IDC, Forrester) without fabricating specific dollar figures
 
 Target: ~1,300-1,500 words.
@@ -725,7 +725,7 @@ This is the practitioner closer. Every prior episode points here.
   - Principle 3 (Identity): Entra single plane + broadest SaaS federation
   - Principle 4 (No Replication): Fabric Mirroring + Shortcuts broadest productized
   - Principle 5 (Model Portability): Foundry model availability + Agent Framework SDK abstraction
-- **Independence-minded framing** — recommend on technical and economic merits; no co-sell; two-contract model; no compensation flows from Microsoft to Deloitte for influencing client cloud choices
+- **Independence-minded framing** — recommend on technical and economic merits; no co-sell; two-contract model; no compensation flows from Microsoft to the firm for influencing client cloud choices
 - **Five honest claims** Microsoft sellers can defend:
   1. Most productized DSPM-for-AI capability (Principle 2)
   2. Most productized hash-chained ledger pattern reference architecture (Principle 2)
@@ -740,7 +740,7 @@ This is the practitioner closer. Every prior episode points here.
 - **Six pushback-handling talking points** — verbatim-quotable:
   1. "We're AWS-primary"
   2. "We're GCP-primary"
-  3. "Deloitte should be cloud-agnostic"
+  3. "The firm should be cloud-agnostic"
   4. "Microsoft compensation is influencing the recommendation"
   5. "We want portability later" (model and cloud)
   6. "We don't want our data replicated into a new lake"
@@ -757,9 +757,9 @@ This is the practitioner closer. Every prior episode points here.
   5. *"How model-portable is your agent design — could you swap GPT for Claude tomorrow if you needed to?"* (Principle 5)
   6. *"What's your AI consumption cost trajectory looking like quarter-over-quarter?"* (FinOps)
 - **Wave sizing / 90-day pilot path:** what makes a good Wave 1 (operational, contained, measurable); what kills agentic projects (scope creep, ungoverned model proliferation, cost shock)
-- **Funding programs** (Independence-clean handling): Microsoft BVA / ECIF / Azure Credits; AWS ProServe credits / MAP; GCP Cloud Innovation Credits. Frame as discovery-funding for the client's benefit — never as compensation flowing to Deloitte for influencing cloud choice.
+- **Funding programs** (Independence-clean handling): Microsoft BVA / ECIF / Azure Credits; AWS ProServe credits / MAP; GCP Cloud Innovation Credits. Frame as discovery-funding for the client's benefit — never as compensation flowing to the firm for influencing cloud choice.
 - **Closing posture:** the Microsoft platform earns the recommendation on merits. The Acceleration Framework + the Five Principles makes that recommendation defensible across any cloud reality.
-- One disagreement: Reid argues sellers will be tempted to skip the cross-cloud honest comparison and just pitch Microsoft; Keven argues short-term skipping wins one deal but loses the relationship with the Deloitte AI team and with sophisticated client architects.
+- One disagreement: Reid argues sellers will be tempted to skip the cross-cloud honest comparison and just pitch Microsoft; Keven argues short-term skipping wins one deal but loses the relationship with the AI team and with sophisticated client architects.
 
 **Step 2: Verify**
 
@@ -1113,7 +1113,7 @@ git commit -m "feat: apply music stings to all 8 Cross-Cloud Agentic episodes"
 7. Folder structure diagram
 8. Series content overview — 8 episodes with one-line summaries each
 9. Notes:
-   - Audience disclosure (Microsoft Target Platform Sellers; safe for Deloitte AI team)
+   - Audience disclosure (Microsoft Target Platform Sellers; safe for the firm's AI team)
    - Independence framing (no co-sell, two-contract model)
    - The Five Architectural Principles named
    - Generic positioning (no client specified)

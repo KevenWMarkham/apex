@@ -3,7 +3,7 @@
 Mirror RDS POS/ERP/CRM into the primary variant's data tier.
 
 Status: stub. Concrete implementation builds per-engagement when a
-Deloitte client's CAB has approved the integration. See README.md
+firm client's CAB has approved the integration. See README.md
 and sec_independence.md.
 """
 

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://apex.deloitte.com/schemas/smoke-test-fixture-v1.json",
+  "$schema": "https://apex.example.com/schemas/smoke-test-fixture-v1.json",
   "fixture_id": "rc-loyalty-churn-prediction-winback--canonical-1",
   "description": "Canonical synthetic loyalty-churn cohort per Services Guide §18.2 envelope. 5-member top-tier cohort with one elevated-risk platinum, two moderate-risk, one consent-blocked, one anti-fatigue-blocked. Drives the full 24-step chain end-to-end via mocks.",
 

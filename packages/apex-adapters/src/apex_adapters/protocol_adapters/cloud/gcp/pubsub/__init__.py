@@ -3,7 +3,7 @@
 Cross-cloud event routing GCP -> APEX-M Eventstream.
 
 Status: stub. Concrete implementation builds per-engagement when a
-Deloitte client's CAB has approved the integration. See README.md
+firm client's CAB has approved the integration. See README.md
 and sec_independence.md.
 """
 

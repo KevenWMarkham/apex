@@ -12,7 +12,7 @@ description: >
   coordination, multi-OEM inventory search. Reads household composition,
   repair-cost trends, and lease-end horizon.
 archetype_id: F3-predictive-trigger-workflow-aware
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.home.read_lease_end_horizon

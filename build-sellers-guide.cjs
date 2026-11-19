@@ -1,7 +1,7 @@
 // build-sellers-guide.cjs
 //
 // Builds Professional APEX: The Sellers Guide as a single-file Wrox-style
-// HTML book. Targets Deloitte Microsoft-practice sellers and GPLs pursuing
+// HTML book. Targets the firm's Microsoft-practice sellers and GPLs pursuing
 // APEX revenue in named industry accounts.
 //
 // Output: docs/book/Professional-APEX-Sellers-Guide.html
@@ -606,10 +606,10 @@ const FRONT_MATTER = `
   <h1 class="title"><span class="accent">APEX</span></h1>
   <div class="subtitle">The Sellers Guide</div>
   <div class="edition">Pursuing Microsoft Revenue in Industry Accounts</div>
-  <p class="tagline">A field guide for Deloitte Microsoft-practice sellers, Global Practice Leaders, and co-selling account teams. Position APEX to drive Fabric, Copilot, Foundry, and Purview revenue at your industry's anchor accounts.</p>
+  <p class="tagline">A field guide for the firm's Microsoft-practice sellers, Global Practice Leaders, and co-selling account teams. Position APEX to drive Fabric, Copilot, Foundry, and Purview revenue at your industry's anchor accounts.</p>
   <div class="wrox-label">WROX-STYLE EDITION · SELLERS VOLUME</div>
   <div class="byline">
-    by the APEX GTM team · Deloitte Microsoft Technology &amp; Services Practice<br>
+    by the APEX GTM team · Microsoft Technology &amp; Services Practice<br>
     April 2026 · Version 1.0 · CONFIDENTIAL — internal use only
   </div>
 </section>
@@ -624,7 +624,7 @@ const FRONT_MATTER = `
   </ul>
   <aside class="callout independence">
     <div class="callout-label">Independence Reminder</div>
-    <p>This book contains publicly-observable strategic signals on named accounts. It does not represent that Deloitte is currently engaged with any named account, nor does it disclose confidential client information. All account narratives are framed as hypotheses to validate in discovery.</p>
+    <p>This book contains publicly-observable strategic signals on named accounts. It does not represent that the firm is currently engaged with any named account, nor does it disclose confidential client information. All account narratives are framed as hypotheses to validate in discovery.</p>
   </aside>
 </section>
 `;

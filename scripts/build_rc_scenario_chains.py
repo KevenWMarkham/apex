@@ -21,7 +21,7 @@ OUT_XL = OUTDIR / "APEX-RC-Scenario-Chains.xlsx"
 OUT_HT = OUTDIR / "APEX-RC-Scenario-Chains.html"
 
 # -------------------------------------------------------------------------
-# Service code → Deloitte unit mapping
+# Service code → the firm unit mapping
 # -------------------------------------------------------------------------
 SERVICES = {
     "RC-E2E-01": "Demand Sensing & Planning",
@@ -1092,7 +1092,7 @@ def build_xlsx(rows):
     headers = ["#", "Scenario ID", "Title", "Service", "Domain", "Sub-Area",
                "W1 Foundation", "W2 Pilot (you are here)", "W3 Scale & Fuse",
                "Scenario (the moment)", "Solution / Agent (ORCH archetype)",
-               "Service (Deloitte unit)", "Persona (operator · HITL approver)", "KPI / Outcome"]
+               "Service (the firm unit)", "Persona (operator · HITL approver)", "KPI / Outcome"]
     widths  = [5, 42, 38, 14, 30, 32, 60, 60, 60, 70, 60, 28, 38, 28]
     write_hdrs(ws, headers, widths)
 
@@ -1128,7 +1128,7 @@ def build_xlsx(rows):
     ws = wb.create_sheet("Scenario→KPI Chain")
     headers = ["Scenario ID", "Domain", "Sub-Area", "Scenario (the moment)",
                "Solution / Agent (ORCH archetype)", "Use Cases (decomposed)",
-               "Service (Deloitte unit)", "Persona (operator · HITL approver)",
+               "Service (the firm unit)", "Persona (operator · HITL approver)",
                "KPI (measurable outcome)", "Featured?"]
     widths  = [42, 30, 32, 70, 56, 50, 28, 38, 28, 12]
     write_hdrs(ws, headers, widths)

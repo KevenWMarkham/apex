@@ -14,7 +14,7 @@ description: >
   bundled flight+hotel+car package, or (c) the long-tail booking
   requires meta-search.
 archetype_id: F2-event-cluster-pattern-match
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.home.read_trip_current_state

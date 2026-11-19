@@ -12,7 +12,7 @@ description: >
   cross-checks calendar + budget, drafts an order, surfaces for approval,
   submits to the household's connected grocer via vendor OAuth.
 archetype_id: F3-predictive-trigger-workflow-aware
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.home.read_pantry_state

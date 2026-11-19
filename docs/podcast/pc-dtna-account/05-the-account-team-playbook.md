@@ -10,7 +10,7 @@
 
 [Sound: airport ambient. Boarding announcement faint.]
 
-**MARCUS:** I want to start with the moment that motivates this final episode. You are an Account Team member. It's late Tuesday at the Portland airport. You've finished two days of DTNA conversations — one at Mt. Holly, one at Portland HQ. You sit down at the gate. Your inbox shows four new messages. *One from a senior leader at DTNA asking for a follow-up. One from a Deloitte partner asking "so what's the next move." One from the Microsoft account team asking to align on next week's outreach. One from the Daimler Truck global engagement leader in Stuttgart asking about the audit-Independence implication of the new scope.*
+**MARCUS:** I want to start with the moment that motivates this final episode. You are an Account Team member. It's late Tuesday at the Portland airport. You've finished two days of DTNA conversations — one at Mt. Holly, one at Portland HQ. You sit down at the gate. Your inbox shows four new messages. *One from a senior leader at DTNA asking for a follow-up. One from a partner asking "so what's the next move." One from the Microsoft account team asking to align on next week's outreach. One from the Daimler Truck global engagement leader in Stuttgart asking about the audit-Independence implication of the new scope.*
 
 [pause]
 
@@ -36,7 +36,7 @@ This is the final episode of the DTNA Account Podcast. I'm Marcus.
 
 Episode 5 is *the playbook.* How the Account Team operationalises everything we've covered. Five specific plays. Independence specifics for the Daimler-Truck-global-parent context. The ninety-day calendar.
 
-The implied listener for this episode is the *Deloitte partner or senior manager* running the DTNA account day-to-day. Practical, operational, immediately actionable.
+The implied listener for this episode is the *firm partner or senior manager* running the DTNA account day-to-day. Practical, operational, immediately actionable.
 
 ### Play 1 · The relationship map for DTNA
 
@@ -44,7 +44,7 @@ The implied listener for this episode is the *Deloitte partner or senior manager
 
 **MARCUS:** The Account Team's relationship map for DTNA has *four columns and roughly four tiers of relationships.*
 
-The four columns — *DTNA person and role · Deloitte primary relationship-owner · engagement context · last-touch date.*
+The four columns — *DTNA person and role · the firm primary relationship-owner · engagement context · last-touch date.*
 
 The four tiers of relationships —
 
@@ -58,7 +58,7 @@ The four tiers of relationships —
 
 **KEVEN:** And the rule for the map at DTNA —
 
-**MARCUS:** *Every DTNA relationship has exactly one Deloitte primary owner.* No two Deloitte members own the same DTNA relationship. *And — DTNA-specific — for any relationship that touches the Daimler Truck global parent in Stuttgart, the relationship must also be coordinated with the Deloitte Germany engagement leadership.* Cross-border relationship coordination is part of the DTNA account discipline.
+**MARCUS:** *Every DTNA relationship has exactly one the firm primary owner.* No two the firm members own the same DTNA relationship. *And — DTNA-specific — for any relationship that touches the Daimler Truck global parent in Stuttgart, the relationship must also be coordinated with the Germany engagement leadership.* Cross-border relationship coordination is part of the DTNA account discipline.
 
 The Account Team weekly meeting maintains the map. The map is *living.*
 
@@ -96,27 +96,27 @@ The Account Team weekly meeting maintains the map. The map is *living.*
 
 **KEVEN:** Play three. Independence at DTNA specifically. This is the most DTNA-unique play.
 
-**MARCUS:** Daimler Truck Holding AG is a publicly listed German company. The audit relationship for Daimler Truck Holding is *managed by Deloitte's global Independence structure*, with the Germany-side engagement leadership coordinating. DTNA — as the North American subsidiary — falls under the same Daimler-Truck-Holding audit boundary.
+**MARCUS:** Daimler Truck Holding AG is a publicly listed German company. The audit relationship for Daimler Truck Holding is *managed by the firm's global Independence structure*, with the Germany-side engagement leadership coordinating. DTNA — as the North American subsidiary — falls under the same Daimler-Truck-Holding audit boundary.
 
 What this means operationally for the Account Team —
 
-*Note one — every DTNA engagement scope must be cleared with Deloitte's global Independence Office.* Not just Deloitte US. The scope review involves Deloitte Germany engagement leadership and global compliance. *This is non-negotiable and takes time.* Plan engagement scope conversations to include Independence review in week one of opportunity discovery, not month two.
+*Note one — every DTNA engagement scope must be cleared with the firm's global Independence Office.* Not just the firm's US. The scope review involves the firm's Germany engagement leadership and global compliance. *This is non-negotiable and takes time.* Plan engagement scope conversations to include Independence review in week one of opportunity discovery, not month two.
 
 *Note two — DTNA-specific scope is distinct from Daimler-Truck-Holding-parent scope.* If the opportunity is narrowly DTNA-only, the scope is cleaner. If the opportunity touches the global parent's engineering or supply chain or financial reporting, *the scope review is more complex.* The Account Team should be precise about which entity the engagement serves.
 
 *Note three — Torc Robotics is a related-party entity.* Daimler Truck Holding owns Torc. Engagements with Torc may have different audit-Independence treatment than engagements with DTNA. *Don't bundle Torc and DTNA into a single SOW.* Separate engagements, separate Independence reviews.
 
-*Note four — the two-contract model is essential.* DTNA's Microsoft consumption is contracted directly with Microsoft under DTNA's existing enterprise agreement. Deloitte's services are contracted directly with DTNA under separate SOWs. *No software pass-through.* The Account Team should be precise on this in every commercial conversation.
+*Note four — the two-contract model is essential.* DTNA's Microsoft consumption is contracted directly with Microsoft under DTNA's existing enterprise agreement. The firm's services are contracted directly with DTNA under separate SOWs. *No software pass-through.* The Account Team should be precise on this in every commercial conversation.
 
 *Note five — no co-sell with Microsoft.* Same posture as Disney and the Trilogy. Recommendation on the merits. No partner-channel compensation.
 
 **KEVEN:** And the language that signals Independence is correctly framed —
 
-**MARCUS:** Three phrases to say. *"Deloitte's Microsoft Technology and Services Practice."* *"Microsoft-native deployment."* *"Two-contract model — Microsoft directly with DTNA, Deloitte directly with DTNA."*
+**MARCUS:** Three phrases to say. *"Microsoft Technology and Services Practice."* *"Microsoft-native deployment."* *"Two-contract model — Microsoft directly with DTNA, the firm directly with DTNA."*
 
 Three phrases to never say. *"We co-sell with Microsoft."* *"Microsoft is paying us to deliver this."* *"This is a partner-channel motion."*
 
-And one *DTNA-specific* phrase to use carefully — *"We're coordinating with Deloitte Germany for the Daimler Truck Holding audit boundary."* Use that phrase with DTNA procurement or compliance when scope-Independence questions arise. *It communicates that the global structure is being respected. It earns trust.*
+And one *DTNA-specific* phrase to use carefully — *"We're coordinating with the firm's Germany for the Daimler Truck Holding audit boundary."* Use that phrase with DTNA procurement or compliance when scope-Independence questions arise. *It communicates that the global structure is being respected. It earns trust.*
 
 ### Play 4 · Microsoft Account Team coordination for DTNA
 
@@ -126,7 +126,7 @@ And one *DTNA-specific* phrase to use carefully — *"We're coordinating with De
 
 *Operational coordination* — appropriate. Technical resources Microsoft can bring to support DTNA's technical questions. Microsoft Architecture Center patterns relevant to DTNA's environment. Microsoft executive sponsorship for senior DTNA leadership meetings.
 
-*Commercial coordination* — not appropriate. Joint commercial motion is not the posture. *Deloitte proposes services to DTNA. Microsoft licenses platforms to DTNA. Two parallel commercial threads.*
+*Commercial coordination* — not appropriate. Joint commercial motion is not the posture. *The firm proposes services to DTNA. Microsoft licenses platforms to DTNA. Two parallel commercial threads.*
 
 The mechanics — *monthly Account Team coordination meeting* with the Microsoft DTNA team. The agenda is *operational* — DTNA technical conversations both teams are in, upcoming DTNA executive moments, technical resources DTNA has requested. *Not commercial alignment.*
 
@@ -144,9 +144,9 @@ The mechanics — *monthly Account Team coordination meeting* with the Microsoft
 
 *Days 15-30.* The L1 wedge attempt window. Schedule the Power BI Heatmap conversation. Identify the L1 buyer per segment. Schedule the GSSC Lab demo for the first scheduled conversation.
 
-*Days 30-60.* Discovery and scenario-matching window. Apply the 30-Min Framework with the L1 buyers. Fill index cards. Confirm the Wave 1 scenario candidate. *In parallel — initiate the Deloitte global Independence-scope review for the candidate engagement.*
+*Days 30-60.* Discovery and scenario-matching window. Apply the 30-Min Framework with the L1 buyers. Fill index cards. Confirm the Wave 1 scenario candidate. *In parallel — initiate the global Independence-scope review for the candidate engagement.*
 
-*Days 60-75.* BVA construction window. Build the BVA-in-5-bullets per Wave 1 candidate. Internal Deloitte review — delivery partner, engagement partner, technical reviewer, *Independence reviewer for the Daimler Truck global boundary.* Refine before showing to DTNA.
+*Days 60-75.* BVA construction window. Build the BVA-in-5-bullets per Wave 1 candidate. Internal the firm review — delivery partner, engagement partner, technical reviewer, *Independence reviewer for the Daimler Truck global boundary.* Refine before showing to DTNA.
 
 *Days 75-90.* Wave 1 SOW window. Present the BVA-and-bundle to the DTNA L2 buyer. Schedule the GSSC Lab demo (if not yet done). Get conditional commitment. Execute SOW negotiation in parallel with Independence and procurement review.
 
@@ -172,7 +172,7 @@ Three hardest moments — based on patterns I've observed in commercial-truck an
 
 *Hardest moment one — Wave 1 delivery against a cyclical client.* Wave 1 lands in a 90-day window. *DTNA's cycle environment can shift dramatically in that 90 days.* If a freight downturn hits during your pilot window, leadership's attention to your Wave 1 metric can evaporate. *The Account Team's job is to keep the project visible despite cyclical noise* — by anchoring the KPI envelope to outcomes that matter *across* cycles (warranty cost recovery matters in both up and down cycles; production scheduling matters more in up cycles than down).
 
-*Hardest moment two — the German-parent strategic-shift.* Daimler Truck Holding makes global strategic decisions that ripple to DTNA. A new CEO at the parent, a new strategic priority, a new product portfolio decision — *can change everything for DTNA.* The Account Team's job is to maintain US-based relationship resilience independent of global shifts, *while staying coordinated with Deloitte Germany on the parent-side context.*
+*Hardest moment two — the German-parent strategic-shift.* Daimler Truck Holding makes global strategic decisions that ripple to DTNA. A new CEO at the parent, a new strategic priority, a new product portfolio decision — *can change everything for DTNA.* The Account Team's job is to maintain US-based relationship resilience independent of global shifts, *while staying coordinated with the firm's Germany on the parent-side context.*
 
 *Hardest moment three — the competitive moment.* Volvo Trucks, PACCAR, Navistar — competitors are running their own AI-strategy plays. *Microsoft has relationships with all of them.* The Account Team's posture has to be — *we are positioned to win at DTNA because of the framework's depth and the architecture's discipline, not because of any commercial preference.* If a competitor closes a major AI engagement with another OEM, the Account Team's response is *to deepen the DTNA conversation, not to chase parity.*
 
@@ -192,7 +192,7 @@ Three hardest moments — based on patterns I've observed in commercial-truck an
 
 ### What stays with me · series-wide
 
-**KEVEN:** Five things for every member of the Deloitte Account Team for DTNA.
+**KEVEN:** Five things for every member of the Account Team for DTNA.
 
 **MARCUS:** Go.
 
@@ -202,7 +202,7 @@ Three hardest moments — based on patterns I've observed in commercial-truck an
 
 *Three — electrification threads through every rung of the ladder. Autonomy is primarily Wave 3+, with a Torc-Robotics-specific Wave 2 pathway.*
 
-*Four — Independence at DTNA requires Deloitte global coordination, particularly with the German parent's audit relationship. Build this into engagement planning from week one.*
+*Four — Independence at DTNA requires the firm global coordination, particularly with the German parent's audit relationship. Build this into engagement planning from week one.*
 
 *Five — the L4 fleet-customer-transformation horizon is real and strategic, but multi-year. Lead with L2 and L3. Position L4 as the strategic horizon.*
 
@@ -237,11 +237,11 @@ If you walk into a DTNA conversation this week with the four-brand picture in yo
 ### Microsoft Learn
 
 - **Microsoft Cloud for Manufacturing** · Microsoft Learn
-- **Microsoft Partner Center — Independence and ethics** · Microsoft Learn (Deloitte's perspective)
+- **Microsoft Partner Center — Independence and ethics** · Microsoft Learn (the firm's perspective)
 
-### Deloitte internal references (Independence)
+### internal references (Independence)
 
-- **Deloitte Global Independence Office — Daimler-related guidance**
+- **The firm's Global Independence Office — Daimler-related guidance**
 - **Sellers Handbook — *Independence Cheat Sheet* (Ch 27)**
 - **Sellers Guide — Independence Bright-Line Quick-Reference**
 

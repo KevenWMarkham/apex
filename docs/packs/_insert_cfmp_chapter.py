@@ -157,7 +157,7 @@ SECTIONS: list[tuple[str, list[str | list[str]]]] = [
             "Three Wave-1 BVA-workshop decisions for the first CFMP engagement:",
             ("bullets", [
                 "Localization primary — BLE beacons (Estimote / Kontakt) vs. Wi-Fi RTT (802.11mc). Pick one per Pack v1; the adapter abstraction supports either.",
-                "Phone-app deployment model — SDK into the retailer's existing app (production path) vs. CFMP-branded Deloitte demo app (closeable-pilot path).",
+                "Phone-app deployment model — SDK into the retailer's existing app (production path) vs. CFMP-branded the firm demo app (closeable-pilot path).",
                 "Anonymous-customer flow design — consent-on-first-tap UX and identity-binding fallback when loyalty ID is unavailable.",
             ]),
             "Recommendation: CFMP is sold separately from Retail Merchandising Pack. Different buyer (CMO / CX-VP), different envelope-curve, different KPI dashboard. Cross-pack Fuse opportunities to Retail Merchandising (planogram refresh, OTB simulation outputs) and to ESG (sustainability-attribute filter on dietary prefs) are tracked as Wave-2 expansions.",

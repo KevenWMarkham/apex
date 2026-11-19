@@ -29,7 +29,7 @@ apex-m-gssc-lab/
 
 | Topic | Source |
 |---|---|
-| Subscription naming + ownership | *APEX-M GSSC Lab Infrastructure Deployment v2.0* §3.1 — subscription `sub-apex-m-gssc-lab`, MG `mg-apex-m-lab` under `mg-deloitte-dmtsp`, region `eastus2` primary / `eastus` paired, allocated by Azure central provisioning |
+| Subscription naming + ownership | *APEX-M GSSC Lab Infrastructure Deployment v2.0* §3.1 — subscription `sub-apex-m-gssc-lab`, MG `mg-apex-m-lab` under `mg-dmtsp`, region `eastus2` primary / `eastus` paired, allocated by Azure central provisioning |
 | Tag policy | Same doc §3.3 — six tags: `apex-m`, `env`, `owner`, `pack-tenant`, `auto-stop`, `cost-center` |
 | Pack-tenant allowed values | Same doc §22.2 — `shared`, `merch`, `finance`, `risk`, `manufacturing`, `cxp`, `esg` |
 | Cost-center value | Same doc §14.1 — `DMTSP-APEX-M-LAB` |
@@ -67,7 +67,7 @@ The deployment doc fixes most values. Three operator-provided items remain:
    az account subscription list --query "[?displayName=='sub-apex-m-gssc-lab'].subscriptionId" -o tsv
    ```
    → **resolved value:** `__________________`
-- [ ] **Owner email** for the `owner` tag (engineer responsible). Internal Deloitte address per §14.1 Independence. → **resolved value:** `__________________`
+- [ ] **Owner email** for the `owner` tag (engineer responsible). Internal the firm address per §14.1 Independence. → **resolved value:** `__________________`
 - [ ] **Log Analytics workspace ARM ID** for `log-apex-m-gssc-eus2`. Resolve once Feature F6.3 (observability platform) is deployed:
    ```powershell
    az monitor log-analytics workspace show -g rg-apex-m-gssc-observability -n log-apex-m-gssc-eus2 --query id -o tsv
@@ -105,7 +105,7 @@ The deployment doc fixes most values. Three operator-provided items remain:
 - All Bicep code in `apex-m-gssc-lab/bicep/` is **already authored** in this commit batch — Tasks 1–5 of an earlier worktree pass are now superseded by this single integrated structure on `main`. Files exist and have already been verified `az bicep build` + `az bicep lint` clean.
 - The subscription is **pre-created** by Azure central provisioning (§3.1). This work item asserts placement + applies tags + diagnostics on the existing subscription. There is no `Microsoft.Subscription/aliases` resource.
 - One-pass deploy. No two-pass orchestration needed (BCP120 doesn't fire because the `subscriptionId` is a literal param, not a runtime expression).
-- Independence guardrails (§14.1): no client data, no client identity, no Microsoft-direct ECIF flow. All names, owners, and tags are Deloitte-internal.
+- Independence guardrails (§14.1): no client data, no client identity, no Microsoft-direct ECIF flow. All names, owners, and tags are internal.
 
 ---
 
@@ -330,7 +330,7 @@ The runbook is the **as-built** record — capture actual values, not placeholde
 |---|---|
 | Subscription display name | `sub-apex-m-gssc-lab` |
 | Subscription ID | `<actual GUID>` |
-| Parent management group | `mg-apex-m-lab` (under `mg-deloitte-dmtsp`) |
+| Parent management group | `mg-apex-m-lab` (under `mg-dmtsp`) |
 | Region (primary / paired) | `eastus2` / `eastus` |
 | Owner | `<engineer-email>` |
 | Pack-tenant (sub-scope) | `shared` |
@@ -386,8 +386,8 @@ Reverting the merge commit alone does **not** roll back the cloud state.
 ## Independence (§14.1)
 
 - No client data, no client identity, no Microsoft-direct ECIF flow.
-- Subscription, owner email, and all tag values are Deloitte-internal.
-- Cost center `DMTSP-APEX-M-LAB` routes to Deloitte DMTSP internal cost center per §14.1.
+- Subscription, owner email, and all tag values are internal.
+- Cost center `DMTSP-APEX-M-LAB` routes to DMTSP internal cost center per §14.1.
 
 ## API versions and tooling (as deployed)
 

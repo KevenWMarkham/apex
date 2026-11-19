@@ -13,7 +13,7 @@ description: >
   Escalates to telehealth when daily metrics cross clinically defined
   thresholds. Often payer / employer sponsored.
 archetype_id: F3-predictive-trigger-workflow-aware
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.home.read_wellness_person_daily

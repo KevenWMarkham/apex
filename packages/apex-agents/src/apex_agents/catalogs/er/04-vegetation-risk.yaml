@@ -11,7 +11,7 @@ description: >
   Vegetation-contact prediction agent processing CV feeds from inspection
   drones to identify limbs likely to contact feeders under forecast wind.
 archetype_id: F2-event-cluster-pattern-match
-primary_contact: er-pu-practice-lead@deloitte.com
+primary_contact: er-pu-practice-lead@example.com
 
 tools:
   - tool_id: apex.er.mcp.external.get_drone_imagery

@@ -1,6 +1,6 @@
 # The Disney Studios Account Podcast · Audio Files
 
-Five MP3 episodes — the Deloitte Account Team's internal podcast for the Disney Studios sub-business (Walt Disney Pictures, Pixar, Marvel Studios, Lucasfilm, 20th Century Studios, Searchlight Pictures). Each episode is wrapped with a royalty-free opening and closing music sting (see *Music* section below).
+Five MP3 episodes — the Account Team's internal podcast for the Disney Studios sub-business (Walt Disney Pictures, Pixar, Marvel Studios, Lucasfilm, 20th Century Studios, Searchlight Pictures). Each episode is wrapped with a royalty-free opening and closing music sting (see *Music* section below).
 
 Voices via **Microsoft Edge Neural TTS** (`edge-tts`). Concatenated with **ffmpeg**.
 
@@ -49,11 +49,11 @@ Each episode begins with a 5-second **opening sting** and ends with a 6-second *
 
 ### Why this matters for the Account Team — especially for Studios
 
-Using actual copyrighted music from any of Disney's studios — *When You Wish Upon a Star*, the Disney chime, the 20th Century fanfare, the Marvel Studios fanfare, the Pixar score, the Lucasfilm/Star Wars opening — would be a copyright violation against the client. For a podcast about Disney Studios as a Deloitte engagement target, the synthesised stings are the only safe path.
+Using actual copyrighted music from any of Disney's studios — *When You Wish Upon a Star*, the Disney chime, the 20th Century fanfare, the Marvel Studios fanfare, the Pixar score, the Lucasfilm/Star Wars opening — would be a copyright violation against the client. For a podcast about Disney Studios as an engagement target, the synthesised stings are the only safe path.
 
 The Studios podcast is more sensitive to this than the Disney Account podcast because *the Studios sub-business owns the music IP we'd otherwise be tempted to reach for.* Synthesised stings remove all ambiguity.
 
-If the Account Team wants different music — a properly licensed orchestral cue from a royalty-free music library, or a custom-composed cue commissioned through Deloitte's brand team — that's straightforward to swap in. Replace `opening_sting.mp3` and `closing_sting.mp3` and re-run `python _apply_music.py`.
+If the Account Team wants different music — a properly licensed orchestral cue from a royalty-free music library, or a custom-composed cue commissioned through the firm's brand team — that's straightforward to swap in. Replace `opening_sting.mp3` and `closing_sting.mp3` and re-run `python _apply_music.py`.
 
 ## Format
 
@@ -115,7 +115,7 @@ audio/
 
 ## Series content overview
 
-Five episodes for the Deloitte Account Team for Disney Studios:
+Five episodes for the Account Team for Disney Studios:
 
 - **Ep 1** — The Disney Studios Account · six studios with creative autonomy · five strategic pressures · why APEX now at Studios specifically
 - **Ep 2** — Content Development & Greenlight Plays · four plays (greenlight decision support, audience science, IP/franchise opportunity scoring, talent & casting intelligence)
@@ -125,8 +125,8 @@ Five episodes for the Deloitte Account Team for Disney Studios:
 
 ## Notes
 
-- **Internal use only.** This podcast names Disney's studios directly because it's internal Deloitte Account Team preparation. The Trilogy podcasts anonymise Disney as "a global media and entertainment conglomerate."
+- **Internal use only.** This podcast names Disney's studios directly because it's internal firm Account Team preparation. The Trilogy podcasts anonymise Disney as "a global media and entertainment conglomerate."
 - **Creative-authorship boundary** — every play respects the post-strike AI policy framework. WGA / SAG-AFTRA / DGA AI provisions are binding. The Account Team's framing is operational and analytical augmentation, never creative replacement.
-- **Independence-from-Microsoft posture** preserved throughout — Deloitte does not co-sell, recommendation is on the merits, two-contract model with Microsoft.
+- **Independence-from-Microsoft posture** preserved throughout — the firm does not co-sell, recommendation is on the merits, two-contract model with Microsoft.
 - **Companion podcasts in this folder family** — `../pc-sellersguide/` (10 episodes · framework-wide selling) · `../pc-servicesguide/` (12 episodes · framework-wide architecture) · `../pc-deploymentguide/` (6 episodes · framework-wide operations) · `../pc-disney-account/` (6 episodes · company-wide Disney framing this podcast complements) · `../pc-dtna-account/` (5 episodes · parallel account-specific structure).
 - **Scenario coverage** — 14 Studios-specific TMT scenarios added to `../../reference/APEX-Scenario-Chains.xlsx` (v1.3). Total APEX scenario library now 743.

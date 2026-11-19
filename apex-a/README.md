@@ -6,7 +6,7 @@ EventBridge, Macie, IAM, GuardDuty, Workspaces.
 
 **Status: Stub package.** Concrete implementations are scaffolded with
 `NotImplementedError` and an Independence-compliant port plan. APEX-A
-ships when a Deloitte client commissions an AWS variant deployment.
+ships when a client commissions an AWS variant deployment.
 
 APEX-A is a **sibling product** to APEX-M and APEX-G — same APEX-Core
 protocol contract, different cloud. See [Variant Comparison](../docs/apex-core/Variant-Comparison.md).
@@ -40,7 +40,7 @@ for the canonical sequence to ship APEX-A:
 
 ## Independence
 
-APEX-A integrates with the client's existing AWS investment. Deloitte
+APEX-A integrates with the client's existing AWS investment. The firm
 does **not** resell, sublicense, or have an alliance posture with AWS.
 APEX-A exists as a sibling product so APEX is **not Microsoft-dependent**;
 it is **multi-cloud-portable** by construction.

@@ -39,4 +39,4 @@ linked_archetypes:
   - F2-event-cluster-pattern-match
 
 schemas_touched: [CXML, MERML]
-primary_contact: rc-practice-lead@deloitte.com
+primary_contact: rc-practice-lead@example.com

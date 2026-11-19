@@ -1,7 +1,7 @@
 # Customer Focused Merchandise Pack (CFMP) — v0.2 Design
 
 **Status**: Draft for ARB review (aligned with APEX-Architecture-v5.docx, May 2026)
-**Owner**: Keven Markham, VP — Deloitte's Microsoft Practice (DMTSP)
+**Owner**: Keven Markham, VP — the firm's Microsoft Practice (DMTSP)
 **Date**: 2026-05-23
 **Version history**:
 - **v0.2** (2026-05-23): Wayfinding service refactored to Azure Maps Creator; cross-references to APEX-Architecture-v5 added; Section 4 rewritten; portal landing reframed as CFMP demo.
@@ -25,9 +25,9 @@ Existing RC packs (Store Ops, Pricing, Returns) are organized by **operator func
 - The persona model is different (loyalty ID + consent, not Entra group).
 - The value-narrative ties directly to **trip conversion, basket size, NPS, loyalty retention** — what marketing-funded execs are graded on.
 
-Our existing Vision AI Dev Kit work already lights up **3 of the catalog's device-led scenarios** (`rc-sampling-table-engagement`, `rc-cart-dwell-abandonment-rescue`, `rc-greeter-impact-measurement`). CFMP packages that work as a scoped **Deloitte agentic-services delivery engagement** and extends it across the full customer journey.
+Our existing Vision AI Dev Kit work already lights up **3 of the catalog's device-led scenarios** (`rc-sampling-table-engagement`, `rc-cart-dwell-abandonment-rescue`, `rc-greeter-impact-measurement`). CFMP packages that work as a scoped **the firm agentic-services delivery engagement** and extends it across the full customer journey.
 
-> **Positioning note: CFMP is not a product.** It is a scoped Deloitte delivery engagement on the APEX framework, sold per industry under the standard Service Envelope tiers (BVA · DCIF · ISV Marketplace burndown · SI Teaming POC · T&M · Client direct). Deloitte never receives ECIF directly on APEX-M (Independence rule).
+> **Positioning note: CFMP is not a product.** It is a scoped firm delivery engagement on the APEX framework, sold per industry under the standard Service Envelope tiers (BVA · DCIF · ISV Marketplace burndown · SI Teaming POC · T&M · Client direct). The firm never receives ECIF directly on APEX-M (Independence rule).
 
 ---
 
@@ -355,7 +355,7 @@ Pack-level outcomes that tie all 18 scenarios together — these are what the BV
 ## 10. Open questions for Wave-1 BVA workshop
 
 1. **Beacons or Wi-Fi RTT** as the localization primary? Pick one to keep adapter count down.
-2. **Whose phone app?** SDK into retailer's existing app (path to production) vs CFMP-branded Deloitte demo app (path to closeable pilot)?
+2. **Whose phone app?** SDK into retailer's existing app (path to production) vs CFMP-branded the firm demo app (path to closeable pilot)?
 3. **Customer-identity binding** — loyalty ID is the obvious primary, but the anonymous-customer flow needs design (consent-on-first-tap).
 4. **CFMP merges into RC Store Ops pack, or stays separate?** Recommendation: separate. Different buyer (CMO/CX-VP, not Ops VP), different envelope curve.
 
@@ -364,9 +364,9 @@ Pack-level outcomes that tie all 18 scenarios together — these are what the BV
 ## 11. Independence stance
 
 CFMP commercial materials follow APEX standard:
-- "Deloitte's Microsoft practice" / "DMTSP" — never "partner" or "alliance"
-- Microsoft funding routes via ISV Marketplace + SI Teaming, never direct ECIF to Deloitte
-- APEX-G / APEX-A versions have no independence wrinkle (Deloitte does not audit Google or AWS)
+- "The firm's Microsoft practice" / "DMTSP" — never "partner" or "alliance"
+- Microsoft funding routes via ISV Marketplace + SI Teaming, never direct ECIF to the firm
+- APEX-G / APEX-A versions have no independence wrinkle (the firm does not audit Google or AWS)
 
 ---
 
@@ -384,4 +384,4 @@ CFMP commercial materials follow APEX standard:
 
 ---
 
-*Internal · Deloitte Microsoft Technology & Services Practice · Prepared by Keven Markham, VP*
+*Internal · Microsoft Technology & Services Practice · Prepared by Keven Markham, VP*

@@ -13,7 +13,7 @@ description: >
   America / Tesla Supercharger bench. Reads telematics + GasBuddy +
   charging-network feeds; surfaces lowest-cost station within range.
 archetype_id: F2-event-cluster-pattern-match
-primary_contact: tmt-practice-lead@deloitte.com
+primary_contact: tmt-practice-lead@example.com
 
 tools:
   - tool_id: apex.tmt.mcp.gasbuddy.price_compare

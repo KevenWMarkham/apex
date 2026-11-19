@@ -5,13 +5,13 @@ independence:
   funding_paths:
     permitted:
       - BVA (client-funded)
-      - DCIF (Deloitte co-investment)
+      - DCIF (the firm co-investment)
       - ISV Marketplace burndown (via approved ISV)
       - SI teaming POC (non-competing SI · e.g., Slalom · Infosys · HCL)
       - Client direct
       - T&M
     prohibited:
-      - ECIF direct to Deloitte (Microsoft auditor constraint)
+      - ECIF direct to the firm (Microsoft auditor constraint)
 
   rate_sources:
     permitted_for_sox_class:

@@ -49,4 +49,4 @@ linked_archetypes:
   - F2-event-cluster-pattern-match
 
 schemas_touched: [SCML, CXML]
-primary_contact: rc-practice-lead@deloitte.com
+primary_contact: rc-practice-lead@example.com
