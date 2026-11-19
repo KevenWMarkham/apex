@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from apex_core.semver import SemVer, classify_bump
 from apex_core.types import BumpClass
 
@@ -66,7 +65,4 @@ class TestClassifyBump:
 
     def test_minor_beats_patch(self) -> None:
         # Even if both minor AND patch changed, the classification is MINOR.
-        assert (
-            classify_bump(SemVer.parse("1.2.3"), SemVer.parse("1.3.5"))
-            == BumpClass.MINOR
-        )
+        assert classify_bump(SemVer.parse("1.2.3"), SemVer.parse("1.3.5")) == BumpClass.MINOR

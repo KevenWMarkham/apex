@@ -4,15 +4,13 @@ from __future__ import annotations
 
 from datetime import UTC, date, datetime
 from enum import StrEnum
-from typing import Annotated, Literal
+from typing import Annotated, Any, Literal
 from uuid import uuid4
-
-from pydantic import Field
 
 from apex_core.types import Classification
 from apex_schemas_common import CanonicalEntity, ScdType2Fields
 from apex_standards_opentravel import OtaAirReservation
-
+from pydantic import Field
 
 # --- Entities --------------------------------------------------------------
 
@@ -31,6 +29,8 @@ class Traveler(CanonicalEntity, ScdType2Fields):
 
 
 class ReservationStatus(StrEnum):
+    """Lifecycle status of a :class:`Reservation`."""
+
     BOOKED = "booked"
     TICKETED = "ticketed"
     CONFIRMED = "confirmed"
@@ -56,6 +56,8 @@ class Reservation(CanonicalEntity):
 
 
 class ItineraryKind(StrEnum):
+    """Travel mode of an :class:`Itinerary` (air, hotel, car, rail, cruise)."""
+
     AIR = "air"
     HOTEL = "hotel"
     CAR = "car"
@@ -74,6 +76,8 @@ class Itinerary(CanonicalEntity):
 
 
 class SegmentStatus(StrEnum):
+    """Operational status of a travel :class:`Segment`."""
+
     SCHEDULED = "scheduled"
     BOARDED = "boarded"
     DEPARTED = "departed"
@@ -104,6 +108,8 @@ class Segment(CanonicalEntity):
 
 
 class LoyaltyTier(StrEnum):
+    """Tier of a travel :class:`LoyaltyAccount`."""
+
     BASE = "base"
     SILVER = "silver"
     GOLD = "gold"
@@ -125,6 +131,8 @@ class LoyaltyAccount(CanonicalEntity, ScdType2Fields):
 
 
 class DisruptionKind(StrEnum):
+    """Category of an irregular-operations :class:`Disruption`."""
+
     CANCELLATION = "cancellation"
     DELAY = "delay"
     EQUIPMENT_SWAP = "equipment_swap"
@@ -151,7 +159,7 @@ class Disruption(CanonicalEntity):
 # --- Translator ------------------------------------------------------------
 
 
-def _envelope(*, entity_id: str, source_system: str = "ota") -> dict[str, object]:
+def _envelope(*, entity_id: str, source_system: str = "ota") -> dict[str, Any]:
     now = datetime.now(UTC)
     return {
         "event_id": uuid4(),
@@ -178,11 +186,11 @@ def reservation_from_ota_air(ota: OtaAirReservation) -> Reservation:
         additional_traveler_keys=[
             f"traveler:{t.surname}:{t.given_name}" for t in ota.travelers[1:]
         ],
-        status=ReservationStatus(ota.status) if ota.status in {
-            s.value for s in ReservationStatus
-        } else ReservationStatus.BOOKED,
+        status=ReservationStatus(ota.status)
+        if ota.status in {s.value for s in ReservationStatus}
+        else ReservationStatus.BOOKED,
         booked_at=ota.booking_datetime,
-    )  # type: ignore[arg-type]
+    )
 
 
 __all__ = [

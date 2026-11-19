@@ -9,7 +9,7 @@ measures sourced from the :class:`MeasureRegistry`.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 from apex_medallion.gold.measure import MeasureDefinition, MeasureLanguage
 
@@ -25,6 +25,7 @@ class TableSpec:
     measures: tuple[MeasureDefinition, ...] = ()
 
     def dax_measures(self) -> list[MeasureDefinition]:
+        """Return the table's measures written in DAX."""
         return [m for m in self.measures if m.language is MeasureLanguage.DAX]
 
 
@@ -38,6 +39,7 @@ class SemanticModelSpec:
     notes: str = ""
 
     def total_measures(self) -> int:
+        """Return the number of DAX measures across all tables."""
         return sum(len(t.dax_measures()) for t in self.tables)
 
 

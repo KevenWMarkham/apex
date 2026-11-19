@@ -41,9 +41,7 @@ def load_manifest_with_stamps(payload: dict[str, Any]) -> StampedManifest:
         if not isinstance(stamps.get(field), str) or not stamps.get(field)
     ]
     if missing:
-        raise MissingVersionStampsError(
-            f"Manifest {name!r} missing required stamps: {missing}"
-        )
+        raise MissingVersionStampsError(f"Manifest {name!r} missing required stamps: {missing}")
 
     return StampedManifest(
         name=name,

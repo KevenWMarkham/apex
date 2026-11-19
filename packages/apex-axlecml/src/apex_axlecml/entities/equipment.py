@@ -4,12 +4,13 @@ from __future__ import annotations
 
 from enum import StrEnum
 
-from pydantic import Field
-
 from apex_schemas_common import CanonicalEntity, ScdType2Fields
+from pydantic import Field
 
 
 class EquipmentStatus(StrEnum):
+    """Operational state of a plant-floor :class:`Equipment` unit."""
+
     IN_SERVICE = "in_service"
     IDLE = "idle"
     SETUP = "setup"
@@ -28,9 +29,7 @@ class Equipment(CanonicalEntity, ScdType2Fields):
     work_unit_id: str | None = Field(
         None, description="ISA-95 WorkUnit this Equipment is hosted in."
     )
-    work_center_key: str | None = Field(
-        None, description="FK → AXLECML WorkCenter.entity_id."
-    )
+    work_center_key: str | None = Field(None, description="FK → AXLECML WorkCenter.entity_id.")
     serial_number: str | None = None
     manufacturer: str | None = None
     model: str | None = None

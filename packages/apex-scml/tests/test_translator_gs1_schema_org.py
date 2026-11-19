@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from apex_scml.translators import (
     gs1_gtin_to_schema_org_product,
     schema_org_product_to_gs1_gtin,

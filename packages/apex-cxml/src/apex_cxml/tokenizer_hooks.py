@@ -16,17 +16,18 @@ from dataclasses import dataclass
 from types import NoneType, UnionType
 from typing import Annotated, Any, Union, get_args, get_origin, get_type_hints
 
+from apex_core.types import Classification
 from pydantic import BaseModel
 
-from apex_core.types import Classification
-
-_TOKENISED_CLASSIFICATIONS: frozenset[Classification] = frozenset({
-    Classification.PII,
-    Classification.PHI,
-    Classification.PCI,
-    Classification.TRADE_SECRET,
-    Classification.MEMBER_ONLY,
-})
+_TOKENISED_CLASSIFICATIONS: frozenset[Classification] = frozenset(
+    {
+        Classification.PII,
+        Classification.PHI,
+        Classification.PCI,
+        Classification.TRADE_SECRET,
+        Classification.MEMBER_ONLY,
+    }
+)
 
 
 @dataclass(frozen=True, slots=True)

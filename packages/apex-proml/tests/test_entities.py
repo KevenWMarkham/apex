@@ -7,8 +7,6 @@ from decimal import Decimal
 from uuid import uuid4
 
 import pytest
-from pydantic import ValidationError
-
 from apex_proml import (
     DiscountRule,
     DiscountRuleKind,
@@ -16,6 +14,7 @@ from apex_proml import (
     Pricing,
 )
 from apex_schemas_common import generate_delta_ddl
+from pydantic import ValidationError
 
 
 def _envelope() -> dict[str, object]:

@@ -25,7 +25,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any, Literal
 
-from apex_fabric.workspaces import TokenProvider, FABRIC_API_BASE
+from apex_fabric.workspaces import FABRIC_API_BASE, TokenProvider
 
 #: Supported shortcut target kinds. Maps to the Fabric API's
 #: ``target.{kind}`` envelope keys.
@@ -57,6 +57,7 @@ class AdlsGen2Target:
     """Pre-registered Fabric connection ID for the storage account."""
 
     def to_atlas(self) -> dict[str, Any]:
+        """Return the ``target`` body for an ADLS Gen2 shortcut create request."""
         return {
             "adlsGen2": {
                 "location": self.location,
@@ -77,6 +78,7 @@ class S3Target:
     connection_id: str
 
     def to_atlas(self) -> dict[str, Any]:
+        """Return the ``target`` body for an Amazon S3 shortcut create request."""
         return {
             "s3": {
                 "location": self.location,
@@ -97,6 +99,7 @@ class GoogleCloudStorageTarget:
     connection_id: str
 
     def to_atlas(self) -> dict[str, Any]:
+        """Return the ``target`` body for a GCS shortcut create request."""
         return {
             "googleCloudStorage": {
                 "location": self.location,
@@ -119,6 +122,7 @@ class DataverseTarget:
     connection_id: str
 
     def to_atlas(self) -> dict[str, Any]:
+        """Return the ``target`` body for a Dataverse shortcut create request."""
         return {
             "dataverse": {
                 "environmentUrl": self.environment_url,
@@ -147,6 +151,7 @@ class OneLakeTarget:
     """Path within the source item (e.g., ``Tables/scml_sku``)."""
 
     def to_atlas(self) -> dict[str, Any]:
+        """Return the ``target`` body for a cross-workspace OneLake shortcut create request."""
         return {
             "oneLake": {
                 "workspaceId": self.workspace_id,
@@ -178,6 +183,7 @@ class ShortcutSpec:
     description: str = ""
 
     def to_create_body(self) -> dict[str, Any]:
+        """Return the shortcut-create request body; ``description`` is included only when set."""
         body: dict[str, Any] = {
             "name": self.name,
             "path": self.path,
@@ -211,6 +217,7 @@ class ShortcutClient:
         if self.http_client is not None:
             return self.http_client
         import httpx
+
         return httpx.Client(timeout=30.0)
 
     def _headers(self) -> dict[str, str]:
@@ -223,35 +230,26 @@ class ShortcutClient:
     def create_shortcut(self, spec: ShortcutSpec) -> dict[str, Any]:
         """``POST /v1/workspaces/{ws}/items/{item}/shortcuts``."""
         client = self._client()
-        url = (
-            f"{self.base_url}/workspaces/{spec.workspace_id}"
-            f"/items/{spec.item_id}/shortcuts"
-        )
+        url = f"{self.base_url}/workspaces/{spec.workspace_id}/items/{spec.item_id}/shortcuts"
         resp = client.post(url, json=spec.to_create_body(), headers=self._headers())
         resp.raise_for_status()
-        return resp.json()
+        created: dict[str, Any] = resp.json()
+        return created
 
     def list_shortcuts(self, workspace_id: str, item_id: str) -> list[dict[str, Any]]:
         """``GET /v1/workspaces/{ws}/items/{item}/shortcuts``."""
         client = self._client()
-        url = (
-            f"{self.base_url}/workspaces/{workspace_id}"
-            f"/items/{item_id}/shortcuts"
-        )
+        url = f"{self.base_url}/workspaces/{workspace_id}/items/{item_id}/shortcuts"
         resp = client.get(url, headers=self._headers())
         resp.raise_for_status()
-        body = resp.json()
-        return body.get("value", [])
+        body: dict[str, Any] = resp.json()
+        shortcuts: list[dict[str, Any]] = body.get("value", [])
+        return shortcuts
 
-    def delete_shortcut(
-        self, workspace_id: str, item_id: str, name: str, path: str
-    ) -> None:
+    def delete_shortcut(self, workspace_id: str, item_id: str, name: str, path: str) -> None:
         """``DELETE /v1/workspaces/{ws}/items/{item}/shortcuts/{path}/{name}``."""
         client = self._client()
-        url = (
-            f"{self.base_url}/workspaces/{workspace_id}"
-            f"/items/{item_id}/shortcuts/{path}/{name}"
-        )
+        url = f"{self.base_url}/workspaces/{workspace_id}/items/{item_id}/shortcuts/{path}/{name}"
         resp = client.delete(url, headers=self._headers())
         resp.raise_for_status()
 
@@ -276,6 +274,7 @@ class ShortcutPlan:
     specs: list[ShortcutSpec] = field(default_factory=list)
 
     def add(self, spec: ShortcutSpec) -> None:
+        """Append ``spec`` to the plan."""
         self.specs.append(spec)
 
     def apply(self, client: ShortcutClient) -> list[dict[str, Any]]:

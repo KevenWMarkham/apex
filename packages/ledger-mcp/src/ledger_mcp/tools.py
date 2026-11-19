@@ -69,7 +69,8 @@ def append_audit_row(
             sealed = _STORE.append(audit_row)
         except TraceMissingError as exc:
             raise McpError(
-                code=McpErrorCode.INVALID_INPUT, message=str(exc),
+                code=McpErrorCode.INVALID_INPUT,
+                message=str(exc),
             ) from exc
         except AppendOnlyViolationError as exc:
             raise McpError(code=McpErrorCode.CONFLICT, message=str(exc)) from exc
@@ -135,26 +136,29 @@ __all__ = [
     "CONTRACTS",
     "_get_store",
     "append_audit_row",
-    "fetch_row_by_trace",
-    "reset_ledger",
-    "verify_row_signature",
     # Exposed so callers can construct canonical rows without importing
     # apex_audit directly (reduces coupling in the MCP layer).
     "audit_verify_row",
+    "fetch_row_by_trace",
+    "reset_ledger",
+    "verify_row_signature",
 ]
 
 
 CONTRACTS: list[ToolContract] = [
     ToolContract(
-        name=f"{SERVER_NAME}.append_audit_row", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.append_audit_row",
+        version=TOOL_VERSION,
         description="Append a 14-field decision audit row to the immutable ledger.",
     ),
     ToolContract(
-        name=f"{SERVER_NAME}.fetch_row_by_trace", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.fetch_row_by_trace",
+        version=TOOL_VERSION,
         description="Fetch every audit row for a trace_id in append order.",
     ),
     ToolContract(
-        name=f"{SERVER_NAME}.verify_row_signature", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.verify_row_signature",
+        version=TOOL_VERSION,
         description="Recompute + compare the HMAC signature for a stored row.",
     ),
 ]

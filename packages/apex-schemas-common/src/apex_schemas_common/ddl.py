@@ -70,7 +70,7 @@ def _python_to_delta(tp: Any) -> str:
         args = get_args(inner) or (str,)
         return f"ARRAY<{_python_to_delta(args[0])}>"
     if origin is dict:
-        k_t, v_t = (get_args(inner) + (str, str))[:2]
+        k_t, v_t = (*get_args(inner), str, str)[:2]
         return f"MAP<{_python_to_delta(k_t)}, {_python_to_delta(v_t)}>"
 
     # Nested Pydantic model → STRUCT (shallow; recursive expansion out of scope for v0.1)

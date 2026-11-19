@@ -119,7 +119,6 @@ CATALOG: tuple[FusionMesh, ...] = (
         orchestration_archetype="arch.summarize.001",
         target_tenant_profile="Chain operator transitioning store-manager role to coach",
     ),
-
     # ----- HLS (6) -----
     FusionMesh(
         mesh_id="mesh.hls.revenue-and-outcomes",
@@ -205,7 +204,6 @@ CATALOG: tuple[FusionMesh, ...] = (
         orchestration_archetype="arch.triage.005",
         target_tenant_profile="IDN with central pharmacy + 503B distribution",
     ),
-
     # ----- ER (5) -----
     FusionMesh(
         mesh_id="mesh.er.grid-reliability",
@@ -277,7 +275,6 @@ CATALOG: tuple[FusionMesh, ...] = (
         orchestration_archetype="arch.optimize.002",
         target_tenant_profile="Open-pit mining operator with autonomous-haul ambitions",
     ),
-
     # ----- AXLE (5) -----
     FusionMesh(
         mesh_id="mesh.axle.connected-factory",
@@ -349,7 +346,6 @@ CATALOG: tuple[FusionMesh, ...] = (
         orchestration_archetype="arch.compose.001",
         target_tenant_profile="Industrial OEM with mature PLM + warranty data",
     ),
-
     # ----- TMT (5) -----
     FusionMesh(
         mesh_id="mesh.tmt.customer-care-uplift",
@@ -421,7 +417,6 @@ CATALOG: tuple[FusionMesh, ...] = (
         orchestration_archetype="arch.personalize.001",
         target_tenant_profile="Carrier with mature CDP investment",
     ),
-
     # ----- TH (5) -----
     FusionMesh(
         mesh_id="mesh.th.network-recovery",
@@ -493,7 +488,6 @@ CATALOG: tuple[FusionMesh, ...] = (
         orchestration_archetype="arch.optimize.001",
         target_tenant_profile="Hotel chain with mature revenue-management discipline",
     ),
-
     # ----- ICE (5) -----
     FusionMesh(
         mesh_id="mesh.ice.connected-product-economics",
@@ -580,10 +574,12 @@ assert 35 <= len(CATALOG) <= 56, (
 
 
 def all_meshes() -> tuple[FusionMesh, ...]:
+    """Return every Wave-3 fusion mesh in the catalog."""
     return CATALOG
 
 
 def get_mesh(mesh_id: str) -> FusionMesh | None:
+    """Return the fusion mesh with the given ``mesh_id``, or None if absent."""
     for m in CATALOG:
         if m.mesh_id == mesh_id:
             return m
@@ -591,6 +587,7 @@ def get_mesh(mesh_id: str) -> FusionMesh | None:
 
 
 def meshes_by_practice(practice: str) -> tuple[FusionMesh, ...]:
+    """Return the fusion meshes owned by ``practice`` (case-insensitive)."""
     return tuple(m for m in CATALOG if m.practice == practice.lower())
 
 
@@ -600,10 +597,7 @@ def mesh_by_w2_service_code(service_code: str) -> tuple[FusionMesh, ...]:
     Powers Sprint 28 §28.3.6 cross-link — every featured scenario's
     Wave-3 ribbon points to the meshes it participates in.
     """
-    return tuple(
-        m for m in CATALOG
-        if service_code in m.constituent_w2_service_codes
-    )
+    return tuple(m for m in CATALOG if service_code in m.constituent_w2_service_codes)
 
 
 def per_practice_counts() -> dict[str, int]:

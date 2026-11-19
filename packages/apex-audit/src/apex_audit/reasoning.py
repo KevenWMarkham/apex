@@ -21,6 +21,8 @@ from pydantic import BaseModel, ConfigDict, Field
 
 
 class ToolCallRecord(BaseModel):
+    """One MCP tool invocation in a decision's tool-call sequence, recorded by hashes."""
+
     model_config = ConfigDict(frozen=True, extra="forbid")
 
     mcp_tool_id: str

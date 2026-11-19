@@ -5,12 +5,9 @@ from __future__ import annotations
 import json
 
 import pytest
-from typer.testing import CliRunner
-
 from apex_purview._cli import purview_app
 from apex_purview.retention import (
     DEFAULT_RETENTION_MATRIX,
-    RETENTION_DURATIONS,
     LegalHoldConfig,
     RetentionPolicyBundle,
     RetentionRule,
@@ -20,6 +17,7 @@ from apex_purview.retention import (
     emit_retention_payload,
     lookup_retention,
 )
+from typer.testing import CliRunner
 
 runner = CliRunner()
 

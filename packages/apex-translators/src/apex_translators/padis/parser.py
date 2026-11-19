@@ -25,11 +25,10 @@ from dataclasses import dataclass
 
 from apex_translators.base import (
     FORMAT_PADIS,
-    ParseError,
     ParsedMessage,
+    ParseError,
     Segment,
 )
-
 
 PADIS_MESSAGE_TYPES: tuple[str, ...] = (
     "PNL",  # Passenger Name List
@@ -41,9 +40,7 @@ PADIS_MESSAGE_TYPES: tuple[str, ...] = (
 
 
 # Flight key regex: DL0123/30JUN/JFKLHR/Y or AA1234/15DEC/SFOORD
-_FLIGHT_KEY_RE = re.compile(
-    r"^([A-Z]{2,3})(\d{1,4})/(\d{1,2}[A-Z]{3})/([A-Z]{6,9})(?:/([A-Z]))?$"
-)
+_FLIGHT_KEY_RE = re.compile(r"^([A-Z]{2,3})(\d{1,4})/(\d{1,2}[A-Z]{3})/([A-Z]{6,9})(?:/([A-Z]))?$")
 
 
 # Traveler record: leading numeric count followed by SURNAME/FIRSTNAME [TITLE]
@@ -55,6 +52,11 @@ class PADISParser:
     """IATA PADIS one-way parser."""
 
     def parse(self, raw: str) -> ParsedMessage:
+        """Parse a PADIS teletype message (header line, optional flight key, traveler records).
+
+        Raises:
+            ParseError: If the payload is blank or the header is not a supported type.
+        """
         if not raw or not raw.strip():
             raise ParseError("PADIS payload is empty")
         lines = [ln.strip() for ln in raw.splitlines() if ln.strip()]
@@ -64,8 +66,7 @@ class PADISParser:
         header = lines[0].upper()
         if header not in PADIS_MESSAGE_TYPES:
             raise ParseError(
-                f"PADIS message header {header!r} not in supported set "
-                f"{PADIS_MESSAGE_TYPES}"
+                f"PADIS message header {header!r} not in supported set {PADIS_MESSAGE_TYPES}"
             )
 
         msg = ParsedMessage(format=FORMAT_PADIS, raw=raw)
@@ -126,9 +127,7 @@ class PADISParser:
                 continue
 
             # Other unstructured line — capture
-            msg.segments.append(
-                Segment(name="UNSTRUCTURED", elements=[line], raw=line)
-            )
+            msg.segments.append(Segment(name="UNSTRUCTURED", elements=[line], raw=line))
             current_pax = None
 
         return msg

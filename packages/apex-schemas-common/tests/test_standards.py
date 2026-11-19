@@ -3,8 +3,6 @@
 from __future__ import annotations
 
 import pytest
-from pydantic import BaseModel, Field, ValidationError
-
 from apex_core.types import Practice
 from apex_schemas_common.standards import (
     GLN,
@@ -18,6 +16,7 @@ from apex_schemas_common.standards import (
     list_standards,
     lookup,
 )
+from pydantic import BaseModel, Field, ValidationError
 
 
 class _Box(BaseModel):
@@ -42,24 +41,32 @@ class TestIdentifierRegex:
 
     def test_loinc_format(self) -> None:
         _Box(
-            gtin="12345678901234", sscc="123456789012345678",
-            gln="1234567890123", loinc="1234-5",
+            gtin="12345678901234",
+            sscc="123456789012345678",
+            gln="1234567890123",
+            loinc="1234-5",
         )
         with pytest.raises(ValidationError):
             _Box(
-                gtin="12345678901234", sscc="123456789012345678",
-                gln="1234567890123", loinc="invalid",
+                gtin="12345678901234",
+                sscc="123456789012345678",
+                gln="1234567890123",
+                loinc="invalid",
             )
 
     def test_icd10_format(self) -> None:
         _Box(
-            gtin="12345678901234", sscc="123456789012345678",
-            gln="1234567890123", icd10="E11.9",
+            gtin="12345678901234",
+            sscc="123456789012345678",
+            gln="1234567890123",
+            icd10="E11.9",
         )
         with pytest.raises(ValidationError):
             _Box(
-                gtin="12345678901234", sscc="123456789012345678",
-                gln="1234567890123", icd10="not-a-code",
+                gtin="12345678901234",
+                sscc="123456789012345678",
+                gln="1234567890123",
+                icd10="not-a-code",
             )
 
 

@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
 import typer
@@ -10,15 +9,13 @@ import typer
 from apex_adapters.catalog import (
     ADAPTER_REGISTRY,
     list_shipped_manifests,
-    load_all_shipped_manifests,
     load_shipped_manifest,
 )
 from apex_adapters.framework import (
+    Adapter,
     list_adapters,
     load_adapter_spec,
-    register_adapter,
 )
-
 
 adapters_app = typer.Typer(
     name="adapters",
@@ -74,7 +71,7 @@ def validate_all_cmd() -> None:
     for name in manifests:
         try:
             load_shipped_manifest(name)
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             failures.append((name, f"{type(exc).__name__}: {exc}"))
     if failures:
         typer.echo(f"FAIL: {len(failures)} manifest(s) failed to load:")
@@ -88,11 +85,13 @@ def validate_all_cmd() -> None:
 def smoke_test_cmd(
     adapter_name: str = typer.Argument(..., help="Registered adapter name."),
     manifest: Path | None = typer.Option(
-        None, "--manifest",
+        None,
+        "--manifest",
         help="Override the shipped manifest with an external YAML.",
     ),
     golden: Path | None = typer.Option(
-        None, "--golden",
+        None,
+        "--golden",
         help="Optional golden-dataset JSON for fixture replay.",
     ),
     limit: int = typer.Option(100, "--limit", help="Max rows per mapping."),
@@ -133,7 +132,7 @@ def smoke_test_cmd(
         raise typer.Exit(code=1)
 
 
-def list_adapters_to_class(name: str):
+def list_adapters_to_class(name: str) -> type[Adapter] | None:
     """Return the registered adapter class for ``name`` (or None)."""
     from apex_adapters.framework import get_adapter
 

@@ -16,8 +16,7 @@ from __future__ import annotations
 
 import re
 
-from apex_compliance_lint.types import Rule, RulePack, Severity, make_pattern
-
+from apex_compliance_lint.types import Rule, RulePack, Severity
 
 APEX_BRAND = RulePack(
     pack_id="apex_brand",

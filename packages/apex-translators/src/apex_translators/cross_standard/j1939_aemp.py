@@ -17,9 +17,8 @@ extensions outside the named set are documented in ``LOSSY_CASES.md``.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
-
 
 # ---------------------------------------------------------------------------
 # AEMP 2.0 named event types
@@ -69,18 +68,20 @@ class PGNMapping:
 # Subset covering the AEMP 2.0 minimum-cross-OEM signal set. Real fleets
 # carry hundreds of PGNs; AEMP standardizes the small set every OEM emits.
 J1939_PGN_MAP: dict[int, PGNMapping] = {
-    65253: PGNMapping(65253, 247,  "EngineHours",         "h",       "Engine total hours of operation"),
-    61444: PGNMapping(61444, 190,  "EngineSpeed",         "rpm",     "Engine speed"),
-    61443: PGNMapping(61443, 92,   "EngineLoad",          "%",       "Percent engine load at current speed"),
-    65276: PGNMapping(65276, 96,   "FuelLevel",           "%",       "Fuel level (tank %)"),
-    65257: PGNMapping(65257, 250,  "FuelConsumption",     "L",       "Total fuel used"),
-    65266: PGNMapping(65266, 183,  "FuelRate",            "L/h",     "Engine fuel rate"),
-    65110: PGNMapping(65110, 1761, "DefLevel",            "%",       "Diesel exhaust fluid level"),
-    65248: PGNMapping(65248, 245,  "DistanceTraveled",    "km",      "Total vehicle distance"),
-    65267: PGNMapping(65267, 584,  "Location",            "deg",     "Vehicle position (lat/lon, decimal degrees)"),
-    65093: PGNMapping(65093, 1804, "PayloadTotal",        "t",       "Total payload"),
-    61441: PGNMapping(61441, 970,  "EquipmentMode",       "code",    "Equipment operating mode"),
-    65226: PGNMapping(65226, 1213, "MalfunctionIndicator","code",    "Active diagnostic trouble code"),
+    65253: PGNMapping(65253, 247, "EngineHours", "h", "Engine total hours of operation"),
+    61444: PGNMapping(61444, 190, "EngineSpeed", "rpm", "Engine speed"),
+    61443: PGNMapping(61443, 92, "EngineLoad", "%", "Percent engine load at current speed"),
+    65276: PGNMapping(65276, 96, "FuelLevel", "%", "Fuel level (tank %)"),
+    65257: PGNMapping(65257, 250, "FuelConsumption", "L", "Total fuel used"),
+    65266: PGNMapping(65266, 183, "FuelRate", "L/h", "Engine fuel rate"),
+    65110: PGNMapping(65110, 1761, "DefLevel", "%", "Diesel exhaust fluid level"),
+    65248: PGNMapping(65248, 245, "DistanceTraveled", "km", "Total vehicle distance"),
+    65267: PGNMapping(65267, 584, "Location", "deg", "Vehicle position (lat/lon, decimal degrees)"),
+    65093: PGNMapping(65093, 1804, "PayloadTotal", "t", "Total payload"),
+    61441: PGNMapping(61441, 970, "EquipmentMode", "code", "Equipment operating mode"),
+    65226: PGNMapping(
+        65226, 1213, "MalfunctionIndicator", "code", "Active diagnostic trouble code"
+    ),
 }
 
 
@@ -102,7 +103,7 @@ class J1939Frame:
     value: float | int | str
     units: str = ""
     source_address: int = 0
-    timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    timestamp: datetime = field(default_factory=lambda: datetime.now(UTC))
 
 
 @dataclass
@@ -114,7 +115,7 @@ class AEMPEvent:
     units: str
     equipment_id: str
     """OEM-assigned equipment serial / asset id."""
-    timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    timestamp: datetime = field(default_factory=lambda: datetime.now(UTC))
     oem: str = ""
     extras: dict[str, Any] = field(default_factory=dict)
     """OEM-specific extension fields surfaced as metadata; documented as

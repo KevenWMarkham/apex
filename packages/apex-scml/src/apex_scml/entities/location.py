@@ -5,14 +5,15 @@ from __future__ import annotations
 from enum import StrEnum
 from typing import Annotated
 
-from pydantic import Field
-
 from apex_core.types import Classification
 from apex_schemas_common import CanonicalEntity, ScdType2Fields
 from apex_schemas_common.standards import GLN
+from pydantic import Field
 
 
 class LocationType(StrEnum):
+    """Role of a supply-chain :class:`Location` (store, DC, warehouse, ...)."""
+
     STORE = "STORE"
     DC = "DC"
     WAREHOUSE = "WAREHOUSE"

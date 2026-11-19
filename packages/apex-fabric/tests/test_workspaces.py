@@ -6,8 +6,6 @@ from dataclasses import dataclass
 from typing import Any
 
 import pytest
-from typer.testing import CliRunner
-
 from apex_fabric._cli import fabric_app
 from apex_fabric.workspaces import (
     ENVIRONMENTS,
@@ -19,6 +17,7 @@ from apex_fabric.workspaces import (
     parse_workspace_name,
     validate_workspace_name,
 )
+from typer.testing import CliRunner
 
 runner = CliRunner()
 
@@ -92,9 +91,7 @@ def test_validate_returns_bool() -> None:
 
 
 def test_spec_name_canonical() -> None:
-    s = WorkspaceSpec(
-        practice="rc", environment="prod", role="silver", capacity_id="c1"
-    )
+    s = WorkspaceSpec(practice="rc", environment="prod", role="silver", capacity_id="c1")
     assert s.name() == "apex-rc-prod-silver"
 
 
@@ -122,8 +119,11 @@ def test_spec_name_override_canonical_passes() -> None:
 
 def test_spec_to_create_body_shape() -> None:
     s = WorkspaceSpec(
-        practice="rc", environment="prod", role="silver",
-        capacity_id="cap-123", description="desc",
+        practice="rc",
+        environment="prod",
+        role="silver",
+        capacity_id="cap-123",
+        description="desc",
     )
     body = s.to_create_body()
     assert body == {
@@ -154,6 +154,7 @@ class _StubResponse:
 @dataclass
 class _StubClient:
     """Captures invocations and returns scripted responses."""
+
     responses: dict[tuple[str, str], _StubResponse]
     calls: list[tuple[str, str, dict | None]]
 
@@ -165,9 +166,14 @@ class _StubClient:
         self.calls.append(("GET", url, None))
         return self.responses.get(("GET", url), _StubResponse(200, {"value": []}))
 
-    def post(self, url: str, json: dict | None = None, headers: dict | None = None) -> _StubResponse:
+    def post(
+        self, url: str, json: dict | None = None, headers: dict | None = None
+    ) -> _StubResponse:
         self.calls.append(("POST", url, json))
-        return self.responses.get(("POST", url), _StubResponse(201, {"id": "new", "displayName": (json or {}).get("displayName", "")}))
+        return self.responses.get(
+            ("POST", url),
+            _StubResponse(201, {"id": "new", "displayName": (json or {}).get("displayName", "")}),
+        )
 
     def delete(self, url: str, headers: dict | None = None) -> _StubResponse:
         self.calls.append(("DELETE", url, None))
@@ -182,8 +188,11 @@ def test_client_create_workspace_sends_correct_body() -> None:
     stub = _StubClient()
     client = WorkspaceClient(token_provider=_token, http_client=stub)
     spec = WorkspaceSpec(
-        practice="rc", environment="prod", role="silver",
-        capacity_id="cap-99", description="hello",
+        practice="rc",
+        environment="prod",
+        role="silver",
+        capacity_id="cap-99",
+        description="hello",
     )
     result = client.create_workspace(spec)
     assert result["displayName"] == "apex-rc-prod-silver"
@@ -198,7 +207,9 @@ def test_client_create_workspace_rejects_non_canonical_before_call() -> None:
     stub = _StubClient()
     client = WorkspaceClient(token_provider=_token, http_client=stub)
     spec = WorkspaceSpec(
-        practice="rc", environment="prod", role="silver",
+        practice="rc",
+        environment="prod",
+        role="silver",
         capacity_id="cap-99",
         name_override="bad name",
     )
@@ -223,10 +234,12 @@ def test_client_get_workspace_by_name_finds_match() -> None:
     stub = _StubClient()
     stub.responses[("GET", "https://api.fabric.microsoft.com/v1/workspaces")] = _StubResponse(
         200,
-        {"value": [
-            {"displayName": "apex-rc-prod-bronze", "id": "1"},
-            {"displayName": "apex-rc-prod-silver", "id": "2"},
-        ]},
+        {
+            "value": [
+                {"displayName": "apex-rc-prod-bronze", "id": "1"},
+                {"displayName": "apex-rc-prod-silver", "id": "2"},
+            ]
+        },
     )
     client = WorkspaceClient(token_provider=_token, http_client=stub)
     ws = client.get_workspace_by_name("apex-rc-prod-silver")
@@ -310,9 +323,7 @@ def test_cli_canonical_name() -> None:
 
 
 def test_cli_canonical_name_with_suffix() -> None:
-    result = runner.invoke(
-        fabric_app, ["canonical-name", "rc", "prod", "silver", "--suffix", "eu"]
-    )
+    result = runner.invoke(fabric_app, ["canonical-name", "rc", "prod", "silver", "--suffix", "eu"])
     assert result.exit_code == 0
     assert result.stdout.strip() == "apex-rc-prod-silver-eu"
 

@@ -27,7 +27,7 @@ def adt_a01_to_fhir_patient_stub(adt_a01_message: str) -> FhirPatient:
         None,
     )
     if pid_line is None:
-        return FhirPatient(resourceType="Patient")  # type: ignore[call-arg]
+        return FhirPatient(resourceType="Patient")
 
     fields = pid_line.split("|")
     # PID.3 Patient Identifier List
@@ -41,7 +41,7 @@ def adt_a01_to_fhir_patient_stub(adt_a01_message: str) -> FhirPatient:
         name = FhirHumanName(family=family, given=given)
 
     return FhirPatient(
-        resourceType="Patient",  # type: ignore[call-arg]
+        resourceType="Patient",
         id=patient_id,
         name=[name] if name else [],
     )

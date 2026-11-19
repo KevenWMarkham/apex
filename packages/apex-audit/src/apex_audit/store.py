@@ -28,6 +28,7 @@ class AuditStore:
     """
 
     def __init__(self, *, signing_key: bytes) -> None:
+        """Initialise empty row and trace indexes and keep ``signing_key`` for sealing."""
         self._signing_key = signing_key
         self._rows: dict[str, dict[str, Any]] = {}
         self._by_trace: dict[str, list[str]] = {}
@@ -54,16 +55,12 @@ class AuditStore:
         self._by_trace.setdefault(row.trace_id, []).append(row.decision_id)
         return sealed
 
-    def append_composite(
-        self, composite: OrchestrationCompositeRow
-    ) -> dict[str, Any]:
+    def append_composite(self, composite: OrchestrationCompositeRow) -> dict[str, Any]:
         """Seal + append an orchestration composite row."""
         require_trace_id(composite.trace_id)
         key = composite.orchestration_id
         if key in self._rows:
-            raise AppendOnlyViolationError(
-                f"orchestration_id {key!r} already sealed"
-            )
+            raise AppendOnlyViolationError(f"orchestration_id {key!r} already sealed")
         sealed = composite.to_dict()
         sealed["sealed_at"] = utc_now().isoformat()
         sealed["signature"] = sign_row(sealed, key=self._signing_key)
@@ -75,6 +72,11 @@ class AuditStore:
     # Reads
 
     def get(self, row_id: str) -> dict[str, Any]:
+        """Return the sealed row dict for a decision or orchestration id.
+
+        Raises:
+            KeyError: If no row with ``row_id`` has been appended.
+        """
         if row_id not in self._rows:
             raise KeyError(f"No row {row_id!r}")
         return self._rows[row_id]
@@ -88,4 +90,5 @@ class AuditStore:
         return verify_row(self._rows[row_id], key=self._signing_key)
 
     def __len__(self) -> int:
+        """Return the number of sealed rows (decision and composite)."""
         return len(self._rows)

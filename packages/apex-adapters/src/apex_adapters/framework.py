@@ -28,30 +28,30 @@ ingest workflow this framework targets.
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from collections.abc import Callable
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 from pathlib import Path
-from typing import Any, Literal
+from typing import Literal
 
 import yaml
 from pydantic import BaseModel, ConfigDict, Field
-
 
 # ---------------------------------------------------------------------------
 # Connection methods
 # ---------------------------------------------------------------------------
 
 
-class ConnectionMethod(str, Enum):
+class ConnectionMethod(StrEnum):
     """Bronze-landing connection patterns from Sellers Guide §5.2 / Sprint 4."""
 
-    MIRRORED_DB = "mirrored_db"          # Fabric Mirroring (CDC) over a SQL source
-    EVENTSTREAM = "eventstream"          # Eventhouse / Event Hub real-time
-    DATA_PIPELINE = "data_pipeline"      # Fabric Data Pipeline (Copy + Notebook)
-    DATAFLOW_GEN2 = "dataflow_gen2"      # Power Query (REST / SaaS)
+    MIRRORED_DB = "mirrored_db"  # Fabric Mirroring (CDC) over a SQL source
+    EVENTSTREAM = "eventstream"  # Eventhouse / Event Hub real-time
+    DATA_PIPELINE = "data_pipeline"  # Fabric Data Pipeline (Copy + Notebook)
+    DATAFLOW_GEN2 = "dataflow_gen2"  # Power Query (REST / SaaS)
     CUSTOM_ENDPOINT = "custom_endpoint"  # Azure Function HTTP webhook
-    ODBC = "odbc"                        # ODBC / JDBC pull (legacy)
-    FILE_DROP = "file_drop"              # Periodic file drop (SFTP, ADLS landing zone)
+    ODBC = "odbc"  # ODBC / JDBC pull (legacy)
+    FILE_DROP = "file_drop"  # Periodic file drop (SFTP, ADLS landing zone)
 
 
 # ---------------------------------------------------------------------------
@@ -67,8 +67,17 @@ class FieldMapping(BaseModel):
     source_field: str
     bronze_column: str
     bronze_type: Literal[
-        "string", "int", "long", "double", "decimal", "boolean",
-        "timestamp", "date", "binary", "struct", "array",
+        "string",
+        "int",
+        "long",
+        "double",
+        "decimal",
+        "boolean",
+        "timestamp",
+        "date",
+        "binary",
+        "struct",
+        "array",
     ]
     nullable: bool = True
     description: str = ""
@@ -97,9 +106,11 @@ class SchemaMapping(BaseModel):
     """Bronze partition columns. Default: ``ingest_date``."""
 
     def field_count(self) -> int:
+        """Return the number of field mappings in this schema mapping."""
         return len(self.fields)
 
     def classified_fields(self, classification: str) -> list[FieldMapping]:
+        """Return the field mappings tagged with the given Purview ``classification``."""
         return [f for f in self.fields if f.classification == classification]
 
 
@@ -181,6 +192,7 @@ class AdapterSpec(BaseModel):
     """Industry standards referenced (e.g., HL7 FHIR R4, EDI X12, ISA-95)."""
 
     def total_fields(self) -> int:
+        """Return the total number of field mappings across every schema mapping."""
         return sum(m.field_count() for m in self.schema_mappings)
 
 
@@ -189,9 +201,7 @@ def load_adapter_spec(path: str | Path) -> AdapterSpec:
     with Path(path).open("r", encoding="utf-8") as fh:
         data = yaml.safe_load(fh)
     if not isinstance(data, dict):
-        raise ValueError(
-            f"Adapter spec {path} must parse to a mapping; got {type(data).__name__}"
-        )
+        raise ValueError(f"Adapter spec {path} must parse to a mapping; got {type(data).__name__}")
     return AdapterSpec.model_validate(data)
 
 
@@ -212,10 +222,12 @@ class SmokeTestResult:
 
     @property
     def ok(self) -> bool:
+        """Return True when the smoke test recorded no errors."""
         return not self.errors
 
     @property
     def exit_code(self) -> int:
+        """Return the CLI exit code: 0 on success, 1 when any error was recorded."""
         return 0 if self.ok else 1
 
 
@@ -233,6 +245,7 @@ class Adapter(ABC):
     """
 
     def __init__(self, spec: AdapterSpec) -> None:
+        """Store the validated adapter manifest on the instance."""
         self.spec = spec
 
     @abstractmethod
@@ -244,9 +257,7 @@ class Adapter(ABC):
         """Return source-table names visible to the adapter's credentials."""
 
     @abstractmethod
-    def ingest(
-        self, mapping: SchemaMapping, *, limit: int | None = None
-    ) -> int:
+    def ingest(self, mapping: SchemaMapping, *, limit: int | None = None) -> int:
         """Read source rows per ``mapping`` and write to Bronze. Return rows written."""
 
     def smoke_test(
@@ -274,7 +285,7 @@ class Adapter(ABC):
             result.rows_written = self.ingest(mapping, limit=limit)
             result.rows_read = result.rows_written
             result.fields_mapped = mapping.field_count()
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             result.errors.append(f"{type(exc).__name__}: {exc}")
         return result
 
@@ -287,7 +298,7 @@ class Adapter(ABC):
 _ADAPTERS: dict[str, type[Adapter]] = {}
 
 
-def register_adapter(name: str):
+def register_adapter(name: str) -> Callable[[type[Adapter]], type[Adapter]]:
     """Decorator that registers a concrete adapter class by name."""
 
     def _wrap(cls: type[Adapter]) -> type[Adapter]:
@@ -302,9 +313,7 @@ def register_adapter(name: str):
 def get_adapter(name: str) -> type[Adapter]:
     """Return the registered adapter class for ``name``."""
     if name not in _ADAPTERS:
-        raise KeyError(
-            f"Unknown adapter {name!r}. Registered: {sorted(_ADAPTERS.keys())}"
-        )
+        raise KeyError(f"Unknown adapter {name!r}. Registered: {sorted(_ADAPTERS.keys())}")
     return _ADAPTERS[name]
 
 

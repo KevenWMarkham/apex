@@ -29,7 +29,7 @@ hitl_gates:
   - name: order_value_threshold
     description: Orders > $150 require user approval in app
     fires_when: cart_total_usd > 150
-    surface: mobile_push
+    surface: mobile
     sla_minutes: 60
 
 oversight_modes: [HITL]

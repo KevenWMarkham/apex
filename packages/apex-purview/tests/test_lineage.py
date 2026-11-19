@@ -6,8 +6,6 @@ import json
 from pathlib import Path
 
 import pytest
-from typer.testing import CliRunner
-
 from apex_purview._cli import purview_app
 from apex_purview.lineage import (
     PROCESS_TYPES,
@@ -25,6 +23,7 @@ from apex_purview.lineage import (
     emit_sor_to_bronze,
     load_lineage_spec,
 )
+from typer.testing import CliRunner
 
 FIXTURES = Path(__file__).parent / "fixtures"
 runner = CliRunner()

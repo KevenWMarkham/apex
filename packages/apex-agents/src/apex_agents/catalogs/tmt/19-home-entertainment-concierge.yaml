@@ -29,7 +29,7 @@ hitl_gates:
   - name: subscription_change
     description: Adding or removing a streamer requires user approval
     fires_when: action_type == "streamer.add_to_bill"
-    surface: mobile_push
+    surface: mobile
     sla_minutes: 60
 
 oversight_modes: [HOTL]

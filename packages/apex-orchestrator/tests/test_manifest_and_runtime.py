@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from apex_core.types import BumpClass
 from apex_orchestrator import (
     InMemoryApprovalsClient,
@@ -60,12 +59,18 @@ class TestRuntime:
     def test_completes_all_zero_touch(self) -> None:
         orch = self._orch()
         orch.add_step(
-            step_id="a", agent_name="A", agent_version="1",
-            fn=lambda c: {"v": 1}, bump_class=BumpClass.PATCH,
+            step_id="a",
+            agent_name="A",
+            agent_version="1",
+            fn=lambda c: {"v": 1},
+            bump_class=BumpClass.PATCH,
         )
         orch.add_step(
-            step_id="b", agent_name="B", agent_version="1",
-            fn=lambda c: {"w": 2}, bump_class=BumpClass.PATCH,
+            step_id="b",
+            agent_name="B",
+            agent_version="1",
+            fn=lambda c: {"w": 2},
+            bump_class=BumpClass.PATCH,
         )
         result = orch.run({})
         assert result.status is OrchestrationStatus.COMPLETED
@@ -76,17 +81,26 @@ class TestRuntime:
         approvals = InMemoryApprovalsClient()
         orch = self._orch(approvals)
         orch.add_step(
-            step_id="a", agent_name="A", agent_version="1",
-            fn=lambda c: {"pre": True}, bump_class=BumpClass.PATCH,
+            step_id="a",
+            agent_name="A",
+            agent_version="1",
+            fn=lambda c: {"pre": True},
+            bump_class=BumpClass.PATCH,
         )
         orch.add_step(
-            step_id="hitl", agent_name="H", agent_version="1",
-            fn=lambda c: {"proposal": "dispose"}, bump_class=BumpClass.MAJOR,
+            step_id="hitl",
+            agent_name="H",
+            agent_version="1",
+            fn=lambda c: {"proposal": "dispose"},
+            bump_class=BumpClass.MAJOR,
             approver_group="qa",
         )
         orch.add_step(
-            step_id="post", agent_name="P", agent_version="1",
-            fn=lambda c: {"post": True}, bump_class=BumpClass.PATCH,
+            step_id="post",
+            agent_name="P",
+            agent_version="1",
+            fn=lambda c: {"post": True},
+            bump_class=BumpClass.PATCH,
         )
         result = orch.run({})
         assert result.status is OrchestrationStatus.PAUSED
@@ -97,13 +111,19 @@ class TestRuntime:
         approvals = InMemoryApprovalsClient()
         orch = self._orch(approvals)
         orch.add_step(
-            step_id="hitl", agent_name="H", agent_version="1",
-            fn=lambda c: {"proposal": "x"}, bump_class=BumpClass.MAJOR,
+            step_id="hitl",
+            agent_name="H",
+            agent_version="1",
+            fn=lambda c: {"proposal": "x"},
+            bump_class=BumpClass.MAJOR,
             approver_group="qa",
         )
         orch.add_step(
-            step_id="after", agent_name="A", agent_version="1",
-            fn=lambda c: {"after": True}, bump_class=BumpClass.PATCH,
+            step_id="after",
+            agent_name="A",
+            agent_version="1",
+            fn=lambda c: {"after": True},
+            bump_class=BumpClass.PATCH,
         )
         paused = orch.run({})
         pid = paused.pending_approvals[0]
@@ -115,8 +135,11 @@ class TestRuntime:
         approvals = InMemoryApprovalsClient()
         orch = self._orch(approvals)
         orch.add_step(
-            step_id="hitl", agent_name="H", agent_version="1",
-            fn=lambda c: {"proposal": "x"}, bump_class=BumpClass.MAJOR,
+            step_id="hitl",
+            agent_name="H",
+            agent_version="1",
+            fn=lambda c: {"proposal": "x"},
+            bump_class=BumpClass.MAJOR,
             approver_group="qa",
         )
         paused = orch.run({})
@@ -127,11 +150,16 @@ class TestRuntime:
 
     def test_step_exception_returns_failed(self) -> None:
         orch = self._orch()
+
         def boom(_ctx: dict) -> dict:
             raise RuntimeError("boom")
+
         orch.add_step(
-            step_id="x", agent_name="X", agent_version="1",
-            fn=boom, bump_class=BumpClass.PATCH,
+            step_id="x",
+            agent_name="X",
+            agent_version="1",
+            fn=boom,
+            bump_class=BumpClass.PATCH,
         )
         result = orch.run({})
         assert result.status is OrchestrationStatus.FAILED

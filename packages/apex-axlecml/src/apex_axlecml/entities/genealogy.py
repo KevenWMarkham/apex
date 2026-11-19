@@ -4,14 +4,15 @@ from __future__ import annotations
 
 from enum import StrEnum
 
-from pydantic import Field
-
 from apex_schemas_common import CanonicalEntity
+from pydantic import Field
 
 
 class GenealogyDirection(StrEnum):
-    FORWARD = "forward"      # parent (raw) → child (processed)
-    REVERSE = "reverse"      # child (finished) → parent (raw input)
+    """Direction in which a genealogy edge is traversed (raw-to-finished or back)."""
+
+    FORWARD = "forward"  # parent (raw) → child (processed)
+    REVERSE = "reverse"  # child (finished) → parent (raw input)
 
 
 class Genealogy(CanonicalEntity):

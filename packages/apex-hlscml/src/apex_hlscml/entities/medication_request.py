@@ -5,13 +5,14 @@ from __future__ import annotations
 from datetime import datetime
 from enum import StrEnum
 
-from pydantic import Field
-
 from apex_schemas_common import CanonicalEntity
 from apex_schemas_common.standards import NdcCode, RxNormConceptId
+from pydantic import Field
 
 
 class MedicationRequestStatus(StrEnum):
+    """FHIR R4 ``MedicationRequest.status`` value set."""
+
     ACTIVE = "active"
     ON_HOLD = "on-hold"
     CANCELLED = "cancelled"
@@ -22,6 +23,8 @@ class MedicationRequestStatus(StrEnum):
 
 
 class MedicationRequestIntent(StrEnum):
+    """FHIR R4 ``MedicationRequest.intent`` value set."""
+
     PROPOSAL = "proposal"
     PLAN = "plan"
     ORDER = "order"
@@ -40,12 +43,8 @@ class MedicationRequest(CanonicalEntity):
     rxnorm_code: RxNormConceptId | None = Field(
         None, description="RxNorm concept ID for the medication."
     )
-    ndc_code: NdcCode | None = Field(
-        None, description="National Drug Code for the product."
-    )
-    medication_display: str = Field(
-        "", description="Human-readable medication name."
-    )
+    ndc_code: NdcCode | None = Field(None, description="National Drug Code for the product.")
+    medication_display: str = Field("", description="Human-readable medication name.")
     patient_key: str = Field(..., description="FK → HLSCML Patient.entity_id.")
     encounter_key: str | None = None
     practitioner_key: str | None = Field(

@@ -33,7 +33,7 @@ hitl_gates:
   - name: service_appointment
     description: Service-appointment booking requires user confirmation
     fires_when: action_type == "servicepartner.book_vehicle_service"
-    surface: mobile_push
+    surface: mobile
     sla_minutes: 240
 
 oversight_modes: [HOTL]

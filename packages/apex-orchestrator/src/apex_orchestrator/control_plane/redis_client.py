@@ -27,10 +27,9 @@ from __future__ import annotations
 import json
 import logging
 import time
-from dataclasses import asdict, dataclass, field
+from dataclasses import dataclass, field
 from enum import StrEnum
-from typing import Any, Literal, Optional, Protocol, runtime_checkable
-
+from typing import Any, Literal, Protocol, runtime_checkable
 
 log = logging.getLogger("apex.orchestrator.control_plane.redis")
 
@@ -51,14 +50,16 @@ DEFAULT_CACHE_SIZE_BYTES = 100 * 1024  # 100 KB per build instructions §3.3.4
 DEFAULT_HEARTBEAT_TTL_S = 60
 
 # Cache classifications that are NEVER cacheable (Sprint 26 governance).
-NEVER_CACHEABLE_CLASSIFICATIONS = frozenset({
-    "Restricted-PII",
-    "Restricted-PCI",
-    "Confidential",
-    "phi",
-    "pii",
-    "payment-card",
-})
+NEVER_CACHEABLE_CLASSIFICATIONS = frozenset(
+    {
+        "Restricted-PII",
+        "Restricted-PCI",
+        "Confidential",
+        "phi",
+        "pii",
+        "payment-card",
+    }
+)
 
 
 class CancelLevel(StrEnum):
@@ -76,7 +77,7 @@ class CancelLevel(StrEnum):
 # ---------------------------------------------------------------------------
 
 
-class RedisUnavailable(RuntimeError):
+class RedisUnavailable(RuntimeError):  # noqa: N818  # public name re-exported from apex_orchestrator
     """Raised internally when Redis is unreachable. Callers see fail-closed return values."""
 
 
@@ -93,20 +94,59 @@ class RedisProtocol(Protocol):
     tests pass :class:`StubRedis` to drive the same logic deterministically.
     """
 
-    def get(self, key: str) -> Optional[bytes]: ...
-    def set(self, key: str, value: bytes | str, ex: Optional[int] = None) -> bool: ...
-    def setex(self, key: str, time: int, value: bytes | str) -> bool: ...
-    def delete(self, *keys: str) -> int: ...
-    def exists(self, key: str) -> int: ...
-    def expire(self, key: str, time: int) -> bool: ...
-    def incrby(self, key: str, amount: int = 1) -> int: ...
-    def hset(self, key: str, mapping: dict[str, str]) -> int: ...
-    def hgetall(self, key: str) -> dict[bytes, bytes]: ...
-    def zadd(self, key: str, mapping: dict[str, float]) -> int: ...
+    def get(self, key: str) -> bytes | None:
+        """Return the value stored at ``key``, or None if absent."""
+        ...
+
+    def set(self, key: str, value: bytes | str, ex: int | None = None) -> bool:
+        """Store ``value`` at ``key``, optionally expiring after ``ex`` seconds."""
+        ...
+
+    def setex(self, key: str, time: int, value: bytes | str) -> bool:
+        """Store ``value`` at ``key`` with a TTL of ``time`` seconds."""
+        ...
+
+    def delete(self, *keys: str) -> int:
+        """Delete ``keys`` and return how many existed."""
+        ...
+
+    def exists(self, key: str) -> int:
+        """Return 1 if ``key`` exists, else 0."""
+        ...
+
+    def expire(self, key: str, time: int) -> bool:
+        """Set a TTL of ``time`` seconds on ``key``; False if the key is absent."""
+        ...
+
+    def incrby(self, key: str, amount: int = 1) -> int:
+        """Atomically add ``amount`` to the integer at ``key`` and return the new value."""
+        ...
+
+    def hset(self, key: str, mapping: dict[str, str]) -> int:
+        """Set the given fields on the hash at ``key``."""
+        ...
+
+    def hgetall(self, key: str) -> dict[bytes, bytes]:
+        """Return every field/value of the hash at ``key``."""
+        ...
+
+    def zadd(self, key: str, mapping: dict[str, float]) -> int:
+        """Add members with scores to the sorted set at ``key``; return the count added."""
+        ...
+
     def zrangebyscore(
-        self, key: str, min: float, max: float, withscores: bool = False
-    ) -> list: ...
-    def zrem(self, key: str, *members: str) -> int: ...
+        self,
+        key: str,
+        min: float,  # noqa: A002  # mirrors redis-py's zrangebyscore signature
+        max: float,  # noqa: A002  # mirrors redis-py's zrangebyscore signature
+        withscores: bool = False,
+    ) -> list[bytes] | list[tuple[bytes, float]]:
+        """Return sorted-set members with ``min <= score <= max``, lowest score first."""
+        ...
+
+    def zrem(self, key: str, *members: str) -> int:
+        """Remove ``members`` from the sorted set at ``key``; return the count removed."""
+        ...
 
 
 # ---------------------------------------------------------------------------
@@ -126,6 +166,7 @@ class StubRedis:
     """
 
     def __init__(self) -> None:
+        """Initialise empty key/value, TTL, sorted-set and hash stores with failures off."""
         self._kv: dict[str, bytes] = {}
         self._exp: dict[str, float] = {}
         self._zsets: dict[str, dict[str, float]] = {}
@@ -156,13 +197,15 @@ class StubRedis:
 
     # ----- get/set/del/exists/expire -----
 
-    def get(self, key: str) -> Optional[bytes]:
+    def get(self, key: str) -> bytes | None:
+        """Return the stored bytes, or None if absent or expired."""
         self._check_fail()
         if self._expired(key):
             return None
         return self._kv.get(key)
 
-    def set(self, key: str, value: bytes | str, ex: Optional[int] = None) -> bool:
+    def set(self, key: str, value: bytes | str, ex: int | None = None) -> bool:
+        """Store ``value`` (UTF-8 encoded if str); ``ex`` sets a TTL, None clears it."""
         self._check_fail()
         v = value.encode("utf-8") if isinstance(value, str) else value
         self._kv[key] = v
@@ -173,9 +216,11 @@ class StubRedis:
         return True
 
     def setex(self, key: str, time_s: int, value: bytes | str) -> bool:
+        """Store ``value`` with a TTL of ``time_s`` seconds."""
         return self.set(key, value, ex=time_s)
 
     def delete(self, *keys: str) -> int:
+        """Remove ``keys`` from every store and return how many existed."""
         self._check_fail()
         n = 0
         for k in keys:
@@ -188,12 +233,14 @@ class StubRedis:
         return n
 
     def exists(self, key: str) -> int:
+        """Return 1 if ``key`` exists in any store and is not expired, else 0."""
         self._check_fail()
         if self._expired(key):
             return 0
         return 1 if (key in self._kv or key in self._zsets or key in self._hsets) else 0
 
     def expire(self, key: str, time_s: int) -> bool:
+        """Set a TTL of ``time_s`` seconds on an existing key; False if absent."""
         self._check_fail()
         if key in self._kv or key in self._zsets or key in self._hsets:
             self._exp[key] = time.time() + time_s
@@ -203,6 +250,7 @@ class StubRedis:
     # ----- counters / hashes / zsets -----
 
     def incrby(self, key: str, amount: int = 1) -> int:
+        """Add ``amount`` to the integer at ``key`` (0 if absent) and return it."""
         self._check_fail()
         cur = int(self._kv.get(key, b"0").decode("utf-8")) if key in self._kv else 0
         new = cur + amount
@@ -210,21 +258,22 @@ class StubRedis:
         return new
 
     def hset(self, key: str, mapping: dict[str, str]) -> int:
+        """Set hash fields (UTF-8 encoded) and return the number of fields given."""
         self._check_fail()
         target = self._hsets.setdefault(key, {})
         for k, v in mapping.items():
-            target[k.encode("utf-8")] = (
-                v.encode("utf-8") if isinstance(v, str) else v
-            )
+            target[k.encode("utf-8")] = v.encode("utf-8") if isinstance(v, str) else v
         return len(mapping)
 
     def hgetall(self, key: str) -> dict[bytes, bytes]:
+        """Return a copy of the hash at ``key``, or {} if absent or expired."""
         self._check_fail()
         if self._expired(key):
             return {}
         return dict(self._hsets.get(key, {}))
 
     def zadd(self, key: str, mapping: dict[str, float]) -> int:
+        """Add or update scored members and return how many were new."""
         self._check_fail()
         z = self._zsets.setdefault(key, {})
         added = 0
@@ -235,8 +284,16 @@ class StubRedis:
         return added
 
     def zrangebyscore(
-        self, key: str, min: float, max: float, withscores: bool = False
-    ) -> list:
+        self,
+        key: str,
+        min: float,  # noqa: A002  # must match RedisProtocol / redis-py parameter names
+        max: float,  # noqa: A002  # must match RedisProtocol / redis-py parameter names
+        withscores: bool = False,
+    ) -> list[bytes] | list[tuple[bytes, float]]:
+        """Return members with ``min <= score <= max`` in score order, as bytes.
+
+        With ``withscores`` each item is a ``(member, score)`` tuple.
+        """
         self._check_fail()
         z = self._zsets.get(key, {})
         items = sorted(
@@ -248,6 +305,7 @@ class StubRedis:
         return [m.encode("utf-8") if isinstance(m, str) else m for m, _ in items]
 
     def zrem(self, key: str, *members: str) -> int:
+        """Remove ``members`` from the sorted set and return how many were present."""
         self._check_fail()
         z = self._zsets.get(key)
         if z is None:
@@ -288,7 +346,8 @@ class BudgetCounters:
     extra: dict[str, int] = field(default_factory=dict)
 
     @classmethod
-    def empty(cls) -> "BudgetCounters":
+    def empty(cls) -> BudgetCounters:
+        """Return a snapshot with every counter at zero."""
         return cls()
 
 
@@ -325,6 +384,7 @@ class RedisControlPlane:
         *,
         cache_size_limit_bytes: int = DEFAULT_CACHE_SIZE_BYTES,
     ) -> None:
+        """Wrap ``backend`` and set the maximum cached MCP-response size in bytes."""
         self._r = backend
         self._cache_size_limit = cache_size_limit_bytes
 
@@ -357,8 +417,14 @@ class RedisControlPlane:
     # ---- 1. cancel token ----
 
     def set_cancel_token(self, run_id: str, level: CancelLevel | str) -> None:
-        """Set the cancel token. Caller-side write — control-plane SOR is
-        Cosmos / DF entities; this just lights up the fast read path."""
+        """Set the cancel token.
+
+        Caller-side write — control-plane SOR is Cosmos / DF entities; this
+        just lights up the fast read path.
+
+        Raises:
+            RedisUnavailable: If the Redis write fails.
+        """
         if isinstance(level, str):
             level = CancelLevel(level)
         try:
@@ -376,9 +442,10 @@ class RedisControlPlane:
             raise RedisUnavailable(str(exc)) from exc
 
     def get_cancel_token(self, run_id: str) -> str:
-        """Read the cancel token. Raises :class:`RedisUnavailable` on
-        Redis failure so callers can fall back to Cosmos per build
-        instructions §3.5.
+        """Read the cancel token.
+
+        Raises :class:`RedisUnavailable` on Redis failure so callers can fall
+        back to Cosmos per build instructions §3.5.
 
         Returns ``"none"`` / ``"pause"`` / ``"soft"`` / ``"hard"`` /
         ``"abort"``. The fail-closed-to-abort semantic lives at the
@@ -409,15 +476,15 @@ class RedisControlPlane:
         means the caller treats failure as exhausted, not as zero.)
         """
         try:
-            return self._r.incrby(
-                self._key_budget(run_id, child_id, field), amount
-            )
+            return self._r.incrby(self._key_budget(run_id, child_id, field), amount)
         except Exception as exc:
             log.error(
                 "control_plane.increment_budget_counter_failed",
                 extra={
-                    "run_id": run_id, "child_id": child_id,
-                    "field": field, "error": str(exc),
+                    "run_id": run_id,
+                    "child_id": child_id,
+                    "field": field,
+                    "error": str(exc),
                 },
             )
             raise RedisUnavailable(str(exc)) from exc
@@ -442,18 +509,21 @@ class RedisControlPlane:
                 extra={"run_id": run_id, "child_id": child_id, "error": str(exc)},
             )
             import sys
+
             return BudgetCounters(
-                tool_calls=sys.maxsize, tokens=sys.maxsize,
-                cost_cents=sys.maxsize, wall_s=sys.maxsize,
+                tool_calls=sys.maxsize,
+                tokens=sys.maxsize,
+                cost_cents=sys.maxsize,
+                wall_s=sys.maxsize,
             )
 
     # ---- 3. heartbeat / liveness ----
 
-    def heartbeat(
-        self, run_id: str, child_id: str, ttl_s: int = DEFAULT_HEARTBEAT_TTL_S
-    ) -> None:
-        """Emit one heartbeat. Caller emits every 30s; TTL 60s. SETEX
-        idempotent."""
+    def heartbeat(self, run_id: str, child_id: str, ttl_s: int = DEFAULT_HEARTBEAT_TTL_S) -> None:
+        """Emit one heartbeat.
+
+        Caller emits every 30s; TTL 60s. SETEX idempotent.
+        """
         try:
             self._r.setex(
                 self._key_heartbeat(run_id, child_id),
@@ -482,11 +552,12 @@ class RedisControlPlane:
 
     # ---- 4. HITL deadline queue ----
 
-    def enqueue_hitl(
-        self, hitl_id: str, deadline_unix: int, payload: dict
-    ) -> None:
-        """Enqueue a HITL deadline. Deadline is Unix timestamp; payload
-        held alongside as a hash."""
+    def enqueue_hitl(self, hitl_id: str, deadline_unix: int, payload: dict[str, Any]) -> None:
+        """Enqueue a HITL deadline.
+
+        Deadline is a Unix timestamp; the payload is held alongside as a hash
+        of JSON-encoded values.
+        """
         try:
             self._r.zadd(self._key_hitl_zset(), {hitl_id: float(deadline_unix)})
             self._r.hset(
@@ -509,17 +580,14 @@ class RedisControlPlane:
             raise RedisUnavailable(str(exc)) from exc
 
     def pop_expired_hitl(self, now_unix: int) -> list[str]:
-        """Return every HITL id whose deadline ≤ ``now_unix``. Atomic
-        ZREM removes them from the queue; the caller emits the
-        deadline-missed events."""
+        """Return every HITL id whose deadline ≤ ``now_unix``.
+
+        Atomic ZREM removes them from the queue; the caller emits the
+        deadline-missed events.
+        """
         try:
-            members = self._r.zrangebyscore(
-                self._key_hitl_zset(), 0, float(now_unix)
-            )
-            ids = [
-                m.decode("utf-8") if isinstance(m, bytes) else str(m)
-                for m in members
-            ]
+            members = self._r.zrangebyscore(self._key_hitl_zset(), 0, float(now_unix))
+            ids = [m.decode("utf-8") if isinstance(m, bytes) else str(m) for m in members]
             if ids:
                 self._r.zrem(self._key_hitl_zset(), *ids)
             return ids
@@ -561,7 +629,8 @@ class RedisControlPlane:
             log.info(
                 "control_plane.cache_skip_classification",
                 extra={
-                    "tool": tool, "entra_scope": entra_scope,
+                    "tool": tool,
+                    "entra_scope": entra_scope,
                     "classification": classification,
                 },
             )
@@ -578,7 +647,8 @@ class RedisControlPlane:
             log.info(
                 "control_plane.cache_skip_oversize",
                 extra={
-                    "tool": tool, "entra_scope": entra_scope,
+                    "tool": tool,
+                    "entra_scope": entra_scope,
                     "size_bytes": len(payload),
                     "limit": self._cache_size_limit,
                 },
@@ -593,8 +663,10 @@ class RedisControlPlane:
             log.info(
                 "control_plane.cache_write",
                 extra={
-                    "tool": tool, "entra_scope": entra_scope,
-                    "ttl_s": ttl_s, "size_bytes": len(payload),
+                    "tool": tool,
+                    "entra_scope": entra_scope,
+                    "ttl_s": ttl_s,
+                    "size_bytes": len(payload),
                 },
             )
             return True
@@ -605,11 +677,11 @@ class RedisControlPlane:
             )
             return False
 
-    def get_cached_mcp_response(
-        self, tool: str, arg_hash: str, entra_scope: str
-    ) -> Optional[Any]:
-        """Lookup a cached MCP tool response. **Fail-closed** to ``None``
-        (cache miss) — Redis unreachable → caller hits the real tool.
+    def get_cached_mcp_response(self, tool: str, arg_hash: str, entra_scope: str) -> Any | None:
+        """Lookup a cached MCP tool response.
+
+        **Fail-closed** to ``None`` (cache miss) — Redis unreachable → caller
+        hits the real tool.
 
         Returns the deserialized value or ``None``.
         """
@@ -628,10 +700,12 @@ class RedisControlPlane:
     # ---- TTL-expire on completion ----
 
     def expire_run_keys(self, run_id: str, ttl_s: int = 300) -> None:
-        """Sprint 26 Task 26.7.3 — TTL-expire run-scoped keys within 5
-        minutes after run completion. Cancel-token + heartbeat keys are
+        """TTL-expire run-scoped keys after run completion (Sprint 26 Task 26.7.3).
+
+        Keys expire within 5 minutes. Cancel-token + heartbeat keys are
         already TTL-bound but explicit short-TTL on completion keeps the
-        Redis footprint trim."""
+        Redis footprint trim.
+        """
         try:
             self._r.expire(self._key_cancel(run_id), ttl_s)
             log.info(

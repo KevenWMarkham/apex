@@ -6,9 +6,8 @@ from datetime import UTC, datetime
 from uuid import uuid4
 
 import pytest
-from pydantic import Field, ValidationError
-
 from apex_schemas_common import CanonicalEntity, ScdType2Fields
+from pydantic import Field, ValidationError
 
 
 class _SampleEntity(CanonicalEntity):

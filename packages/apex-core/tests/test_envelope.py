@@ -6,14 +6,13 @@ from datetime import UTC, datetime
 from uuid import uuid4
 
 import pytest
-from pydantic import ValidationError
-
 from apex_core.envelope import (
     CORE_ENVELOPE_FIELDS,
     ENVELOPE_FIELDS,
     CanonicalEnvelope,
 )
 from apex_core.quality import DataQualityMetadata
+from pydantic import ValidationError
 
 
 def _sample_kwargs() -> dict[str, object]:
@@ -28,18 +27,18 @@ def _sample_kwargs() -> dict[str, object]:
 
 def test_core_envelope_fields_exact() -> None:
     """The five pre-Sprint-22 core fields are preserved."""
-    assert CORE_ENVELOPE_FIELDS == {
+    assert {
         "event_id",
         "event_ts",
         "entity_id",
         "source_system",
         "source_system_ts",
-    }
+    } == CORE_ENVELOPE_FIELDS
 
 
 def test_envelope_fields_includes_quality_block() -> None:
     """Sprint 22 Task 22.6 added the quality field; full set is six."""
-    assert ENVELOPE_FIELDS == CORE_ENVELOPE_FIELDS | {"quality"}
+    assert CORE_ENVELOPE_FIELDS | {"quality"} == ENVELOPE_FIELDS
 
 
 def test_valid_envelope() -> None:

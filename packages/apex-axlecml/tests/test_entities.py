@@ -7,8 +7,6 @@ from decimal import Decimal
 from uuid import uuid4
 
 import pytest
-from pydantic import ValidationError
-
 from apex_axlecml import (
     AxleReliabilityRecord,
     BillOfMaterials,
@@ -24,6 +22,7 @@ from apex_axlecml import (
     WorkCenter,
 )
 from apex_standards_iso14224 import Iso14224EquipmentClass
+from pydantic import ValidationError
 
 
 def _envelope() -> dict[str, object]:
@@ -45,14 +44,14 @@ def _scd2() -> dict[str, object]:
 
 
 def test_equipment_status_default() -> None:
-    eq = Equipment(isa95_id="EQ1", name="CNC Lathe 01",
-                   **_envelope(), **_scd2())  # type: ignore[arg-type]
+    eq = Equipment(isa95_id="EQ1", name="CNC Lathe 01", **_envelope(), **_scd2())  # type: ignore[arg-type]
     assert eq.status is EquipmentStatus.IN_SERVICE
 
 
 def test_work_center() -> None:
-    wc = WorkCenter(isa95_id="WC1", name="Assembly Line A", area_id="AREA-1",
-                    **_envelope(), **_scd2())  # type: ignore[arg-type]
+    wc = WorkCenter(
+        isa95_id="WC1", name="Assembly Line A", area_id="AREA-1", **_envelope(), **_scd2()
+    )  # type: ignore[arg-type]
     assert wc.active is True
 
 
@@ -70,7 +69,8 @@ def test_production_event_batch_start() -> None:
 def test_quality_result_pass_fail() -> None:
     qr = QualityResult(
         test_code="TENSILE",
-        batch_id="B-1", measured_at=datetime.now(UTC),
+        batch_id="B-1",
+        measured_at=datetime.now(UTC),
         measurement_value=Decimal("550"),
         target_value=Decimal("500"),
         upper_limit=Decimal("600"),
@@ -85,7 +85,8 @@ def test_genealogy_edge() -> None:
         parent_id="lot:raw-001",
         child_id="unit:finished-042",
         relationship="consumed_in",
-        quantity=2.5, unit_of_measure="kg",
+        quantity=2.5,
+        unit_of_measure="kg",
         **_envelope(),
     )  # type: ignore[arg-type]
     assert g.quantity == 2.5
@@ -93,9 +94,11 @@ def test_genealogy_edge() -> None:
 
 def test_bom_header_and_lines() -> None:
     bom = BillOfMaterials(
-        product_id="PROD-1", version="1.2",
+        product_id="PROD-1",
+        version="1.2",
         description="Widget v1.2",
-        **_envelope(), **_scd2(),
+        **_envelope(),
+        **_scd2(),
     )  # type: ignore[arg-type]
     line = BomLine(
         bom_id=bom.entity_id,
@@ -120,8 +123,11 @@ def test_bom_line_rejects_zero_quantity() -> None:
 
 def test_j1939_signal() -> None:
     sig = J1939Signal(
-        spn=190, pgn=61444, signal_name="Engine Speed",
-        value=Decimal("1800.0"), unit="rpm",
+        spn=190,
+        pgn=61444,
+        signal_name="Engine Speed",
+        value=Decimal("1800.0"),
+        unit="rpm",
         equipment_key="equipment:EQ-truck-01",
         captured_at=datetime.now(UTC),
         **_envelope(),

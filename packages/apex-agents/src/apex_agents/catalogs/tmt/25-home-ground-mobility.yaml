@@ -38,7 +38,7 @@ hitl_gates:
   - name: ground_budget_threshold
     description: Ground-mobility booking over $100 requires user approval
     fires_when: booking_total_usd > 100
-    surface: mobile_push
+    surface: mobile
     sla_minutes: 15
 
 oversight_modes: [HOTL]

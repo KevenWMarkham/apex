@@ -18,4 +18,4 @@ def cda_bundle_to_fhir_patient_stub(cda_xml: str) -> FhirPatient:
     substring search. Do not use in production.
     """
     _ = cda_xml  # parser deferred to later sprint
-    return FhirPatient(resourceType="Patient")  # type: ignore[call-arg]
+    return FhirPatient(resourceType="Patient")

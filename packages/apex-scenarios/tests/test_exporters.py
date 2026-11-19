@@ -45,9 +45,7 @@ def test_filename_all_seven_practices_canonical() -> None:
 
 
 def test_filename_with_label() -> None:
-    name = csv_filename(
-        practices=["RC"], when=dt.date(2026, 5, 4), label="wave-incomplete"
-    )
+    name = csv_filename(practices=["RC"], when=dt.date(2026, 5, 4), label="wave-incomplete")
     assert name == "APEX-scenarios-rc-wave-incomplete-2026-05-04.csv"
 
 
@@ -87,8 +85,17 @@ def test_csv_string_preserves_practice() -> None:
 
 def test_csv_columns_complete() -> None:
     expected = {
-        "practice", "service_code", "title", "brief", "kpi", "kpi_direction",
-        "w1", "w2", "w3", "archetype_id", "mesh_id",
+        "practice",
+        "service_code",
+        "title",
+        "brief",
+        "kpi",
+        "kpi_direction",
+        "w1",
+        "w2",
+        "w3",
+        "archetype_id",
+        "mesh_id",
     }
     assert set(CSV_COLUMNS) == expected
 

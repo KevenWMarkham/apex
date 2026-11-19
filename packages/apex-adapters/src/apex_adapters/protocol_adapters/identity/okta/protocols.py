@@ -8,5 +8,5 @@ client_approved_architecture block references this adapter.
 ADAPTER_NAME = "identity.okta"
 PROVIDER_LABEL = "Okta"
 SATISFIES = [
-    'AgentIdentityProvider',
+    "AgentIdentityProvider",
 ]

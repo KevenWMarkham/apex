@@ -20,7 +20,6 @@ from pathlib import Path
 
 from apex_scenarios.models import Scenario
 
-
 # ---------------------------------------------------------------------------
 # CSV columns (exposed to clients in client-cleared content)
 # ---------------------------------------------------------------------------

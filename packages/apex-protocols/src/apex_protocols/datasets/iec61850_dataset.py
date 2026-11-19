@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-
 # Synthetic SCD for the ER Practice substation example. Minimal but
 # structurally valid against IEC 61850-6 (SCL XML schema).
 IEC61850_SCD_XML = """<?xml version="1.0" encoding="UTF-8"?>
@@ -45,11 +44,11 @@ IEC61850_SCD_XML = """<?xml version="1.0" encoding="UTF-8"?>
 
 # Synthetic snapshot for the IEC61850StubClient
 IEC61850_SNAPSHOT: dict[str, object] = {
-    "IED1/CTRL/XCBR1.Pos.stVal":              "closed",
-    "IED1/CTRL/XCBR1.OpCnt.stVal":            48,
-    "IED1/MEAS/MMXU1.A.phsA.cVal.mag.f":      218.7,
-    "IED1/MEAS/MMXU1.A.phsB.cVal.mag.f":      219.1,
-    "IED1/MEAS/MMXU1.A.phsC.cVal.mag.f":      217.9,
-    "IED1/MEAS/MMXU1.PPV.phsAB.cVal.mag.f":   13_805.0,
-    "IED1/MEAS/MMXU1.TotW.mag.f":             4_812.5,
+    "IED1/CTRL/XCBR1.Pos.stVal": "closed",
+    "IED1/CTRL/XCBR1.OpCnt.stVal": 48,
+    "IED1/MEAS/MMXU1.A.phsA.cVal.mag.f": 218.7,
+    "IED1/MEAS/MMXU1.A.phsB.cVal.mag.f": 219.1,
+    "IED1/MEAS/MMXU1.A.phsC.cVal.mag.f": 217.9,
+    "IED1/MEAS/MMXU1.PPV.phsAB.cVal.mag.f": 13_805.0,
+    "IED1/MEAS/MMXU1.TotW.mag.f": 4_812.5,
 }

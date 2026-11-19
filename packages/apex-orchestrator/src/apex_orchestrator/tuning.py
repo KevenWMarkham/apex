@@ -11,6 +11,8 @@ from apex_core.types import GateKind
 
 
 class TuningStatus(StrEnum):
+    """Lifecycle state of a tuning request."""
+
     PROPOSED = "proposed"
     OBSERVING = "observing"
     APPROVED = "approved"
@@ -38,14 +40,17 @@ class TuningRequest:
     final_at: datetime | None = None
 
     def start_observation(self, *, now: datetime | None = None) -> None:
+        """Enter OBSERVING and set the window end to ``now`` (default: current UTC) + 14 days."""
         base = now or datetime.now(UTC)
         self.status = TuningStatus.OBSERVING
         self.observation_ends_at = base + OBSERVATION_WINDOW
 
     def record_reversal(self) -> None:
+        """Count one approver reversal observed during the window."""
         self.reversal_count += 1
 
     def record_escalation(self) -> None:
+        """Count one escalation observed during the window."""
         self.escalation_count += 1
 
     def evaluate(self, *, now: datetime | None = None) -> TuningStatus:
@@ -65,8 +70,9 @@ class TuningStore:
     """In-memory tuning-request store — auditable via append-only `history`."""
 
     def __init__(self) -> None:
+        """Start with no requests and an empty event history."""
         self._requests: dict[str, TuningRequest] = {}
-        self.history: list[dict] = []
+        self.history: list[dict[str, str]] = []
 
     def propose(
         self,
@@ -77,37 +83,47 @@ class TuningStore:
         requested_by: str,
         rationale: str,
     ) -> TuningRequest:
+        """Create a PROPOSED request with a fresh id, store it and log ``proposed``."""
         req = TuningRequest(
             request_id=str(uuid4()),
-            service=service, from_gate=from_gate, to_gate=to_gate,
-            requested_by=requested_by, rationale=rationale,
+            service=service,
+            from_gate=from_gate,
+            to_gate=to_gate,
+            requested_by=requested_by,
+            rationale=rationale,
         )
         self._requests[req.request_id] = req
         self.history.append({"event": "proposed", "request_id": req.request_id})
         return req
 
     def start_observation(self, request_id: str) -> TuningRequest:
+        """Begin the observation window for a stored request and log it."""
         req = self._requests[request_id]
         req.start_observation()
         self.history.append({"event": "observation_started", "request_id": request_id})
         return req
 
     def record_reversal(self, request_id: str) -> TuningRequest:
+        """Record a reversal against a stored request and log it."""
         req = self._requests[request_id]
         req.record_reversal()
         self.history.append({"event": "reversal_recorded", "request_id": request_id})
         return req
 
     def evaluate(self, request_id: str, *, now: datetime | None = None) -> TuningRequest:
+        """Re-evaluate a stored request, logging a ``status_change`` event if it moved."""
         req = self._requests[request_id]
         old_status = req.status
         new_status = req.evaluate(now=now)
         if new_status != old_status:
-            self.history.append({
-                "event": f"status_change:{old_status.value}_to_{new_status.value}",
-                "request_id": request_id,
-            })
+            self.history.append(
+                {
+                    "event": f"status_change:{old_status.value}_to_{new_status.value}",
+                    "request_id": request_id,
+                }
+            )
         return req
 
     def get(self, request_id: str) -> TuningRequest:
+        """Return the stored request; raises KeyError if unknown."""
         return self._requests[request_id]

@@ -6,15 +6,16 @@ from datetime import datetime
 from decimal import Decimal
 from enum import StrEnum
 
-from pydantic import Field
-
 from apex_schemas_common import CanonicalEntity
+from pydantic import Field
 
 
 class PromotionType(StrEnum):
+    """Mechanic of a :class:`Promotion` (percent off, amount off, BOGO, ...)."""
+
     PERCENT_OFF = "PERCENT_OFF"
     AMOUNT_OFF = "AMOUNT_OFF"
-    BOGO = "BOGO"           # Buy One Get One
+    BOGO = "BOGO"  # Buy One Get One
     BUNDLE = "BUNDLE"
     MEMBER_ONLY = "MEMBER_ONLY"
 

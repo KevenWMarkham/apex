@@ -5,24 +5,19 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-
 from apex_compliance_lint import (
     APEX_BRAND,
-    APEX_TYPOGRAPHY,
     DEFAULT_PACKS,
     HTMLAdapter,
     MarkdownAdapter,
     Rule,
-    RulePack,
     Severity,
-    Violation,
     default_registry,
     evaluate_rule,
     lint_file,
     lint_paths,
     make_pattern,
 )
-
 
 # ---------------------------------------------------------------------------
 # Adapters
@@ -72,16 +67,13 @@ def test_markdown_adapter_strips_code_fences(tmp_path: Path) -> None:
 def test_markdown_adapter_strips_yaml_frontmatter(tmp_path: Path) -> None:
     p = tmp_path / "doc.md"
     p.write_text(
-        "---\n"
-        "title: This is a partner doc\n"
-        "---\n\n"
-        "Body content here.\n",
+        "---\ntitle: This is a partner doc\n---\n\nBody content here.\n",
         encoding="utf-8",
     )
     lines = MarkdownAdapter().extract(p)
     text = " ".join(t for _, t in lines)
     assert "Body content" in text
-    assert "title:" not in text   # frontmatter stripped
+    assert "title:" not in text  # frontmatter stripped
 
 
 def test_markdown_adapter_preserves_link_text(tmp_path: Path) -> None:
@@ -164,7 +156,6 @@ def test_evaluate_rule_case_insensitive(tmp_path: Path) -> None:
     assert len(violations) == 1
 
 
-
 # ---------------------------------------------------------------------------
 # Brand rule pack
 # ---------------------------------------------------------------------------
@@ -230,7 +221,9 @@ def test_lint_paths_skips_unknown_extensions(tmp_path: Path) -> None:
     txt = tmp_path / "notes.txt"
     txt.write_text("partnership with Microsoft", encoding="utf-8")
     report = lint_paths(
-        [txt], adapter_registry=default_registry(), packs=list(DEFAULT_PACKS),
+        [txt],
+        adapter_registry=default_registry(),
+        packs=list(DEFAULT_PACKS),
     )
     # .txt has no adapter; no violations emitted
     assert report.files_scanned == 0
@@ -243,10 +236,14 @@ def test_lint_report_exit_codes(tmp_path: Path) -> None:
     dirty.write_text("APEX is not a black box.\n", encoding="utf-8")
 
     clean_report = lint_paths(
-        [clean], adapter_registry=default_registry(), packs=list(DEFAULT_PACKS),
+        [clean],
+        adapter_registry=default_registry(),
+        packs=list(DEFAULT_PACKS),
     )
     dirty_report = lint_paths(
-        [dirty], adapter_registry=default_registry(), packs=list(DEFAULT_PACKS),
+        [dirty],
+        adapter_registry=default_registry(),
+        packs=list(DEFAULT_PACKS),
     )
     assert clean_report.exit_code == 0
     assert clean_report.ok is True

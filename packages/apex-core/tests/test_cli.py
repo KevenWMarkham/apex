@@ -4,9 +4,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from typer.testing import CliRunner
-
 from apex_core.cli import app
+from typer.testing import CliRunner
 
 runner = CliRunner()
 FIXTURES = Path(__file__).parent / "fixtures"
@@ -19,17 +18,13 @@ def test_version() -> None:
 
 
 def test_validate_valid_manifest() -> None:
-    result = runner.invoke(
-        app, ["validate", str(FIXTURES / "agent_cold_chain_disposition.yaml")]
-    )
+    result = runner.invoke(app, ["validate", str(FIXTURES / "agent_cold_chain_disposition.yaml")])
     assert result.exit_code == 0
     assert "[OK]" in result.stdout
 
 
 def test_validate_invalid_manifest() -> None:
-    result = runner.invoke(
-        app, ["validate", str(FIXTURES / "invalid_missing_kind.yaml")]
-    )
+    result = runner.invoke(app, ["validate", str(FIXTURES / "invalid_missing_kind.yaml")])
     assert result.exit_code == 1
     assert "[FAIL]" in result.stdout
 

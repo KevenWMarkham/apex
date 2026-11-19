@@ -15,10 +15,13 @@ class EPCISEmitter:
     indent: int | None = None
 
     def emit(self, message: ParsedMessage) -> str:
+        """Serialise ``message`` as an EPCIS 2.0 JSON-LD document, one event per segment.
+
+        Raises:
+            EmitError: If ``message.format`` is not ``epcis``.
+        """
         if message.format != "epcis":
-            raise EmitError(
-                f"EPCIS emitter requires format='epcis', got {message.format!r}"
-            )
+            raise EmitError(f"EPCIS emitter requires format='epcis', got {message.format!r}")
         events = []
         for seg in message.segments:
             event = dict(seg.data)

@@ -31,7 +31,9 @@ def test_product_offering_to_product() -> None:
     party = SidParty(id="p1", name="Acme", party_type="organization")
     cust = SidCustomer(id="c1", party_id=party.id)
     product = SidProduct(
-        id="prod1", product_offering_id=offering.id, customer_id=cust.id,
+        id="prod1",
+        product_offering_id=offering.id,
+        customer_id=cust.id,
         service_ids=["svc1"],
     )
     assert product.product_offering_id == "po1"
@@ -39,7 +41,9 @@ def test_product_offering_to_product() -> None:
 
 def test_service_with_related_party() -> None:
     svc = SidService(
-        id="svc1", name="Fiber Access", service_type="network_access",
+        id="svc1",
+        name="Fiber Access",
+        service_type="network_access",
         related_parties=[SidRelatedParty(party_id="p-owner", role="owner")],
     )
     assert svc.related_parties[0].role == "owner"

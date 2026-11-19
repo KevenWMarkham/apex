@@ -30,20 +30,16 @@ class FleetReport:
 
     @property
     def valid(self) -> bool:
-        return (
-            all(r.valid for r in self.tenant_reports)
-            and not self.cross_tenant_errors
-        )
+        """Return True when every tenant is valid and no cross-tenant errors exist."""
+        return all(r.valid for r in self.tenant_reports) and not self.cross_tenant_errors
 
     def summary(self) -> str:
+        """Return a one-line status with valid-tenant and cross-tenant error counts."""
         n = len(self.tenant_reports)
         bad = sum(1 for r in self.tenant_reports if not r.valid)
         extra = len(self.cross_tenant_errors)
         status = "OK" if self.valid else "FAIL"
-        return (
-            f"[{status}] fleet — {n - bad}/{n} tenants valid, "
-            f"{extra} cross-tenant errors"
-        )
+        return f"[{status}] fleet — {n - bad}/{n} tenants valid, {extra} cross-tenant errors"
 
 
 def validate_fleet(tenant_paths: list[Path]) -> FleetReport:
@@ -60,9 +56,7 @@ def validate_fleet(tenant_paths: list[Path]) -> FleetReport:
     cross_errors: list[str] = []
 
     names: list[str] = [
-        r.manifest.name
-        for r in reports
-        if r.valid and isinstance(r.manifest, TenantManifest)
+        r.manifest.name for r in reports if r.valid and isinstance(r.manifest, TenantManifest)
     ]
     dupes = [name for name, count in Counter(names).items() if count > 1]
     cross_errors.extend(f"Duplicate tenant name: {name!r}" for name in sorted(dupes))

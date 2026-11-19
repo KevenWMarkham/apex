@@ -131,12 +131,13 @@ jobs:
       - name: Run responsive smoke test
         run: |
           mkdir -p tools/responsive
-          cat > tools/responsive/responsive.spec.js <<'JS'
+          # .cjs: the root package.json sets "type": "module", so a .js spec
+          # would load as ESM and require() would be undefined.
+          cat > tools/responsive/responsive.spec.cjs <<'JS'
           // Sprint 29 Task 29.10.5 — responsive smoke test
           // Loads each shipped HTML artifact at 360 / 900 / 1440 px and
           // asserts no JavaScript errors + basic structural elements present.
           const { test, expect } = require('@playwright/test');
-          const { glob } = require('glob');
           const path = require('path');
           const fs = require('fs');
 
@@ -190,7 +191,7 @@ jobs:
           }
           JS
 
-          npx playwright test tools/responsive/responsive.spec.js \
+          npx playwright test tools/responsive/responsive.spec.cjs \
             --reporter=list \
             --output=tools/responsive/results
 

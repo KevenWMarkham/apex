@@ -6,7 +6,6 @@ import json
 from pathlib import Path
 
 import pytest
-
 from apex_standards_fhir import (
     FhirClaim,
     FhirDiagnosticReport,

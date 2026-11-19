@@ -4,7 +4,7 @@ version: 0.1.0
 practice: tmt
 persona: Household Primary Account Holder
 service_codes: [TMT-TEL-AUT-02]
-model_tier: premium
+model_tier: reasoning
 model_pin: claude-opus-4-7
 prompt_sha: ""
 description: >
@@ -39,17 +39,17 @@ hitl_gates:
   - name: otd_above_shortlist_median
     description: Out-the-door price > shortlist median +$5K requires user approval
     fires_when: otd_delta_usd > 5000
-    surface: mobile_push
+    surface: mobile
     sla_minutes: 60
   - name: trade_in_delta
     description: Trade-in offer differs from KBB valuation by > $2K requires user approval
     fires_when: trade_in_delta_vs_kbb_usd > 2000
-    surface: mobile_push
+    surface: mobile
     sla_minutes: 60
   - name: final_purchase_commit
     description: Every final-purchase commitment requires HITL
     fires_when: action_type == "autonation.reserve_vehicle" and commit_intent == true
-    surface: mobile_push
+    surface: mobile
     sla_minutes: 5
 
 oversight_modes: [HITL]

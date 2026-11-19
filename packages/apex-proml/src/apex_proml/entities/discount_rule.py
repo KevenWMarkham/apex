@@ -20,19 +20,18 @@ from decimal import Decimal
 from enum import StrEnum
 from typing import Annotated
 
-from pydantic import Field, model_validator
-
 from apex_core.types import Classification
 from apex_schemas_common import CanonicalEntity, ScdType2Fields
+from pydantic import Field, model_validator
 
 
 class DiscountRuleKind(StrEnum):
     """Policy class — drives The Pricer's matching logic."""
 
-    BUYER_LADDER = "BUYER_LADDER"        # Tiered markdown ladder set by the buyer
-    SEASONAL = "SEASONAL"                # Seasonal markdown rule (e.g. Q4 clearance)
-    CLEARANCE = "CLEARANCE"              # End-of-life markdown rule
-    MARGIN_FLOOR = "MARGIN_FLOOR"        # Hard margin-floor rule (cannot violate)
+    BUYER_LADDER = "BUYER_LADDER"  # Tiered markdown ladder set by the buyer
+    SEASONAL = "SEASONAL"  # Seasonal markdown rule (e.g. Q4 clearance)
+    CLEARANCE = "CLEARANCE"  # End-of-life markdown rule
+    MARGIN_FLOOR = "MARGIN_FLOOR"  # Hard margin-floor rule (cannot violate)
     COMPETITOR_MATCH = "COMPETITOR_MATCH"  # Match-or-beat-competitor rule
 
 
@@ -91,10 +90,8 @@ class DiscountRule(CanonicalEntity, ScdType2Fields):
     )
 
     @model_validator(mode="after")
-    def _at_least_one_constraint(self) -> "DiscountRule":
+    def _at_least_one_constraint(self) -> DiscountRule:
         """A rule must have at least one of cap_pct / margin_floor_pct."""
         if self.cap_pct is None and self.margin_floor_pct is None:
-            raise ValueError(
-                "DiscountRule must set at least one of cap_pct or margin_floor_pct."
-            )
+            raise ValueError("DiscountRule must set at least one of cap_pct or margin_floor_pct.")
         return self

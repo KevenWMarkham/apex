@@ -7,13 +7,14 @@ from decimal import Decimal
 from enum import StrEnum
 from typing import Annotated
 
-from pydantic import Field
-
 from apex_core.types import Classification
 from apex_schemas_common import CanonicalEntity
+from pydantic import Field
 
 
 class OrderStatus(StrEnum):
+    """Fulfilment status of an :class:`Order`, from draft through delivery or return."""
+
     DRAFT = "DRAFT"
     PLACED = "PLACED"
     PICKED = "PICKED"

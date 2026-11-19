@@ -21,10 +21,9 @@ implement the :class:`ProtocolClient` protocol.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from enum import StrEnum
 from typing import Any, Protocol
-
 
 # ---------------------------------------------------------------------------
 # Authentication modes
@@ -68,7 +67,7 @@ class Sample:
 
     value: float | int | str | bool | None
     units: str = ""
-    timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    timestamp: datetime = field(default_factory=lambda: datetime.now(UTC))
 
     quality: str = "good"
     """Wire-protocol quality flag: ``good`` / ``uncertain`` / ``bad`` /
@@ -134,9 +133,11 @@ class AddressSpaceMapping:
     """Keyed by ``node_id``."""
 
     def add(self, node: AddressNode) -> None:
+        """Register ``node`` under its ``node_id``, replacing any existing entry."""
         self.nodes[node.node_id] = node
 
     def lookup(self, node_id: str) -> AddressNode | None:
+        """Return the node mapped to ``node_id``, or ``None`` if unmapped."""
         return self.nodes.get(node_id)
 
     def annotate(self, sample: Sample) -> Sample:
@@ -199,15 +200,19 @@ class ProtocolClient(Protocol):
     """
 
     def connect(self, endpoint: ProtocolEndpoint) -> None:
+        """Open a session to ``endpoint``."""
         ...
 
     def disconnect(self) -> None:
+        """Close the session."""
         ...
 
     def read_one(self, node_id: str) -> Sample:
+        """Read the current value of one node as a :class:`Sample`."""
         ...
 
-    def subscribe(self, node_ids: list[str]) -> "list[Sample]":
+    def subscribe(self, node_ids: list[str]) -> list[Sample]:
+        """Return samples for the requested node ids."""
         ...
 
 
@@ -224,13 +229,15 @@ class ConfigError(ProtocolError):
     """Raised when adapter configuration (mapping / endpoint) is malformed."""
 
 
-class ConnectionError(ProtocolError):
+class ConnectionError(ProtocolError):  # noqa: A001  # public name; re-exported as ProtocolConnectionError
     """Raised when a protocol client cannot connect (or stub I/O fails)."""
 
 
 class AddressSpaceError(ProtocolError):
-    """Raised when an address-space lookup fails or the parsed source file
-    is structurally invalid."""
+    """Raised when an address-space lookup fails or a parsed source file is invalid.
+
+    "Invalid" here means the source file is structurally malformed.
+    """
 
 
 SUPPORTED_PROTOCOLS: tuple[str, ...] = ("opcua", "iec61850", "j1939")

@@ -12,9 +12,8 @@ from __future__ import annotations
 
 from enum import StrEnum
 
-from pydantic import BaseModel, ConfigDict, Field
-
 from apex_core.types import Classification
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class MeasureKind(StrEnum):
@@ -48,7 +47,8 @@ class MeasureDefinition(BaseModel):
     description: str = ""
     classification: Classification = Classification.INTERNAL
     formula: str = Field(
-        ..., min_length=1,
+        ...,
+        min_length=1,
         description="Language-specific expression. See language-specific generators.",
     )
     depends_on: list[str] = Field(
@@ -73,6 +73,7 @@ class MeasureRegistry:
     """In-memory registry of measures — one per Practice typically."""
 
     def __init__(self) -> None:
+        """Initialise an empty name-to-measure index."""
         self._by_name: dict[str, MeasureDefinition] = {}
 
     def register(self, measure: MeasureDefinition) -> None:
@@ -82,6 +83,7 @@ class MeasureRegistry:
         self._by_name[measure.name] = measure
 
     def register_many(self, measures: list[MeasureDefinition]) -> None:
+        """Register each measure in order; stops at the first duplicate name (``ValueError``)."""
         for m in measures:
             self.register(m)
 
@@ -93,22 +95,27 @@ class MeasureRegistry:
             raise KeyError(f"Unknown measure {name!r}") from exc
 
     def list_by_kind(self, kind: MeasureKind) -> list[MeasureDefinition]:
+        """Return measures of ``kind``, sorted by name."""
         return sorted(
             (m for m in self._by_name.values() if m.kind is kind),
             key=lambda m: m.name,
         )
 
     def list_by_language(self, language: MeasureLanguage) -> list[MeasureDefinition]:
+        """Return measures written in ``language``, sorted by name."""
         return sorted(
             (m for m in self._by_name.values() if m.language is language),
             key=lambda m: m.name,
         )
 
     def __len__(self) -> int:
+        """Return the number of registered measures."""
         return len(self._by_name)
 
     def __contains__(self, name: str) -> bool:
+        """Return True if a measure named ``name`` is registered."""
         return name in self._by_name
 
     def names(self) -> list[str]:
+        """Return all registered measure names, sorted."""
         return sorted(self._by_name)

@@ -32,3 +32,9 @@ python_files = "test_*.py"
 markers = [
     "conformance: Registry conformance tests",
 ]
+
+[tool.uv.sources]
+apex-agents = { workspace = true }
+apex-core = { workspace = true }
+apex-references = { workspace = true }
+apex-services = { workspace = true }

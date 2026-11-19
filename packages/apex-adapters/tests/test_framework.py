@@ -5,7 +5,6 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-
 from apex_adapters.framework import (
     Adapter,
     AdapterSpec,
@@ -20,7 +19,7 @@ from apex_adapters.framework import (
     load_adapter_spec,
     register_adapter,
 )
-
+from pydantic import ValidationError
 
 # ---------------------------------------------------------------------------
 # FieldMapping + SchemaMapping
@@ -34,13 +33,14 @@ def test_field_mapping_required_fields() -> None:
 
 
 def test_field_mapping_rejects_unknown_type() -> None:
-    with pytest.raises(Exception):  # pydantic ValidationError
+    with pytest.raises(ValidationError):
         FieldMapping(source_field="A", bronze_column="a", bronze_type="quantum")
 
 
 def test_schema_mapping_field_count() -> None:
     sm = SchemaMapping(
-        source_table="X", bronze_table="bronze_x",
+        source_table="X",
+        bronze_table="bronze_x",
         fields=[
             FieldMapping(source_field="A", bronze_column="a", bronze_type="string"),
             FieldMapping(source_field="B", bronze_column="b", bronze_type="int"),
@@ -51,11 +51,18 @@ def test_schema_mapping_field_count() -> None:
 
 def test_schema_mapping_classified_fields() -> None:
     sm = SchemaMapping(
-        source_table="X", bronze_table="bronze_x",
+        source_table="X",
+        bronze_table="bronze_x",
         fields=[
-            FieldMapping(source_field="A", bronze_column="a", bronze_type="string", classification="phi"),
-            FieldMapping(source_field="B", bronze_column="b", bronze_type="string", classification="internal"),
-            FieldMapping(source_field="C", bronze_column="c", bronze_type="string", classification="phi"),
+            FieldMapping(
+                source_field="A", bronze_column="a", bronze_type="string", classification="phi"
+            ),
+            FieldMapping(
+                source_field="B", bronze_column="b", bronze_type="string", classification="internal"
+            ),
+            FieldMapping(
+                source_field="C", bronze_column="c", bronze_type="string", classification="phi"
+            ),
         ],
     )
     phi = sm.classified_fields("phi")
@@ -86,19 +93,26 @@ def test_runbook_with_failure_modes() -> None:
 
 def test_adapter_spec_total_fields() -> None:
     spec = AdapterSpec(
-        name="t", sor_name="T", sor_vendor="TVendor", practice="rc",
-        connection_method="odbc", schedule="daily", bronze_workspace="apex-rc-prod-bronze",
+        name="t",
+        sor_name="T",
+        sor_vendor="TVendor",
+        practice="rc",
+        connection_method="odbc",
+        schedule="daily",
+        bronze_workspace="apex-rc-prod-bronze",
         runbook=Runbook(primary_contact="x"),
         schema_mappings=[
             SchemaMapping(
-                source_table="X", bronze_table="bronze_x",
+                source_table="X",
+                bronze_table="bronze_x",
                 fields=[
                     FieldMapping(source_field="A", bronze_column="a", bronze_type="string"),
                     FieldMapping(source_field="B", bronze_column="b", bronze_type="int"),
                 ],
             ),
             SchemaMapping(
-                source_table="Y", bronze_table="bronze_y",
+                source_table="Y",
+                bronze_table="bronze_y",
                 fields=[
                     FieldMapping(source_field="A", bronze_column="a", bronze_type="string"),
                 ],
@@ -110,9 +124,13 @@ def test_adapter_spec_total_fields() -> None:
 
 def test_adapter_spec_minimal_loads() -> None:
     spec = AdapterSpec(
-        name="t", sor_name="T", sor_vendor="V", practice="rc",
+        name="t",
+        sor_name="T",
+        sor_vendor="V",
+        practice="rc",
         connection_method=ConnectionMethod.ODBC,
-        schedule="daily", bronze_workspace="apex-rc-prod-bronze",
+        schedule="daily",
+        bronze_workspace="apex-rc-prod-bronze",
         runbook=Runbook(primary_contact="x@example.com"),
         schema_mappings=[],
     )
@@ -161,6 +179,7 @@ def test_register_duplicate_raises() -> None:
             return 0
 
     with pytest.raises(ValueError, match="already registered"):
+
         @register_adapter("test-only-unique")
         class _B(Adapter):
             def probe(self) -> bool:

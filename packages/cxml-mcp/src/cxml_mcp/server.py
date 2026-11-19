@@ -4,10 +4,13 @@ from __future__ import annotations
 
 
 def main() -> None:  # pragma: no cover
+    """Register the cxml-mcp tools on a FastMCP server and run it."""
     from mcp.server.fastmcp import FastMCP  # type: ignore[import-not-found]
 
     from cxml_mcp.tools import (
-        get_customer_by_key, list_interactions_by_customer, list_orders_by_customer,
+        get_customer_by_key,
+        list_interactions_by_customer,
+        list_orders_by_customer,
     )
 
     mcp = FastMCP("cxml-mcp")

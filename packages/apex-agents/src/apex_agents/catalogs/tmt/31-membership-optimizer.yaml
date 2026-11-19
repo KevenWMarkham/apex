@@ -28,7 +28,7 @@ hitl_gates:
   - name: membership_change
     description: Cancellation or downgrade requires user approval
     fires_when: action_type IN ("cancel","downgrade")
-    surface: mobile_push
+    surface: mobile
     sla_minutes: 240
 
 oversight_modes: [HOTL]

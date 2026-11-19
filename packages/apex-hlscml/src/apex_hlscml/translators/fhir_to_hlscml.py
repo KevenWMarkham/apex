@@ -111,7 +111,7 @@ def patient_from_fhir(
         phone_token=tokenize(_first_telecom(fhir, "phone")),
         email_token=tokenize(_first_telecom(fhir, "email")),
         source_fhir_version="R4",
-    )  # type: ignore[arg-type]
+    )
 
 
 def observation_from_fhir(
@@ -162,4 +162,4 @@ def observation_from_fhir(
         value_unit=value_unit,
         value_code=value_code,
         value_string=fhir.value_string,
-    )  # type: ignore[arg-type]
+    )

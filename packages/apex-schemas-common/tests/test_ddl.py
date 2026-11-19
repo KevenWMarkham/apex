@@ -5,10 +5,9 @@ from __future__ import annotations
 import re
 from decimal import Decimal
 
-from pydantic import Field
-
 from apex_schemas_common import CanonicalEntity, generate_delta_ddl
 from apex_schemas_common.standards import GTIN14
+from pydantic import Field
 
 
 class _SKU(CanonicalEntity):
@@ -53,6 +52,5 @@ def test_optional_fields_are_nullable() -> None:
     # Required → NOT NULL
     assert _match(r"sku_natural\s+STRING NOT NULL", ddl)
     # Optional → not NOT NULL
-    gtin_line = [line for line in ddl.splitlines() if "gtin" in line and "STRING" in line][0]
+    gtin_line = next(line for line in ddl.splitlines() if "gtin" in line and "STRING" in line)
     assert "NOT NULL" not in gtin_line
-

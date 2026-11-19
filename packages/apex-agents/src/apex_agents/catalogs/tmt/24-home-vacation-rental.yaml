@@ -35,7 +35,7 @@ hitl_gates:
   - name: cancellation_refund_flow
     description: Cancellations / refunds require user approval
     fires_when: action_type IN ("airbnb.cancel_booking")
-    surface: mobile_push
+    surface: mobile
     sla_minutes: 60
 
 oversight_modes: [HITL]

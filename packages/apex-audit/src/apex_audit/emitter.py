@@ -41,15 +41,21 @@ class RestrictedTraceStore:
     _traces: dict[str, str] = field(default_factory=dict)
 
     def put(self, decision_id: str, raw_trace: str) -> str:
+        """Store a raw trace for ``decision_id`` and return its ``restricted://`` ref.
+
+        An empty ``raw_trace`` is not stored and yields an empty ref.
+        """
         if not raw_trace:
             return ""
         self._traces[decision_id] = raw_trace
         return f"restricted://{decision_id}"
 
     def get(self, decision_id: str) -> str:
+        """Return the raw trace for ``decision_id``; raises ``KeyError`` if absent."""
         return self._traces[decision_id]
 
     def __contains__(self, decision_id: str) -> bool:
+        """Return True if a raw trace is stored for ``decision_id``."""
         return decision_id in self._traces
 
 
@@ -68,9 +74,7 @@ class AuditEmitter:
     version_resolver: VersionResolver
     content_store: ContentAddressedStore
     audit_store: AuditStore
-    restricted_store: RestrictedTraceStore = field(
-        default_factory=RestrictedTraceStore
-    )
+    restricted_store: RestrictedTraceStore = field(default_factory=RestrictedTraceStore)
 
     def emit(
         self,
@@ -165,9 +169,7 @@ class AuditEmitter:
     # ------------------------------------------------------------------
     # Auditor tool (Section 11, Task 12.3.2)
 
-    def resolve_decision(
-        self, decision_id: str
-    ) -> dict[str, Any]:
+    def resolve_decision(self, decision_id: str) -> dict[str, Any]:
         """Given a decision_id, resolve the three SHAs + effective rule-set.
 
         Returns a dict with the three Git SHAs, inputs payload, structured
@@ -181,9 +183,7 @@ class AuditEmitter:
             "prompt_version": sealed["prompt_version"],
             "model_version": sealed["model_version"],
             "inputs": self.content_store.get(sealed["inputs_ref"]),
-            "structured_reasoning": self.content_store.get(
-                sealed["reasoning_trace_ref"]
-            ),
+            "structured_reasoning": self.content_store.get(sealed["reasoning_trace_ref"]),
             "row": sealed,
         }
 

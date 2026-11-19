@@ -16,8 +16,6 @@ client directly (see ``tests/test_workspaces.py``,
 
 from __future__ import annotations
 
-from pathlib import Path
-
 import typer
 
 from apex_fabric.workspaces import (
@@ -28,7 +26,6 @@ from apex_fabric.workspaces import (
     parse_workspace_name,
     validate_workspace_name,
 )
-
 
 fabric_app = typer.Typer(
     name="fabric",
@@ -45,9 +42,7 @@ def validate_name_cmd(name: str = typer.Argument(...)) -> None:
     """
     if not validate_workspace_name(name):
         typer.echo(f"FAIL: {name} does not match canonical pattern.")
-        typer.echo(
-            "Expected: apex-{practice}-{environment}-{role}[-{suffix}]"
-        )
+        typer.echo("Expected: apex-{practice}-{environment}-{role}[-{suffix}]")
         typer.echo(f"  Practices:    {', '.join(PRACTICES)}")
         typer.echo(f"  Environments: {', '.join(ENVIRONMENTS)}")
         typer.echo(f"  Roles:        {', '.join(ROLES)}")

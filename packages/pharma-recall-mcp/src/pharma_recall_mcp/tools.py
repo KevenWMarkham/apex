@@ -5,7 +5,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, field
 from datetime import date
-from typing import Protocol, runtime_checkable
+from typing import Any, Protocol, runtime_checkable
 
 from apex_core.types import Classification
 from mcp_common import McpError, McpErrorCode, ToolContract, traced_call
@@ -19,24 +19,36 @@ _NDC_PATTERN = re.compile(r"^\d{4,5}-\d{3,4}-\d{1,2}$")
 
 @runtime_checkable
 class PharmaRecallBackend(Protocol):
-    def list_recalls(self, since: date, limit: int) -> list[dict]: ...
-    def search_by_ndc(self, ndc: str, limit: int) -> list[dict]: ...
-    def get_recall(self, recall_id: str) -> dict | None: ...
+    """Read interface over pharmaceutical recall records."""
+
+    def list_recalls(self, since: date, limit: int) -> list[dict[str, Any]]:
+        """Return up to ``limit`` recalls dated on or after ``since``."""
+
+    def search_by_ndc(self, ndc: str, limit: int) -> list[dict[str, Any]]:
+        """Return up to ``limit`` recalls that list ``ndc`` among their NDC codes."""
+
+    def get_recall(self, recall_id: str) -> dict[str, Any] | None:
+        """Return the recall record for ``recall_id``, or None when unknown."""
 
 
 @dataclass
 class InMemoryPharmaRecallBackend:
-    recalls: list[dict] = field(default_factory=list)
+    """Dev / test backend holding recall records in memory."""
 
-    def list_recalls(self, since: date, limit: int) -> list[dict]:
+    recalls: list[dict[str, Any]] = field(default_factory=list)
+
+    def list_recalls(self, since: date, limit: int) -> list[dict[str, Any]]:
+        """Return the first ``limit`` recalls whose ``recall_date`` is on or after ``since``."""
         out = [r for r in self.recalls if date.fromisoformat(r["recall_date"]) >= since]
         return out[:limit]
 
-    def search_by_ndc(self, ndc: str, limit: int) -> list[dict]:
+    def search_by_ndc(self, ndc: str, limit: int) -> list[dict[str, Any]]:
+        """Return the first ``limit`` recalls whose ``ndc_codes`` contain ``ndc`` exactly."""
         out = [r for r in self.recalls if ndc in r.get("ndc_codes", [])]
         return out[:limit]
 
-    def get_recall(self, recall_id: str) -> dict | None:
+    def get_recall(self, recall_id: str) -> dict[str, Any] | None:
+        """Return the first recall whose ``recall_id`` matches, or None."""
         return next((r for r in self.recalls if r["recall_id"] == recall_id), None)
 
 
@@ -44,6 +56,7 @@ PHARMA_BACKEND: PharmaRecallBackend = InMemoryPharmaRecallBackend()
 
 
 def set_pharma_backend(backend: PharmaRecallBackend) -> None:
+    """Replace the module-level backend (production swap, test fixture)."""
     global PHARMA_BACKEND
     PHARMA_BACKEND = backend
 
@@ -54,7 +67,7 @@ def list_pharma_recalls(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> list[dict]:
+) -> list[dict[str, Any]]:
     """List pharmaceutical recalls since a date (YYYY-MM-DD)."""
     try:
         since = date.fromisoformat(since_iso)
@@ -66,7 +79,8 @@ def list_pharma_recalls(
     with traced_call(
         tool_name=f"{SERVER_NAME}.list_pharma_recalls",
         tool_version=TOOL_VERSION,
-        agent_id=agent_id, caller_identity=caller_identity,
+        agent_id=agent_id,
+        caller_identity=caller_identity,
         parameters={"since_iso": since_iso, "limit": limit},
         classification_applied=[Classification.PUBLIC],
     ) as ctx:
@@ -81,7 +95,7 @@ def search_recalls_by_ndc(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> list[dict]:
+) -> list[dict[str, Any]]:
     """Find recalls affecting an NDC code."""
     if not _NDC_PATTERN.match(ndc):
         raise McpError(
@@ -91,7 +105,8 @@ def search_recalls_by_ndc(
     with traced_call(
         tool_name=f"{SERVER_NAME}.search_recalls_by_ndc",
         tool_version=TOOL_VERSION,
-        agent_id=agent_id, caller_identity=caller_identity,
+        agent_id=agent_id,
+        caller_identity=caller_identity,
         parameters={"ndc": ndc, "limit": limit},
         classification_applied=[Classification.PUBLIC],
     ) as ctx:
@@ -105,12 +120,13 @@ def get_recall_detail(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> dict:
+) -> dict[str, Any]:
     """Return the full pharmaceutical-recall record."""
     with traced_call(
         tool_name=f"{SERVER_NAME}.get_recall_detail",
         tool_version=TOOL_VERSION,
-        agent_id=agent_id, caller_identity=caller_identity,
+        agent_id=agent_id,
+        caller_identity=caller_identity,
         parameters={"recall_id": recall_id},
         classification_applied=[Classification.PUBLIC],
     ) as ctx:
@@ -126,17 +142,20 @@ def get_recall_detail(
 
 CONTRACTS: list[ToolContract] = [
     ToolContract(
-        name=f"{SERVER_NAME}.list_pharma_recalls", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.list_pharma_recalls",
+        version=TOOL_VERSION,
         description="List pharmaceutical recalls since a date.",
         classification_propagation=[Classification.PUBLIC],
     ),
     ToolContract(
-        name=f"{SERVER_NAME}.search_recalls_by_ndc", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.search_recalls_by_ndc",
+        version=TOOL_VERSION,
         description="Find recalls that reference a specific NDC.",
         classification_propagation=[Classification.PUBLIC],
     ),
     ToolContract(
-        name=f"{SERVER_NAME}.get_recall_detail", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.get_recall_detail",
+        version=TOOL_VERSION,
         description="Return the full pharmaceutical-recall record by id.",
         classification_propagation=[Classification.PUBLIC],
     ),

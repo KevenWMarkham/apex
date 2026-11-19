@@ -31,7 +31,6 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 
-
 CHARTER_PATH = Path("apex-workspace") / "CHARTER.md"
 
 
@@ -48,6 +47,8 @@ _CHARTER_TOOL_ROW_RE = re.compile(
 
 @dataclass
 class CharterAnnotation:
+    """A tool's ``cacheable`` flag as declared in a CHARTER.md table row."""
+
     tool: str
     cacheable: bool
     source_line: int
@@ -84,6 +85,11 @@ CACHE_FUNCTION_NAMES = {"cache_mcp_response", "get_cached_mcp_response"}
 
 @dataclass
 class CacheCallSite:
+    """A call to a cache helper found in source.
+
+    ``tool_name`` is ``None`` when the tool-name argument is not a string literal.
+    """
+
     path: Path
     lineno: int
     func: str
@@ -102,10 +108,15 @@ def find_cache_call_sites(root: Path) -> list[CacheCallSite]:
         #   necessarily passes variable tool names through
         # - lint module + tests for these modules call the helpers intentionally
         rel = path.as_posix()
-        if any(hint in rel for hint in (
-            "redis_client", "lint_cache_governance",
-            "mcp/dispatcher", "mcp\\dispatcher",
-        )):
+        if any(
+            hint in rel
+            for hint in (
+                "redis_client",
+                "lint_cache_governance",
+                "mcp/dispatcher",
+                "mcp\\dispatcher",
+            )
+        ):
             continue
         if path.name.startswith("test_") and any(
             hint in path.name for hint in ("redis_client", "mcp_dispatcher")
@@ -123,8 +134,7 @@ def find_cache_call_sites(root: Path) -> list[CacheCallSite]:
                 continue
             tool_name = _first_string_arg(node)
             has_entra = any(
-                kw.arg == "entra_scope"
-                and isinstance(kw.value, (ast.Constant, ast.Name))
+                kw.arg == "entra_scope" and isinstance(kw.value, (ast.Constant, ast.Name))
                 for kw in node.keywords
             ) or _positional_entra_scope_present(node, func_name)
             sites.append(
@@ -169,6 +179,14 @@ def _positional_entra_scope_present(call: ast.Call, func: str) -> bool:
 
 
 def main(argv: list[str] | None = None) -> int:
+    """Run the cache-governance lint from the command line.
+
+    Every cache call site must name a literal tool that CHARTER.md marks
+    ``cacheable: true`` and must pass an Entra scope.
+
+    Returns:
+        0 when clean (or the scan root is missing), 1 when violations are found.
+    """
     parser = argparse.ArgumentParser(
         description=(
             "Cache-governance lint — fails the build if any code path caches "
@@ -176,15 +194,18 @@ def main(argv: list[str] | None = None) -> int:
         )
     )
     parser.add_argument(
-        "--root", default=".",
+        "--root",
+        default=".",
         help="Repo root (default: current directory).",
     )
     parser.add_argument(
-        "--charter", default=str(CHARTER_PATH),
+        "--charter",
+        default=str(CHARTER_PATH),
         help="Path to CHARTER.md (default: apex-workspace/CHARTER.md).",
     )
     parser.add_argument(
-        "--scan", default="packages",
+        "--scan",
+        default="packages",
         help="Directory to scan for cache calls (default: packages).",
     )
     args = parser.parse_args(argv)

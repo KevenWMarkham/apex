@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Protocol, runtime_checkable
+from typing import Any, Protocol, runtime_checkable
 
 from apex_core.types import Classification
 from mcp_common import McpError, McpErrorCode, ToolContract, traced_call
@@ -14,24 +14,36 @@ TOOL_VERSION = "1.0.0"
 
 @runtime_checkable
 class VendorBackend(Protocol):
-    def status(self, vendor_id: str) -> dict | None: ...
-    def orders(self, vendor_id: str, limit: int) -> list[dict]: ...
-    def compliance_score(self, vendor_id: str) -> dict | None: ...
+    """Read interface over vendor-portal status, order and compliance data."""
+
+    def status(self, vendor_id: str) -> dict[str, Any] | None:
+        """Return the status record for ``vendor_id``, or None when unknown."""
+
+    def orders(self, vendor_id: str, limit: int) -> list[dict[str, Any]]:
+        """Return up to ``limit`` orders placed with ``vendor_id``."""
+
+    def compliance_score(self, vendor_id: str) -> dict[str, Any] | None:
+        """Return the compliance-score record for ``vendor_id``, or None when unknown."""
 
 
 @dataclass
 class InMemoryVendorBackend:
-    statuses: dict[str, dict] = field(default_factory=dict)
-    orders_by_vendor: dict[str, list[dict]] = field(default_factory=dict)
-    compliance: dict[str, dict] = field(default_factory=dict)
+    """Dev / test backend holding vendor records in memory, keyed by vendor id."""
 
-    def status(self, vendor_id: str) -> dict | None:
+    statuses: dict[str, dict[str, Any]] = field(default_factory=dict)
+    orders_by_vendor: dict[str, list[dict[str, Any]]] = field(default_factory=dict)
+    compliance: dict[str, dict[str, Any]] = field(default_factory=dict)
+
+    def status(self, vendor_id: str) -> dict[str, Any] | None:
+        """Return the stored status for ``vendor_id``, or None."""
         return self.statuses.get(vendor_id)
 
-    def orders(self, vendor_id: str, limit: int) -> list[dict]:
+    def orders(self, vendor_id: str, limit: int) -> list[dict[str, Any]]:
+        """Return the first ``limit`` stored orders for ``vendor_id`` (empty if none)."""
         return self.orders_by_vendor.get(vendor_id, [])[:limit]
 
-    def compliance_score(self, vendor_id: str) -> dict | None:
+    def compliance_score(self, vendor_id: str) -> dict[str, Any] | None:
+        """Return the stored compliance score for ``vendor_id``, or None."""
         return self.compliance.get(vendor_id)
 
 
@@ -39,6 +51,7 @@ VENDOR_BACKEND: VendorBackend = InMemoryVendorBackend()
 
 
 def set_vendor_backend(backend: VendorBackend) -> None:
+    """Replace the module-level backend (production swap, test fixture)."""
     global VENDOR_BACKEND
     VENDOR_BACKEND = backend
 
@@ -48,11 +61,17 @@ def get_vendor_status(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> dict:
+) -> dict[str, Any]:
+    """Return the current portal status record for a vendor.
+
+    Raises:
+        McpError: ``NOT_FOUND`` when the backend has no status for ``vendor_id``.
+    """
     with traced_call(
         tool_name=f"{SERVER_NAME}.get_vendor_status",
         tool_version=TOOL_VERSION,
-        agent_id=agent_id, caller_identity=caller_identity,
+        agent_id=agent_id,
+        caller_identity=caller_identity,
         parameters={"vendor_id": vendor_id},
         classification_applied=[Classification.INTERNAL],
     ) as ctx:
@@ -72,11 +91,13 @@ def list_vendor_orders(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> list[dict]:
+) -> list[dict[str, Any]]:
+    """List up to ``limit`` orders for a vendor (empty list for an unknown vendor)."""
     with traced_call(
         tool_name=f"{SERVER_NAME}.list_vendor_orders",
         tool_version=TOOL_VERSION,
-        agent_id=agent_id, caller_identity=caller_identity,
+        agent_id=agent_id,
+        caller_identity=caller_identity,
         parameters={"vendor_id": vendor_id, "limit": limit},
         classification_applied=[Classification.INTERNAL],
     ) as ctx:
@@ -90,11 +111,17 @@ def get_vendor_compliance_score(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> dict:
+) -> dict[str, Any]:
+    """Return a vendor's compliance-score record (classified INTERNAL + TRADE_SECRET).
+
+    Raises:
+        McpError: ``NOT_FOUND`` when no compliance score exists for ``vendor_id``.
+    """
     with traced_call(
         tool_name=f"{SERVER_NAME}.get_vendor_compliance_score",
         tool_version=TOOL_VERSION,
-        agent_id=agent_id, caller_identity=caller_identity,
+        agent_id=agent_id,
+        caller_identity=caller_identity,
         parameters={"vendor_id": vendor_id},
         classification_applied=[Classification.INTERNAL, Classification.TRADE_SECRET],
     ) as ctx:
@@ -110,17 +137,20 @@ def get_vendor_compliance_score(
 
 CONTRACTS: list[ToolContract] = [
     ToolContract(
-        name=f"{SERVER_NAME}.get_vendor_status", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.get_vendor_status",
+        version=TOOL_VERSION,
         description="Return the current portal status for a vendor.",
         classification_propagation=[Classification.INTERNAL],
     ),
     ToolContract(
-        name=f"{SERVER_NAME}.list_vendor_orders", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.list_vendor_orders",
+        version=TOOL_VERSION,
         description="List recent orders for a vendor.",
         classification_propagation=[Classification.INTERNAL],
     ),
     ToolContract(
-        name=f"{SERVER_NAME}.get_vendor_compliance_score", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.get_vendor_compliance_score",
+        version=TOOL_VERSION,
         description="Return the compliance scorecard for a vendor.",
         classification_propagation=[Classification.INTERNAL, Classification.TRADE_SECRET],
     ),

@@ -9,6 +9,7 @@ Adapters for client SIEM (Splunk, Sumo Logic, Datadog, QRadar) implement
 this for the `siem_audit.secondary` slot — parallel write only, never
 primary.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -23,21 +24,22 @@ class AuditRow:
     Field set is normative across variants — concrete impl maps to provider
     schema (Purview Audit, CloudTrail, etc.) and the local overlay table.
     """
+
     trace_id: str
     decision_ledger_id: str
     tenant_id: str
-    service_code: str           # e.g., RC-E2E-03
-    scenario_id: str            # e.g., rc-cold-chain-excursion-mid-shift
+    service_code: str  # e.g., RC-E2E-03
+    scenario_id: str  # e.g., rc-cold-chain-excursion-mid-shift
     agent_id: str
     operator_principal: str | None
-    decision_kind: str          # zero-touch | ack-only | hitl | escalation
-    inputs_hash: str            # content-addressed
-    outputs_hash: str           # content-addressed
-    manifest_version: str       # three-version rule
+    decision_kind: str  # zero-touch | ack-only | hitl | escalation
+    inputs_hash: str  # content-addressed
+    outputs_hash: str  # content-addressed
+    manifest_version: str  # three-version rule
     policy_version: str
     prompt_version: str
     timestamp: datetime
-    classification: str         # T1 | T2 | T3 | T4 (mapped to provider label)
+    classification: str  # T1 | T2 | T3 | T4 (mapped to provider label)
     extras: dict[str, Any] = field(default_factory=dict)
 
 
@@ -46,7 +48,7 @@ class AuditLedger(Protocol):
     """Append, query, sign, verify."""
 
     variant: str
-    is_primary: bool   # True = system of record; False = parallel-write overlay
+    is_primary: bool  # True = system of record; False = parallel-write overlay
 
     def append(self, row: AuditRow) -> str:
         """Append-only. Returns the persisted row's signed id."""
@@ -65,6 +67,8 @@ class AuditLedger(Protocol):
         ...
 
     def verify(self, row_id: str) -> bool:
-        """Verify a row's signature against the WORM store. Returns False
-        on tamper or missing."""
+        """Verify a row's signature against the WORM store.
+
+        Returns False on tamper or missing.
+        """
         ...

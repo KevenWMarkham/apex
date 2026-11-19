@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from apex_standards_isa95 import (
     Isa95Area,
     Isa95Enterprise,

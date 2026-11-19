@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from apex_core.types import Classification
 from fabric_mcp import InMemoryFabricBackend, set_fabric_backend
 from hlscml_mcp import (
@@ -17,20 +16,22 @@ from mcp_common import McpError, McpErrorCode
 
 @pytest.fixture(autouse=True)
 def _seed() -> None:
-    set_fabric_backend(InMemoryFabricBackend(
-        entities={
-            ("patient", "pt-1"): {"fhir_id": "ex1", "mrn_token": "tok_mrn"},
-        },
-        views={
-            "gold_hlscml.observation": [
-                {"fhir_id": "o-1", "patient_key": "pt-1", "loinc_code": "85354-9"},
-                {"fhir_id": "o-2", "patient_key": "pt-1", "loinc_code": "1234-5"},
-            ],
-            "gold_hlscml.medication_request": [
-                {"fhir_id": "m-1", "patient_key": "pt-1"},
-            ],
-        },
-    ))
+    set_fabric_backend(
+        InMemoryFabricBackend(
+            entities={
+                ("patient", "pt-1"): {"fhir_id": "ex1", "mrn_token": "tok_mrn"},
+            },
+            views={
+                "gold_hlscml.observation": [
+                    {"fhir_id": "o-1", "patient_key": "pt-1", "loinc_code": "85354-9"},
+                    {"fhir_id": "o-2", "patient_key": "pt-1", "loinc_code": "1234-5"},
+                ],
+                "gold_hlscml.medication_request": [
+                    {"fhir_id": "m-1", "patient_key": "pt-1"},
+                ],
+            },
+        )
+    )
 
 
 def test_get_patient() -> None:

@@ -72,7 +72,9 @@ class TestNextScd2Fields:
         now = datetime(2026, 4, 20, 12, 0, tzinfo=UTC)
         incoming = {"sku_natural": "sku-1", "status": "INACTIVE", "unit_price": "10.00"}
         existing = {
-            "sku_natural": "sku-1", "status": "ACTIVE", "unit_price": "10.00",
+            "sku_natural": "sku-1",
+            "status": "ACTIVE",
+            "unit_price": "10.00",
             "row_hash": compute_row_hash(
                 {"sku_natural": "sku-1", "status": "ACTIVE", "unit_price": "10.00"},
                 cfg,

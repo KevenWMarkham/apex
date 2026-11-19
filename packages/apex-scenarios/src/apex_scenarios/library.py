@@ -23,7 +23,6 @@ from apex_scenarios.models import (
     compact_to_extended,
 )
 
-
 # ---------------------------------------------------------------------------
 # Default repository-relative paths
 # ---------------------------------------------------------------------------
@@ -50,9 +49,7 @@ def load_scenario_library(path: str | Path = DEFAULT_LIBRARY_PATH) -> list[Scena
         raw = json.load(fh)
 
     if not isinstance(raw, dict):
-        raise ValueError(
-            f"{path}: expected mapping keyed by practice, got {type(raw).__name__}"
-        )
+        raise ValueError(f"{path}: expected mapping keyed by practice, got {type(raw).__name__}")
 
     scenarios: list[Scenario] = []
     for practice, rows in raw.items():
@@ -72,10 +69,8 @@ def load_scenario_library(path: str | Path = DEFAULT_LIBRARY_PATH) -> list[Scena
                     scenarios.append(compact_to_extended(compact, practice=practice))
                 else:
                     scenarios.append(Scenario(practice=practice, **row))
-            except Exception as exc:  # noqa: BLE001
-                raise ValueError(
-                    f"{path}: practice {practice!r} row #{i}: {exc}"
-                ) from exc
+            except Exception as exc:
+                raise ValueError(f"{path}: practice {practice!r} row #{i}: {exc}") from exc
 
     return scenarios
 
@@ -86,9 +81,7 @@ def load_featured_chains(path: str | Path = DEFAULT_FEATURED_PATH) -> list[Featu
     with p.open("r", encoding="utf-8") as fh:
         raw = json.load(fh)
     if not isinstance(raw, list):
-        raise ValueError(
-            f"{path}: expected JSON array, got {type(raw).__name__}"
-        )
+        raise ValueError(f"{path}: expected JSON array, got {type(raw).__name__}")
     return [FeaturedChain.model_validate(row) for row in raw]
 
 
@@ -105,6 +98,7 @@ class ScenarioIndex:
     """
 
     def __init__(self, scenarios: Iterable[Scenario]) -> None:
+        """Index ``scenarios`` by practice and by service code."""
         self._all: list[Scenario] = list(scenarios)
         self._by_practice: dict[str, list[Scenario]] = {p: [] for p in PRACTICE_CODES}
         self._by_service: dict[str, list[Scenario]] = {}
@@ -117,28 +111,36 @@ class ScenarioIndex:
 
     @property
     def all(self) -> list[Scenario]:
+        """Return a copy of every scenario in library order."""
         return list(self._all)
 
     @property
     def total(self) -> int:
+        """Return the number of scenarios in the index."""
         return len(self._all)
 
     def by_practice(self, practice: str) -> list[Scenario]:
+        """Return the scenarios for ``practice`` (normalised to upper case)."""
         return list(self._by_practice.get(practice.upper(), []))
 
     def by_service(self, service_code: str) -> list[Scenario]:
+        """Return the scenarios that carry exactly ``service_code``."""
         return list(self._by_service.get(service_code, []))
 
     def practice_counts(self) -> dict[str, int]:
+        """Return the number of scenarios per practice code."""
         return {p: len(self._by_practice[p]) for p in PRACTICE_CODES}
 
     def service_codes(self) -> set[str]:
+        """Return the distinct service codes present in the library."""
         return set(self._by_service.keys())
 
     def with_full_wave_data(self) -> list[Scenario]:
+        """Return the scenarios with all three Wave fields populated."""
         return [s for s in self._all if s.has_full_wave_data()]
 
     def missing_wave_data(self) -> list[Scenario]:
+        """Return the scenarios missing at least one Wave field."""
         return [s for s in self._all if not s.has_full_wave_data()]
 
     def filter(

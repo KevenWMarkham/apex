@@ -8,6 +8,7 @@ in later sprints.
 from __future__ import annotations
 
 from apex_core.types import Classification
+
 from apex_medallion.gold.measure import (
     MeasureDefinition,
     MeasureKind,
@@ -58,10 +59,7 @@ TIME_SINCE_LAST_EVENT_SECONDS = MeasureDefinition(
         "Seconds between the current snapshot and the most-recent event_ts "
         "for this entity. Enables 'stale data' gating in agent prompts."
     ),
-    formula=(
-        "F.unix_timestamp(F.current_timestamp()) "
-        "- F.unix_timestamp(F.col('last_event_ts'))"
-    ),
+    formula=("F.unix_timestamp(F.current_timestamp()) - F.unix_timestamp(F.col('last_event_ts'))"),
     depends_on=["last_event_ts"],
     consumer_map=["rc-cold-chain-agent"],
 )
@@ -91,9 +89,7 @@ ROLLING_AVG_14_DAY_TSQL = MeasureDefinition(
     owner="rc-practice-lead",
     description="14-day rolling average of base_metric.",
     formula=(
-        "AVG(base_metric) OVER ("
-        "ORDER BY event_date "
-        "ROWS BETWEEN 13 PRECEDING AND CURRENT ROW)"
+        "AVG(base_metric) OVER (ORDER BY event_date ROWS BETWEEN 13 PRECEDING AND CURRENT ROW)"
     ),
     depends_on=["base_metric", "event_date"],
     consumer_map=["rc-demand-agent"],
@@ -117,12 +113,14 @@ RECENT_EVENTS_KQL = MeasureDefinition(
 def rc_measure_registry() -> MeasureRegistry:
     """Return a fresh registry populated with RC anchor measures."""
     reg = MeasureRegistry()
-    reg.register_many([
-        EFFECTIVE_MARGIN_PCT,
-        STOCK_DAYS_REMAINING,
-        TIME_SINCE_LAST_EVENT_SECONDS,
-        PERIOD_OVER_PERIOD_PCT_DAX,
-        ROLLING_AVG_14_DAY_TSQL,
-        RECENT_EVENTS_KQL,
-    ])
+    reg.register_many(
+        [
+            EFFECTIVE_MARGIN_PCT,
+            STOCK_DAYS_REMAINING,
+            TIME_SINCE_LAST_EVENT_SECONDS,
+            PERIOD_OVER_PERIOD_PCT_DAX,
+            ROLLING_AVG_14_DAY_TSQL,
+            RECENT_EVENTS_KQL,
+        ]
+    )
     return reg

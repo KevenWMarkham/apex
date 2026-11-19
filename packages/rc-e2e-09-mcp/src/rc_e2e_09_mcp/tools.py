@@ -15,7 +15,8 @@ from datetime import UTC, datetime
 from typing import Any
 
 from apex_core.types import Classification
-from fabric_mcp import FABRIC_BACKEND, query_gold_view as _fabric_query_view
+from fabric_mcp import FABRIC_BACKEND
+from fabric_mcp import query_gold_view as _fabric_query_view
 from mcp_common import McpError, McpErrorCode, ToolContract, traced_call
 
 SERVER_NAME = "rc-e2e-09-mcp"
@@ -25,12 +26,16 @@ SERVICE_CODE = "RC-E2E-09"
 # Read tools accept cross-service scopes; write tool requires RC-E2E-09 scope only.
 _REQUIRED_SCOPES_WRITE = ["practice:rc", "service:rc-e2e-09"]
 _REQUIRED_SCOPES_READ = ["practice:rc", "service:rc-e2e-09"]
-_REQUIRED_SCOPES_CROSS_SERVICE_READ = ["practice:rc"]   # any RC service can read provenance
+_REQUIRED_SCOPES_CROSS_SERVICE_READ = ["practice:rc"]  # any RC service can read provenance
 
 _VALID_LOT_EVENT_KINDS = (
-    "recall_class_I", "recall_class_II", "recall_class_III",
-    "trace_audit_pass", "trace_audit_gap_logged",
-    "lot_status_held_in_dc", "lot_status_recalled_from_store",
+    "recall_class_I",
+    "recall_class_II",
+    "recall_class_III",
+    "trace_audit_pass",
+    "trace_audit_gap_logged",
+    "lot_status_held_in_dc",
+    "lot_status_recalled_from_store",
     "lot_status_destruction_only",
 )
 
@@ -96,15 +101,20 @@ def get_recall_panel(
                     "sku_key": r.get("sku_key"),
                     "is_covered_food": r.get("is_covered_food", False),
                     "received_with_temp_log": r.get("received_with_temp_log", False),
-                    "cold_chain_compliant_pre_event": r.get("cold_chain_compliant_pre_event", False),
-                    "has_critical_tracking_event_log": r.get("has_critical_tracking_event_log", False),
+                    "cold_chain_compliant_pre_event": r.get(
+                        "cold_chain_compliant_pre_event", False
+                    ),
+                    "has_critical_tracking_event_log": r.get(
+                        "has_critical_tracking_event_log", False
+                    ),
                     "cte_count": r.get("cte_count", 0),
                     "kde_count": r.get("kde_count", 0),
                     "earliest_cte_ts": r.get("earliest_cte_ts"),
                     "latest_cte_ts": r.get("latest_cte_ts"),
                     "supplier_key": r.get("supplier_key"),
-                    "downstream_distribution_locations_count":
-                        r.get("downstream_distribution_locations_count", 0),
+                    "downstream_distribution_locations_count": r.get(
+                        "downstream_distribution_locations_count", 0
+                    ),
                     "trace_gaps": r.get("trace_gaps", []),
                 }
                 for r in rows
@@ -170,7 +180,9 @@ def get_lot_provenance(
         # Sort events by event_ts descending for typical "what's the
         # current status" reads. Consumers can paginate from the head.
         events_sorted = sorted(
-            rows, key=lambda r: r.get("event_ts") or "", reverse=True,
+            rows,
+            key=lambda r: r.get("event_ts") or "",
+            reverse=True,
         )
         head = events_sorted[0]
         result = {

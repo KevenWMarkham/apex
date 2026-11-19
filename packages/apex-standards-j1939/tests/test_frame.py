@@ -5,9 +5,8 @@ from __future__ import annotations
 from datetime import UTC, datetime
 
 import pytest
-from pydantic import ValidationError
-
 from apex_standards_j1939 import CanFrame
+from pydantic import ValidationError
 
 
 def test_minimal_frame() -> None:

@@ -12,7 +12,8 @@ def _store_with_proposal() -> tuple[TuningStore, str]:
     store = TuningStore()
     req = store.propose(
         service="rc-markdown",
-        from_gate=GateKind.HITL, to_gate=GateKind.ACK_ONLY,
+        from_gate=GateKind.HITL,
+        to_gate=GateKind.ACK_ONLY,
         requested_by="ops-lead@example.com",
         rationale="historically low-risk for this tenant",
     )

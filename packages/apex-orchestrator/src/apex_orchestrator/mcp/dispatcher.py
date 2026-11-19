@@ -27,16 +27,15 @@ import hashlib
 import json
 import logging
 import re
-import time
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Callable, Optional
+from typing import Any
 
 from apex_orchestrator.control_plane.redis_client import (
     CacheEvent,
     RedisControlPlane,
 )
-
 
 log = logging.getLogger("apex.orchestrator.mcp.dispatcher")
 
@@ -64,10 +63,16 @@ class CharterCatalog:
 
     tools: dict[str, CharterTool] = field(default_factory=dict)
 
-    def get(self, tool: str) -> Optional[CharterTool]:
+    def get(self, tool: str) -> CharterTool | None:
+        """Return the catalog entry for ``tool``, or None if it is not listed."""
         return self.tools.get(tool)
 
     def must_get(self, tool: str) -> CharterTool:
+        """Return the catalog entry for ``tool``.
+
+        Raises:
+            KeyError: If ``tool`` is not in the catalog.
+        """
         ct = self.tools.get(tool)
         if ct is None:
             raise KeyError(f"Tool {tool!r} not in CHARTER catalog")
@@ -79,11 +84,11 @@ class CharterCatalog:
 # where the third column is `cacheable` (bool), fourth is `cache_ttl_s`
 # (int), fifth is `oversight`. Optional sixth column is `hitl_required`.
 _TOOL_ROW_RE = re.compile(
-    r"^\|\s*`([\w.\-]+)`\s*\|"   # tool name
-    r"\s*([^|]*?)\s*\|"          # schema
-    r"\s*(true|false)\s*\|"      # cacheable
-    r"\s*(\d+)\s*\|"             # cache_ttl_s
-    r"\s*(\w+)\s*\|"             # oversight
+    r"^\|\s*`([\w.\-]+)`\s*\|"  # tool name
+    r"\s*([^|]*?)\s*\|"  # schema
+    r"\s*(true|false)\s*\|"  # cacheable
+    r"\s*(\d+)\s*\|"  # cache_ttl_s
+    r"\s*(\w+)\s*\|"  # oversight
     r"(?:\s*(true|false)\s*\|)?",  # hitl_required (optional)
     re.IGNORECASE,
 )
@@ -103,7 +108,13 @@ def parse_charter_catalog(charter_path: Path) -> CharterCatalog:
         m = _TOOL_ROW_RE.search(line)
         if m is None:
             continue
-        name, schema, cacheable, ttl, oversight = m.group(1), m.group(2), m.group(3), m.group(4), m.group(5)
+        name, schema, cacheable, ttl, oversight = (
+            m.group(1),
+            m.group(2),
+            m.group(3),
+            m.group(4),
+            m.group(5),
+        )
         hitl_required_raw = m.group(6) or "false"
         catalog.tools[name] = CharterTool(
             name=name,
@@ -154,9 +165,7 @@ class MCPDispatcher:
     redis: RedisControlPlane
     tool_registry: Callable[[str, dict[str, Any]], Any]
     telemetry: Callable[[CacheEvent], None] = field(default=lambda _e: None)
-    classification_resolver: Callable[[str, Any], str] = field(
-        default=lambda _t, _v: "Internal"
-    )
+    classification_resolver: Callable[[str, Any], str] = field(default=lambda _t, _v: "Internal")
     """Resolves the classification of a tool's response. Default treats
     everything as Internal; production injects a Practice-aware resolver."""
 
@@ -182,7 +191,9 @@ class MCPDispatcher:
             if hit is not None:
                 self.telemetry(
                     CacheEvent(
-                        event="cache_hit", tool=tool, arg_hash=ah,
+                        event="cache_hit",
+                        tool=tool,
+                        arg_hash=ah,
                         entra_scope=entra_scope,
                     )
                 )
@@ -193,7 +204,9 @@ class MCPDispatcher:
                 return hit
             self.telemetry(
                 CacheEvent(
-                    event="cache_miss", tool=tool, arg_hash=ah,
+                    event="cache_miss",
+                    tool=tool,
+                    arg_hash=ah,
                     entra_scope=entra_scope,
                 )
             )
@@ -208,7 +221,9 @@ class MCPDispatcher:
         if annotation is None:
             self.telemetry(
                 CacheEvent(
-                    event="cache_skip", tool=tool, arg_hash=ah,
+                    event="cache_skip",
+                    tool=tool,
+                    arg_hash=ah,
                     entra_scope=entra_scope,
                     reason="no_charter_annotation",
                 )
@@ -217,7 +232,9 @@ class MCPDispatcher:
         if not annotation.cacheable:
             self.telemetry(
                 CacheEvent(
-                    event="cache_skip", tool=tool, arg_hash=ah,
+                    event="cache_skip",
+                    tool=tool,
+                    arg_hash=ah,
                     entra_scope=entra_scope,
                     reason="cacheable_false",
                 )
@@ -229,7 +246,9 @@ class MCPDispatcher:
             # the runtime backstop.
             self.telemetry(
                 CacheEvent(
-                    event="cache_skip", tool=tool, arg_hash=ah,
+                    event="cache_skip",
+                    tool=tool,
+                    arg_hash=ah,
                     entra_scope=entra_scope,
                     reason="hitl_required_treated_as_write",
                 )
@@ -238,14 +257,19 @@ class MCPDispatcher:
 
         classification = self.classification_resolver(tool, result)
         cached = self.redis.cache_mcp_response(
-            tool, ah, entra_scope, result,
+            tool,
+            ah,
+            entra_scope,
+            result,
             ttl_s=annotation.cache_ttl_s,
             classification=classification,
         )
         if not cached:
             self.telemetry(
                 CacheEvent(
-                    event="cache_skip", tool=tool, arg_hash=ah,
+                    event="cache_skip",
+                    tool=tool,
+                    arg_hash=ah,
                     entra_scope=entra_scope,
                     reason=f"redis_skip_or_classification_{classification}",
                 )

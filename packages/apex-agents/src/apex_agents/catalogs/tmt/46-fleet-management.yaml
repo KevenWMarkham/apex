@@ -30,7 +30,7 @@ hitl_gates:
   - name: tax_deduction_submission
     description: Tax-deduction submission requires user approval
     fires_when: action_type == "tax_deduction.submit"
-    surface: mobile_push
+    surface: mobile
     sla_minutes: 1440
 
 oversight_modes: [HOTL]

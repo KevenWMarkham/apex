@@ -18,7 +18,6 @@ from apex_protocols.datasets import (
 )
 from apex_protocols.j1939_transport.normalizer import SPN_LAYOUTS
 
-
 protocols_app = typer.Typer(
     name="protocols",
     help="APEX OT protocol adapters — OPC UA, IEC 61850, SAE J1939.",
@@ -32,7 +31,9 @@ def list_cmd() -> None:
     typer.echo("Supported OT protocols:")
     typer.echo(f"  opcua       NodeSet entries: {len(parse_nodeset(OPCUA_NODESET_XML))}")
     typer.echo(f"  iec61850    IEDs in smoke SCD: {len(parse_scd(IEC61850_SCD_XML).ieds)}")
-    typer.echo(f"  j1939       PGNs decoded: {len(SPN_LAYOUTS)}, fixture frames: {len(J1939_FRAME_CAPTURE)}")
+    typer.echo(
+        f"  j1939       PGNs decoded: {len(SPN_LAYOUTS)}, fixture frames: {len(J1939_FRAME_CAPTURE)}"
+    )
     assert set(SUPPORTED_PROTOCOLS)  # silence unused import in some lint configs
 
 
@@ -58,7 +59,9 @@ def scd_cmd(
     for ied in doc.ieds:
         typer.echo(f"IED {ied.name} ({ied.manufacturer})")
         for ld in ied.logical_devices:
-            typer.echo(f"  LD {ld.inst} — {len(ld.logical_nodes)} LNs, {len(ld.goose_blocks)} GOOSE, {len(ld.sv_blocks)} SV")
+            typer.echo(
+                f"  LD {ld.inst} — {len(ld.logical_nodes)} LNs, {len(ld.goose_blocks)} GOOSE, {len(ld.sv_blocks)} SV"
+            )
 
 
 @protocols_app.command("runbooks")
@@ -68,7 +71,6 @@ def runbooks_cmd() -> None:
 
     runbooks_dir = Path(__file__).resolve().parent / "runbooks"
     for proto in SUPPORTED_PROTOCOLS:
-        suffix = "" if proto != "j1939" else ""
         candidates = list(runbooks_dir.glob(f"{proto}*"))
         for c in candidates:
             typer.echo(f"  {proto:12} {c.relative_to(runbooks_dir.parent.parent)}")

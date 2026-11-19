@@ -1,13 +1,13 @@
-"""HL7 v2.x parser — Sprint 23 Task 23.2.
+r"""HL7 v2.x parser — Sprint 23 Task 23.2.
 
 MLLP framing per the HL7 wire protocol:
 
-- Start block: ``\\x0b`` (vertical tab, "VT")
-- End block: ``\\x1c\\r`` (FS + CR)
+- Start block: ``\x0b`` (vertical tab, "VT")
+- End block: ``\x1c\r`` (FS + CR)
 
-Inside the framed payload, segments are CR-delimited (``\\r``), fields are
+Inside the framed payload, segments are CR-delimited (``\r``), fields are
 ``|``-delimited, repetitions are ``~``, components are ``^``, sub-components
-are ``&``, and escape is ``\\``. The MSH segment carries the field
+are ``&``, and escape is ``\``. The MSH segment carries the field
 separator at MSH-1 and the four other delimiters at MSH-2.
 
 This parser handles the named segment library:
@@ -28,15 +28,14 @@ plus passes through any other segments encountered, raw, into
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from apex_translators.base import (
     FORMAT_HL7V2,
-    ParseError,
     ParsedMessage,
+    ParseError,
     Segment,
 )
-
 
 # ---------------------------------------------------------------------------
 # MLLP framing
@@ -75,9 +74,18 @@ class HL7v2Delimiters:
     converts to LF or CRLF. Parser tolerates both."""
 
 
-SUPPORTED_SEGMENTS: frozenset[str] = frozenset({
-    "MSH", "PID", "PV1", "OBX", "OBR", "ORC", "RXE", "AL1",
-})
+SUPPORTED_SEGMENTS: frozenset[str] = frozenset(
+    {
+        "MSH",
+        "PID",
+        "PV1",
+        "OBX",
+        "OBR",
+        "ORC",
+        "RXE",
+        "AL1",
+    }
+)
 
 
 # ---------------------------------------------------------------------------
@@ -90,6 +98,15 @@ class HL7v2Parser:
     """HL7 v2.x parser — segment-level."""
 
     def parse(self, raw: str) -> ParsedMessage:
+        """Split an HL7 v2 message into segments and populate the envelope from MSH.
+
+        Delimiters are read from MSH-1/MSH-2 and recorded in
+        ``metadata["delimiters"]``; CR, LF and CRLF segment terminators are
+        all accepted.
+
+        Raises:
+            ParseError: If the message does not start with a well-formed MSH segment.
+        """
         text = raw.strip("\r\n ")
         if not text.startswith("MSH"):
             raise ParseError("HL7 v2 message must begin with MSH segment")
@@ -138,9 +155,7 @@ class HL7v2Parser:
                 segments.append(Segment(name=head, elements=elements, raw=line))
             else:
                 fields = line.split(delims.field)
-                segments.append(
-                    Segment(name=fields[0], elements=fields[1:], raw=line)
-                )
+                segments.append(Segment(name=fields[0], elements=fields[1:], raw=line))
 
         msg = ParsedMessage(
             format=FORMAT_HL7V2,
@@ -180,8 +195,8 @@ class HL7v2Parser:
             msg.sent_at = _parse_hl7_dtm(msh.elements[6])
         if len(msh.elements) >= 9:
             # Message type may be "ADT^A04" — keep the raw composite
-            msg.message_type = msh.elements[8].split(delims.component)[0:2]
-            msg.message_type = "^".join(msg.message_type) if isinstance(msg.message_type, list) else msh.elements[8]
+            type_parts = msh.elements[8].split(delims.component)[0:2]
+            msg.message_type = "^".join(type_parts)
         if len(msh.elements) >= 10:
             msg.control_number = msh.elements[9]
         if len(msh.elements) >= 12:
@@ -209,7 +224,7 @@ def _parse_hl7_dtm(dtm: str) -> datetime | None:
                 hour=int(s[8:10]),
                 minute=int(s[10:12]),
                 second=int(s[12:14]),
-                tzinfo=timezone.utc,
+                tzinfo=UTC,
             )
         if len(s) >= 12:
             return datetime(
@@ -218,14 +233,14 @@ def _parse_hl7_dtm(dtm: str) -> datetime | None:
                 day=int(s[6:8]),
                 hour=int(s[8:10]),
                 minute=int(s[10:12]),
-                tzinfo=timezone.utc,
+                tzinfo=UTC,
             )
         if len(s) >= 8:
             return datetime(
                 year=int(s[0:4]),
                 month=int(s[4:6]),
                 day=int(s[6:8]),
-                tzinfo=timezone.utc,
+                tzinfo=UTC,
             )
     except ValueError:
         return None

@@ -48,9 +48,7 @@ class ServiceManifest(BaseManifest):
     """Service manifest — the productised unit of APEX value delivery."""
 
     kind: Literal["service"] = "service"
-    persona: ManifestName = Field(
-        ..., description="Primary persona that consumes this service."
-    )
+    persona: ManifestName = Field(..., description="Primary persona that consumes this service.")
     hitl_mode: HitlMode = HitlMode.HITL
     kpis: list[KpiRef] = Field(default_factory=list)
     slo: SloSpec | None = None

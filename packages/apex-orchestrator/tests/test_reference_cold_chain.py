@@ -18,15 +18,23 @@ def test_no_excursion_completes_without_pause() -> None:
 def test_excursion_triggers_hitl_and_completes_after_approve() -> None:
     approvals = InMemoryApprovalsClient()
     orch = build_cold_chain_response(approvals=approvals)
-    result = orch.run({
-        "temp_high_f": 52.0, "duration_minutes": 240, "units_at_risk": 412,
-    })
+    result = orch.run(
+        {
+            "temp_high_f": 52.0,
+            "duration_minutes": 240,
+            "units_at_risk": 412,
+        }
+    )
     assert result.status is OrchestrationStatus.PAUSED
     assert len(result.pending_approvals) == 1
     # Approve → orchestration completes + notify step fires.
     pid = result.pending_approvals[0]
-    done = orch.resume(pid, decision="approved", approver_id="qa@example.com",
-                       rationale="salvage 71% within safety window")
+    done = orch.resume(
+        pid,
+        decision="approved",
+        approver_id="qa@example.com",
+        rationale="salvage 71% within safety window",
+    )
     assert done.status is OrchestrationStatus.COMPLETED
     assert "notified" in done.context
 
@@ -36,6 +44,7 @@ def test_rejection_leaves_orchestration_rejected() -> None:
     orch = build_cold_chain_response(approvals=approvals)
     paused = orch.run({"temp_high_f": 55.0, "duration_minutes": 300, "units_at_risk": 500})
     pid = paused.pending_approvals[0]
-    done = orch.resume(pid, decision="rejected", approver_id="qa@example.com",
-                       rationale="outside salvage window")
+    done = orch.resume(
+        pid, decision="rejected", approver_id="qa@example.com", rationale="outside salvage window"
+    )
     assert done.status is OrchestrationStatus.REJECTED

@@ -7,21 +7,16 @@ container so the suite runs without Docker.
 
 from __future__ import annotations
 
-import json
 import sys
-import time
 
 import pytest
-
 from apex_orchestrator.control_plane.redis_client import (
     CONTROL_PLANE_UNREACHABLE,
-    BudgetCounters,
     CancelLevel,
     RedisControlPlane,
     RedisUnavailable,
     StubRedis,
 )
-
 
 # ---------------------------------------------------------------------------
 # Fixtures
@@ -102,7 +97,8 @@ def test_budget_counters_failclosed_to_exhausted(cp: RedisControlPlane, stub: St
 
 
 def test_increment_budget_counter_raises_on_redis_failure(
-    cp: RedisControlPlane, stub: StubRedis,
+    cp: RedisControlPlane,
+    stub: StubRedis,
 ) -> None:
     stub.fail_all = True
     with pytest.raises(RedisUnavailable):
@@ -177,7 +173,11 @@ def test_pop_expired_hitl_failclosed_to_empty(cp: RedisControlPlane, stub: StubR
 
 def test_cache_round_trip(cp: RedisControlPlane) -> None:
     cached = cp.cache_mcp_response(
-        "rc.item.get", "abc123", "scope-1", {"id": 1, "sku": "X"}, ttl_s=30,
+        "rc.item.get",
+        "abc123",
+        "scope-1",
+        {"id": 1, "sku": "X"},
+        ttl_s=30,
         classification="Internal",
     )
     assert cached is True
@@ -193,7 +193,11 @@ def test_cache_skips_restricted_classifications(cp: RedisControlPlane) -> None:
     """Sprint 26 governance — PII/PCI/Confidential/etc. NEVER cache."""
     for cls in ("Restricted-PII", "Restricted-PCI", "Confidential", "phi", "pii", "payment-card"):
         ok = cp.cache_mcp_response(
-            "rc.payment.method.get", "x", "scope-1", {"card": "x"}, ttl_s=30,
+            "rc.payment.method.get",
+            "x",
+            "scope-1",
+            {"card": "x"},
+            ttl_s=30,
             classification=cls,
         )
         assert ok is False, f"classification {cls!r} must not cache"
@@ -203,7 +207,12 @@ def test_cache_skips_oversize_payloads() -> None:
     cp = RedisControlPlane(StubRedis(), cache_size_limit_bytes=100)
     big = {"data": "x" * 1000}
     ok = cp.cache_mcp_response(
-        "rc.item.get", "x", "scope-1", big, ttl_s=30, classification="Internal",
+        "rc.item.get",
+        "x",
+        "scope-1",
+        big,
+        ttl_s=30,
+        classification="Internal",
     )
     assert ok is False
 
@@ -275,8 +284,12 @@ def test_conformance_failclosed_constant_named() -> None:
 def test_conformance_never_cache_classifications_complete() -> None:
     """The runtime backstop covers all classifications APEX-CORE §11 forbids."""
     cp = RedisControlPlane(StubRedis())
-    for cls in ("Restricted-PII", "Restricted-PCI", "Confidential",
-                "phi", "pii", "payment-card"):
+    for cls in ("Restricted-PII", "Restricted-PCI", "Confidential", "phi", "pii", "payment-card"):
         assert not cp.cache_mcp_response(
-            "rc.x", "h", "s", {"v": 1}, ttl_s=30, classification=cls,
+            "rc.x",
+            "h",
+            "s",
+            {"v": 1},
+            ttl_s=30,
+            classification=cls,
         )

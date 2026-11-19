@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from apex_orchestrator import (
     FeedbackLoopRunner,
     HierarchicalRunner,
@@ -40,11 +39,15 @@ class TestHierarchical:
             planner=lambda c: ["spec_a"] if c.get("mode") == "a" else ["spec_b"],
         )
         runner.register_specialist(
-            step_id="spec_a", agent_name="SA", agent_version="1",
+            step_id="spec_a",
+            agent_name="SA",
+            agent_version="1",
             fn=lambda c: {"picked": "a"},
         )
         runner.register_specialist(
-            step_id="spec_b", agent_name="SB", agent_version="1",
+            step_id="spec_b",
+            agent_name="SB",
+            agent_version="1",
             fn=lambda c: {"picked": "b"},
         )
         ctx, results = runner.run({"mode": "a"})
@@ -92,5 +95,7 @@ class TestFeedbackLoop:
     def test_rejects_zero_iterations(self) -> None:
         with pytest.raises(ValueError):
             FeedbackLoopRunner(
-                producer=lambda c: {}, evaluator=lambda r, c: True, max_iterations=0,
+                producer=lambda c: {},
+                evaluator=lambda r, c: True,
+                max_iterations=0,
             )

@@ -3,15 +3,11 @@
 from __future__ import annotations
 
 import pytest
-
 from apex_scenarios import (
     FOUNDATION_CATALOG,
     FOUNDATION_CLASSES,
     FUSION_CATALOG,
     EffortRollup,
-    FoundationBlock,
-    FusionMesh,
-    PRACTICE_CODES,
     all_foundation_blocks,
     all_fusion_meshes,
     blocks_unblocking_scenario,
@@ -25,7 +21,6 @@ from apex_scenarios import (
     mesh_by_w2_service_code,
     transitive_prerequisites,
 )
-
 
 # ---------------------------------------------------------------------------
 # Foundation catalog — Task 28.2
@@ -105,9 +100,7 @@ def test_no_prereq_dangles() -> None:
     block_names = {b.name for b in all_foundation_blocks()}
     for b in all_foundation_blocks():
         for p in b.prerequisites:
-            assert p in block_names, (
-                f"block {b.name!r} declares dangling prerequisite {p!r}"
-            )
+            assert p in block_names, f"block {b.name!r} declares dangling prerequisite {p!r}"
 
 
 def test_dependency_graph_edges_match_prerequisites() -> None:
@@ -136,9 +129,9 @@ def test_effort_rollup_sums_correctly() -> None:
 def test_effort_rollup_parallelizes_along_critical_path() -> None:
     """Parallelizable wall-clock = longest prerequisite chain in selection."""
     selection = [
-        get_foundation_block("scml-bronze-silver"),       # 2.0w, no deps
-        get_foundation_block("audit-row-pipeline"),       # 2.0w, no deps
-        get_foundation_block("fsma-204-ledger"),          # 1.0w, depends on both above
+        get_foundation_block("scml-bronze-silver"),  # 2.0w, no deps
+        get_foundation_block("audit-row-pipeline"),  # 2.0w, no deps
+        get_foundation_block("fsma-204-ledger"),  # 1.0w, depends on both above
     ]
     selection = [b for b in selection if b is not None]
     rollup = effort_rollup(selection)
@@ -232,7 +225,9 @@ def test_every_mesh_orchestration_archetype_matches_format() -> None:
     """Sprint 19 archetype ids look like ``arch.<family>.<id>``."""
     for m in all_fusion_meshes():
         parts = m.orchestration_archetype.split(".")
-        assert len(parts) == 3, f"mesh {m.mesh_id!r} archetype malformed: {m.orchestration_archetype!r}"
+        assert len(parts) == 3, (
+            f"mesh {m.mesh_id!r} archetype malformed: {m.orchestration_archetype!r}"
+        )
         assert parts[0] == "arch"
 
 
@@ -279,8 +274,8 @@ def test_conformance_w1_to_w2_dependency_edges_resolve() -> None:
     """Sprint 28 §28.2.4 — every W1 block's `unblocks_w2_scenarios` is a list of valid service codes."""
     # Service-code shape: PRACTICE-Track-NN per Sprint 28 validators
     import re
+
     pattern = re.compile(r"^(RC|HLS|ER|AXLE|TMT|TH|ICE)-")
     for b in all_foundation_blocks():
         for sc in b.unblocks_w2_scenarios:
-            assert pattern.match(sc), \
-                f"block {b.name!r} unblocks malformed service code {sc!r}"
+            assert pattern.match(sc), f"block {b.name!r} unblocks malformed service code {sc!r}"

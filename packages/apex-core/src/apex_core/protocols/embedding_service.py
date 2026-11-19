@@ -9,6 +9,7 @@ APEX-A satisfies via AWS Bedrock Titan Embeddings.
 The Pricer (RC-E2E-03) is the canonical heavy consumer — episodic memory
 similarity search for past pricing decisions per Services Guide §25.8.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -17,16 +18,20 @@ from typing import Protocol, runtime_checkable
 
 @dataclass(frozen=True)
 class Embedding:
+    """An embedding vector plus the model and input hash that produced it."""
+
     vector: list[float]
     dim: int
-    model: str          # e.g., "ai_embeddings:slm-v1" or "text-embedding-005"
-    text_hash: str      # content-addressed input hash
+    model: str  # e.g., "ai_embeddings:slm-v1" or "text-embedding-005"
+    text_hash: str  # content-addressed input hash
 
 
 @dataclass(frozen=True)
 class SimilarityResult:
-    text_hash: str      # the hit
-    score: float        # cosine similarity, 0..1
+    """One similarity-search hit: the matched text hash, score, and metadata."""
+
+    text_hash: str  # the hit
+    score: float  # cosine similarity, 0..1
     metadata: dict[str, str]
 
 
@@ -51,7 +56,7 @@ class EmbeddingService(Protocol):
         query: str | Embedding,
         index: str,
         top_k: int = 10,
-        filter: dict[str, str] | None = None,
+        filter: dict[str, str] | None = None,  # noqa: A002  # public protocol keyword
     ) -> list[SimilarityResult]:
         """Top-K similar items from the named index."""
         ...

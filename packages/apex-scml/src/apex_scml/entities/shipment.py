@@ -4,10 +4,9 @@ from __future__ import annotations
 
 from datetime import datetime
 
-from pydantic import Field
-
 from apex_schemas_common import CanonicalEntity
 from apex_schemas_common.standards import SSCC
+from pydantic import Field
 
 
 class Shipment(CanonicalEntity):

@@ -6,12 +6,13 @@ from datetime import datetime
 from decimal import Decimal
 from enum import StrEnum
 
-from pydantic import Field
-
 from apex_schemas_common import CanonicalEntity
+from pydantic import Field
 
 
 class ReadingQuality(StrEnum):
+    """Validation status of a :class:`MeterReading` value (measured, estimated, ...)."""
+
     MEASURED = "measured"
     ESTIMATED = "estimated"
     SUBSTITUTED = "substituted"
@@ -27,7 +28,5 @@ class MeterReading(CanonicalEntity):
     timestamp: datetime
     value: Decimal
     unit: str = Field("kWh", description="UCUM / IEC 61970 unit symbol.")
-    quality: ReadingQuality = ReadingQuality.MEASURED
-    channel: str | None = Field(
-        None, description="Meter channel (e.g. 'real_energy', 'demand')."
-    )
+    quality: ReadingQuality = ReadingQuality.MEASURED  # type: ignore[assignment]  # shadows the envelope DataQualityMetadata block; renaming is a schema change (needs product decision)
+    channel: str | None = Field(None, description="Meter channel (e.g. 'real_energy', 'demand').")

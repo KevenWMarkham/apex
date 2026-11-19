@@ -2,10 +2,9 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 import pytest
-
 from apex_protocols import (
     SUPPORTED_PROTOCOLS,
     AddressNode,
@@ -20,7 +19,6 @@ from apex_protocols import (
     OPCUAConfig,
     OPCUAStubClient,
     ProtocolEndpoint,
-    ProtocolError,
     Sample,
     SignalThrottle,
     build_endpoint,
@@ -39,7 +37,6 @@ from apex_protocols.datasets import (
 from apex_protocols.datasets.j1939_dataset import frames_with_timestamps
 from apex_protocols.j1939_transport.normalizer import SPN_LAYOUTS
 
-
 # ---------------------------------------------------------------------------
 # Common base
 # ---------------------------------------------------------------------------
@@ -57,13 +54,15 @@ def test_sample_default_classification_empty() -> None:
 
 def test_address_space_mapping_annotate_propagates_classification() -> None:
     mapping = AddressSpaceMapping(protocol="opcua", name="test")
-    mapping.add(AddressNode(
-        node_id="ns=2;s=foo",
-        canonical_entity="Foo",
-        canonical_field="bar",
-        classification="pii",
-        units="kg",
-    ))
+    mapping.add(
+        AddressNode(
+            node_id="ns=2;s=foo",
+            canonical_entity="Foo",
+            canonical_field="bar",
+            classification="pii",
+            units="kg",
+        )
+    )
     s = Sample(node_id="ns=2;s=foo", value=42)
     annotated = mapping.annotate(s)
     assert annotated.classification == "pii"
@@ -94,8 +93,7 @@ def test_opcua_nodeset_parses_seven_variables() -> None:
 def test_opcua_nodeset_extracts_browse_name_and_display_name() -> None:
     entries = parse_nodeset(OPCUA_NODESET_XML)
     vibration = next(
-        e for e in entries
-        if e.node_id == "ns=2;s=Line7.Press4.ServoMotor.VibrationRMS"
+        e for e in entries if e.node_id == "ns=2;s=Line7.Press4.ServoMotor.VibrationRMS"
     )
     assert vibration.browse_name == "2:VibrationRMS"
     assert "Vibration" in vibration.display_name
@@ -175,19 +173,23 @@ def test_build_endpoint_carries_metadata() -> None:
 
 def test_opcua_stub_client_full_round_trip_with_mapping() -> None:
     mapping = AddressSpaceMapping(protocol="opcua", name="north-plant")
-    mapping.add(AddressNode(
-        node_id="ns=2;s=Line7.Press4.ServoMotor.VibrationRMS",
-        canonical_entity="EquipmentHealth",
-        canonical_field="vibration_rms",
-        classification="operations",
-        units="mm/s",
-    ))
-    mapping.add(AddressNode(
-        node_id="ns=2;s=Line7.OperatorId",
-        canonical_entity="ProductionJob",
-        canonical_field="operator_id",
-        classification="pii",
-    ))
+    mapping.add(
+        AddressNode(
+            node_id="ns=2;s=Line7.Press4.ServoMotor.VibrationRMS",
+            canonical_entity="EquipmentHealth",
+            canonical_field="vibration_rms",
+            classification="operations",
+            units="mm/s",
+        )
+    )
+    mapping.add(
+        AddressNode(
+            node_id="ns=2;s=Line7.OperatorId",
+            canonical_entity="ProductionJob",
+            canonical_field="operator_id",
+            classification="pii",
+        )
+    )
 
     cfg = OPCUAConfig(
         server_url="opc.tcp://historian:4840",
@@ -288,7 +290,8 @@ def test_iec61850_scd_rejects_non_scl_root() -> None:
 def test_iec61850_stub_client_connect_and_read() -> None:
     client = IEC61850StubClient(snapshot=IEC61850_SNAPSHOT)
     endpoint = ProtocolEndpoint(
-        protocol="iec61850", url="mms://relay:102",
+        protocol="iec61850",
+        url="mms://relay:102",
         auth_mode=AuthMode.ANONYMOUS,
     )
     client.connect(endpoint)
@@ -307,25 +310,31 @@ def test_iec61850_stub_client_rejects_wrong_protocol() -> None:
 def test_iec61850_subscribe_with_classification_propagation() -> None:
     """End-to-end: subscribe → annotate → critical-infrastructure stamp."""
     mapping = AddressSpaceMapping(protocol="iec61850", name="substation")
-    mapping.add(AddressNode(
-        node_id="IED1/CTRL/XCBR1.Pos.stVal",
-        canonical_entity="BreakerStatus",
-        canonical_field="position",
-        classification="critical-infrastructure",
-    ))
-    mapping.add(AddressNode(
-        node_id="IED1/MEAS/MMXU1.A.phsA.cVal.mag.f",
-        canonical_entity="PhaseMeasurement",
-        canonical_field="current_amps_phase_a",
-        classification="critical-infrastructure",
-        units="A",
-    ))
+    mapping.add(
+        AddressNode(
+            node_id="IED1/CTRL/XCBR1.Pos.stVal",
+            canonical_entity="BreakerStatus",
+            canonical_field="position",
+            classification="critical-infrastructure",
+        )
+    )
+    mapping.add(
+        AddressNode(
+            node_id="IED1/MEAS/MMXU1.A.phsA.cVal.mag.f",
+            canonical_entity="PhaseMeasurement",
+            canonical_field="current_amps_phase_a",
+            classification="critical-infrastructure",
+            units="A",
+        )
+    )
     client = IEC61850StubClient(snapshot=IEC61850_SNAPSHOT)
     client.connect(ProtocolEndpoint(protocol="iec61850", url="x"))
-    raws = client.subscribe([
-        "IED1/CTRL/XCBR1.Pos.stVal",
-        "IED1/MEAS/MMXU1.A.phsA.cVal.mag.f",
-    ])
+    raws = client.subscribe(
+        [
+            "IED1/CTRL/XCBR1.Pos.stVal",
+            "IED1/MEAS/MMXU1.A.phsA.cVal.mag.f",
+        ]
+    )
     annotated = [mapping.annotate(s) for s in raws]
     assert all(s.classification == "critical-infrastructure" for s in annotated)
 
@@ -394,10 +403,15 @@ def test_j1939_known_pgns_covers_aemp_set() -> None:
 def test_signal_throttle_drops_in_window_samples() -> None:
     """Burst within the throttle window: only first emission survives."""
     throttle = SignalThrottle(default_min_interval_ms=1000)
-    base = datetime(2025, 6, 30, tzinfo=timezone.utc)
+    base = datetime(2025, 6, 30, tzinfo=UTC)
     signals = [
-        DecodedSignal(pgn=61444, spn=190, source_address=0, value=1800,
-                      timestamp=base + timedelta(milliseconds=offset))
+        DecodedSignal(
+            pgn=61444,
+            spn=190,
+            source_address=0,
+            value=1800,
+            timestamp=base + timedelta(milliseconds=offset),
+        )
         for offset in [0, 100, 500, 1500, 2500]
     ]
     emitted = list(throttle.filter(signals))
@@ -415,10 +429,15 @@ def test_signal_throttle_per_pgn_override() -> None:
         default_min_interval_ms=1000,
         per_pgn_min_interval_ms={61444: 200},
     )
-    base = datetime(2025, 6, 30, tzinfo=timezone.utc)
+    base = datetime(2025, 6, 30, tzinfo=UTC)
     signals = [
-        DecodedSignal(pgn=61444, spn=190, source_address=0, value=1800,
-                      timestamp=base + timedelta(milliseconds=offset))
+        DecodedSignal(
+            pgn=61444,
+            spn=190,
+            source_address=0,
+            value=1800,
+            timestamp=base + timedelta(milliseconds=offset),
+        )
         for offset in [0, 100, 250, 500]
     ]
     emitted = list(throttle.filter(signals))
@@ -429,7 +448,7 @@ def test_signal_throttle_per_pgn_override() -> None:
 def test_signal_throttle_separate_keys_per_source_address() -> None:
     """Two ECUs emitting same PGN throttle independently."""
     throttle = SignalThrottle(default_min_interval_ms=1000)
-    base = datetime(2025, 6, 30, tzinfo=timezone.utc)
+    base = datetime(2025, 6, 30, tzinfo=UTC)
     signals = [
         DecodedSignal(pgn=61444, spn=190, source_address=0x00, value=1800, timestamp=base),
         DecodedSignal(pgn=61444, spn=190, source_address=0x01, value=2200, timestamp=base),
@@ -441,7 +460,7 @@ def test_signal_throttle_separate_keys_per_source_address() -> None:
 
 def test_signal_throttle_reset_clears_state() -> None:
     throttle = SignalThrottle(default_min_interval_ms=1000)
-    base = datetime(2025, 6, 30, tzinfo=timezone.utc)
+    base = datetime(2025, 6, 30, tzinfo=UTC)
     sig = DecodedSignal(pgn=61444, spn=190, source_address=0, value=1800, timestamp=base)
     assert throttle.should_emit(sig)
     assert not throttle.should_emit(sig)  # second call within window
@@ -458,15 +477,19 @@ def test_signal_throttle_reset_clears_state() -> None:
 def test_conformance_classification_propagates_through_each_protocol() -> None:
     """Sprint 25 exit criterion — classification flows protocol → adapter → Sample."""
     for proto, node, cls in [
-        ("opcua",   "ns=2;s=Sensor",            "operations"),
-        ("iec61850","IED1/MEAS/MMXU1.A.phsA",   "critical-infrastructure"),
-        ("j1939",   "65253/247",                "operations"),
+        ("opcua", "ns=2;s=Sensor", "operations"),
+        ("iec61850", "IED1/MEAS/MMXU1.A.phsA", "critical-infrastructure"),
+        ("j1939", "65253/247", "operations"),
     ]:
         m = AddressSpaceMapping(protocol=proto, name="t")
-        m.add(AddressNode(
-            node_id=node, canonical_entity="X", canonical_field="y",
-            classification=cls,
-        ))
+        m.add(
+            AddressNode(
+                node_id=node,
+                canonical_entity="X",
+                canonical_field="y",
+                classification=cls,
+            )
+        )
         s = Sample(node_id=node, value=0)
         annotated = m.annotate(s)
         assert annotated.classification == cls

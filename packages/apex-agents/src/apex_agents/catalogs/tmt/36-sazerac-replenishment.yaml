@@ -34,12 +34,12 @@ hitl_gates:
   - name: age_verification
     description: Every order requires fresh or cached age verification
     fires_when: any_order
-    surface: mobile_push
+    surface: mobile
     sla_minutes: 30
   - name: state_eligibility_fail
     description: Order denied by state-rules engine — surface to user
     fires_when: state_eligibility == false
-    surface: mobile_push
+    surface: mobile
     sla_minutes: 5
 
 oversight_modes: [HITL]

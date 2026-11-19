@@ -42,25 +42,22 @@ import re
 from dataclasses import dataclass, field
 from typing import Any, Protocol
 
-
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
 
-PRACTICES: tuple[str, ...] = (
-    "rc", "hls", "er", "axle", "tmt", "th", "ice", "core"
-)
+PRACTICES: tuple[str, ...] = ("rc", "hls", "er", "axle", "tmt", "th", "ice", "core")
 
 ENVIRONMENTS: tuple[str, ...] = ("dev", "test", "stage", "prod")
 
 #: Workspace roles in the APEX medallion stack.
 ROLES: tuple[str, ...] = (
-    "bronze",       # raw SOR-fidelity ingest
-    "silver",       # canonical / tokenized
-    "gold",         # agent-safe views
-    "governance",   # Purview tooling, classification, lineage
-    "runtime",      # Foundry agents, MCP tooling
-    "sandbox",      # exploratory / R&D
+    "bronze",  # raw SOR-fidelity ingest
+    "silver",  # canonical / tokenized
+    "gold",  # agent-safe views
+    "governance",  # Purview tooling, classification, lineage
+    "runtime",  # Foundry agents, MCP tooling
+    "sandbox",  # exploratory / R&D
 )
 
 #: Regex for the canonical workspace naming convention.
@@ -89,26 +86,18 @@ def canonical_workspace_name(
         ValueError: if any input is not in the canonical vocabulary.
     """
     if practice not in PRACTICES:
-        raise ValueError(
-            f"Unknown practice {practice!r}. Allowed: {PRACTICES}"
-        )
+        raise ValueError(f"Unknown practice {practice!r}. Allowed: {PRACTICES}")
     if environment not in ENVIRONMENTS:
-        raise ValueError(
-            f"Unknown environment {environment!r}. Allowed: {ENVIRONMENTS}"
-        )
+        raise ValueError(f"Unknown environment {environment!r}. Allowed: {ENVIRONMENTS}")
     if role not in ROLES:
-        raise ValueError(
-            f"Unknown role {role!r}. Allowed: {ROLES}"
-        )
+        raise ValueError(f"Unknown role {role!r}. Allowed: {ROLES}")
 
     base = f"apex-{practice}-{environment}-{role}"
     if suffix is None:
         return base
 
     if not re.fullmatch(r"[a-z0-9]+", suffix):
-        raise ValueError(
-            f"suffix {suffix!r} must match [a-z0-9]+ (lowercase alphanumeric)."
-        )
+        raise ValueError(f"suffix {suffix!r} must match [a-z0-9]+ (lowercase alphanumeric).")
     return f"{base}-{suffix}"
 
 
@@ -181,9 +170,7 @@ class WorkspaceSpec:
                     "canonical pattern. Override anyway requires explicit Independence sign-off."
                 )
             return self.name_override
-        return canonical_workspace_name(
-            self.practice, self.environment, self.role, self.suffix
-        )
+        return canonical_workspace_name(self.practice, self.environment, self.role, self.suffix)
 
     def to_create_body(self) -> dict[str, Any]:
         """Return the body for ``POST /v1/workspaces``."""
@@ -206,7 +193,9 @@ class TokenProvider(Protocol):
     or a managed-identity-backed credential. Tests inject a stub.
     """
 
-    def __call__(self) -> str: ...
+    def __call__(self) -> str:
+        """Return a current Entra access token for the Fabric API."""
+        ...
 
 
 # ---------------------------------------------------------------------------
@@ -233,6 +222,7 @@ class WorkspaceClient:
         if self.http_client is not None:
             return self.http_client
         import httpx
+
         return httpx.Client(timeout=30.0)
 
     def _headers(self) -> dict[str, str]:
@@ -247,8 +237,9 @@ class WorkspaceClient:
         client = self._client()
         resp = client.get(f"{self.base_url}/workspaces", headers=self._headers())
         resp.raise_for_status()
-        body = resp.json()
-        return body.get("value", [])
+        body: dict[str, Any] = resp.json()
+        workspaces: list[dict[str, Any]] = body.get("value", [])
+        return workspaces
 
     def get_workspace_by_name(self, name: str) -> dict[str, Any] | None:
         """Return the workspace dict matching ``name``, or None."""
@@ -276,7 +267,8 @@ class WorkspaceClient:
             headers=self._headers(),
         )
         resp.raise_for_status()
-        return resp.json()
+        created: dict[str, Any] = resp.json()
+        return created
 
     def delete_workspace(self, workspace_id: str) -> None:
         """``DELETE /v1/workspaces/{workspaceId}``."""

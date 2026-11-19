@@ -25,9 +25,9 @@ def test_classifications_are_correct() -> None:
 def test_non_tokenised_fields_excluded() -> None:
     fields = tokenized_fields(Customer)
     names = {f.field for f in fields}
-    assert "birth_year" not in names           # no classification → not tokenised
-    assert "consent_marketing" not in names    # not tokenised
-    assert "status" not in names               # enum — not a token target
+    assert "birth_year" not in names  # no classification → not tokenised
+    assert "consent_marketing" not in names  # not tokenised
+    assert "status" not in names  # enum — not a token target
 
 
 def test_result_sorted_by_entity_and_field() -> None:

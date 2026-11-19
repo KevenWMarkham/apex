@@ -8,14 +8,14 @@ Subcommands: ``list`` · ``show`` · ``audit`` · ``bump``.
 
 from __future__ import annotations
 
+import contextlib
 import importlib
 import pkgutil
-from pathlib import Path
 
 import typer
+from apex_core.types import Practice
 from pydantic import BaseModel
 
-from apex_core.types import Practice
 from apex_schemas_common.standards import (
     STANDARDS,
     audit_model,
@@ -56,13 +56,9 @@ def _import_all_apex_packages() -> None:
         except ImportError:
             continue
         if hasattr(pkg, "__path__"):
-            for submod in pkgutil.walk_packages(
-                pkg.__path__, prefix=pkg.__name__ + "."
-            ):
-                try:
+            for submod in pkgutil.walk_packages(pkg.__path__, prefix=pkg.__name__ + "."):
+                with contextlib.suppress(ImportError):
                     importlib.import_module(submod.name)
-                except ImportError:
-                    pass
 
 
 def _collect_subclasses(root: type[BaseModel]) -> set[type[BaseModel]]:
@@ -105,9 +101,7 @@ def list_cmd(
             filter_practice = Practice(practice.lower())
         except ValueError as exc:
             valid = ", ".join(p.value for p in Practice)
-            typer.echo(
-                f"error: unknown practice {practice!r}. Valid: {valid}", err=True
-            )
+            typer.echo(f"error: unknown practice {practice!r}. Valid: {valid}", err=True)
             raise typer.Exit(code=1) from exc
 
     specs = list_standards(filter_practice)
@@ -247,14 +241,11 @@ def bump_cmd(
         typer.echo(hit)
 
     typer.echo("\nimpact class (version-string math only):")
-    typer.echo(
-        "  APEX bump policy: additive -> MINOR -> ACK_ONLY; breaking -> MAJOR -> HITL"
-    )
+    typer.echo("  APEX bump policy: additive -> MINOR -> ACK_ONLY; breaking -> MAJOR -> HITL")
 
     if not dry_run:
         typer.echo(
-            "\nerror: --apply is not yet implemented. Edit registry.py directly "
-            "and open a PR.",
+            "\nerror: --apply is not yet implemented. Edit registry.py directly and open a PR.",
             err=True,
         )
         raise typer.Exit(code=2)

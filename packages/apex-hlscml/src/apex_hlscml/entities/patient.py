@@ -5,10 +5,9 @@ from __future__ import annotations
 from datetime import date
 from typing import Annotated, Literal
 
-from pydantic import Field
-
 from apex_core.types import Classification
 from apex_schemas_common import CanonicalEntity, ScdType2Fields
+from pydantic import Field
 
 
 class Patient(CanonicalEntity, ScdType2Fields):

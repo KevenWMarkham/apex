@@ -4,7 +4,7 @@ version: 0.1.0
 practice: tmt
 persona: Household Traveler
 service_codes: [TMT-TEL-HOM-11]
-model_tier: premium
+model_tier: reasoning
 model_pin: claude-opus-4-7
 prompt_sha: ""
 description: >
@@ -42,7 +42,7 @@ hitl_gates:
   - name: irops_fare_difference
     description: Rebooks with > $300 fare difference require user approval
     fires_when: rebook_fare_difference_usd > 300
-    surface: mobile_push
+    surface: mobile
     sla_minutes: 5
 
 oversight_modes: [HITL]

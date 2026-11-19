@@ -4,9 +4,8 @@ from __future__ import annotations
 
 from decimal import Decimal
 
-from pydantic import Field
-
 from apex_schemas_common import CanonicalEntity, ScdType2Fields
+from pydantic import Field
 
 
 class BomLine(CanonicalEntity):

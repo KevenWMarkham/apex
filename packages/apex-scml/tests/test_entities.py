@@ -7,8 +7,6 @@ from decimal import Decimal
 from uuid import uuid4
 
 import pytest
-from pydantic import ValidationError
-
 from apex_schemas_common import generate_delta_ddl
 from apex_schemas_common.standards import audit_model
 from apex_scml import SKU, Inventory, Item, Location, Lot, Shipment, Supplier
@@ -18,6 +16,7 @@ from apex_scml.entities import (
     SkuStatus,
     SupplierTier,
 )
+from pydantic import ValidationError
 
 
 def _envelope() -> dict[str, object]:
@@ -186,6 +185,5 @@ def test_standards_audit_all_registered() -> None:
                 f"unregistered standard {entry.ref.standard_id}"
             )
             assert entry.version_matches, (
-                f"{entity_cls.__name__}.{entry.field}: "
-                f"version drift {entry.ref.version}"
+                f"{entity_cls.__name__}.{entry.field}: version drift {entry.ref.version}"
             )

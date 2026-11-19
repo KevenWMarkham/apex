@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import date
-from typing import Protocol, runtime_checkable
+from typing import Any, Protocol, runtime_checkable
 
 from apex_core.types import Classification
 from mcp_common import McpError, McpErrorCode, ToolContract, traced_call
@@ -15,26 +15,39 @@ TOOL_VERSION = "1.0.0"
 
 @runtime_checkable
 class FercBackend(Protocol):
-    def list_enforcement(self, since: date, limit: int) -> list[dict]: ...
-    def get_interconnection(self, queue_id: str) -> dict | None: ...
-    def list_filings(self, filer: str, since: date, limit: int) -> list[dict]: ...
+    """Read interface over FERC enforcement, interconnection-queue and filing data."""
+
+    def list_enforcement(self, since: date, limit: int) -> list[dict[str, Any]]:
+        """Return up to ``limit`` enforcement actions dated on or after ``since``."""
+
+    def get_interconnection(self, queue_id: str) -> dict[str, Any] | None:
+        """Return the interconnection-queue entry for ``queue_id``, or None when unknown."""
+
+    def list_filings(self, filer: str, since: date, limit: int) -> list[dict[str, Any]]:
+        """Return up to ``limit`` filings by ``filer`` filed on or after ``since``."""
 
 
 @dataclass
 class InMemoryFercBackend:
-    enforcement: list[dict] = field(default_factory=list)
-    interconnection: dict[str, dict] = field(default_factory=dict)
-    filings: list[dict] = field(default_factory=list)
+    """Dev / test backend holding FERC records in memory."""
 
-    def list_enforcement(self, since: date, limit: int) -> list[dict]:
+    enforcement: list[dict[str, Any]] = field(default_factory=list)
+    interconnection: dict[str, dict[str, Any]] = field(default_factory=dict)
+    filings: list[dict[str, Any]] = field(default_factory=list)
+
+    def list_enforcement(self, since: date, limit: int) -> list[dict[str, Any]]:
+        """Return the first ``limit`` enforcement rows whose ``date`` is on or after ``since``."""
         return [r for r in self.enforcement if date.fromisoformat(r["date"]) >= since][:limit]
 
-    def get_interconnection(self, queue_id: str) -> dict | None:
+    def get_interconnection(self, queue_id: str) -> dict[str, Any] | None:
+        """Return the stored queue entry for ``queue_id``, or None."""
         return self.interconnection.get(queue_id)
 
-    def list_filings(self, filer: str, since: date, limit: int) -> list[dict]:
+    def list_filings(self, filer: str, since: date, limit: int) -> list[dict[str, Any]]:
+        """Return the first ``limit`` filings by ``filer`` with ``filed_date`` on or after ``since``."""
         return [
-            f for f in self.filings
+            f
+            for f in self.filings
             if f["filer"] == filer and date.fromisoformat(f["filed_date"]) >= since
         ][:limit]
 
@@ -43,6 +56,7 @@ FERC_BACKEND: FercBackend = InMemoryFercBackend()
 
 
 def set_ferc_backend(backend: FercBackend) -> None:
+    """Replace the module-level backend (production swap, test fixture)."""
     global FERC_BACKEND
     FERC_BACKEND = backend
 
@@ -63,13 +77,14 @@ def list_enforcement_actions(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> list[dict]:
+) -> list[dict[str, Any]]:
     """List FERC enforcement actions since a date."""
     since = _parse_date(since_iso, "since_iso")
     with traced_call(
         tool_name=f"{SERVER_NAME}.list_enforcement_actions",
         tool_version=TOOL_VERSION,
-        agent_id=agent_id, caller_identity=caller_identity,
+        agent_id=agent_id,
+        caller_identity=caller_identity,
         parameters={"since_iso": since_iso, "limit": limit},
         classification_applied=[Classification.PUBLIC],
     ) as ctx:
@@ -83,12 +98,13 @@ def get_interconnection_queue_status(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> dict:
+) -> dict[str, Any]:
     """Return the current queue status for an interconnection request."""
     with traced_call(
         tool_name=f"{SERVER_NAME}.get_interconnection_queue_status",
         tool_version=TOOL_VERSION,
-        agent_id=agent_id, caller_identity=caller_identity,
+        agent_id=agent_id,
+        caller_identity=caller_identity,
         parameters={"queue_id": queue_id},
         classification_applied=[Classification.PUBLIC],
     ) as ctx:
@@ -109,13 +125,14 @@ def list_compliance_filings(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> list[dict]:
+) -> list[dict[str, Any]]:
     """List compliance filings by a specific filer since a date."""
     since = _parse_date(since_iso, "since_iso")
     with traced_call(
         tool_name=f"{SERVER_NAME}.list_compliance_filings",
         tool_version=TOOL_VERSION,
-        agent_id=agent_id, caller_identity=caller_identity,
+        agent_id=agent_id,
+        caller_identity=caller_identity,
         parameters={"filer": filer, "since_iso": since_iso, "limit": limit},
         classification_applied=[Classification.PUBLIC],
     ) as ctx:
@@ -126,17 +143,20 @@ def list_compliance_filings(
 
 CONTRACTS: list[ToolContract] = [
     ToolContract(
-        name=f"{SERVER_NAME}.list_enforcement_actions", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.list_enforcement_actions",
+        version=TOOL_VERSION,
         description="List FERC enforcement actions since a date.",
         classification_propagation=[Classification.PUBLIC],
     ),
     ToolContract(
-        name=f"{SERVER_NAME}.get_interconnection_queue_status", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.get_interconnection_queue_status",
+        version=TOOL_VERSION,
         description="Return an interconnection queue's current status.",
         classification_propagation=[Classification.PUBLIC],
     ),
     ToolContract(
-        name=f"{SERVER_NAME}.list_compliance_filings", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.list_compliance_filings",
+        version=TOOL_VERSION,
         description="List compliance filings by a filer since a date.",
         classification_propagation=[Classification.PUBLIC],
     ),

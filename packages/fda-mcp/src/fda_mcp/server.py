@@ -4,6 +4,7 @@ from __future__ import annotations
 
 
 def main() -> None:  # pragma: no cover
+    """Register the fda-mcp tools on a FastMCP server and run it."""
     from mcp.server.fastmcp import FastMCP  # type: ignore[import-not-found]
 
     from fda_mcp.tools import get_recall_detail, list_recalls_by_date, search_adverse_events

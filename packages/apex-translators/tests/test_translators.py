@@ -15,11 +15,10 @@ from __future__ import annotations
 import json
 
 import pytest
-
 from apex_translators import (
     EmitError,
-    ParseError,
     ParsedMessage,
+    ParseError,
     emit_epcis_json,
     emit_hl7v2,
     emit_oagis,
@@ -33,6 +32,7 @@ from apex_translators import (
     strip_mllp,
     wrap_mllp,
 )
+from apex_translators.edi_x12.parser import iter_transaction_sets
 from apex_translators.fixtures import (
     CDA_FIXTURES,
     EDI_X12_FIXTURES,
@@ -41,8 +41,6 @@ from apex_translators.fixtures import (
     OAGIS_FIXTURES,
     PADIS_FIXTURES,
 )
-from apex_translators.edi_x12.parser import iter_transaction_sets
-
 
 # ---------------------------------------------------------------------------
 # EDI X12 — Task 23.1
@@ -293,11 +291,14 @@ def test_oagis_parses_bod(bod: str) -> None:
     assert msg.message_type == bod
 
 
-@pytest.mark.parametrize("bod,expected_verb,expected_noun", [
-    ("ProcessItem", "Process", "Item"),
-    ("SyncCarrier", "Sync", "Carrier"),
-    ("GetManufacturingFacility", "Get", "ManufacturingFacility"),
-])
+@pytest.mark.parametrize(
+    "bod,expected_verb,expected_noun",
+    [
+        ("ProcessItem", "Process", "Item"),
+        ("SyncCarrier", "Sync", "Carrier"),
+        ("GetManufacturingFacility", "Get", "ManufacturingFacility"),
+    ],
+)
 def test_oagis_decomposes_verb_and_noun(bod: str, expected_verb: str, expected_noun: str) -> None:
     msg = parse_oagis(OAGIS_FIXTURES[bod])
     assert msg.metadata["verb"] == expected_verb
@@ -410,6 +411,7 @@ def test_conformance_cda_four_named_sections() -> None:
 def test_conformance_epcis_four_event_types_supported() -> None:
     """Sprint 23 §23.4.1 — Object/Aggregation/Transaction/Transformation."""
     from apex_translators.epcis.parser import EPCIS_EVENT_TYPES
+
     expected = {"ObjectEvent", "AggregationEvent", "TransactionEvent", "TransformationEvent"}
     assert expected.issubset(set(EPCIS_EVENT_TYPES))
 

@@ -19,7 +19,6 @@ from dataclasses import dataclass, field
 
 from apex_protocols.base import AddressSpaceError
 
-
 NS_NODESET = "http://opcfoundation.org/UA/2011/03/UANodeSet.xsd"
 
 
@@ -56,9 +55,7 @@ def parse_nodeset(raw: str) -> list[NodeSetEntry]:
         raise NodeSetParseError(f"NodeSet XML parse error: {exc}") from exc
 
     if not root.tag.endswith("UANodeSet"):
-        raise NodeSetParseError(
-            f"NodeSet root must be UANodeSet, got {root.tag!r}"
-        )
+        raise NodeSetParseError(f"NodeSet root must be UANodeSet, got {root.tag!r}")
 
     entries: list[NodeSetEntry] = []
     for el in root:

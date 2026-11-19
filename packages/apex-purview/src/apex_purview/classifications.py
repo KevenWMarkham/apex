@@ -46,7 +46,6 @@ from typing import Any
 
 import yaml
 
-
 # ---------------------------------------------------------------------------
 # Canonical APEX classifications
 # ---------------------------------------------------------------------------
@@ -334,10 +333,7 @@ def emit_entity_classifications(
     unknown = enumerate_classifications(schema) - set(APEX_CLASSIFICATIONS.keys())
     if unknown:
         sorted_unknown = ", ".join(sorted(unknown))
-        raise ValueError(
-            "Unknown APEX classification(s) referenced in schema: "
-            f"{sorted_unknown}."
-        )
+        raise ValueError(f"Unknown APEX classification(s) referenced in schema: {sorted_unknown}.")
 
     attachments: list[ClassificationAttachment] = []
 
@@ -383,9 +379,7 @@ def load_schema_yaml(path: str | Path) -> dict[str, Any]:
     if not isinstance(data, dict):
         raise ValueError(f"Schema YAML {path} must parse to a mapping; got {type(data).__name__}")
     if data.get("kind") != "schema":
-        raise ValueError(
-            f"Schema YAML {path} has kind={data.get('kind')!r}; expected 'schema'."
-        )
+        raise ValueError(f"Schema YAML {path} has kind={data.get('kind')!r}; expected 'schema'.")
     return data
 
 

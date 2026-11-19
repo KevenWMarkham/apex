@@ -8,11 +8,11 @@ from typing import Literal
 from pydantic import BaseModel, Field
 
 from apex_standards_fhir.primitives import (
+    _FHIR_BASE_CONFIG,
     FhirCodeableConcept,
     FhirIdentifier,
     FhirQuantity,
     FhirReference,
-    _FHIR_BASE_CONFIG,
 )
 
 
@@ -39,7 +39,9 @@ class FhirClaim(BaseModel):
     id: str | None = None
     identifier: list[FhirIdentifier] = Field(default_factory=list)
     status: Literal["active", "cancelled", "draft", "entered-in-error"]
-    type: FhirCodeableConcept = Field(..., description="Institutional / professional / oral / vision / pharmacy.")
+    type: FhirCodeableConcept = Field(
+        ..., description="Institutional / professional / oral / vision / pharmacy."
+    )
     use: Literal["claim", "preauthorization", "predetermination"]
     patient: FhirReference
     billable_period: FhirReference | None = Field(None, alias="billablePeriod")

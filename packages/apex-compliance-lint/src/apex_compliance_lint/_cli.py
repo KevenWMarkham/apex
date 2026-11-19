@@ -13,14 +13,12 @@ Exit codes per Sprint 29 §29.9.5:
 
 from __future__ import annotations
 
-import sys
 from pathlib import Path
 
 import typer
 
 from apex_compliance_lint import (
     DEFAULT_PACKS,
-    LintReport,
     Severity,
     default_registry,
     lint_paths,
@@ -29,7 +27,6 @@ from apex_compliance_lint.rules import (
     APEX_BRAND,
     APEX_TYPOGRAPHY,
 )
-
 
 app = typer.Typer(
     name="apex-compliance-lint",
@@ -46,11 +43,11 @@ PACK_REGISTRY = {
 
 @app.callback(invoke_without_command=True)
 def main(
-    paths: list[Path] = typer.Argument(
-        None, help="Files or directories to scan."
-    ),
+    paths: list[Path] = typer.Argument(None, help="Files or directories to scan."),
     pack: list[str] = typer.Option(
-        None, "--pack", "-p",
+        None,
+        "--pack",
+        "-p",
         help=(
             "Rule pack id(s) to apply. Default: both "
             "(apex_typography, apex_brand). "
@@ -58,14 +55,18 @@ def main(
         ),
     ),
     severity_floor: str = typer.Option(
-        "warning", "--severity",
+        "warning",
+        "--severity",
         help="Lowest severity to display (info / warning / error). Default warning.",
     ),
     quiet: bool = typer.Option(
-        False, "--quiet", help="Suppress per-violation output; print summary only.",
+        False,
+        "--quiet",
+        help="Suppress per-violation output; print summary only.",
     ),
     fail_on_warnings: bool = typer.Option(
-        False, "--fail-on-warnings",
+        False,
+        "--fail-on-warnings",
         help="Exit non-zero if any warnings are present (CI-strict mode).",
     ),
 ) -> None:
@@ -80,11 +81,10 @@ def main(
             packs = [PACK_REGISTRY[p] for p in pack]
         except KeyError as exc:
             typer.echo(
-                f"error: unknown rule pack {exc.args[0]!r}. "
-                f"Known: {sorted(PACK_REGISTRY)}",
+                f"error: unknown rule pack {exc.args[0]!r}. Known: {sorted(PACK_REGISTRY)}",
                 err=True,
             )
-            raise typer.Exit(code=2)
+            raise typer.Exit(code=2) from None
     else:
         packs = list(DEFAULT_PACKS)
 
@@ -119,10 +119,7 @@ def main(
     report = lint_paths(expanded, adapter_registry=registry, packs=packs)
 
     # Render
-    visible_violations = [
-        v for v in report.violations
-        if severity_order[v.severity.value] >= floor
-    ]
+    visible_violations = [v for v in report.violations if severity_order[v.severity.value] >= floor]
 
     if not quiet:
         for v in visible_violations:
@@ -135,9 +132,7 @@ def main(
             if v.guidance:
                 typer.echo(f"  guidance: {v.guidance}")
             if v.approved_substitutes:
-                typer.echo(
-                    f"  approved substitutes: {', '.join(v.approved_substitutes)}"
-                )
+                typer.echo(f"  approved substitutes: {', '.join(v.approved_substitutes)}")
 
     typer.echo("")
     typer.echo(f"files scanned:    {report.files_scanned}")

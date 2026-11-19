@@ -11,17 +11,16 @@ from __future__ import annotations
 
 import logging
 import time
+from collections.abc import Callable
 from dataclasses import dataclass, field
-from typing import Any, Callable, Optional
+from typing import Any
 
 from apex_orchestrator.control_plane.redis_client import (
     CONTROL_PLANE_UNREACHABLE,
-    BudgetCounters,
     CancelLevel,
     RedisControlPlane,
     RedisUnavailable,
 )
-
 
 log = logging.getLogger("apex.orchestrator.agents.base_agent")
 
@@ -31,11 +30,11 @@ log = logging.getLogger("apex.orchestrator.agents.base_agent")
 # ---------------------------------------------------------------------------
 
 
-class CancelRequested(RuntimeError):
+class CancelRequested(RuntimeError):  # noqa: N818  # public name re-exported from apex_orchestrator
     """Raised when the cancel token has crossed into pause/soft/hard/abort."""
 
 
-class BudgetExceeded(RuntimeError):
+class BudgetExceeded(RuntimeError):  # noqa: N818  # public name re-exported from apex_orchestrator
     """Raised when a budget counter has crossed its envelope."""
 
 
@@ -60,7 +59,7 @@ class BaseAgent:
     """Budget envelope from spawn config — keys: tool_calls, tokens,
     cost_cents, wall_s."""
 
-    cosmos_fallback: Optional[Callable[[str, str], dict]] = None
+    cosmos_fallback: Callable[[str, str], dict[str, Any]] | None = None
     """Cosmos fallback reader for cancel/budget when Redis is down.
     Production injects a Cosmos client; tests inject a stub."""
 
@@ -85,11 +84,13 @@ class BaseAgent:
         try:
             level_raw = self.redis.get_cancel_token(self.run_id)
             self._redis_failure_count = 0
-            level = CancelLevel(level_raw) if level_raw in CancelLevel._value2member_map_ else CancelLevel.NONE
+            level = (
+                CancelLevel(level_raw)
+                if level_raw in CancelLevel._value2member_map_
+                else CancelLevel.NONE
+            )
             if level != CancelLevel.NONE:
-                raise CancelRequested(
-                    f"cancel level {level.value} on run {self.run_id}"
-                )
+                raise CancelRequested(f"cancel level {level.value} on run {self.run_id}")
             return
         except RedisUnavailable:
             pass  # Fall through to Cosmos
@@ -105,7 +106,7 @@ class BaseAgent:
         self._redis_failure_count += 1
         backoff = min(
             self.backoff_max_s,
-            0.1 * (2 ** self._redis_failure_count),
+            0.1 * (2**self._redis_failure_count),
         )
         time.sleep(backoff)
         if self.cosmos_fallback is not None:
@@ -141,12 +142,13 @@ class BaseAgent:
             return  # No cap configured for this metric
         try:
             new_value = self.redis.increment_budget_counter(
-                self.run_id, self.child_id, metric, amount,
+                self.run_id,
+                self.child_id,
+                metric,
+                amount,
             )
             if new_value > cap:
-                raise BudgetExceeded(
-                    f"{metric}={new_value} exceeds envelope cap {cap}"
-                )
+                raise BudgetExceeded(f"{metric}={new_value} exceeds envelope cap {cap}")
             return
         except RedisUnavailable:
             pass
@@ -170,7 +172,7 @@ class BaseAgent:
 
     # -- heartbeat ---------------------------------------------------
 
-    def maybe_heartbeat(self, now_s: Optional[float] = None) -> bool:
+    def maybe_heartbeat(self, now_s: float | None = None) -> bool:
         """Sprint 26 Task 26.8.3 — emit a heartbeat every 30s.
 
         Returns True iff this call actually emitted (i.e., interval

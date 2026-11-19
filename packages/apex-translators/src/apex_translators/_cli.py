@@ -24,7 +24,6 @@ from apex_translators.fixtures import (
     PADIS_FIXTURES,
 )
 
-
 translators_app = typer.Typer(
     name="translators",
     help="APEX message-format translators — EDI X12, HL7 v2, CDA, EPCIS, OAGIS, PADIS.",
@@ -62,27 +61,31 @@ def formats_cmd() -> None:
 
 @translators_app.command("fixtures")
 def fixtures_cmd(
-    format: str = typer.Argument(..., help="Format key (edi-x12, hl7v2, cda, epcis, oagis, padis)."),
+    fmt: str = typer.Argument(
+        ...,
+        metavar="format",
+        help="Format key (edi-x12, hl7v2, cda, epcis, oagis, padis).",
+    ),
 ) -> None:
     """List fixture names for a format."""
-    if format not in _FIXTURE_BUNDLES:
-        typer.echo(f"Unknown format {format!r}", err=True)
+    if fmt not in _FIXTURE_BUNDLES:
+        typer.echo(f"Unknown format {fmt!r}", err=True)
         raise typer.Exit(code=1)
-    for name in sorted(_FIXTURE_BUNDLES[format]):
+    for name in sorted(_FIXTURE_BUNDLES[fmt]):
         typer.echo(f"  {name}")
 
 
 @translators_app.command("parse")
 def parse_cmd(
-    format: str = typer.Argument(..., help="Format key."),
+    fmt: str = typer.Argument(..., metavar="format", help="Format key."),
     path: Path = typer.Argument(..., exists=True, help="Path to a message file."),
 ) -> None:
     """Parse a file and print summary."""
-    if format not in _PARSERS:
-        typer.echo(f"Unknown format {format!r}", err=True)
+    if fmt not in _PARSERS:
+        typer.echo(f"Unknown format {fmt!r}", err=True)
         raise typer.Exit(code=1)
     raw = path.read_text(encoding="utf-8")
-    msg = _PARSERS[format](raw)
+    msg = _PARSERS[fmt](raw)
     typer.echo(f"format:         {msg.format}")
     typer.echo(f"message_type:   {msg.message_type}")
     if msg.sender:

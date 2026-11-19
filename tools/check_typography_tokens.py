@@ -21,36 +21,37 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 
-
 # Approved family names from Appendix N §1
-APPROVED_FAMILIES: frozenset[str] = frozenset({
-    # Display / body / mono
-    "fraunces",
-    "ibm plex sans",
-    "jetbrains mono",
-    # System-fallback chain (always allowed)
-    "system-ui",
-    "-apple-system",
-    "blinkmacsystemfont",
-    "segoe ui fallback",
-    "sans-serif",
-    "serif",
-    "monospace",
-    "system",
-    "ui-sans-serif",
-    "ui-serif",
-    "ui-monospace",
-    # Stack fallbacks listed in apex-design-tokens.css for Mono / Display
-    "consolas",
-    "courier new",
-    "courier",
-    "times new roman",
-    "times",
-    "inherit",
-    "initial",
-    "unset",
-    "revert",
-})
+APPROVED_FAMILIES: frozenset[str] = frozenset(
+    {
+        # Display / body / mono
+        "fraunces",
+        "ibm plex sans",
+        "jetbrains mono",
+        # System-fallback chain (always allowed)
+        "system-ui",
+        "-apple-system",
+        "blinkmacsystemfont",
+        "segoe ui fallback",
+        "sans-serif",
+        "serif",
+        "monospace",
+        "system",
+        "ui-sans-serif",
+        "ui-serif",
+        "ui-monospace",
+        # Stack fallbacks listed in apex-design-tokens.css for Mono / Display
+        "consolas",
+        "courier new",
+        "courier",
+        "times new roman",
+        "times",
+        "inherit",
+        "initial",
+        "unset",
+        "revert",
+    }
+)
 
 
 # Match `font-family:` declarations across CSS + inline style attrs
@@ -65,19 +66,29 @@ SCAN_EXTENSIONS: frozenset[str] = frozenset({".css", ".html", ".htm"})
 
 # Skip noise dirs
 SKIP_FRAGMENTS: tuple[str, ...] = (
-    "__pycache__", ".git", ".venv", "node_modules", "dist", "build",
-    ".pytest_cache", "site-packages",
+    "__pycache__",
+    ".git",
+    ".venv",
+    "node_modules",
+    "dist",
+    "build",
+    ".pytest_cache",
+    "site-packages",
 )
 
 # Allowlist: tokens file is the only place inline strings are expected
 # (it ships the CSS custom properties referenced by every other artifact).
-ALLOWLIST_BASENAMES: frozenset[str] = frozenset({
-    "apex-design-tokens.css",
-})
+ALLOWLIST_BASENAMES: frozenset[str] = frozenset(
+    {
+        "apex-design-tokens.css",
+    }
+)
 
 
 @dataclass
 class Finding:
+    """One ``font-family`` declaration that names unapproved families."""
+
     path: Path
     line: int
     declaration: str
@@ -105,7 +116,7 @@ def _split_family_list(declaration: str) -> list[str]:
             j = i + 1
             while j < n and declaration[j] != quote:
                 j += 1
-            out.append(declaration[i + 1:j].strip())
+            out.append(declaration[i + 1 : j].strip())
             i = j + 1
         else:
             j = i
@@ -122,6 +133,11 @@ def is_var_reference(declaration: str) -> bool:
 
 
 def scan_file(path: Path) -> list[Finding]:
+    """Return every ``font-family`` declaration in ``path`` using unapproved families.
+
+    Declarations that are a bare ``var(--...)`` reference are accepted, the
+    token stylesheet itself is allowlisted, and unreadable files are skipped.
+    """
     if path.name in ALLOWLIST_BASENAMES:
         return []
     findings: list[Finding] = []
@@ -134,20 +150,22 @@ def scan_file(path: Path) -> list[Finding]:
         if is_var_reference(declaration):
             continue
         families = _split_family_list(declaration)
-        unapproved = tuple(
-            f for f in families
-            if f.lower() not in APPROVED_FAMILIES
-        )
+        unapproved = tuple(f for f in families if f.lower() not in APPROVED_FAMILIES)
         if unapproved:
             line_no = text.count("\n", 0, match.start()) + 1
-            findings.append(Finding(
-                path=path, line=line_no,
-                declaration=declaration, unapproved=unapproved,
-            ))
+            findings.append(
+                Finding(
+                    path=path,
+                    line=line_no,
+                    declaration=declaration,
+                    unapproved=unapproved,
+                )
+            )
     return findings
 
 
 def scan_root(root: Path) -> list[Finding]:
+    """Scan every file under ``root`` with a scanned extension, skipping excluded dirs."""
     findings: list[Finding] = []
     for path in root.rglob("*"):
         if not path.is_file():
@@ -161,6 +179,11 @@ def scan_root(root: Path) -> list[Finding]:
 
 
 def main(argv: list[str] | None = None) -> int:
+    """Run the typography-token check from the command line.
+
+    Returns:
+        0 when clean, 1 when violations are found, 2 when the path does not exist.
+    """
     parser = argparse.ArgumentParser(
         description=(
             "Typography-token compliance check — fails the build if any "
@@ -169,7 +192,9 @@ def main(argv: list[str] | None = None) -> int:
         )
     )
     parser.add_argument(
-        "path", nargs="?", default=".",
+        "path",
+        nargs="?",
+        default=".",
         help="Root path to scan (default: current directory).",
     )
     args = parser.parse_args(argv)

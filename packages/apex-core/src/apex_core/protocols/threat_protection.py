@@ -11,6 +11,7 @@ etc.) for client-mandated parallel detection.
 This protocol is mandatory pre-prod per MCSB v2 Artificial Intelligence
 Security baseline.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -19,18 +20,24 @@ from typing import Any, Protocol, runtime_checkable
 
 @dataclass(frozen=True)
 class PromptShieldResult:
+    """Outcome of a pre-invocation prompt shield check."""
+
     is_safe: bool
-    detected_attacks: list[str] = field(default_factory=list)  # e.g., ["jailbreak", "prompt-injection"]
-    severity: str = "info"      # "info" | "low" | "medium" | "high" | "critical"
+    detected_attacks: list[str] = field(
+        default_factory=list
+    )  # e.g., ["jailbreak", "prompt-injection"]
+    severity: str = "info"  # "info" | "low" | "medium" | "high" | "critical"
     raw: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass(frozen=True)
 class ThreatVerdict:
+    """Threat assessment of a response or model, with the recommended action."""
+
     safe: bool
     threats_detected: list[str]
     severity: str
-    recommended_action: str    # "block" | "audit" | "warn" | "pass"
+    recommended_action: str  # "block" | "audit" | "warn" | "pass"
     evidence_ref: str | None = None
 
 
@@ -41,24 +48,35 @@ class ThreatProtection(Protocol):
     variant: str
 
     def shield_prompt(self, *, prompt: str, context: dict[str, Any]) -> PromptShieldResult:
-        """Pre-invocation check on user-controlled prompt. Returns whether
-        the prompt is safe to forward to the agent runtime. Defender for
-        AI Prompt Shields on APEX-M."""
+        """Pre-invocation check on a user-controlled prompt.
+
+        Returns whether the prompt is safe to forward to the agent runtime.
+        Defender for AI Prompt Shields on APEX-M.
+        """
         ...
 
     def evaluate_response(
         self, *, prompt: str, response: str, context: dict[str, Any]
     ) -> ThreatVerdict:
-        """Post-invocation evaluation: data leak detection, credential
-        theft signals, off-policy completion."""
+        """Evaluate an agent response after invocation.
+
+        Covers data leak detection, credential theft signals, and off-policy
+        completion.
+        """
         ...
 
     def get_posture(self, *, agent_id: str) -> dict[str, Any]:
-        """DSPM-for-AI style posture report for the agent: known
-        vulnerabilities, attack-path findings, classification gaps."""
+        """Return a DSPM-for-AI style posture report for the agent.
+
+        The report covers known vulnerabilities, attack-path findings, and
+        classification gaps.
+        """
         ...
 
     def scan_model(self, *, image_ref: str) -> ThreatVerdict:
-        """AI Model Security scan (preview on APEX-M) — pre-deploy gate
-        for embedded malware, unsafe operators, exposed secrets."""
+        """Run an AI Model Security scan (preview on APEX-M).
+
+        Acts as a pre-deploy gate for embedded malware, unsafe operators, and
+        exposed secrets.
+        """
         ...

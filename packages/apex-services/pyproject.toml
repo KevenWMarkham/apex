@@ -30,3 +30,7 @@ python_files = "test_*.py"
 markers = [
     "conformance: Service Catalog conformance tests",
 ]
+
+[tool.uv.sources]
+apex-agents = { workspace = true }
+apex-core = { workspace = true }

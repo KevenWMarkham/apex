@@ -36,7 +36,6 @@ from typing import Literal
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
-
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
@@ -188,9 +187,7 @@ class ReferenceSpec(BaseModel):
     @classmethod
     def _validate_practice(cls, v: str) -> str:
         if v.lower() not in PRACTICE_CODES:
-            raise ValueError(
-                f"practice must be one of {PRACTICE_CODES}, got {v!r}"
-            )
+            raise ValueError(f"practice must be one of {PRACTICE_CODES}, got {v!r}")
         return v.lower()
 
 
@@ -200,22 +197,28 @@ class ReferenceSpec(BaseModel):
 
 
 def load_reference_spec(path: str | Path) -> ReferenceSpec:
+    """Parse and validate a reference-deployment manifest YAML from disk.
+
+    Raises:
+        ValueError: If the YAML does not parse to a mapping.
+    """
     with Path(path).open("r", encoding="utf-8") as fh:
         data = yaml.safe_load(fh)
     if not isinstance(data, dict):
-        raise ValueError(
-            f"Reference spec {path}: expected mapping, got {type(data).__name__}"
-        )
+        raise ValueError(f"Reference spec {path}: expected mapping, got {type(data).__name__}")
     return ReferenceSpec.model_validate(data)
 
 
 @dataclass
 class CatalogEntry:
+    """One reference catalog entry: the parsed manifest and its filesystem path."""
+
     path: Path
     spec: ReferenceSpec
 
 
 def catalogs_root() -> Path:
+    """Return the directory holding the shipped reference-deployment manifests."""
     return Path(__file__).parent / "catalogs"
 
 
@@ -232,10 +235,12 @@ def scan_all_references() -> list[CatalogEntry]:
 
 
 def total_references() -> int:
+    """Return the number of shipped reference-deployment manifests."""
     return len(scan_all_references())
 
 
 def get_reference(name: str) -> ReferenceSpec | None:
+    """Return the reference spec whose ``name`` matches, or None if none does."""
     for entry in scan_all_references():
         if entry.spec.name == name:
             return entry.spec
@@ -248,6 +253,7 @@ def get_reference(name: str) -> ReferenceSpec | None:
 
 
 def demo_scripts_root() -> Path:
+    """Return the directory holding the per-reference markdown demo scripts."""
     return Path(__file__).parent / "demo_scripts"
 
 
@@ -266,6 +272,8 @@ def load_demo_script(reference_name: str) -> str:
 
 @dataclass
 class CatalogIssue:
+    """One problem found while validating the reference catalog."""
+
     reference: str
     code: str
     severity: str = "error"
@@ -274,19 +282,24 @@ class CatalogIssue:
 
 @dataclass
 class CatalogReport:
+    """Aggregate result of validating the reference catalog."""
+
     issues: list[CatalogIssue] = field(default_factory=list)
     references_checked: int = 0
 
     @property
     def errors(self) -> list[CatalogIssue]:
+        """Return only the issues with ``error`` severity."""
         return [i for i in self.issues if i.severity == "error"]
 
     @property
     def ok(self) -> bool:
+        """Return True when no errors were recorded."""
         return len(self.errors) == 0
 
     @property
     def exit_code(self) -> int:
+        """Return the CLI exit code: 0 when ok, 1 otherwise."""
         return 0 if self.ok else 1
 
 
@@ -305,83 +318,105 @@ def validate_references(
         # Wave 1 scope coherence: low <= high, and within reasonable bounds
         ws = spec.wave1_scope
         if ws.duration_weeks_low > ws.duration_weeks_high:
-            report.issues.append(CatalogIssue(
-                reference=spec.name, code="WAVE1_DURATION_INVERTED",
-                message=f"duration_weeks_low ({ws.duration_weeks_low}) > high ({ws.duration_weeks_high})",
-            ))
+            report.issues.append(
+                CatalogIssue(
+                    reference=spec.name,
+                    code="WAVE1_DURATION_INVERTED",
+                    message=f"duration_weeks_low ({ws.duration_weeks_low}) > high ({ws.duration_weeks_high})",
+                )
+            )
         if ws.fee_band_usd_low > ws.fee_band_usd_high:
-            report.issues.append(CatalogIssue(
-                reference=spec.name, code="WAVE1_FEE_INVERTED",
-                message=f"fee_band low ({ws.fee_band_usd_low}) > high ({ws.fee_band_usd_high})",
-            ))
+            report.issues.append(
+                CatalogIssue(
+                    reference=spec.name,
+                    code="WAVE1_FEE_INVERTED",
+                    message=f"fee_band low ({ws.fee_band_usd_low}) > high ({ws.fee_band_usd_high})",
+                )
+            )
         if ws.duration_weeks_low < 4 or ws.duration_weeks_high > 16:
-            report.issues.append(CatalogIssue(
-                reference=spec.name, code="WAVE1_DURATION_OUT_OF_RANGE",
-                severity="warning",
-                message=(
-                    f"Wave-1 typical duration is 4-12 weeks per Sellers Guide §2.2; "
-                    f"this reference declares {ws.duration_weeks_low}-{ws.duration_weeks_high} weeks"
-                ),
-            ))
+            report.issues.append(
+                CatalogIssue(
+                    reference=spec.name,
+                    code="WAVE1_DURATION_OUT_OF_RANGE",
+                    severity="warning",
+                    message=(
+                        f"Wave-1 typical duration is 4-12 weeks per Sellers Guide §2.2; "
+                        f"this reference declares {ws.duration_weeks_low}-{ws.duration_weeks_high} weeks"
+                    ),
+                )
+            )
 
         # Cross-reference check: every linked service code resolves
         if service_codes is not None:
             for use_case in spec.use_cases:
                 for code in use_case.service_codes:
                     if code not in service_codes:
-                        report.issues.append(CatalogIssue(
-                            reference=spec.name,
-                            code="SERVICE_CODE_NOT_FOUND",
-                            message=(
-                                f"Use case {use_case.name!r} references "
-                                f"unknown service_code {code!r}"
-                            ),
-                        ))
+                        report.issues.append(
+                            CatalogIssue(
+                                reference=spec.name,
+                                code="SERVICE_CODE_NOT_FOUND",
+                                message=(
+                                    f"Use case {use_case.name!r} references "
+                                    f"unknown service_code {code!r}"
+                                ),
+                            )
+                        )
 
         # Agent linkage check
         if agent_catalog is not None:
             for use_case in spec.use_cases:
                 for agent in use_case.agents:
                     if agent not in agent_catalog:
-                        report.issues.append(CatalogIssue(
-                            reference=spec.name,
-                            code="AGENT_NOT_FOUND",
-                            message=(
-                                f"Use case {use_case.name!r} references "
-                                f"unknown agent {agent!r}"
-                            ),
-                        ))
+                        report.issues.append(
+                            CatalogIssue(
+                                reference=spec.name,
+                                code="AGENT_NOT_FOUND",
+                                message=(
+                                    f"Use case {use_case.name!r} references unknown agent {agent!r}"
+                                ),
+                            )
+                        )
 
         # Adapter linkage check
         if adapter_catalog is not None:
             for adapter in spec.architecture.adapters:
                 if adapter not in adapter_catalog:
-                    report.issues.append(CatalogIssue(
-                        reference=spec.name,
-                        code="ADAPTER_NOT_FOUND",
-                        message=f"architecture references unknown adapter {adapter!r}",
-                    ))
+                    report.issues.append(
+                        CatalogIssue(
+                            reference=spec.name,
+                            code="ADAPTER_NOT_FOUND",
+                            message=f"architecture references unknown adapter {adapter!r}",
+                        )
+                    )
 
         # Demo script presence
         if spec.demo_script_path:
             demo_path = demo_scripts_root() / spec.demo_script_path
             if not demo_path.exists():
-                report.issues.append(CatalogIssue(
-                    reference=spec.name,
-                    code="DEMO_SCRIPT_MISSING",
-                    message=f"demo_script_path {spec.demo_script_path!r} not found",
-                ))
+                report.issues.append(
+                    CatalogIssue(
+                        reference=spec.name,
+                        code="DEMO_SCRIPT_MISSING",
+                        message=f"demo_script_path {spec.demo_script_path!r} not found",
+                    )
+                )
 
         # Coverage essentials
         if not spec.use_cases:
-            report.issues.append(CatalogIssue(
-                reference=spec.name, code="NO_USE_CASES",
-                message="Reference must declare at least one use case",
-            ))
+            report.issues.append(
+                CatalogIssue(
+                    reference=spec.name,
+                    code="NO_USE_CASES",
+                    message="Reference must declare at least one use case",
+                )
+            )
         if not spec.kpi_targets:
-            report.issues.append(CatalogIssue(
-                reference=spec.name, code="NO_KPI_TARGETS",
-                message="Reference must declare at least one KPI target",
-            ))
+            report.issues.append(
+                CatalogIssue(
+                    reference=spec.name,
+                    code="NO_KPI_TARGETS",
+                    message="Reference must declare at least one KPI target",
+                )
+            )
 
     return report

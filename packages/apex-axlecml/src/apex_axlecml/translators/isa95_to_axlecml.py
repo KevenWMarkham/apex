@@ -48,4 +48,4 @@ def equipment_from_isa95(
         serial_number=isa95.serial_number,
         status=EquipmentStatus.IN_SERVICE,
         capabilities=list(isa95.capabilities),
-    )  # type: ignore[arg-type]
+    )

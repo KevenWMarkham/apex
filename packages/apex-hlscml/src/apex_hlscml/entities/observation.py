@@ -6,13 +6,14 @@ from datetime import datetime
 from decimal import Decimal
 from enum import StrEnum
 
-from pydantic import Field
-
 from apex_schemas_common import CanonicalEntity
 from apex_schemas_common.standards import LoincCode
+from pydantic import Field
 
 
 class ObservationStatus(StrEnum):
+    """FHIR R4 ``Observation.status`` value set (subset)."""
+
     REGISTERED = "registered"
     PRELIMINARY = "preliminary"
     FINAL = "final"
@@ -26,16 +27,10 @@ class Observation(CanonicalEntity):
 
     fhir_id: str = Field(..., description="FHIR Observation.id.")
     status: ObservationStatus
-    loinc_code: LoincCode | None = Field(
-        None, description="LOINC code for what is observed."
-    )
-    code_display: str = Field(
-        "", description="Human-readable name of the observed concept."
-    )
+    loinc_code: LoincCode | None = Field(None, description="LOINC code for what is observed.")
+    code_display: str = Field("", description="Human-readable name of the observed concept.")
     patient_key: str = Field(..., description="FK → HLSCML Patient.entity_id.")
-    encounter_key: str | None = Field(
-        None, description="FK → HLSCML Encounter.entity_id."
-    )
+    encounter_key: str | None = Field(None, description="FK → HLSCML Encounter.entity_id.")
     effective_ts: datetime
 
     # FHIR Observation has multiple value[x]; APEX models the three most-used.

@@ -28,7 +28,7 @@ hitl_gates:
   - name: booking_fee_threshold
     description: Bookings > $100 / seat require user approval
     fires_when: price_per_seat_usd > 100
-    surface: mobile_push
+    surface: mobile
     sla_minutes: 60
 
 oversight_modes: [HITL]

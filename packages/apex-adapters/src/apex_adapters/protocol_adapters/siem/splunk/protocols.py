@@ -8,6 +8,6 @@ client_approved_architecture block references this adapter.
 ADAPTER_NAME = "siem.splunk"
 PROVIDER_LABEL = "Splunk"
 SATISFIES = [
-    'AuditLedger',
-    'Observability',
+    "AuditLedger",
+    "Observability",
 ]

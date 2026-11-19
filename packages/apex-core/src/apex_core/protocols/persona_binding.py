@@ -20,9 +20,8 @@ This lives in ``apex-core`` (not ``apex-m``) because:
   HITL fire time — is variant-specific. APEX-M's resolver lives in
   ``apex_m.persona_resolver`` and uses Microsoft Graph.
 
-References
+References:
 ----------
-
 - Cross-Service-Boundaries.md (Sprint 39)
 - Pre-deployment-Security-Gate.md PSG-15 (Sprint 47.6 — adds the lint)
 - agent-identity-blueprints.md (Phase I.1 design)
@@ -79,7 +78,7 @@ class PersonaPrincipalBinding(BaseModel):
     persona_id: Annotated[str, StringConstraints(min_length=3, max_length=128)] = Field(
         ...,
         description="Stable framework role identifier (e.g. jamie-oconnor-store-manager). "
-                    "Must match a key in services/_personas.yaml."
+        "Must match a key in services/_personas.yaml.",
     )
 
     binding_mode: BindingMode
@@ -88,61 +87,57 @@ class PersonaPrincipalBinding(BaseModel):
     entra_group_object_id: Annotated[str, StringConstraints(max_length=128)] | None = Field(
         None,
         description="Required when binding_mode in [entra_group, hybrid]. "
-                    "GUID of the Entra group containing authorised principals."
+        "GUID of the Entra group containing authorised principals.",
     )
 
     # --- specific_principals / hybrid mode (fallback) -------------------
     fallback_principals: list[str] = Field(
         default_factory=list,
         description="UPNs (or provider-equivalent identifiers) authorised for this role. "
-                    "Required when binding_mode == specific_principals; optional fallback "
-                    "for hybrid; ignored in entra_group + shift_roster modes."
+        "Required when binding_mode == specific_principals; optional fallback "
+        "for hybrid; ignored in entra_group + shift_roster modes.",
     )
 
     # --- shift_roster / hybrid mode -------------------------------------
     shift_roster_adapter: Annotated[str, StringConstraints(max_length=64)] | None = Field(
         None,
         description="Required when binding_mode in [shift_roster, hybrid]. "
-                    "Adapter id from client_approved_architecture (e.g. 'workday-shift-adapter')."
+        "Adapter id from client_approved_architecture (e.g. 'workday-shift-adapter').",
     )
     shift_roster_role_filter: Annotated[str, StringConstraints(max_length=128)] | None = Field(
         None,
         description="Role-filter expression the WFM adapter understands "
-                    "(e.g. 'Role=StoreManager AND Status=ClockedIn')."
+        "(e.g. 'Role=StoreManager AND Status=ClockedIn').",
     )
 
     # --- runtime + audit ----------------------------------------------
     teams_chat_resolution: Annotated[str, StringConstraints(max_length=32)] = Field(
         "directory_lookup",
         description="How the chat client renders display names. "
-                    "directory_lookup = resolve UPN → display name at render time. "
-                    "raw_upn = show the UPN literally (rare; debugging only)."
+        "directory_lookup = resolve UPN → display name at render time. "
+        "raw_upn = show the UPN literally (rare; debugging only).",
     )
     audit_row_records: Annotated[str, StringConstraints(max_length=32)] = Field(
         "principal_only",
         description="What gets recorded in the audit row's operator_principal field. "
-                    "principal_only = UPN; principal_and_persona = both UPN + persona_id; "
-                    "persona_only = persona_id (NOT recommended — loses individual accountability)."
+        "principal_only = UPN; principal_and_persona = both UPN + persona_id; "
+        "persona_only = persona_id (NOT recommended — loses individual accountability).",
     )
 
     # --- lifecycle ------------------------------------------------------
     valid_from: datetime | None = Field(
-        None,
-        description="When this binding becomes active. Null = always active."
+        None, description="When this binding becomes active. Null = always active."
     )
     valid_to: datetime | None = Field(
-        None,
-        description="When this binding expires. Null = no expiry."
+        None, description="When this binding expires. Null = no expiry."
     )
 
     @model_validator(mode="after")
-    def _validate_binding_mode_fields(self) -> "PersonaPrincipalBinding":
+    def _validate_binding_mode_fields(self) -> PersonaPrincipalBinding:
         """Each binding_mode requires its own field set."""
         if self.binding_mode == BindingMode.ENTRA_GROUP:
             if not self.entra_group_object_id:
-                raise ValueError(
-                    "binding_mode=entra_group requires entra_group_object_id"
-                )
+                raise ValueError("binding_mode=entra_group requires entra_group_object_id")
 
         elif self.binding_mode == BindingMode.SPECIFIC_PRINCIPALS:
             if not self.fallback_principals:
@@ -153,9 +148,7 @@ class PersonaPrincipalBinding(BaseModel):
 
         elif self.binding_mode == BindingMode.SHIFT_ROSTER:
             if not self.shift_roster_adapter:
-                raise ValueError(
-                    "binding_mode=shift_roster requires shift_roster_adapter"
-                )
+                raise ValueError("binding_mode=shift_roster requires shift_roster_adapter")
 
         elif self.binding_mode == BindingMode.HYBRID:
             if not self.entra_group_object_id:
@@ -163,23 +156,26 @@ class PersonaPrincipalBinding(BaseModel):
                     "binding_mode=hybrid requires entra_group_object_id (primary path)"
                 )
             if not self.fallback_principals:
-                raise ValueError(
-                    "binding_mode=hybrid requires fallback_principals (fallback path)"
-                )
+                raise ValueError("binding_mode=hybrid requires fallback_principals (fallback path)")
 
         return self
 
     @model_validator(mode="after")
-    def _validate_lifecycle(self) -> "PersonaPrincipalBinding":
-        if self.valid_from is not None and self.valid_to is not None:
-            if self.valid_to <= self.valid_from:
-                raise ValueError("valid_to must be after valid_from")
+    def _validate_lifecycle(self) -> PersonaPrincipalBinding:
+        if (
+            self.valid_from is not None
+            and self.valid_to is not None
+            and self.valid_to <= self.valid_from
+        ):
+            raise ValueError("valid_to must be after valid_from")
         return self
 
     @model_validator(mode="after")
-    def _validate_audit_row_records(self) -> "PersonaPrincipalBinding":
+    def _validate_audit_row_records(self) -> PersonaPrincipalBinding:
         if self.audit_row_records not in (
-            "principal_only", "principal_and_persona", "persona_only",
+            "principal_only",
+            "principal_and_persona",
+            "persona_only",
         ):
             raise ValueError(
                 f"audit_row_records {self.audit_row_records!r} not in "
@@ -188,7 +184,7 @@ class PersonaPrincipalBinding(BaseModel):
         return self
 
     @model_validator(mode="after")
-    def _validate_teams_chat_resolution(self) -> "PersonaPrincipalBinding":
+    def _validate_teams_chat_resolution(self) -> PersonaPrincipalBinding:
         if self.teams_chat_resolution not in ("directory_lookup", "raw_upn"):
             raise ValueError(
                 f"teams_chat_resolution {self.teams_chat_resolution!r} not in "
@@ -211,17 +207,16 @@ class UseCasePersonaBindings(BaseModel):
     bindings: dict[str, PersonaPrincipalBinding] = Field(
         default_factory=dict,
         description="Map of persona_id (matching personas_active entries) "
-                    "to their binding. Each binding's persona_id field MUST "
-                    "match its key (validator enforces).",
+        "to their binding. Each binding's persona_id field MUST "
+        "match its key (validator enforces).",
     )
 
     @model_validator(mode="after")
-    def _validate_keys_match_persona_ids(self) -> "UseCasePersonaBindings":
+    def _validate_keys_match_persona_ids(self) -> UseCasePersonaBindings:
         for key, binding in self.bindings.items():
             if binding.persona_id != key:
                 raise ValueError(
-                    f"binding key {key!r} does not match persona_id "
-                    f"{binding.persona_id!r}"
+                    f"binding key {key!r} does not match persona_id {binding.persona_id!r}"
                 )
         return self
 

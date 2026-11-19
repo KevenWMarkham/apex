@@ -35,7 +35,7 @@ hitl_gates:
   - name: chain_total_threshold
     description: Errand chain with total > $200 requires user approval
     fires_when: chain_total_usd > 200
-    surface: mobile_push
+    surface: mobile
     sla_minutes: 60
 
 oversight_modes: [HOTL]

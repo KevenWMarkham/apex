@@ -12,7 +12,6 @@ from apex_agents.framework import (
     validate_catalogs,
 )
 
-
 agents_app = typer.Typer(
     name="agents",
     help="APEX Agent Catalog — list / inspect / validate Practice agent manifests.",
@@ -36,7 +35,9 @@ def stats_cmd() -> None:
 @agents_app.command("list")
 def list_cmd(
     practice: str | None = typer.Option(
-        None, "--practice", "-p",
+        None,
+        "--practice",
+        "-p",
         help="Filter to one Practice (rc / hls / er / axle / tmt / th / ice).",
     ),
 ) -> None:
@@ -64,7 +65,9 @@ def list_cmd(
 
 @agents_app.command("inspect")
 def inspect_cmd(
-    agent_name: str = typer.Argument(..., help="Agent name (e.g., 'apex.rc.agents.cold-chain-response')."),
+    agent_name: str = typer.Argument(
+        ..., help="Agent name (e.g., 'apex.rc.agents.cold-chain-response')."
+    ),
 ) -> None:
     """Show full detail for one agent."""
     cats = scan_all_catalogs()
@@ -80,7 +83,9 @@ def inspect_cmd(
                 typer.echo(f"model_tier:          {spec.model_tier.value}")
                 typer.echo(f"model_pin:           {spec.model_pin}")
                 typer.echo(f"oversight_modes:     {[m.value for m in spec.oversight_modes]}")
-                typer.echo(f"tools:               {len(spec.tools)} ({len(spec.write_tools())} write)")
+                typer.echo(
+                    f"tools:               {len(spec.tools)} ({len(spec.write_tools())} write)"
+                )
                 typer.echo(f"hitl_gates:          {len(spec.hitl_gates)}")
                 typer.echo(f"kpis:                {len(spec.kpis)}")
                 if spec.archetype_id:
@@ -88,7 +93,7 @@ def inspect_cmd(
                 if spec.forbidden_classifications:
                     typer.echo(f"forbidden_classes:   {spec.forbidden_classifications}")
                 typer.echo("")
-                typer.echo(f"description:")
+                typer.echo("description:")
                 typer.echo(f"  {spec.description}")
                 return
     typer.echo(f"Agent {agent_name!r} not found.")

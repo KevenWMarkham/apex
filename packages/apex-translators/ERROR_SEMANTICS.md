@@ -123,18 +123,25 @@ surfaced as `UNSTRUCTURED` segments.
 
 ```python
 from apex_translators import (
-    TranslatorError, ParseError,
-    parse_x12, parse_hl7v2, parse_cda, parse_epcis, parse_oagis, parse_padis,
+    TranslatorError,
+    ParseError,
+    parse_x12,
+    parse_hl7v2,
+    parse_cda,
+    parse_epcis,
+    parse_oagis,
+    parse_padis,
 )
 
 PARSERS = {
     "edi-x12": parse_x12,
-    "hl7v2":   parse_hl7v2,
-    "cda":     parse_cda,
-    "epcis":   parse_epcis,
-    "oagis":   parse_oagis,
-    "padis":   parse_padis,
+    "hl7v2": parse_hl7v2,
+    "cda": parse_cda,
+    "epcis": parse_epcis,
+    "oagis": parse_oagis,
+    "padis": parse_padis,
 }
+
 
 def ingest(raw: str, expected_format: str) -> "ParsedMessage | None":
     try:
@@ -142,7 +149,8 @@ def ingest(raw: str, expected_format: str) -> "ParsedMessage | None":
     except ParseError as exc:
         log.warning(
             "translator.parse_error",
-            format=expected_format, error=str(exc),
+            format=expected_format,
+            error=str(exc),
         )
         quarantine(raw, exc)
         return None

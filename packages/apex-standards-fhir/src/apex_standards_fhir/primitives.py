@@ -81,9 +81,9 @@ class FhirHumanName(BaseModel):
 
     model_config = _FHIR_BASE_CONFIG
 
-    use: Literal[
-        "usual", "official", "temp", "nickname", "anonymous", "old", "maiden"
-    ] | None = None
+    use: Literal["usual", "official", "temp", "nickname", "anonymous", "old", "maiden"] | None = (
+        None
+    )
     text: str | None = None
     family: str | None = None
     given: list[str] = Field(default_factory=list)
@@ -135,6 +135,7 @@ class FhirQuantity(BaseModel):
 
 # Optional re-exports commonly needed by resource files
 __all__ = [
+    "_FHIR_BASE_CONFIG",
     "FhirAddress",
     "FhirCodeableConcept",
     "FhirCoding",
@@ -144,7 +145,6 @@ __all__ = [
     "FhirPeriod",
     "FhirQuantity",
     "FhirReference",
-    "_FHIR_BASE_CONFIG",
     "date",
     "datetime",
 ]

@@ -28,77 +28,77 @@ app = typer.Typer(
 
 # --- Optional subcommand groups (enabled if the package is installed) --------
 try:  # pragma: no cover — trivial import probe
-    from apex_schemas_common._cli import standards_app  # type: ignore[import-not-found]
+    from apex_schemas_common._cli import standards_app
 
     app.add_typer(standards_app, name="standards")
 except ImportError:
     pass
 
 try:  # pragma: no cover — trivial import probe
-    from apex_purview._cli import purview_app  # type: ignore[import-not-found]
+    from apex_purview._cli import purview_app
 
     app.add_typer(purview_app, name="purview")
 except ImportError:
     pass
 
 try:  # pragma: no cover — trivial import probe
-    from apex_fabric._cli import fabric_app  # type: ignore[import-not-found]
+    from apex_fabric._cli import fabric_app
 
     app.add_typer(fabric_app, name="fabric")
 except ImportError:
     pass
 
 try:  # pragma: no cover — trivial import probe
-    from apex_scenarios._cli import scenarios_app  # type: ignore[import-not-found]
+    from apex_scenarios._cli import scenarios_app
 
     app.add_typer(scenarios_app, name="scenarios")
 except ImportError:
     pass
 
 try:  # pragma: no cover — trivial import probe
-    from apex_adapters._cli import adapters_app  # type: ignore[import-not-found]
+    from apex_adapters._cli import adapters_app
 
     app.add_typer(adapters_app, name="adapters")
 except ImportError:
     pass
 
 try:  # pragma: no cover — trivial import probe
-    from apex_agents._cli import agents_app  # type: ignore[import-not-found]
+    from apex_agents._cli import agents_app
 
     app.add_typer(agents_app, name="agents")
 except ImportError:
     pass
 
 try:  # pragma: no cover — trivial import probe
-    from apex_services._cli import services_app  # type: ignore[import-not-found]
+    from apex_services._cli import services_app
 
     app.add_typer(services_app, name="services")
 except ImportError:
     pass
 
 try:  # pragma: no cover — trivial import probe
-    from apex_references._cli import references_app  # type: ignore[import-not-found]
+    from apex_references._cli import references_app
 
     app.add_typer(references_app, name="references")
 except ImportError:
     pass
 
 try:  # pragma: no cover — trivial import probe
-    from apex_registries._cli import registries_app  # type: ignore[import-not-found]
+    from apex_registries._cli import registries_app
 
     app.add_typer(registries_app, name="registries")
 except ImportError:
     pass
 
 try:  # pragma: no cover — trivial import probe
-    from apex_translators._cli import translators_app  # type: ignore[import-not-found]
+    from apex_translators._cli import translators_app
 
     app.add_typer(translators_app, name="translators")
 except ImportError:
     pass
 
 try:  # pragma: no cover — trivial import probe
-    from apex_protocols._cli import protocols_app  # type: ignore[import-not-found]
+    from apex_protocols._cli import protocols_app
 
     app.add_typer(protocols_app, name="protocols")
 except ImportError:

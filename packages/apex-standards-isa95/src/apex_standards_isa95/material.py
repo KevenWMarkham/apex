@@ -10,6 +10,8 @@ _ISA95_CONFIG = ConfigDict(extra="forbid")
 
 
 class MaterialType(StrEnum):
+    """ISA-95 material category (raw, work-in-process, finished, consumable)."""
+
     RAW = "raw"
     WORK_IN_PROCESS = "work_in_process"
     FINISHED = "finished"

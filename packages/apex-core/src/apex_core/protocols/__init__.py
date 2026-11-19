@@ -22,32 +22,54 @@ deployment touches:
 
 See `docs/apex-core/Protocols-Reference.md` for the canonical reference.
 """
-from .agent_identity import AgentIdentityProvider, AgentIdentity, AgentBlueprint
-from .agent_runtime import AgentRuntime, AgentInvocation, AgentResponse
+
+from .agent_identity import AgentBlueprint, AgentIdentity, AgentIdentityProvider
+from .agent_runtime import AgentInvocation, AgentResponse, AgentRuntime
 from .audit_ledger import AuditLedger, AuditRow
 from .data_lake import DataLake, DataLakeQuery, DataLakeWrite
-from .embedding_service import EmbeddingService, Embedding, SimilarityResult
-from .message_bus import MessageBus, Message, Subscription
-from .observability import Observability, TraceContext, Metric
+from .embedding_service import Embedding, EmbeddingService, SimilarityResult
+from .message_bus import Message, MessageBus, Subscription
+from .observability import Metric, Observability, TraceContext
 from .persona_binding import (
     BindingMode,
     PersonaPrincipalBinding,
     UseCasePersonaBindings,
 )
-from .secret_store import SecretStore, Secret, SecretReference
-from .sensitivity_classifier import SensitivityClassifier, SensitivityTier, ProviderLabel
-from .threat_protection import ThreatProtection, ThreatVerdict, PromptShieldResult
+from .secret_store import Secret, SecretReference, SecretStore
+from .sensitivity_classifier import ProviderLabel, SensitivityClassifier, SensitivityTier
+from .threat_protection import PromptShieldResult, ThreatProtection, ThreatVerdict
 
 __all__ = [
-    "AgentIdentityProvider", "AgentIdentity", "AgentBlueprint",
-    "AgentRuntime", "AgentInvocation", "AgentResponse",
-    "AuditLedger", "AuditRow",
-    "BindingMode", "PersonaPrincipalBinding", "UseCasePersonaBindings",
-    "DataLake", "DataLakeQuery", "DataLakeWrite",
-    "EmbeddingService", "Embedding", "SimilarityResult",
-    "MessageBus", "Message", "Subscription",
-    "Observability", "TraceContext", "Metric",
-    "SecretStore", "Secret", "SecretReference",
-    "SensitivityClassifier", "SensitivityTier", "ProviderLabel",
-    "ThreatProtection", "ThreatVerdict", "PromptShieldResult",
+    "AgentBlueprint",
+    "AgentIdentity",
+    "AgentIdentityProvider",
+    "AgentInvocation",
+    "AgentResponse",
+    "AgentRuntime",
+    "AuditLedger",
+    "AuditRow",
+    "BindingMode",
+    "DataLake",
+    "DataLakeQuery",
+    "DataLakeWrite",
+    "Embedding",
+    "EmbeddingService",
+    "Message",
+    "MessageBus",
+    "Metric",
+    "Observability",
+    "PersonaPrincipalBinding",
+    "PromptShieldResult",
+    "ProviderLabel",
+    "Secret",
+    "SecretReference",
+    "SecretStore",
+    "SensitivityClassifier",
+    "SensitivityTier",
+    "SimilarityResult",
+    "Subscription",
+    "ThreatProtection",
+    "ThreatVerdict",
+    "TraceContext",
+    "UseCasePersonaBindings",
 ]

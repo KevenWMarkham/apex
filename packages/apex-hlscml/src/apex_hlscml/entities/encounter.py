@@ -5,12 +5,13 @@ from __future__ import annotations
 from datetime import datetime
 from enum import StrEnum
 
-from pydantic import Field
-
 from apex_schemas_common import CanonicalEntity
+from pydantic import Field
 
 
 class EncounterStatus(StrEnum):
+    """FHIR R4 ``Encounter.status`` value set."""
+
     PLANNED = "planned"
     ARRIVED = "arrived"
     TRIAGED = "triaged"

@@ -5,13 +5,12 @@ from __future__ import annotations
 from datetime import UTC, datetime
 
 import pytest
-from pydantic import ValidationError
-
 from apex_core.types import Classification, Practice
 from apex_medallion import (
     RetentionPolicy,
     build_purview_retention_payload,
 )
+from pydantic import ValidationError
 
 
 class TestRetentionPolicy:
@@ -56,7 +55,8 @@ class TestPurviewPayload:
     def test_minimal(self) -> None:
         policy = RetentionPolicy()
         payload = build_purview_retention_payload(
-            policy, asset_path="OneLake/bronze/scml/sku",
+            policy,
+            asset_path="OneLake/bronze/scml/sku",
         )
         assert payload["asset_path"] == "OneLake/bronze/scml/sku"
         assert payload["retention"]["duration_days"] == 7 * 365

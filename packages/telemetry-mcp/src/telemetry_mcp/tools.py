@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import bisect
 from datetime import UTC, datetime
 from typing import Any
 from uuid import uuid4
@@ -67,13 +66,15 @@ def log_event(
         parameters={"level": level},
     ) as ctx:
         eid = str(uuid4())
-        EVENTS.append({
-            "_id": eid,
-            "level": level.lower(),
-            "message": message,
-            "metadata": metadata or {},
-            "timestamp": datetime.now(UTC).isoformat(),
-        })
+        EVENTS.append(
+            {
+                "_id": eid,
+                "level": level.lower(),
+                "message": message,
+                "metadata": metadata or {},
+                "timestamp": datetime.now(UTC).isoformat(),
+            }
+        )
         ctx["result"] = {"event_id": eid}
         return {"event_id": eid}
 
@@ -123,15 +124,18 @@ def query_latency_percentile(
 
 CONTRACTS: list[ToolContract] = [
     ToolContract(
-        name=f"{SERVER_NAME}.emit_trace", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.emit_trace",
+        version=TOOL_VERSION,
         description="Accept and store a tool-call trace record.",
     ),
     ToolContract(
-        name=f"{SERVER_NAME}.log_event", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.log_event",
+        version=TOOL_VERSION,
         description="Log an event at a named level (debug/info/warning/error/critical).",
     ),
     ToolContract(
-        name=f"{SERVER_NAME}.query_latency_percentile", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.query_latency_percentile",
+        version=TOOL_VERSION,
         description="Return observed latency percentile for an operation.",
     ),
 ]

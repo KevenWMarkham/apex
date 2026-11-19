@@ -77,13 +77,28 @@ CONTENT_FINGERPRINTS: list[tuple[re.Pattern[str], str]] = [
 
 # File extensions worth scanning for content fingerprints
 SCAN_EXTENSIONS: set[str] = {
-    ".py", ".md", ".txt", ".csv", ".tsv", ".json", ".yaml", ".yml",
+    ".py",
+    ".md",
+    ".txt",
+    ".csv",
+    ".tsv",
+    ".json",
+    ".yaml",
+    ".yml",
 }
 
 # Path fragments to skip entirely
 SKIP_PATH_FRAGMENTS: list[str] = [
-    "__pycache__", ".git", ".venv", "node_modules", "dist", "build",
-    ".pytest_cache", ".mypy_cache", ".ruff_cache", "site-packages",
+    "__pycache__",
+    ".git",
+    ".venv",
+    "node_modules",
+    "dist",
+    "build",
+    ".pytest_cache",
+    ".mypy_cache",
+    ".ruff_cache",
+    "site-packages",
 ]
 
 # Filenames where mentioning restricted-terminology names is expected
@@ -104,12 +119,20 @@ ALLOWLIST_FILENAMES: set[str] = {
 
 @dataclass
 class Finding:
+    """One restricted-content issue: the offending file, a check code and a message."""
+
     path: Path
     code: str
     message: str
 
 
 def scan_path(root: Path) -> list[Finding]:
+    """Scan every file under ``root`` for restricted filenames and content fingerprints.
+
+    Filename patterns are checked on any file; content fingerprints only on
+    files with a scanned text extension. Allowlisted filenames and noise
+    directories are skipped.
+    """
     findings: list[Finding] = []
     for path in root.rglob("*"):
         if not path.is_file():
@@ -165,6 +188,12 @@ def scan_path(root: Path) -> list[Finding]:
 
 
 def main(argv: list[str] | None = None) -> int:
+    """Run the restricted-terminology scan from the command line.
+
+    Returns:
+        0 when nothing is found, 1 when restricted content is detected, 2 when
+        the path does not exist.
+    """
     parser = argparse.ArgumentParser(
         description=(
             "Scan the APEX monorepo for redistributed restricted-terminology "
@@ -173,7 +202,9 @@ def main(argv: list[str] | None = None) -> int:
         )
     )
     parser.add_argument(
-        "path", nargs="?", default=".",
+        "path",
+        nargs="?",
+        default=".",
         help="Root path to scan (default: current directory).",
     )
     args = parser.parse_args(argv)

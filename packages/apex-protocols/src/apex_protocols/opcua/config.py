@@ -53,6 +53,7 @@ class OPCUAConfig:
     queue_size: int = 10
 
     def __post_init__(self) -> None:
+        """Default ``namespace_uris`` to an empty list and validate the config."""
         if self.namespace_uris is None:
             self.namespace_uris = []
         self._validate()
@@ -68,27 +69,20 @@ class OPCUAConfig:
             raise ConfigError("OPC UA application_uri is required")
         if self.auth_mode == AuthMode.CERTIFICATE:
             if not self.cert_path or not self.key_path:
-                raise ConfigError(
-                    "CERTIFICATE auth_mode requires cert_path + key_path"
-                )
+                raise ConfigError("CERTIFICATE auth_mode requires cert_path + key_path")
             if not self.trust_store_path:
-                raise ConfigError(
-                    "CERTIFICATE auth_mode requires trust_store_path"
-                )
+                raise ConfigError("CERTIFICATE auth_mode requires trust_store_path")
         if self.auth_mode == AuthMode.USERNAME_PASSWORD and not self.username:
-            raise ConfigError(
-                "USERNAME_PASSWORD auth_mode requires username"
-            )
+            raise ConfigError("USERNAME_PASSWORD auth_mode requires username")
         if self.message_security_mode not in ("None", "Sign", "SignAndEncrypt"):
-            raise ConfigError(
-                f"Unknown message_security_mode {self.message_security_mode!r}"
-            )
+            raise ConfigError(f"Unknown message_security_mode {self.message_security_mode!r}")
         if self.security_policy not in (
-            "None", "Basic128Rsa15", "Basic256", "Basic256Sha256",
+            "None",
+            "Basic128Rsa15",
+            "Basic256",
+            "Basic256Sha256",
         ):
-            raise ConfigError(
-                f"Unknown security_policy {self.security_policy!r}"
-            )
+            raise ConfigError(f"Unknown security_policy {self.security_policy!r}")
 
     def is_production_grade(self) -> bool:
         """True iff this config meets APEX production OPC UA bar.
@@ -103,11 +97,15 @@ class OPCUAConfig:
         if self.message_security_mode != "SignAndEncrypt":
             return False
         # Defensive: check the paths exist (best-effort)
-        return all(
-            Path(p).exists()
-            for p in (self.cert_path, self.key_path, self.trust_store_path)
-            if p
-        ) if self.cert_path else False
+        return (
+            all(
+                Path(p).exists()
+                for p in (self.cert_path, self.key_path, self.trust_store_path)
+                if p
+            )
+            if self.cert_path
+            else False
+        )
 
 
 def build_endpoint(config: OPCUAConfig) -> ProtocolEndpoint:

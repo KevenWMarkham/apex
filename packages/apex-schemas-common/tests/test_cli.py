@@ -2,9 +2,8 @@
 
 from __future__ import annotations
 
-from typer.testing import CliRunner
-
 from apex_core.cli import app
+from typer.testing import CliRunner
 
 runner = CliRunner()
 
@@ -58,17 +57,13 @@ class TestStandardsAudit:
 
 class TestStandardsBump:
     def test_bump_dry_run_prints_impact(self) -> None:
-        result = runner.invoke(
-            app, ["standards", "bump", "gs1-gtin", "--to", "BMS-1.35"]
-        )
+        result = runner.invoke(app, ["standards", "bump", "gs1-gtin", "--to", "BMS-1.35"])
         assert result.exit_code == 0
         assert "BMS-1.35" in result.stdout
         assert "dry-run" in result.stdout.lower()
 
     def test_bump_unknown_fails(self) -> None:
-        result = runner.invoke(
-            app, ["standards", "bump", "not-a-real-standard", "--to", "2.0"]
-        )
+        result = runner.invoke(app, ["standards", "bump", "not-a-real-standard", "--to", "2.0"])
         assert result.exit_code == 1
 
     def test_bump_apply_not_implemented(self) -> None:

@@ -4,8 +4,6 @@ from __future__ import annotations
 
 from typing import Annotated
 
-from pydantic import BaseModel, Field
-
 from apex_core.types import Classification
 from apex_tokenizer import (
     InMemoryVaultBackend,
@@ -15,6 +13,7 @@ from apex_tokenizer import (
     set_default_service,
     tokenize_classified_fields,
 )
+from pydantic import BaseModel
 
 
 def _setup() -> InMemoryVaultBackend:

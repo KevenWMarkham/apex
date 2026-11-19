@@ -3,10 +3,8 @@
 from __future__ import annotations
 
 import pytest
-
 from apex_core.types import BumpClass, GateKind, GateVariant
 from apex_orchestrator import (
-    GateOutcome,
     InMemoryApprovalsClient,
     resolve_gate_kind,
     resolve_gate_runner,
@@ -67,7 +65,9 @@ class TestRunners:
         approvals = InMemoryApprovalsClient()
         r = resolve_gate_kind(bump_class=BumpClass.MAJOR)
         runner = resolve_gate_runner(
-            r, approvals=approvals, approver_group="qa",
+            r,
+            approvals=approvals,
+            approver_group="qa",
         )
         assert isinstance(runner, HitlGate)
 

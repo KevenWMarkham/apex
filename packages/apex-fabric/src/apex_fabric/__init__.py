@@ -35,18 +35,10 @@ from apex_fabric.workspaces import (
 )
 
 __all__ = [
-    # workspaces
     "ENVIRONMENTS",
     "FABRIC_API_BASE",
     "PRACTICES",
     "ROLES",
-    "TokenProvider",
-    "WorkspaceClient",
-    "WorkspaceSpec",
-    "canonical_workspace_name",
-    "parse_workspace_name",
-    "validate_workspace_name",
-    # shortcuts
     "AdlsGen2Target",
     "DataverseTarget",
     "GoogleCloudStorageTarget",
@@ -55,7 +47,13 @@ __all__ = [
     "ShortcutClient",
     "ShortcutPlan",
     "ShortcutSpec",
+    "TokenProvider",
+    "WorkspaceClient",
+    "WorkspaceSpec",
+    "canonical_workspace_name",
+    "parse_workspace_name",
     "practice_reference_shortcuts",
+    "validate_workspace_name",
 ]
 
 __version__ = "0.1.0"

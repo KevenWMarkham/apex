@@ -4,6 +4,7 @@ from __future__ import annotations
 
 
 def main() -> None:  # pragma: no cover
+    """Register the telemetry tools on a FastMCP server and run it."""
     from mcp.server.fastmcp import FastMCP  # type: ignore[import-not-found]
 
     from telemetry_mcp.tools import emit_trace, log_event, query_latency_percentile

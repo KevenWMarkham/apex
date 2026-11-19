@@ -31,9 +31,14 @@ class ContentAddressedStore:
     """Append-once, read-many store keyed by ``content_hash``."""
 
     def __init__(self) -> None:
+        """Initialise an empty in-memory hash-to-payload map."""
         self._store: dict[str, Any] = {}
 
     def put(self, payload: Any) -> str:
+        """Store ``payload`` under its content hash and return the ``sha256:<hex>`` ref.
+
+        Re-storing identical content is a no-op that returns the existing ref.
+        """
         h = content_hash(payload)
         if h in self._store:
             # Same hash -> same content (by definition). Idempotent.
@@ -42,12 +47,19 @@ class ContentAddressedStore:
         return h
 
     def get(self, ref: str) -> Any:
+        """Return the payload stored under ``ref``.
+
+        Raises:
+            KeyError: If no payload has been stored under ``ref``.
+        """
         if ref not in self._store:
             raise KeyError(f"No payload for content ref {ref!r}")
         return self._store[ref]
 
     def __contains__(self, ref: str) -> bool:
+        """Return True if a payload is stored under ``ref``."""
         return ref in self._store
 
     def __len__(self) -> int:
+        """Return the number of distinct payloads stored."""
         return len(self._store)

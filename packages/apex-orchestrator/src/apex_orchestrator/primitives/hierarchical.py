@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Callable
+from typing import Any
 
 from apex_orchestrator.types import StepFn, StepResult
 
-Planner = Callable[[dict], list[str]]
+Planner = Callable[[dict[str, Any]], list[str]]
 """Planner inspects context and returns the specialist step_ids to dispatch."""
 
 
@@ -30,6 +31,7 @@ class HierarchicalRunner:
         planner_agent_name: str = "orchestrator",
         planner_agent_version: str = "1.0.0",
     ) -> None:
+        """Store the planner and its step metadata; start with no specialists."""
         self._planner = planner
         self._planner_step_id = planner_step_id
         self._planner_agent_name = planner_agent_name
@@ -43,11 +45,12 @@ class HierarchicalRunner:
         agent_name: str,
         agent_version: str,
         fn: StepFn,
-    ) -> "HierarchicalRunner":
+    ) -> HierarchicalRunner:
+        """Register (or replace) the specialist for ``step_id``; returns self for chaining."""
         self._specialists[step_id] = _Specialist(step_id, agent_name, agent_version, fn)
         return self
 
-    def run(self, initial_context: dict) -> tuple[dict, list[StepResult]]:
+    def run(self, initial_context: dict[str, Any]) -> tuple[dict[str, Any], list[StepResult]]:
         """Plan → dispatch selected specialists sequentially → merge."""
         context = dict(initial_context)
         selected = self._planner(context)
@@ -68,11 +71,13 @@ class HierarchicalRunner:
                 raise KeyError(f"Planner selected unknown specialist {sid!r}")
             spec = self._specialists[sid]
             spec_result = spec.fn(context)
-            results.append(StepResult(
-                step_id=spec.step_id,
-                agent_name=spec.agent_name,
-                agent_version=spec.agent_version,
-                result=spec_result,
-            ))
+            results.append(
+                StepResult(
+                    step_id=spec.step_id,
+                    agent_name=spec.agent_name,
+                    agent_version=spec.agent_version,
+                    result=spec_result,
+                )
+            )
             context.update(spec_result)
         return context, results

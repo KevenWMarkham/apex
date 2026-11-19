@@ -14,6 +14,8 @@ _CIM_CONFIG = ConfigDict(extra="forbid")
 
 
 class CimMeterKind(StrEnum):
+    """Commodity measured by a :class:`CimMeter`."""
+
     ELECTRICITY = "electricity"
     GAS = "gas"
     WATER = "water"
@@ -41,7 +43,9 @@ class CimReading(BaseModel):
     timestamp: datetime
     value: Decimal
     unit: UnitSymbol = UnitSymbol.KWH
-    quality_flag: str | None = Field(None, description="e.g. 'estimated', 'substituted', 'measured'.")
+    quality_flag: str | None = Field(
+        None, description="e.g. 'estimated', 'substituted', 'measured'."
+    )
 
 
 class CimCustomer(BaseModel):

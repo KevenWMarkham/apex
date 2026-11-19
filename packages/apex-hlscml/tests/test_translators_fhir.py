@@ -6,14 +6,13 @@ import json
 from pathlib import Path
 
 import pytest
-from apex_standards_fhir import FhirObservation, FhirPatient
-
 from apex_hlscml.translators import (
     observation_from_fhir,
     observation_to_fhir,
     patient_from_fhir,
     patient_to_fhir,
 )
+from apex_standards_fhir import FhirObservation, FhirPatient
 
 pytestmark = pytest.mark.conformance
 

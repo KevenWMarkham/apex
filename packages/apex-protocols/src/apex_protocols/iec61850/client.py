@@ -12,11 +12,13 @@ surfaces in APEX via the SCD parser.
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from apex_protocols.base import (
     ConnectionError as ProtocolConnectionError,
+)
+from apex_protocols.base import (
     ProtocolEndpoint,
     Sample,
 )
@@ -26,10 +28,16 @@ class IEC61850StubClient:
     """In-memory MMS client for tests + smoke-tests."""
 
     def __init__(self, snapshot: dict[str, Any] | None = None) -> None:
+        """Initialise a disconnected client serving a copy of ``snapshot`` (FCDA path -> value)."""
         self._snapshot: dict[str, Any] = dict(snapshot or {})
         self._connected = False
 
     def connect(self, endpoint: ProtocolEndpoint) -> None:
+        """Mark the client connected.
+
+        Raises:
+            ProtocolConnectionError: If ``endpoint.protocol`` is not ``iec61850``.
+        """
         if endpoint.protocol != "iec61850":
             raise ProtocolConnectionError(
                 f"IEC61850StubClient requires endpoint.protocol='iec61850', got {endpoint.protocol!r}"
@@ -37,9 +45,11 @@ class IEC61850StubClient:
         self._connected = True
 
     def disconnect(self) -> None:
+        """Mark the client disconnected."""
         self._connected = False
 
     def is_connected(self) -> bool:
+        """Return True while the client is connected."""
         return self._connected
 
     def read_one(self, node_id: str) -> Sample:
@@ -50,20 +60,24 @@ class IEC61850StubClient:
         if not self._connected:
             raise ProtocolConnectionError("IEC61850StubClient is not connected")
         if node_id not in self._snapshot:
-            raise ProtocolConnectionError(
-                f"FCDA path {node_id!r} not in stub snapshot"
-            )
+            raise ProtocolConnectionError(f"FCDA path {node_id!r} not in stub snapshot")
         return Sample(
             node_id=node_id,
             value=self._snapshot[node_id],
-            timestamp=datetime.now(timezone.utc),
+            timestamp=datetime.now(UTC),
             quality="good",
         )
 
     def subscribe(self, node_ids: list[str]) -> list[Sample]:
+        """Return samples for the requested FCDA paths, silently skipping unknown ones.
+
+        Raises:
+            ProtocolConnectionError: If the client is not connected.
+        """
         if not self._connected:
             raise ProtocolConnectionError("IEC61850StubClient is not connected")
         return [self.read_one(nid) for nid in node_ids if nid in self._snapshot]
 
     def update(self, node_id: str, value: Any) -> None:
+        """Test helper — set the value served for ``node_id``."""
         self._snapshot[node_id] = value

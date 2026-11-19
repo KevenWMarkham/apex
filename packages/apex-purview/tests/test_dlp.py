@@ -5,8 +5,6 @@ from __future__ import annotations
 import json
 
 import pytest
-from typer.testing import CliRunner
-
 from apex_purview._cli import purview_app
 from apex_purview.dlp import (
     ACTIONS,
@@ -22,6 +20,7 @@ from apex_purview.dlp import (
     lookup_action,
     most_restrictive,
 )
+from typer.testing import CliRunner
 
 runner = CliRunner()
 

@@ -10,7 +10,8 @@ from datetime import UTC, datetime
 from typing import Any
 
 from apex_core.types import Classification
-from fabric_mcp import FABRIC_BACKEND, query_gold_view as _fabric_query_view
+from fabric_mcp import FABRIC_BACKEND
+from fabric_mcp import query_gold_view as _fabric_query_view
 from mcp_common import McpError, McpErrorCode, ToolContract, traced_call
 
 SERVER_NAME = "rc-e2e-05-mcp"
@@ -183,7 +184,7 @@ def commit_task_dispatch(
     sku_key: str | None = None,
     bay_id: str | None = None,
     task_kind: str | None = None,
-    completion_kind: str | None = None,    # None = fan-out; set on completion
+    completion_kind: str | None = None,  # None = fan-out; set on completion
     trace_id: str | None = None,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",

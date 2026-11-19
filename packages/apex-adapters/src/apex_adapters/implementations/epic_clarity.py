@@ -43,6 +43,11 @@ class EpicClarityAdapter(Adapter):
     """Epic Clarity ODBC adapter for HLS Bronze ingestion."""
 
     def __init__(self, spec: AdapterSpec) -> None:
+        """Initialise the adapter and reject manifests whose connection method is not ODBC.
+
+        Raises:
+            ValueError: If ``spec.connection_method`` is not ``ConnectionMethod.ODBC``.
+        """
         super().__init__(spec)
         if spec.connection_method != ConnectionMethod.ODBC:
             raise ValueError(
@@ -60,9 +65,7 @@ class EpicClarityAdapter(Adapter):
         with path.open("r", encoding="utf-8") as fh:
             data = json.load(fh)
         if not isinstance(data, dict):
-            raise ValueError(
-                f"Golden dataset {path}: expected mapping of {{table_name: [rows]}}"
-            )
+            raise ValueError(f"Golden dataset {path}: expected mapping of {{table_name: [rows]}}")
         self._golden_path = path
         self._golden_data = data
 
@@ -86,9 +89,7 @@ class EpicClarityAdapter(Adapter):
         # No data → return tables declared in the spec
         return [m.source_table for m in self.spec.schema_mappings]
 
-    def ingest(
-        self, mapping: SchemaMapping, *, limit: int | None = None
-    ) -> int:
+    def ingest(self, mapping: SchemaMapping, *, limit: int | None = None) -> int:
         """Ingest the source table named by ``mapping`` into Bronze.
 
         In production: SELECT … FROM ``mapping.source_table``,
@@ -139,6 +140,6 @@ class EpicClarityAdapter(Adapter):
                 result.rows_read += rows
                 result.rows_written += rows
                 result.fields_mapped += mapping.field_count()
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             result.errors.append(f"{type(exc).__name__}: {exc}")
         return result

@@ -18,12 +18,9 @@ uses the per-PGN signal layouts from the
 
 from __future__ import annotations
 
+from collections.abc import Iterable
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
-from typing import Iterable
-
-from apex_protocols.base import ProtocolError
-
+from datetime import UTC, datetime
 
 # ---------------------------------------------------------------------------
 # Frame
@@ -40,7 +37,7 @@ class CANFrame:
     data: bytes
     """Up to 8 data bytes."""
 
-    timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    timestamp: datetime = field(default_factory=lambda: datetime.now(UTC))
 
 
 @dataclass
@@ -52,7 +49,7 @@ class DecodedSignal:
     source_address: int
     value: float | int
     units: str = ""
-    timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    timestamp: datetime = field(default_factory=lambda: datetime.now(UTC))
 
 
 # ---------------------------------------------------------------------------
@@ -79,48 +76,132 @@ class SPNLayout:
 SPN_LAYOUTS: dict[int, list[SPNLayout]] = {
     # Engine Hours, Revolutions (PGN 65253 / 0xFEE5)
     65253: [
-        SPNLayout(spn=247, start_byte=0, length_bytes=4, scale=0.05, offset=0.0, units="h",
-                  description="Engine Total Hours of Operation"),
-        SPNLayout(spn=249, start_byte=4, length_bytes=4, scale=1000.0, offset=0.0, units="rev",
-                  description="Engine Total Revolutions"),
+        SPNLayout(
+            spn=247,
+            start_byte=0,
+            length_bytes=4,
+            scale=0.05,
+            offset=0.0,
+            units="h",
+            description="Engine Total Hours of Operation",
+        ),
+        SPNLayout(
+            spn=249,
+            start_byte=4,
+            length_bytes=4,
+            scale=1000.0,
+            offset=0.0,
+            units="rev",
+            description="Engine Total Revolutions",
+        ),
     ],
     # Electronic Engine Controller 1 (PGN 61444 / 0xF004)
     61444: [
-        SPNLayout(spn=190, start_byte=3, length_bytes=2, scale=0.125, offset=0.0, units="rpm",
-                  description="Engine Speed"),
-        SPNLayout(spn=512, start_byte=5, length_bytes=1, scale=1.0, offset=-125.0, units="%",
-                  description="Driver's Demand Engine Percent Torque"),
+        SPNLayout(
+            spn=190,
+            start_byte=3,
+            length_bytes=2,
+            scale=0.125,
+            offset=0.0,
+            units="rpm",
+            description="Engine Speed",
+        ),
+        SPNLayout(
+            spn=512,
+            start_byte=5,
+            length_bytes=1,
+            scale=1.0,
+            offset=-125.0,
+            units="%",
+            description="Driver's Demand Engine Percent Torque",
+        ),
     ],
     # Electronic Engine Controller 2 (PGN 61443 / 0xF003)
     61443: [
-        SPNLayout(spn=92, start_byte=2, length_bytes=1, scale=1.0, offset=0.0, units="%",
-                  description="Engine Percent Load at Current Speed"),
+        SPNLayout(
+            spn=92,
+            start_byte=2,
+            length_bytes=1,
+            scale=1.0,
+            offset=0.0,
+            units="%",
+            description="Engine Percent Load at Current Speed",
+        ),
     ],
     # Dash Display 1 — Fuel Level (PGN 65276 / 0xFEFC)
     65276: [
-        SPNLayout(spn=96, start_byte=1, length_bytes=1, scale=0.4, offset=0.0, units="%",
-                  description="Fuel Level"),
+        SPNLayout(
+            spn=96,
+            start_byte=1,
+            length_bytes=1,
+            scale=0.4,
+            offset=0.0,
+            units="%",
+            description="Fuel Level",
+        ),
     ],
     # Vehicle Distance (PGN 65248 / 0xFEE0)
     65248: [
-        SPNLayout(spn=245, start_byte=0, length_bytes=4, scale=0.005, offset=0.0, units="km",
-                  description="Trip Distance"),
-        SPNLayout(spn=244, start_byte=4, length_bytes=4, scale=0.005, offset=0.0, units="km",
-                  description="Total Vehicle Distance"),
+        SPNLayout(
+            spn=245,
+            start_byte=0,
+            length_bytes=4,
+            scale=0.005,
+            offset=0.0,
+            units="km",
+            description="Trip Distance",
+        ),
+        SPNLayout(
+            spn=244,
+            start_byte=4,
+            length_bytes=4,
+            scale=0.005,
+            offset=0.0,
+            units="km",
+            description="Total Vehicle Distance",
+        ),
     ],
     # Fuel Consumption (PGN 65257 / 0xFEE9)
     65257: [
-        SPNLayout(spn=250, start_byte=4, length_bytes=4, scale=0.5, offset=0.0, units="L",
-                  description="Engine Total Fuel Used"),
-        SPNLayout(spn=182, start_byte=0, length_bytes=4, scale=0.5, offset=0.0, units="L",
-                  description="Engine Trip Fuel"),
+        SPNLayout(
+            spn=250,
+            start_byte=4,
+            length_bytes=4,
+            scale=0.5,
+            offset=0.0,
+            units="L",
+            description="Engine Total Fuel Used",
+        ),
+        SPNLayout(
+            spn=182,
+            start_byte=0,
+            length_bytes=4,
+            scale=0.5,
+            offset=0.0,
+            units="L",
+            description="Engine Trip Fuel",
+        ),
     ],
     # Fuel Economy (PGN 65266 / 0xFEF2)
     65266: [
-        SPNLayout(spn=183, start_byte=0, length_bytes=2, scale=0.05, offset=0.0, units="L/h",
-                  description="Engine Fuel Rate"),
-        SPNLayout(spn=184, start_byte=2, length_bytes=2, scale=1.0/256.0, offset=0.0, units="km/L",
-                  description="Engine Instantaneous Fuel Economy"),
+        SPNLayout(
+            spn=183,
+            start_byte=0,
+            length_bytes=2,
+            scale=0.05,
+            offset=0.0,
+            units="L/h",
+            description="Engine Fuel Rate",
+        ),
+        SPNLayout(
+            spn=184,
+            start_byte=2,
+            length_bytes=2,
+            scale=1.0 / 256.0,
+            offset=0.0,
+            units="km/L",
+            description="Engine Instantaneous Fuel Economy",
+        ),
     ],
 }
 
@@ -142,10 +223,7 @@ def _arb_id_to_pgn_sa(arb_id: int) -> tuple[int, int]:
     ps = (arb_id >> 8) & 0xFF
     pf = (arb_id >> 16) & 0xFF
     dp = (arb_id >> 24) & 0x01
-    if pf < 240:
-        pgn = (dp << 16) | (pf << 8) | 0x00
-    else:
-        pgn = (dp << 16) | (pf << 8) | ps
+    pgn = (dp << 16) | (pf << 8) | (0x00 if pf < 240 else ps)
     return pgn, sa
 
 
@@ -163,7 +241,7 @@ def decode_frame(frame: CANFrame) -> list[DecodedSignal]:
         end = layout.start_byte + layout.length_bytes
         if end > len(frame.data):
             continue  # Frame too short for this SPN
-        raw = frame.data[layout.start_byte:end]
+        raw = frame.data[layout.start_byte : end]
         # J1939 multi-byte values are little-endian
         raw_int = int.from_bytes(raw, byteorder="little", signed=False)
         # All-bits-set means "not available"; skip
@@ -192,10 +270,12 @@ class J1939Normalizer:
     """
 
     def __init__(self) -> None:
+        """Initialise the frame and signal counters to zero."""
         self._frame_count = 0
         self._signal_count = 0
 
     def normalize(self, frames: Iterable[CANFrame]) -> Iterable[DecodedSignal]:
+        """Lazily yield every decoded signal from ``frames``, updating the counters."""
         for frame in frames:
             self._frame_count += 1
             for sig in decode_frame(frame):
@@ -204,11 +284,14 @@ class J1939Normalizer:
 
     @property
     def frames_processed(self) -> int:
+        """Return the number of frames consumed by :meth:`normalize` so far."""
         return self._frame_count
 
     @property
     def signals_emitted(self) -> int:
+        """Return the number of signals yielded by :meth:`normalize` so far."""
         return self._signal_count
 
     def known_pgns(self) -> set[int]:
+        """Return the PGNs that have SPN layouts defined."""
         return set(SPN_LAYOUTS)

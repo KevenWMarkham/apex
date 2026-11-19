@@ -5,19 +5,20 @@ from __future__ import annotations
 from types import NoneType, UnionType
 from typing import Annotated, Any, TypeVar, Union, get_args, get_origin, get_type_hints
 
-from pydantic import BaseModel
-
 from apex_core.types import Classification
+from pydantic import BaseModel
 
 from apex_tokenizer.service import TokenService, get_default_service
 
-_TOKENISED_CLASSIFICATIONS: frozenset[Classification] = frozenset({
-    Classification.PII,
-    Classification.PHI,
-    Classification.PCI,
-    Classification.TRADE_SECRET,
-    Classification.MEMBER_ONLY,
-})
+_TOKENISED_CLASSIFICATIONS: frozenset[Classification] = frozenset(
+    {
+        Classification.PII,
+        Classification.PHI,
+        Classification.PCI,
+        Classification.TRADE_SECRET,
+        Classification.MEMBER_ONLY,
+    }
+)
 
 _ModelT = TypeVar("_ModelT", bound=BaseModel)
 
@@ -68,7 +69,9 @@ def tokenize_classified_fields(
         if current.startswith("tok_"):
             continue  # already tokenised
         updates[field_name] = svc.tokenize(
-            current, classification, source_system=source_system,
+            current,
+            classification,
+            source_system=source_system,
         )
 
     if not updates:

@@ -5,12 +5,13 @@ from __future__ import annotations
 from datetime import datetime
 from enum import StrEnum
 
-from pydantic import Field
-
 from apex_schemas_common import CanonicalEntity
+from pydantic import Field
 
 
 class GridEventType(StrEnum):
+    """Category of an operational :class:`GridEvent` on the power network."""
+
     OUTAGE = "outage"
     FAULT = "fault"
     VOLTAGE_SAG = "voltage_sag"
@@ -29,11 +30,7 @@ class GridEvent(CanonicalEntity):
     event_type: GridEventType
     occurred_start: datetime
     occurred_end: datetime | None = None
-    equipment_key: str | None = Field(
-        None, description="FK → ERCML Asset.entity_id."
-    )
-    severity: int | None = Field(
-        None, ge=1, le=5, description="1 = critical, 5 = informational."
-    )
+    equipment_key: str | None = Field(None, description="FK → ERCML Asset.entity_id.")
+    severity: int | None = Field(None, ge=1, le=5, description="1 = critical, 5 = informational.")
     description: str = ""
     customers_affected: int | None = Field(None, ge=0)

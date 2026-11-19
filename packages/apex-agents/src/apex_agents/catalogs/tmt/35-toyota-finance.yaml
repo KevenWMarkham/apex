@@ -4,7 +4,7 @@ version: 0.1.0
 practice: tmt
 persona: Household Primary Account Holder
 service_codes: [TMT-TEL-MOB-04]
-model_tier: premium
+model_tier: reasoning
 model_pin: claude-opus-4-7
 prompt_sha: ""
 description: >
@@ -29,7 +29,7 @@ hitl_gates:
   - name: financial_application
     description: Any financial-application submission requires user approval
     fires_when: action_type IN ("submit_refi_application","submit_lease_extension","switch_insurance")
-    surface: mobile_push
+    surface: mobile
     sla_minutes: 1440
 
 oversight_modes: [HITL]

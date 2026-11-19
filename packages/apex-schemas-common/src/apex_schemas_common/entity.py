@@ -11,9 +11,8 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Annotated
 
-from pydantic import BaseModel, ConfigDict, Field, StringConstraints
-
 from apex_core.envelope import CanonicalEnvelope
+from pydantic import BaseModel, ConfigDict, Field, StringConstraints
 
 
 class CanonicalEntity(CanonicalEnvelope):
@@ -50,15 +49,11 @@ class ScdType2Fields(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    scd2_valid_from: datetime = Field(
-        ..., description="Inclusive start of this row's validity."
-    )
+    scd2_valid_from: datetime = Field(..., description="Inclusive start of this row's validity.")
     scd2_valid_to: datetime | None = Field(
         None, description="Exclusive end; None while currently valid."
     )
-    scd2_is_current: bool = Field(
-        True, description="True iff scd2_valid_to is None."
-    )
+    scd2_is_current: bool = Field(True, description="True iff scd2_valid_to is None.")
     row_hash: Annotated[str, StringConstraints(min_length=1, max_length=128)] = Field(
         ..., description="Content hash for change detection."
     )

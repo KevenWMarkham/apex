@@ -20,10 +20,9 @@ from decimal import Decimal
 from enum import StrEnum
 from typing import Annotated
 
-from pydantic import Field
-
 from apex_core.types import Classification
 from apex_schemas_common import CanonicalEntity, ScdType2Fields
+from pydantic import Field
 
 
 class PriceChannel(StrEnum):

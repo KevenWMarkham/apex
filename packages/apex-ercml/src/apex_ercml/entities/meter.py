@@ -5,12 +5,13 @@ from __future__ import annotations
 from datetime import datetime
 from enum import StrEnum
 
-from pydantic import Field
-
 from apex_schemas_common import CanonicalEntity, ScdType2Fields
+from pydantic import Field
 
 
 class MeterKind(StrEnum):
+    """Commodity measured by a utility :class:`Meter`."""
+
     ELECTRICITY = "electricity"
     GAS = "gas"
     WATER = "water"

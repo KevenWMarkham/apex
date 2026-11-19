@@ -2,9 +2,8 @@
 
 from __future__ import annotations
 
-from pydantic import Field
-
 from apex_schemas_common import CanonicalEntity, ScdType2Fields
+from pydantic import Field
 
 
 class Item(CanonicalEntity, ScdType2Fields):

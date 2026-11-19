@@ -12,9 +12,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import get_type_hints
 
+from apex_schemas_common.ddl import _python_to_delta
 from pydantic import BaseModel
-
-from apex_schemas_common.ddl import _python_to_delta, _unwrap_optional
 
 
 @dataclass(frozen=True, slots=True)
@@ -29,12 +28,13 @@ class DriftReport:
 
     @property
     def clean(self) -> bool:
+        """Return True when no column, type or nullability drift was found."""
         return not (
-            self.added or self.removed
-            or self.type_mismatches or self.nullability_mismatches
+            self.added or self.removed or self.type_mismatches or self.nullability_mismatches
         )
 
     def summary(self) -> str:
+        """Return a one-line ``[OK]``/``[DRIFT]``-style summary with per-category counts."""
         if self.clean:
             return f"[OK] {self.model} — no drift"
         parts: list[str] = []

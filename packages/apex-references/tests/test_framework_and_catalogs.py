@@ -5,14 +5,11 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-from typer.testing import CliRunner
-
 from apex_references import (
     PRACTICE_CODES,
     KpiTarget,
     ReferenceSpec,
     SolutionArchitecture,
-    TriggeringScenario,
     UseCase,
     Wave1Scope,
     catalogs_root,
@@ -25,6 +22,8 @@ from apex_references import (
     validate_references,
 )
 from apex_references._cli import references_app
+from pydantic import ValidationError
+from typer.testing import CliRunner
 
 runner = CliRunner()
 
@@ -51,16 +50,16 @@ def _minimal_wave1() -> Wave1Scope:
 
 
 def _minimal_spec(**overrides) -> ReferenceSpec:
-    base = dict(
-        name="test",
-        practice="rc",
-        display_name="Test Reference",
-        description="Test reference deployment.",
-        architecture=_minimal_arch(),
-        wave1_scope=_minimal_wave1(),
-        use_cases=[UseCase(name="uc", description="d")],
-        kpi_targets=[KpiTarget(name="k", direction="up", wave2_target="x")],
-    )
+    base = {
+        "name": "test",
+        "practice": "rc",
+        "display_name": "Test Reference",
+        "description": "Test reference deployment.",
+        "architecture": _minimal_arch(),
+        "wave1_scope": _minimal_wave1(),
+        "use_cases": [UseCase(name="uc", description="d")],
+        "kpi_targets": [KpiTarget(name="k", direction="up", wave2_target="x")],
+    }
     base.update(overrides)
     return ReferenceSpec(**base)
 
@@ -71,7 +70,7 @@ def test_reference_spec_practice_normalizes_to_lower() -> None:
 
 
 def test_reference_spec_rejects_unknown_practice() -> None:
-    with pytest.raises(Exception):
+    with pytest.raises(ValidationError):
         _minimal_spec(practice="marketing")
 
 
@@ -138,14 +137,12 @@ def test_every_reference_has_use_cases_and_kpis() -> None:
 
 def test_every_reference_declares_triggering_scenarios() -> None:
     for entry in scan_all_references():
-        assert entry.spec.triggering_scenarios, \
-            f"{entry.spec.name} has no triggering scenarios"
+        assert entry.spec.triggering_scenarios, f"{entry.spec.name} has no triggering scenarios"
 
 
 def test_every_reference_declares_sponsor_personas() -> None:
     for entry in scan_all_references():
-        assert entry.spec.sponsor_personas, \
-            f"{entry.spec.name} has no sponsor personas"
+        assert entry.spec.sponsor_personas, f"{entry.spec.name} has no sponsor personas"
 
 
 def test_every_reference_has_demo_script_present() -> None:
@@ -168,11 +165,10 @@ def test_every_reference_wave1_scope_coherent() -> None:
         ws = entry.spec.wave1_scope
         assert ws.duration_weeks_low <= ws.duration_weeks_high
         assert ws.fee_band_usd_low <= ws.fee_band_usd_high
-        assert 4 <= ws.duration_weeks_low
+        assert ws.duration_weeks_low >= 4
         assert ws.duration_weeks_high <= 16
         assert ws.deliverables, f"{entry.spec.name} declares no deliverables"
-        assert ws.success_criteria, \
-            f"{entry.spec.name} declares no success criteria"
+        assert ws.success_criteria, f"{entry.spec.name} declares no success criteria"
 
 
 # ---------------------------------------------------------------------------
@@ -191,14 +187,12 @@ def test_validator_passes_for_shipped_anchors() -> None:
 
 def test_validator_passes_with_full_cross_references() -> None:
     """With live agent / service / adapter catalogs, all references resolve."""
-    from apex_services import all_service_codes
-    from apex_agents import scan_all_catalogs as agents_scan
     from apex_adapters.catalog import load_all_shipped_manifests
+    from apex_agents import scan_all_catalogs as agents_scan
+    from apex_services import all_service_codes
 
     codes = all_service_codes()
-    agents = {
-        e.spec.name for entries in agents_scan().values() for e in entries
-    }
+    agents = {e.spec.name for entries in agents_scan().values() for e in entries}
     adapters = set(load_all_shipped_manifests().keys())
 
     report = validate_references(
@@ -383,20 +377,16 @@ def test_airline_composes_th_agents_and_services() -> None:
 def test_conformance_all_five_anchor_references() -> None:
     """All 5 anchor references load, validate, cross-reference cleanly."""
     assert total_references() == 5
-    from apex_services import all_service_codes
-    from apex_agents import scan_all_catalogs as agents_scan
     from apex_adapters.catalog import load_all_shipped_manifests
+    from apex_agents import scan_all_catalogs as agents_scan
+    from apex_services import all_service_codes
 
     report = validate_references(
         service_codes=all_service_codes(),
-        agent_catalog={
-            e.spec.name for entries in agents_scan().values() for e in entries
-        },
+        agent_catalog={e.spec.name for entries in agents_scan().values() for e in entries},
         adapter_catalog=set(load_all_shipped_manifests().keys()),
     )
-    assert report.ok, [
-        f"{i.reference}: [{i.code}] {i.message}" for i in report.errors
-    ]
+    assert report.ok, [f"{i.reference}: [{i.code}] {i.message}" for i in report.errors]
 
 
 @pytest.mark.conformance

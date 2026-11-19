@@ -48,12 +48,17 @@ class TokenService:
         tenant_id: str = _DEFAULT_TENANT,
         secret: bytes | None = None,
     ) -> None:
+        """Bind the vault backend and tenant, and resolve the HMAC secret.
+
+        The secret comes from ``secret`` if given, else the ``APEX_TOKENIZER_SECRET``
+        environment variable, else a dev-only placeholder.
+        """
         self.backend = backend
         self.tenant_id = tenant_id
         self._secret = _resolve_secret(secret)
 
     def _compute_token(self, *, value: str, classification: Classification) -> str:
-        msg = f"{self.tenant_id}|{classification.value}|{value}".encode("utf-8")
+        msg = f"{self.tenant_id}|{classification.value}|{value}".encode()
         digest = hmac.new(self._secret, msg, hashlib.sha256).digest()[:12]
         suffix = base64.urlsafe_b64encode(digest).rstrip(b"=").decode("ascii")
         return f"{TOKEN_PREFIX}{suffix}"
@@ -135,8 +140,10 @@ def tokenize(
 ) -> str:
     """Convenience — delegate to the default service."""
     return get_default_service().tokenize(
-        value, classification,
-        source_system=source_system, created_by=created_by,
+        value,
+        classification,
+        source_system=source_system,
+        created_by=created_by,
     )
 
 

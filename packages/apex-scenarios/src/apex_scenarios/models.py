@@ -21,7 +21,6 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
-
 PRACTICE_CODES: tuple[str, ...] = ("RC", "HLS", "ER", "AXLE", "TMT", "TH", "ICE")
 #: Canonical KPI directions found in the live scenario library.
 #: - ``up``      — metric should increase (margin, accuracy, attainment)
@@ -103,9 +102,7 @@ class Scenario(BaseModel):
         if v is None:
             return v
         if v.upper() not in PRACTICE_CODES:
-            raise ValueError(
-                f"practice must be one of {PRACTICE_CODES}, got {v!r}"
-            )
+            raise ValueError(f"practice must be one of {PRACTICE_CODES}, got {v!r}")
         return v.upper()
 
     @field_validator("kpi_direction", mode="before")

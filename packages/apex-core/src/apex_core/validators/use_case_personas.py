@@ -34,13 +34,14 @@ from apex_core.protocols.persona_binding import (
     UseCasePersonaBindings,
 )
 
-
 # ---------------------------------------------------------------------------
 # Substrate awareness
 # ---------------------------------------------------------------------------
 
 
 class Substrate(StrEnum):
+    """Deployment substrate a tenant runs on, from laptop through prod."""
+
     LAPTOP = "laptop"
     LAB = "lab"
     DEV = "dev"
@@ -51,14 +52,16 @@ class Substrate(StrEnum):
 # Personas that ship with the framework as Lab worked examples.
 # Real client tenants must NOT have these in personas_active on prod
 # substrate without a binding (the PSG-15 lint catches this).
-SYNTHETIC_LAB_PERSONAS: frozenset[str] = frozenset({
-    "marisol-reyes-store-ops",
-    "daniel-chen-merch-director",
-    "maya-patel-loyalty-crm-director",
-    "jamie-oconnor-store-manager",
-    "rebecca-hall-returns-ops-mgr",
-    "compliance-officer-fsma-204",
-})
+SYNTHETIC_LAB_PERSONAS: frozenset[str] = frozenset(
+    {
+        "marisol-reyes-store-ops",
+        "daniel-chen-merch-director",
+        "maya-patel-loyalty-crm-director",
+        "jamie-oconnor-store-manager",
+        "rebecca-hall-returns-ops-mgr",
+        "compliance-officer-fsma-204",
+    }
+)
 
 
 # ---------------------------------------------------------------------------
@@ -87,7 +90,9 @@ class PersonaBindingValidationReport:
     @property
     def fails_psg_15(self) -> bool:
         """True iff PSG-15 should block deploy (substrate ≥ dev with errors)."""
-        return self.substrate in (Substrate.DEV, Substrate.STAGE, Substrate.PROD) and bool(self.errors)
+        return self.substrate in (Substrate.DEV, Substrate.STAGE, Substrate.PROD) and bool(
+            self.errors
+        )
 
 
 # ---------------------------------------------------------------------------
@@ -156,9 +161,7 @@ def validate_use_case_personas(
                 personas_active=[],
                 bindings_count=0,
                 valid=False,
-                errors=[
-                    f"personas_active contains an unexpected entry shape: {entry!r}"
-                ],
+                errors=[f"personas_active contains an unexpected entry shape: {entry!r}"],
             )
 
     # Bindings parse — accept passed-in or read from YAML.
@@ -182,9 +185,7 @@ def validate_use_case_personas(
                 personas_active=personas_active,
                 bindings_count=len(raw_bindings),
                 valid=False,
-                errors=[
-                    f"persona_principal_bindings YAML did not parse against the schema: {exc}"
-                ],
+                errors=[f"persona_principal_bindings YAML did not parse against the schema: {exc}"],
             )
 
     report = PersonaBindingValidationReport(
@@ -211,9 +212,7 @@ def validate_use_case_personas(
         # laptop: synthetic personas allowed; no warning needed.
 
     # Check 2: synthetic personas on non-laptop substrate.
-    synthetic_present = [
-        p for p in personas_active if p in SYNTHETIC_LAB_PERSONAS
-    ]
+    synthetic_present = [p for p in personas_active if p in SYNTHETIC_LAB_PERSONAS]
     report.synthetic_personas_present_on_non_laptop = (
         synthetic_present if substrate != Substrate.LAPTOP else []
     )

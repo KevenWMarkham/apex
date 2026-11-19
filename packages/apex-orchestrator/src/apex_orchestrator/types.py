@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
-from typing import Any, Callable
+from typing import Any
 
 StepFn = Callable[[dict[str, Any]], dict[str, Any]]
 """The per-step callable: takes a context dict, returns a result dict."""

@@ -18,7 +18,6 @@ from dataclasses import dataclass, field
 
 from apex_protocols.base import AddressSpaceError
 
-
 NS_61850_SCL = "http://www.iec.ch/61850/2003/SCL"
 
 
@@ -29,7 +28,7 @@ class GOOSEControlBlock:
     name: str
     app_id: str
     multicast_mac: str = ""
-    confRev: int = 1
+    confRev: int = 1  # noqa: N815  # mirrors the SCL confRev attribute name
     dataset: str = ""
 
 
@@ -43,7 +42,7 @@ class SVControlBlock:
     smp_rate: int = 0
     """Samples per second."""
 
-    confRev: int = 1
+    confRev: int = 1  # noqa: N815  # mirrors the SCL confRev attribute name
     dataset: str = ""
 
 
@@ -96,6 +95,7 @@ class SCDDocument:
     ieds: list[IED] = field(default_factory=list)
 
     def all_logical_nodes(self) -> list[LogicalNode]:
+        """Return every logical node across all IEDs and logical devices."""
         out: list[LogicalNode] = []
         for ied in self.ieds:
             for ld in ied.logical_devices:
@@ -103,6 +103,7 @@ class SCDDocument:
         return out
 
     def all_goose_blocks(self) -> list[GOOSEControlBlock]:
+        """Return every GOOSE control block across all IEDs and logical devices."""
         out: list[GOOSEControlBlock] = []
         for ied in self.ieds:
             for ld in ied.logical_devices:
@@ -110,6 +111,7 @@ class SCDDocument:
         return out
 
     def all_sv_blocks(self) -> list[SVControlBlock]:
+        """Return every Sampled-Value control block across all IEDs and logical devices."""
         out: list[SVControlBlock] = []
         for ied in self.ieds:
             for ld in ied.logical_devices:
@@ -127,9 +129,7 @@ def parse_scd(raw: str) -> SCDDocument:
         raise AddressSpaceError(f"SCD XML parse error: {exc}") from exc
 
     if not root.tag.endswith("SCL"):
-        raise AddressSpaceError(
-            f"SCD root must be SCL, got {root.tag!r}"
-        )
+        raise AddressSpaceError(f"SCD root must be SCL, got {root.tag!r}")
 
     doc = SCDDocument()
 
@@ -138,11 +138,7 @@ def parse_scd(raw: str) -> SCDDocument:
         doc.file_revision = header.get("revision", "")
         history = _find_local(header, "History")
         if history is not None:
-            doc.history = [
-                hi.get("what", "")
-                for hi in history
-                if hi.tag.split("}")[-1] == "Hitem"
-            ]
+            doc.history = [hi.get("what", "") for hi in history if hi.tag.split("}")[-1] == "Hitem"]
 
     for ied_el in [c for c in root if c.tag.split("}")[-1] == "IED"]:
         ied = IED(
@@ -178,7 +174,9 @@ def parse_scd(raw: str) -> SCDDocument:
                                     dataset=gse.get("datSet", ""),
                                 )
                             )
-                        for sv in [c for c in ln_el if c.tag.split("}")[-1] == "SampledValueControl"]:
+                        for sv in [
+                            c for c in ln_el if c.tag.split("}")[-1] == "SampledValueControl"
+                        ]:
                             ld.sv_blocks.append(
                                 SVControlBlock(
                                     name=sv.get("name", ""),

@@ -9,24 +9,25 @@ from __future__ import annotations
 
 import re
 from pathlib import Path
+from typing import Any
 
 import yaml
-
 from apex_agents import scan_all_catalogs as scan_agents
-from apex_services import scan_all_catalogs as scan_services
 from apex_references import scan_all_references
-
+from apex_services import scan_all_catalogs as scan_services
 
 REGISTRY_DIR = Path(__file__).parent / "src" / "apex_registries"
 
 
 def slugify(s: str) -> str:
+    """Return a lowercase, hyphen-separated slug of ``s`` truncated to 80 characters."""
     s = s.lower()
     s = re.sub(r"[^a-z0-9]+", "-", s)
     return s.strip("-")[:80]
 
 
 def is_hand_edited(p: Path) -> bool:
+    """Return True when the file exists and its first line carries ``harvest:hand-edited``."""
     if not p.exists():
         return False
     try:
@@ -36,21 +37,20 @@ def is_hand_edited(p: Path) -> bool:
         return False
 
 
-def write_yaml(path: Path, data: dict) -> None:
+def write_yaml(path: Path, data: dict[str, Any]) -> None:
+    """Write ``data`` as YAML with an auto-generated header, skipping hand-edited files."""
     if is_hand_edited(path):
         return
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8") as fh:
         fh.write("# harvest:auto-generated — apex_registries.harvest\n")
-        yaml.safe_dump(
-            data, fh, sort_keys=False, default_flow_style=False, allow_unicode=True
-        )
+        yaml.safe_dump(data, fh, sort_keys=False, default_flow_style=False, allow_unicode=True)
 
 
 def harvest_kpis() -> int:
     """Build KPI registry from agents + services."""
     out_dir = REGISTRY_DIR / "kpis"
-    seen: dict[str, dict] = {}
+    seen: dict[tuple[str, str], dict[str, Any]] = {}
 
     # From agents (Sprint 16) — KpiTarget on each spec
     for prac, entries in scan_agents().items():
@@ -59,62 +59,62 @@ def harvest_kpis() -> int:
                 key = (prac, k.name)
                 seen.setdefault(
                     key,
-                    dict(
-                        kind="kpi",
-                        kpi_id=f"kpi.{prac}.{slugify(k.name)}",
-                        name=k.name,
-                        practice=prac,
-                        direction=k.direction,
-                        description=(
+                    {
+                        "kind": "kpi",
+                        "kpi_id": f"kpi.{prac}.{slugify(k.name)}",
+                        "name": k.name,
+                        "practice": prac,
+                        "direction": k.direction,
+                        "description": (
                             f"KPI tracked by APEX {prac.upper()} agents/services. "
                             "Wave-2 typical movement defined by source manifests."
                         ),
-                        measurement_pattern="audit-row attribution against pre-engagement baseline",
-                        typical_baseline="",
-                        typical_wave2_target=k.target_band or "",
-                        typical_wave3_target="",
-                        units="",
-                        cadence="monthly",
-                        appendix_c_section=f"Appendix C — {prac.upper()} KPIs",
-                    ),
+                        "measurement_pattern": "audit-row attribution against pre-engagement baseline",
+                        "typical_baseline": "",
+                        "typical_wave2_target": k.target_band or "",
+                        "typical_wave3_target": "",
+                        "units": "",
+                        "cadence": "monthly",
+                        "appendix_c_section": f"Appendix C — {prac.upper()} KPIs",
+                    },
                 )
 
     # From services (Sprint 17) — KpiCommitment
-    for prac, entries in scan_services().items():
-        for entry in entries:
-            for k in entry.spec.kpis:
-                key = (prac, k.name)
+    for prac, svc_entries in scan_services().items():
+        for svc_entry in svc_entries:
+            for c in svc_entry.spec.kpis:
+                key = (prac, c.name)
                 cur = seen.get(
                     key,
-                    dict(
-                        kind="kpi",
-                        kpi_id=f"kpi.{prac}.{slugify(k.name)}",
-                        name=k.name,
-                        practice=prac,
-                        direction=k.direction,
-                        description=(
+                    {
+                        "kind": "kpi",
+                        "kpi_id": f"kpi.{prac}.{slugify(c.name)}",
+                        "name": c.name,
+                        "practice": prac,
+                        "direction": c.direction,
+                        "description": (
                             f"KPI tracked by APEX {prac.upper()} services. "
                             "Wave-2 typical movement defined by source manifests."
                         ),
-                        measurement_pattern=k.measurement_pattern
+                        "measurement_pattern": c.measurement_pattern
                         or "audit-row attribution against pre-engagement baseline",
-                        typical_baseline=k.baseline,
-                        typical_wave2_target=k.wave2_target,
-                        typical_wave3_target=k.wave3_target,
-                        units="",
-                        cadence="monthly",
-                        appendix_c_section=f"Appendix C — {prac.upper()} KPIs",
-                    ),
+                        "typical_baseline": c.baseline,
+                        "typical_wave2_target": c.wave2_target,
+                        "typical_wave3_target": c.wave3_target,
+                        "units": "",
+                        "cadence": "monthly",
+                        "appendix_c_section": f"Appendix C — {prac.upper()} KPIs",
+                    },
                 )
                 # Enrich with service-level baseline/targets if available
-                if k.baseline and not cur.get("typical_baseline"):
-                    cur["typical_baseline"] = k.baseline
-                if k.wave2_target and not cur.get("typical_wave2_target"):
-                    cur["typical_wave2_target"] = k.wave2_target
-                if k.wave3_target and not cur.get("typical_wave3_target"):
-                    cur["typical_wave3_target"] = k.wave3_target
-                if k.measurement_pattern and not cur.get("measurement_pattern"):
-                    cur["measurement_pattern"] = k.measurement_pattern
+                if c.baseline and not cur.get("typical_baseline"):
+                    cur["typical_baseline"] = c.baseline
+                if c.wave2_target and not cur.get("typical_wave2_target"):
+                    cur["typical_wave2_target"] = c.wave2_target
+                if c.wave3_target and not cur.get("typical_wave3_target"):
+                    cur["typical_wave3_target"] = c.wave3_target
+                if c.measurement_pattern and not cur.get("measurement_pattern"):
+                    cur["measurement_pattern"] = c.measurement_pattern
                 seen[key] = cur
 
     count = 0
@@ -128,7 +128,7 @@ def harvest_kpis() -> int:
 def harvest_personas() -> int:
     """Build Persona catalog from agents + services + references."""
     out_dir = REGISTRY_DIR / "personas"
-    seen: dict[tuple[str, str], dict] = {}
+    seen: dict[tuple[str, str], dict[str, Any]] = {}
 
     def upsert(name: str, prac: str, source: str) -> None:
         key = (prac, name)
@@ -148,33 +148,32 @@ def harvest_personas() -> int:
             seniority = "manager"
         else:
             seniority = "individual-contributor"
-        seen[key] = dict(
-            kind="persona",
-            persona_id=f"persona.{prac}.{slugify(name)}",
-            name=name,
-            practice=prac,
-            seniority=seniority,
-            function=source,
-            description=(
-                f"{name} ({prac.upper()}). Persona referenced by APEX "
-                f"{source} manifests."
+        seen[key] = {
+            "kind": "persona",
+            "persona_id": f"persona.{prac}.{slugify(name)}",
+            "name": name,
+            "practice": prac,
+            "seniority": seniority,
+            "function": source,
+            "description": (
+                f"{name} ({prac.upper()}). Persona referenced by APEX {source} manifests."
             ),
-            typical_decisions=[],
-            pains=[],
-            metrics_owned=[],
-            appendix_e_section=f"Appendix E — {prac.upper()} Personas",
-        )
+            "typical_decisions": [],
+            "pains": [],
+            "metrics_owned": [],
+            "appendix_e_section": f"Appendix E — {prac.upper()} Personas",
+        }
 
     for prac, entries in scan_agents().items():
         for entry in entries:
             upsert(entry.spec.persona, prac, "agent")
-    for prac, entries in scan_services().items():
-        for entry in entries:
-            for p in entry.spec.personas:
-                upsert(p.name, prac, "service")
-    for entry in scan_all_references():
-        for p in entry.spec.sponsor_personas:
-            upsert(p, entry.spec.practice, "reference-deployment")
+    for prac, svc_entries in scan_services().items():
+        for svc_entry in svc_entries:
+            for persona in svc_entry.spec.personas:
+                upsert(persona.name, prac, "service")
+    for ref_entry in scan_all_references():
+        for sponsor in ref_entry.spec.sponsor_personas:
+            upsert(sponsor, ref_entry.spec.practice, "reference-deployment")
 
     count = 0
     for (prac, name), data in seen.items():
@@ -187,7 +186,7 @@ def harvest_personas() -> int:
 def harvest_mcp_tools() -> int:
     """Build MCP tool catalog from agents."""
     out_dir = REGISTRY_DIR / "mcp_tools"
-    seen: dict[str, dict] = {}
+    seen: dict[str, dict[str, Any]] = {}
 
     for prac, entries in scan_agents().items():
         for entry in entries:
@@ -202,19 +201,19 @@ def harvest_mcp_tools() -> int:
                 related = []
                 if sor_or_layer.upper().endswith("ML"):
                     related = [sor_or_layer.upper()]
-                seen[t.tool_id] = dict(
-                    kind="mcp_tool",
-                    tool_id=t.tool_id,
-                    practice=prac,
-                    sor_or_layer=sor_or_layer,
-                    purpose=t.purpose,
-                    write=t.write,
-                    inputs_schema="",
-                    outputs_schema="",
-                    classification_required=[],
-                    related_canonical_schemas=related,
-                    appendix_f_section=f"Appendix F — {prac.upper()} MCP Tools",
-                )
+                seen[t.tool_id] = {
+                    "kind": "mcp_tool",
+                    "tool_id": t.tool_id,
+                    "practice": prac,
+                    "sor_or_layer": sor_or_layer,
+                    "purpose": t.purpose,
+                    "write": t.write,
+                    "inputs_schema": "",
+                    "outputs_schema": "",
+                    "classification_required": [],
+                    "related_canonical_schemas": related,
+                    "appendix_f_section": f"Appendix F — {prac.upper()} MCP Tools",
+                }
 
     count = 0
     for tool_id, data in seen.items():

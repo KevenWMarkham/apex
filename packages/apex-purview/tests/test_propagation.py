@@ -5,11 +5,8 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-from typer.testing import CliRunner
-
 from apex_purview._cli import purview_app
 from apex_purview.classifications import load_schema_yaml
-from apex_purview.lineage import load_lineage_spec
 from apex_purview.propagation import (
     CLASSIFICATION_SEVERITY,
     PropagationNode,
@@ -18,6 +15,7 @@ from apex_purview.propagation import (
     severity,
     validate_propagation,
 )
+from typer.testing import CliRunner
 
 FIXTURES = Path(__file__).parent / "fixtures"
 runner = CliRunner()

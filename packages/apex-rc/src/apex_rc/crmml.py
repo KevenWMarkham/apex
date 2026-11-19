@@ -24,17 +24,23 @@ from __future__ import annotations
 # Re-export the canonical CXML entities under the CRMML alias.
 from apex_cxml import (
     Customer as Customer,
+)
+from apex_cxml import (
     Interaction as Interaction,
+)
+from apex_cxml import (
     Loyalty as Loyalty,
+)
+from apex_cxml import (
     Order as Order,
 )
 
 # Module-level mapping that the wizard / Services Guide can introspect.
 CRMML_ALIASES: dict[str, type] = {
-    "CRMML.Customer":    Customer,
-    "CRMML.Loyalty":     Loyalty,
+    "CRMML.Customer": Customer,
+    "CRMML.Loyalty": Loyalty,
     "CRMML.Interaction": Interaction,
-    "CRMML.Order":       Order,
+    "CRMML.Order": Order,
 }
 
 # Per RC build-status sprint-30 item 30.5 — Customer / Loyalty / Interaction
@@ -42,9 +48,9 @@ CRMML_ALIASES: dict[str, type] = {
 # Loyalty Churn joins it for spend signal.
 
 __all__ = [
+    "CRMML_ALIASES",
     "Customer",
     "Interaction",
     "Loyalty",
     "Order",
-    "CRMML_ALIASES",
 ]

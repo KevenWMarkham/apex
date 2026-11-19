@@ -13,7 +13,7 @@ real terminology service.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Protocol
+from typing import ClassVar, Protocol
 
 
 @dataclass(frozen=True, slots=True)
@@ -45,25 +45,34 @@ class MockTerminologyService:
     the Sprint 3 FHIR fixtures.
     """
 
-    _SEED: dict[tuple[str, str], TerminologyLookupResult] = {
+    _SEED: ClassVar[dict[tuple[str, str], TerminologyLookupResult]] = {
         ("http://loinc.org", "1234-5"): TerminologyLookupResult(
-            "http://loinc.org", "1234-5", "Mock LOINC concept (dev)",
+            "http://loinc.org",
+            "1234-5",
+            "Mock LOINC concept (dev)",
         ),
         ("http://loinc.org", "85354-9"): TerminologyLookupResult(
-            "http://loinc.org", "85354-9", "Blood pressure panel (dev)",
+            "http://loinc.org",
+            "85354-9",
+            "Blood pressure panel (dev)",
         ),
         ("http://snomed.info/sct", "386661006"): TerminologyLookupResult(
-            "http://snomed.info/sct", "386661006", "Fever (finding) (dev)",
+            "http://snomed.info/sct",
+            "386661006",
+            "Fever (finding) (dev)",
         ),
         ("http://www.nlm.nih.gov/research/umls/rxnorm", "1049630"): TerminologyLookupResult(
             "http://www.nlm.nih.gov/research/umls/rxnorm",
-            "1049630", "acetaminophen 325 MG Oral Tablet (dev)",
+            "1049630",
+            "acetaminophen 325 MG Oral Tablet (dev)",
         ),
     }
 
     def lookup(self, system: str, code: str) -> TerminologyLookupResult | None:
+        """Return the seeded concept for ``(system, code)``, or None if it is not in the seed."""
         return self._SEED.get((system, code))
 
     def is_active(self, system: str, code: str) -> bool:
+        """Return True iff ``(system, code)`` is seeded and marked active."""
         result = self._SEED.get((system, code))
         return result is not None and result.active

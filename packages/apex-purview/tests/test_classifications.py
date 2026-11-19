@@ -5,7 +5,6 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-
 from apex_purview.classifications import (
     APEX_CLASSIFICATIONS,
     ClassificationAttachment,
@@ -157,9 +156,7 @@ def test_emit_attachments_attribute_level(scml_schema: dict) -> None:
     attachments = emit_entity_classifications(scml_schema)
     # SCML fixture has sku.unit_cost_token with classification=trade_secret
     trade = [
-        a
-        for a in attachments
-        if a["entityQualifiedName"] == "apex.rc.scml.sku.unit_cost_token"
+        a for a in attachments if a["entityQualifiedName"] == "apex.rc.scml.sku.unit_cost_token"
     ]
     assert len(trade) == 1
     assert trade[0]["typeName"] == "APEX.TradeSecret"
@@ -196,13 +193,21 @@ def test_emit_attachments_has_atlas_v2_shape(scml_schema: dict) -> None:
 
 
 def test_emit_attachments_rejects_missing_practice() -> None:
-    bad = {"kind": "schema", "family": "scml", "entities": [{"name": "x", "classification": "internal"}]}
+    bad = {
+        "kind": "schema",
+        "family": "scml",
+        "entities": [{"name": "x", "classification": "internal"}],
+    }
     with pytest.raises(ValueError, match="Missing required field: 'practice'"):
         emit_entity_classifications(bad)
 
 
 def test_emit_attachments_rejects_missing_family() -> None:
-    bad = {"kind": "schema", "practice": "rc", "entities": [{"name": "x", "classification": "internal"}]}
+    bad = {
+        "kind": "schema",
+        "practice": "rc",
+        "entities": [{"name": "x", "classification": "internal"}],
+    }
     with pytest.raises(ValueError, match="Missing required field: 'family'"):
         emit_entity_classifications(bad)
 
@@ -261,6 +266,7 @@ def test_load_schema_yaml_rejects_non_mapping(tmp_path: Path) -> None:
 @pytest.mark.conformance
 def test_typedefs_payload_is_json_round_trippable(scml_schema: dict) -> None:
     import json
+
     payload = emit_classification_typedefs(scml_schema)
     assert json.loads(json.dumps(payload)) == payload
 
@@ -268,5 +274,6 @@ def test_typedefs_payload_is_json_round_trippable(scml_schema: dict) -> None:
 @pytest.mark.conformance
 def test_attachments_payload_is_json_round_trippable(scml_schema: dict) -> None:
     import json
+
     attachments = emit_entity_classifications(scml_schema)
     assert json.loads(json.dumps(attachments)) == attachments

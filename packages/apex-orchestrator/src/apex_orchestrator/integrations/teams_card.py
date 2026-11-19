@@ -19,22 +19,26 @@ def build_adaptive_card(
     approver_group: str,
 ) -> dict[str, Any]:
     """Return an Adaptive Card 1.5 payload for an HITL approval prompt."""
-    facts = [
-        {"title": str(k), "value": str(v)[:200]}
-        for k, v in proposal.items()
-    ]
+    facts = [{"title": str(k), "value": str(v)[:200]} for k, v in proposal.items()]
     return {
         "type": "AdaptiveCard",
         "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
         "version": "1.5",
         "body": [
-            {"type": "TextBlock", "text": title, "weight": "Bolder", "size": "Medium", "wrap": True},
+            {
+                "type": "TextBlock",
+                "text": title,
+                "weight": "Bolder",
+                "size": "Medium",
+                "wrap": True,
+            },
             {"type": "TextBlock", "text": subtitle, "isSubtle": True, "wrap": True},
             {"type": "FactSet", "facts": facts},
             {
                 "type": "TextBlock",
                 "text": f"Approver group: {approver_group}",
-                "isSubtle": True, "size": "Small",
+                "isSubtle": True,
+                "size": "Small",
             },
         ],
         "actions": [

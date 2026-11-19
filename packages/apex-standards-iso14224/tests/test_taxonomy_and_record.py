@@ -5,7 +5,6 @@ from __future__ import annotations
 from datetime import UTC, datetime, timedelta
 
 import pytest
-
 from apex_standards_iso14224 import (
     Iso14224EquipmentClass,
     Iso14224EquipmentSubclass,
@@ -74,6 +73,7 @@ class TestReliabilityRecord:
 
     def test_negative_downtime_rejected(self) -> None:
         from pydantic import ValidationError
+
         with pytest.raises(ValidationError):
             ReliabilityRecord(
                 equipment_id="eq-1",

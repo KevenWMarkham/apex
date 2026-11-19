@@ -5,15 +5,13 @@ from __future__ import annotations
 from datetime import UTC, date, datetime
 from decimal import Decimal
 from enum import StrEnum
-from typing import Annotated
+from typing import Annotated, Any
 from uuid import uuid4
-
-from pydantic import BaseModel, ConfigDict, Field, StringConstraints
 
 from apex_core.types import Classification
 from apex_schemas_common import CanonicalEntity, ScdType2Fields
 from apex_standards_iso14224 import Iso14224EquipmentClass, Iso14224FailureMode
-
+from pydantic import BaseModel, ConfigDict, Field, StringConstraints
 
 # --- Pattern-A identifier type ---------------------------------------------
 
@@ -28,6 +26,8 @@ Vin17 = Annotated[
 
 
 class IceEquipmentKind(StrEnum):
+    """Category of an :class:`IceEquipment` unit."""
+
     TRUCK = "truck"
     TRACTOR = "tractor"
     EXCAVATOR = "excavator"
@@ -54,6 +54,8 @@ class IceEquipment(CanonicalEntity, ScdType2Fields):
 
 
 class TelemetryQuality(StrEnum):
+    """Processing level of a :class:`TelemetryReading` (raw, decoded or derived)."""
+
     RAW = "raw"
     DECODED = "decoded"
     DERIVED = "derived"
@@ -70,7 +72,7 @@ class TelemetryReading(CanonicalEntity):
     odometer_km: Decimal | None = None
     fuel_level_pct: Decimal | None = Field(None, ge=Decimal("0"), le=Decimal("100"))
     def_level_pct: Decimal | None = Field(None, ge=Decimal("0"), le=Decimal("100"))
-    quality: TelemetryQuality = TelemetryQuality.DECODED
+    quality: TelemetryQuality = TelemetryQuality.DECODED  # type: ignore[assignment]  # shadows the envelope DataQualityMetadata block; renaming is a schema change (needs product decision)
     j1939_signal_keys: list[str] = Field(
         default_factory=list,
         description="FKs to per-SPN signal rows backing this snapshot.",
@@ -78,6 +80,8 @@ class TelemetryReading(CanonicalEntity):
 
 
 class ServiceEventSeverity(StrEnum):
+    """Severity of a :class:`ServiceEvent`."""
+
     INFO = "info"
     WARNING = "warning"
     ERROR = "error"
@@ -89,9 +93,7 @@ class ServiceEvent(CanonicalEntity):
 
     equipment_key: str = Field(..., description="FK → IceEquipment.entity_id.")
     occurred_at: datetime
-    oem_fault_code: str | None = Field(
-        None, description="OEM service / diagnostic trouble code."
-    )
+    oem_fault_code: str | None = Field(None, description="OEM service / diagnostic trouble code.")
     j1939_spn: int | None = Field(None, ge=0)
     severity: ServiceEventSeverity = ServiceEventSeverity.INFO
     failure_mode: Iso14224FailureMode | None = None
@@ -100,6 +102,8 @@ class ServiceEvent(CanonicalEntity):
 
 
 class MaintenanceKind(StrEnum):
+    """Reason a :class:`MaintenanceRecord` was performed."""
+
     SCHEDULED = "scheduled"
     UNPLANNED = "unplanned"
     PREDICTIVE = "predictive"
@@ -156,7 +160,7 @@ class AempSnapshotInput(BaseModel):
     fuel_level_pct: Decimal | None = None
 
 
-def _envelope(*, entity_id: str, event_ts: datetime, source_system: str = "aemp") -> dict[str, object]:
+def _envelope(*, entity_id: str, event_ts: datetime, source_system: str = "aemp") -> dict[str, Any]:
     return {
         "event_id": uuid4(),
         "event_ts": event_ts,
@@ -187,7 +191,7 @@ def telemetry_reading_from_aemp(
         odometer_km=aemp.odometer_km,
         fuel_level_pct=aemp.fuel_level_pct,
         quality=TelemetryQuality.DECODED,
-    )  # type: ignore[arg-type]
+    )
 
 
 __all__ = [

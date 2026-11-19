@@ -14,7 +14,6 @@ from pathlib import Path
 
 from apex_compliance_lint.types import FileAdapter
 
-
 A_NS = "http://schemas.openxmlformats.org/drawingml/2006/main"
 
 
@@ -24,6 +23,11 @@ class PPTXAdapter(FileAdapter):
     file_extensions = (".pptx",)
 
     def extract(self, path: Path) -> list[tuple[int, str]]:
+        """Return non-empty slide text, numbered in slide order.
+
+        Uses ``python-pptx`` when installed, else parses the slide XML parts
+        from the zip directly.
+        """
         try:
             return self._extract_via_python_pptx(path)
         except ImportError:
@@ -60,7 +64,8 @@ class PPTXAdapter(FileAdapter):
         try:
             with zipfile.ZipFile(path) as zf:
                 slide_names = sorted(
-                    n for n in zf.namelist()
+                    n
+                    for n in zf.namelist()
                     if n.startswith("ppt/slides/slide") and n.endswith(".xml")
                 )
                 line_no = 1

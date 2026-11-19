@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 from apex_core.semver import SemVer
 from apex_core.semver import classify_bump as _semver_classify
 from apex_core.types import BumpClass, GateKind
@@ -21,11 +23,11 @@ _DEFAULT_GATE_MAPPING: dict[BumpClass, GateKind] = {
 
 def evaluate_policy(
     policy_ref: str,
-    context: dict,
+    context: dict[str, Any],
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> dict:
+) -> dict[str, Any]:
     """Evaluate a named policy against a context. Sprint 7 stub: always allowed."""
     with traced_call(
         tool_name=f"{SERVER_NAME}.evaluate_policy",
@@ -49,7 +51,7 @@ def check_compliance(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> dict:
+) -> dict[str, str]:
     """Resolve the gate kind for a bump class per tenant policy."""
     try:
         bc = BumpClass(bump_class)
@@ -77,7 +79,7 @@ def classify_bump(
     *,
     agent_id: str = "unknown",
     caller_identity: str = "unknown",
-) -> dict:
+) -> dict[str, str]:
     """Classify the SemVer bump between two versions (delegates to apex-core)."""
     try:
         prev_v = SemVer.parse(previous)
@@ -102,15 +104,18 @@ def classify_bump(
 
 CONTRACTS: list[ToolContract] = [
     ToolContract(
-        name=f"{SERVER_NAME}.evaluate_policy", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.evaluate_policy",
+        version=TOOL_VERSION,
         description="Evaluate a named policy against a context (allow / deny / reason).",
     ),
     ToolContract(
-        name=f"{SERVER_NAME}.check_compliance", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.check_compliance",
+        version=TOOL_VERSION,
         description="Resolve gate kind for a bump class per tenant policy.",
     ),
     ToolContract(
-        name=f"{SERVER_NAME}.classify_bump", version=TOOL_VERSION,
+        name=f"{SERVER_NAME}.classify_bump",
+        version=TOOL_VERSION,
         description="Classify SemVer bump PATCH / MINOR / MAJOR.",
     ),
 ]

@@ -4,20 +4,20 @@ from __future__ import annotations
 
 from datetime import UTC, datetime
 from enum import StrEnum
-from typing import Annotated
+from typing import Annotated, Any
 from uuid import uuid4
-
-from pydantic import Field
 
 from apex_core.types import Classification
 from apex_schemas_common import CanonicalEntity, ScdType2Fields
 from apex_standards_sid import SidCustomer, SidLifecycleStatus
-
+from pydantic import Field
 
 # --- Entities ---------------------------------------------------------------
 
 
 class CustomerSegment(StrEnum):
+    """Market segment of a :class:`TelcoCustomer`."""
+
     RESIDENTIAL = "residential"
     SMB = "small_business"
     ENTERPRISE = "enterprise"
@@ -57,6 +57,8 @@ class Product(CanonicalEntity):
 
 
 class ServiceKind(StrEnum):
+    """Kind of provisioned telco :class:`Service`."""
+
     MOBILE_VOICE = "mobile_voice"
     MOBILE_DATA = "mobile_data"
     FIXED_BROADBAND = "fixed_broadband"
@@ -79,6 +81,8 @@ class Service(CanonicalEntity):
 
 
 class ResourceKind(StrEnum):
+    """Whether a :class:`NetworkResource` is physical, logical or virtual."""
+
     PHYSICAL = "physical"
     LOGICAL = "logical"
     VIRTUAL = "virtual"
@@ -109,7 +113,7 @@ class BillingAccount(CanonicalEntity, ScdType2Fields):
 # --- Translators ------------------------------------------------------------
 
 
-def _envelope(*, entity_id: str, source_system: str = "sid") -> dict[str, object]:
+def _envelope(*, entity_id: str, source_system: str = "sid") -> dict[str, Any]:
     now = datetime.now(UTC)
     return {
         "event_id": uuid4(),
@@ -120,7 +124,7 @@ def _envelope(*, entity_id: str, source_system: str = "sid") -> dict[str, object
     }
 
 
-def _scd2() -> dict[str, object]:
+def _scd2() -> dict[str, Any]:
     return {
         "scd2_valid_from": datetime.now(UTC),
         "scd2_is_current": True,
@@ -144,7 +148,7 @@ def telco_customer_from_sid(sid: SidCustomer) -> TelcoCustomer:
         customer_segment=segment,
         status=sid.status,
         billing_account_keys=list(sid.billing_account_ids),
-    )  # type: ignore[arg-type]
+    )
 
 
 __all__ = [

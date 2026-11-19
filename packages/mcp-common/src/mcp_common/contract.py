@@ -7,9 +7,10 @@ plane: classification propagation, SLO tracking, per-tool version pinning.
 
 from __future__ import annotations
 
-from pydantic import BaseModel, ConfigDict, Field
+from typing import Any
 
 from apex_core.types import Classification
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class SloSpec(BaseModel):
@@ -32,14 +33,18 @@ class ToolContract(BaseModel):
 
     model_config = ConfigDict(extra="forbid", frozen=True)
 
-    name: str = Field(..., min_length=1, description="Fully qualified tool name, e.g. 'fabric-mcp.get_entity_by_key'.")
+    name: str = Field(
+        ...,
+        min_length=1,
+        description="Fully qualified tool name, e.g. 'fabric-mcp.get_entity_by_key'.",
+    )
     version: str = Field("1.0.0", description="Tool SemVer; new behaviour = new version.")
     description: str
-    input_schema: dict = Field(
+    input_schema: dict[str, Any] = Field(
         default_factory=dict,
         description="JSON schema of tool input. Pydantic model_json_schema() output.",
     )
-    output_schema: dict = Field(
+    output_schema: dict[str, Any] = Field(
         default_factory=dict,
         description="JSON schema of tool output.",
     )

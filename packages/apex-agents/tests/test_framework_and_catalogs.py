@@ -5,24 +5,22 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-from typer.testing import CliRunner
-
 from apex_agents import (
     PRACTICE_CODES,
     AgentSpec,
     HITLGate,
-    KpiTarget,
     ModelTier,
     OversightMode,
     ToolBinding,
     catalogs_root,
-    load_agent_spec,
     scan_all_catalogs,
     scan_practice_catalog,
     total_agents,
     validate_catalogs,
 )
 from apex_agents._cli import agents_app
+from pydantic import ValidationError
+from typer.testing import CliRunner
 
 runner = CliRunner()
 
@@ -33,14 +31,14 @@ runner = CliRunner()
 
 
 def _minimal_spec(**overrides) -> AgentSpec:
-    base = dict(
-        name="apex.rc.agents.test",
-        practice="rc",
-        persona="Test Persona",
-        service_codes=["RC-E2E-99"],
-        model_tier=ModelTier.STANDARD,
-        model_pin="gpt-4o-2024-11-20",
-    )
+    base = {
+        "name": "apex.rc.agents.test",
+        "practice": "rc",
+        "persona": "Test Persona",
+        "service_codes": ["RC-E2E-99"],
+        "model_tier": ModelTier.STANDARD,
+        "model_pin": "gpt-4o-2024-11-20",
+    }
     base.update(overrides)
     return AgentSpec(**base)
 
@@ -51,16 +49,18 @@ def test_agent_spec_practice_normalizes_to_lower() -> None:
 
 
 def test_agent_spec_rejects_unknown_practice() -> None:
-    with pytest.raises(Exception):
+    with pytest.raises(ValidationError):
         _minimal_spec(practice="marketing")
 
 
 def test_agent_spec_write_tools_filter() -> None:
-    spec = _minimal_spec(tools=[
-        ToolBinding(tool_id="t1", purpose="read"),
-        ToolBinding(tool_id="t2", purpose="write", write=True),
-        ToolBinding(tool_id="t3", purpose="write", write=True),
-    ])
+    spec = _minimal_spec(
+        tools=[
+            ToolBinding(tool_id="t1", purpose="read"),
+            ToolBinding(tool_id="t2", purpose="write", write=True),
+            ToolBinding(tool_id="t3", purpose="write", write=True),
+        ]
+    )
     assert len(spec.write_tools()) == 2
 
 
@@ -119,8 +119,9 @@ def test_every_agent_name_uses_canonical_prefix() -> None:
     for practice, entries in cats.items():
         for entry in entries:
             expected = f"apex.{practice}.agents."
-            assert entry.spec.name.startswith(expected), \
+            assert entry.spec.name.startswith(expected), (
                 f"{entry.spec.name} should start with {expected}"
+            )
 
 
 def test_every_agent_has_at_least_one_tool() -> None:

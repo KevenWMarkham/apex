@@ -11,7 +11,8 @@ from datetime import UTC, datetime
 from typing import Any
 
 from apex_core.types import Classification
-from fabric_mcp import FABRIC_BACKEND, query_gold_view as _fabric_query_view
+from fabric_mcp import FABRIC_BACKEND
+from fabric_mcp import query_gold_view as _fabric_query_view
 from mcp_common import McpError, McpErrorCode, ToolContract, traced_call
 
 SERVER_NAME = "rc-e2e-04-mcp"
@@ -88,7 +89,7 @@ def get_loyalty_churn_cohort(
             "cohort_window": {"start": window_start, "end": window_end},
             "tier_filter": tier_filter,
             "cohort_size": len(rows),
-            "members": rows,    # each row's PII fields are tokenised
+            "members": rows,  # each row's PII fields are tokenised
         }
         ctx["result"] = result
         return result

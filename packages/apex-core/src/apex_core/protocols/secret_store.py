@@ -6,6 +6,7 @@ APEX-A satisfies via AWS Secrets Manager + KMS.
 
 Adapters: HashiCorp Vault, CyberArk, Thycotic.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -15,7 +16,8 @@ from typing import Protocol, runtime_checkable
 @dataclass(frozen=True)
 class SecretReference:
     """Pointer to a secret, never the value itself."""
-    store_id: str       # variant-specific (KV name, Secret Manager project, etc.)
+
+    store_id: str  # variant-specific (KV name, Secret Manager project, etc.)
     secret_name: str
     version: str | None = None  # None = latest
 
@@ -23,8 +25,9 @@ class SecretReference:
 @dataclass(frozen=True)
 class Secret:
     """A retrieved secret value + metadata."""
+
     reference: SecretReference
-    value: str          # caller is responsible for not logging this
+    value: str  # caller is responsible for not logging this
     version: str
     expires_at: str | None = None  # ISO 8601
 

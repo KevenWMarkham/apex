@@ -13,9 +13,10 @@ from apex_standards_cim.iec_61970 import (
     CimEquipment,
     CimLocation,
 )
-from apex_standards_cim.shared import DateTimeInterval, MRID, UnitSymbol
+from apex_standards_cim.shared import MRID, DateTimeInterval, UnitSymbol
 
 __all__ = [
+    "MRID",
     "CimAsset",
     "CimCustomer",
     "CimEnergyEvent",
@@ -26,6 +27,5 @@ __all__ = [
     "CimReading",
     "CimWorkOrder",
     "DateTimeInterval",
-    "MRID",
     "UnitSymbol",
 ]

@@ -58,4 +58,5 @@ class OrchestrationCompositeRow(BaseModel):
     ended_at: datetime | None = None
 
     def to_dict(self) -> dict[str, Any]:
+        """Return the composite row as a JSON-ready dict (enums/datetimes serialised to strings)."""
         return self.model_dump(mode="json")

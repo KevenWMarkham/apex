@@ -8,6 +8,7 @@ Adapters for client SIEM (Splunk, Sumo Logic, Datadog) implement this for
 parallel-write observability — primary trace stays with the variant, but
 metrics and alerts also fire into the client's existing tooling.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -16,6 +17,8 @@ from typing import Any, Protocol, runtime_checkable
 
 @dataclass(frozen=True)
 class TraceContext:
+    """Identifies a trace span and its parent, with span attributes."""
+
     trace_id: str
     span_id: str
     parent_span_id: str | None = None
@@ -24,7 +27,9 @@ class TraceContext:
 
 @dataclass(frozen=True)
 class Metric:
-    name: str           # e.g., "apex.agent.invocation.duration_ms"
+    """A single named metric data point with tags."""
+
+    name: str  # e.g., "apex.agent.invocation.duration_ms"
     value: float
     tags: dict[str, str] = field(default_factory=dict)
 
@@ -50,7 +55,7 @@ class Observability(Protocol):
     def emit_alert(
         self,
         *,
-        severity: str,             # "info" | "warning" | "error" | "critical"
+        severity: str,  # "info" | "warning" | "error" | "critical"
         title: str,
         description: str,
         target: str | None = None,  # e.g., "teams-channel:apex-sre"

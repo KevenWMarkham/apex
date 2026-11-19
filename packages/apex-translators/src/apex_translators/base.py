@@ -99,6 +99,7 @@ class Parser(Protocol):
     """Format-specific parser protocol."""
 
     def parse(self, raw: str) -> ParsedMessage:
+        """Parse raw message text into a :class:`ParsedMessage`."""
         ...
 
 
@@ -106,6 +107,7 @@ class Emitter(Protocol):
     """Format-specific emitter protocol."""
 
     def emit(self, message: ParsedMessage) -> str:
+        """Render a :class:`ParsedMessage` back to the format's wire text."""
         ...
 
 

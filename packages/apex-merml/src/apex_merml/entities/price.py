@@ -6,12 +6,13 @@ from datetime import datetime
 from decimal import Decimal
 from enum import StrEnum
 
-from pydantic import Field
-
 from apex_schemas_common import CanonicalEntity
+from pydantic import Field
 
 
 class PriceKind(StrEnum):
+    """Kind of :class:`Price` (list, regular, promotional, clearance, member)."""
+
     LIST = "LIST"
     REGULAR = "REGULAR"
     PROMOTIONAL = "PROMOTIONAL"

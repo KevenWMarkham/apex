@@ -8,10 +8,10 @@ from typing import Literal
 from pydantic import BaseModel, Field
 
 from apex_standards_fhir.primitives import (
+    _FHIR_BASE_CONFIG,
     FhirCodeableConcept,
     FhirIdentifier,
     FhirReference,
-    _FHIR_BASE_CONFIG,
 )
 
 
@@ -20,14 +20,20 @@ class FhirDiagnosticReport(BaseModel):
 
     model_config = _FHIR_BASE_CONFIG
 
-    resource_type: Literal["DiagnosticReport"] = Field(
-        "DiagnosticReport", alias="resourceType"
-    )
+    resource_type: Literal["DiagnosticReport"] = Field("DiagnosticReport", alias="resourceType")
     id: str | None = None
     identifier: list[FhirIdentifier] = Field(default_factory=list)
     status: Literal[
-        "registered", "partial", "preliminary", "final", "amended",
-        "corrected", "appended", "cancelled", "entered-in-error", "unknown",
+        "registered",
+        "partial",
+        "preliminary",
+        "final",
+        "amended",
+        "corrected",
+        "appended",
+        "cancelled",
+        "entered-in-error",
+        "unknown",
     ]
     category: list[FhirCodeableConcept] = Field(default_factory=list)
     code: FhirCodeableConcept = Field(..., description="Name/code for this report.")

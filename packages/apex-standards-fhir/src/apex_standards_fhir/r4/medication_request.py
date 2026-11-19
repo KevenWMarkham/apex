@@ -5,14 +5,14 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, Field
 
 from apex_standards_fhir.primitives import (
+    _FHIR_BASE_CONFIG,
     FhirCodeableConcept,
     FhirIdentifier,
     FhirQuantity,
     FhirReference,
-    _FHIR_BASE_CONFIG,
 )
 
 
@@ -34,29 +34,35 @@ class FhirMedicationRequest(BaseModel):
 
     model_config = _FHIR_BASE_CONFIG
 
-    resource_type: Literal["MedicationRequest"] = Field(
-        "MedicationRequest", alias="resourceType"
-    )
+    resource_type: Literal["MedicationRequest"] = Field("MedicationRequest", alias="resourceType")
     id: str | None = None
     identifier: list[FhirIdentifier] = Field(default_factory=list)
     status: Literal[
-        "active", "on-hold", "cancelled", "completed",
-        "entered-in-error", "stopped", "draft", "unknown",
+        "active",
+        "on-hold",
+        "cancelled",
+        "completed",
+        "entered-in-error",
+        "stopped",
+        "draft",
+        "unknown",
     ]
     intent: Literal[
-        "proposal", "plan", "order", "original-order",
-        "reflex-order", "filler-order", "instance-order", "option",
+        "proposal",
+        "plan",
+        "order",
+        "original-order",
+        "reflex-order",
+        "filler-order",
+        "instance-order",
+        "option",
     ]
     medication_codeable_concept: FhirCodeableConcept | None = Field(
         None, alias="medicationCodeableConcept"
     )
-    medication_reference: FhirReference | None = Field(
-        None, alias="medicationReference"
-    )
+    medication_reference: FhirReference | None = Field(None, alias="medicationReference")
     subject: FhirReference
     encounter: FhirReference | None = None
     authored_on: datetime | None = Field(None, alias="authoredOn")
     requester: FhirReference | None = None
-    dosage_instruction: list[FhirDosage] = Field(
-        default_factory=list, alias="dosageInstruction"
-    )
+    dosage_instruction: list[FhirDosage] = Field(default_factory=list, alias="dosageInstruction")

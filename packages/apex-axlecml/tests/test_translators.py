@@ -6,7 +6,6 @@ from datetime import UTC, datetime
 from decimal import Decimal
 
 import pytest
-
 from apex_axlecml import (
     Equipment,
     EquipmentStatus,
@@ -22,7 +21,8 @@ pytestmark = pytest.mark.conformance
 
 def test_equipment_from_isa95_basic() -> None:
     isa = Isa95Equipment(
-        id="EQ-100", name="CNC Lathe",
+        id="EQ-100",
+        name="CNC Lathe",
         equipment_class_id="ec-cnc",
         work_unit_id="WU-1",
         serial_number="SN-12345",
@@ -39,12 +39,16 @@ def test_equipment_from_isa95_basic() -> None:
 
 def test_j1939_signal_from_frame_with_known_spn() -> None:
     frame = CanFrame(
-        pgn=61444, source_address=0, priority=3,
+        pgn=61444,
+        source_address=0,
+        priority=3,
         data=b"\x00\x00\x00\x00\x00\x00\x00\x00",
         timestamp=datetime.now(UTC),
     )
     sig = j1939_signal_from_frame(
-        frame, spn=190, value=Decimal("1800.0"),
+        frame,
+        spn=190,
+        value=Decimal("1800.0"),
         equipment_key="equipment:truck-01",
     )
     assert isinstance(sig, J1939Signal)
@@ -56,7 +60,8 @@ def test_j1939_signal_from_frame_with_known_spn() -> None:
 
 def test_j1939_signal_from_frame_unknown_spn_falls_back_to_generic() -> None:
     frame = CanFrame(
-        pgn=0xFFFF, source_address=0,
+        pgn=0xFFFF,
+        source_address=0,
         data=b"",
         timestamp=datetime.now(UTC),
     )

@@ -5,7 +5,6 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-
 from apex_orchestrator.control_plane.redis_client import (
     RedisControlPlane,
     StubRedis,
@@ -21,11 +20,8 @@ from apex_orchestrator.heartbeat.scheduler import (
     TriggerFire,
 )
 from apex_orchestrator.orchestrator.parent import (
-    BudgetEnvelope,
-    ChildSpawn,
     ParentOrchestrator,
 )
-
 
 HEARTBEAT_PATH = Path(__file__).resolve().parents[3] / "apex-workspace" / "HEARTBEAT.md"
 
@@ -80,11 +76,8 @@ def test_parser_rejects_wrong_file_marker(tmp_path: Path) -> None:
 def test_parser_rejects_routine_missing_required_fields(tmp_path: Path) -> None:
     bad = tmp_path / "HEARTBEAT.md"
     bad.write_text(
-        "---\nfile: HEARTBEAT.md\n---\n"
-        "## Routine 1 — Incomplete\n"
-        "- **Trigger:** every hour\n"
+        "---\nfile: HEARTBEAT.md\n---\n## Routine 1 — Incomplete\n- **Trigger:** every hour\n",
         # Missing orch, budget, oversight
-        ,
         encoding="utf-8",
     )
     with pytest.raises(HeartbeatParseError, match="missing required"):
@@ -123,7 +116,8 @@ def _make_scheduler():
         cosmos_writer=lambda k, v: cosmos_writes.append((k, v)),
     )
     sched = HeartbeatScheduler(
-        routines=routines, parent=parent,
+        routines=routines,
+        parent=parent,
         emit_event=lambda t, p: events.append((t, p)),
     )
     return sched, parent, redis, events, cosmos_writes
@@ -185,7 +179,7 @@ def test_conformance_heartbeat_trigger_source_format() -> None:
 @pytest.mark.conformance
 def test_conformance_missed_trigger_does_not_auto_catchup() -> None:
     """Sprint 26 Task 26.9.4 — missed-trigger handling is announce-only."""
-    sched, _, _, events, cosmos = _make_scheduler()
+    sched, _, _, events, _cosmos = _make_scheduler()
     sched.emit_missed("test-routine", reason="test")
     # No child_spawn events
     assert not any(t == "child_spawn" for t, _ in events)

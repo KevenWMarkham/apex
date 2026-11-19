@@ -53,11 +53,7 @@ def generate_warehouse_view(
             column_lines.append(f"  ({m.formula}) AS {m.name}")
 
     body = ",\n".join(column_lines)
-    return (
-        f"CREATE OR ALTER VIEW {schema}.{view_name} AS\n"
-        f"SELECT\n{body}\n"
-        f"FROM {silver_table};"
-    )
+    return f"CREATE OR ALTER VIEW {schema}.{view_name} AS\nSELECT\n{body}\nFROM {silver_table};"
 
 
 def view_definition_sha(ddl: str) -> str:

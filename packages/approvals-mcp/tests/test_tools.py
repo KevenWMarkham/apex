@@ -3,10 +3,9 @@
 from __future__ import annotations
 
 import pytest
-
 from approvals_mcp import (
-    ApprovalStatus,
     CONTRACTS,
+    ApprovalStatus,
     get_approval_status,
     record_decision,
     request_approval,

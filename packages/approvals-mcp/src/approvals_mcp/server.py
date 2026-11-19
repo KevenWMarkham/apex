@@ -4,6 +4,7 @@ from __future__ import annotations
 
 
 def main() -> None:  # pragma: no cover
+    """Register the approvals tools on a FastMCP server and run it."""
     from mcp.server.fastmcp import FastMCP  # type: ignore[import-not-found]
 
     from approvals_mcp.tools import get_approval_status, record_decision, request_approval

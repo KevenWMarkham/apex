@@ -4,12 +4,7 @@ from __future__ import annotations
 
 import re
 
-from pydantic import Field
-
 from apex_medallion.gold import (
-    MeasureDefinition,
-    MeasureKind,
-    MeasureLanguage,
     SemanticModelSpec,
     TableSpec,
     generate_kql_function,
@@ -24,6 +19,7 @@ from apex_medallion.gold.rc_measures import (
 )
 from apex_medallion.gold.warehouse import view_definition_sha
 from apex_schemas_common import CanonicalEntity
+from pydantic import Field
 
 
 class _Widget(CanonicalEntity):
@@ -67,7 +63,9 @@ class TestWarehouseView:
 
     def test_sha_is_stable(self) -> None:
         ddl = generate_warehouse_view(
-            _Widget, view_name="v_widget", silver_table="silver_rc.widget",
+            _Widget,
+            view_name="v_widget",
+            silver_table="silver_rc.widget",
         )
         a = view_definition_sha(ddl)
         b = view_definition_sha(ddl)

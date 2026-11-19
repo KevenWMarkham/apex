@@ -5,12 +5,13 @@ from __future__ import annotations
 from datetime import datetime
 from enum import StrEnum
 
-from pydantic import Field
-
 from apex_schemas_common import CanonicalEntity
+from pydantic import Field
 
 
 class WorkOrderStatus(StrEnum):
+    """Progress status of a utility :class:`WorkOrder`."""
+
     OPEN = "open"
     ASSIGNED = "assigned"
     IN_PROGRESS = "in_progress"
@@ -31,7 +32,5 @@ class WorkOrder(CanonicalEntity):
     asset_key: str | None = Field(
         None, description="FK → ERCML Asset.entity_id (the asset worked on)."
     )
-    assigned_to: str | None = Field(
-        None, description="Crew / technician identifier."
-    )
+    assigned_to: str | None = Field(None, description="Crew / technician identifier.")
     description: str = ""

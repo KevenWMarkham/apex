@@ -11,28 +11,32 @@ emits the provider label so downstream tooling honors it; conversely,
 when reading from a labeled source, the variant maps the provider label
 back to APEX tier so policy stays consistent.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass
-from enum import Enum
-from typing import Any, Protocol, runtime_checkable
+from enum import StrEnum
+from typing import Protocol, runtime_checkable
 
 
-class SensitivityTier(str, Enum):
-    T1_PUBLIC = "T1"             # public
-    T2_INTERNAL = "T2"           # internal — most operational data
-    T3_CONFIDENTIAL = "T3"       # PII, PCI
+class SensitivityTier(StrEnum):
+    """APEX data sensitivity tiers T1 (public) through T4 (highly confidential)."""
+
+    T1_PUBLIC = "T1"  # public
+    T2_INTERNAL = "T2"  # internal — most operational data
+    T3_CONFIDENTIAL = "T3"  # PII, PCI
     T4_HIGHLY_CONFIDENTIAL = "T4"  # PHI, regulated, dual-control
 
 
 @dataclass(frozen=True)
 class ProviderLabel:
     """The variant-specific label this APEX tier maps to."""
-    provider: str               # "microsoft-purview" | "google-dlp" | "aws-macie"
+
+    provider: str  # "microsoft-purview" | "google-dlp" | "aws-macie"
     label_id: str
     label_name: str
     encryption: bool
-    extract_required: bool       # for Purview: EXTRACT usage right needed
+    extract_required: bool  # for Purview: EXTRACT usage right needed
 
 
 @runtime_checkable
@@ -50,9 +54,11 @@ class SensitivityClassifier(Protocol):
         ...
 
     def classify_text(self, text: str) -> SensitivityTier:
-        """Run the provider's classification engine on text. Used for
-        agent prompt + response classification per Purview AI Activity
-        Explorer."""
+        """Run the provider's classification engine on text.
+
+        Used for agent prompt + response classification per Purview AI
+        Activity Explorer.
+        """
         ...
 
     def get_label_inventory(self) -> list[ProviderLabel]:

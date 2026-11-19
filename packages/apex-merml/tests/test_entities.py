@@ -7,9 +7,6 @@ from decimal import Decimal
 from uuid import uuid4
 
 import pytest
-from pydantic import ValidationError
-
-from apex_schemas_common import generate_delta_ddl
 from apex_merml import (
     Category,
     Competitor,
@@ -26,6 +23,8 @@ from apex_merml.entities import (
     PriceKind,
     PromotionType,
 )
+from apex_schemas_common import generate_delta_ddl
+from pydantic import ValidationError
 
 
 def _envelope() -> dict[str, object]:

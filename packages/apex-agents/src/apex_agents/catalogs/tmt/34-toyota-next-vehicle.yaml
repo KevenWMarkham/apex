@@ -4,7 +4,7 @@ version: 0.1.0
 practice: tmt
 persona: Household Primary Account Holder
 service_codes: [TMT-TEL-MOB-03]
-model_tier: premium
+model_tier: reasoning
 model_pin: claude-opus-4-7
 prompt_sha: ""
 description: >
@@ -28,6 +28,13 @@ tools:
   - tool_id: apex.tmt.mcp.toyota.dealer.start_test_drive_booking
     purpose: Start test-drive booking
     write: true
+
+hitl_gates:
+  - name: test_drive_booking
+    description: Booking a dealer test drive requires user confirmation
+    fires_when: every start_test_drive_booking call
+    surface: mobile
+    sla_minutes: 240
 
 oversight_modes: [HITL]
 

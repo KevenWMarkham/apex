@@ -13,16 +13,16 @@ from __future__ import annotations
 
 import json
 import xml.etree.ElementTree as ET
+from collections.abc import Iterator
 from dataclasses import dataclass
 from typing import Any
 
 from apex_translators.base import (
     FORMAT_EPCIS,
-    ParseError,
     ParsedMessage,
+    ParseError,
     Segment,
 )
-
 
 EPCIS_EVENT_TYPES: tuple[str, ...] = (
     "ObjectEvent",
@@ -42,16 +42,21 @@ class EPCISParser:
     """EPCIS 2.0 multi-format parser."""
 
     def parse(self, raw: str) -> ParsedMessage:
+        """Parse an EPCIS 2.0 document, dispatching to JSON-LD or XML by its first character.
+
+        Each event becomes a :class:`Segment` named after its event type.
+
+        Raises:
+            ParseError: If the payload is empty, malformed, or neither JSON nor XML.
+        """
         if not raw or not raw.strip():
             raise ParseError("EPCIS payload is empty")
         stripped = raw.lstrip()
-        if stripped.startswith("{") or stripped.startswith("["):
+        if stripped.startswith(("{", "[")):
             return self._parse_json(raw)
         if stripped.startswith("<"):
             return self._parse_xml(raw)
-        raise ParseError(
-            "EPCIS payload first non-whitespace character must be '{', '[', or '<'"
-        )
+        raise ParseError("EPCIS payload first non-whitespace character must be '{', '[', or '<'")
 
     # -------------------------- JSON -----------------------------------
 
@@ -64,13 +69,12 @@ class EPCISParser:
             raise ParseError("EPCIS JSON root must be an object")
 
         msg = ParsedMessage(format=FORMAT_EPCIS, raw=raw)
-        msg.message_type = doc.get("type", doc.get("@type", "EPCISDocument"))
+        doc_type = doc.get("type", doc.get("@type"))
+        msg.message_type = "EPCISDocument" if doc_type is None else str(doc_type)
         msg.version = doc.get("schemaVersion", "2.0")
 
         # Document creation date
-        msg.metadata["creation_date"] = doc.get(
-            "creationDate", doc.get("epcis:creationDate", "")
-        )
+        msg.metadata["creation_date"] = doc.get("creationDate", doc.get("epcis:creationDate", ""))
         msg.metadata["context"] = doc.get("@context", "")
 
         # Events live in epcisBody.eventList
@@ -83,9 +87,7 @@ class EPCISParser:
             if not isinstance(event, dict):
                 continue
             event_type = event.get("type") or event.get("@type") or "ObjectEvent"
-            msg.segments.append(
-                Segment(name=event_type, data=dict(event))
-            )
+            msg.segments.append(Segment(name=event_type, data=dict(event)))
 
         return msg
 
@@ -122,7 +124,7 @@ def parse_epcis(raw: str) -> ParsedMessage:
 # ---------------------------------------------------------------------------
 
 
-def _iter_events(root: ET.Element):
+def _iter_events(root: ET.Element) -> Iterator[ET.Element]:
     """Yield every event-typed element in the document tree."""
     type_set = set(EPCIS_EVENT_TYPES)
     for el in root.iter():
@@ -136,6 +138,7 @@ def _xml_to_dict(el: ET.Element) -> dict[str, Any]:
     out: dict[str, Any] = {}
     for child in el:
         local = child.tag.split("}")[-1]
+        sub: dict[str, Any] | str
         if list(child):
             sub = _xml_to_dict(child)
         elif child.text and child.text.strip():

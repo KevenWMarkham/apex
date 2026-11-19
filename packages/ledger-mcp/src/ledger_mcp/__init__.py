@@ -10,6 +10,8 @@ from ledger_mcp.tools import (
 
 __all__ = [
     "CONTRACTS",
-    "append_audit_row", "fetch_row_by_trace",
-    "reset_ledger", "verify_row_signature",
+    "append_audit_row",
+    "fetch_row_by_trace",
+    "reset_ledger",
+    "verify_row_signature",
 ]

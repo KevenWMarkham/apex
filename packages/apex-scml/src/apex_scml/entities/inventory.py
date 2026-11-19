@@ -11,19 +11,18 @@ from datetime import datetime
 from decimal import Decimal
 from enum import StrEnum
 
-from pydantic import Field
-
 from apex_schemas_common import CanonicalEntity, ScdType2Fields
+from pydantic import Field
 
 
 class InventorySnapshotKind(StrEnum):
     """How the inventory row was captured."""
 
-    PERPETUAL = "PERPETUAL"          # System-of-record perpetual count
-    PHYSICAL = "PHYSICAL"            # Physical count override
-    CYCLE_COUNT = "CYCLE_COUNT"      # Cycle-count adjustment
-    RECEIPT = "RECEIPT"              # Inbound receipt event
-    SHIPMENT = "SHIPMENT"            # Outbound / transfer event
+    PERPETUAL = "PERPETUAL"  # System-of-record perpetual count
+    PHYSICAL = "PHYSICAL"  # Physical count override
+    CYCLE_COUNT = "CYCLE_COUNT"  # Cycle-count adjustment
+    RECEIPT = "RECEIPT"  # Inbound receipt event
+    SHIPMENT = "SHIPMENT"  # Outbound / transfer event
 
 
 class Inventory(CanonicalEntity, ScdType2Fields):

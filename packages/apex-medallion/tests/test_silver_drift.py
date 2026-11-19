@@ -4,10 +4,9 @@ from __future__ import annotations
 
 from decimal import Decimal
 
-from pydantic import Field
-
+from apex_medallion.silver import detect_drift, expected_columns
 from apex_schemas_common import CanonicalEntity
-from apex_medallion.silver import DriftReport, detect_drift, expected_columns
+from pydantic import Field
 
 
 class _Widget(CanonicalEntity):

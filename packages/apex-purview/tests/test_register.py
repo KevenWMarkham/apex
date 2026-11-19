@@ -6,9 +6,6 @@ import json
 import shutil
 from pathlib import Path
 
-import pytest
-from typer.testing import CliRunner
-
 from apex_purview._cli import purview_app
 from apex_purview._register import (
     RegistrationReport,
@@ -17,6 +14,7 @@ from apex_purview._register import (
     main,
     register_all,
 )
+from typer.testing import CliRunner
 
 FIXTURES = Path(__file__).parent / "fixtures"
 runner = CliRunner()
@@ -67,6 +65,17 @@ def test_discover_schemas_finds_yml_extension(tmp_path: Path) -> None:
     shutil.copy(FIXTURES / "schema_scml.yaml", tmp_path / "alt.yml")
     results = discover_schemas(tmp_path)
     assert tmp_path / "alt.yml" in results
+
+
+def test_discover_schemas_skips_registry_descriptors(tmp_path: Path) -> None:
+    """apex-registries schema-family entries share ``kind: schema`` but have no entities."""
+    (tmp_path / "aaml.yaml").write_text(
+        "kind: schema\nschema_code: AAML\nname: Aftermarket\ndescription: x\n"
+        "practices: [axle]\ngovernance_classification: operations\n",
+        encoding="utf-8",
+    )
+    shutil.copy(FIXTURES / "schema_scml.yaml", tmp_path / "scml.yaml")
+    assert discover_schemas(tmp_path) == [tmp_path / "scml.yaml"]
 
 
 def test_discover_schemas_skips_fixtures_dir(tmp_path: Path) -> None:

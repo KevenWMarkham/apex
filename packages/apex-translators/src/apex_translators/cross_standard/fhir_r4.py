@@ -19,12 +19,11 @@ Lossy cases (see ``LOSSY_CASES.md``):
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 from uuid import uuid4
 
-from apex_translators.base import ParsedMessage
-
+from apex_translators.base import ParsedMessage, Segment
 
 # ---------------------------------------------------------------------------
 # Common helpers
@@ -36,7 +35,7 @@ def _new_bundle(bundle_type: str = "collection") -> dict[str, Any]:
         "resourceType": "Bundle",
         "id": f"bundle-{uuid4()}",
         "type": bundle_type,
-        "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "timestamp": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
         "entry": [],
     }
 
@@ -89,9 +88,7 @@ def hl7v2_to_fhir(message: ParsedMessage) -> dict[str, Any]:
     a serialized form is needed.
     """
     if message.format != "hl7v2":
-        raise ValueError(
-            f"hl7v2_to_fhir requires format='hl7v2', got {message.format!r}"
-        )
+        raise ValueError(f"hl7v2_to_fhir requires format='hl7v2', got {message.format!r}")
     bundle = _new_bundle()
     msg_type = (message.message_type or "").upper()
 
@@ -113,7 +110,7 @@ def hl7v2_to_fhir(message: ParsedMessage) -> dict[str, Any]:
             _add_entry(bundle, obs)
         if diag is not None:
             _add_entry(bundle, diag)
-    elif msg_type.startswith("ORM") or msg_type.startswith("OMP"):
+    elif msg_type.startswith(("ORM", "OMP")):
         med_req = _medication_request_from_rxe_orc(message, patient)
         if med_req is not None:
             _add_entry(bundle, med_req)
@@ -172,9 +169,7 @@ def _patient_from_pid(message: ParsedMessage) -> dict[str, Any] | None:
     if len(pid.elements) >= 13:
         first_phone = _split_repetitions(pid.elements[12])
         if first_phone and first_phone[0]:
-            pat["telecom"] = [
-                {"system": "phone", "value": first_phone[0], "use": "home"}
-            ]
+            pat["telecom"] = [{"system": "phone", "value": first_phone[0], "use": "home"}]
     return pat
 
 
@@ -385,9 +380,7 @@ def cda_to_fhir(message: ParsedMessage) -> dict[str, Any]:
     documented in ``LOSSY_CASES.md``.
     """
     if message.format != "cda":
-        raise ValueError(
-            f"cda_to_fhir requires format='cda', got {message.format!r}"
-        )
+        raise ValueError(f"cda_to_fhir requires format='cda', got {message.format!r}")
 
     bundle = _new_bundle()
 
@@ -434,11 +427,13 @@ def _patient_from_cda_metadata(message: ParsedMessage) -> dict[str, Any] | None:
         family = pat_meta.get("family", "")
         given = pat_meta.get("given", "")
         if family or given:
-            pat["name"] = [{
-                "use": "official",
-                "family": family,
-                "given": [given] if given else [],
-            }]
+            pat["name"] = [
+                {
+                    "use": "official",
+                    "family": family,
+                    "given": [given] if given else [],
+                }
+            ]
         gender_code = pat_meta.get("gender", "").upper()
         gender_map = {"M": "male", "F": "female", "UN": "unknown"}
         if gender_code:
@@ -447,7 +442,7 @@ def _patient_from_cda_metadata(message: ParsedMessage) -> dict[str, Any] | None:
 
 
 def _allergy_intolerances_from_cda_section(
-    section, patient: dict[str, Any] | None
+    section: Segment, patient: dict[str, Any] | None
 ) -> list[dict[str, Any]]:
     out: list[dict[str, Any]] = []
     entries = section.data.get("entries", [])
@@ -474,7 +469,7 @@ def _allergy_intolerances_from_cda_section(
 
 
 def _medication_statements_from_cda_section(
-    section, patient: dict[str, Any] | None
+    section: Segment, patient: dict[str, Any] | None
 ) -> list[dict[str, Any]]:
     out: list[dict[str, Any]] = []
     entries = section.data.get("entries", [])
@@ -502,7 +497,7 @@ def _medication_statements_from_cda_section(
 
 
 def _conditions_from_cda_section(
-    section, patient: dict[str, Any] | None
+    section: Segment, patient: dict[str, Any] | None
 ) -> list[dict[str, Any]]:
     out: list[dict[str, Any]] = []
     entries = section.data.get("entries", [])
@@ -528,7 +523,7 @@ def _conditions_from_cda_section(
 
 
 def _observations_from_cda_section(
-    section, patient: dict[str, Any] | None
+    section: Segment, patient: dict[str, Any] | None
 ) -> list[dict[str, Any]]:
     out: list[dict[str, Any]] = []
     entries = section.data.get("entries", [])
@@ -577,10 +572,12 @@ def _entry_code_to_codeable(entry: dict[str, Any]) -> dict[str, Any]:
     system = system_map.get(code_system, f"urn:oid:{code_system}" if code_system else "")
     if code:
         return {
-            "coding": [{
-                "system": system,
-                "code": code,
-                "display": display,
-            }]
+            "coding": [
+                {
+                    "system": system,
+                    "code": code,
+                    "display": display,
+                }
+            ]
         }
     return {"text": display or "(uncoded)"}

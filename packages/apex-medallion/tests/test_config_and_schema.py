@@ -5,8 +5,6 @@ from __future__ import annotations
 import re
 
 import pytest
-from pydantic import ValidationError
-
 from apex_core.types import Classification, Practice
 from apex_medallion import (
     BronzeLandingConfig,
@@ -14,6 +12,7 @@ from apex_medallion import (
     SourcePattern,
     generate_bronze_ddl,
 )
+from pydantic import ValidationError
 
 
 def _cfg(**overrides: object) -> BronzeLandingConfig:
@@ -67,8 +66,16 @@ class TestDdlGeneration:
     def test_envelope_columns_present(self) -> None:
         ddl = generate_bronze_ddl(_cfg())
         for col in (
-            "event_id", "event_ts", "entity_id", "source_system", "source_system_ts",
-            "ingest_ts", "ingest_date", "run_id", "_raw_payload", "_classification",
+            "event_id",
+            "event_ts",
+            "entity_id",
+            "source_system",
+            "source_system_ts",
+            "ingest_ts",
+            "ingest_date",
+            "run_id",
+            "_raw_payload",
+            "_classification",
         ):
             assert re.search(rf"\b{col}\b", ddl), f"Bronze DDL missing {col}"
 

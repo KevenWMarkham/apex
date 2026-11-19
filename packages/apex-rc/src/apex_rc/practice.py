@@ -6,12 +6,11 @@ See ``docs/APEX - Design and Build/APEX_Design.md`` §3 (L3 Practice layer) and
 
 from __future__ import annotations
 
-from pydantic import BaseModel, ConfigDict, Field
-
 from apex_core.types import Practice
 from apex_cxml import Customer, Interaction, Loyalty, Order
 from apex_merml import Category, Competitor, Elasticity, Markdown, Price, Promotion
 from apex_scml import SKU, Inventory, Item, Location, Lot, Shipment, Supplier
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class PracticeBundle(BaseModel):

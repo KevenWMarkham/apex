@@ -50,7 +50,9 @@ touching the core engine.
 
 ```python
 from apex_compliance_lint import (
-    DEFAULT_PACKS, default_registry, lint_paths,
+    DEFAULT_PACKS,
+    default_registry,
+    lint_paths,
 )
 from pathlib import Path
 

@@ -2,24 +2,24 @@
 
 from apex_standards_j1939.frame import CanFrame
 from apex_standards_j1939.pgn import (
-    SEED_PGNS,
     J1939PGN,
+    SEED_PGNS,
     load_pgn_catalog,
     lookup_pgn,
 )
 from apex_standards_j1939.spn import (
-    SEED_SPNS,
     J1939SPN,
+    SEED_SPNS,
     load_spn_catalog,
     lookup_spn,
 )
 
 __all__ = [
+    "J1939PGN",
+    "J1939SPN",
     "SEED_PGNS",
     "SEED_SPNS",
     "CanFrame",
-    "J1939PGN",
-    "J1939SPN",
     "load_pgn_catalog",
     "load_spn_catalog",
     "lookup_pgn",

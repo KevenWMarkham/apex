@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from fabric_mcp import InMemoryFabricBackend, set_fabric_backend
 from mcp_common import McpError, McpErrorCode
 from merml_mcp import (
@@ -16,22 +15,24 @@ from merml_mcp import (
 
 @pytest.fixture(autouse=True)
 def _seed() -> None:
-    set_fabric_backend(InMemoryFabricBackend(
-        views={
-            "gold_merml.price": [
-                {"sku_key": "sku-1", "kind": "REGULAR", "amount": 9.99, "location_key": None},
-            ],
-            "gold_merml.promotion": [
-                {"promotion_natural": "P-1", "is_active": True},
-                {"promotion_natural": "P-2", "is_active": False},
-            ],
-            "gold_merml.markdown": [
-                {"sku_key": "sku-1", "reason": "SEASONAL"},
-                {"sku_key": "sku-1", "reason": "OVERSTOCK"},
-                {"sku_key": "sku-2", "reason": "DAMAGED"},
-            ],
-        },
-    ))
+    set_fabric_backend(
+        InMemoryFabricBackend(
+            views={
+                "gold_merml.price": [
+                    {"sku_key": "sku-1", "kind": "REGULAR", "amount": 9.99, "location_key": None},
+                ],
+                "gold_merml.promotion": [
+                    {"promotion_natural": "P-1", "is_active": True},
+                    {"promotion_natural": "P-2", "is_active": False},
+                ],
+                "gold_merml.markdown": [
+                    {"sku_key": "sku-1", "reason": "SEASONAL"},
+                    {"sku_key": "sku-1", "reason": "OVERSTOCK"},
+                    {"sku_key": "sku-2", "reason": "DAMAGED"},
+                ],
+            },
+        )
+    )
 
 
 def test_get_current_price() -> None:

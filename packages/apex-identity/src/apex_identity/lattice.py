@@ -21,10 +21,9 @@ from dataclasses import dataclass
 from types import NoneType, UnionType
 from typing import Annotated, Any, Union, get_args, get_origin, get_type_hints
 
-from pydantic import BaseModel
-
 from apex_core.types import Classification
 from mcp_common import ScopeContext
+from pydantic import BaseModel
 
 
 @dataclass(frozen=True, slots=True)
@@ -82,9 +81,7 @@ def evaluate_visibility(
     for field_name in entity_cls.model_fields:
         annotation = hints.get(field_name, str)
         classification = _find_classification(annotation)
-        if classification is None:
-            visible.add(field_name)
-        elif classification in scope.classification_visibility:
+        if classification is None or classification in scope.classification_visibility:
             visible.add(field_name)
         else:
             masked.add(field_name)

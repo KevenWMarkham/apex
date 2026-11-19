@@ -6,12 +6,13 @@ from datetime import datetime
 from decimal import Decimal
 from enum import StrEnum
 
-from pydantic import Field
-
 from apex_schemas_common import CanonicalEntity
+from pydantic import Field
 
 
 class QualityStatus(StrEnum):
+    """Disposition of a :class:`QualityResult` measurement."""
+
     PASS = "pass"
     FAIL = "fail"
     CONDITIONAL_PASS = "conditional_pass"

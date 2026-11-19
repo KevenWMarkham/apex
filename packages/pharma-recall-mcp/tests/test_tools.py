@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from mcp_common import McpError, McpErrorCode
 from pharma_recall_mcp import (
     CONTRACTS,
@@ -17,22 +16,28 @@ from pharma_recall_mcp import (
 
 @pytest.fixture(autouse=True)
 def _seed() -> None:
-    set_pharma_backend(InMemoryPharmaRecallBackend(
-        recalls=[
-            {
-                "recall_id": "PR-2026-01", "recall_date": "2026-03-15",
-                "product": "Acetaminophen 325mg", "firm": "AcmeGen",
-                "ndc_codes": ["12345-678-90", "12345-678-91"],
-                "reason": "label mix-up",
-            },
-            {
-                "recall_id": "PR-2026-02", "recall_date": "2026-04-10",
-                "product": "Ibuprofen 200mg", "firm": "BetaPharma",
-                "ndc_codes": ["98765-432-10"],
-                "reason": "subpotent",
-            },
-        ],
-    ))
+    set_pharma_backend(
+        InMemoryPharmaRecallBackend(
+            recalls=[
+                {
+                    "recall_id": "PR-2026-01",
+                    "recall_date": "2026-03-15",
+                    "product": "Acetaminophen 325mg",
+                    "firm": "AcmeGen",
+                    "ndc_codes": ["12345-678-90", "12345-678-91"],
+                    "reason": "label mix-up",
+                },
+                {
+                    "recall_id": "PR-2026-02",
+                    "recall_date": "2026-04-10",
+                    "product": "Ibuprofen 200mg",
+                    "firm": "BetaPharma",
+                    "ndc_codes": ["98765-432-10"],
+                    "reason": "subpotent",
+                },
+            ],
+        )
+    )
 
 
 def test_list_since() -> None:

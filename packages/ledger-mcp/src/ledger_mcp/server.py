@@ -4,6 +4,7 @@ from __future__ import annotations
 
 
 def main() -> None:  # pragma: no cover
+    """Register the audit-ledger tools on a FastMCP server and run it."""
     from mcp.server.fastmcp import FastMCP  # type: ignore[import-not-found]
 
     from ledger_mcp.tools import append_audit_row, fetch_row_by_trace, verify_row_signature

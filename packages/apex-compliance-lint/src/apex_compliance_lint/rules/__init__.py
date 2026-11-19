@@ -1,7 +1,7 @@
 """Rule packs — Sprint 29 Task 29.9.3."""
 
-from apex_compliance_lint.rules.apex_typography import APEX_TYPOGRAPHY
 from apex_compliance_lint.rules.apex_brand import APEX_BRAND
+from apex_compliance_lint.rules.apex_typography import APEX_TYPOGRAPHY
 
 __all__ = [
     "APEX_BRAND",

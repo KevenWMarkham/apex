@@ -7,6 +7,7 @@ APEX-A satisfies via AWS IAM roles + STS AssumeRole.
 Adapters that federate identity (Okta, Auth0, Ping) implement this for
 the federation slot in `client_approved_architecture.identity.federation`.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -15,8 +16,12 @@ from typing import Any, Protocol, runtime_checkable
 
 @dataclass(frozen=True)
 class AgentBlueprint:
-    """Template for creating individual agent identities with shared
-    governance, conditional access, and lifecycle policy."""
+    """Template for creating individual agent identities.
+
+    Child identities provisioned from a blueprint share its governance,
+    conditional access, and lifecycle policy.
+    """
+
     blueprint_id: str
     parent_id: str | None
     label: str
@@ -29,9 +34,10 @@ class AgentBlueprint:
 @dataclass(frozen=True)
 class AgentIdentity:
     """A specific agent's identity, derived from a blueprint."""
-    identity_id: str           # provider-specific OID
+
+    identity_id: str  # provider-specific OID
     blueprint_id: str
-    agent_id: str              # APEX-scoped (variant:service:scenario:role)
+    agent_id: str  # APEX-scoped (variant:service:scenario:role)
     principal_id: str
     tenant_id: str
     federated: bool = False
@@ -47,9 +53,7 @@ class AgentIdentityProvider(Protocol):
         """Create or update an agent identity blueprint."""
         ...
 
-    def provision_identity(
-        self, *, blueprint_id: str, agent_id: str
-    ) -> AgentIdentity:
+    def provision_identity(self, *, blueprint_id: str, agent_id: str) -> AgentIdentity:
         """Provision a child identity from the named blueprint."""
         ...
 

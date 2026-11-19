@@ -5,9 +5,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from typer.testing import CliRunner
-
 from apex_scenarios._cli import scenarios_app
+from typer.testing import CliRunner
 
 FIXTURES = Path(__file__).parent / "fixtures"
 runner = CliRunner()
@@ -47,9 +46,7 @@ def test_cli_validate_fails_on_missing_wave_data(tmp_path: Path) -> None:
 
 def test_cli_validate_skip_wave_check_passes(tmp_path: Path) -> None:
     root = _setup_root(tmp_path)
-    result = runner.invoke(
-        scenarios_app, ["validate", "--root", str(root), "--skip-wave-check"]
-    )
+    result = runner.invoke(scenarios_app, ["validate", "--root", str(root), "--skip-wave-check"])
     assert result.exit_code == 0
 
 
@@ -67,9 +64,7 @@ def test_cli_export_csv_default_filename(tmp_path: Path, monkeypatch) -> None:
 def test_cli_export_csv_practice_filter(tmp_path: Path, monkeypatch) -> None:
     root = _setup_root(tmp_path)
     monkeypatch.chdir(tmp_path)
-    result = runner.invoke(
-        scenarios_app, ["export-csv", "--root", str(root), "-p", "RC"]
-    )
+    result = runner.invoke(scenarios_app, ["export-csv", "--root", str(root), "-p", "RC"])
     assert result.exit_code == 0
     assert "Wrote 2 rows" in result.stdout
     csvs = list(tmp_path.glob("APEX-scenarios-rc-*.csv"))
@@ -79,9 +74,7 @@ def test_cli_export_csv_practice_filter(tmp_path: Path, monkeypatch) -> None:
 def test_cli_publish_catalog(tmp_path: Path) -> None:
     root = _setup_root(tmp_path)
     out = tmp_path / "appendix-l"
-    result = runner.invoke(
-        scenarios_app, ["publish-catalog", "--root", str(root), str(out)]
-    )
+    result = runner.invoke(scenarios_app, ["publish-catalog", "--root", str(root), str(out)])
     assert result.exit_code == 0
     assert (out / "index.md").exists()
     assert (out / "rc.md").exists()
@@ -91,13 +84,15 @@ def test_cli_bump_classifies_minor(tmp_path: Path) -> None:
     # Build before/after where AFTER has one new scenario in HLS
     before = json.loads((FIXTURES / "scenario-library-mini.json").read_text(encoding="utf-8"))
     after = json.loads((FIXTURES / "scenario-library-mini.json").read_text(encoding="utf-8"))
-    after["HLS"].append({
-        "t": "Care-gap closure",
-        "s": "HLS-E2E-07",
-        "b": "Population-health gap closure with payer-aligned outreach.",
-        "k": "+8% closure rate",
-        "kk": "up",
-    })
+    after["HLS"].append(
+        {
+            "t": "Care-gap closure",
+            "s": "HLS-E2E-07",
+            "b": "Population-health gap closure with payer-aligned outreach.",
+            "k": "+8% closure rate",
+            "kk": "up",
+        }
+    )
     before_path = tmp_path / "before.json"
     after_path = tmp_path / "after.json"
     before_path.write_text(json.dumps(before), encoding="utf-8")

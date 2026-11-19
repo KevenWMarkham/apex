@@ -6,13 +6,9 @@ from pathlib import Path
 
 import pytest
 import yaml
-from typer.testing import CliRunner
-
-from apex_core.types import Practice
+from apex_schemas_common._cli import standards_app
 from apex_schemas_common.standards import (
     STANDARDS,
-    StandardSpec,
-    StandardType,
 )
 from apex_schemas_common.standards.catalog import (
     catalog_path,
@@ -23,7 +19,7 @@ from apex_schemas_common.standards.catalog import (
     standard_to_dict,
     write_catalog,
 )
-from apex_schemas_common._cli import standards_app
+from typer.testing import CliRunner
 
 runner = CliRunner()
 
@@ -56,7 +52,7 @@ def test_emit_catalog_keys_sorted() -> None:
 
 def test_standard_round_trips_through_dict() -> None:
     """Every shipped StandardSpec round-trips dict <-> StandardSpec cleanly."""
-    for sid, spec in STANDARDS.items():
+    for spec in STANDARDS.values():
         as_dict = standard_to_dict(spec)
         back = dict_to_standard(as_dict)
         assert back.id == spec.id
@@ -135,19 +131,21 @@ def test_drift_detects_missing_catalog_row(tmp_path: Path) -> None:
 def test_drift_detects_extra_catalog_row(tmp_path: Path) -> None:
     fake_catalog = tmp_path / "catalog.yaml"
     payload = emit_catalog()
-    payload["standards"].append({
-        "id": "fake-zombie",
-        "name": "Fake Zombie",
-        "authority": "x",
-        "authority_url": "https://example.com",
-        "type": "identifier",
-        "current_version": "1",
-        "apex_pinned_version": "1",
-        "license": "open",
-        "redistribution_ok": True,
-        "pattern": "A",
-        "practices": ["rc"],
-    })
+    payload["standards"].append(
+        {
+            "id": "fake-zombie",
+            "name": "Fake Zombie",
+            "authority": "x",
+            "authority_url": "https://example.com",
+            "type": "identifier",
+            "current_version": "1",
+            "apex_pinned_version": "1",
+            "license": "open",
+            "redistribution_ok": True,
+            "pattern": "A",
+            "practices": ["rc"],
+        }
+    )
     payload["count"] = len(payload["standards"])
     with fake_catalog.open("w", encoding="utf-8") as fh:
         yaml.safe_dump(payload, fh)
@@ -197,9 +195,7 @@ def test_cli_validate_catalog_passes_on_clean_repo() -> None:
 def test_conformance_catalog_in_sync() -> None:
     """Sprint 20 BL.P.137 exit criterion — every code registration has a catalog row."""
     report = check_catalog_drift()
-    assert report.ok, [
-        f"{i.standard_id}: [{i.code}] {i.message}" for i in report.errors
-    ]
+    assert report.ok, [f"{i.standard_id}: [{i.code}] {i.message}" for i in report.errors]
     assert report.standards_in_code >= 20
 
 

@@ -4,7 +4,7 @@ version: 0.1.0
 practice: tmt
 persona: Household Primary Account Holder
 service_codes: [TMT-TEL-AUT-04]
-model_tier: premium
+model_tier: reasoning
 model_pin: claude-opus-4-7
 prompt_sha: ""
 description: >
@@ -40,12 +40,12 @@ hitl_gates:
   - name: policy_bind
     description: Every policy bind requires HITL
     fires_when: action_type IN ("*.bind_policy")
-    surface: mobile_push
+    surface: mobile
     sla_minutes: 30
   - name: ubi_enrollment
     description: UBI telematics-data sharing requires explicit opt-in per carrier
     fires_when: any_ubi_enrollment
-    surface: mobile_push
+    surface: mobile
     sla_minutes: 60
 
 oversight_modes: [HITL]

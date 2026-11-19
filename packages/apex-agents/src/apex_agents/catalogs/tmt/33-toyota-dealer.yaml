@@ -33,7 +33,7 @@ hitl_gates:
   - name: dealer_service_cost
     description: Service estimated > $300 requires user approval
     fires_when: estimated_cost_usd > 300
-    surface: mobile_push
+    surface: mobile
     sla_minutes: 240
 
 oversight_modes: [HITL]

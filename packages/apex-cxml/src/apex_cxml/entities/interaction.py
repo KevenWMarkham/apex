@@ -5,12 +5,13 @@ from __future__ import annotations
 from datetime import datetime
 from enum import StrEnum
 
-from pydantic import Field
-
 from apex_schemas_common import CanonicalEntity
+from pydantic import Field
 
 
 class InteractionChannel(StrEnum):
+    """Channel through which a customer :class:`Interaction` took place."""
+
     IN_STORE = "IN_STORE"
     WEB = "WEB"
     MOBILE = "MOBILE"

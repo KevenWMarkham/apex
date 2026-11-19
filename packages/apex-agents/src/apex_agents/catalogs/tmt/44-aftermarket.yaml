@@ -33,7 +33,7 @@ hitl_gates:
   - name: parts_order_threshold
     description: Parts orders > $200 require user approval
     fires_when: order_total_usd > 200
-    surface: mobile_push
+    surface: mobile
     sla_minutes: 60
 
 oversight_modes: [HOTL]

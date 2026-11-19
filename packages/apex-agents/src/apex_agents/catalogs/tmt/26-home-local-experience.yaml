@@ -34,7 +34,7 @@ hitl_gates:
   - name: reservation_conflict
     description: Reservations that conflict with existing itinerary require user review
     fires_when: itinerary_conflict_detected == true
-    surface: mobile_push
+    surface: mobile
     sla_minutes: 60
 
 oversight_modes: [HOTL]

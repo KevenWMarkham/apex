@@ -6,7 +6,6 @@ import json
 from pathlib import Path
 
 import pytest
-
 from apex_scenarios.library import (
     ScenarioIndex,
     load_featured_chains,
@@ -87,12 +86,26 @@ def test_index_wave_completion_status() -> None:
 def test_index_wave_completion_after_population() -> None:
     populated = [
         Scenario(
-            title="t", service_code="RC-E2E-03", brief="b", kpi="k", kpi_direction="up",
-            practice="RC", w1="x", w2="y", w3="z",
+            title="t",
+            service_code="RC-E2E-03",
+            brief="b",
+            kpi="k",
+            kpi_direction="up",
+            practice="RC",
+            w1="x",
+            w2="y",
+            w3="z",
         ),
         Scenario(
-            title="t2", service_code="RC-E2E-04", brief="b", kpi="k", kpi_direction="up",
-            practice="RC", w1="x", w2="", w3="z",
+            title="t2",
+            service_code="RC-E2E-04",
+            brief="b",
+            kpi="k",
+            kpi_direction="up",
+            practice="RC",
+            w1="x",
+            w2="",
+            w3="z",
         ),
     ]
     idx = ScenarioIndex(populated)

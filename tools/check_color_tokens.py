@@ -19,7 +19,6 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 
-
 # Match 3, 4, 6, or 8-digit hex literals after the `#` sigil. Word-boundary
 # on the leading char is `(?<![\w&])` to avoid matching CSS escape codes
 # or HTML-entity tails (e.g., `&#33;`).
@@ -31,14 +30,22 @@ _HEX_RE = re.compile(
 SCAN_EXTENSIONS: frozenset[str] = frozenset({".css", ".html", ".htm"})
 
 SKIP_FRAGMENTS: tuple[str, ...] = (
-    "__pycache__", ".git", ".venv", "node_modules", "dist", "build",
-    ".pytest_cache", "site-packages",
+    "__pycache__",
+    ".git",
+    ".venv",
+    "node_modules",
+    "dist",
+    "build",
+    ".pytest_cache",
+    "site-packages",
 )
 
 # Tokens file is the canonical home for all hex literals.
-ALLOWLIST_BASENAMES: frozenset[str] = frozenset({
-    "apex-design-tokens.css",
-})
+ALLOWLIST_BASENAMES: frozenset[str] = frozenset(
+    {
+        "apex-design-tokens.css",
+    }
+)
 
 # Documentation files that *describe* the token registry are allowed
 # to mention hex literals in their prose. Identified by name suffix.
@@ -50,6 +57,8 @@ DOC_NAME_PATTERNS: tuple[re.Pattern[str], ...] = (
 
 @dataclass
 class Finding:
+    """One inline hex colour literal found in a scanned file."""
+
     path: Path
     line: int
     hex_value: str
@@ -62,6 +71,11 @@ def _is_doc_file(path: Path) -> bool:
 
 
 def scan_file(path: Path) -> list[Finding]:
+    """Return every inline hex literal in ``path``.
+
+    Allowlisted files and token-registry documentation files are skipped, as
+    are files that cannot be read.
+    """
     if path.name in ALLOWLIST_BASENAMES:
         return []
     if _is_doc_file(path):
@@ -80,14 +94,19 @@ def scan_file(path: Path) -> list[Finding]:
         if line_end == -1:
             line_end = len(text)
         surrounding = text[line_start:line_end].strip()[:140]
-        findings.append(Finding(
-            path=path, line=line_no, hex_value=hex_value,
-            surrounding=surrounding,
-        ))
+        findings.append(
+            Finding(
+                path=path,
+                line=line_no,
+                hex_value=hex_value,
+                surrounding=surrounding,
+            )
+        )
     return findings
 
 
 def scan_root(root: Path) -> list[Finding]:
+    """Scan every file under ``root`` with a scanned extension, skipping excluded dirs."""
     findings: list[Finding] = []
     for path in root.rglob("*"):
         if not path.is_file():
@@ -101,6 +120,11 @@ def scan_root(root: Path) -> list[Finding]:
 
 
 def main(argv: list[str] | None = None) -> int:
+    """Run the colour-token check from the command line.
+
+    Returns:
+        Process exit code: 0 when no violations are found, non-zero otherwise.
+    """
     parser = argparse.ArgumentParser(
         description=(
             "Color-token compliance — fails the build if any inline hex "
@@ -109,7 +133,9 @@ def main(argv: list[str] | None = None) -> int:
         )
     )
     parser.add_argument(
-        "path", nargs="?", default=".",
+        "path",
+        nargs="?",
+        default=".",
         help="Root path to scan (default: current directory).",
     )
     args = parser.parse_args(argv)
@@ -130,8 +156,7 @@ def main(argv: list[str] | None = None) -> int:
             file=sys.stderr,
         )
     print(
-        f"FAIL — {len(findings)} inline-hex violation(s); "
-        "use var(--apex-...) per Appendix N",
+        f"FAIL — {len(findings)} inline-hex violation(s); use var(--apex-...) per Appendix N",
         file=sys.stderr,
     )
     return 1

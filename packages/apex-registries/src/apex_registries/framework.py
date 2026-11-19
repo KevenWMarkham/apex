@@ -32,13 +32,19 @@ from typing import Literal
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
-
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
 
 PRACTICE_CODES: tuple[str, ...] = (
-    "rc", "hls", "er", "axle", "tmt", "th", "ice", "cross",
+    "rc",
+    "hls",
+    "er",
+    "axle",
+    "tmt",
+    "th",
+    "ice",
+    "cross",
 )
 """Includes ``cross`` for cross-Practice registry entries."""
 
@@ -75,7 +81,9 @@ class KpiEntry(BaseModel):
     typical_wave3_target: str = ""
 
     units: str = ""
-    cadence: Literal["realtime", "shift", "daily", "weekly", "monthly", "quarterly", "annual"] = "monthly"
+    cadence: Literal["realtime", "shift", "daily", "weekly", "monthly", "quarterly", "annual"] = (
+        "monthly"
+    )
 
     appendix_c_section: str = ""
     """Optional cross-link to Sellers Guide Appendix C subsection."""
@@ -84,9 +92,7 @@ class KpiEntry(BaseModel):
     @classmethod
     def _validate_practice(cls, v: str) -> str:
         if v.lower() not in PRACTICE_CODES:
-            raise ValueError(
-                f"practice must be one of {PRACTICE_CODES}, got {v!r}"
-            )
+            raise ValueError(f"practice must be one of {PRACTICE_CODES}, got {v!r}")
         return v.lower()
 
 
@@ -110,7 +116,9 @@ class PersonaEntry(BaseModel):
 
     name: str
     practice: str
-    seniority: Literal["c-suite", "svp", "vp", "director", "manager", "individual-contributor"] = "vp"
+    seniority: Literal["c-suite", "svp", "vp", "director", "manager", "individual-contributor"] = (
+        "vp"
+    )
     function: str
     """E.g., 'Merchandising', 'Operations', 'Revenue Cycle'."""
 
@@ -239,9 +247,22 @@ class ArchetypeEntry(BaseModel):
     """E.g., ``arch.triage.001``, ``arch.recovery.012``."""
 
     family: Literal[
-        "triage", "cascade", "rca", "recovery", "personalize", "optimize",
-        "monitor", "predict", "schedule", "match", "translate", "summarize",
-        "explain", "score", "negotiate", "compose",
+        "triage",
+        "cascade",
+        "rca",
+        "recovery",
+        "personalize",
+        "optimize",
+        "monitor",
+        "predict",
+        "schedule",
+        "match",
+        "translate",
+        "summarize",
+        "explain",
+        "score",
+        "negotiate",
+        "compose",
     ]
     name: str
     description: str
@@ -276,9 +297,20 @@ class ProductEntry(BaseModel):
     """E.g., ``ms.fabric.f128``, ``ms.foundry.gpt4o``, ``ms.copilot-studio.standard``."""
 
     family: Literal[
-        "fabric", "foundry", "copilot-studio", "purview", "defender",
-        "entra", "intune", "teams", "power-platform", "azure-openai",
-        "azure-ml", "github-copilot", "azure-storage", "azure-network",
+        "fabric",
+        "foundry",
+        "copilot-studio",
+        "purview",
+        "defender",
+        "entra",
+        "intune",
+        "teams",
+        "power-platform",
+        "azure-openai",
+        "azure-ml",
+        "github-copilot",
+        "azure-storage",
+        "azure-network",
     ]
     display_name: str
     sku_or_tier: str = ""
@@ -311,8 +343,13 @@ class PartnerEntry(BaseModel):
     partner_id: str
     name: str
     category: Literal[
-        "sor-vendor", "isv", "model-provider", "data-provider",
-        "delivery-partner", "infrastructure", "specialty",
+        "sor-vendor",
+        "isv",
+        "model-provider",
+        "data-provider",
+        "delivery-partner",
+        "infrastructure",
+        "specialty",
     ]
     practices: list[str] = Field(default_factory=list)
     description: str
@@ -419,28 +456,39 @@ REGISTRY_MODELS: dict[str, type[BaseModel]] = {
 
 
 def package_root() -> Path:
+    """Return the installed ``apex_registries`` package directory."""
     return Path(__file__).parent
 
 
 def registry_root(registry: str) -> Path:
+    """Return the directory holding the YAML manifests for ``registry``.
+
+    Raises:
+        ValueError: If ``registry`` is not a known registry name.
+    """
     if registry not in REGISTRY_DIRS:
         raise ValueError(f"Unknown registry {registry!r}. Allowed: {list(REGISTRY_DIRS)}")
     return package_root() / REGISTRY_DIRS[registry]
 
 
 def load_entry(registry: str, path: str | Path) -> BaseModel:
+    """Parse one registry manifest and validate it against that registry's model.
+
+    Raises:
+        ValueError: If the YAML does not parse to a mapping.
+    """
     model = REGISTRY_MODELS[registry]
     with Path(path).open("r", encoding="utf-8") as fh:
         data = yaml.safe_load(fh)
     if not isinstance(data, dict):
-        raise ValueError(
-            f"{registry}/{path}: expected mapping, got {type(data).__name__}"
-        )
+        raise ValueError(f"{registry}/{path}: expected mapping, got {type(data).__name__}")
     return model.model_validate(data)
 
 
 @dataclass
 class RegistryEntry:
+    """One registry entry: the validated model and the manifest path it came from."""
+
     path: Path
     spec: BaseModel
 
@@ -457,10 +505,12 @@ def scan_registry(registry: str) -> list[RegistryEntry]:
 
 
 def scan_all_registries() -> dict[str, list[RegistryEntry]]:
+    """Load every registry, keyed by registry name."""
     return {name: scan_registry(name) for name in REGISTRY_DIRS}
 
 
 def total_entries() -> dict[str, int]:
+    """Return the number of shipped entries in each registry."""
     return {n: len(v) for n, v in scan_all_registries().items()}
 
 
@@ -470,30 +520,36 @@ def total_entries() -> dict[str, int]:
 
 
 def playbooks_root() -> Path:
+    """Return the directory holding the Wave playbook markdown files."""
     return package_root() / "playbooks"
 
 
 def discovery_root() -> Path:
+    """Return the directory holding the discovery-prompt markdown files."""
     return package_root() / "discovery"
 
 
 def preclearance_root() -> Path:
+    """Return the directory holding the pre-clearance checklist markdown files."""
     return package_root() / "preclearance"
 
 
 def list_playbooks() -> list[Path]:
+    """Return the sorted Wave playbook markdown paths (empty if the directory is missing)."""
     if not playbooks_root().exists():
         return []
     return sorted(playbooks_root().glob("*.md"))
 
 
 def list_discovery() -> list[Path]:
+    """Return the sorted discovery-prompt markdown paths (empty if the directory is missing)."""
     if not discovery_root().exists():
         return []
     return sorted(discovery_root().glob("*.md"))
 
 
 def list_preclearance() -> list[Path]:
+    """Return the sorted pre-clearance markdown paths (empty if the directory is missing)."""
     if not preclearance_root().exists():
         return []
     return sorted(preclearance_root().glob("*.md"))
@@ -514,6 +570,8 @@ def load_playbook(name: str) -> str:
 
 @dataclass
 class RegistryIssue:
+    """One problem found while validating the registries."""
+
     registry: str
     entry: str
     code: str
@@ -523,19 +581,24 @@ class RegistryIssue:
 
 @dataclass
 class RegistryReport:
+    """Aggregate result of validating the registries."""
+
     issues: list[RegistryIssue] = field(default_factory=list)
     entries_checked: int = 0
 
     @property
     def errors(self) -> list[RegistryIssue]:
+        """Return only the issues with ``error`` severity."""
         return [i for i in self.issues if i.severity == "error"]
 
     @property
     def ok(self) -> bool:
+        """Return True when no errors were recorded."""
         return len(self.errors) == 0
 
     @property
     def exit_code(self) -> int:
+        """Return the CLI exit code: 0 when ok, 1 otherwise."""
         return 0 if self.ok else 1
 
 
@@ -562,39 +625,51 @@ def validate_registries(
             if name == "kpis":
                 k: KpiEntry = spec  # type: ignore[assignment]
                 if not k.description:
-                    report.issues.append(RegistryIssue(
-                        registry=name, entry=k.kpi_id,
-                        code="KPI_NO_DESCRIPTION",
-                        severity="warning",
-                        message="KPI entry has no description",
-                    ))
+                    report.issues.append(
+                        RegistryIssue(
+                            registry=name,
+                            entry=k.kpi_id,
+                            code="KPI_NO_DESCRIPTION",
+                            severity="warning",
+                            message="KPI entry has no description",
+                        )
+                    )
             elif name == "personas":
                 p: PersonaEntry = spec  # type: ignore[assignment]
                 if not p.typical_decisions:
-                    report.issues.append(RegistryIssue(
-                        registry=name, entry=p.persona_id,
-                        code="PERSONA_NO_DECISIONS",
-                        severity="warning",
-                        message="Persona has no typical_decisions listed",
-                    ))
+                    report.issues.append(
+                        RegistryIssue(
+                            registry=name,
+                            entry=p.persona_id,
+                            code="PERSONA_NO_DECISIONS",
+                            severity="warning",
+                            message="Persona has no typical_decisions listed",
+                        )
+                    )
             elif name == "mcp_tools":
                 t: McpToolEntry = spec  # type: ignore[assignment]
                 if t.write and not t.classification_required:
-                    report.issues.append(RegistryIssue(
-                        registry=name, entry=t.tool_id,
-                        code="WRITE_TOOL_NO_CLASSIFICATION",
-                        severity="warning",
-                        message="Write-effecting MCP tool should declare required classification",
-                    ))
+                    report.issues.append(
+                        RegistryIssue(
+                            registry=name,
+                            entry=t.tool_id,
+                            code="WRITE_TOOL_NO_CLASSIFICATION",
+                            severity="warning",
+                            message="Write-effecting MCP tool should declare required classification",
+                        )
+                    )
             elif name == "schemas":
                 s: SchemaEntry = spec  # type: ignore[assignment]
                 if not s.primary_entities:
-                    report.issues.append(RegistryIssue(
-                        registry=name, entry=s.schema_code,
-                        code="SCHEMA_NO_ENTITIES",
-                        severity="warning",
-                        message="Schema entry should declare ≥1 primary entity",
-                    ))
+                    report.issues.append(
+                        RegistryIssue(
+                            registry=name,
+                            entry=s.schema_code,
+                            code="SCHEMA_NO_ENTITIES",
+                            severity="warning",
+                            message="Schema entry should declare ≥1 primary entity",
+                        )
+                    )
 
     # Cross-reference: every KPI named on agents/services must resolve to a registry kpi.name
     kpi_names_in_registry = {e.spec.name for e in cats.get("kpis", [])}  # type: ignore[attr-defined]
@@ -604,47 +679,62 @@ def validate_registries(
     if agents_kpi_names is not None:
         for n in agents_kpi_names:
             if n not in kpi_names_in_registry:
-                report.issues.append(RegistryIssue(
-                    registry="kpis", entry=n,
-                    code="KPI_REFERENCED_BY_AGENT_NOT_IN_REGISTRY",
-                    severity="warning",
-                    message=f"agents reference KPI {n!r} not present in KPI registry",
-                ))
+                report.issues.append(
+                    RegistryIssue(
+                        registry="kpis",
+                        entry=n,
+                        code="KPI_REFERENCED_BY_AGENT_NOT_IN_REGISTRY",
+                        severity="warning",
+                        message=f"agents reference KPI {n!r} not present in KPI registry",
+                    )
+                )
     if services_kpi_names is not None:
         for n in services_kpi_names:
             if n not in kpi_names_in_registry:
-                report.issues.append(RegistryIssue(
-                    registry="kpis", entry=n,
-                    code="KPI_REFERENCED_BY_SERVICE_NOT_IN_REGISTRY",
-                    severity="warning",
-                    message=f"services reference KPI {n!r} not present in KPI registry",
-                ))
+                report.issues.append(
+                    RegistryIssue(
+                        registry="kpis",
+                        entry=n,
+                        code="KPI_REFERENCED_BY_SERVICE_NOT_IN_REGISTRY",
+                        severity="warning",
+                        message=f"services reference KPI {n!r} not present in KPI registry",
+                    )
+                )
     if agents_persona_names is not None:
         for n in agents_persona_names:
             if n not in persona_names_in_registry:
-                report.issues.append(RegistryIssue(
-                    registry="personas", entry=n,
-                    code="PERSONA_REFERENCED_BY_AGENT_NOT_IN_REGISTRY",
-                    severity="warning",
-                    message=f"agents reference persona {n!r} not present in Persona catalog",
-                ))
+                report.issues.append(
+                    RegistryIssue(
+                        registry="personas",
+                        entry=n,
+                        code="PERSONA_REFERENCED_BY_AGENT_NOT_IN_REGISTRY",
+                        severity="warning",
+                        message=f"agents reference persona {n!r} not present in Persona catalog",
+                    )
+                )
     if services_persona_names is not None:
         for n in services_persona_names:
             if n not in persona_names_in_registry:
-                report.issues.append(RegistryIssue(
-                    registry="personas", entry=n,
-                    code="PERSONA_REFERENCED_BY_SERVICE_NOT_IN_REGISTRY",
-                    severity="warning",
-                    message=f"services reference persona {n!r} not present in Persona catalog",
-                ))
+                report.issues.append(
+                    RegistryIssue(
+                        registry="personas",
+                        entry=n,
+                        code="PERSONA_REFERENCED_BY_SERVICE_NOT_IN_REGISTRY",
+                        severity="warning",
+                        message=f"services reference persona {n!r} not present in Persona catalog",
+                    )
+                )
     if agents_tool_ids is not None:
         for tid in agents_tool_ids:
             if tid not in tool_ids_in_registry:
-                report.issues.append(RegistryIssue(
-                    registry="mcp_tools", entry=tid,
-                    code="TOOL_REFERENCED_BY_AGENT_NOT_IN_REGISTRY",
-                    severity="warning",
-                    message=f"agents reference MCP tool {tid!r} not present in tool catalog",
-                ))
+                report.issues.append(
+                    RegistryIssue(
+                        registry="mcp_tools",
+                        entry=tid,
+                        code="TOOL_REFERENCED_BY_AGENT_NOT_IN_REGISTRY",
+                        severity="warning",
+                        message=f"agents reference MCP tool {tid!r} not present in tool catalog",
+                    )
+                )
 
     return report

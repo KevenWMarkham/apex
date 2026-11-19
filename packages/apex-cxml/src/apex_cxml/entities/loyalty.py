@@ -6,13 +6,14 @@ from datetime import date
 from enum import StrEnum
 from typing import Annotated
 
-from pydantic import Field
-
 from apex_core.types import Classification
 from apex_schemas_common import CanonicalEntity, ScdType2Fields
+from pydantic import Field
 
 
 class LoyaltyTier(StrEnum):
+    """Membership tier of a :class:`Loyalty` program enrolment."""
+
     BRONZE = "BRONZE"
     SILVER = "SILVER"
     GOLD = "GOLD"

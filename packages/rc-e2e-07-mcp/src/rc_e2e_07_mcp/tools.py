@@ -11,7 +11,8 @@ from datetime import UTC, datetime
 from typing import Any
 
 from apex_core.types import Classification
-from fabric_mcp import FABRIC_BACKEND, query_gold_view as _fabric_query_view
+from fabric_mcp import FABRIC_BACKEND
+from fabric_mcp import query_gold_view as _fabric_query_view
 from mcp_common import McpError, McpErrorCode, ToolContract, traced_call
 
 SERVER_NAME = "rc-e2e-07-mcp"
@@ -20,8 +21,11 @@ SERVICE_CODE = "RC-E2E-07"
 _REQUIRED_SCOPES = ["practice:rc", "service:rc-e2e-07"]
 
 _VALID_DECISION_CLASSES = (
-    "auto_clear", "approve_at_hitl", "deny_at_hitl",
-    "hold_with_pii_unlock", "manual_investigation_routed",
+    "auto_clear",
+    "approve_at_hitl",
+    "deny_at_hitl",
+    "hold_with_pii_unlock",
+    "manual_investigation_routed",
 )
 
 

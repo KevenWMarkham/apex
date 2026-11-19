@@ -27,7 +27,6 @@ from typing import Any
 
 from apex_purview.classifications import APEX_CLASSIFICATIONS, _normalize_key
 
-
 # ---------------------------------------------------------------------------
 # Retention duration enum
 # ---------------------------------------------------------------------------
@@ -89,6 +88,7 @@ class RetentionRule:
     """If True, mark records write-once-read-many (WORM)."""
 
     def __post_init__(self) -> None:
+        """Validate the classification and duration against the known vocabularies."""
         if self.classification not in APEX_CLASSIFICATIONS:
             raise ValueError(f"Unknown classification: {self.classification!r}.")
         if self.duration not in RETENTION_DURATIONS:
@@ -97,6 +97,7 @@ class RetentionRule:
             )
 
     def to_atlas(self) -> dict[str, Any]:
+        """Serialise the rule, defaulting ``regulatoryBasis`` to the duration's own basis."""
         spec = RETENTION_DURATIONS[self.duration]
         body: dict[str, Any] = {
             "classification": APEX_CLASSIFICATIONS[self.classification]["type_name"],
@@ -128,14 +129,17 @@ class LegalHoldConfig:
     description: str = ""
 
     def to_atlas(self) -> dict[str, Any]:
+        """Serialise the hold as an active Atlas legal-hold payload.
+
+        Raises:
+            ValueError: If any held classification is unknown.
+        """
         for c in self.classifications:
             if c not in APEX_CLASSIFICATIONS:
                 raise ValueError(f"Unknown classification in legal hold: {c!r}.")
         return {
             "matterId": self.matter_id,
-            "classifications": [
-                APEX_CLASSIFICATIONS[c]["type_name"] for c in self.classifications
-            ],
+            "classifications": [APEX_CLASSIFICATIONS[c]["type_name"] for c in self.classifications],
             "custodian": self.custodian,
             "startedAt": self.started_iso,
             "description": self.description,
@@ -161,6 +165,7 @@ class RetentionPolicyBundle:
         regulatory_basis: str | None = None,
         worm: bool = True,
     ) -> None:
+        """Add or replace the retention rule for ``classification``."""
         self.rules = [r for r in self.rules if r.classification != classification]
         self.rules.append(
             RetentionRule(
@@ -172,9 +177,11 @@ class RetentionPolicyBundle:
         )
 
     def add_legal_hold(self, hold: LegalHoldConfig) -> None:
+        """Append ``hold`` to the bundle's legal holds."""
         self.legal_holds.append(hold)
 
     def to_atlas(self) -> dict[str, Any]:
+        """Serialise the bundle with its rules and legal holds."""
         return {
             "name": self.name,
             "description": self.description,
@@ -257,7 +264,5 @@ def lookup_retention(
     if key not in APEX_CLASSIFICATIONS:
         raise ValueError(f"Unknown classification: {classification!r} (normalized {key!r}).")
     if key not in matrix:
-        raise ValueError(
-            f"Classification {key!r} missing from retention matrix."
-        )
+        raise ValueError(f"Classification {key!r} missing from retention matrix.")
     return matrix[key]

@@ -19,11 +19,11 @@ from apex_tokenizer.vault import (
 )
 
 __all__ = [
+    "TOKEN_PREFIX",
+    "VAULT_TABLE",
     "DeltaVaultBackend",
     "InMemoryVaultBackend",
-    "TOKEN_PREFIX",
     "TokenService",
-    "VAULT_TABLE",
     "VaultBackend",
     "VaultEntry",
     "detokenize",

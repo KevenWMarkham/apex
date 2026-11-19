@@ -5,7 +5,6 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-
 from apex_orchestrator.control_plane.redis_client import (
     RedisControlPlane,
     StubRedis,
@@ -18,7 +17,6 @@ from apex_orchestrator.mcp.dispatcher import (
     arg_hash_of,
     parse_charter_catalog,
 )
-
 
 CHARTER_PATH = Path(__file__).resolve().parents[3] / "apex-workspace" / "CHARTER.md"
 
@@ -85,8 +83,10 @@ def _build_dispatcher(tools: dict[str, CharterTool], registry, telemetry):
     cat = CharterCatalog(tools=tools)
     redis = RedisControlPlane(StubRedis())
     return MCPDispatcher(
-        catalog=cat, redis=redis,
-        tool_registry=registry, telemetry=telemetry,
+        catalog=cat,
+        redis=redis,
+        tool_registry=registry,
+        telemetry=telemetry,
     )
 
 
@@ -100,8 +100,13 @@ def test_dispatcher_caches_read_tool_with_cacheable_true() -> None:
         return {"tool": tool, "args": args, "result": invocations}
 
     d = _build_dispatcher(
-        {"rc.item.get": CharterTool("rc.item.get", cacheable=True, cache_ttl_s=30, oversight="HOTL")},
-        registry, calls.append,
+        {
+            "rc.item.get": CharterTool(
+                "rc.item.get", cacheable=True, cache_ttl_s=30, oversight="HOTL"
+            )
+        },
+        registry,
+        calls.append,
     )
     r1 = d.dispatch("rc.item.get", {"id": 1}, entra_scope="scope-A")
     r2 = d.dispatch("rc.item.get", {"id": 1}, entra_scope="scope-A")
@@ -123,10 +128,16 @@ def test_dispatcher_skips_cache_when_cacheable_false() -> None:
         return {"v": invocations}
 
     d = _build_dispatcher(
-        {"rc.customer.get": CharterTool(
-            "rc.customer.get", cacheable=False, cache_ttl_s=0, oversight="HOTL",
-        )},
-        registry, calls.append,
+        {
+            "rc.customer.get": CharterTool(
+                "rc.customer.get",
+                cacheable=False,
+                cache_ttl_s=0,
+                oversight="HOTL",
+            )
+        },
+        registry,
+        calls.append,
     )
     r1 = d.dispatch("rc.customer.get", {"id": 1}, entra_scope="scope-A")
     r2 = d.dispatch("rc.customer.get", {"id": 1}, entra_scope="scope-A")
@@ -142,10 +153,15 @@ def test_dispatcher_skips_cache_for_write_tools() -> None:
     """Even if a row mistakenly says cacheable:true, hitl_required:true blocks caching."""
     calls: list[CacheEvent] = []
     d = _build_dispatcher(
-        {"rc.write.tool": CharterTool(
-            "rc.write.tool", cacheable=True, cache_ttl_s=30,
-            oversight="HITL", hitl_required=True,
-        )},
+        {
+            "rc.write.tool": CharterTool(
+                "rc.write.tool",
+                cacheable=True,
+                cache_ttl_s=30,
+                oversight="HITL",
+                hitl_required=True,
+            )
+        },
         lambda t, a: {"ok": True},
         calls.append,
     )
@@ -171,8 +187,13 @@ def test_dispatcher_segregates_by_entra_scope() -> None:
         return {"v": invocations}
 
     d = _build_dispatcher(
-        {"rc.item.get": CharterTool("rc.item.get", cacheable=True, cache_ttl_s=30, oversight="HOTL")},
-        registry, lambda _e: None,
+        {
+            "rc.item.get": CharterTool(
+                "rc.item.get", cacheable=True, cache_ttl_s=30, oversight="HOTL"
+            )
+        },
+        registry,
+        lambda _e: None,
     )
     r1 = d.dispatch("rc.item.get", {"id": 1}, entra_scope="scope-A")
     r2 = d.dispatch("rc.item.get", {"id": 1}, entra_scope="scope-B")
@@ -191,8 +212,13 @@ def test_dispatcher_skips_cache_for_pii_classification() -> None:
     """Runtime backstop — PII responses don't cache even when annotation says ok."""
     calls: list[CacheEvent] = []
     d = _build_dispatcher(
-        {"rc.something": CharterTool("rc.something", cacheable=True, cache_ttl_s=30, oversight="HOTL")},
-        lambda t, a: {"v": 1}, calls.append,
+        {
+            "rc.something": CharterTool(
+                "rc.something", cacheable=True, cache_ttl_s=30, oversight="HOTL"
+            )
+        },
+        lambda t, a: {"v": 1},
+        calls.append,
     )
     d.classification_resolver = lambda _t, _v: "pii"
     d.dispatch("rc.something", {}, entra_scope="scope-A")
@@ -211,8 +237,11 @@ def test_conformance_charter_yields_known_anchor_tools() -> None:
     """Sprint 26 Task 26.3.1 — RC anchor tools land in the parsed catalog."""
     cat = parse_charter_catalog(CHARTER_PATH)
     anchors = {
-        "rc.item.get", "rc.hierarchy.tree", "rc.customer.get",
-        "rc.payment.method.get", "rc.markdown.action.commit",
+        "rc.item.get",
+        "rc.hierarchy.tree",
+        "rc.customer.get",
+        "rc.payment.method.get",
+        "rc.markdown.action.commit",
     }
     assert anchors.issubset(cat.tools.keys())
 
@@ -221,19 +250,24 @@ def test_conformance_charter_yields_known_anchor_tools() -> None:
 def test_conformance_pii_pci_tools_marked_uncacheable() -> None:
     """Sprint 26 governance — every PII / PCI tool has cacheable:false."""
     cat = parse_charter_catalog(CHARTER_PATH)
-    for tool_name in ("rc.customer.get", "rc.customer.identity.lookup",
-                      "rc.payment.method.get", "rc.payment.transaction.get"):
+    for tool_name in (
+        "rc.customer.get",
+        "rc.customer.identity.lookup",
+        "rc.payment.method.get",
+        "rc.payment.transaction.get",
+    ):
         tool = cat.tools.get(tool_name)
-        assert tool is not None and tool.cacheable is False, \
-            f"{tool_name} must be cacheable:false"
+        assert tool is not None and tool.cacheable is False, f"{tool_name} must be cacheable:false"
 
 
 @pytest.mark.conformance
 def test_conformance_every_write_tool_has_hitl_required() -> None:
     cat = parse_charter_catalog(CHARTER_PATH)
-    write_tools = [t for t in cat.tools.values() if "commit" in t.name or "issue" in t.name or "update" in t.name]
+    write_tools = [
+        t
+        for t in cat.tools.values()
+        if "commit" in t.name or "issue" in t.name or "update" in t.name
+    ]
     for t in write_tools:
-        assert t.hitl_required is True, \
-            f"{t.name} is a write tool — must have hitl_required:true"
-        assert t.cacheable is False, \
-            f"{t.name} is a write tool — must have cacheable:false"
+        assert t.hitl_required is True, f"{t.name} is a write tool — must have hitl_required:true"
+        assert t.cacheable is False, f"{t.name} is a write tool — must have cacheable:false"

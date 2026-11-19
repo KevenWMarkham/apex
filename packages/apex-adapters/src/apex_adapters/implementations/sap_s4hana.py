@@ -34,24 +34,23 @@ from apex_adapters.framework import (
     register_adapter,
 )
 
-
 #: Canonical SAP tables most APEX RC / AXLE / ICE engagements need
 #: ingested into Bronze. Engagement-specific Specs may extend this list.
 CANONICAL_SAP_TABLES: tuple[str, ...] = (
-    "KNA1",   # Customer master
-    "LFA1",   # Vendor master
-    "MARA",   # Material master (general)
-    "MARC",   # Material master (plant)
-    "MARD",   # Material master (storage location)
-    "MBEW",   # Material valuation
-    "EKKO",   # Purchasing document header
-    "EKPO",   # Purchasing document item
-    "BKPF",   # Accounting document header
-    "BSEG",   # Accounting document line item
-    "VBAK",   # Sales document header
-    "VBAP",   # Sales document item
-    "LIKP",   # Delivery header
-    "LIPS",   # Delivery item
+    "KNA1",  # Customer master
+    "LFA1",  # Vendor master
+    "MARA",  # Material master (general)
+    "MARC",  # Material master (plant)
+    "MARD",  # Material master (storage location)
+    "MBEW",  # Material valuation
+    "EKKO",  # Purchasing document header
+    "EKPO",  # Purchasing document item
+    "BKPF",  # Accounting document header
+    "BSEG",  # Accounting document line item
+    "VBAK",  # Sales document header
+    "VBAP",  # Sales document item
+    "LIKP",  # Delivery header
+    "LIPS",  # Delivery item
 )
 
 
@@ -60,6 +59,11 @@ class SapS4HanaAdapter(Adapter):
     """SAP S/4HANA mirrored-db adapter for ERP Bronze ingestion."""
 
     def __init__(self, spec: AdapterSpec) -> None:
+        """Initialise the adapter and reject manifests that are not mirrored-db.
+
+        Raises:
+            ValueError: If ``spec.connection_method`` is not ``ConnectionMethod.MIRRORED_DB``.
+        """
         super().__init__(spec)
         if spec.connection_method != ConnectionMethod.MIRRORED_DB:
             raise ValueError(
@@ -73,6 +77,7 @@ class SapS4HanaAdapter(Adapter):
     # ------------------------------------------------------------------
 
     def use_golden_dataset(self, path: Path) -> None:
+        """Load source rows for smoke tests from a golden JSON file keyed by table name."""
         with path.open("r", encoding="utf-8") as fh:
             self._golden_data = json.load(fh)
 
@@ -81,8 +86,10 @@ class SapS4HanaAdapter(Adapter):
     # ------------------------------------------------------------------
 
     def probe(self) -> bool:
-        """Probe the mirrored DB. In production: `SELECT 1` against the
-        Fabric Mirror endpoint."""
+        """Probe the mirrored DB.
+
+        In production: `SELECT 1` against the Fabric Mirror endpoint.
+        """
         return self._golden_data is not None or True
 
     def discover(self) -> list[str]:
@@ -96,9 +103,7 @@ class SapS4HanaAdapter(Adapter):
             return sorted(self._golden_data.keys())
         return [m.source_table for m in self.spec.schema_mappings]
 
-    def ingest(
-        self, mapping: SchemaMapping, *, limit: int | None = None
-    ) -> int:
+    def ingest(self, mapping: SchemaMapping, *, limit: int | None = None) -> int:
         """Ingest a SAP table into Bronze.
 
         In production: SAP HANA SQL → Fabric Bronze Delta with CDC stamps.
@@ -153,6 +158,6 @@ class SapS4HanaAdapter(Adapter):
                 result.rows_read += rows
                 result.rows_written += rows
                 result.fields_mapped += mapping.field_count()
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             result.errors.append(f"{type(exc).__name__}: {exc}")
         return result

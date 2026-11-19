@@ -4,7 +4,7 @@ version: 0.1.0
 practice: tmt
 persona: Household Vehicle Owner
 service_codes: [TMT-TEL-AUT-08]
-model_tier: premium
+model_tier: reasoning
 model_pin: claude-opus-4-7
 prompt_sha: ""
 description: >
@@ -37,7 +37,7 @@ hitl_gates:
   - name: resale_channel_commitment
     description: Committing to a resale channel requires HITL
     fires_when: action_type IN ("*.accept_offer")
-    surface: mobile_push
+    surface: mobile
     sla_minutes: 240
 
 oversight_modes: [HITL]

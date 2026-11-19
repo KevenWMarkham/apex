@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from apex_core.types import Classification
 from apex_medallion.gold import (
     MeasureDefinition,
@@ -20,6 +19,7 @@ from apex_medallion.gold.rc_measures import (
 
 def test_measure_definition_is_frozen() -> None:
     from pydantic import ValidationError
+
     m = EFFECTIVE_MARGIN_PCT
     with pytest.raises(ValidationError):
         m.name = "other"  # type: ignore[misc]
@@ -27,11 +27,14 @@ def test_measure_definition_is_frozen() -> None:
 
 def test_measure_requires_name_and_formula() -> None:
     from pydantic import ValidationError
+
     with pytest.raises(ValidationError):
         MeasureDefinition(
-            name="", kind=MeasureKind.PRE_MEASURE,
+            name="",
+            kind=MeasureKind.PRE_MEASURE,
             language=MeasureLanguage.PYSPARK,
-            owner="x", formula="x",
+            owner="x",
+            formula="x",
         )
 
 
@@ -77,9 +80,12 @@ class TestRcAnchor:
         reg = rc_measure_registry()
         assert len(reg) == 6
         for name in (
-            "effective_margin_pct", "stock_days_remaining",
-            "time_since_last_event_seconds", "period_over_period_pct",
-            "rolling_avg_14_day", "events_last_15_min",
+            "effective_margin_pct",
+            "stock_days_remaining",
+            "time_since_last_event_seconds",
+            "period_over_period_pct",
+            "rolling_avg_14_day",
+            "events_last_15_min",
         ):
             assert name in reg
 

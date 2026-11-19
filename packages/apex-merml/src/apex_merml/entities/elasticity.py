@@ -13,19 +13,18 @@ from decimal import Decimal
 from enum import StrEnum
 from typing import Annotated
 
-from pydantic import Field
-
 from apex_core.types import Classification
 from apex_schemas_common import CanonicalEntity, ScdType2Fields
+from pydantic import Field
 
 
 class ElasticityModelKind(StrEnum):
     """Model class that produced the coefficient."""
 
-    LOG_LOG = "LOG_LOG"              # Constant-elasticity log-log regression
-    SEMI_LOG = "SEMI_LOG"            # log(Q) = α + β·P
-    PIECEWISE = "PIECEWISE"          # Piecewise linear over price segments
-    BAYESIAN = "BAYESIAN"            # Bayesian hierarchical model
+    LOG_LOG = "LOG_LOG"  # Constant-elasticity log-log regression
+    SEMI_LOG = "SEMI_LOG"  # log(Q) = alpha + beta * P
+    PIECEWISE = "PIECEWISE"  # Piecewise linear over price segments
+    BAYESIAN = "BAYESIAN"  # Bayesian hierarchical model
 
 
 class Elasticity(CanonicalEntity, ScdType2Fields):

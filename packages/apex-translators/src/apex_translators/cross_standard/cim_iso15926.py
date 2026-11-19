@@ -21,7 +21,6 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
 
-
 # ---------------------------------------------------------------------------
 # Named equipment-class mapping (Task 24.4.2)
 # ---------------------------------------------------------------------------
@@ -30,19 +29,19 @@ from typing import Any
 # CIM equipment class → ISO 15926 reference-data-library class
 CIM_ISO_EQUIPMENT_MAP: dict[str, str] = {
     # CIM electrical-grid asset → ISO 15926 RDL equivalent
-    "Asset":                "PHYSICAL_OBJECT",
-    "ConductingEquipment":  "ELECTRIC_CONDUCTOR",
-    "Substation":           "ELECTRICAL_SUBSTATION",
-    "Bay":                  "FUNCTIONAL_LOCATION",
-    "PowerTransformer":     "POWER_TRANSFORMER",
-    "Breaker":              "CIRCUIT_BREAKER",
-    "Disconnector":         "DISCONNECTOR_SWITCH",
-    "Feeder":               "DISTRIBUTION_FEEDER",
-    "GeneratingUnit":       "GENERATING_UNIT",
-    "Switch":               "ELECTRICAL_SWITCH",
-    "Terminal":             "ELECTRICAL_TERMINAL",
-    "EnergyConsumer":       "ELECTRIC_LOAD",
-    "ACLineSegment":        "OVERHEAD_LINE_SEGMENT",
+    "Asset": "PHYSICAL_OBJECT",
+    "ConductingEquipment": "ELECTRIC_CONDUCTOR",
+    "Substation": "ELECTRICAL_SUBSTATION",
+    "Bay": "FUNCTIONAL_LOCATION",
+    "PowerTransformer": "POWER_TRANSFORMER",
+    "Breaker": "CIRCUIT_BREAKER",
+    "Disconnector": "DISCONNECTOR_SWITCH",
+    "Feeder": "DISTRIBUTION_FEEDER",
+    "GeneratingUnit": "GENERATING_UNIT",
+    "Switch": "ELECTRICAL_SWITCH",
+    "Terminal": "ELECTRICAL_TERMINAL",
+    "EnergyConsumer": "ELECTRIC_LOAD",
+    "ACLineSegment": "OVERHEAD_LINE_SEGMENT",
 }
 
 

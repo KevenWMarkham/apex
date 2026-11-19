@@ -39,10 +39,22 @@ class AgentRole:
 class EntraProvisioningProvider(Protocol):
     """Protocol for Entra app-registration automation."""
 
-    def register(self, agent_id: str, tenant_id: str, scopes: tuple[str, ...] = (),
-                 ) -> AgentIdentity: ...
-    def lookup(self, agent_id: str) -> AgentIdentity | None: ...
-    def revoke(self, agent_id: str) -> None: ...
+    def register(
+        self,
+        agent_id: str,
+        tenant_id: str,
+        scopes: tuple[str, ...] = (),
+    ) -> AgentIdentity:
+        """Register ``agent_id`` in ``tenant_id`` with ``scopes`` and return its identity."""
+        ...
+
+    def lookup(self, agent_id: str) -> AgentIdentity | None:
+        """Return the active identity for ``agent_id``, or None if unknown or revoked."""
+        ...
+
+    def revoke(self, agent_id: str) -> None:
+        """Revoke the identity registered for ``agent_id``."""
+        ...
 
 
 @dataclass
@@ -60,10 +72,7 @@ class MockEntraProvisioningProvider:
     @staticmethod
     def _derive_oid(agent_id: str, tenant_id: str) -> str:
         digest = hashlib.sha256(f"{tenant_id}|{agent_id}".encode()).hexdigest()
-        return (
-            f"{digest[:8]}-{digest[8:12]}-{digest[12:16]}-"
-            f"{digest[16:20]}-{digest[20:32]}"
-        )
+        return f"{digest[:8]}-{digest[8:12]}-{digest[12:16]}-{digest[16:20]}-{digest[20:32]}"
 
     def register(
         self,
@@ -71,6 +80,10 @@ class MockEntraProvisioningProvider:
         tenant_id: str,
         scopes: tuple[str, ...] = (),
     ) -> AgentIdentity:
+        """Register ``agent_id`` with a deterministic object id and return its identity.
+
+        Re-registering a revoked agent clears its revocation.
+        """
         identity = AgentIdentity(
             agent_id=agent_id,
             tenant_id=tenant_id,
@@ -82,9 +95,11 @@ class MockEntraProvisioningProvider:
         return identity
 
     def lookup(self, agent_id: str) -> AgentIdentity | None:
+        """Return the registered identity for ``agent_id``, or None."""
         return self._identities.get(agent_id)
 
     def revoke(self, agent_id: str) -> None:
+        """Drop the identity for ``agent_id`` and record the revocation time; no-op if unknown."""
         if agent_id in self._identities:
             self._revoked_at[agent_id] = datetime.now(UTC)
             self._identities.pop(agent_id)
@@ -92,6 +107,7 @@ class MockEntraProvisioningProvider:
     # Test helpers (not part of the Protocol)
 
     def registered_count(self) -> int:
+        """Return the number of currently registered (non-revoked) identities."""
         return len(self._identities)
 
 
@@ -102,16 +118,25 @@ class MockEntraProvisioningProvider:
 class TenantRoleStore(Protocol):
     """Maps an agent_id → its assigned :class:`AgentRole`."""
 
-    def get_role(self, agent_id: str) -> AgentRole | None: ...
-    def set_role(self, agent_id: str, role: AgentRole) -> None: ...
+    def get_role(self, agent_id: str) -> AgentRole | None:
+        """Return the role assigned to ``agent_id``, or None if unassigned."""
+        ...
+
+    def set_role(self, agent_id: str, role: AgentRole) -> None:
+        """Assign ``role`` to ``agent_id``, replacing any previous assignment."""
+        ...
 
 
 @dataclass
 class InMemoryTenantRoleStore:
+    """Dict-backed :class:`TenantRoleStore` for dev and tests."""
+
     _roles: dict[str, AgentRole] = field(default_factory=dict)
 
     def get_role(self, agent_id: str) -> AgentRole | None:
+        """Return the role assigned to ``agent_id``, or None if unassigned."""
         return self._roles.get(agent_id)
 
     def set_role(self, agent_id: str, role: AgentRole) -> None:
+        """Assign ``role`` to ``agent_id``, replacing any previous assignment."""
         self._roles[agent_id] = role

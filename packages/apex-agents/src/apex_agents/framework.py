@@ -22,13 +22,12 @@ orchestrator types), §9.11–§15.9 (per-Practice deep-dives).
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 from pathlib import Path
 from typing import Literal
 
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, field_validator
-
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -37,7 +36,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 PRACTICE_CODES: tuple[str, ...] = ("rc", "hls", "er", "axle", "tmt", "th", "ice")
 
 
-class ModelTier(str, Enum):
+class ModelTier(StrEnum):
     """Three-tier APEX model strategy from Sellers Guide §6.2.
 
     Choosing the right tier is the single largest cost lever per service.
@@ -45,16 +44,16 @@ class ModelTier(str, Enum):
     """
 
     LIGHTWEIGHT = "lightweight"  # GPT-4o-mini class, <2k tokens, simple classification
-    STANDARD = "standard"        # GPT-4o / Claude Sonnet, most agent reasoning
-    REASONING = "reasoning"      # o-series / Claude Opus, multi-step planning + elasticity
+    STANDARD = "standard"  # GPT-4o / Claude Sonnet, most agent reasoning
+    REASONING = "reasoning"  # o-series / Claude Opus, multi-step planning + elasticity
 
 
-class OversightMode(str, Enum):
+class OversightMode(StrEnum):
     """Sellers Guide §2.2C oversight spectrum."""
 
     HITL = "HITL"  # Human-in-the-Loop — checkpoint per consequential decision
     HOTL = "HOTL"  # Human-on-the-Loop — exception-based monitoring of routine
-    HIC = "HIC"    # Human-in-Command — strategic governance
+    HIC = "HIC"  # Human-in-Command — strategic governance
 
 
 # ---------------------------------------------------------------------------
@@ -160,15 +159,15 @@ class AgentSpec(BaseModel):
     @classmethod
     def _validate_practice(cls, v: str) -> str:
         if v.lower() not in PRACTICE_CODES:
-            raise ValueError(
-                f"practice must be one of {PRACTICE_CODES}, got {v!r}"
-            )
+            raise ValueError(f"practice must be one of {PRACTICE_CODES}, got {v!r}")
         return v.lower()
 
     def write_tools(self) -> list[ToolBinding]:
+        """Return the tool bindings that produce downstream writes."""
         return [t for t in self.tools if t.write]
 
     def has_hitl(self) -> bool:
+        """Return True when the agent declares at least one HITL gate."""
         return len(self.hitl_gates) > 0
 
 
@@ -235,6 +234,8 @@ def total_agents() -> int:
 
 @dataclass
 class CatalogValidationIssue:
+    """One problem found while validating the agent catalogs."""
+
     practice: str
     agent_name: str
     code: str
@@ -244,19 +245,24 @@ class CatalogValidationIssue:
 
 @dataclass
 class CatalogValidationReport:
+    """Aggregate result of validating the agent catalogs."""
+
     issues: list[CatalogValidationIssue] = field(default_factory=list)
     agents_checked: int = 0
 
     @property
     def errors(self) -> list[CatalogValidationIssue]:
+        """Return only the issues with ``error`` severity."""
         return [i for i in self.issues if i.severity == "error"]
 
     @property
     def ok(self) -> bool:
+        """Return True when no errors were recorded."""
         return len(self.errors) == 0
 
     @property
     def exit_code(self) -> int:
+        """Return the CLI exit code: 0 when ok, 1 otherwise."""
         return 0 if self.ok else 1
 
 

@@ -20,11 +20,10 @@ Each validator returns a structured :class:`ValidationReport` with an
 from __future__ import annotations
 
 import re
+from collections.abc import Iterable
 from dataclasses import dataclass, field
-from typing import Iterable
 
 from apex_scenarios.models import FeaturedChain, Scenario
-
 
 # ---------------------------------------------------------------------------
 # Common report dataclasses
@@ -58,21 +57,26 @@ class ValidationReport:
 
     @property
     def errors(self) -> list[ValidationIssue]:
+        """Return only the issues with ``error`` severity."""
         return [i for i in self.issues if i.severity == "error"]
 
     @property
     def warnings(self) -> list[ValidationIssue]:
+        """Return only the issues with ``warning`` severity."""
         return [i for i in self.issues if i.severity == "warning"]
 
     @property
     def ok(self) -> bool:
+        """Return True when no errors were recorded."""
         return len(self.errors) == 0
 
     @property
     def exit_code(self) -> int:
+        """Return the CLI exit code: 0 when ok, 1 otherwise."""
         return 0 if self.ok else 1
 
     def summary(self) -> str:
+        """Return a one-line summary of nodes checked and error/warning counts."""
         return (
             f"[{self.name}] {self.nodes_checked} checked, "
             f"{len(self.errors)} error(s), {len(self.warnings)} warning(s)."
@@ -209,9 +213,29 @@ _AGENT_NAME_RE = re.compile(
 #: stripped from the leading edge of a captured agent-name phrase.
 #: A real agent name does not start with any of these.
 _LEADING_NONNAME = {
-    "the", "a", "an", "this", "that", "these", "those",
-    "and", "or", "but", "for", "with", "by", "of", "from", "to", "into",
-    "on", "at", "as", "via", "through", "across",
+    "the",
+    "a",
+    "an",
+    "this",
+    "that",
+    "these",
+    "those",
+    "and",
+    "or",
+    "but",
+    "for",
+    "with",
+    "by",
+    "of",
+    "from",
+    "to",
+    "into",
+    "on",
+    "at",
+    "as",
+    "via",
+    "through",
+    "across",
 }
 
 #: Maximum noun-phrase length (in words) to retain. Empirically a
@@ -305,9 +329,7 @@ def validate_agent_references(
             continue
 
         if agent_catalog_names is not None:
-            unresolved = [
-                r for r in refs if not _agent_resolves(r, agent_catalog_names)
-            ]
+            unresolved = [r for r in refs if not _agent_resolves(r, agent_catalog_names)]
             for u in unresolved:
                 report.issues.append(
                     ValidationIssue(
@@ -337,9 +359,7 @@ _VALUE_PCT = r"\d+(?:\.\d+)?(?:[\-\u2013]\d+(?:\.\d+)?)?"
 _UNIT_PCT = r"(?:%|pp|pts?|bps|x)?"
 _KPI_NAME = r"[A-Za-z][A-Za-z0-9 \-/&]*?"
 
-_KPI_DELTA_PCT_RE = re.compile(
-    rf"^[+\-\u2212]?\s*{_VALUE_PCT}\s*{_UNIT_PCT}\s+({_KPI_NAME})\s*$"
-)
+_KPI_DELTA_PCT_RE = re.compile(rf"^[+\-\u2212]?\s*{_VALUE_PCT}\s*{_UNIT_PCT}\s+({_KPI_NAME})\s*$")
 _KPI_DELTA_MONEY_RE = re.compile(
     rf"^[+\-\u2212]?\s*\$\s*{_VALUE_PCT}\s*[KMB]?(?:/yr)?\s+({_KPI_NAME})\s*$"
 )
@@ -348,7 +368,7 @@ _KPI_DELTA_MONEY_RE = re.compile(
 def extract_kpi_name(kpi_field: str) -> str | None:
     """Pull the KPI name out of a delta string.
 
-    Examples
+    Examples:
     --------
     - ``"+2.4pp GM"``           → ``"GM"``
     - ``"+18% margin"``         → ``"margin"``
@@ -396,18 +416,18 @@ def validate_kpis(
             )
             continue
 
-        if kpi_registry_names is not None:
-            if name.lower() not in {n.lower() for n in kpi_registry_names}:
-                report.issues.append(
-                    ValidationIssue(
-                        code="KPI_UNRESOLVED",
-                        scope=f"{s.practice or '?'}::{s.service_code} '{s.title}'",
-                        message=(
-                            f"KPI {name!r} is not registered in the KPI "
-                            "Registry (BL.P.122 Appendix C)."
-                        ),
-                    )
+        if kpi_registry_names is not None and name.lower() not in {
+            n.lower() for n in kpi_registry_names
+        }:
+            report.issues.append(
+                ValidationIssue(
+                    code="KPI_UNRESOLVED",
+                    scope=f"{s.practice or '?'}::{s.service_code} '{s.title}'",
+                    message=(
+                        f"KPI {name!r} is not registered in the KPI Registry (BL.P.122 Appendix C)."
+                    ),
                 )
+            )
     return report
 
 
@@ -442,6 +462,7 @@ def classify_library_bump(
     - **MAJOR** — at least one field-schema change (a key added or
       removed from the :class:`Scenario` model on at least one row).
     """
+
     def _key(s: Scenario) -> str:
         return f"{s.practice or '?'}::{s.service_code}::{s.title}"
 
